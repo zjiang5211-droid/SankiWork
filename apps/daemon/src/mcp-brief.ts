@@ -1,10 +1,10 @@
 import {
-  collectOpenDesignBrief,
-  openDesignBriefCatalog,
-  type OpenDesignBriefAnswers,
-  type OpenDesignBriefArtifactType,
-  type OpenDesignBriefQuestion,
-} from '@open-design/contracts';
+  collectSankiWorkBrief,
+  sankiWorkBriefCatalog,
+  type SankiWorkBriefAnswers,
+  type SankiWorkBriefArtifactType,
+  type SankiWorkBriefQuestion,
+} from '@sankiwork/contracts';
 import { randomBytes, randomUUID } from 'node:crypto';
 import {
   type ExternalPluginContext,
@@ -18,7 +18,7 @@ type UnknownRecord = Record<string, unknown>;
 export type LocalMcpBriefLocale = 'en' | 'zh-CN' | 'zh-TW' | 'ja';
 
 interface LocalizedBriefCopy {
-  artifactNames: Record<OpenDesignBriefArtifactType, string>;
+  artifactNames: Record<SankiWorkBriefArtifactType, string>;
   title: (artifactName: string) => string;
   description: string;
   submitLabel: string;
@@ -35,7 +35,7 @@ type LocalizedDecisionLabels = Record<
   readonly [questionLabel: string, ...optionLabels: string[]]
 >;
 
-const ENGLISH_ARTIFACT_NAMES: Record<OpenDesignBriefArtifactType, string> = {
+const ENGLISH_ARTIFACT_NAMES: Record<SankiWorkBriefArtifactType, string> = {
   website: 'website',
   'product-prototype': 'product prototype',
   presentation: 'presentation',
@@ -51,10 +51,10 @@ const BRIEF_COPY: Record<LocalMcpBriefLocale, LocalizedBriefCopy> = {
     artifactNames: ENGLISH_ARTIFACT_NAMES,
     title: (artifactName) => `Choose the ${artifactName} direction`,
     description:
-      'Choose one option for each decision. The same readable brief can be used with Open Design Cloud or Local Codex.',
+      'Choose one option for each decision. The same readable brief can be used with SankiWork Cloud or Local Codex.',
     submitLabel: 'Confirm brief',
     completeCard:
-      'Complete the rendered Open Design brief card. The confirmation returns a readable summary; internal correlation values must remain hidden.',
+      'Complete the rendered SankiWork brief card. The confirmation returns a readable summary; internal correlation values must remain hidden.',
     confirmed: 'Brief confirmed.',
     continueWithBrief: 'Continue with this brief.',
     noDecisions: 'No brief decisions have been confirmed yet.',
@@ -74,9 +74,9 @@ const BRIEF_COPY: Record<LocalMcpBriefLocale, LocalizedBriefCopy> = {
     },
     title: (artifactName) => `选择${artifactName}方向`,
     description:
-      '请为每项决策选择一个选项。确认后的可读需求可用于 Open Design Cloud、本地 Codex 或安全 BYOK。',
+      '请为每项决策选择一个选项。确认后的可读需求可用于 SankiWork Cloud、本地 Codex 或安全 BYOK。',
     submitLabel: '确认需求',
-    completeCard: '请填写显示的 Open Design 需求卡。确认后会返回可读摘要；不要向用户展示内部关联值。',
+    completeCard: '请填写显示的 SankiWork 需求卡。确认后会返回可读摘要；不要向用户展示内部关联值。',
     confirmed: '需求已确认。',
     continueWithBrief: '请根据这份需求继续。',
     noDecisions: '尚未确认任何需求选项。',
@@ -96,9 +96,9 @@ const BRIEF_COPY: Record<LocalMcpBriefLocale, LocalizedBriefCopy> = {
     },
     title: (artifactName) => `選擇${artifactName}方向`,
     description:
-      '請為每項決策選擇一個選項。確認後的可讀需求可用於 Open Design Cloud、本機 Codex 或安全 BYOK。',
+      '請為每項決策選擇一個選項。確認後的可讀需求可用於 SankiWork Cloud、本機 Codex 或安全 BYOK。',
     submitLabel: '確認需求',
-    completeCard: '請填寫顯示的 Open Design 需求卡。確認後會回傳可讀摘要；不要向使用者顯示內部關聯值。',
+    completeCard: '請填寫顯示的 SankiWork 需求卡。確認後會回傳可讀摘要；不要向使用者顯示內部關聯值。',
     confirmed: '需求已確認。',
     continueWithBrief: '請依照這份需求繼續。',
     noDecisions: '尚未確認任何需求選項。',
@@ -118,10 +118,10 @@ const BRIEF_COPY: Record<LocalMcpBriefLocale, LocalizedBriefCopy> = {
     },
     title: (artifactName) => `${artifactName}の方向性を選択`,
     description:
-      '各項目から 1 つ選択してください。確認したブリーフは Open Design Cloud、ローカル Codex、安全な BYOK で利用できます。',
+      '各項目から 1 つ選択してください。確認したブリーフは SankiWork Cloud、ローカル Codex、安全な BYOK で利用できます。',
     submitLabel: 'ブリーフを確認',
     completeCard:
-      '表示された Open Design のブリーフカードに回答してください。確認後は読みやすい概要が返されます。内部の関連付け値は表示しないでください。',
+      '表示された SankiWork のブリーフカードに回答してください。確認後は読みやすい概要が返されます。内部の関連付け値は表示しないでください。',
     confirmed: 'ブリーフを確認しました。',
     continueWithBrief: 'このブリーフに沿って続行してください。',
     noDecisions: 'まだブリーフの選択項目が確認されていません。',
@@ -216,7 +216,7 @@ const LOCALIZED_DECISION_LABELS: Record<
 
 for (const locale of ['zh-CN', 'zh-TW', 'ja'] as const) {
   const labels = LOCALIZED_DECISION_LABELS[locale];
-  for (const questions of Object.values(openDesignBriefCatalog)) {
+  for (const questions of Object.values(sankiWorkBriefCatalog)) {
     for (const question of questions) {
       const localized = labels[question.id];
       if (!localized || localized.length !== question.options.length + 1) {
@@ -234,7 +234,7 @@ export interface LocalMcpBriefStoreOptions {
 }
 
 interface StoredBriefDraft {
-  artifactType: OpenDesignBriefArtifactType;
+  artifactType: SankiWorkBriefArtifactType;
   projectTitle: string;
   locale: LocalMcpBriefLocale;
   localeSource: 'provided' | 'fallback';
@@ -249,7 +249,7 @@ interface StoredBriefDraft {
 }
 
 export interface LocalMcpBriefQuestionForm {
-  id: 'open-design-brief';
+  id: 'sankiwork-brief';
   title: string;
   description: string;
   submitLabel: string;
@@ -271,7 +271,7 @@ export interface LocalMcpBriefQuestionForm {
 
 export interface LocalMcpBriefForm {
   view: 'brief-form';
-  artifactType: OpenDesignBriefArtifactType;
+  artifactType: SankiWorkBriefArtifactType;
   projectTitle: string;
   locale: LocalMcpBriefLocale;
   localeSource: 'provided' | 'fallback';
@@ -286,13 +286,13 @@ export interface LocalMcpBriefForm {
 
 export interface LocalMcpBriefConfirmation {
   view: 'brief-confirmed';
-  artifactType: OpenDesignBriefArtifactType;
+  artifactType: SankiWorkBriefArtifactType;
   projectTitle: string;
   locale: LocalMcpBriefLocale;
   briefDraftId: string;
   briefConfirmationId: string;
   confirmedAt: number;
-  answers: OpenDesignBriefAnswers;
+  answers: SankiWorkBriefAnswers;
   summary: string;
   pluginWorkflowId?: string;
   externalPluginContext?: ExternalPluginContext;
@@ -377,7 +377,7 @@ export function createLocalMcpBriefStore(
           'pluginWorkflowId requires a validated externalPluginContext',
         );
       }
-      const decision = collectOpenDesignBrief({
+      const decision = collectSankiWorkBrief({
         artifactType,
         knownAnswers,
         skip,
@@ -436,32 +436,32 @@ export function createLocalMcpBriefStore(
       const draft = drafts.get(briefDraftId);
       if (!draft) {
         throw new Error(
-          'The Open Design brief has expired or is unknown. Call collect_brief again.',
+          'The SankiWork brief has expired or is unknown. Call collect_brief again.',
         );
       }
       if (draft.nonce !== nonce) {
-        throw new Error('The Open Design brief nonce is invalid.');
+        throw new Error('The SankiWork brief nonce is invalid.');
       }
       const submittedAnswers = readAnswerRecord(input.answers, 'answers');
       const mergedAnswers: UnknownRecord = {
         ...draft.knownAnswers,
         ...submittedAnswers,
       };
-      const decision = collectOpenDesignBrief({
+      const decision = collectSankiWorkBrief({
         artifactType: draft.artifactType,
         knownAnswers: mergedAnswers,
       });
       if (!decision.complete) {
         const missing = decision.questions.map((question) => question.id);
         throw new Error(
-          `The Open Design brief is incomplete. Missing: ${missing.join(', ')}.`,
+          `The SankiWork brief is incomplete. Missing: ${missing.join(', ')}.`,
         );
       }
       const confirmationAnswersDigest = stableAnswerDigest(decision.answers);
       if (draft.confirmation) {
         if (draft.confirmationAnswersDigest !== confirmationAnswersDigest) {
           throw new Error(
-            'This Open Design brief was already confirmed with different answers.',
+            'This SankiWork brief was already confirmed with different answers.',
           );
         }
         return draft.confirmation;
@@ -502,16 +502,16 @@ export function createLocalMcpBriefStore(
   };
 }
 
-function readArtifactType(value: unknown): OpenDesignBriefArtifactType {
+function readArtifactType(value: unknown): SankiWorkBriefArtifactType {
   if (
     typeof value !== 'string'
-    || !Object.hasOwn(openDesignBriefCatalog, value)
+    || !Object.hasOwn(sankiWorkBriefCatalog, value)
   ) {
     throw new Error(
-      `artifactType must be one of: ${Object.keys(openDesignBriefCatalog).join(', ')}`,
+      `artifactType must be one of: ${Object.keys(sankiWorkBriefCatalog).join(', ')}`,
     );
   }
-  return value as OpenDesignBriefArtifactType;
+  return value as SankiWorkBriefArtifactType;
 }
 
 export function readBriefLocale(value: unknown): LocalMcpBriefLocale {
@@ -534,7 +534,7 @@ export function readBriefLocale(value: unknown): LocalMcpBriefLocale {
 }
 
 function localizedBriefTitle(
-  artifactType: OpenDesignBriefArtifactType,
+  artifactType: SankiWorkBriefArtifactType,
   locale: LocalMcpBriefLocale,
 ): string {
   const copy = BRIEF_COPY[locale];
@@ -542,12 +542,12 @@ function localizedBriefTitle(
 }
 
 function localizedBriefQuestionForm(
-  artifactType: OpenDesignBriefArtifactType,
-  questions: readonly OpenDesignBriefQuestion[],
+  artifactType: SankiWorkBriefArtifactType,
+  questions: readonly SankiWorkBriefQuestion[],
   locale: LocalMcpBriefLocale,
 ): LocalMcpBriefQuestionForm {
   return {
-    id: 'open-design-brief',
+    id: 'sankiwork-brief',
     title: localizedBriefTitle(artifactType, locale),
     description: BRIEF_COPY[locale].description,
     submitLabel: BRIEF_COPY[locale].submitLabel,
@@ -557,7 +557,7 @@ function localizedBriefQuestionForm(
 }
 
 function localizeBriefQuestion(
-  question: OpenDesignBriefQuestion,
+  question: SankiWorkBriefQuestion,
   locale: LocalMcpBriefLocale,
 ): LocalMcpBriefQuestionForm['questions'][number] {
   if (locale === 'en') {
@@ -600,11 +600,11 @@ function localizeBriefQuestion(
 }
 
 function localizedBriefSummary(
-  artifactType: OpenDesignBriefArtifactType,
-  answers: OpenDesignBriefAnswers,
+  artifactType: SankiWorkBriefArtifactType,
+  answers: SankiWorkBriefAnswers,
   locale: LocalMcpBriefLocale,
 ): string {
-  const lines = openDesignBriefCatalog[artifactType]
+  const lines = sankiWorkBriefCatalog[artifactType]
     .map((question) => {
       const selected = answers[question.id]?.[0];
       const selectedIndex = question.options.findIndex(
@@ -634,7 +634,7 @@ export function localMcpBriefResponseCopy(locale: LocalMcpBriefLocale) {
 }
 
 function readProjectTitle(value: unknown): string {
-  if (value === undefined) return 'Untitled Open Design artifact';
+  if (value === undefined) return 'Untitled SankiWork artifact';
   const title = readRequiredString(value, 'projectTitle').trim();
   if (title.length > 256) {
     throw new Error('projectTitle must be at most 256 characters');
@@ -657,7 +657,7 @@ function readAnswerRecord(value: unknown, field: string): UnknownRecord {
   return { ...(value as UnknownRecord) };
 }
 
-function stableAnswerDigest(answers: OpenDesignBriefAnswers): string {
+function stableAnswerDigest(answers: SankiWorkBriefAnswers): string {
   return JSON.stringify(
     Object.entries(answers)
       .sort(([left], [right]) => left.localeCompare(right))

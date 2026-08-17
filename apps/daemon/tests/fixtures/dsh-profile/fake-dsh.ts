@@ -18,7 +18,7 @@ const capabilities: DshProfileCapabilities = {
 const args = process.argv.slice(2);
 const profileIndex = args.indexOf('--profile');
 const profile = profileIndex >= 0 ? args[profileIndex + 1] : null;
-const mode = process.env.OD_DSH_FAKE_MODE || 'normal';
+const mode = process.env.SW_DSH_FAKE_MODE || 'normal';
 
 function emit(frame: Record<string, unknown>): void {
   process.stdout.write(`${JSON.stringify({ v: DSH_PROFILE_PROTOCOL_VERSION, ...frame })}\n`);
@@ -30,11 +30,11 @@ function fail(message: string): never {
 }
 
 if (args.includes('--version')) {
-  process.stdout.write(`${process.env.OD_DSH_FAKE_VERSION || '0.1.0-rc.6'}\n`);
+  process.stdout.write(`${process.env.SW_DSH_FAKE_VERSION || '0.1.0-rc.6'}\n`);
   process.exit(0);
 }
 
-if (profile !== 'open-design') fail('profile unavailable');
+if (profile !== 'sankiwork') fail('profile unavailable');
 
 if (args.includes('--probe')) {
   if (mode === 'missing-profile') fail('profile unavailable');
@@ -58,8 +58,8 @@ emit({
   capabilities,
 });
 
-const sessionRoot = process.env.OD_DSH_FAKE_SESSION_ROOT;
-if (!sessionRoot) fail('OD_DSH_FAKE_SESSION_ROOT is required');
+const sessionRoot = process.env.SW_DSH_FAKE_SESSION_ROOT;
+if (!sessionRoot) fail('SW_DSH_FAKE_SESSION_ROOT is required');
 mkdirSync(sessionRoot, { recursive: true });
 const stateFile = path.join(sessionRoot, 'session.json');
 

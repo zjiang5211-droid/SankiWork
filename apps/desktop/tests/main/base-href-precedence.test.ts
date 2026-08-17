@@ -157,13 +157,13 @@ app.whenReady().then(async () => {
     show: false,
     webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true },
   });
-  await window.loadURL(await readFile(process.env.OD_BASE_PROBE_URL_FILE, 'utf8'));
+  await window.loadURL(await readFile(process.env.SW_BASE_PROBE_URL_FILE, 'utf8'));
   const result = await window.webContents.executeJavaScript(\`({
     baseURI: document.baseURI,
     imageSrc: document.querySelector('img').src,
     stylesheetHref: document.querySelector('link[rel="stylesheet"]').href,
   })\`, true);
-  process.stdout.write('OD_BASE_PROBE:' + JSON.stringify(result) + '\\n');
+  process.stdout.write('SW_BASE_PROBE:' + JSON.stringify(result) + '\\n');
   window.destroy();
   app.quit();
 }).catch((error) => {
@@ -181,12 +181,12 @@ app.whenReady().then(async () => {
     const electronArgs = [probeDir, '--no-sandbox', '--disable-gpu'];
     const command = process.platform === 'linux' ? 'xvfb-run' : electronPath;
     const args = process.platform === 'linux' ? ['-a', electronPath, ...electronArgs] : electronArgs;
-    const env: NodeJS.ProcessEnv = { ...process.env, OD_BASE_PROBE_URL_FILE: urlFile };
+    const env: NodeJS.ProcessEnv = { ...process.env, SW_BASE_PROBE_URL_FILE: urlFile };
     delete env.ELECTRON_RUN_AS_NODE;
     const { stdout } = await execFileP(command, args, { env, timeout: 20_000 });
-    const marker = stdout.split(/\r?\n/).find((line) => line.startsWith('OD_BASE_PROBE:'));
+    const marker = stdout.split(/\r?\n/).find((line) => line.startsWith('SW_BASE_PROBE:'));
     if (!marker) throw new Error(`Electron renderer probe returned no result: ${stdout}`);
-    return parseBaseResolution(JSON.parse(marker.slice('OD_BASE_PROBE:'.length)));
+    return parseBaseResolution(JSON.parse(marker.slice('SW_BASE_PROBE:'.length)));
   } finally {
     await rm(probeDir, { force: true, recursive: true });
   }

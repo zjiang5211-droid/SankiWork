@@ -1,6 +1,6 @@
 {
-  "name": "@open-design/launcher-proto",
-  "version": "0.19.2",
+  "name": "@sankiwork/launcher-proto",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -20,8 +20,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json --noEmit"
   },
   "dependencies": {
-    "@open-design/release": "workspace:*",
-    "@open-design/sidecar-proto": "workspace:*"
+    "@sankiwork/release": "workspace:*",
+    "@sankiwork/sidecar-proto": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "24.12.2",

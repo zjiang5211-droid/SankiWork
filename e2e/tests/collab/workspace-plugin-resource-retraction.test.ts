@@ -120,9 +120,9 @@ describe('workspace Team plugin retraction', () => {
       });
       const velaBin = await hub.writeVelaBin(join(ownerSuite.scratchDir, 'fake-vela-plugin'));
       const commonEnv = {
-        OD_COLLAB_TRANSPORT: 'vela-cli',
-        OD_RESOURCE_TRANSPORT: 'vela-cli',
-        OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+        SW_COLLAB_TRANSPORT: 'vela-cli',
+        SW_RESOURCE_TRANSPORT: 'vela-cli',
+        SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
         VELA_API_URL: hub.url,
         VELA_BIN: velaBin,
       };

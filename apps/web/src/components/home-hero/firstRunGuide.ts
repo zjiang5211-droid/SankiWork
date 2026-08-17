@@ -14,7 +14,7 @@
 
 export type HomeGuideStage = 'chip' | 'card' | 'done';
 
-const STORAGE_KEY = 'open-design:home-first-run-guide';
+const STORAGE_KEY = 'sankiwork:home-first-run-guide';
 
 export function readHomeGuideStage(): HomeGuideStage {
   if (typeof window === 'undefined') return 'done';

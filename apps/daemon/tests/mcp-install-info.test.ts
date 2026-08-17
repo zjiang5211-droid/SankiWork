@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import express from 'express';
-import { SIDECAR_ENV } from '@open-design/sidecar-proto';
+import { SIDECAR_ENV } from '@sankiwork/sidecar-proto';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { isLocalSameOrigin } from '../src/origin-validation.js';
 import { buildMcpInstallPayload } from '../src/mcp-install-info.js';
@@ -85,8 +85,8 @@ function makeInstallInfoApp({ cliPath, port, env = {}, dataDir }: InstallInfoOpt
       sidecarEnv[SIDECAR_ENV.IPC_PATH] = sidecarIpcPath;
     }
     for (const key of [
-      'OD_MCP_BOOTSTRAP_COMMAND',
-      'OD_MCP_BOOTSTRAP_ARGS',
+      'SW_MCP_BOOTSTRAP_COMMAND',
+      'SW_MCP_BOOTSTRAP_ARGS',
     ] as const) {
       const value = env[key];
       if (value != null && value.length > 0) sidecarEnv[key] = value;
@@ -187,8 +187,8 @@ describe('GET /api/mcp/install-info', () => {
   );
 
   afterEach(() => {
-    delete process.env.OD_ALLOWED_ORIGINS;
-    delete process.env.OD_BIND_HOST;
+    delete process.env.SW_ALLOWED_ORIGINS;
+    delete process.env.SW_BIND_HOST;
   });
 
   it('non-sidecar launch bakes --daemon-url so custom ports keep working', async () => {
@@ -197,13 +197,13 @@ describe('GET /api/mcp/install-info', () => {
     expect(res.status).toBe(200);
     const body = await readInstallInfo(res);
     expect(body.command).toBe(process.execPath);
-    // Direct `od` launches have no IPC socket; the snippet bakes the
-    // URL so the spawned `od mcp` reaches the right port without any
+    // Direct `sw` launches have no IPC socket; the snippet bakes the
+    // URL so the spawned `sw mcp` reaches the right port without any
     // discovery.
     expect(body.args).toEqual([cliPath, 'mcp', '--daemon-url', `http://127.0.0.1:${port}`]);
-    // env always carries OD_DATA_DIR (issue #848); no sidecar keys in
+    // env always carries SW_DATA_DIR (issue #848); no sidecar keys in
     // a non-sidecar launch.
-    expect(body.env).toEqual({ OD_DATA_DIR: dataDir });
+    expect(body.env).toEqual({ SW_DATA_DIR: dataDir });
     expect(body.daemonUrl).toBe(`http://127.0.0.1:${port}`);
     expect(body.platform).toBe(process.platform);
     expect(body.cliExists).toBe(true);
@@ -211,12 +211,12 @@ describe('GET /api/mcp/install-info', () => {
     expect(body.buildHint).toBeNull();
   });
 
-  it('pins OD_DATA_DIR in the env so IDE-spawned MCP processes write to the daemon data dir (issue #848)', async () => {
+  it('pins SW_DATA_DIR in the env so IDE-spawned MCP processes write to the daemon data dir (issue #848)', async () => {
     const { port } = nonSidecar;
     const res = await fetch(`http://127.0.0.1:${port}/api/mcp/install-info`);
     const body = await readInstallInfo(res);
     expect(body.env).toBeDefined();
-    expect(body.env.OD_DATA_DIR).toBe(dataDir);
+    expect(body.env.SW_DATA_DIR).toBe(dataDir);
   });
 
   it('rejects cross-origin requests with 403', async () => {
@@ -243,7 +243,7 @@ describe('GET /api/mcp/install-info', () => {
 
   it('accepts explicitly configured deployment origins', async () => {
     const { port } = nonSidecar;
-    process.env.OD_ALLOWED_ORIGINS = `https://od.example.com,http://203.0.113.10:${port}`;
+    process.env.SW_ALLOWED_ORIGINS = `https://od.example.com,http://203.0.113.10:${port}`;
     const res = await fetch(`http://127.0.0.1:${port}/api/mcp/install-info`, {
       headers: {
         Host: 'od.example.com',
@@ -264,11 +264,11 @@ describe('GET /api/mcp/install-info', () => {
     expect(after - before).toBeLessThanOrEqual(1);
   });
 
-  it('sidecar launch omits --daemon-url and emits the concrete IPC path with OD_DATA_DIR', async () => {
+  it('sidecar launch omits --daemon-url and emits the concrete IPC path with SW_DATA_DIR', async () => {
     const { port, server } = await startHarness(
       cliPath,
       {
-        [SIDECAR_ENV.IPC_PATH]: '/tmp/open-design/ipc/default/daemon.sock',
+        [SIDECAR_ENV.IPC_PATH]: '/tmp/sankiwork/ipc/default/daemon.sock',
       },
       dataDir,
     );
@@ -277,8 +277,8 @@ describe('GET /api/mcp/install-info', () => {
       const body = await readInstallInfo(res);
       expect(body.args).toEqual([cliPath, 'mcp']);
       expect(body.env).toEqual({
-        OD_DATA_DIR: dataDir,
-        [SIDECAR_ENV.IPC_PATH]: '/tmp/open-design/ipc/default/daemon.sock',
+        SW_DATA_DIR: dataDir,
+        [SIDECAR_ENV.IPC_PATH]: '/tmp/sankiwork/ipc/default/daemon.sock',
       });
     } finally {
       await new Promise<void>((done) => server?.close(() => done()));
@@ -287,7 +287,7 @@ describe('GET /api/mcp/install-info', () => {
 
   it('returns the live packaged web URL immediately when the registered dynamic port changes', async () => {
     const env: NodeJS.ProcessEnv = {
-      [SIDECAR_ENV.IPC_PATH]: '/tmp/open-design/ipc/live-web/daemon.sock',
+      [SIDECAR_ENV.IPC_PATH]: '/tmp/sankiwork/ipc/live-web/daemon.sock',
     };
     const { port, server } = await startHarness(cliPath, env, dataDir);
     try {
@@ -316,14 +316,14 @@ describe('GET /api/mcp/install-info', () => {
 
   it('pins the packaged headless bootstrap in the installed MCP config', async () => {
     const bootstrapArgs =
-      '["-g","-j","/Applications/Open Design.app","--args","--headless"]';
+      '["-g","-j","/Applications/SankiWork.app","--args","--headless"]';
     const { port, server } = await startHarness(
       cliPath,
       {
         [SIDECAR_ENV.IPC_PATH]:
-          '/tmp/open-design/ipc/default/daemon.sock',
-        OD_MCP_BOOTSTRAP_COMMAND: '/usr/bin/open',
-        OD_MCP_BOOTSTRAP_ARGS: bootstrapArgs,
+          '/tmp/sankiwork/ipc/default/daemon.sock',
+        SW_MCP_BOOTSTRAP_COMMAND: '/usr/bin/open',
+        SW_MCP_BOOTSTRAP_ARGS: bootstrapArgs,
       },
       dataDir,
     );
@@ -333,11 +333,11 @@ describe('GET /api/mcp/install-info', () => {
       );
       const body = await readInstallInfo(res);
       expect(body.env).toEqual({
-        OD_DATA_DIR: dataDir,
+        SW_DATA_DIR: dataDir,
         [SIDECAR_ENV.IPC_PATH]:
-          '/tmp/open-design/ipc/default/daemon.sock',
-        OD_MCP_BOOTSTRAP_COMMAND: '/usr/bin/open',
-        OD_MCP_BOOTSTRAP_ARGS: bootstrapArgs,
+          '/tmp/sankiwork/ipc/default/daemon.sock',
+        SW_MCP_BOOTSTRAP_COMMAND: '/usr/bin/open',
+        SW_MCP_BOOTSTRAP_ARGS: bootstrapArgs,
       });
     } finally {
       await new Promise<void>((done) => server?.close(() => done()));
@@ -348,7 +348,7 @@ describe('GET /api/mcp/install-info', () => {
     const { port, server } = await startHarness(
       cliPath,
       {
-        [SIDECAR_ENV.IPC_PATH]: '/tmp/open-design/ipc/foo/daemon.sock',
+        [SIDECAR_ENV.IPC_PATH]: '/tmp/sankiwork/ipc/foo/daemon.sock',
       },
       dataDir,
     );
@@ -357,8 +357,8 @@ describe('GET /api/mcp/install-info', () => {
       const body = await readInstallInfo(res);
       expect(body.args).toEqual([cliPath, 'mcp']);
       expect(body.env).toEqual({
-        OD_DATA_DIR: dataDir,
-        [SIDECAR_ENV.IPC_PATH]: '/tmp/open-design/ipc/foo/daemon.sock',
+        SW_DATA_DIR: dataDir,
+        [SIDECAR_ENV.IPC_PATH]: '/tmp/sankiwork/ipc/foo/daemon.sock',
       });
     } finally {
       await new Promise<void>((done) => server?.close(() => done()));
@@ -369,9 +369,9 @@ describe('GET /api/mcp/install-info', () => {
     const { port, server } = await startHarness(
       cliPath,
       {
-        [SIDECAR_ENV.IPC_PATH]: '/var/run/open-design/foo/daemon.sock',
+        [SIDECAR_ENV.IPC_PATH]: '/var/run/sankiwork/foo/daemon.sock',
         [SIDECAR_ENV.NAMESPACE]: 'foo',
-        [SIDECAR_ENV.IPC_BASE]: '/var/run/open-design',
+        [SIDECAR_ENV.IPC_BASE]: '/var/run/sankiwork',
       },
       dataDir,
     );
@@ -379,8 +379,8 @@ describe('GET /api/mcp/install-info', () => {
       const res = await fetch(`http://127.0.0.1:${port}/api/mcp/install-info`);
       const body = await readInstallInfo(res);
       expect(body.env).toEqual({
-        OD_DATA_DIR: dataDir,
-        [SIDECAR_ENV.IPC_PATH]: '/var/run/open-design/foo/daemon.sock',
+        SW_DATA_DIR: dataDir,
+        [SIDECAR_ENV.IPC_PATH]: '/var/run/sankiwork/foo/daemon.sock',
       });
     } finally {
       await new Promise<void>((done) => server?.close(() => done()));

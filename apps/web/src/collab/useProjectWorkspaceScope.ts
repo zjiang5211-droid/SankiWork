@@ -3,7 +3,7 @@ import type {
   ProjectWorkspaceScope,
   ProjectWorkspaceScopeResponse,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   WORKSPACE_CONTEXT_REFRESH_EVENT,
 } from './useWorkspaceContext';

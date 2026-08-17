@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import { createServer } from "node:net";
 import { describe, it } from "node:test";
 
-import type { PortAllocation, PortRequest } from "@open-design/sidecar";
-import { APP_KEYS } from "@open-design/sidecar-proto";
+import type { PortAllocation, PortRequest } from "@sankiwork/sidecar";
+import { APP_KEYS } from "@sankiwork/sidecar-proto";
 
 import { ensureSharedPortsResolved, resolveSharedPortsFromRunningState } from "../src/shared-ports.js";
 

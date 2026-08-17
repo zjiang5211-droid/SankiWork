@@ -22,7 +22,7 @@ const repoRoot = path.resolve(import.meta.dirname, "..");
 const skippedDirectories = new Set([
   ".git",
   ".next",
-  ".od",
+  ".sankiwork",
   ".od-data",
   ".od-e2e",
   ".tmp",

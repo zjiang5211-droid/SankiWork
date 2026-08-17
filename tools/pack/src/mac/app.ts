@@ -98,8 +98,8 @@ async function buildPrebundledStandaloneRuntime(
     [
       'import { fileURLToPath } from "node:url";',
       "const selfPath = fileURLToPath(import.meta.url);",
-      "process.env.OD_BIN ??= selfPath;",
-      "process.env.OD_DAEMON_CLI_PATH ??= selfPath;",
+      "process.env.SW_BIN ??= selfPath;",
+      "process.env.SW_DAEMON_CLI_PATH ??= selfPath;",
       `await import(${JSON.stringify(
         toRelativeImportSpecifier(
           dirname(paths.daemonCliPrebundleEntrypointPath),
@@ -347,9 +347,9 @@ export async function writeAssembledApp(
     `${JSON.stringify(
       {
         dependencies,
-        description: "Open Design packaged runtime",
+        description: "SankiWork packaged runtime",
         main: "./main.cjs",
-        name: "open-design-packaged-app",
+        name: "sankiwork-packaged-app",
         ...(optionalDependencies == null ? {} : { optionalDependencies }),
         private: true,
         productName: identity.productName,

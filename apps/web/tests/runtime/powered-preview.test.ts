@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { buildProjectPoweredFileUrl } from '@open-design/contracts';
+import { buildProjectPoweredFileUrl } from '@sankiwork/contracts';
 import {
   resolvePoweredBaseOrigin,
   swapLoopbackHost,
@@ -58,7 +58,7 @@ describe('resolvePoweredBaseOrigin', () => {
 
   it('keeps powered previews available to the packaged app custom protocol', () => {
     vi.stubGlobal('window', {
-      location: { origin: 'od://app' },
+      location: { origin: 'sankiwork://app' },
     });
 
     expect(resolvePoweredBaseOrigin('http://127.0.0.1:17456')).toBe('http://localhost:17456');

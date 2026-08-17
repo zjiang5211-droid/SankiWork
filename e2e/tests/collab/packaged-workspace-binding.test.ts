@@ -58,18 +58,18 @@ describe('packaged Workspace Team transaction', () => {
       // emits this exact set. E2E consumes the public process environment,
       // keeping the guarded packaged leaf out of the broad test runtime.
       const packagedEnv = {
-        OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-        OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-        OD_COLLAB_TRANSPORT: 'vela-cli',
-        OD_RESOURCE_TRANSPORT: 'vela-cli',
-        OD_VELA_WEB_URL: 'https://feature-test.vela.example',
+        SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+        SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+        SW_COLLAB_TRANSPORT: 'vela-cli',
+        SW_RESOURCE_TRANSPORT: 'vela-cli',
+        SW_VELA_WEB_URL: 'https://feature-test.vela.example',
       };
       expect(packagedEnv).toEqual({
-        OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-        OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-        OD_COLLAB_TRANSPORT: 'vela-cli',
-        OD_RESOURCE_TRANSPORT: 'vela-cli',
-        OD_VELA_WEB_URL: 'https://feature-test.vela.example',
+        SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+        SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+        SW_COLLAB_TRANSPORT: 'vela-cli',
+        SW_RESOURCE_TRANSPORT: 'vela-cli',
+        SW_VELA_WEB_URL: 'https://feature-test.vela.example',
       });
       const runtimeEnv = {
         ...packagedEnv,

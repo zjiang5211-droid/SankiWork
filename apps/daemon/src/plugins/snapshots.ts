@@ -8,7 +8,7 @@
 //   - getSnapshot()     — read by id.
 //   - linkSnapshotToRun() — once a run starts off the snapshot, pin
 //     expires_at = NULL and update run_id (the snapshot is now referenced).
-//   - markSnapshotStale() — `od plugin doctor` flips status='stale' after a
+//   - markSnapshotStale() — `sw plugin doctor` flips status='stale' after a
 //     plugin upgrade. We never rewrite the resolved_context_json, so historic
 //     reproducibility wins over freshness.
 
@@ -16,7 +16,7 @@ import { randomUUID } from 'node:crypto';
 import type Database from 'better-sqlite3';
 import { readPluginEnvKnobs } from '../app-config.js';
 import {
-  OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+  SANKIWORK_PLUGIN_SPEC_VERSION,
   type AppliedPluginSnapshot,
   type GenUISurfaceSpec,
   type McpServerSpec,
@@ -25,7 +25,7 @@ import {
   type PluginConnectorRef,
   type PluginPipeline,
   type ResolvedContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 type SqliteDb = Database.Database;
 type DbRow = Record<string, unknown>;
@@ -95,7 +95,7 @@ export function createSnapshot(db: SqliteDb, input: CreateSnapshotInput): Applie
     input.conversationId ?? null,
     input.runId ?? null,
     input.pluginId,
-    input.pluginSpecVersion ?? OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+    input.pluginSpecVersion ?? SANKIWORK_PLUGIN_SPEC_VERSION,
     input.pluginVersion,
     input.manifestSourceDigest,
     input.sourceMarketplaceId ?? null,
@@ -270,7 +270,7 @@ export interface PruneExpiredOptions {
   // in-memory in v1 so we cannot distinguish "active" vs "completed"
   // from SQLite alone; `conversations.archived_at` does not exist.
   // The conservative rule keeps reproducibility wins for live
-  // projects while letting operators clean up after `od project
+  // projects while letting operators clean up after `sw project
   // delete <id>` so dangling snapshot rows don't accumulate.
   retentionDays?: number;
 }
@@ -341,7 +341,7 @@ function buildSnapshot(args: {
   const snapshot: AppliedPluginSnapshot = {
     snapshotId:           id,
     pluginId:             input.pluginId,
-    pluginSpecVersion:    input.pluginSpecVersion ?? OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+    pluginSpecVersion:    input.pluginSpecVersion ?? SANKIWORK_PLUGIN_SPEC_VERSION,
     pluginVersion:        input.pluginVersion,
     manifestSourceDigest: input.manifestSourceDigest,
     sourceMarketplaceId:  input.sourceMarketplaceId ?? undefined,

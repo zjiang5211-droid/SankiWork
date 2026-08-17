@@ -1,5 +1,5 @@
 import { createContext, useContext, type ReactNode } from 'react';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import type { AnchorWriteBack } from '../comments';
 import type { ProjectCollab } from './useProjectCollab';
 

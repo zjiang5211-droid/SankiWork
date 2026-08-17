@@ -16,7 +16,7 @@ const repoRoot = fileURLToPath(new URL('../../..', import.meta.url));
 const cliEntry = fileURLToPath(new URL('../src/cli.ts', import.meta.url));
 const tsxCli = path.join(repoRoot, 'node_modules/tsx/dist/cli.mjs');
 
-describe('od export --format html', () => {
+describe('sw export --format html', () => {
   let server: http.Server;
   let daemonUrl: string;
   let outputDir: string;
@@ -82,8 +82,8 @@ describe('od export --format html', () => {
         env: {
           ...process.env,
           NODE_OPTIONS: '',
-          OD_DAEMON_URL: daemonUrl,
-          OD_PROJECT_ID: projectId,
+          SW_DAEMON_URL: daemonUrl,
+          SW_PROJECT_ID: projectId,
         },
         timeout: 15_000,
         maxBuffer: 4 * 1024 * 1024,

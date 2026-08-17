@@ -3,7 +3,7 @@ import type {
   CollabCloudMemberDirectoryEntry,
   CollabMemberRole,
   CollabPresenceMember,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   runVelaCommand,
   velaWorkspaceCommandOptions,
@@ -246,12 +246,12 @@ const defaultRunVelaCollab: RunVelaCollab = (args, workspaceId) =>
 export function shouldUseVelaCliCollabTransport(
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
-  if (env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') return true;
-  const explicitTransport = env.OD_COLLAB_TRANSPORT?.trim();
+  if (env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') return true;
+  const explicitTransport = env.SW_COLLAB_TRANSPORT?.trim();
   if (explicitTransport) return explicitTransport === 'vela-cli';
-  if (env.OD_COLLAB_CLOUD_URL?.trim()) return false;
-  return env.OD_TEAM_PROJECTS_TRANSPORT?.trim() === 'vela-cli' ||
-    env.OD_RESOURCE_TRANSPORT?.trim() === 'vela-cli';
+  if (env.SW_COLLAB_CLOUD_URL?.trim()) return false;
+  return env.SW_TEAM_PROJECTS_TRANSPORT?.trim() === 'vela-cli' ||
+    env.SW_RESOURCE_TRANSPORT?.trim() === 'vela-cli';
 }
 
 export function createVelaCliCollabClientFromEnv(

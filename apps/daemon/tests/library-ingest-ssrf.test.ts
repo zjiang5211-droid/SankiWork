@@ -36,7 +36,7 @@ let canaryUrl = '';
 let canaryHits: string[] = [];
 const CANARY_SECRET = 'INTERNAL-SECRET-aws-creds-42';
 
-const PREV_DATA_DIR = process.env.OD_DATA_DIR;
+const PREV_DATA_DIR = process.env.SW_DATA_DIR;
 
 beforeEach(async () => {
   canaryHits = [];
@@ -50,9 +50,9 @@ beforeEach(async () => {
   canaryUrl = `http://127.0.0.1:${cAddr.port}/latest/meta-data/iam/security-credentials`;
 
   dataDir = await mkdtemp(path.join(os.tmpdir(), 'od-ssrf-'));
-  process.env.OD_DATA_DIR = dataDir;
+  process.env.SW_DATA_DIR = dataDir;
 
-  // Dynamic import AFTER OD_DATA_DIR is set: RUNTIME_DATA_DIR is resolved at
+  // Dynamic import AFTER SW_DATA_DIR is set: RUNTIME_DATA_DIR is resolved at
   // module-eval time, so a static import would pin the real data dir.
   const { startServer } = await import('../src/server.js');
   const started = (await startServer({ port: 0, host: '127.0.0.1', returnServer: true })) as {
@@ -83,8 +83,8 @@ afterEach(async () => {
   canary = undefined;
   daemonShutdown = undefined;
   await rm(dataDir, { recursive: true, force: true }).catch(() => {});
-  if (PREV_DATA_DIR === undefined) delete process.env.OD_DATA_DIR;
-  else process.env.OD_DATA_DIR = PREV_DATA_DIR;
+  if (PREV_DATA_DIR === undefined) delete process.env.SW_DATA_DIR;
+  else process.env.SW_DATA_DIR = PREV_DATA_DIR;
 }, 15000);
 
 describe('library ingest SSRF', () => {

@@ -2,7 +2,7 @@
 
 import { join } from 'node:path';
 
-import type { CreateRoutineRequest, Routine } from '@open-design/contracts';
+import type { CreateRoutineRequest, Routine } from '@sankiwork/contracts';
 import { describe, expect, test } from 'vitest';
 
 import { createFakeAgentRuntimes } from '@/fake-agents';

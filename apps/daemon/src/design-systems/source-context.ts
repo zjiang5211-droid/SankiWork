@@ -195,7 +195,7 @@ async function fetchJson(
     const response = await fetchWithTimeout(fetchFn, url, {
       headers: {
         accept: 'application/vnd.github+json',
-        'user-agent': 'open-design-local',
+        'user-agent': 'sankiwork-local',
       },
     }, timeoutMs);
     if (!response.ok) return { ok: false, error: `HTTP ${response.status}` };
@@ -219,7 +219,7 @@ async function readRawFile(
         const response = await fetchWithTimeout(fetchFn, url, {
           headers: {
             accept: 'text/plain',
-            'user-agent': 'open-design-local',
+            'user-agent': 'sankiwork-local',
           },
         }, timeoutMs);
         if (response.ok) return response.text();

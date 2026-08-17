@@ -151,7 +151,7 @@ function seedLogin(profile: string, payload: Record<string, unknown> = {}): void
 }
 
 async function setSettingsAmrEnv(extra: Record<string, string | undefined>): Promise<void> {
-  const dataDir = process.env.OD_DATA_DIR as string;
+  const dataDir = process.env.SW_DATA_DIR as string;
   const cfg = await readAppConfig(dataDir);
   const amr: Record<string, string> = {
     ...((cfg.agentCliEnv?.amr as Record<string, string>) ?? {}),
@@ -202,7 +202,7 @@ beforeAll(async () => {
   // so we have to persist the fake binary path through the app-config file
   // before any test calls /login. Without this the route would fall through
   // to `resolveOnPath('vela')` and spawn the developer's real vela.
-  const dataDir = process.env.OD_DATA_DIR as string;
+  const dataDir = process.env.SW_DATA_DIR as string;
   const config = await readAppConfig(dataDir);
   await writeAppConfig(dataDir, {
     ...config,
@@ -225,7 +225,7 @@ beforeEach(() => {
   originalHome = process.env.HOME;
   tmpHome = mkdtempSync(path.join(tmpdir(), 'od-vela-routes-'));
   process.env.HOME = tmpHome;
-  process.env.OPEN_DESIGN_AMR_PROFILE = 'local';
+  process.env.SANKIWORK_AMR_PROFILE = 'local';
   process.env.VELA_PROFILE = 'prod';
 });
 
@@ -244,14 +244,14 @@ afterEach(async () => {
   } finally {
     if (originalHome === undefined) delete process.env.HOME;
     else process.env.HOME = originalHome;
-    delete process.env.OPEN_DESIGN_AMR_PROFILE;
+    delete process.env.SANKIWORK_AMR_PROFILE;
     delete process.env.VELA_PROFILE;
     delete process.env.FAKE_VELA_LOGIN_DELAY_MS;
     delete process.env.FAKE_VELA_LOGIN_FAIL;
     delete process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL;
     delete process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL_DELAY_MS;
     delete process.env.FAKE_VELA_LOGIN_EXIT_ZERO_WITHOUT_API_URL_DELAY_MS;
-    delete process.env.OD_AMR_LOGIN_ACTIVATION_GRACE_MS;
+    delete process.env.SW_AMR_LOGIN_ACTIVATION_GRACE_MS;
     delete process.env.FAKE_VELA_LOGIN_USER_EMAIL;
     delete process.env.FAKE_VELA_LOGIN_USER_PLAN;
     delete process.env.FAKE_VELA_BILLING_TIER;
@@ -267,12 +267,12 @@ afterEach(async () => {
     delete process.env.FAKE_VELA_LOGIN_PARENT_EXIT_DELAY_MS;
     delete process.env.FAKE_VELA_LOGIN_ACTIVATION_THEN_EXIT_DELAY_MS;
     delete process.env.FAKE_VELA_LOGIN_ACTIVATION_THEN_EXIT_CODE;
-    delete process.env.OD_PUBLIC_BASE_URL;
+    delete process.env.SW_PUBLIC_BASE_URL;
     delete process.env.VELA_RUNTIME_KEY;
     delete process.env.VELA_LINK_URL;
-    delete process.env.OPEN_DESIGN_AMR_ANALYTICS_URL;
-    delete process.env.OPEN_DESIGN_AMR_ANALYTICS_ENV;
-    delete process.env.OD_AMR_WALLET_FETCH_TIMEOUT_MS;
+    delete process.env.SANKIWORK_AMR_ANALYTICS_URL;
+    delete process.env.SANKIWORK_AMR_ANALYTICS_ENV;
+    delete process.env.SW_AMR_WALLET_FETCH_TIMEOUT_MS;
     rmSync(tmpHome, {
       recursive: true,
       force: true,
@@ -604,7 +604,7 @@ describe('GET /api/integrations/vela/wallet', () => {
   });
 
   it('bounds a stalled upstream wallet request and returns a recoverable network snapshot', async () => {
-    process.env.OD_AMR_WALLET_FETCH_TIMEOUT_MS = '25';
+    process.env.SW_AMR_WALLET_FETCH_TIMEOUT_MS = '25';
     const walletApi = await startWalletApi((_req, _res) => {
       // Intentionally leave the request open so the daemon timeout owns the boundary.
     });
@@ -640,13 +640,13 @@ describe('GET /api/integrations/vela/wallet', () => {
 describe('GET /api/integrations/vela/status', () => {
   it('reports AMR runtime unavailable instead of signed out when the vela binary cannot be resolved', async () => {
     const previousPath = process.env.PATH;
-    const previousAgentHome = process.env.OD_AGENT_HOME;
-    const previousResourceRoot = process.env.OD_RESOURCE_ROOT;
+    const previousAgentHome = process.env.SW_AGENT_HOME;
+    const previousResourceRoot = process.env.SW_RESOURCE_ROOT;
     const previousVelaBin = process.env.VELA_BIN;
     const previousVelaOpenCodeBin = process.env.VELA_OPENCODE_BIN;
     process.env.PATH = '';
-    process.env.OD_AGENT_HOME = tmpHome;
-    delete process.env.OD_RESOURCE_ROOT;
+    process.env.SW_AGENT_HOME = tmpHome;
+    delete process.env.SW_RESOURCE_ROOT;
     delete process.env.VELA_BIN;
     delete process.env.VELA_OPENCODE_BIN;
 
@@ -660,7 +660,7 @@ describe('GET /api/integrations/vela/status', () => {
       http: {},
       env: {
         HOME: tmpHome,
-        OPEN_DESIGN_AMR_PROFILE: 'local',
+        SANKIWORK_AMR_PROFILE: 'local',
         PATH: '',
       },
     });
@@ -681,10 +681,10 @@ describe('GET /api/integrations/vela/status', () => {
       await new Promise<void>((resolve) => isolatedServer.close(() => resolve()));
       if (previousPath === undefined) delete process.env.PATH;
       else process.env.PATH = previousPath;
-      if (previousAgentHome === undefined) delete process.env.OD_AGENT_HOME;
-      else process.env.OD_AGENT_HOME = previousAgentHome;
-      if (previousResourceRoot === undefined) delete process.env.OD_RESOURCE_ROOT;
-      else process.env.OD_RESOURCE_ROOT = previousResourceRoot;
+      if (previousAgentHome === undefined) delete process.env.SW_AGENT_HOME;
+      else process.env.SW_AGENT_HOME = previousAgentHome;
+      if (previousResourceRoot === undefined) delete process.env.SW_RESOURCE_ROOT;
+      else process.env.SW_RESOURCE_ROOT = previousResourceRoot;
       if (previousVelaBin === undefined) delete process.env.VELA_BIN;
       else process.env.VELA_BIN = previousVelaBin;
       if (previousVelaOpenCodeBin === undefined) delete process.env.VELA_OPENCODE_BIN;
@@ -739,7 +739,7 @@ describe('GET /api/integrations/vela/status', () => {
   });
 
   it('reports Settings-configured AMR env credentials as logged in', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     await writeAppConfig(dataDir, {
       ...previous,
@@ -782,7 +782,7 @@ describe('GET /api/integrations/vela/status', () => {
   });
 
   it('reports status for the Settings-configured AMR profile', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     seedLogin('local', {
       user: { id: 'local-user', email: 'settings-local@example.com' },
@@ -790,7 +790,7 @@ describe('GET /api/integrations/vela/status', () => {
     const cfg = JSON.parse(readFileSync(configPath(), 'utf8'));
     cfg.profiles.prod = {};
     writeFileSync(configPath(), JSON.stringify(cfg, null, 2), 'utf8');
-    process.env.OPEN_DESIGN_AMR_PROFILE = 'prod';
+    process.env.SANKIWORK_AMR_PROFILE = 'prod';
     await writeAppConfig(dataDir, {
       ...previous,
       agentCliEnv: {
@@ -798,7 +798,7 @@ describe('GET /api/integrations/vela/status', () => {
         amr: {
           ...((previous.agentCliEnv?.amr as Record<string, string>) ?? {}),
           VELA_BIN: FAKE_VELA,
-          OPEN_DESIGN_AMR_PROFILE: 'local',
+          SANKIWORK_AMR_PROFILE: 'local',
         },
       },
     });
@@ -818,9 +818,9 @@ describe('GET /api/integrations/vela/status', () => {
   });
 
   it('keeps Settings-configured AMR env, profile, status, and model catalog in sync', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
-    process.env.OPEN_DESIGN_AMR_PROFILE = 'prod';
+    process.env.SANKIWORK_AMR_PROFILE = 'prod';
     await writeAppConfig(dataDir, {
       ...previous,
       agentCliEnv: {
@@ -828,7 +828,7 @@ describe('GET /api/integrations/vela/status', () => {
         amr: {
           ...((previous.agentCliEnv?.amr as Record<string, string>) ?? {}),
           VELA_BIN: FAKE_VELA,
-          OPEN_DESIGN_AMR_PROFILE: 'local',
+          SANKIWORK_AMR_PROFILE: 'local',
           VELA_RUNTIME_KEY: 'rt-settings-risk-smoke',
           VELA_LINK_URL: 'http://localhost:18081',
         },
@@ -1061,7 +1061,7 @@ describe('GET /api/integrations/vela/status', () => {
     // the agentCliEnv.amr VELA_RUNTIME_KEY. The credential fingerprint must keep
     // their live-account caches separate so B never inherits A's plan/balance.
     clearAllVelaLiveAccounts();
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const setAmrEnv = async (extra: Record<string, string | undefined>) => {
       const cfg = await readAppConfig(dataDir);
       const amr: Record<string, string> = {
@@ -1153,11 +1153,11 @@ describe('POST /api/integrations/vela/login', () => {
     // the 250ms startup grace and only then errors out before printing an
     // activation URL must still reach the proxy retry — returning 202 on the
     // dead direct login would strand the broken-edge cohort. waitForActivation
-    // blocks for the steady state; OD_AMR_LOGIN_ACTIVATION_GRACE_MS keeps the
+    // blocks for the steady state; SW_AMR_LOGIN_ACTIVATION_GRACE_MS keeps the
     // wait short, and the direct failure is delayed past LOGIN_STARTUP_GRACE_MS.
     const dumpPath = path.join(tmpHome, 'vela-env-fallback-after-grace.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
-    process.env.OD_AMR_LOGIN_ACTIVATION_GRACE_MS = '2000';
+    process.env.SW_AMR_LOGIN_ACTIVATION_GRACE_MS = '2000';
     process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL =
       'start device authorization: API request failed with status 502: post-grace broken edge';
     process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL_DELAY_MS = '450';
@@ -1182,7 +1182,7 @@ describe('POST /api/integrations/vela/login', () => {
     const invocationLog = path.join(tmpHome, 'vela-login-late-fallback.jsonl');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
     process.env.FAKE_VELA_LOGIN_INVOCATION_LOG = invocationLog;
-    process.env.OD_AMR_LOGIN_ACTIVATION_GRACE_MS = '100';
+    process.env.SW_AMR_LOGIN_ACTIVATION_GRACE_MS = '100';
     process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL =
       'start device authorization: API request failed with status 502: late broken edge';
     process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL_DELAY_MS = '1000';
@@ -1258,7 +1258,7 @@ describe('POST /api/integrations/vela/login', () => {
   it('falls back when direct exits zero after the grace without activation or credentials', async () => {
     const dumpPath = path.join(tmpHome, 'vela-env-zero-exit-fallback.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
-    process.env.OD_AMR_LOGIN_ACTIVATION_GRACE_MS = '100';
+    process.env.SW_AMR_LOGIN_ACTIVATION_GRACE_MS = '100';
     process.env.FAKE_VELA_LOGIN_EXIT_ZERO_WITHOUT_API_URL_DELAY_MS = '1000';
 
     const { status } = await postJson(`${baseUrl}/api/integrations/vela/login`);
@@ -1272,7 +1272,7 @@ describe('POST /api/integrations/vela/login', () => {
   it('does not proxy when activation is printed before a nonzero startup exit', async () => {
     const invocationLog = path.join(tmpHome, 'vela-login-activated-nonzero.jsonl');
     process.env.FAKE_VELA_LOGIN_INVOCATION_LOG = invocationLog;
-    process.env.OD_AMR_LOGIN_ACTIVATION_GRACE_MS = '1000';
+    process.env.SW_AMR_LOGIN_ACTIVATION_GRACE_MS = '1000';
     process.env.FAKE_VELA_LOGIN_ACTIVATION_THEN_EXIT_DELAY_MS = '20';
     process.env.FAKE_VELA_LOGIN_ACTIVATION_THEN_EXIT_CODE = '7';
 
@@ -1298,7 +1298,7 @@ describe('POST /api/integrations/vela/login', () => {
   it('rechecks drained activation when close beats the steady-state poll', async () => {
     const invocationLog = path.join(tmpHome, 'vela-login-activation-close-race.jsonl');
     process.env.FAKE_VELA_LOGIN_INVOCATION_LOG = invocationLog;
-    process.env.OD_AMR_LOGIN_ACTIVATION_GRACE_MS = '2000';
+    process.env.SW_AMR_LOGIN_ACTIVATION_GRACE_MS = '2000';
     // Past the 250ms startup check, inside the steady-state wait. stdout data
     // and close arrive together, before its next 50ms activation poll.
     process.env.FAKE_VELA_LOGIN_ACTIVATION_THEN_EXIT_DELAY_MS = '450';
@@ -1327,7 +1327,7 @@ describe('POST /api/integrations/vela/login', () => {
     const proxyDumpPath = path.join(tmpHome, 'vela-login-close-drain-proxy.json');
     process.env.FAKE_VELA_LOGIN_INVOCATION_LOG = invocationLog;
     process.env.FAKE_VELA_ENV_DUMP_PATH = proxyDumpPath;
-    process.env.OD_AMR_LOGIN_ACTIVATION_GRACE_MS = '100';
+    process.env.SW_AMR_LOGIN_ACTIVATION_GRACE_MS = '100';
     process.env.FAKE_VELA_LOGIN_PARENT_EXIT_DELAY_MS = '500';
     process.env.FAKE_VELA_LOGIN_ACTIVATION_AFTER_PARENT_EXIT_MS = '200';
 
@@ -1390,7 +1390,7 @@ describe('POST /api/integrations/vela/login', () => {
   it('does not start a late proxy fallback after the attempt is canceled', async () => {
     const dumpPath = path.join(tmpHome, 'vela-env-canceled-no-fallback.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
-    process.env.OD_AMR_LOGIN_ACTIVATION_GRACE_MS = '100';
+    process.env.SW_AMR_LOGIN_ACTIVATION_GRACE_MS = '100';
     process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL = 'late direct failure';
     process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL_DELAY_MS = '1000';
 
@@ -1476,7 +1476,7 @@ describe('POST /api/integrations/vela/login', () => {
 
   it('cancels a no-WebCrypto request before the login route returns its UUID', async () => {
     const authRequestId = 'pending-amr-auth-mno123-1';
-    process.env.OD_AMR_LOGIN_ACTIVATION_GRACE_MS = '10000';
+    process.env.SW_AMR_LOGIN_ACTIVATION_GRACE_MS = '10000';
     process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL = 'delayed direct failure';
     process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL_DELAY_MS = '30000';
 
@@ -1507,8 +1507,8 @@ describe('POST /api/integrations/vela/login', () => {
     await waitForVelaLoginIdle();
   });
 
-  it('passes Open Design attribution device id to vela login', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+  it('passes SankiWork attribution device id to vela login', async () => {
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     const dumpPath = path.join(tmpHome, 'vela-env-attribution.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
@@ -1521,7 +1521,7 @@ describe('POST /api/integrations/vela/login', () => {
       const { status } = await postJson(`${baseUrl}/api/integrations/vela/login`, {
         attribution: {
           entryId: 'od-amr-entry-onboarding',
-          sourceProduct: 'open_design',
+          sourceProduct: 'sankiwork',
           sourceDetail: 'onboarding_amr_sign_in_continue',
           occurredAt: '2026-06-16T08:00:00.000Z',
           odDeviceId: 'body-should-not-win',
@@ -1531,13 +1531,13 @@ describe('POST /api/integrations/vela/login', () => {
 
       await waitForFile(dumpPath);
       const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
-      expect(env.OPEN_DESIGN_AMR_ORIGIN).toBe('open_design');
-      expect(env.OPEN_DESIGN_AMR_ENTRY_ID).toBe('od-amr-entry-onboarding');
-      expect(env.OPEN_DESIGN_AMR_ENTRY_SOURCE).toBe(
+      expect(env.SANKIWORK_AMR_ORIGIN).toBe('sankiwork');
+      expect(env.SANKIWORK_AMR_ENTRY_ID).toBe('od-amr-entry-onboarding');
+      expect(env.SANKIWORK_AMR_ENTRY_SOURCE).toBe(
         'onboarding_amr_sign_in_continue',
       );
-      expect(env.OPEN_DESIGN_AMR_ENTRY_AT).toBe('2026-06-16T08:00:00.000Z');
-      expect(env.OPEN_DESIGN_AMR_DEVICE_ID).toBe('od-install-abc');
+      expect(env.SANKIWORK_AMR_ENTRY_AT).toBe('2026-06-16T08:00:00.000Z');
+      expect(env.SANKIWORK_AMR_DEVICE_ID).toBe('od-install-abc');
     } finally {
       await writeAppConfig(dataDir, previous as unknown as Record<string, unknown>);
     }
@@ -1557,8 +1557,8 @@ describe('POST /api/integrations/vela/login', () => {
     await waitForFile(dumpPath);
 
     const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
-    expect(env.OPEN_DESIGN_AMR_AUTH_ATTEMPT_ID).toBe(authAttemptId);
-    expect(env.OPEN_DESIGN_AMR_AUTH_STAGE_FORMAT).toBeUndefined();
+    expect(env.SANKIWORK_AMR_AUTH_ATTEMPT_ID).toBe(authAttemptId);
+    expect(env.SANKIWORK_AMR_AUTH_STAGE_FORMAT).toBeUndefined();
     const status = await getJson<{
       authAttemptId?: string;
       authRoute?: string;
@@ -1581,7 +1581,7 @@ describe('POST /api/integrations/vela/login', () => {
   });
 
   it('passes bounded external plugin correlation to vela login when metrics consent is enabled', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     const dumpPath = path.join(tmpHome, 'vela-env-plugin-correlation.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
@@ -1600,31 +1600,31 @@ describe('POST /api/integrations/vela/login', () => {
           'x-od-analytics-device-id': 'od-install-plugin',
           'x-od-analytics-client-type': 'external_mcp',
           'x-od-analytics-entry-surface': 'external_mcp',
-          'x-od-analytics-external-plugin-id': 'open-design',
+          'x-od-analytics-external-plugin-id': 'sankiwork',
           'x-od-analytics-external-plugin-version': '0.4.0',
           'x-od-analytics-distribution-mechanism': 'git_marketplace',
-          'x-od-analytics-publisher-class': 'open_design_first_party',
+          'x-od-analytics-publisher-class': 'sankiwork_first_party',
         },
       );
       expect(status).toBe(202);
 
       await waitForFile(dumpPath);
       const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
-      expect(env.OD_INSTALLATION_ID).toBe('od-install-plugin');
-      expect(env.OPEN_DESIGN_PLUGIN_WORKFLOW_ID).toBe(
+      expect(env.SW_INSTALLATION_ID).toBe('od-install-plugin');
+      expect(env.SANKIWORK_PLUGIN_WORKFLOW_ID).toBe(
         '019f9414-85e8-7f20-8d8f-7f868b2d4b5f',
       );
-      expect(env.OPEN_DESIGN_EXTERNAL_PLUGIN_ID).toBe('open-design');
-      expect(env.OPEN_DESIGN_EXTERNAL_PLUGIN_VERSION).toBe('0.4.0');
-      expect(env.OPEN_DESIGN_DISTRIBUTION_MECHANISM).toBe('git_marketplace');
-      expect(env.OPEN_DESIGN_PUBLISHER_CLASS).toBe('open_design_first_party');
+      expect(env.SANKIWORK_EXTERNAL_PLUGIN_ID).toBe('sankiwork');
+      expect(env.SANKIWORK_EXTERNAL_PLUGIN_VERSION).toBe('0.4.0');
+      expect(env.SANKIWORK_DISTRIBUTION_MECHANISM).toBe('git_marketplace');
+      expect(env.SANKIWORK_PUBLISHER_CLASS).toBe('sankiwork_first_party');
     } finally {
       await writeAppConfig(dataDir, previous as unknown as Record<string, unknown>);
     }
   });
 
   it('omits external plugin correlation when metrics consent is disabled', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     const dumpPath = path.join(tmpHome, 'vela-env-plugin-correlation-off.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
@@ -1643,26 +1643,26 @@ describe('POST /api/integrations/vela/login', () => {
           'x-od-analytics-device-id': 'od-install-plugin',
           'x-od-analytics-client-type': 'external_mcp',
           'x-od-analytics-entry-surface': 'external_mcp',
-          'x-od-analytics-external-plugin-id': 'open-design',
+          'x-od-analytics-external-plugin-id': 'sankiwork',
           'x-od-analytics-external-plugin-version': '0.4.0',
           'x-od-analytics-distribution-mechanism': 'git_marketplace',
-          'x-od-analytics-publisher-class': 'open_design_first_party',
+          'x-od-analytics-publisher-class': 'sankiwork_first_party',
         },
       );
       expect(status).toBe(202);
 
       await waitForFile(dumpPath);
       const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
-      expect(env.OPEN_DESIGN_PLUGIN_WORKFLOW_ID).toBeUndefined();
-      expect(env.OPEN_DESIGN_EXTERNAL_PLUGIN_ID).toBeUndefined();
-      expect(env.OPEN_DESIGN_EXTERNAL_PLUGIN_VERSION).toBeUndefined();
+      expect(env.SANKIWORK_PLUGIN_WORKFLOW_ID).toBeUndefined();
+      expect(env.SANKIWORK_EXTERNAL_PLUGIN_ID).toBeUndefined();
+      expect(env.SANKIWORK_EXTERNAL_PLUGIN_VERSION).toBeUndefined();
     } finally {
       await writeAppConfig(dataDir, previous as unknown as Record<string, unknown>);
     }
   });
 
-  it('omits Open Design attribution device id without analytics consent headers', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+  it('omits SankiWork attribution device id without analytics consent headers', async () => {
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     const dumpPath = path.join(tmpHome, 'vela-env-attribution-no-headers.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
@@ -1675,7 +1675,7 @@ describe('POST /api/integrations/vela/login', () => {
       const { status } = await postJson(`${baseUrl}/api/integrations/vela/login`, {
         attribution: {
           entryId: 'od-amr-entry-onboarding',
-          sourceProduct: 'open_design',
+          sourceProduct: 'sankiwork',
           sourceDetail: 'onboarding_amr_sign_in_continue',
           occurredAt: '2026-06-16T08:00:00.000Z',
           odDeviceId: 'body-should-be-dropped',
@@ -1685,15 +1685,15 @@ describe('POST /api/integrations/vela/login', () => {
 
       await waitForFile(dumpPath);
       const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
-      expect(env.OPEN_DESIGN_AMR_ENTRY_ID).toBe('od-amr-entry-onboarding');
-      expect(env.OPEN_DESIGN_AMR_DEVICE_ID).toBeUndefined();
+      expect(env.SANKIWORK_AMR_ENTRY_ID).toBe('od-amr-entry-onboarding');
+      expect(env.SANKIWORK_AMR_DEVICE_ID).toBeUndefined();
     } finally {
       await writeAppConfig(dataDir, previous as unknown as Record<string, unknown>);
     }
   });
 
-  it('omits Open Design attribution device id when telemetry metrics are disabled', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+  it('omits SankiWork attribution device id when telemetry metrics are disabled', async () => {
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     const dumpPath = path.join(tmpHome, 'vela-env-attribution-metrics-off.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
@@ -1706,7 +1706,7 @@ describe('POST /api/integrations/vela/login', () => {
       const { status } = await postJson(`${baseUrl}/api/integrations/vela/login`, {
         attribution: {
           entryId: 'od-amr-entry-onboarding',
-          sourceProduct: 'open_design',
+          sourceProduct: 'sankiwork',
           sourceDetail: 'onboarding_amr_sign_in_continue',
           occurredAt: '2026-06-16T08:00:00.000Z',
           odDeviceId: 'body-should-be-dropped',
@@ -1716,17 +1716,17 @@ describe('POST /api/integrations/vela/login', () => {
 
       await waitForFile(dumpPath);
       const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
-      expect(env.OPEN_DESIGN_AMR_ENTRY_ID).toBe('od-amr-entry-onboarding');
-      expect(env.OPEN_DESIGN_AMR_DEVICE_ID).toBeUndefined();
+      expect(env.SANKIWORK_AMR_ENTRY_ID).toBe('od-amr-entry-onboarding');
+      expect(env.SANKIWORK_AMR_DEVICE_ID).toBeUndefined();
     } finally {
       await writeAppConfig(dataDir, previous as unknown as Record<string, unknown>);
     }
   });
 
-  it('derives the fallback login API proxy from OD_PUBLIC_BASE_URL when the direct attempt fails', async () => {
+  it('derives the fallback login API proxy from SW_PUBLIC_BASE_URL when the direct attempt fails', async () => {
     const dumpPath = path.join(tmpHome, 'vela-env-public-base-url.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
-    process.env.OD_PUBLIC_BASE_URL = 'https://open-design.example.com/';
+    process.env.SW_PUBLIC_BASE_URL = 'https://sankiwork.example.com/';
     process.env.FAKE_VELA_LOGIN_FAIL_WITHOUT_API_URL =
       'start device authorization: API request failed with status 502: broken edge';
 
@@ -1736,12 +1736,12 @@ describe('POST /api/integrations/vela/login', () => {
     await waitForFile(dumpPath);
     const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
     expect(env.VELA_API_URL).toBe(
-      'https://open-design.example.com/api/integrations/vela/api-proxy',
+      'https://sankiwork.example.com/api/integrations/vela/api-proxy',
     );
   });
 
   it('preserves an explicitly configured VELA_API_URL during login', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     const dumpPath = path.join(tmpHome, 'vela-env-custom-url.json');
     process.env.FAKE_VELA_ENV_DUMP_PATH = dumpPath;
@@ -1796,7 +1796,7 @@ describe('POST /api/integrations/vela/login', () => {
   });
 
   it('passes the resolved AMR profile to vela login even when VELA_PROFILE is set differently', async () => {
-    process.env.OPEN_DESIGN_AMR_PROFILE = 'test';
+    process.env.SANKIWORK_AMR_PROFILE = 'test';
     process.env.VELA_PROFILE = 'local';
     process.env.FAKE_VELA_LOGIN_USER_EMAIL = 'login-test@example.com';
 
@@ -1818,9 +1818,9 @@ describe('POST /api/integrations/vela/login', () => {
   });
 
   it('passes the Settings-configured AMR profile to vela login', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
-    process.env.OPEN_DESIGN_AMR_PROFILE = 'prod';
+    process.env.SANKIWORK_AMR_PROFILE = 'prod';
     process.env.VELA_PROFILE = 'prod';
     process.env.FAKE_VELA_LOGIN_USER_EMAIL = 'settings-login@example.com';
     await writeAppConfig(dataDir, {
@@ -1830,7 +1830,7 @@ describe('POST /api/integrations/vela/login', () => {
         amr: {
           ...((previous.agentCliEnv?.amr as Record<string, string>) ?? {}),
           VELA_BIN: FAKE_VELA,
-          OPEN_DESIGN_AMR_PROFILE: 'local',
+          SANKIWORK_AMR_PROFILE: 'local',
         },
       },
     });
@@ -1857,9 +1857,9 @@ describe('POST /api/integrations/vela/login', () => {
 
 
   it('uses the same Settings-configured AMR env for login and subsequent status reads', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
-    process.env.OPEN_DESIGN_AMR_PROFILE = 'prod';
+    process.env.SANKIWORK_AMR_PROFILE = 'prod';
     process.env.VELA_PROFILE = 'prod';
     process.env.FAKE_VELA_LOGIN_USER_EMAIL = 'settings-roundtrip@example.com';
     await writeAppConfig(dataDir, {
@@ -1869,7 +1869,7 @@ describe('POST /api/integrations/vela/login', () => {
         amr: {
           ...((previous.agentCliEnv?.amr as Record<string, string>) ?? {}),
           VELA_BIN: FAKE_VELA,
-          OPEN_DESIGN_AMR_PROFILE: 'local',
+          SANKIWORK_AMR_PROFILE: 'local',
         },
       },
     });
@@ -2075,7 +2075,7 @@ describe('ALL /api/integrations/vela/api-proxy/*', () => {
       expect(resp.status).toBe(201);
       expect(await resp.json()).toEqual({ ok: true });
       expect(upstreamRequests).toHaveLength(1);
-      expect(upstreamRequests[0]?.href).toBe('https://amr-api.open-design.ai/api/v1/oauth/token');
+      expect(upstreamRequests[0]?.href).toBe('https://amr-api.sanki-ai.cloud/api/v1/oauth/token');
       expect(upstreamRequests[0]?.method).toBe('POST');
       expect(upstreamRequests[0]?.headers['content-type']).toContain(
         'application/x-www-form-urlencoded',
@@ -2399,7 +2399,7 @@ describe('ALL /api/integrations/vela/message-center/*', () => {
       runtimeKey: undefined,
       user: undefined,
     });
-    await setSettingsAmrEnv({ OPEN_DESIGN_AMR_PROFILE: 'test' });
+    await setSettingsAmrEnv({ SANKIWORK_AMR_PROFILE: 'test' });
     try {
       const response = await fetch(
         `${baseUrl}/api/integrations/vela/message-center-public/messages?locale=en-US&limit=30`,
@@ -2413,7 +2413,7 @@ describe('ALL /api/integrations/vela/message-center/*', () => {
         },
       ]);
     } finally {
-      await setSettingsAmrEnv({ OPEN_DESIGN_AMR_PROFILE: undefined });
+      await setSettingsAmrEnv({ SANKIWORK_AMR_PROFILE: undefined });
       await new Promise<void>((resolve) => upstream.close(() => resolve()));
     }
   });
@@ -2514,7 +2514,7 @@ describe('ALL /api/integrations/vela/message-center/*', () => {
 });
 
 describe('POST /api/integrations/vela/analytics-entry', () => {
-  it('mirrors Open Design AMR entry clicks to the AMR analytics ingest shape', async () => {
+  it('mirrors SankiWork AMR entry clicks to the AMR analytics ingest shape', async () => {
     const requests: unknown[] = [];
     const captureServer = createServer((req, res) => {
       let raw = '';
@@ -2532,18 +2532,18 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       captureServer.listen(0, '127.0.0.1', () => resolve());
     });
     const address = captureServer.address() as AddressInfo;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_URL =
+    process.env.SANKIWORK_AMR_ANALYTICS_URL =
       `http://127.0.0.1:${address.port}/api/v1/analytics/events`;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_ENV = 'test';
+    process.env.SANKIWORK_AMR_ANALYTICS_ENV = 'test';
 
     const payload = {
-      pageName: 'open_design',
+      pageName: 'sankiwork',
       sourcePageName: 'chat_panel',
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
       entryId: 'od-amr-entry-123',
-      sourceProduct: 'open_design',
+      sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
     };
@@ -2568,7 +2568,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
             common: {
               eventId: 'od-amr-entry-od-amr-entry-123',
               eventTime: '2026-06-03T12:00:00.000Z',
-              registryKey: 'open_design_amr_entry',
+              registryKey: 'sankiwork_amr_entry',
               eventName: 'amr_entry',
               eventType: 'click',
               platform: 'web',
@@ -2609,18 +2609,18 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       captureServer.listen(0, '127.0.0.1', () => resolve());
     });
     const address = captureServer.address() as AddressInfo;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_URL =
+    process.env.SANKIWORK_AMR_ANALYTICS_URL =
       `http://127.0.0.1:${address.port}/api/v1/analytics/events`;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_ENV = 'test';
+    process.env.SANKIWORK_AMR_ANALYTICS_ENV = 'test';
 
     const payload = {
-      pageName: 'open_design',
+      pageName: 'sankiwork',
       sourcePageName: 'home',
       area: 'amr_entry',
       element: 'deepseek_workbench_badge',
       action: 'click_amr_entry',
       entryId: 'od-amr-entry-campaign',
-      sourceProduct: 'open_design',
+      sourceProduct: 'sankiwork',
       sourceDetail: 'deepseek_workbench_badge',
       entryOccurredAt: '2026-08-06T12:00:00.000Z',
       campaignId: 'deepseek_v4_flash',
@@ -2669,18 +2669,18 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       captureServer.listen(0, '127.0.0.1', () => resolve());
     });
     const address = captureServer.address() as AddressInfo;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_URL =
+    process.env.SANKIWORK_AMR_ANALYTICS_URL =
       `http://127.0.0.1:${address.port}/api/v1/analytics/events`;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_ENV = 'test';
+    process.env.SANKIWORK_AMR_ANALYTICS_ENV = 'test';
 
     const payload = {
-      pageName: 'open_design',
+      pageName: 'sankiwork',
       sourcePageName: 'chat_panel',
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
       entryId: 'od-amr-entry-456',
-      sourceProduct: 'open_design',
+      sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
       odRole: 'pm',
@@ -2711,7 +2711,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
     }
   });
 
-  it('mirrors Open Design onboarding profile snapshots with the header-derived device id', async () => {
+  it('mirrors SankiWork onboarding profile snapshots with the header-derived device id', async () => {
     const requests: unknown[] = [];
     const captureServer = createServer((req, res) => {
       let raw = '';
@@ -2729,18 +2729,18 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       captureServer.listen(0, '127.0.0.1', () => resolve());
     });
     const address = captureServer.address() as AddressInfo;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_URL =
+    process.env.SANKIWORK_AMR_ANALYTICS_URL =
       `http://127.0.0.1:${address.port}/api/v1/analytics/events`;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_ENV = 'test';
+    process.env.SANKIWORK_AMR_ANALYTICS_ENV = 'test';
 
     const payload = {
-      pageName: 'open_design',
+      pageName: 'sankiwork',
       sourcePageName: 'onboarding',
       area: 'onboarding',
       element: 'about_you_submit',
       action: 'submit_profile',
       entryId: 'od-amr-entry-profile',
-      sourceProduct: 'open_design',
+      sourceProduct: 'sankiwork',
       sourceDetail: 'onboarding_amr_sign_in_continue',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
       profileOccurredAt: '2026-06-03T12:03:00.000Z',
@@ -2771,7 +2771,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
             common: {
               eventId: 'od-onboarding-profile-od-amr-entry-profile',
               eventTime: '2026-06-03T12:03:00.000Z',
-              registryKey: 'open_design_onboarding_profile',
+              registryKey: 'sankiwork_onboarding_profile',
               eventName: 'onboarding_profile',
               eventType: 'result',
               platform: 'web',
@@ -2794,13 +2794,13 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
 
   it('drops an over-long profile value rather than mirroring it', () => {
     const base = {
-      pageName: 'open_design',
+      pageName: 'sankiwork',
       sourcePageName: 'chat_panel',
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
       entryId: 'od-amr-entry-789',
-      sourceProduct: 'open_design',
+      sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
     };
@@ -2832,13 +2832,13 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
 
   it('rejects malformed AMR onboarding profile analytics payloads', async () => {
     const base = {
-      pageName: 'open_design',
+      pageName: 'sankiwork',
       sourcePageName: 'onboarding',
       area: 'onboarding',
       element: 'about_you_submit',
       action: 'submit_profile',
       entryId: 'od-amr-entry-profile',
-      sourceProduct: 'open_design',
+      sourceProduct: 'sankiwork',
       sourceDetail: 'onboarding_amr_sign_in_continue',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
       profileOccurredAt: '2026-06-03T12:03:00.000Z',
@@ -2859,7 +2859,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
 
     const { status, body } = await postJson<{ error: string }>(
       `${baseUrl}/api/integrations/vela/analytics-profile`,
-      { payload: { pageName: 'open_design' } },
+      { payload: { pageName: 'sankiwork' } },
     );
 
     expect(status).toBe(400);
@@ -2868,13 +2868,13 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
 
   it('rejects non-onboarding sources for AMR onboarding profile analytics', async () => {
     const payload = {
-      pageName: 'open_design',
+      pageName: 'sankiwork',
       sourcePageName: 'onboarding',
       area: 'onboarding',
       element: 'about_you_submit',
       action: 'submit_profile',
       entryId: 'od-amr-entry-profile',
-      sourceProduct: 'open_design',
+      sourceProduct: 'sankiwork',
       sourceDetail: 'settings_amr_console',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
       profileOccurredAt: '2026-06-03T12:03:00.000Z',
@@ -2895,7 +2895,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
   it('rejects malformed AMR entry analytics payloads', async () => {
     const { status, body } = await postJson<{ error: string }>(
       `${baseUrl}/api/integrations/vela/analytics-entry`,
-      { payload: { pageName: 'open_design' } },
+      { payload: { pageName: 'sankiwork' } },
     );
 
     expect(status).toBe(400);
@@ -2920,18 +2920,18 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       captureServer.listen(0, '127.0.0.1', () => resolve());
     });
     const address = captureServer.address() as AddressInfo;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_URL =
+    process.env.SANKIWORK_AMR_ANALYTICS_URL =
       `http://127.0.0.1:${address.port}/api/v1/analytics/events`;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_ENV = 'test';
+    process.env.SANKIWORK_AMR_ANALYTICS_ENV = 'test';
 
     const payload = {
-      pageName: 'open_design',
+      pageName: 'sankiwork',
       sourcePageName: 'chat_panel',
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
       entryId: 'od-amr-entry-no-consent',
-      sourceProduct: 'open_design',
+      sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
     };
@@ -2955,7 +2955,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
   });
 
   it('does not mirror to AMR when telemetry.metrics consent is off', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     await writeAppConfig(dataDir, {
       ...previous,
@@ -2979,18 +2979,18 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       captureServer.listen(0, '127.0.0.1', () => resolve());
     });
     const address = captureServer.address() as AddressInfo;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_URL =
+    process.env.SANKIWORK_AMR_ANALYTICS_URL =
       `http://127.0.0.1:${address.port}/api/v1/analytics/events`;
-    process.env.OPEN_DESIGN_AMR_ANALYTICS_ENV = 'test';
+    process.env.SANKIWORK_AMR_ANALYTICS_ENV = 'test';
 
     const payload = {
-      pageName: 'open_design',
+      pageName: 'sankiwork',
       sourcePageName: 'chat_panel',
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
       entryId: 'od-amr-entry-metrics-off',
-      sourceProduct: 'open_design',
+      sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
     };
@@ -3110,7 +3110,7 @@ describe('POST /api/integrations/vela/logout', () => {
   });
 
   it('clears Settings-backed AMR auth env while preserving executable config', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     await writeAppConfig(dataDir, {
       agentCliEnv: {
@@ -3153,7 +3153,7 @@ describe('POST /api/integrations/vela/logout', () => {
   });
 
   it('clears both Settings-backed AMR env credentials and same-profile ~/.amr credentials on logout', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     seedLogin('local', {
       user: { id: 'local-user', email: 'local@example.com' },
@@ -3166,7 +3166,7 @@ describe('POST /api/integrations/vela/logout', () => {
           ...((previous.agentCliEnv?.amr as Record<string, string>) ?? {}),
           VELA_BIN: FAKE_VELA,
           VELA_OPENCODE_BIN: '/tmp/opencode',
-          OPEN_DESIGN_AMR_PROFILE: 'local',
+          SANKIWORK_AMR_PROFILE: 'local',
           VELA_RUNTIME_KEY: 'rt-env-secret',
           VELA_LINK_URL: 'https://openrouter.example/v1',
         },
@@ -3204,7 +3204,7 @@ describe('POST /api/integrations/vela/logout', () => {
   });
 
   it('logs out the Settings-configured AMR profile from the AMR config file', async () => {
-    const dataDir = process.env.OD_DATA_DIR as string;
+    const dataDir = process.env.SW_DATA_DIR as string;
     const previous = await readAppConfig(dataDir);
     seedLogin('local');
     const cfg = JSON.parse(readFileSync(configPath(), 'utf8'));
@@ -3213,7 +3213,7 @@ describe('POST /api/integrations/vela/logout', () => {
       user: { id: 'prod-user', email: 'prod@example.com' },
     };
     writeFileSync(configPath(), JSON.stringify(cfg, null, 2), 'utf8');
-    process.env.OPEN_DESIGN_AMR_PROFILE = 'prod';
+    process.env.SANKIWORK_AMR_PROFILE = 'prod';
     await writeAppConfig(dataDir, {
       ...previous,
       agentCliEnv: {
@@ -3221,7 +3221,7 @@ describe('POST /api/integrations/vela/logout', () => {
         amr: {
           ...((previous.agentCliEnv?.amr as Record<string, string>) ?? {}),
           VELA_BIN: FAKE_VELA,
-          OPEN_DESIGN_AMR_PROFILE: 'local',
+          SANKIWORK_AMR_PROFILE: 'local',
         },
       },
     });
@@ -3300,13 +3300,13 @@ describe('login → status round-trip (E2E across the three routes)', () => {
 
 describe('parseAmrEntryAnalyticsPayload — entry sources added in this PR', () => {
   const payloadFor = (source: string, page: string) => ({
-    pageName: 'open_design',
+    pageName: 'sankiwork',
     sourcePageName: page,
     area: 'amr_entry',
     element: source,
     action: 'click_amr_entry',
     entryId: 'od-amr-entry-x',
-    sourceProduct: 'open_design',
+    sourceProduct: 'sankiwork',
     sourceDetail: source,
     entryOccurredAt: '2026-06-03T12:00:00.000Z',
   });

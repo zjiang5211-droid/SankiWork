@@ -128,8 +128,8 @@ describe('GET /api/projects/:id resolvedDir', () => {
     };
     expect(detail.project.metadata?.baseDir).toBeUndefined();
 
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const expected = path.join(dataDir, 'projects', projectId);
     expect(detail.resolvedDir).toBe(expected);
     expect(path.isAbsolute(detail.resolvedDir)).toBe(true);
@@ -1026,7 +1026,7 @@ describe('GET /api/projects/:id resolvedDir', () => {
 
   // Folder routes (#3516) must refuse to touch the filesystem for an unknown
   // project id. Without the guard, POST reaches createProjectFolder ->
-  // ensureProject and would materialize a `.od/projects/<id>/...` directory
+  // ensureProject and would materialize a `.sankiwork/projects/<id>/...` directory
   // with no DB row, leaving orphaned state and breaking the invariant the
   // neighboring project-file routes rely on.
   it('returns 404 for unknown project folder routes without creating project files', async () => {
@@ -1051,8 +1051,8 @@ describe('GET /api/projects/:id resolvedDir', () => {
       expect(body.error?.code).toBe('PROJECT_NOT_FOUND');
     }
 
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     await expect(stat(path.join(dataDir, 'projects', missingProjectId))).rejects.toMatchObject({
       code: 'ENOENT',
     });
@@ -1117,8 +1117,8 @@ describe('GET /api/projects/:id resolvedDir', () => {
     });
     expect(postResp.status).toBe(400);
 
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const versionRoot = path.join(dataDir, 'projects', projectId, '.file-versions');
     const marker = path.join(versionRoot, 'sentinel', 'manifest.json');
     await mkdir(path.dirname(marker), { recursive: true });
@@ -1342,7 +1342,7 @@ describe('project locations routes', () => {
     const loc0 = body.locations[0]!;
     expect(loc0.id).toBe('default');
     expect(loc0.builtIn).toBe(true);
-    expect(loc0.name).toBe('Open Design projects');
+    expect(loc0.name).toBe('SankiWork projects');
   });
 
   it('PUT /api/project-locations creates external roots and GET returns them alongside default', async () => {
@@ -1393,7 +1393,7 @@ describe('project locations routes', () => {
     const extDir = makeTempDir();
     // Create a project directory with a valid manifest
     const projectDir = path.join(extDir, 'scan-test-proj');
-    const odDir = path.join(projectDir, '.open-design');
+    const odDir = path.join(projectDir, '.sankiwork');
     await mkdir(odDir, { recursive: true });
     const manifest = {
       schemaVersion: 1 as const,
@@ -1405,7 +1405,7 @@ describe('project locations routes', () => {
       designSystemId: null,
     };
     await writeFile(
-      path.join(projectDir, '.open-design', 'project.json'),
+      path.join(projectDir, '.sankiwork', 'project.json'),
       JSON.stringify(manifest, null, 2),
       'utf8',
     );
@@ -1451,7 +1451,7 @@ describe('project locations routes', () => {
     expect(body2.existing).toEqual(['scan-test-proj']);
   });
 
-  it('POST /api/projects with projectLocationId creates project under external root and writes .open-design/project.json', async () => {
+  it('POST /api/projects with projectLocationId creates project under external root and writes .sankiwork/project.json', async () => {
     const extDir = makeTempDir();
     // Register an external location
     await putProjectLocations([{ id: 'create-ext', name: 'Create External', path: extDir }]);
@@ -1480,8 +1480,8 @@ describe('project locations routes', () => {
     const expectedProjectDir = await realpath(path.join(extDir, projectId));
     expect(createBody.project.metadata?.baseDir).toBe(expectedProjectDir);
 
-    // Verify .open-design/project.json was written
-    const manifestPath = path.join(expectedProjectDir, '.open-design', 'project.json');
+    // Verify .sankiwork/project.json was written
+    const manifestPath = path.join(expectedProjectDir, '.sankiwork', 'project.json');
     const manifestRaw = await import('node:fs/promises').then((m) => m.readFile(manifestPath, 'utf8'));
     const manifest = JSON.parse(manifestRaw);
     expect(manifest.schemaVersion).toBe(1);
@@ -1731,8 +1731,8 @@ describe('project locations routes', () => {
   });
 
   it('PUT /api/project-locations rejects a root overlapping the daemon projects dir', async () => {
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR required for daemon route tests');
     const projectsDir = path.join(dataDir, 'projects');
 
     const canonicalProjectsDir = await realpath(projectsDir);
@@ -1886,7 +1886,7 @@ describe('project locations routes', () => {
 
     // The project directory and manifest should exist on disk
     const expectedProjectDir = await realpath(path.join(extDir, projectId));
-    const manifestPath = path.join(expectedProjectDir, '.open-design', 'project.json');
+    const manifestPath = path.join(expectedProjectDir, '.sankiwork', 'project.json');
     const manifestBefore = await readFile(manifestPath, 'utf8');
     expect(JSON.parse(manifestBefore).id).toBe(projectId);
 
@@ -1948,12 +1948,12 @@ describe('project locations routes', () => {
 });
 
 async function withSandboxMode<T>(run: () => Promise<T>): Promise<T> {
-  const previous = process.env.OD_SANDBOX_MODE;
-  process.env.OD_SANDBOX_MODE = '1';
+  const previous = process.env.SW_SANDBOX_MODE;
+  process.env.SW_SANDBOX_MODE = '1';
   try {
     return await run();
   } finally {
-    if (previous == null) delete process.env.OD_SANDBOX_MODE;
-    else process.env.OD_SANDBOX_MODE = previous;
+    if (previous == null) delete process.env.SW_SANDBOX_MODE;
+    else process.env.SW_SANDBOX_MODE = previous;
   }
 }

@@ -42,7 +42,7 @@ describe('download attribution service', () => {
       const result = await service.claim({
         source: 'mac_where_froms',
         token: 'odtoken_123456',
-        rawUrl: 'https://download.open-design.ai/mac/arm64/odtoken_123456/Open.dmg',
+        rawUrl: 'https://download.sanki-ai.cloud/mac/arm64/odtoken_123456/Open.dmg',
         platform: 'macos',
       });
 
@@ -77,7 +77,7 @@ describe('download attribution service', () => {
       const service = createAttributionService({
         analytics,
         appConfig: { readAppConfig },
-        env: { OD_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
+        env: { SW_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
         fetchImpl: fetchImpl as unknown as typeof fetch,
         paths: { RUNTIME_DATA_DIR: dataDir },
       });
@@ -107,7 +107,7 @@ describe('download attribution service', () => {
       const service = createAttributionService({
         analytics,
         appConfig: { readAppConfig: async () => ({ installationId: 'install-123', telemetry: { metrics: true } }) },
-        env: { OD_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
+        env: { SW_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
         fetchImpl: fetchImpl as unknown as typeof fetch,
         paths: { RUNTIME_DATA_DIR: dataDir },
         now: () => new Date('2026-07-10T00:01:00.000Z'),
@@ -144,7 +144,7 @@ describe('download attribution service', () => {
       const service = createAttributionService({
         analytics,
         appConfig: { readAppConfig: async (): Promise<AppConfigPrefs> => ({ installationId: 'install-123', telemetry: { metrics: true } }) },
-        env: { OD_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
+        env: { SW_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
         fetchImpl: vi.fn(async () => new Response(JSON.stringify({ status: 'already_consumed_other' }), { status: 200 })) as unknown as typeof fetch,
         paths: { RUNTIME_DATA_DIR: dataDir },
       });
@@ -163,18 +163,18 @@ describe('download attribution service', () => {
   it('mints a first-party browser bridge only with metrics consent and a ledger secret', async () => {
     await withTempData(async (dataDir) => {
       const fetchImpl = vi.fn(async () => new Response(JSON.stringify({
-        url: 'https://open-design.ai/clipper?od_bridge=odbr_12345678',
+        url: 'https://sanki-ai.cloud/clipper?od_bridge=odbr_12345678',
       }), { status: 200 }));
       const service = createAttributionService({
         analytics: analyticsStub(),
         appConfig: { readAppConfig: async () => ({ installationId: 'install-123', telemetry: { metrics: true } }) },
-        env: { OD_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution', OD_ATTRIBUTION_LEDGER_TOKEN: 'secret' },
+        env: { SW_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution', SW_ATTRIBUTION_LEDGER_TOKEN: 'secret' },
         fetchImpl: fetchImpl as unknown as typeof fetch,
         paths: { RUNTIME_DATA_DIR: dataDir },
       });
 
-      await expect(service.bridgeUrl('https://open-design.ai/clipper')).resolves.toBe(
-        'https://open-design.ai/clipper?od_bridge=odbr_12345678',
+      await expect(service.bridgeUrl('https://sanki-ai.cloud/clipper')).resolves.toBe(
+        'https://sanki-ai.cloud/clipper?od_bridge=odbr_12345678',
       );
       expect(fetchImpl).toHaveBeenCalledWith(
         'https://ledger.test/api/attribution/bridge/mint',
@@ -193,7 +193,7 @@ describe('download attribution service', () => {
       const service = createAttributionService({
         analytics,
         appConfig: { readAppConfig: async () => ({ installationId: 'install-123', telemetry: { metrics: true } }) },
-        env: { OD_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
+        env: { SW_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
         fetchImpl: fetchImpl as unknown as typeof fetch,
         paths: { RUNTIME_DATA_DIR: dataDir },
       });
@@ -217,7 +217,7 @@ describe('download attribution service', () => {
       const service = createAttributionService({
         analytics,
         appConfig: { readAppConfig: async () => ({ installationId: 'install-recovered', telemetry: { metrics: true } }) },
-        env: { OD_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
+        env: { SW_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
         fetchImpl: vi.fn(async () => new Response(JSON.stringify({
           status: 'already_consumed_same', webDistinctId: 'web-recovered', properties: { od_utm_source: 'retry' },
         }), { status: 200 })) as unknown as typeof fetch,

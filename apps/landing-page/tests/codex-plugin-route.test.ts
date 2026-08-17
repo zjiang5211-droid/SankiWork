@@ -47,20 +47,20 @@ describe('Codex plugin landing route', () => {
     );
     assert.match(
       page,
-      /\/goal Read https:\/\/open-design\.ai\/codex-plugin\/ to install Open Design for Codex and set up a new task for me\./,
+      /\/goal Read https:\/\/sanki-ai\.cloud\/codex-plugin\/ to install SankiWork for Codex and set up a new task for me\./,
     );
     assert.match(page, /href=\{AGENT_INSTALL_GUIDE\}/);
   });
 
   it('serves the landing page to browser navigation and search crawlers', async () => {
-    const browserRequest = new Request('https://open-design.ai/codex-plugin/', {
+    const browserRequest = new Request('https://sanki-ai.cloud/codex-plugin/', {
       headers: {
         'Sec-Fetch-Mode': 'navigate',
         'Sec-Fetch-Dest': 'document',
         'User-Agent': 'Mozilla/5.0',
       },
     });
-    const crawlerRequest = new Request('https://open-design.ai/codex-plugin/', {
+    const crawlerRequest = new Request('https://sanki-ai.cloud/codex-plugin/', {
       headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1)' },
     });
 
@@ -81,7 +81,7 @@ describe('Codex plugin landing route', () => {
   });
 
   it('serves the complete canonical install guide as plain text to agents', async () => {
-    const request = new Request('https://open-design.ai/codex-plugin/', {
+    const request = new Request('https://sanki-ai.cloud/codex-plugin/', {
       headers: { 'User-Agent': 'ChatGPT-User/1.0' },
     });
     let nextCalled = false;
@@ -111,7 +111,7 @@ describe('Codex plugin landing route', () => {
   });
 
   it('returns actionable plain-text guidance when the upstream fetch rejects', async () => {
-    const request = new Request('https://open-design.ai/codex-plugin/', {
+    const request = new Request('https://sanki-ai.cloud/codex-plugin/', {
       headers: { 'User-Agent': 'ChatGPT-User/1.0' },
     });
     const response = await handleCodexPluginRequest(

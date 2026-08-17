@@ -13,7 +13,7 @@ import {
 // approve, so the user's existing login is untouched (vela only writes config
 // on approval). Skipped automatically where the vela CLI isn't installed.
 function shouldRunRealVelaE2E(): boolean {
-  if (process.env.OD_RUN_REAL_VELA_LOGIN_E2E !== '1') return false;
+  if (process.env.SW_RUN_REAL_VELA_LOGIN_E2E !== '1') return false;
   try {
     execFileSync('vela', ['--version'], { stdio: 'ignore' });
     return true;

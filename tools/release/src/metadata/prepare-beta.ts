@@ -10,7 +10,7 @@ import {
   parseCountedReleaseVersion,
   parseReleaseBaseVersion,
   type ReleaseBaseVersionTuple,
-} from "@open-design/release";
+} from "@sankiwork/release";
 
 const execFile = promisify(execFileCallback);
 
@@ -276,12 +276,12 @@ function readBooleanEnv(name: string): boolean {
 
 const packagedVersion = await readPackagedVersion();
 const packagedParsed = parseReleaseBaseVersion(packagedVersion) ?? fail(`invalid packaged version: ${packagedVersion}`);
-const force = readBooleanEnv("OPEN_DESIGN_RELEASE_FORCE") || readBooleanEnv("RELEASE_FORCE");
+const force = readBooleanEnv("SANKIWORK_RELEASE_FORCE") || readBooleanEnv("RELEASE_FORCE");
 
 let latestStable: ParsedStableVersion | null = null;
-const stableMetadataUrl = process.env.OPEN_DESIGN_STABLE_METADATA_URL;
+const stableMetadataUrl = process.env.SANKIWORK_STABLE_METADATA_URL;
 if (stableMetadataUrl != null && stableMetadataUrl.length > 0) {
-  validateHttpsUrl(stableMetadataUrl, "OPEN_DESIGN_STABLE_METADATA_URL");
+  validateHttpsUrl(stableMetadataUrl, "SANKIWORK_STABLE_METADATA_URL");
   const stableMetadataJson = await fetchOptionalHttpsText(stableMetadataUrl);
   if (stableMetadataJson == null) {
     fail(`stable metadata.json was not found: ${stableMetadataUrl}`);
@@ -309,11 +309,11 @@ if (latestStable != null && compareReleaseBaseVersions(packagedParsed, latestSta
   );
 }
 
-const metadataUrl = process.env.OPEN_DESIGN_BETA_METADATA_URL;
+const metadataUrl = process.env.SANKIWORK_BETA_METADATA_URL;
 if (metadataUrl == null || metadataUrl.length === 0) {
-  fail("OPEN_DESIGN_BETA_METADATA_URL is required");
+  fail("SANKIWORK_BETA_METADATA_URL is required");
 }
-validateHttpsUrl(metadataUrl, "OPEN_DESIGN_BETA_METADATA_URL");
+validateHttpsUrl(metadataUrl, "SANKIWORK_BETA_METADATA_URL");
 
 let betaNumber = 1;
 let latestBeta: ParsedBetaVersion | null = null;
@@ -360,7 +360,7 @@ if (latestBeta != null) {
 const betaVersion = `${packagedVersion}-beta.${betaNumber}`;
 const branch = process.env.GITHUB_REF_NAME ?? "";
 const commit = process.env.GITHUB_SHA ?? "";
-const releaseName = `Open Design Beta ${betaVersion}`;
+const releaseName = `SankiWork Beta ${betaVersion}`;
 
 console.log(`[release-beta] channel: beta`);
 console.log(`[release-beta] base version: ${packagedVersion}`);

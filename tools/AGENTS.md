@@ -4,17 +4,17 @@ Follow the root `AGENTS.md` first. This file only records module-level boundarie
 
 ## Active tools
 
-- `tools/dev` provides `@open-design/tools-dev` and the `tools-dev` bin. It is the only currently active local development lifecycle control plane.
+- `tools/dev` provides `@sankiwork/tools-dev` and the `tools-dev` bin. It is the only currently active local development lifecycle control plane.
 - `pnpm tools-dev` manages daemon -> web -> desktop.
 - `pnpm tools-dev run web` runs foreground daemon + web for the Playwright webServer flow.
 - `pnpm tools-dev inspect desktop ...` inspects the desktop runtime through sidecar IPC.
-- `tools/pack` provides `@open-design/tools-pack` and the `tools-pack` bin. The active slice is packaged artifact build/install/start/stop/logs/uninstall/cleanup/list/reset plus beta release artifact preparation for mac and Windows lanes, plus a Linux AppImage lane with optional containerized builds.
-- `tools/serve` provides `@open-design/tools-serve` and the `tools-serve` bin. It owns local fixture services such as `tools-serve start updater`.
-- `tools/release` provides `@open-design/tools-release` and the `tools-release` bin. It owns release metadata, storage publishing, release reports, and notification-facing file/data contracts; artifact build, cache, installer, payload, and smoke work stays in `tools/pack`.
+- `tools/pack` provides `@sankiwork/tools-pack` and the `tools-pack` bin. The active slice is packaged artifact build/install/start/stop/logs/uninstall/cleanup/list/reset plus beta release artifact preparation for mac and Windows lanes, plus a Linux AppImage lane with optional containerized builds.
+- `tools/serve` provides `@sankiwork/tools-serve` and the `tools-serve` bin. It owns local fixture services such as `tools-serve start updater`.
+- `tools/release` provides `@sankiwork/tools-release` and the `tools-release` bin. It owns release metadata, storage publishing, release reports, and notification-facing file/data contracts; artifact build, cache, installer, payload, and smoke work stays in `tools/pack`.
 
 ## Retired tools
 
-- `tools/pr` / `@open-design/tools-pr` / `pnpm tools-pr` has been retired from this repository. Maintainer PR-duty workflows now live outside the product workspace in `PerishCode/duty`; do not restore an Open Design-local PR-duty tool without a new explicit maintainer decision.
+- `tools/pr` / `@sankiwork/tools-pr` / `pnpm tools-pr` has been retired from this repository. Maintainer PR-duty workflows now live outside the product workspace in `PerishCode/duty`; do not restore an SankiWork-local PR-duty tool without a new explicit maintainer decision.
 
 ## Packaging scope
 
@@ -26,22 +26,22 @@ Follow the root `AGENTS.md` first. This file only records module-level boundarie
 ## Orchestration boundary
 
 - Tool tests live in each tool's `tests/` directory, sibling to `src/`; keep `src/` source-only and do not add new `*.test.ts` or `*.test.tsx` files under `src/`.
-- Orchestration layers must consume primitives from `@open-design/sidecar-proto`, `@open-design/sidecar`, and `@open-design/platform`.
+- Orchestration layers must consume primitives from `@sankiwork/sidecar-proto`, `@sankiwork/sidecar`, and `@sankiwork/platform`.
 - Do not hand-build `--od-stamp-*` args, process-scan regexes, runtime tokens, process roles, or duplicate namespace/source args in `tools/dev`, future `tools/pack`, or packaged launchers.
-- Port flags are authoritative inputs: `--daemon-port` and `--web-port`. Internal env vars are `OD_PORT` and `OD_WEB_PORT`; do not introduce `NEXT_PORT`.
+- Port flags are authoritative inputs: `--daemon-port` and `--web-port`. Internal env vars are `SW_PORT` and `SW_WEB_PORT`; do not introduce `NEXT_PORT`.
 
 ## Common tools commands
 
 ```bash
-pnpm --filter @open-design/tools-dev typecheck
-pnpm --filter @open-design/tools-dev build
-pnpm --filter @open-design/tools-pack typecheck
-pnpm --filter @open-design/tools-pack build
-pnpm --filter @open-design/tools-serve typecheck
-pnpm --filter @open-design/tools-serve build
-pnpm --filter @open-design/tools-release typecheck
-pnpm --filter @open-design/tools-release build
-pnpm --filter @open-design/tools-release test
+pnpm --filter @sankiwork/tools-dev typecheck
+pnpm --filter @sankiwork/tools-dev build
+pnpm --filter @sankiwork/tools-pack typecheck
+pnpm --filter @sankiwork/tools-pack build
+pnpm --filter @sankiwork/tools-serve typecheck
+pnpm --filter @sankiwork/tools-serve build
+pnpm --filter @sankiwork/tools-release typecheck
+pnpm --filter @sankiwork/tools-release build
+pnpm --filter @sankiwork/tools-release test
 pnpm tools-dev status --json
 pnpm tools-dev logs --json
 pnpm tools-dev check

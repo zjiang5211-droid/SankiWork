@@ -48,7 +48,7 @@ async function submitChunk(urls: string[]): Promise<IndexNowResult> {
     method: 'POST',
     headers: { 'content-type': 'application/json; charset=utf-8' },
     body: JSON.stringify({
-      host: 'open-design.ai',
+      host: 'sanki-ai.cloud',
       key: INDEXNOW_KEY,
       keyLocation: INDEXNOW_KEY_LOCATION,
       urlList: urls,

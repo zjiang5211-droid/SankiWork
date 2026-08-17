@@ -17,7 +17,7 @@ vi.mock('../../src/analytics/events', async (importOriginal) => {
 import { ChatComposer, type ChatComposerHandle } from '../../src/components/ChatComposer';
 import { I18nProvider } from '../../src/i18n';
 import type { Locale } from '../../src/i18n/types';
-import type { AppliedPluginSnapshot, ProjectMetadata } from '@open-design/contracts';
+import type { AppliedPluginSnapshot, ProjectMetadata } from '@sankiwork/contracts';
 import { composerText, pressEnter, typeAndSettle } from '../helpers/lexical-composer';
 
 const COMMUNITY_PLUGIN = {
@@ -625,11 +625,11 @@ describe('ChatComposer context pickers', () => {
     referenceProjectDetails = {
       'reference-a': {
         project: referenceA,
-        resolvedDir: '/tmp/open-design/reference-a',
+        resolvedDir: '/tmp/sankiwork/reference-a',
       },
       'reference-b': {
         project: referenceB,
-        resolvedDir: '/tmp/open-design/reference-b',
+        resolvedDir: '/tmp/sankiwork/reference-b',
       },
     };
     const onProjectMetadataChange = vi.fn();
@@ -650,8 +650,8 @@ describe('ChatComposer context pickers', () => {
     });
     expect(projectPatchBodies()[0]?.metadata?.linkedDirs).toEqual([
       '/Users/me/work-dir',
-      '/tmp/open-design/reference-a',
-      '/tmp/open-design/reference-b',
+      '/tmp/sankiwork/reference-a',
+      '/tmp/sankiwork/reference-b',
     ]);
     await waitFor(() => {
       const stagedText = screen.getByTestId('staged-contexts').textContent ?? '';
@@ -663,8 +663,8 @@ describe('ChatComposer context pickers', () => {
         metadata: expect.objectContaining({
         linkedDirs: [
           '/Users/me/work-dir',
-          '/tmp/open-design/reference-a',
-          '/tmp/open-design/reference-b',
+          '/tmp/sankiwork/reference-a',
+          '/tmp/sankiwork/reference-b',
         ],
       }),
       }),
@@ -685,7 +685,7 @@ describe('ChatComposer context pickers', () => {
     referenceProjectDetails = {
       'reference-a': {
         project: referenceA,
-        resolvedDir: '/tmp/open-design/missing-reference-a',
+        resolvedDir: '/tmp/sankiwork/missing-reference-a',
       },
     };
     rejectNextProjectPatch = true;

@@ -1,4 +1,4 @@
-import type { WorkspaceContextItem } from '@open-design/contracts';
+import type { WorkspaceContextItem } from '@sankiwork/contracts';
 
 export function workspaceContextLinkedDir(item: WorkspaceContextItem): string | null {
   if (item.kind !== 'local-code' && item.kind !== 'project') return null;

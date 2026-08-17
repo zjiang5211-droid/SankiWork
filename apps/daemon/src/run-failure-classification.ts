@@ -5,8 +5,8 @@ import type {
   TrackingRunFailureStage,
   TrackingRunFailureUserAction,
   TrackingRunTerminalTrigger,
-} from '@open-design/contracts/analytics';
-import { isModelWindowLimitFailure } from '@open-design/contracts';
+} from '@sankiwork/contracts/analytics';
+import { isModelWindowLimitFailure } from '@sankiwork/contracts';
 
 import { classifyAmrAccountFailure } from './integrations/vela-errors.js';
 import { summarizeRunToolProgress } from './run-diagnostics.js';

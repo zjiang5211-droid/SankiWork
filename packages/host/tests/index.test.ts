@@ -5,17 +5,17 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it, vi } from "vitest";
 
 import {
-  OPEN_DESIGN_HOST_GLOBAL,
-  OPEN_DESIGN_HOST_VERSION,
+  SANKIWORK_HOST_GLOBAL,
+  SANKIWORK_HOST_VERSION,
   clearHostBrowserData,
   checkHostUpdater,
-  detectOpenDesignHostClientType,
+  detectSankiWorkHostClientType,
   getHostUpdaterStatus,
-  getOpenDesignHost,
+  getSankiWorkHost,
   installHostUpdater,
-  isOpenDesignHostAvailable,
-  isOpenDesignHostBridge,
-  normalizeOpenDesignHostProjectImportResult,
+  isSankiWorkHostAvailable,
+  isSankiWorkHostBridge,
+  normalizeSankiWorkHostProjectImportResult,
   openHostExternalUrl,
   pickAndImportHostProject,
   printHostPdf,
@@ -26,7 +26,7 @@ import {
   subscribeHostUpdaterOpenDialog,
   subscribeHostUpdater,
 } from "../src/index.js";
-import { createMockOpenDesignHost, installMockOpenDesignHost } from "../src/testing.js";
+import { createMockSankiWorkHost, installMockSankiWorkHost } from "../src/testing.js";
 
 const hostRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 
@@ -39,7 +39,7 @@ function filesUnder(dir: string): string[] {
   });
 }
 
-describe("open-design host contract", () => {
+describe("sankiwork host contract", () => {
   it("stays independent from daemon/web contracts", () => {
     const pkg = JSON.parse(readFileSync(join(hostRoot, "package.json"), "utf8")) as {
       dependencies?: Record<string, string>;
@@ -52,63 +52,63 @@ describe("open-design host contract", () => {
       ...pkg.devDependencies,
       ...pkg.optionalDependencies,
       ...pkg.peerDependencies,
-    }).not.toHaveProperty("@open-design/contracts");
+    }).not.toHaveProperty("@sankiwork/contracts");
 
     const offenders = filesUnder(join(hostRoot, "src")).filter((path) =>
-      readFileSync(path, "utf8").includes("@open-design/contracts"),
+      readFileSync(path, "utf8").includes("@sankiwork/contracts"),
     );
     expect(offenders).toEqual([]);
   });
 
   it("recognizes the canonical bridge shape", () => {
-    const host = createMockOpenDesignHost();
-    expect(isOpenDesignHostBridge(host)).toBe(true);
-    expect(host.version).toBe(OPEN_DESIGN_HOST_VERSION);
+    const host = createMockSankiWorkHost();
+    expect(isSankiWorkHostBridge(host)).toBe(true);
+    expect(host.version).toBe(SANKIWORK_HOST_VERSION);
   });
 
   it("rejects legacy or incomplete bridge shapes", () => {
-    expect(isOpenDesignHostBridge({ version: OPEN_DESIGN_HOST_VERSION })).toBe(false);
-    expect(isOpenDesignHostBridge({ ...createMockOpenDesignHost(), version: 1 })).toBe(false);
-    expect(isOpenDesignHostBridge({
-      ...createMockOpenDesignHost(),
+    expect(isSankiWorkHostBridge({ version: SANKIWORK_HOST_VERSION })).toBe(false);
+    expect(isSankiWorkHostBridge({ ...createMockSankiWorkHost(), version: 1 })).toBe(false);
+    expect(isSankiWorkHostBridge({
+      ...createMockSankiWorkHost(),
       browser: {},
     })).toBe(false);
-    expect(isOpenDesignHostBridge({
-      ...createMockOpenDesignHost(),
+    expect(isSankiWorkHostBridge({
+      ...createMockSankiWorkHost(),
       capture: {},
     })).toBe(false);
-    expect(isOpenDesignHostBridge({
-      ...createMockOpenDesignHost(),
+    expect(isSankiWorkHostBridge({
+      ...createMockSankiWorkHost(),
       shell: { openExternal: async () => ({ ok: true }) },
     })).toBe(false);
-    expect(isOpenDesignHostBridge({
-      ...createMockOpenDesignHost(),
-      updater: { status: async () => createMockOpenDesignHost().updater.status() },
+    expect(isSankiWorkHostBridge({
+      ...createMockSankiWorkHost(),
+      updater: { status: async () => createMockSankiWorkHost().updater.status() },
     })).toBe(false);
-    const { "clear-cache": _clearCache, ...updaterWithoutClearCache } = createMockOpenDesignHost().updater;
-    expect(isOpenDesignHostBridge({
-      ...createMockOpenDesignHost(),
+    const { "clear-cache": _clearCache, ...updaterWithoutClearCache } = createMockSankiWorkHost().updater;
+    expect(isSankiWorkHostBridge({
+      ...createMockSankiWorkHost(),
       updater: updaterWithoutClearCache,
     })).toBe(false);
   });
 
   it("reads the bridge through the package-owned global accessor", () => {
     const scope: Record<string, unknown> = {};
-    scope[OPEN_DESIGN_HOST_GLOBAL] = createMockOpenDesignHost();
-    expect(getOpenDesignHost(scope)?.client.type).toBe("desktop");
-    expect(isOpenDesignHostAvailable(scope)).toBe(true);
-    expect(detectOpenDesignHostClientType(scope)).toBe("desktop");
+    scope[SANKIWORK_HOST_GLOBAL] = createMockSankiWorkHost();
+    expect(getSankiWorkHost(scope)?.client.type).toBe("desktop");
+    expect(isSankiWorkHostAvailable(scope)).toBe(true);
+    expect(detectSankiWorkHostClientType(scope)).toBe("desktop");
   });
 
   it("falls back to web when no host is installed", () => {
-    expect(getOpenDesignHost({})).toBeNull();
-    expect(isOpenDesignHostAvailable({})).toBe(false);
-    expect(detectOpenDesignHostClientType({})).toBe("web");
+    expect(getSankiWorkHost({})).toBeNull();
+    expect(isSankiWorkHostAvailable({})).toBe(false);
+    expect(detectSankiWorkHostClientType({})).toBe("web");
   });
 
   it("wraps host action throws into structured failures", async () => {
     const scope: Record<string, unknown> = {};
-    scope[OPEN_DESIGN_HOST_GLOBAL] = createMockOpenDesignHost({
+    scope[SANKIWORK_HOST_GLOBAL] = createMockSankiWorkHost({
       shell: {
         openPath: vi.fn(async () => {
           throw new Error("failed");
@@ -123,7 +123,7 @@ describe("open-design host contract", () => {
   });
 
   it("normalizes privileged project-import results into host-owned identifiers", () => {
-    const result = normalizeOpenDesignHostProjectImportResult({
+    const result = normalizeSankiWorkHostProjectImportResult({
       ok: true,
       response: {
         project: {
@@ -146,7 +146,7 @@ describe("open-design host contract", () => {
   });
 
   it("accepts imported folders with no detected entry file", () => {
-    const result = normalizeOpenDesignHostProjectImportResult({
+    const result = normalizeSankiWorkHostProjectImportResult({
       ok: true,
       response: {
         project: {
@@ -169,11 +169,11 @@ describe("open-design host contract", () => {
   });
 
   it("preserves canceled and structured failure project-import results", () => {
-    expect(normalizeOpenDesignHostProjectImportResult({ canceled: true, ok: false })).toEqual({
+    expect(normalizeSankiWorkHostProjectImportResult({ canceled: true, ok: false })).toEqual({
       canceled: true,
       ok: false,
     });
-    expect(normalizeOpenDesignHostProjectImportResult({
+    expect(normalizeSankiWorkHostProjectImportResult({
       ok: false,
       reason: "daemon returned HTTP 500",
       details: { code: "boom" },
@@ -185,7 +185,7 @@ describe("open-design host contract", () => {
   });
 
   it("rejects malformed successful project-import results before they reach web callers", () => {
-    expect(normalizeOpenDesignHostProjectImportResult({
+    expect(normalizeSankiWorkHostProjectImportResult({
       ok: true,
       response: {
         project: { id: "project-1" },
@@ -214,7 +214,7 @@ describe("open-design host contract", () => {
     const print = vi.fn(async () => ({ ok: true as const }));
     const setVisible = vi.fn();
     const scope: Record<string, unknown> = {};
-    scope[OPEN_DESIGN_HOST_GLOBAL] = createMockOpenDesignHost({
+    scope[SANKIWORK_HOST_GLOBAL] = createMockSankiWorkHost({
       browser: { clearData },
       shell: { openExternal, openPath },
       project: { pickAndImport },
@@ -252,7 +252,7 @@ describe("open-design host contract", () => {
       },
       channel: "beta" as const,
       currentVersion: "1.0.0-beta.0",
-      downloadPath: "/tmp/Open Design Beta.dmg",
+      downloadPath: "/tmp/SankiWork Beta.dmg",
       enabled: true,
       mode: "package-launcher" as const,
       platform: "darwin",
@@ -269,7 +269,7 @@ describe("open-design host contract", () => {
     const subscribeOpenDialog = vi.fn(() => unsubscribeOpenDialog);
     const setMenuLabels = vi.fn(async () => ({ ok: true as const }));
     const scope: Record<string, unknown> = {};
-    scope[OPEN_DESIGN_HOST_GLOBAL] = createMockOpenDesignHost({
+    scope[SANKIWORK_HOST_GLOBAL] = createMockSankiWorkHost({
       updater: { check, install, quit, setMenuLabels, status: statusFn, subscribe, subscribeOpenDialog },
     });
 
@@ -299,7 +299,7 @@ describe("open-design host contract", () => {
       downloading: "Downloading Update…",
       install: "Install Update…",
       installing: "Installing Update…",
-      restart: "Restart to Update Open Design…",
+      restart: "Restart to Update SankiWork…",
     }, scope)).resolves.toEqual({ ok: true });
     expect(statusFn).toHaveBeenCalledWith({ payload: { source: "mount" } });
     expect(check).toHaveBeenCalledWith({ payload: { source: "button" } });
@@ -312,7 +312,7 @@ describe("open-design host contract", () => {
 
   it("wraps updater action throws into structured failures", async () => {
     const scope: Record<string, unknown> = {};
-    scope[OPEN_DESIGN_HOST_GLOBAL] = createMockOpenDesignHost({
+    scope[SANKIWORK_HOST_GLOBAL] = createMockSankiWorkHost({
       updater: {
         check: vi.fn(async () => {
           throw new Error("updater failed");
@@ -328,9 +328,9 @@ describe("open-design host contract", () => {
 
   it("installs and restores test hosts without exposing callers to the global key", () => {
     const scope: Record<string, unknown> = {};
-    const restore = installMockOpenDesignHost({ scope });
-    expect(getOpenDesignHost(scope)).not.toBeNull();
+    const restore = installMockSankiWorkHost({ scope });
+    expect(getSankiWorkHost(scope)).not.toBeNull();
     restore();
-    expect(getOpenDesignHost(scope)).toBeNull();
+    expect(getSankiWorkHost(scope)).toBeNull();
   });
 });

@@ -1,6 +1,6 @@
 import type { randomUUID } from 'node:crypto';
 
-export type PluginShareAction = 'publish-github' | 'contribute-open-design';
+export type PluginShareAction = 'publish-github' | 'contribute-sankiwork';
 
 export interface PluginShareTask {
   id: string;
@@ -25,8 +25,8 @@ export interface CreatePluginShareTaskInfo {
 export interface CreatePluginShareTaskStoreDeps {
   randomUUID: typeof randomUUID;
   execCommandViaLoginShell: (command: string, args: string[], opts?: Record<string, unknown>) => Promise<ExecCommandResult>;
-  OD_NODE_BIN: string;
-  OD_BIN: string;
+  SW_NODE_BIN: string;
+  SW_BIN: string;
 }
 
 interface ExecCommandResult {
@@ -68,17 +68,17 @@ function pluginShareActionToCli(action: PluginShareAction) {
     return {
       argv: ['plugin', 'publish-repo'],
       title: 'Publish repo',
-      command: 'od plugin publish-repo',
+      command: 'sw plugin publish-repo',
       successMessage: 'Published plugin to GitHub.',
       failureCode: 'publish-repo-failed',
     };
   }
   return {
-    argv: ['plugin', 'open-design-pr'],
-    title: 'Open Design PR',
-    command: 'od plugin open-design-pr',
-    successMessage: 'Opened Open Design PR flow.',
-    failureCode: 'open-design-pr-failed',
+    argv: ['plugin', 'sankiwork-pr'],
+    title: 'SankiWork PR',
+    command: 'sw plugin sankiwork-pr',
+    successMessage: 'Opened SankiWork PR flow.',
+    failureCode: 'sankiwork-pr-failed',
   };
 }
 
@@ -92,7 +92,7 @@ function pluginShareProgressPlan(action: PluginShareAction) {
     ];
   }
   return [
-    'Ensure the Open Design fork exists',
+    'Ensure the SankiWork fork exists',
     'Clone the fork and prepare a branch',
     'Copy the plugin into plugins/community',
     'Push the branch and open the PR form',
@@ -167,8 +167,8 @@ export function createPluginShareTaskStore(deps: CreatePluginShareTaskStoreDeps)
     appendProgress(task, `$ ${share.command} ${task.path}`);
     for (const step of pluginShareProgressPlan(action)) appendProgress(task, `- ${step}`);
     const result = await deps.execCommandViaLoginShell(
-      deps.OD_NODE_BIN,
-      [deps.OD_BIN, ...share.argv, folder, '--json'],
+      deps.SW_NODE_BIN,
+      [deps.SW_BIN, ...share.argv, folder, '--json'],
       { timeout: action === 'publish-github' ? 240_000 : 300_000 },
     );
     let payload: PluginShareCliPayload | null = null;
@@ -194,7 +194,7 @@ export function createPluginShareTaskStore(deps: CreatePluginShareTaskStoreDeps)
     task.status = 'done';
     task.result = {
       message: url
-        ? (action === 'publish-github' ? `Published plugin to ${url}.` : `Opened Open Design PR flow at ${url}.`)
+        ? (action === 'publish-github' ? `Published plugin to ${url}.` : `Opened SankiWork PR flow at ${url}.`)
         : share.successMessage,
       ...(url ? { url } : {}),
       log: stepLog,

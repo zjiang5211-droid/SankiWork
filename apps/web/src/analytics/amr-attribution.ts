@@ -4,7 +4,7 @@ import type {
   TrackingCampaignConversionSource,
   TrackingCampaignId,
   TrackingPageName,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import {
   readOnboardingProfile,
   type OnboardingProfile,
@@ -30,7 +30,7 @@ interface SyncAmrProfileOptions {
   now?: Date;
 }
 
-const AMR_ATTRIBUTION_STORAGE_KEY = 'open-design:amr-entry-attribution:v1';
+const AMR_ATTRIBUTION_STORAGE_KEY = 'sankiwork:amr-entry-attribution:v1';
 const AMR_ATTRIBUTION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 /**
@@ -116,7 +116,7 @@ export function recordAmrEntry(
   const profile = readOnboardingProfile();
   const attribution: AmrEntryAttribution = {
     entryId: `od-amr-${randomId()}`,
-    sourceProduct: 'open_design',
+    sourceProduct: 'sankiwork',
     sourceDetail,
     occurredAt: now.toISOString(),
     ...(options.campaignId ? { campaignId: options.campaignId } : {}),
@@ -219,11 +219,11 @@ export function amrHandoffDeviceId(input: {
   return input.installationId ?? input.resolvedDeviceId ?? null;
 }
 
-// Builds the AMR handoff URL with Open Design attribution params. When
+// Builds the AMR handoff URL with SankiWork attribution params. When
 // `deviceId` is provided it is added as `od_device_id`, so AMR can link the
-// landing/registration directly back to this Open Design install instead of
+// landing/registration directly back to this SankiWork install instead of
 // only through the one-shot entry id. The caller passes it ONLY when the user
-// has consented to metrics: AMR is Open Design's official model service, so
+// has consented to metrics: AMR is SankiWork's official model service, so
 // this is a same-owner cross-product link, but it still respects the telemetry
 // opt-in. Pass null/undefined to omit it.
 export function attributedAmrUrl(
@@ -314,7 +314,7 @@ async function mirrorAmrEntryToAmrAnalytics(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         payload: {
-          pageName: 'open_design',
+          pageName: 'sankiwork',
           sourcePageName,
           area: 'amr_entry',
           element: attribution.sourceDetail,
@@ -340,7 +340,7 @@ async function mirrorAmrEntryToAmrAnalytics(
       }),
     });
   } catch {
-    // AMR analytics mirroring must never block the primary Open Design action.
+    // AMR analytics mirroring must never block the primary SankiWork action.
   }
 }
 
@@ -355,7 +355,7 @@ async function mirrorAmrOnboardingProfileToAmrAnalytics(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         payload: {
-          pageName: 'open_design',
+          pageName: 'sankiwork',
           sourcePageName: 'onboarding',
           area: 'onboarding',
           element: 'about_you_submit',
@@ -383,7 +383,7 @@ async function mirrorAmrOnboardingProfileToAmrAnalytics(
 }
 
 function isValidAmrAttribution(value: Partial<AmrEntryAttribution>): value is AmrEntryAttribution {
-  return value.sourceProduct === 'open_design'
+  return value.sourceProduct === 'sankiwork'
     && typeof value.entryId === 'string'
     && value.entryId.length > 0
     && typeof value.sourceDetail === 'string'

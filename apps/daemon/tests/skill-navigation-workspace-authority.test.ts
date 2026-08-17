@@ -3,7 +3,7 @@ import type http from 'node:http';
 import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { afterEach, describe, expect, it } from 'vitest';
 import { registerStaticResourceRoutes } from '../src/routes/static-resource.js';
 
@@ -94,7 +94,7 @@ async function fixture() {
     DESIGN_SYSTEMS_DIR: path.join(root, 'design-systems'),
     DESIGN_TEMPLATES_DIR: path.join(root, 'design-templates'),
     LIBRARY_DIR: path.join(root, 'library'),
-    OD_BIN: path.join(root, 'od'),
+    SW_BIN: path.join(root, 'od'),
     PROJECT_ROOT: root,
     PROJECTS_DIR: path.join(root, 'projects'),
     PROMPT_TEMPLATES_DIR: path.join(root, 'prompt-templates'),

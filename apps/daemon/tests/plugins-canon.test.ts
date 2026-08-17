@@ -1,4 +1,4 @@
-// Plan §3.CC1 — `od plugin canon <snapshotId>` route + helper.
+// Plan §3.CC1 — `sw plugin canon <snapshotId>` route + helper.
 //
 // The CLI subcommand fetches GET /api/applied-plugins/<id>/canon,
 // which calls renderPluginBlock() (re-exported as pluginPromptBlock
@@ -7,7 +7,7 @@
 // asserts the canonical block shape stays byte-deterministic.
 
 import { describe, expect, it } from 'vitest';
-import type { AppliedPluginSnapshot } from '@open-design/contracts';
+import type { AppliedPluginSnapshot } from '@sankiwork/contracts';
 import { pluginPromptBlock } from '../src/plugins/index.js';
 
 const snapshot = (over: Partial<AppliedPluginSnapshot> = {}): AppliedPluginSnapshot => ({

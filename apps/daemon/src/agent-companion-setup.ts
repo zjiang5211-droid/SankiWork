@@ -4,11 +4,11 @@ import { access, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promise
 import path from 'node:path';
 import { promisify } from 'node:util';
 
-import { createPackageManagerInvocation } from '@open-design/platform';
+import { createPackageManagerInvocation } from '@sankiwork/platform';
 import type {
   AgentCompanionSetupAction,
   AgentCompanionSetupResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import { agentCliEnvForAgent, readAppConfig } from './app-config.js';
 import { detectAgent } from './runtimes/detection.js';
@@ -17,14 +17,14 @@ import { execAgentFile } from './runtimes/invocation.js';
 import { applyAgentLaunchEnv, resolveAgentLaunch } from './runtimes/launch.js';
 import { getAgentDef } from './runtimes/registry.js';
 import {
-  hasOpenDesignProfile,
-  resolveOpenDesignProfileDir,
+  hasSankiWorkProfile,
+  resolveSankiWorkProfileDir,
 } from './runtimes/defs/deepseek-harness.js';
 
 const execFileAsync = promisify(execFile);
 const DSH_AGENT_ID = 'deepseek-harness';
 const DSH_RUNTIME_RESOURCE_DIRECTORY = path.join('agent-runtimes', 'deepseek-harness');
-const DSH_RUNTIME_PACKAGE_NAME = '@open-design/dsh-runtime';
+const DSH_RUNTIME_PACKAGE_NAME = '@sankiwork/dsh-runtime';
 
 type RuntimeManifest = {
   file: string;
@@ -75,7 +75,7 @@ async function materializeDevelopmentBundle(
   if (!(await fileExists(packageJsonPath))) {
     throw new AgentCompanionSetupError(
       'BUNDLED_COMPANION_INVALID',
-      'This Open Design build does not contain the DeepSeek Harness connection component.',
+      'This SankiWork build does not contain the DeepSeek Harness connection component.',
     );
   }
   const destination = path.join(runtimeDataDir, 'runtime-packages', DSH_AGENT_ID);
@@ -151,15 +151,15 @@ async function stageVerifiedBundleInProfile(
   manifest: RuntimeManifest,
   bytes: Buffer,
 ): Promise<string> {
-  const relativeDirectory = '.open-design';
+  const relativeDirectory = '.sankiwork';
   const file = `${manifest.sha256}.tgz`;
-  const profileDirectory = resolveOpenDesignProfileDir(env);
+  const profileDirectory = resolveSankiWorkProfileDir(env);
   const bundleDirectory = path.join(profileDirectory, relativeDirectory);
   await mkdir(bundleDirectory, { recursive: true });
   await writeFile(path.join(bundleDirectory, file), bytes);
   // dsh runs pnpm with the profile directory as cwd. Keeping this spec
   // relative avoids rc.6's Windows shell forwarder splitting an absolute
-  // packaged-app path such as "Open Design" at its spaces.
+  // packaged-app path such as "SankiWork" at its spaces.
   return `${relativeDirectory}/${file}`;
 }
 
@@ -224,12 +224,12 @@ async function installDeepSeekHarnessCompanionOnce(options: {
     spawnEnvForAgent(DSH_AGENT_ID, process.env, configuredEnv),
     launch,
   );
-  const profileWasPresent = hasOpenDesignProfile(childEnv);
+  const profileWasPresent = hasSankiWorkProfile(childEnv);
   const packageSpec = await stageVerifiedBundleInProfile(childEnv, manifest, bytes);
   try {
     await execAgentFile(
       launch.launchPath,
-      ['plugin', '--profile', 'open-design', 'add', packageSpec],
+      ['plugin', '--profile', 'sankiwork', 'add', packageSpec],
       { env: childEnv, timeout: 120_000, maxBuffer: 2 * 1024 * 1024 },
     );
   } catch (error) {
@@ -239,7 +239,7 @@ async function installDeepSeekHarnessCompanionOnce(options: {
     );
     throw new AgentCompanionSetupError(
       'COMPANION_INSTALL_FAILED',
-      'DeepSeek Harness could not install the Open Design connection component. No agent selection was changed.',
+      'DeepSeek Harness could not install the SankiWork connection component. No agent selection was changed.',
     );
   }
 

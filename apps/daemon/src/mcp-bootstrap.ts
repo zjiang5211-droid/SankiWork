@@ -1,12 +1,12 @@
 import { spawn } from "node:child_process";
 import { isAbsolute } from "node:path";
 
-import { requestJsonIpc } from "@open-design/sidecar";
+import { requestJsonIpc } from "@sankiwork/sidecar";
 import {
   SIDECAR_ENV,
   SIDECAR_MESSAGES,
   type DaemonStatusSnapshot,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 
 import { resolveDaemonUrl as resolveDaemonUrlDefault } from "./daemon-url.js";
 
@@ -45,22 +45,22 @@ export function planMcpDaemonBootstrap(
   if (options.explicitDaemonUrl) {
     return { action: "none", reason: "explicit-daemon-url" };
   }
-  const command = options.env.OD_MCP_BOOTSTRAP_COMMAND;
+  const command = options.env.SW_MCP_BOOTSTRAP_COMMAND;
   if (command == null || command.length === 0) {
     return { action: "none", reason: "bootstrap-unavailable" };
   }
   if (!isAbsolute(command)) {
     return { action: "none", reason: "invalid-bootstrap-command" };
   }
-  const args = parseBootstrapArgs(options.env.OD_MCP_BOOTSTRAP_ARGS);
+  const args = parseBootstrapArgs(options.env.SW_MCP_BOOTSTRAP_ARGS);
   if (args == null || !args.includes("--headless")) {
     return { action: "none", reason: "invalid-bootstrap-args" };
   }
   const env = { ...options.env };
   delete env.ELECTRON_RUN_AS_NODE;
-  delete env.OD_DAEMON_URL;
+  delete env.SW_DAEMON_URL;
   for (const key of Object.keys(env)) {
-    if (key.startsWith("OD_SIDECAR_")) delete env[key];
+    if (key.startsWith("SW_SIDECAR_")) delete env[key];
   }
   return { action: "spawn", args, command, env };
 }
@@ -100,15 +100,15 @@ export async function ensureMcpDaemonUrl(
   const timeoutMs = options.timeoutMs ?? DEFAULT_BOOTSTRAP_TIMEOUT_MS;
   const explicitDaemonUrl =
     (flagUrl != null && flagUrl.length > 0)
-    || (env.OD_DAEMON_URL != null && env.OD_DAEMON_URL.length > 0);
+    || (env.SW_DAEMON_URL != null && env.SW_DAEMON_URL.length > 0);
   const registeredBootstrapTarget =
     !explicitDaemonUrl
     && env[SIDECAR_ENV.IPC_PATH] != null
     && env[SIDECAR_ENV.IPC_PATH]!.length > 0
-    && env.OD_MCP_BOOTSTRAP_COMMAND != null
-    && env.OD_MCP_BOOTSTRAP_COMMAND.length > 0
-    && env.OD_MCP_BOOTSTRAP_ARGS != null
-    && env.OD_MCP_BOOTSTRAP_ARGS.length > 0;
+    && env.SW_MCP_BOOTSTRAP_COMMAND != null
+    && env.SW_MCP_BOOTSTRAP_COMMAND.length > 0
+    && env.SW_MCP_BOOTSTRAP_ARGS != null
+    && env.SW_MCP_BOOTSTRAP_ARGS.length > 0;
 
   let daemonUrl: string | null = registeredBootstrapTarget
     ? await discoverTargetDaemonUrl(env, 800)
@@ -127,7 +127,7 @@ export async function ensureMcpDaemonUrl(
   if (plan.action === "none") {
     if (daemonUrl != null) return daemonUrl;
     throw new Error(
-      `The registered Open Design runtime is unavailable and cannot be launched (${plan.reason}).`,
+      `The registered SankiWork runtime is unavailable and cannot be launched (${plan.reason}).`,
     );
   }
 
@@ -145,7 +145,7 @@ export async function ensureMcpDaemonUrl(
     if (daemonUrl != null && await probeDaemon(daemonUrl)) return daemonUrl;
   }
   throw new Error(
-    `Open Design was launched headlessly but its daemon did not become ready within ${timeoutMs}ms.`,
+    `SankiWork was launched headlessly but its daemon did not become ready within ${timeoutMs}ms.`,
   );
 }
 

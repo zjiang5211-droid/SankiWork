@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { useLayoutEffect, useRef, useState, type ReactElement } from 'react';
 import { act, cleanup, createEvent, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import { installMockSankiWorkHost } from '@sankiwork/host/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ANNOTATION_EVENT } from '../../src/components/PreviewDrawOverlay';
 
@@ -103,7 +103,7 @@ import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 /** A team workspace context — the only state that can address the resource hub,
  *  and therefore the only one where the public "Publish file" entry is offered. */
@@ -5794,7 +5794,7 @@ describe('FileViewer SVG artifacts', () => {
         exports: ['html'],
       },
     });
-    const restoreHost = installMockOpenDesignHost();
+    const restoreHost = installMockSankiWorkHost();
     const fetchMock = vi.fn(async (input: unknown) => {
       const url = typeof input === 'string'
         ? input
@@ -5852,7 +5852,7 @@ describe('FileViewer SVG artifacts', () => {
       mime: 'text/html',
       kind: 'html',
     });
-    const restoreHost = installMockOpenDesignHost();
+    const restoreHost = installMockSankiWorkHost();
     const fetchMock = vi.fn(async (input: unknown) => {
       const url = typeof input === 'string'
         ? input

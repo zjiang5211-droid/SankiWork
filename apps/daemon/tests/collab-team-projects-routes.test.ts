@@ -6,7 +6,7 @@ import {
   buildWorkspaceSeatSummary,
   type TeamProject,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { createTeamProjectsLister } from '../src/collab/team-projects.js';
 import type { WorkspaceContextProvider } from '../src/collab/workspace-context.js';
 import {
@@ -174,7 +174,7 @@ describe('GET /api/workspace/projects/team', () => {
     const workspaceContext = teamContextProvider();
     const calls: string[] = [];
     const listTeamProjects = createTeamProjectsLister({
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
       teamProjectCatalog: {
         list: async (workspaceId) => {
           calls.push(workspaceId ?? '');
@@ -285,7 +285,7 @@ describe('GET /api/workspace/projects/team', () => {
   it('returns an empty list off-team without invoking Vela', async () => {
     const workspaceContext = personalContextProvider();
     const listTeamProjects = createTeamProjectsLister({
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
       teamProjectCatalog: {
         list: async () => {
           throw new Error('catalog should not be read off-team');

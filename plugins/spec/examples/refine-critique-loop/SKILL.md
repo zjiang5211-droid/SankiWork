@@ -1,9 +1,9 @@
 ---
 name: refine-critique-loop
-description: Use this plugin when the user has an existing Open Design artifact and wants targeted critique, patching, brand tightening, responsive fixes, or quality improvement without starting over.
+description: Use this plugin when the user has an existing SankiWork artifact and wants targeted critique, patching, brand tightening, responsive fixes, or quality improvement without starting over.
 license: MIT
 metadata:
-  author: open-design-spec
+  author: sankiwork-spec
   version: "0.1.0"
 ---
 

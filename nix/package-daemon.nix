@@ -16,7 +16,7 @@
   gnumake,
   pkg-config,
 }:
-# Builds the @open-design/daemon workspace package — produces $out/bin/od.
+# Builds the @sankiwork/daemon workspace package — produces $out/bin/od.
 #
 # Implementation note on dream2nix:
 #   The flake takes `dream2nix` as an input (per the project's Nix
@@ -43,7 +43,7 @@
 # before the daemon itself; tsc emits each package's dist/, which is what
 # the daemon resolves at runtime via pnpm's symlinked node_modules.
 let
-  pname = "open-design-daemon";
+  pname = "sankiwork-daemon";
   version = (lib.importJSON ../package.json).version;
 
   pnpmDepsHash = (import ./pnpm-deps.nix).daemonHash;
@@ -151,26 +151,26 @@ in
 
     installPhase = ''
       runHook preInstall
-      mkdir -p $out/lib/open-design $out/bin
+      mkdir -p $out/lib/sankiwork $out/bin
 
       # Copy the whole workspace tree — pnpm's symlinks under node_modules
       # resolve sibling packages by relative paths, so we cannot prune to
       # just apps/daemon.
-      cp -r . $out/lib/open-design/
+      cp -r . $out/lib/sankiwork/
 
       # Runtime package exports point at dist/. Keep workspace package
       # manifests for Node resolution and prune source/test/build config files
       # before Nix fixup scans the output tree.
       for target in ${lib.escapeShellArgs workspacePaths}; do
         if [ "$target" = "apps/daemon" ]; then
-          find "$out/lib/open-design/$target" -mindepth 1 -maxdepth 1 \
+          find "$out/lib/sankiwork/$target" -mindepth 1 -maxdepth 1 \
             ! -name dist \
             ! -name bin \
             ! -name node_modules \
             ! -name package.json \
             -exec rm -rf {} +
         else
-          find "$out/lib/open-design/$target" -mindepth 1 -maxdepth 1 \
+          find "$out/lib/sankiwork/$target" -mindepth 1 -maxdepth 1 \
             ! -name dist \
             ! -name node_modules \
             ! -name package.json \
@@ -184,20 +184,20 @@ in
       # the copied node_modules tree so Nix fixup does not fail on broken
       # links.
       rm -f \
-        $out/lib/open-design/node_modules/@open-design/components \
-        $out/lib/open-design/node_modules/@open-design/tools-dev \
-        $out/lib/open-design/node_modules/@open-design/tools-pack \
-        $out/lib/open-design/node_modules/@open-design/tools-release \
-        $out/lib/open-design/node_modules/@open-design/tools-serve \
-        $out/lib/open-design/node_modules/.bin/tools-dev \
-        $out/lib/open-design/node_modules/.bin/tools-pack \
-        $out/lib/open-design/node_modules/.bin/tools-release \
-        $out/lib/open-design/node_modules/.bin/tools-serve
+        $out/lib/sankiwork/node_modules/@sankiwork/components \
+        $out/lib/sankiwork/node_modules/@sankiwork/tools-dev \
+        $out/lib/sankiwork/node_modules/@sankiwork/tools-pack \
+        $out/lib/sankiwork/node_modules/@sankiwork/tools-release \
+        $out/lib/sankiwork/node_modules/@sankiwork/tools-serve \
+        $out/lib/sankiwork/node_modules/.bin/tools-dev \
+        $out/lib/sankiwork/node_modules/.bin/tools-pack \
+        $out/lib/sankiwork/node_modules/.bin/tools-release \
+        $out/lib/sankiwork/node_modules/.bin/tools-serve
 
-      chmod +x $out/lib/open-design/apps/daemon/dist/cli.js
+      chmod +x $out/lib/sankiwork/apps/daemon/dist/cli.js
 
       makeWrapper ${nodejs}/bin/node $out/bin/od \
-        --add-flags $out/lib/open-design/apps/daemon/dist/cli.js \
+        --add-flags $out/lib/sankiwork/apps/daemon/dist/cli.js \
         --set NODE_ENV production
       runHook postInstall
     '';
@@ -208,7 +208,7 @@ in
     };
 
     meta = with lib; {
-      description = "Open Design daemon — local agent orchestrator + API (`od` CLI)";
+      description = "SankiWork daemon — local agent orchestrator + API (`sw` CLI)";
       homepage = "https://github.com/nexu-io/open-design";
       license = licenses.asl20;
       mainProgram = "od";

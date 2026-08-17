@@ -4,7 +4,7 @@ import {
   parseInviteDeeplink,
   resolveWorkspaceInviteError,
   type InviteDeeplinkPayload,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 const PAYLOAD: InviteDeeplinkPayload = {
   workspaceId: 'ws-1',
@@ -16,13 +16,13 @@ const PAYLOAD: InviteDeeplinkPayload = {
 describe('parseInviteDeeplink / buildInviteDeeplink', () => {
   it('round-trips a well-formed continuation deeplink', () => {
     const url = buildInviteDeeplink(PAYLOAD);
-    expect(url.startsWith('opendesign://workspace/invite/continue?')).toBe(true);
+    expect(url.startsWith('sankiwork://workspace/invite/continue?')).toBe(true);
     expect(parseInviteDeeplink(url)).toEqual(PAYLOAD);
   });
 
   it('parses the documented baseline URL shape', () => {
     const url =
-      'opendesign://workspace/invite/continue?workspace_id=ws-1&member_id=mem-9&invite_id=inv-42&nonce=nonce-abc';
+      'sankiwork://workspace/invite/continue?workspace_id=ws-1&member_id=mem-9&invite_id=inv-42&nonce=nonce-abc';
     expect(parseInviteDeeplink(url)).toEqual(PAYLOAD);
   });
 
@@ -33,7 +33,7 @@ describe('parseInviteDeeplink / buildInviteDeeplink', () => {
 
   it('tolerates a trailing slash on the path', () => {
     const url =
-      'opendesign://workspace/invite/continue/?workspace_id=ws-1&member_id=mem-9&invite_id=inv-42&nonce=nonce-abc';
+      'sankiwork://workspace/invite/continue/?workspace_id=ws-1&member_id=mem-9&invite_id=inv-42&nonce=nonce-abc';
     expect(parseInviteDeeplink(url)).toEqual(PAYLOAD);
   });
 
@@ -46,14 +46,14 @@ describe('parseInviteDeeplink / buildInviteDeeplink', () => {
         nonce: 'nonce-abc',
       });
       params.delete(drop);
-      const url = `opendesign://workspace/invite/continue?${params.toString()}`;
+      const url = `sankiwork://workspace/invite/continue?${params.toString()}`;
       expect(parseInviteDeeplink(url)).toBeNull();
     }
   });
 
   it('rejects a required field that is present but empty', () => {
     const url =
-      'opendesign://workspace/invite/continue?workspace_id=ws-1&member_id=&invite_id=inv-42&nonce=nonce-abc';
+      'sankiwork://workspace/invite/continue?workspace_id=ws-1&member_id=&invite_id=inv-42&nonce=nonce-abc';
     expect(parseInviteDeeplink(url)).toBeNull();
   });
 
@@ -65,12 +65,12 @@ describe('parseInviteDeeplink / buildInviteDeeplink', () => {
     ).toBeNull();
     expect(
       parseInviteDeeplink(
-        'opendesign://team/invite/continue?workspace_id=ws-1&member_id=mem-9&invite_id=inv-42&nonce=n',
+        'sankiwork://team/invite/continue?workspace_id=ws-1&member_id=mem-9&invite_id=inv-42&nonce=n',
       ),
     ).toBeNull();
     expect(
       parseInviteDeeplink(
-        'opendesign://workspace/invite/accept?workspace_id=ws-1&member_id=mem-9&invite_id=inv-42&nonce=n',
+        'sankiwork://workspace/invite/accept?workspace_id=ws-1&member_id=mem-9&invite_id=inv-42&nonce=n',
       ),
     ).toBeNull();
   });

@@ -20,7 +20,7 @@ Run this before handoff. P0 items must pass for the output to be usable.
 - [ ] **Three-slot scope.** The set is limited to main, feature, and lifestyle
   unless the user explicitly requested fewer.
 - [ ] **Media dispatcher only.** Generation used
-  `"$OD_NODE_BIN" "$OD_BIN" media generate`; no provider API or custom model
+  `"$SW_NODE_BIN" "$SW_BIN" media generate`; no provider API or custom model
   command was called directly.
 - [ ] **Reference image is passed to generation.** Each media command includes
   `--image <project-relative product reference image>` when the model supports

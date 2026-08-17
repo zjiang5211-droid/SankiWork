@@ -382,10 +382,10 @@ describe('chat run service shutdown', () => {
       analyticsHints: {
         entrySurface: 'external_mcp',
         hostProduct: 'codex_cli',
-        externalPluginId: 'open-design',
+        externalPluginId: 'sankiwork',
         externalPluginVersion: '0.4.0',
         distributionMechanism: 'git_marketplace',
-        publisherClass: 'open_design_first_party',
+        publisherClass: 'sankiwork_first_party',
         attributionQuality: 'session_correlated',
         pluginWorkflowId: '018f6f2e-4444-7444-8444-444444444444',
         logicalRequestDigest: 'a'.repeat(64),
@@ -482,7 +482,7 @@ describe('chat run service shutdown', () => {
 
     it('sends SIGTERM immediately and escalates to SIGKILL after the cancel grace window', async () => {
       vi.useFakeTimers();
-      vi.stubEnv('OD_CHAT_RUN_CANCEL_GRACE_MS', '25');
+      vi.stubEnv('SW_CHAT_RUN_CANCEL_GRACE_MS', '25');
       const runs = createRuns();
       const child = new FakeChildProcess({ closeOn: 'SIGKILL' });
       const run = runs.create();
@@ -563,8 +563,8 @@ describe('chat run service shutdown', () => {
 
     it('waits for a real process group to exit before returning canceled status', async () => {
       if (process.platform === 'win32') return;
-      vi.stubEnv('OD_CHAT_RUN_CANCEL_GRACE_MS', '25');
-      vi.stubEnv('OD_CHAT_RUN_CANCEL_FORCE_WAIT_MS', '250');
+      vi.stubEnv('SW_CHAT_RUN_CANCEL_GRACE_MS', '25');
+      vi.stubEnv('SW_CHAT_RUN_CANCEL_FORCE_WAIT_MS', '250');
       const script = [
         "const { spawn } = require('node:child_process');",
         "process.on('SIGTERM', () => {});",
@@ -1210,10 +1210,10 @@ describe('run event log persistence', () => {
       analyticsHints: {
         entrySurface: 'external_mcp',
         hostProduct: 'codex_unknown',
-        externalPluginId: 'open-design',
+        externalPluginId: 'sankiwork',
         externalPluginVersion: '0.4.0',
         distributionMechanism: 'git_marketplace',
-        publisherClass: 'open_design_first_party',
+        publisherClass: 'sankiwork_first_party',
         attributionQuality: 'session_correlated',
         pluginWorkflowId,
         logicalRequestDigest: 'a'.repeat(64),
@@ -1228,7 +1228,7 @@ describe('run event log persistence', () => {
       id: run.id,
       projectId: 'p1',
       externalPluginAnalytics: {
-        externalPluginId: 'open-design',
+        externalPluginId: 'sankiwork',
         pluginWorkflowId,
         logicalRequestDigest: 'a'.repeat(64),
       },

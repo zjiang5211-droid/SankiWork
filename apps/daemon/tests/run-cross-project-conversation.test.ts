@@ -75,8 +75,8 @@ describe('run cross-project conversation ownership', () => {
 
     // The damage is written synchronously at run-create (pinAssistantMessage
     // OnRunCreate) regardless of whether the agent spawns, so inspect the DB
-    // directly. app.sqlite lives under the isolated test OD_DATA_DIR.
-    const dataDir = process.env.OD_DATA_DIR;
+    // directly. app.sqlite lives under the isolated test SW_DATA_DIR.
+    const dataDir = process.env.SW_DATA_DIR;
     expect(dataDir).toBeTruthy();
     const db = new Database(join(dataDir!, 'app.sqlite'), { readonly: true });
     let landedConversationId: string | null = null;
@@ -128,7 +128,7 @@ describe('run cross-project conversation ownership', () => {
     // promptly (the SSE stream is never opened for a rejected pairing).
     expect(chatResponse.status).toBeGreaterThanOrEqual(400);
 
-    const dataDir = process.env.OD_DATA_DIR;
+    const dataDir = process.env.SW_DATA_DIR;
     expect(dataDir).toBeTruthy();
     const db = new Database(join(dataDir!, 'app.sqlite'), { readonly: true });
     let landedConversationId: string | null = null;

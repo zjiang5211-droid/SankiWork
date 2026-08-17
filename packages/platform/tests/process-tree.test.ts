@@ -51,25 +51,25 @@ describe("collectProcessTreePids", () => {
 describe("processCommandExactlyRunsExecutable", () => {
   it("accepts exact POSIX and quoted Windows executable commands", () => {
     expect(processCommandExactlyRunsExecutable(
-      "/Applications/Open Design.app/Contents/MacOS/Open Design",
-      "/Applications/Open Design.app/Contents/MacOS/Open Design",
+      "/Applications/SankiWork.app/Contents/MacOS/SankiWork",
+      "/Applications/SankiWork.app/Contents/MacOS/SankiWork",
       "darwin",
     )).toBe(true);
     expect(processCommandExactlyRunsExecutable(
-      '"C:\\Program Files\\Open Design\\Open Design.exe"',
-      "C:\\Program Files\\Open Design\\Open Design.exe",
+      '"C:\\Program Files\\SankiWork\\SankiWork.exe"',
+      "C:\\Program Files\\SankiWork\\SankiWork.exe",
       "win32",
     )).toBe(true);
   });
 
   it("rejects arguments and lookalike executable prefixes", () => {
-    const executable = "/Applications/Open Design.app/Contents/MacOS/Open Design";
+    const executable = "/Applications/SankiWork.app/Contents/MacOS/SankiWork";
     expect(processCommandExactlyRunsExecutable(`${executable} --inspect`, executable, "darwin")).toBe(false);
     expect(processCommandExactlyRunsExecutable(`${executable} Helper`, executable, "darwin")).toBe(false);
 
-    const windowsExecutable = "C:\\Program Files\\Open Design\\Open Design.exe";
+    const windowsExecutable = "C:\\Program Files\\SankiWork\\SankiWork.exe";
     expect(processCommandExactlyRunsExecutable(
-      `"${windowsExecutable}" od://project/123`,
+      `"${windowsExecutable}" sankiwork://project/123`,
       windowsExecutable,
       "win32",
     )).toBe(false);
@@ -82,8 +82,8 @@ describe("processCommandExactlyRunsExecutable", () => {
 
   it("compares Windows executable paths case-insensitively", () => {
     expect(processCommandExactlyRunsExecutable(
-      '"C:\\PROGRAM FILES\\OPEN DESIGN\\OPEN DESIGN.EXE"',
-      "c:\\Program Files\\Open Design\\Open Design.exe",
+      '"C:\\PROGRAM FILES\\SANKIWORK\\SANKIWORK.EXE"',
+      "c:\\Program Files\\SankiWork\\SankiWork.exe",
       "win32",
     )).toBe(true);
   });

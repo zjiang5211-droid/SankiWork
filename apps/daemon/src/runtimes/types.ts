@@ -1,7 +1,7 @@
 import type { ExecFileOptions } from 'node:child_process';
-import type { AgentDiagnostic, ModelMetadata } from '@open-design/contracts';
+import type { AgentDiagnostic, ModelMetadata } from '@sankiwork/contracts';
 
-export type { AgentDiagnostic } from '@open-design/contracts';
+export type { AgentDiagnostic } from '@sankiwork/contracts';
 
 export type RuntimeEnv = NodeJS.ProcessEnv | Record<string, string>;
 
@@ -68,7 +68,7 @@ export type RuntimeContext = {
   newSessionId?: string;
   // Per-run plugin isolation for agent subprocesses. External Plugin entry
   // points use this for Local Codex so the child cannot recursively load the
-  // same Codex Plugin and route itself into another Open Design workflow.
+  // same Codex Plugin and route itself into another SankiWork workflow.
   // Operator-wide overrides remain owned by each runtime definition.
   disablePlugins?: boolean;
 };
@@ -97,7 +97,7 @@ export type RuntimeListModels = {
 };
 
 export type RuntimeVersionPolicy = {
-  /** Exact version strings exercised by this Open Design build. */
+  /** Exact version strings exercised by this SankiWork build. */
   supportedVersions: string[];
   /** Fail closed when the version probe fails or returns no usable version. */
   requireVersion: true;
@@ -167,7 +167,7 @@ export type RuntimeAgentDef = {
   supportsImagePaths?: boolean;
   maxPromptArgBytes?: number;
   mcpDiscovery?: string;
-  // How the daemon forwards the user's `.od/mcp-config.json` external MCP
+  // How the daemon forwards the user's `.sankiwork/mcp-config.json` external MCP
   // servers to this runtime at spawn time. The shape of the injection
   // is one of three strategies, each of which the server.ts spawn
   // pipeline knows how to apply:
@@ -244,7 +244,7 @@ export type RuntimeAgentDef = {
   // null or the synthetic 'default'. Used by adapters whose CLI rejects
   // 'default' (e.g. AMR / vela) so an operator can swap the hardcoded
   // fallback without a code change — set the env var on the daemon
-  // process when launching `tools-dev` / `od` daemon. The value must be
+  // process when launching `tools-dev` / `sw` daemon. The value must be
   // present in the daemon's `process.env`; Settings-UI per-agent env
   // values only reach the spawned child and are NOT consulted here.
   defaultModelEnvVar?: string;
@@ -254,13 +254,13 @@ export type RuntimeAgentDef = {
   // during legitimate work (e.g. Copilot's deck-generation thinking
   // phase from #2467) need a longer ceiling than the 10-minute global
   // default. Operators can still override per-process via
-  // `OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS` — that env wins.
+  // `SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS` — that env wins.
   inactivityTimeoutMs?: number;
   // Absolute ceiling between the runtime announcing that it is waiting for
   // model output and the first substantive text/thinking/tool/artifact event.
   // Unlike `inactivityTimeoutMs`, transport heartbeats and status events do not
   // extend this deadline. Disabled when omitted; operators can override via
-  // `OD_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS`.
+  // `SW_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS`.
   firstOutputTimeoutMs?: number;
   // Opt-in compatibility for ACP adapters that terminate a prompt with a
   // `turn_end` session update rather than a session/prompt RPC response.

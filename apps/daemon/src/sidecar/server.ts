@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_ENV,
   SIDECAR_MESSAGES,
   normalizeDaemonSidecarMessage,
@@ -15,14 +15,14 @@ import {
   type DesktopRenderSlidesResult,
   type MintImportTokenResult,
   type SidecarStamp,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import {
   createJsonIpcServer,
   requestJsonIpc,
   resolveAppIpcPath,
   type JsonIpcServerHandle,
   type SidecarRuntimeContext,
-} from "@open-design/sidecar";
+} from "@sankiwork/sidecar";
 
 import { startDaemonRuntime, type StartedDaemonRuntime } from "../daemon-startup.js";
 import {
@@ -124,7 +124,7 @@ export async function startDaemonSidecar(runtime: SidecarRuntimeContext<SidecarS
     desktopPdfExporter: async (input: DesktopExportPdfInput): Promise<DesktopExportPdfResult> => {
       const desktopIpc = resolveAppIpcPath({
         app: APP_KEYS.DESKTOP,
-        contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+        contract: SANKIWORK_SIDECAR_CONTRACT,
         namespace: runtime.namespace,
       });
       return await requestJsonIpc<DesktopExportPdfResult>(
@@ -136,7 +136,7 @@ export async function startDaemonSidecar(runtime: SidecarRuntimeContext<SidecarS
     desktopSlideRenderer: async (input: DesktopRenderSlidesInput): Promise<DesktopRenderSlidesResult> => {
       const desktopIpc = resolveAppIpcPath({
         app: APP_KEYS.DESKTOP,
-        contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+        contract: SANKIWORK_SIDECAR_CONTRACT,
         namespace: runtime.namespace,
       });
       return await requestJsonIpc<DesktopRenderSlidesResult>(
@@ -148,7 +148,7 @@ export async function startDaemonSidecar(runtime: SidecarRuntimeContext<SidecarS
     desktopArtifactExporter: async (input: DesktopExportArtifactInput): Promise<DesktopExportArtifactResult> => {
       const desktopIpc = resolveAppIpcPath({
         app: APP_KEYS.DESKTOP,
-        contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+        contract: SANKIWORK_SIDECAR_CONTRACT,
         namespace: runtime.namespace,
       });
       return await requestJsonIpc<DesktopExportArtifactResult>(
@@ -223,7 +223,7 @@ export async function startDaemonSidecar(runtime: SidecarRuntimeContext<SidecarS
           // Packaged startup binds the web sidecar only after the daemon is
           // ready, so its dynamic port cannot be delivered in the daemon spawn
           // environment. The namespace-scoped control plane registers the
-          // actual URL here as soon as web reports ready. Keep OD_WEB_PORT as
+          // actual URL here as soon as web reports ready. Keep SW_WEB_PORT as
           // the daemon-wide live source because origin validation and MCP
           // install-info already resolve it per request.
           const webPort = Number(new URL(request.input.url).port);

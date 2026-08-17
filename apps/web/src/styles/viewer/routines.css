@@ -2527,7 +2527,7 @@
 }
 /* Hide the dropdown chevron so only the agent mark / model name shows. The
    chevron is RemixIcon's trailing glyph — this app renders Remix glyphs as
-   inline `<svg>` rather than the icon font (packaged `od://` documents can't
+   inline `<svg>` rather than the icon font (packaged `sankiwork://` documents can't
    load `url()` fonts, see RemixIcon.tsx), and that `<svg>` carries an inline
    `display: inline-block` style. Inline styles beat any non-`!important`
    stylesheet rule, so plain `display: none` here was a silent no-op — the

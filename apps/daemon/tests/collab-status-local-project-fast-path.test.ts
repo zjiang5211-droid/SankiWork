@@ -5,7 +5,7 @@ import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { createCollabRuntime, type CollabRuntime } from '../src/collab/runtime.js';
 import type { WorkspaceContextProvider } from '../src/collab/workspace-context.js';
 import { registerCollabSyncRoutes } from '../src/routes/collab-sync.js';

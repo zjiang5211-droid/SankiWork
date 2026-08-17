@@ -14,7 +14,7 @@
  */
 import { useCallback, useRef } from 'react';
 
-const WORKSPACE_TABS_DOCK_EVENT = 'open-design:workspace-tabs:dock-changed';
+const WORKSPACE_TABS_DOCK_EVENT = 'sankiwork:workspace-tabs:dock-changed';
 
 let currentDock: HTMLElement | null = null;
 

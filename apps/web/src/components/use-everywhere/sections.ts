@@ -1,4 +1,4 @@
-// Content fixtures for the "Use Open Design everywhere" guide modal.
+// Content fixtures for the "Use SankiWork everywhere" guide modal.
 //
 // Kept as a plain data module (no React imports) so the same source
 // feeds both the modal UI and the agent-handoff markdown blob in
@@ -40,26 +40,26 @@ export const GUIDE_SECTIONS: GuideSection[] = [
   {
     id: 'overview',
     tabLabel: 'Overview',
-    heading: 'Open Design works wherever your agent works',
+    heading: 'SankiWork works wherever your agent works',
     intro:
-      'Open Design is more than a window — it is a local privileged daemon ' +
-      "(`od`) plus a Skills + Design-Systems + Atoms registry. Once it's " +
+      'SankiWork is more than a window — it is a local privileged daemon ' +
+      "(`sw`) plus a Skills + Design-Systems + Atoms registry. Once it's " +
       'running on your machine, any code agent (Claude Code, Codex, Cursor, ' +
       'OpenCode/openclaw, Hermes, your own script) can drive generations, ' +
       'inspect projects, and produce design artifacts through four ' +
       'interchangeable surfaces.',
     bullets: [
-      'CLI — `od <command>` for headless scripts, CI, and shell automation.',
-      'MCP server — wires Open Design as a Model Context Protocol server so any MCP-capable agent can list skills, run scenarios, and read artifacts.',
+      'CLI — `sw <command>` for headless scripts, CI, and shell automation.',
+      'MCP server — wires SankiWork as a Model Context Protocol server so any MCP-capable agent can list skills, run scenarios, and read artifacts.',
       'HTTP API — `http://127.0.0.1:7456/api/*` REST + SSE endpoints; the same surface the web UI uses.',
-      'Skills — drop-in `SKILL.md` packs (Claude-compatible) that any agent already on your PATH can invoke without Open Design at all.',
+      'Skills — drop-in `SKILL.md` packs (Claude-compatible) that any agent already on your PATH can invoke without SankiWork at all.',
       'Standard artifacts — seed real HTML projects from Skills, bundled default plugins, and community plugin examples before the daemon starts.',
     ],
     snippets: [
       {
         label: 'Start the daemon (and web UI) locally',
         language: 'bash',
-        body: 'pnpm tools-dev\n# or, if `od` is on your PATH (packaged install):\nod --port 7456',
+        body: 'pnpm tools-dev\n# or, if `sw` is on your PATH (packaged install):\nsw --port 7456',
       },
       {
         label: 'Confirm it is reachable',
@@ -70,39 +70,39 @@ export const GUIDE_SECTIONS: GuideSection[] = [
         label: 'Ingest standard artifacts before boot',
         language: 'bash',
         body:
-          'pnpm seed:test-projects --offline --data-dir ./.od \\\n' +
+          'pnpm seed:test-projects --offline --data-dir ./.sankiwork \\\n' +
           '  --decks 2 --webs 2 --default-plugins 3 --community-plugins 3\n' +
-          '# Then start Open Design in the shell you normally use for dev:\n' +
+          '# Then start SankiWork in the shell you normally use for dev:\n' +
           'pnpm tools-dev',
       },
     ],
     footer:
-      'The daemon writes to `./.od/` (project-local) by default. Set ' +
-      '`OD_DATA_DIR=~/.open-design` to share data across projects.',
+      'The daemon writes to `./.sankiwork/` (project-local) by default. Set ' +
+      '`SW_DATA_DIR=~/.sankiwork` to share data across projects.',
   },
   {
     id: 'cli',
-    tabLabel: 'CLI · od',
-    heading: 'Drive Open Design from any shell',
+    tabLabel: 'CLI · sw',
+    heading: 'Drive SankiWork from any shell',
     intro:
-      'The `od` bin ships with the daemon and is the same binary used by ' +
+      'The `sw` bin ships with the daemon and is the same binary used by ' +
       'Claude Code / Codex when they run a generation. Most subcommands are ' +
       'thin clients that POST to the local daemon, so they work the same ' +
       'whether you launched it via `pnpm tools-dev` or as a packaged app.',
     bullets: [
-      '`od` (no args) — boots the daemon and opens the web UI.',
-      '`od media generate ...` — produce image / video / audio bytes through the unified media protocol.',
-      '`od project create` + `od run start` — create a project, send a message, and stream the run.',
-      '`od plugin install <source>` / `od plugin apply <id>` — install and apply community plugins.',
-      '`od skills list` / `od design-systems list` — inspect what is available locally.',
-      '`od status` / `od doctor` — verify daemon health and detect agent CLIs on your PATH.',
+      '`sw` (no args) — boots the daemon and opens the web UI.',
+      '`sw media generate ...` — produce image / video / audio bytes through the unified media protocol.',
+      '`sw project create` + `sw run start` — create a project, send a message, and stream the run.',
+      '`sw plugin install <source>` / `sw plugin apply <id>` — install and apply community plugins.',
+      '`sw skills list` / `sw design-systems list` — inspect what is available locally.',
+      '`sw status` / `sw doctor` — verify daemon health and detect agent CLIs on your PATH.',
     ],
     snippets: [
       {
         label: 'Generate an image (delegates to the configured media provider)',
         language: 'bash',
         body:
-          'od media generate \\\n' +
+          'sw media generate \\\n' +
           '  --surface image \\\n' +
           '  --model gpt-image-1 \\\n' +
           '  --aspect 1:1 \\\n' +
@@ -115,18 +115,18 @@ export const GUIDE_SECTIONS: GuideSection[] = [
         body:
           'corepack enable\n' +
           'pnpm install\n' +
-          'pnpm --filter @open-design/daemon build\n' +
+          'pnpm --filter @sankiwork/daemon build\n' +
           '\n' +
-          'export OD_NODE_BIN="${OD_NODE_BIN:-/opt/homebrew/opt/node@24/bin/node}"\n' +
-          'export OD_BIN="$PWD/apps/daemon/dist/cli.js"\n' +
-          '"$OD_NODE_BIN" "$OD_BIN" daemon start --headless --serve-web --port 7456',
+          'export SW_NODE_BIN="${SW_NODE_BIN:-/opt/homebrew/opt/node@24/bin/node}"\n' +
+          'export SW_BIN="$PWD/apps/daemon/dist/cli.js"\n' +
+          '"$SW_NODE_BIN" "$SW_BIN" daemon start --headless --serve-web --port 7456',
       },
       {
         label: 'Run a design project headlessly and stream events',
         language: 'bash',
         body:
           'DAEMON_URL=${DAEMON_URL:-http://127.0.0.1:7456}\n' +
-          'PROJECT_JSON=$(od project create \\\n' +
+          'PROJECT_JSON=$(sw project create \\\n' +
           '  --name "Investor pitch" \\\n' +
           '  --skill frontend-design \\\n' +
           '  --design-system clean \\\n' +
@@ -135,10 +135,10 @@ export const GUIDE_SECTIONS: GuideSection[] = [
           'PROJECT_ID=$(jq -r \'.project.id\' <<<"$PROJECT_JSON")\n' +
           'CONVERSATION_ID=$(jq -r \'.conversationId\' <<<"$PROJECT_JSON")\n' +
           '\n' +
-          'od run start \\\n' +
+          'sw run start \\\n' +
           '  --project "$PROJECT_ID" \\\n' +
           '  --conversation "$CONVERSATION_ID" \\\n' +
-          '  --plugin od-new-generation \\\n' +
+          '  --plugin sw-new-generation \\\n' +
           '  --agent codex \\\n' +
           "  --message 'A 10-slide investor pitch for a SaaS for design teams' \\\n" +
           '  --daemon-url "$DAEMON_URL" \\\n' +
@@ -148,7 +148,7 @@ export const GUIDE_SECTIONS: GuideSection[] = [
         label: 'Answer a discovery question form from the CLI',
         language: 'bash',
         body:
-          'od run start \\\n' +
+          'sw run start \\\n' +
           '  --project "$PROJECT_ID" \\\n' +
           '  --conversation "$CONVERSATION_ID" \\\n' +
           '  --agent codex \\\n' +
@@ -164,50 +164,50 @@ export const GUIDE_SECTIONS: GuideSection[] = [
         label: 'Verify generated files after the stream completes',
         language: 'bash',
         body:
-          'od files list "$PROJECT_ID" --daemon-url "$DAEMON_URL" --json\n' +
-          'od files read "$PROJECT_ID" index.html --daemon-url "$DAEMON_URL" | head',
+          'sw files list "$PROJECT_ID" --daemon-url "$DAEMON_URL" --json\n' +
+          'sw files read "$PROJECT_ID" index.html --daemon-url "$DAEMON_URL" | head',
       },
       {
         label: 'Inventory locally available skills and design systems',
         language: 'bash',
-        body: 'od skills list --json\nod design-systems list --json',
+        body: 'sw skills list --json\nod design-systems list --json',
       },
       {
         label: 'Check seeded artifacts through the CLI',
         language: 'bash',
         body:
-          'od project list --daemon-url http://127.0.0.1:7456\n' +
-          'od files list <seed-project-id> --daemon-url http://127.0.0.1:7456\n' +
-          'od files read <seed-project-id> index.html --daemon-url http://127.0.0.1:7456 | head',
+          'sw project list --daemon-url http://127.0.0.1:7456\n' +
+          'sw files list <seed-project-id> --daemon-url http://127.0.0.1:7456\n' +
+          'sw files read <seed-project-id> index.html --daemon-url http://127.0.0.1:7456 | head',
       },
       {
         label: 'Verify environment + detected agents (Claude, Codex, Cursor, …)',
         language: 'bash',
-        body: 'od doctor\nod status --json',
+        body: 'sw doctor\nod status --json',
       },
     ],
     footer:
       'All subcommands accept `--daemon-url http://127.0.0.1:<port>` to ' +
       'target a specific running daemon — useful when running a sandboxed ' +
-      'second instance for tests. From a source checkout, replace `od` with ' +
-      '`"$OD_NODE_BIN" "$OD_BIN"` after exporting those variables.',
+      'second instance for tests. From a source checkout, replace `sw` with ' +
+      '`"$SW_NODE_BIN" "$SW_BIN"` after exporting those variables.',
   },
   {
     id: 'mcp',
     tabLabel: 'MCP server',
-    heading: 'Expose Open Design as an MCP server to any coding agent',
+    heading: 'Expose SankiWork as an MCP server to any coding agent',
     intro:
-      'Open Design ships with a Model Context Protocol server (`od mcp`) ' +
+      'SankiWork ships with a Model Context Protocol server (`sw mcp`) ' +
       'that lets any MCP-capable client — Cursor, Claude Code, Antigravity, ' +
-      'VS Code Copilot Chat, openclaw, hermes — discover Open Design tools ' +
+      'VS Code Copilot Chat, openclaw, hermes — discover SankiWork tools ' +
       '(list skills, render previews, generate media, run plugins) without ' +
       'shelling out manually. The daemon publishes a ready-to-paste install ' +
       'snippet via `GET /api/mcp/install-info` for each major client.',
     bullets: [
-      'Stdio transport — no extra port, the client spawns `od mcp` directly.',
+      'Stdio transport — no extra port, the client spawns `sw mcp` directly.',
       'Auto-discovers the live daemon URL via the local IPC status socket when launched as a sidecar.',
       'Falls back to `--daemon-url http://127.0.0.1:<port>` for plain installs so the MCP process always finds a running daemon.',
-      'Pins `OD_DATA_DIR` so the spawned MCP process writes to the same place the daemon already uses (avoids EPERM in packaged macOS app bundles).',
+      'Pins `SW_DATA_DIR` so the spawned MCP process writes to the same place the daemon already uses (avoids EPERM in packaged macOS app bundles).',
     ],
     snippets: [
       {
@@ -216,10 +216,10 @@ export const GUIDE_SECTIONS: GuideSection[] = [
         body:
           '{\n' +
           '  "mcpServers": {\n' +
-          '    "open-design": {\n' +
-          '      "command": "od",\n' +
+          '    "sankiwork": {\n' +
+          '      "command": "sw",\n' +
           '      "args": ["mcp", "--daemon-url", "http://127.0.0.1:7456"],\n' +
-          '      "env": { "OD_DATA_DIR": "~/.open-design" }\n' +
+          '      "env": { "SW_DATA_DIR": "~/.sankiwork" }\n' +
           '    }\n' +
           '  }\n' +
           '}',
@@ -232,11 +232,11 @@ export const GUIDE_SECTIONS: GuideSection[] = [
       {
         label: 'Live-artifacts MCP variant (read & refresh dashboards)',
         language: 'bash',
-        body: 'od mcp live-artifacts',
+        body: 'sw mcp live-artifacts',
       },
     ],
     footer:
-      'In the Open Design app, open Settings → Integrations to copy a ' +
+      'In the SankiWork app, open Settings → Integrations to copy a ' +
       'client-specific install command (Cursor, Claude Code, Antigravity, ' +
       'VS Code) instead of editing JSON by hand.',
   },
@@ -248,7 +248,7 @@ export const GUIDE_SECTIONS: GuideSection[] = [
       'The local daemon serves an HTTP API at `http://127.0.0.1:7456` (port ' +
       'configurable). Every endpoint the web UI calls is also fair game for ' +
       'your scripts. Streaming endpoints (chat turns, project runs) emit ' +
-      'Server-Sent Events with the contract types in `@open-design/contracts`.',
+      'Server-Sent Events with the contract types in `@sankiwork/contracts`.',
     bullets: [
       '`GET /api/health` — daemon liveness.',
       '`GET /api/skills` and `GET /api/design-systems` — available registries.',
@@ -273,7 +273,7 @@ export const GUIDE_SECTIONS: GuideSection[] = [
           '    "name": "Hermes test run",\n' +
           '    "metadata": { "kind": "prototype" },\n' +
           '    "pendingPrompt": "A landing page for an AI agent CLI",\n' +
-          '    "pluginId": "od-new-generation",\n' +
+          '    "pluginId": "sw-new-generation",\n' +
           '    "autoSendFirstMessage": true\n' +
           "  }'",
       },
@@ -287,36 +287,36 @@ export const GUIDE_SECTIONS: GuideSection[] = [
     ],
     footer:
       'Pure TypeScript types for every request/response live in ' +
-      '`@open-design/contracts` — import them in your script for full ' +
+      '`@sankiwork/contracts` — import them in your script for full ' +
       'autocomplete without wiring a generator.',
   },
   {
     id: 'skills',
     tabLabel: 'Skills & headless',
-    heading: 'Drop-in Skills for any agent — even without Open Design running',
+    heading: 'Drop-in Skills for any agent — even without SankiWork running',
     intro:
       'A Skill is a directory with a Claude-compatible `SKILL.md` ' +
-      '(YAML front-matter + body). Open Design extends the format with the ' +
-      '`od:` namespace (`mode`, `preview`, `design_system`, `inputs`, …) so ' +
-      'the same artifact can be used both inside Open Design and by a vanilla ' +
+      '(YAML front-matter + body). SankiWork extends the format with the ' +
+      '`sw:` namespace (`mode`, `preview`, `design_system`, `inputs`, …) so ' +
+      'the same artifact can be used both inside SankiWork and by a vanilla ' +
       'agent like Claude Code, Codex, openclaw, or hermes. Discovery follows ' +
       'a precedence chain so projects can override their own skills.',
     bullets: [
       'Discovery: `./.claude/skills/` → `./skills/` → `~/.claude/skills/` (project wins).',
       'Symlink one skill into multiple projects to share it without copying.',
       'Each skill can declare connectors, atoms, design-system requirements, and a `preview` example output for the gallery.',
-      'Headless: an agent with `od` on its PATH can call `od skills list` then run any skill; the daemon is optional for read-only flows.',
+      'Headless: an agent with `sw` on its PATH can call `sw skills list` then run any skill; the daemon is optional for read-only flows.',
       '`pnpm seed:test-projects` exercises the same artifact shape with default plugin examples and community plugin examples, then stores the resulting `index.html` projects as reusable test data.',
     ],
     snippets: [
       {
-        label: 'Minimal SKILL.md (Claude-compatible front matter + Open Design extras)',
+        label: 'Minimal SKILL.md (Claude-compatible front matter + SankiWork extras)',
         language: 'yaml',
         body:
           '---\n' +
           'name: editorial-pitch-deck\n' +
           'description: A 10-slide editorial pitch deck — Swiss grid + serif headlines\n' +
-          'od:\n' +
+          'sw:\n' +
           '  mode: deck\n' +
           '  preview: ./example.html\n' +
           '  design_system: editorial-mono\n' +
@@ -341,19 +341,19 @@ export const GUIDE_SECTIONS: GuideSection[] = [
       {
         label: 'Headless: list skills the daemon sees right now',
         language: 'bash',
-        body: 'od skills list --json | jq \'.skills[].name\'',
+        body: 'sw skills list --json | jq \'.skills[].name\'',
       },
       {
         label: 'Headless artifact fixture bundle',
         language: 'bash',
         body:
-          'pnpm seed:test-projects --offline --data-dir ./.od \\\n' +
+          'pnpm seed:test-projects --offline --data-dir ./.sankiwork \\\n' +
           '  --decks 2 --webs 2 \\\n' +
           '  --default-plugins 3 --community-plugins 3\n' +
-          '# Shell 1: start Open Design after ingesting.\n' +
+          '# Shell 1: start SankiWork after ingesting.\n' +
           'pnpm tools-dev\n' +
           '# Shell 2: inspect the produced projects.\n' +
-          'od project list --json --daemon-url http://127.0.0.1:7456',
+          'sw project list --json --daemon-url http://127.0.0.1:7456',
       },
     ],
     footer:

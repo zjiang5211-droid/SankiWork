@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const TEMPLATE_ROOT = path.join(SCRIPT_DIR, '..', 'out', 'ja', 'templates');
-const SITE = 'https://open-design.ai';
+const SITE = 'https://sanki-ai.cloud';
 
 assert.ok(existsSync(TEMPLATE_ROOT), 'generated Japanese template routes are missing');
 

@@ -19,7 +19,7 @@ import { BackoffController } from '../lib/backoff';
 //   3. Poll-as-floor. The hook returns `connected`; callers keep their existing
 //      `setInterval` poll but slow it while `connected` is true and run it at
 //      full cadence while false. A client whose SSE never connects (packaged app
-//      on an old shell where the `od://` proxy buffers SSE; SSR/tests with no
+//      on an old shell where the `sankiwork://` proxy buffers SSE; SSR/tests with no
 //      EventSource) simply keeps polling — ZERO regression.
 //
 // Connections are SHARED per URL: every hook that subscribes to the same URL

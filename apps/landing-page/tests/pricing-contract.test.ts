@@ -122,7 +122,7 @@ describe("pricing contract", () => {
     assert.match(page, /now >= campaignStartAt && now < campaignEndAt/);
     assert.match(page, /data-pricing-campaign-surface/);
     assert.match(page, /class="pr-campaign-disclaimer"/);
-    assert.match(campaign, /套餐内的无限制模型额度与免费生成次数，仅可通过Open Design使用/);
+    assert.match(campaign, /套餐内的无限制模型额度与免费生成次数，仅可通过SankiWork使用/);
     assert.match(page, /<p class="pr-foot" set:html=\{footnoteHtml\} \/>\s*<p class="pr-campaign-disclaimer" data-pricing-campaign-surface hidden>\{deepSeekCampaign\.disclaimer\}<\/p>/);
     assert.doesNotMatch(page, /套餐内的<strong>无限制模型额度<\/strong>与<strong>免费生成次数<\/strong>/);
     assert.match(page, /\.pr-campaign-disclaimer\s*\{[\s\S]*font-size:\s*\.82rem;/);
@@ -227,7 +227,7 @@ describe("pricing contract", () => {
     assert.doesNotMatch(page, /\{L\.videoGeneration\}<span class="pr-soon-tag">/);
   });
 
-  it("renders exactly one Open Design Cloud capability section", async () => {
+  it("renders exactly one SankiWork Cloud capability section", async () => {
     const page = await readFile(PRICING_PAGE_PATH, "utf8");
 
     assert.doesNotMatch(
@@ -249,15 +249,15 @@ describe("pricing contract", () => {
   it("uses Vela's stable billing-plan deep link instead of wallet-era aliases", () => {
     assert.equal(
       CLOUD_CONSOLE_URL,
-      "https://open-design.ai/cloud/dashboard?billing=plan",
+      "https://sanki-ai.cloud/cloud/dashboard?billing=plan",
     );
     assert.equal(
       cloudSubscribeUrl("pro", "yearly"),
-      "https://open-design.ai/cloud/dashboard?billing=plan",
+      "https://sanki-ai.cloud/cloud/dashboard?billing=plan",
     );
     assert.equal(
       scopedBillingPlanUrl("workspace-a"),
-      "https://open-design.ai/cloud/dashboard?billing=plan&workspaceId=workspace-a",
+      "https://sanki-ai.cloud/cloud/dashboard?billing=plan&workspaceId=workspace-a",
     );
     assert.equal(scopedBillingPlanUrl("  "), CLOUD_CONSOLE_URL);
   });

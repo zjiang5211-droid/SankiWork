@@ -22,7 +22,7 @@ beforeAll(async () => {
   baseUrl = started.url;
   server = started.server;
   shutdown = started.shutdown;
-  const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+  const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
   for (const [projectId, visibility] of [
     ['snapshot-personal-project', 'personal'],
     ['snapshot-team-project', 'team'],
@@ -80,7 +80,7 @@ function headers(memberId: string, role: 'owner' | 'admin' | 'member' = 'member'
 }
 
 function snapshotId(projectId: string): string {
-  const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+  const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
   const row = db.prepare(
     'SELECT id FROM applied_plugin_snapshots WHERE project_id = ?',
   ).get(projectId) as { id: string };

@@ -10,8 +10,8 @@
  *   {
  *     "head": "<sha>",
  *     "base": "<sha>",
- *     "addedUrls": ["https://open-design.ai/blog/foo/"],
- *     "modifiedUrls": ["https://open-design.ai/blog/bar/"]
+ *     "addedUrls": ["https://sanki-ai.cloud/blog/foo/"],
+ *     "modifiedUrls": ["https://sanki-ai.cloud/blog/bar/"]
  *   }
  *
  * Underscore-prefixed files (e.g. `_topics.md`) are excluded — they

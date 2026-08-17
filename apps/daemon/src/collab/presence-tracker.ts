@@ -9,7 +9,7 @@
 // join/leave fire `onChange` immediately so an active viewer's arrival/exit can
 // be broadcast without waiting for the next poll.
 
-import type { CollabPresenceMember } from '@open-design/contracts';
+import type { CollabPresenceMember } from '@sankiwork/contracts';
 
 // The presence identity shape is the shared contract DTO; keep the local name
 // for existing daemon-side imports.

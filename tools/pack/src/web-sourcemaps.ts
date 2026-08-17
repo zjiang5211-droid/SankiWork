@@ -32,7 +32,7 @@
 // Scope
 // -----
 // Only the packaged (mac/win/linux Electron) path is covered here. The OSS
-// `od` CLI distribution path serves `apps/web/out/_next/static/chunks/`
+// `sw` CLI distribution path serves `apps/web/out/_next/static/chunks/`
 // directly and is not currently used by any release artifact; it can be
 // added later if the OSS audience reports symbolication needs.
 
@@ -40,13 +40,13 @@ import { existsSync } from "node:fs";
 import { readdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 
-import { createPackageManagerInvocation } from "@open-design/platform";
+import { createPackageManagerInvocation } from "@sankiwork/platform";
 
 import type { ToolPackConfig } from "./config.js";
 import { execFileAsync } from "./mac/commands.js";
 
 const POSTHOG_CLI_VERSION = "0.7.11";
-const RELEASE_NAME = "open-design-web";
+const RELEASE_NAME = "sankiwork-web";
 
 export interface WebSourcemapOptions {
   /**
@@ -129,7 +129,7 @@ async function runPnpm(
 ): Promise<void> {
   // `createPackageManagerInvocation` is the same primitive every platform's
   // local `runPnpm` helper goes through, so the linux containerized build
-  // (which sets `OD_TOOLS_PACK_PNPM_BIN` to the standalone pnpm binary it
+  // (which sets `SW_TOOLS_PACK_PNPM_BIN` to the standalone pnpm binary it
   // bootstrapped) picks up the right command here too.
   const invocation = createPackageManagerInvocation(args, process.env);
   await execFileAsync(invocation.command, invocation.args, {

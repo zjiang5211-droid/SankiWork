@@ -36,7 +36,7 @@ async function stubCatalogsEmpty(page: import('@playwright/test').Page) {
   await routeAgents(page, [
     {
       id: 'amr',
-      name: 'Open Design AMR',
+      name: 'SankiWork AMR',
       bin: 'vela',
       available: true,
       version: 'test',
@@ -52,7 +52,7 @@ function amrAgentToggle(settings: Locator): Locator {
 
 test('[P0] after local Sign out, the app returns to Cloud sign-in without clearing setup', async ({ page }) => {
   await stubCatalogsEmpty(page);
-  const root = join(tmpdir(), `open-design-amr-logout-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
+  const root = join(tmpdir(), `sankiwork-amr-logout-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
   const reloginVelaBin = await writeFakeVelaBin(join(root, 'bin-relogin'), {
     failAuthAtPrompt: true,
     requireLoginConfig: false,
@@ -118,7 +118,7 @@ test('[P0] after local Sign out, the app returns to Cloud sign-in without cleari
 
   const settings = await openSettingsDialog(page);
   // Scope to the AMR agent card: the settings sidebar also carries an
-  // "Open Design MCP" nav item, so a surface-wide /Open Design/i now resolves
+  // "SankiWork MCP" nav item, so a surface-wide /SankiWork/i now resolves
   // to that `settings-nav-item` (which has no aria-pressed) instead of the
   // agent card's select button.
   await expect(amrAgentToggle(settings)).toHaveAttribute('aria-pressed', 'true');
@@ -134,12 +134,12 @@ test('[P0] after local Sign out, the app returns to Cloud sign-in without cleari
   // so the saved AMR setup must survive for reauthentication.
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect(
-    page.getByRole('heading', { name: /Sign in to Open Design|登录 Open Design/i }),
+    page.getByRole('heading', { name: /Sign in to SankiWork|登录 SankiWork/i }),
   ).toBeVisible({ timeout: T.long });
-  await expect(page.getByRole('button', { name: /Sign in to Open Design|登录 Open Design/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Sign in to SankiWork|登录 SankiWork/i })).toBeVisible();
   await expect(page.getByTestId('home-hero-input')).toHaveCount(0);
   await expect.poll(() => page.evaluate(() => {
-    const raw = window.localStorage.getItem('open-design:config');
+    const raw = window.localStorage.getItem('sankiwork:config');
     return raw ? JSON.parse(raw) : null;
   })).toMatchObject({
     agentId: 'amr',

@@ -37,20 +37,20 @@ interface ParsedOptions {
 }
 
 const CONNECTORS_USAGE = `Usage:
-  od tools connectors list [--use-case personal_daily_digest] [--format compact]
-  od tools connectors execute --connector <id> --tool <name> --input input.json
-  od tools connectors github-design-context --repo owner/repo [--ref main] [--output context/github/owner-repo.md] [--max-files 48] [--require-connector]
-  od tools connectors local-design-context --path /path/to/project [--output context/local-code/project.md] [--max-files 48]
-  od tools connectors design-system-package-audit --path /path/to/project [--reference-package] [--fail-on-warnings]
+  sw tools connectors list [--use-case personal_daily_digest] [--format compact]
+  sw tools connectors execute --connector <id> --tool <name> --input input.json
+  sw tools connectors github-design-context --repo owner/repo [--ref main] [--output context/github/owner-repo.md] [--max-files 48] [--require-connector]
+  sw tools connectors local-design-context --path /path/to/project [--output context/local-code/project.md] [--max-files 48]
+  sw tools connectors design-system-package-audit --path /path/to/project [--reference-package] [--fail-on-warnings]
 
 Environment:
-  OD_NODE_BIN     Node-compatible runtime for agent wrapper invocations
-  OD_BIN          Open Design CLI script for agent wrapper invocations
-  OD_DAEMON_URL   Daemon base URL injected into agent runs
-  OD_TOOL_TOKEN   Bearer token injected into agent runs
+  SW_NODE_BIN     Node-compatible runtime for agent wrapper invocations
+  SW_BIN          SankiWork CLI script for agent wrapper invocations
+  SW_DAEMON_URL   Daemon base URL injected into agent runs
+  SW_TOOL_TOKEN   Bearer token injected into agent runs
 
 Agent runtime invocation:
-  "$OD_NODE_BIN" "$OD_BIN" tools connectors list --use-case personal_daily_digest --format compact
+  "$SW_NODE_BIN" "$SW_BIN" tools connectors list --use-case personal_daily_digest --format compact
 `;
 
 const GITHUB_CONNECTOR_ID = 'github';
@@ -249,8 +249,8 @@ function parseOptions(args: string[]): ParsedOptions | { error: string } {
 }
 
 function daemonUrl(): URL | { error: string } {
-  const rawUrl = process.env.OD_DAEMON_URL;
-  if (!rawUrl) return { error: 'OD_DAEMON_URL is required' };
+  const rawUrl = process.env.SW_DAEMON_URL;
+  if (!rawUrl) return { error: 'SW_DAEMON_URL is required' };
   try {
     const url = new URL(rawUrl);
     url.pathname = url.pathname.replace(/\/+$/u, '');
@@ -258,13 +258,13 @@ function daemonUrl(): URL | { error: string } {
     url.hash = '';
     return url;
   } catch {
-    return { error: 'OD_DAEMON_URL must be a valid URL' };
+    return { error: 'SW_DAEMON_URL must be a valid URL' };
   }
 }
 
 function toolToken(): string | { error: string } {
-  const token = process.env.OD_TOOL_TOKEN;
-  if (!token) return { error: 'OD_TOOL_TOKEN is required' };
+  const token = process.env.SW_TOOL_TOKEN;
+  if (!token) return { error: 'SW_TOOL_TOKEN is required' };
   return token;
 }
 
@@ -1394,7 +1394,7 @@ function renderGithubDesignEvidenceMarkdown(evidence: GithubDesignEvidence): str
     '## Intake Status',
     '',
     evidence.method === 'connector'
-      ? '- Connector platform fallback was used through `od tools connectors`.'
+      ? '- Connector platform fallback was used through `sw tools connectors`.'
       : '- This-device intake was used through local git or GitHub CLI.',
   ];
   if (evidence.warnings.length > 0) {
@@ -1472,7 +1472,7 @@ function renderLocalDesignEvidenceMarkdown(evidence: LocalDesignEvidence): strin
     '',
     '## Intake Status',
     '',
-    '- Local source folder was read through bounded `od tools connectors local-design-context` intake.',
+    '- Local source folder was read through bounded `sw tools connectors local-design-context` intake.',
   ];
   if (evidence.warnings.length > 0) {
     lines.push('', '## Warnings', '', ...evidence.warnings.map((warning) => `- ${warning}`));
@@ -1665,7 +1665,7 @@ async function runGithubDesignContext(options: ParsedOptions): Promise<ToolCliRe
       const connectorReason = 'error' in baseUrl
         ? baseUrl.error
         : typeof token === 'string'
-          ? 'OD_TOOL_TOKEN is not available'
+          ? 'SW_TOOL_TOKEN is not available'
           : token.error;
       if (options.requireConnector) {
         return fail('Required GitHub repository intake could not read the repository through git, GitHub CLI, or connector', {
@@ -1761,7 +1761,7 @@ export async function auditDesignSystemPackage(
 
   if (options.referencePackage === true) {
     if (!fileSet.has('DESIGN.md')) {
-      addIssue('warning', 'missing_open_design_rules', 'Reference packages may omit DESIGN.md, but generated Open Design packages must include it as the canonical rules file.', 'DESIGN.md');
+      addIssue('warning', 'missing_sankiwork_rules', 'Reference packages may omit DESIGN.md, but generated SankiWork packages must include it as the canonical rules file.', 'DESIGN.md');
     }
   } else {
     requireFile('DESIGN.md', 'Claude Design-style packages need DESIGN.md as the canonical system rules.');

@@ -2,7 +2,7 @@
 //
 // A send from Home must identify its caller to the daemon.
 //
-// REPRODUCTION (Open Design Beta 0.16.2-beta.147, macOS, team workspace): on
+// REPRODUCTION (SankiWork Beta 0.16.2-beta.147, macOS, team workspace): on
 // Home, click the 「水面焦散」 example-prompt card — which seeds the composer with
 // the 「WebGL 体验」 plugin chip, a 「水面焦散」 template chip and the plugin's
 // description as the prompt — then press send. The send fails immediately with
@@ -38,7 +38,7 @@ import {
   buildWorkspaceSeatSummary,
   type PreviewComment,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { ComponentProps, ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 

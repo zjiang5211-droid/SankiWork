@@ -1,4 +1,4 @@
-// Contract test for the `od project handoff` CLI surface. Keeps the
+// Contract test for the `sw project handoff` CLI surface. Keeps the
 // UI / API / CLI triple wired together (AGENTS.md "Capability exposure"):
 // the CLI must drive the same POST /api/projects/:id/handoff endpoint the
 // web UI uses, with --json support and the required conversationId.
@@ -22,7 +22,7 @@ const HANDOFF_RESPONSE = {
   transcriptMessageCount: 6,
 };
 
-describe('od project handoff CLI', () => {
+describe('sw project handoff CLI', () => {
   let stdout: string[];
   let stderr: string[];
   let stdoutSpy: { mockRestore: () => void };
@@ -215,7 +215,7 @@ describe('od project handoff CLI', () => {
     expect(stderr.join('')).toContain('malformed handoff response');
   });
 
-  // Malformed flags must reach this structured fail() path. `od project
+  // Malformed flags must reach this structured fail() path. `sw project
   // handoff` short-circuits to runProjectHandoff before runProject's
   // generic parseFlags, so these are the real entrypoint's behavior.
   it('fails fast on an unknown flag without calling the daemon', async () => {

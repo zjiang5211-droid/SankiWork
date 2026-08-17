@@ -50,7 +50,7 @@
 // `openSync(..., 'wx')` and released in `finally`. A second concurrent
 // export throws `TranscriptExportLockedError`. Stale-lock recovery (e.g.
 // after a crash) is out of scope; the operator can clear the file manually
-// via `rm .od/projects/<id>/.transcript.lock`.
+// via `rm .sankiwork/projects/<id>/.transcript.lock`.
 
 import fs from 'node:fs';
 import { randomBytes } from 'node:crypto';

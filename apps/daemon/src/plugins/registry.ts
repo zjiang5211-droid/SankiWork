@@ -23,14 +23,14 @@ import {
   parseManifest,
   validateSafe,
   type ManifestParseResult,
-} from '@open-design/plugin-runtime';
+} from '@sankiwork/plugin-runtime';
 import type {
   InstalledPluginRecord,
   MarketplaceTrust,
   PluginManifest,
   PluginSourceKind,
   TrustTier,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { defaultTrustForRecord, resolveCapabilitiesGranted } from './trust.js';
 import { getWorkspaceResourceByResourceId } from '../db.js';
 import type Database from 'better-sqlite3';
@@ -51,7 +51,7 @@ export function registryRootsForDataDir(dataDir: string): RegistryRoots {
 }
 
 export function defaultRegistryRoots(): RegistryRoots {
-  return registryRootsForDataDir(path.resolve(process.env.OD_DATA_DIR ?? path.join(process.cwd(), '.od')));
+  return registryRootsForDataDir(path.resolve(process.env.SW_DATA_DIR ?? path.join(process.cwd(), '.sankiwork')));
 }
 
 export interface ScannedPlugin {
@@ -167,7 +167,7 @@ export async function resolvePluginFolder(opts: ResolveOptions): Promise<Resolve
   const sourceKind = opts.sourceKind ?? 'local';
   // Spec §5.3 / trust.ts: a `local` install is implicitly trusted (the user
   // copied the folder here themselves), everything else starts restricted
-  // until an explicit `od plugin trust` flip. Fall back to that source-kind
+  // until an explicit `sw plugin trust` flip. Fall back to that source-kind
   // policy when the caller did not pin a trust tier — previously this was
   // hard-coded to 'restricted', which left local scenario plugins unable to
   // obtain the `pipeline:*` capability they need to run their own pipeline.
@@ -397,7 +397,7 @@ export async function activateWorkspaceTeamPluginIfStillShared(input: {
 /**
  * `workspaceId` is optional and defaults to the pre-workspace-isolation
  * behavior (every live installed plugin, otherwise unfiltered) so every existing caller —
- * `od plugin list`, inventory stats, the bundled-scenario scan in server.ts —
+ * `sw plugin list`, inventory stats, the bundled-scenario scan in server.ts —
  * keeps working unchanged, AS LONG AS THEY OMIT THE ARGUMENT ENTIRELY. A
  * reconciled tombstone is terminal even for these unscoped internal callers.
  * `GET /api/plugins` always passes a second argument (`headerValue(...)`,

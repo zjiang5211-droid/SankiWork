@@ -245,7 +245,7 @@ describe('workspace switching and scoped billing', () => {
         {
           env: {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-switch-control-key',
             VELA_BIN: velaBin,
@@ -307,7 +307,7 @@ describe('workspace switching and scoped billing', () => {
         {
           env: {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-stale-pin-control-key',
           },

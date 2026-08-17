@@ -11,7 +11,7 @@ import { dirname } from "node:path";
 // stand-in for the real cross-daemon collaboration hub (C-lane spec §D4, which
 // will live in the vela repo as `services/collab`). It lets teammates develop
 // the daemon's comment-sync + member-directory features locally without standing
-// up vela + postgres: point OD_COLLAB_CLOUD_URL at this fixture and two daemons
+// up vela + postgres: point SW_COLLAB_CLOUD_URL at this fixture and two daemons
 // converge.
 //
 // It speaks the SAME wire contract the daemon client speaks (bearer auth,
@@ -28,13 +28,13 @@ import { dirname } from "node:path";
 // — §D4.4).
 //
 // PERSISTENCE: when a store path is configured (the `store` option or
-// OD_COLLAB_CLOUD_STORE), the fixture loads its state from that JSON file on
+// SW_COLLAB_CLOUD_STORE), the fixture loads its state from that JSON file on
 // start and rewrites it on every change, so a fixture restart does not lose demo
 // data. Without a store path it stays purely in-memory (keeping tests isolated).
 // Persistence degrades: a read/write failure never blocks a relay request.
 //
 // DISPOSABLE: this whole file is deleted once vela `services/collab` is stood
-// up; the only migration is repointing OD_COLLAB_CLOUD_URL at the real service.
+// up; the only migration is repointing SW_COLLAB_CLOUD_URL at the real service.
 
 export type CollabCloudFixtureOptions = {
   host?: string;
@@ -42,7 +42,7 @@ export type CollabCloudFixtureOptions = {
   token?: string;
   /**
    * Path to a JSON file to persist state to. Defaults to the
-   * `OD_COLLAB_CLOUD_STORE` env var; when neither is set the fixture is
+   * `SW_COLLAB_CLOUD_STORE` env var; when neither is set the fixture is
    * in-memory only.
    */
   store?: string;
@@ -221,7 +221,7 @@ export async function startCollabCloudFixtureServer(
   const host = options.host ?? "127.0.0.1";
   const port = options.port ?? 0;
   const token = options.token ?? DEFAULT_TOKEN;
-  const storePath = options.store ?? process.env.OD_COLLAB_CLOUD_STORE ?? null;
+  const storePath = options.store ?? process.env.SW_COLLAB_CLOUD_STORE ?? null;
 
   // State, isolated per team (§D4.4 authorization scope). Seeded from the store
   // file when one is configured so a fixture restart keeps demo data.

@@ -1,5 +1,5 @@
 import type { ChatMessage } from '../types';
-import type { RunFailureCategory, RunFailureDetail } from '@open-design/contracts';
+import type { RunFailureCategory, RunFailureDetail } from '@sankiwork/contracts';
 
 export interface RunFailureClassificationFields {
   failureCategory?: RunFailureCategory | null;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { WorkspaceDirectoryItem } from '@open-design/contracts';
+import type { WorkspaceDirectoryItem } from '@sankiwork/contracts';
 
 import { createWorkspaceExactAuthorityCache } from '../../src/collab/workspace-exact-authority-cache.js';
 

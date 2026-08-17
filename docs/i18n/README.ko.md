@@ -1,19 +1,19 @@
-<h1 align="center">Open Design: 오픈소스 Claude Design 대안</h1>
+<h1 align="center">SankiWork: 오픈소스 Claude Design 대안</h1>
 
-> ⚡ **[Open Design Cloud — 공식 모델 서비스.](https://open-design.ai/zh/pricing/)** 한 번 충전하면 Open Design 안에서 에이전트 모델과 이미지 모델을 함께 사용할 수 있습니다. 에이전트용 GPT, Claude, DeepSeek와 이미지용 GPT Image 2.0, Seedream 5.0 Pro, Nano Banana 2.0을 지원합니다.
+> ⚡ **[SankiWork Cloud — 공식 모델 서비스.](https://sanki-ai.cloud/zh/pricing/)** 한 번 충전하면 SankiWork 안에서 에이전트 모델과 이미지 모델을 함께 사용할 수 있습니다. 에이전트용 GPT, Claude, DeepSeek와 이미지용 GPT Image 2.0, Seedream 5.0 Pro, Nano Banana 2.0을 지원합니다.
 >
-> 🚀 **[DeepSeek V4 Flash와 V4 Pro를 사용할 수 있습니다.](https://open-design.ai/zh/pricing/)** 프로토타입, 덱, 디자인 시스템, 일상적인 에이전트 작업에 최상급 지능을 활용하세요. Open Design 회원은 앱에서 두 모델을 2주 동안 무제한으로 사용할 수 있습니다.
+> 🚀 **[DeepSeek V4 Flash와 V4 Pro를 사용할 수 있습니다.](https://sanki-ai.cloud/zh/pricing/)** 프로토타입, 덱, 디자인 시스템, 일상적인 에이전트 작업에 최상급 지능을 활용하세요. SankiWork 회원은 앱에서 두 모델을 2주 동안 무제한으로 사용할 수 있습니다.
 >
-> 🧩 **[DeepSeek Harness를 지원합니다.](https://open-design.ai/zh/agents/deepseek-harness-design/)** DeepSeek 공식 `dsh` Agent Harness를 Open Design의 네이티브 런타임으로 연결하고 구조화된 사고, 도구 호출, 모델 검색, 취소, 세션 재개를 사용할 수 있습니다. 생성된 파일은 라이브 미리보기와 전달을 위해 Open Design 워크플로 안에 유지됩니다.
+> 🧩 **[DeepSeek Harness를 지원합니다.](https://sanki-ai.cloud/zh/agents/deepseek-harness-design/)** DeepSeek 공식 `dsh` Agent Harness를 SankiWork의 네이티브 런타임으로 연결하고 구조화된 사고, 도구 호출, 모델 검색, 취소, 세션 재개를 사용할 수 있습니다. 생성된 파일은 라이브 미리보기와 전달을 위해 SankiWork 워크플로 안에 유지됩니다.
 
 <p align="center">
-  <img src="https://repo-assets.open-design.ai/resources/images/hero.png" alt="Open Design hero banner" width="100%" />
+  <img src="https://repo-assets.sanki-ai.cloud/resources/images/hero.png" alt="SankiWork hero banner" width="100%" />
 </p>
 
 <p align="center">
-  <a href="https://open-design.ai/">웹사이트</a> ·
-  <a href="https://open-design.ai/">다운로드</a> ·
-  <a href="https://open-design.ai/cloud/">Open Design Cloud</a> ·
+  <a href="https://sanki-ai.cloud/">웹사이트</a> ·
+  <a href="https://sanki-ai.cloud/">다운로드</a> ·
+  <a href="https://sanki-ai.cloud/cloud/">SankiWork Cloud</a> ·
   <a href="https://discord.gg/mHAjSMV6gz">Discord</a> ·
   <a href="https://x.com/OpenDesignHQ">@OpenDesignHQ 팔로우</a>
 </p>
@@ -29,11 +29,11 @@
 
 ---
 
-## Open Design란
+## SankiWork란
 
 🎨 **로컬 우선의 오픈소스 Claude Design 대안.** &nbsp;🖥️ **macOS와 Windows용 네이티브 데스크톱 앱.** &nbsp;⚡ **100개 이상의 기능 스킬 + 별도 렌더링 템플릿 카탈로그** · ✨ **151개의 디자인 시스템 패키지** · 📦 **바로 쓸 수 있는 277개의 플러그인.** &nbsp;🖼️ **웹 · 데스크톱 · 모바일 프로토타입**, **라이브 대시보드 / 아티팩트**, **덱**, **이미지**, **비디오**, 그리고 **HyperFrames** 모션 그래픽을 생성합니다. 🔒 샌드박스 iframe 미리보기 · HTML / PDF / PPTX / MP4 내보내기. &nbsp;🤖 **25개의 고유한 로컬 CLI 실행 파일에서 실행**되며, BYOK를 통해 OpenAI 호환 엔드포인트라면 무엇이든 사용할 수 있습니다.
 
-Open Design는 그 루프를 에이전트가 읽고 쓸 수 있는 **기능 스킬 · 렌더링 디자인 템플릿 · 디자인 시스템 · 플러그인의 파일시스템**으로 만듭니다.
+SankiWork는 그 루프를 에이전트가 읽고 쓸 수 있는 **기능 스킬 · 렌더링 디자인 템플릿 · 디자인 시스템 · 플러그인의 파일시스템**으로 만듭니다.
 
 또한 이것은 **에이전트 시대를 위한 Figma 대안**입니다 — 캔버스 위에서 픽셀을 밀어 옮기는 대신, 실제 CSS, 실제 폰트, 실제 컴포넌트로 된 단일 페이지 아티팩트를 HTML / PDF / PPTX / MP4로 곧바로 내보내 전달합니다 — 이미 당신의 디자인 시스템으로 빚어졌고, 이미 당신이 매일 쓰는 에이전트 안에서 실행 가능한 상태로요.
 
@@ -42,7 +42,7 @@ Open Design는 그 루프를 에이전트가 읽고 쓸 수 있는 **기능 스�
 
 ## 제품 둘러보기
 
-Open Design의 핵심 워크플로를 빠르게 살펴봅니다. **Home**에서 브리프를 입력하고, **Plugins**에서 재사용 가능한 스킬을 찾고, 브랜드 참고 자료를 **Design System**으로 전환하세요. 그런 다음 프로젝트의 **Studio**에서 프로토타입, 덱, 모바일 앱, 이미지, 문서, HyperFrame을 한곳에서 만들고 다듬을 수 있습니다.
+SankiWork의 핵심 워크플로를 빠르게 살펴봅니다. **Home**에서 브리프를 입력하고, **Plugins**에서 재사용 가능한 스킬을 찾고, 브랜드 참고 자료를 **Design System**으로 전환하세요. 그런 다음 프로젝트의 **Studio**에서 프로토타입, 덱, 모바일 앱, 이미지, 문서, HyperFrame을 한곳에서 만들고 다듬을 수 있습니다.
 
 ### 핵심 페이지
 
@@ -108,32 +108,32 @@ Open Design의 핵심 워크플로를 빠르게 살펴봅니다. **Home**에서 
 
 ## 플랫폼 호환성
 
-> Open Design는 주류 코딩 에이전트가 네이티브로 사용하는 **스킬, CLI, MCP 서버**로 제공됩니다. OD를 설치한 뒤 `od mcp install <agent>` 한 번이면 MCP 서버가 해당 에이전트의 설정에 연결되고, 어떤 에이전트 안에서든 동일한 도구를 호출할 수 있습니다.
+> SankiWork는 주류 코딩 에이전트가 네이티브로 사용하는 **스킬, CLI, MCP 서버**로 제공됩니다. OD를 설치한 뒤 `sw mcp install <agent>` 한 번이면 MCP 서버가 해당 에이전트의 설정에 연결되고, 어떤 에이전트 안에서든 동일한 도구를 호출할 수 있습니다.
 
 | 코딩 에이전트 / 플랫폼 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 상태 &nbsp;&nbsp; | 한 줄 MCP 서버 설치 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
 |---|:---:|---|
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | ✅ 지원됨 | `od mcp install claude` |
-| [Codex CLI](https://github.com/openai/codex) | ✅ 지원됨 | `od mcp install codex` |
-| [DeepSeek Reasonix](https://github.com/esengine/DeepSeek-Reasonix) | ✅ 지원됨 | `od mcp install reasonix` |
-| [Raven](https://github.com/EverMind-AI/Raven) | ✅ 지원됨 | `od mcp install raven` |
-| [Cursor](https://www.cursor.com/cli) | ✅ 지원됨 | `od mcp install cursor` |
-| [VS Code + GitHub Copilot](https://github.com/features/copilot) | ✅ 지원됨 | `od mcp install copilot` |
-| [GitHub Copilot CLI](https://github.com/features/copilot/cli) | ✅ 지원됨 | `od mcp install copilot` |
-| [OpenCode](https://opencode.ai/) | ✅ 지원됨 | `od mcp install opencode` |
-| [OpenClaw](https://github.com/openclaw/openclaw) | ✅ 지원됨 | `od mcp install openclaw` |
-| [Antigravity](https://antigravity.google) | ✅ 지원됨 | `od mcp install antigravity` |
-| [Cline](https://github.com/cline/cline) | ✅ 지원됨 | `od mcp install cline` |
-| [Trae](https://www.trae.ai/) | ✅ 지원됨 | `od mcp install trae` |
-| [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) | ✅ 지원됨 | `od mcp install kimi` |
-| [Kiro](https://kiro.dev) | ✅ 지원됨 | `od mcp install kiro` |
-| [Pi Agent](https://github.com/badlogic/pi-mono) | ✅ 지원됨 | `od mcp install pi` |
-| [Mistral Vibe CLI](https://github.com/mistralai/mistral-vibe) | ✅ 지원됨 | `od mcp install vibe` |
-| [Hermes Agent](https://github.com/nousresearch/hermes-agent) | ✅ 지원됨 | `od mcp install hermes` |
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | ✅ 지원됨 | `sw mcp install claude` |
+| [Codex CLI](https://github.com/openai/codex) | ✅ 지원됨 | `sw mcp install codex` |
+| [DeepSeek Reasonix](https://github.com/esengine/DeepSeek-Reasonix) | ✅ 지원됨 | `sw mcp install reasonix` |
+| [Raven](https://github.com/EverMind-AI/Raven) | ✅ 지원됨 | `sw mcp install raven` |
+| [Cursor](https://www.cursor.com/cli) | ✅ 지원됨 | `sw mcp install cursor` |
+| [VS Code + GitHub Copilot](https://github.com/features/copilot) | ✅ 지원됨 | `sw mcp install copilot` |
+| [GitHub Copilot CLI](https://github.com/features/copilot/cli) | ✅ 지원됨 | `sw mcp install copilot` |
+| [OpenCode](https://opencode.ai/) | ✅ 지원됨 | `sw mcp install opencode` |
+| [OpenClaw](https://github.com/openclaw/openclaw) | ✅ 지원됨 | `sw mcp install openclaw` |
+| [Antigravity](https://antigravity.google) | ✅ 지원됨 | `sw mcp install antigravity` |
+| [Cline](https://github.com/cline/cline) | ✅ 지원됨 | `sw mcp install cline` |
+| [Trae](https://www.trae.ai/) | ✅ 지원됨 | `sw mcp install trae` |
+| [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) | ✅ 지원됨 | `sw mcp install kimi` |
+| [Kiro](https://kiro.dev) | ✅ 지원됨 | `sw mcp install kiro` |
+| [Pi Agent](https://github.com/badlogic/pi-mono) | ✅ 지원됨 | `sw mcp install pi` |
+| [Mistral Vibe CLI](https://github.com/mistralai/mistral-vibe) | ✅ 지원됨 | `sw mcp install vibe` |
+| [Hermes Agent](https://github.com/nousresearch/hermes-agent) | ✅ 지원됨 | `sw mcp install hermes` |
 
-`od mcp install <agent> --print`로 드라이런 미리보기 · `--uninstall`로 제거 · 전체 목록은 `od mcp install --help`로 확인.
+`sw mcp install <agent> --print`로 드라이런 미리보기 · `--uninstall`로 제거 · 전체 목록은 `sw mcp install --help`로 확인.
 
 <p align="center">
-  <img src="https://repo-assets.open-design.ai/resources/images/coding-agents.png" alt="The 25 coding-agent CLIs Open Design supports — Claude Code · Codex · OpenCode · Hermes · Antigravity · Vela · Grok Build · Kimi · Cursor Agent · Qwen · Qoder · GitHub Copilot · Pi · Kiro · Kilo · Mistral Vibe · DeepSeek · Reasonix · Aider · Amp · CodeBuddy · Mimo · AtomCode · Devin · Trae" width="100%" />
+  <img src="https://repo-assets.sanki-ai.cloud/resources/images/coding-agents.png" alt="The 25 coding-agent CLIs SankiWork supports — Claude Code · Codex · OpenCode · Hermes · Antigravity · Vela · Grok Build · Kimi · Cursor Agent · Qwen · Qoder · GitHub Copilot · Pi · Kiro · Kilo · Mistral Vibe · DeepSeek · Reasonix · Aider · Amp · CodeBuddy · Mimo · AtomCode · Devin · Trae" width="100%" />
 </p>
 
 **CLI를 설치하지 않았다고요?** `POST /api/proxy/{anthropic,openai,azure,google,ollama,senseaudio}/stream`의 BYOK 프록시가 동일한 루프(프로세스 스폰 없이)를 제공합니다 — `baseUrl` + `apiKey` + `model`을 붙여넣기만 하면 되며, OpenAI, Anthropic, Azure OpenAI, Google Gemini, Ollama, LM Studio, vLLM 또는 OpenAI 호환 엔드포인트라면 무엇이든 지원합니다. 대상별 SSRF 보호가 데몬 경계에서 내부 IP / 링크 로컬 / CGNAT를 차단합니다.
@@ -223,7 +223,7 @@ Runtime 정의는 [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runti
 
 ### 5 · 비디오 & HyperFrames — 에이전트 네이티브 모션 그래픽
 
-**[HyperFrames][hyperframes]**는 HeyGen의 오픈소스, 에이전트 네이티브 비디오 프레임워크로, Open Design에 일급 시민으로 통합되어 있습니다. 에이전트가 HTML + CSS + GSAP를 작성하면 HyperFrames가 헤드리스 Chrome + FFmpeg를 통해 결정론적 MP4로 렌더링합니다. 시네마틱 t2v / i2v를 위한 **Seedance 2.0**, 라우팅된 모델 변형을 위한 **Veo 3 / Sora 2 / Kling 2**, 오디오 레이어를 위한 **Suno v5 / Lyria 2**와 함께 사용하세요.
+**[HyperFrames][hyperframes]**는 HeyGen의 오픈소스, 에이전트 네이티브 비디오 프레임워크로, SankiWork에 일급 시민으로 통합되어 있습니다. 에이전트가 HTML + CSS + GSAP를 작성하면 HyperFrames가 헤드리스 Chrome + FFmpeg를 통해 결정론적 MP4로 렌더링합니다. 시네마틱 t2v / i2v를 위한 **Seedance 2.0**, 라우팅된 모델 변형을 위한 **Veo 3 / Sora 2 / Kling 2**, 오디오 레이어를 위한 **Suno v5 / Lyria 2**와 함께 사용하세요.
 
 <table>
 <tr>
@@ -246,11 +246,11 @@ Runtime 정의는 [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runti
 
 ---
 
-## 왜 Open Design인가
+## 왜 SankiWork인가
 
 > **2026년 4월, Anthropic은 Claude Design을 출시했습니다 — LLM이 산문 작성을 멈추고 디자인 아티팩트를 직접 전달하기 시작한 최초의 순간이었습니다.** 그것은 입소문을 탔습니다. 그러나 그것은 닫힌 소스로, 유료 전용으로, 클라우드 전용으로 머물렀고, Anthropic의 모델, Anthropic의 스킬, Anthropic의 표면에 묶여 있었습니다. 결제도, 셀프 호스트도, Vercel 배포도, 자신의 에이전트로 교체하는 것도 없었습니다.
 
-Open Design(OD)는 그 오픈소스 대안입니다. 같은 루프, 같은 아티팩트 우선의 사고방식, 잠금은 전혀 없이:
+SankiWork(OD)는 그 오픈소스 대안입니다. 같은 루프, 같은 아티팩트 우선의 사고방식, 잠금은 전혀 없이:
 
 - 🤖 **에이전트 네이티브, 모델에 구애받지 않음.** 우리는 에이전트를 제공하지 않습니다. 이미 당신의 `PATH`에 있는 `claude` / `codex` / `cursor-agent` / `copilot` / `hermes` / `kimi`가 디자인 엔진입니다. 한 번의 클릭으로 교체하세요.
 - 🧠 **기본부터 브랜드급.** 모든 렌더는 활성 패키지의 `DESIGN.md`를 핵심 브랜드 계약으로 읽습니다. 151개 디자인 시스템 패키지가 제공되며, 레거시 패키지는 `DESIGN.md`만 포함할 수 있고 새 패키지는 `manifest.json`, `tokens.css`, 컴포넌트, 에셋, 출처 정보를 더할 수 있습니다. 폴더 하나만 넣으면 피커가 찾아냅니다.
@@ -261,7 +261,7 @@ Open Design(OD)는 그 오픈소스 대안입니다. 같은 루프, 같은 아�
 
 ### 비교
 
-| | Claude Design | Figma | Lovable / v0 / Bolt | **Open Design** |
+| | Claude Design | Figma | Lovable / v0 / Bolt | **SankiWork** |
 |---|---|---|---|---|
 | 오픈소스 | ❌ | ❌ | ❌ | **✅ Apache-2.0** |
 | 셀프 호스트 / 데스크톱 | ❌ | ❌ | ❌ | **✅ macOS + Windows + Docker** |
@@ -278,21 +278,21 @@ Open Design(OD)는 그 오픈소스 대안입니다. 같은 루프, 같은 아�
 
 ### 🖥️ 데스크톱 앱 다운로드 (권장 — 설정 불필요)
 
-Open Design를 사용하는 가장 빠른 방법입니다. Node도, pnpm도, 클론도 필요 없습니다.
+SankiWork를 사용하는 가장 빠른 방법입니다. Node도, pnpm도, 클론도 필요 없습니다.
 
-- **macOS** (Apple Silicon · Intel x64) → [**open-design.ai**](https://open-design.ai/) 또는 [GitHub Releases](https://github.com/nexu-io/open-design/releases)
-- **Windows** (x64) → [**open-design.ai**](https://open-design.ai/) 또는 [GitHub Releases](https://github.com/nexu-io/open-design/releases)
+- **macOS** (Apple Silicon · Intel x64) → [**sanki-ai.cloud**](https://sanki-ai.cloud/) 또는 [GitHub Releases](https://github.com/nexu-io/open-design/releases)
+- **Windows** (x64) → [**sanki-ai.cloud**](https://sanki-ai.cloud/) 또는 [GitHub Releases](https://github.com/nexu-io/open-design/releases)
 - **Linux** (AppImage, 선택적 레인) → [GitHub Releases](https://github.com/nexu-io/open-design/releases)
 
 설치 후: 앱이 당신의 `PATH`에 있는 모든 코딩 에이전트 CLI를 자동으로 감지하고, 100개 이상의 기능 스킬과 별도 렌더링 템플릿 카탈로그, 151개의 디자인 시스템 패키지를 불러오며, entry view에서 브리프를 입력할 수 있게 합니다.
 
 ### 🤖 코딩 에이전트에 설치 (UI 없이)
 
-GUI를 한 번도 열지 않고도 Open Design를 사용할 수 있습니다 — Claude Code, Codex, Cursor, Copilot, OpenClaw, Antigravity, Hermes, Kimi 등의 내부에서 스킬, 플러그인, 또는 MCP 서버로 호출하세요.
+GUI를 한 번도 열지 않고도 SankiWork를 사용할 수 있습니다 — Claude Code, Codex, Cursor, Copilot, OpenClaw, Antigravity, Hermes, Kimi 등의 내부에서 스킬, 플러그인, 또는 MCP 서버로 호출하세요.
 
 ```bash
 # One-line install into the agent you're using:
-od mcp install <agent>
+sw mcp install <agent>
 # <agent> = claude | codex | reasonix | raven | cursor | copilot | openclaw | antigravity
 #         | pi | vibe | hermes | cline | kimi | kiro | trae | opencode
 ```
@@ -300,18 +300,18 @@ od mcp install <agent>
 그런 다음 에이전트 안에서:
 
 ```
-> Use open-design to generate a landing page with the Linear design system
+> Use sankiwork to generate a landing page with the Linear design system
 ```
 
-파일시스템 기반 로컬 CLI 실행에서 에이전트는 선택한 기능 스킬 또는 디자인 템플릿과 `DESIGN.md`를 합성해 정규 프로젝트 파일을 쓰고 Open Design이 이를 미리 봅니다. 파일 도구가 없는 BYOK/API 실행은 완전한 `<artifact>` 블록 하나를 반환합니다.
+파일시스템 기반 로컬 CLI 실행에서 에이전트는 선택한 기능 스킬 또는 디자인 템플릿과 `DESIGN.md`를 합성해 정규 프로젝트 파일을 쓰고 SankiWork이 이를 미리 봅니다. 파일 도구가 없는 BYOK/API 실행은 완전한 `<artifact>` 블록 하나를 반환합니다.
 
 ### 🐳 Docker로 실행
 
 ```bash
 git clone https://github.com/nexu-io/open-design.git
-cd open-design/deploy
+cd sankiwork/deploy
 cp .env.example .env
-echo "OD_API_TOKEN=$(openssl rand -hex 32)" >> .env
+echo "SW_API_TOKEN=$(openssl rand -hex 32)" >> .env
 docker compose up -d
 # open http://localhost:7456
 ```
@@ -320,13 +320,13 @@ docker compose up -d
 
 [![Deploy on Sealos](https://sealos.io/Deploy-on-Sealos.svg)](https://sealos.io/products/app-store/open-design/)
 
-Sealos App Store 템플릿은 게시된 Open Design Docker 이미지를 영구 워크스페이스 스토리지 및 공개 프록시의 Basic Auth와 함께 실행합니다. 사용자 지정 공개 또는 공유 Docker 배포에서는 [`deploy/README.md`](../../deploy/README.md#local-compose)의 리버스 프록시와 `OPEN_DESIGN_ALLOWED_ORIGINS` 안내를 따르세요.
+Sealos App Store 템플릿은 게시된 SankiWork Docker 이미지를 영구 워크스페이스 스토리지 및 공개 프록시의 Basic Auth와 함께 실행합니다. 사용자 지정 공개 또는 공유 Docker 배포에서는 [`deploy/README.md`](../../deploy/README.md#local-compose)의 리버스 프록시와 `SANKIWORK_ALLOWED_ORIGINS` 안내를 따르세요.
 
 ### 🧑‍💻 소스에서 실행
 
 ```bash
 git clone https://github.com/nexu-io/open-design.git
-cd open-design
+cd sankiwork
 corepack enable && pnpm install
 pnpm tools-dev run web
 ```
@@ -343,31 +343,31 @@ Node `~24`, pnpm `10.33.x`. Windows 사용자는 [`docs/windows-troubleshooting.
 2. **디자이너(또는 에이전트)가 방향을 확정합니다.** 브랜드가 없나요? 엄선된 5가지 방향 중에서 고르세요. 브랜드가 있나요? 스크린샷 / URL을 넣으면 → 에이전트가 GitHub에 연결하고, Figma를 가져오고, 재사용 가능한 `DESIGN.md`로 코드화합니다.
 3. **에이전트가 첫 결과물을 만듭니다.** 파일시스템 기반 CLI 실행은 정규 파일을 쓰고, 파일 도구가 없는 BYOK/API 실행은 완전한 `<artifact>` 블록을 반환합니다.
 4. **엔지니어링으로 넘깁니다.** 아티팩트는 실제 HTML/CSS입니다 — Cursor, Codex, 또는 Claude Code에 넣어 코드로 계속 빌드하세요. 또는 PPTX / PDF / MP4를 마케팅으로 곧바로 내보내세요.
-5. **Open Design는 사용할수록 더 똑똑해집니다.** 당신의 스크린샷, 폰트, 팔레트, 확정된 아티팩트가 다음 세션의 기본값으로 쌓입니다. 재작업도 줄고, 표류도 줄어듭니다.
+5. **SankiWork는 사용할수록 더 똑똑해집니다.** 당신의 스크린샷, 폰트, 팔레트, 확정된 아티팩트가 다음 세션의 기본값으로 쌓입니다. 재작업도 줄고, 표류도 줄어듭니다.
 
 ---
 
-## 코딩 에이전트에서 Open Design 사용하기
+## 코딩 에이전트에서 SankiWork 사용하기
 
-Open Design는 **stdio MCP 서버**와 에이전트별 **설치 스크립트**를 제공합니다. 다른 저장소에 있는 MCP 호환 에이전트라면 무엇이든 당신의 로컬 Open Design 프로젝트에서 파일을 직접 읽을 수 있습니다 — 토큰 CSS, JSX 컴포넌트, entry HTML — 이름으로 질의 가능한 구조화된 API로요. 에이전트는 언제나 오래된 내보내기가 아니라 살아 있는 파일을 봅니다.
+SankiWork는 **stdio MCP 서버**와 에이전트별 **설치 스크립트**를 제공합니다. 다른 저장소에 있는 MCP 호환 에이전트라면 무엇이든 당신의 로컬 SankiWork 프로젝트에서 파일을 직접 읽을 수 있습니다 — 토큰 CSS, JSX 컴포넌트, entry HTML — 이름으로 질의 가능한 구조화된 API로요. 에이전트는 언제나 오래된 내보내기가 아니라 살아 있는 파일을 봅니다.
 
 ```bash
 # One-line install (16+ CLIs supported):
-od mcp install <agent>
+sw mcp install <agent>
 
 # Then the agent can:
-od project list --json
-od files list <project-id> --json
-od files read <project-id> <relative-path>
-od plugin list --json
-od skills list --json
+sw project list --json
+sw files list <project-id> --json
+sw files read <project-id> <relative-path>
+sw plugin list --json
+sw skills list --json
 ```
 
 **왜 MCP인가?** 반복할 때마다 zip을 내보내고 다시 첨부하는 일은 흐름을 끊습니다. MCP는 디자인 소스를 직접 노출합니다 — 에이전트는 언제나 살아 있는 파일을 봅니다.
 
 **처음부터 시작하는 에이전트라면,** 설치 프로그램이 `~/.config/<agent>/open-design.json`(또는 플랫폼에 해당하는 경로)과 복사해 붙여넣을 수 있는 MCP 스니펫을 배치합니다. Cursor는 원클릭 딥링크를, Claude Code는 `claude mcp add-json` 한 줄을, 그 외 모든 에이전트는 각자의 설정이 기대하는 스키마의 JSON을 받습니다. 전체 에이전트별 흐름 → 데스크톱 앱의 **Settings → MCP server**, 또는 [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
 
-**보안 모델.** 기본은 읽기 전용이며, 데몬은 `127.0.0.1`에 바인딩되고, SSRF는 프록시 경계에서 차단됩니다. LAN 노출에는 명시적인 `OD_BIND_HOST`와 `OD_ALLOWED_ORIGINS`가 필요합니다. 커넥터 자격 증명과 라이브 아티팩트 미리보기 경로는 어떤 경우에도 루프백 전용으로 유지됩니다.
+**보안 모델.** 기본은 읽기 전용이며, 데몬은 `127.0.0.1`에 바인딩되고, SSRF는 프록시 경계에서 차단됩니다. LAN 노출에는 명시적인 `SW_BIND_HOST`와 `SW_ALLOWED_ORIGINS`가 필요합니다. 커넥터 자격 증명과 라이브 아티팩트 미리보기 경로는 어떤 경우에도 루프백 전용으로 유지됩니다.
 
 ---
 
@@ -461,27 +461,27 @@ od skills list --json
 
 ### 플러그인 사용하기
 
-플러그인은 **웹 UI**와 **`od` CLI**에서 완전히 동등하게 동작합니다 — 동일한 `/api/plugins` 엔드포인트를 쓰니, 맞는 쪽을 고르세요.
+플러그인은 **웹 UI**와 **`sw` CLI**에서 완전히 동등하게 동작합니다 — 동일한 `/api/plugins` 엔드포인트를 쓰니, 맞는 쪽을 고르세요.
 
 **데스크톱 / 웹 앱에서:** **Plugin** 페이지를 열어 마켓플레이스를 둘러보고 **Install**을 클릭하세요. 프로젝트의 Studio 안에서 플러그인은 클릭하여 적용하는 컴포저 칩으로 나타납니다(선언된 입력과 함께).
 
 **커맨드 라인에서**(UI 없이 실행됩니다 — 외부 에이전트가 사용하는 경로입니다):
 
 ```bash
-od plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
-od plugin search "landing page"      # search by keyword
-od plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-od plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-od plugin apply od-default --input brief="a one-page pitch for our seed round"
-od plugin upgrade od-default         # upgrade
-od plugin uninstall od-default       # uninstall
+sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
+sw plugin search "landing page"      # search by keyword
+sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply od-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade od-default         # upgrade
+sw plugin uninstall od-default       # uninstall
 ```
 
 모든 명령은 `--json`을 지원하므로 `jq` / `xargs`를 거쳐 자동화로 파이프할 수 있습니다.
 
 ### 플러그인 만들기
 
-Open Design 플러그인에는 `open-design.json`과 타입별 payload가 필요합니다. 스킬과 시나리오는 `SKILL.md`도 포함하고 다른 타입은 자체 payload를 사용합니다:
+SankiWork 플러그인에는 `open-design.json`과 타입별 payload가 필요합니다. 스킬과 시나리오는 `SKILL.md`도 포함하고 다른 타입은 자체 payload를 사용합니다:
 
 ```
 my-plugin/
@@ -497,17 +497,17 @@ my-plugin/
 로컬에서 스캐폴드 + 검증:
 
 ```bash
-od plugin scaffold --id my-plugin --title "My Plugin"   # generate the skeleton
-od plugin validate ./my-plugin                          # check manifest / file layout
-pnpm guard && pnpm --filter @open-design/plugin-runtime typecheck
+sw plugin scaffold --id my-plugin --title "My Plugin"   # generate the skeleton
+sw plugin validate ./my-plugin                          # check manifest / file layout
+pnpm guard && pnpm --filter @sankiwork/plugin-runtime typecheck
 ```
 
 전체 필드 집합과 런타임 계약 → [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md); 코딩 에이전트로 플러그인 개발하기 → [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md); 복사해 붙여넣을 최소 템플릿 → [`plugins/spec/examples/`](../../plugins/spec/examples/).
 
 ### 플러그인 기여하기
 
-1. 플러그인 폴더를 [`plugins/community/`](../../plugins/community/)(서드파티 플러그인)에 넣거나 — Open Design와 함께 번들로 제공하려면 — [`plugins/_official/`](../../plugins/_official/)의 알맞은 티어에 넣으세요.
-2. 검증 통과: `od plugin validate`, `pnpm guard`, `pnpm --filter @open-design/plugin-runtime typecheck`.
+1. 플러그인 폴더를 [`plugins/community/`](../../plugins/community/)(서드파티 플러그인)에 넣거나 — SankiWork와 함께 번들로 제공하려면 — [`plugins/_official/`](../../plugins/_official/)의 알맞은 티어에 넣으세요.
+2. 검증 통과: `sw plugin validate`, `pnpm guard`, `pnpm --filter @sankiwork/plugin-runtime typecheck`.
 3. [`plugins/spec/CONTRIBUTING.md`](../../plugins/spec/CONTRIBUTING.md)의 템플릿을 사용해 PR을 작성하세요(ID, 버전, 레인, 모드, 기능, 트리거 예시; 비주얼 플러그인에는 스크린샷 / 미리보기 첨부).
 4. 외부 레지스트리(skills.sh / ClawHub / 독립 GitHub)에 게시하려면 → [`plugins/spec/PUBLISHING-REGISTRIES.md`](../../plugins/spec/PUBLISHING-REGISTRIES.md).
 
@@ -569,12 +569,12 @@ pnpm guard && pnpm --filter @open-design/plugin-runtime typecheck
 - [x] 사이드카 프로토콜 + Electron 데스크톱 + IPC 자동화
 - [x] 아티팩트 린트 API + 5차원 자가 비평 내보내기 전 게이트
 - [x] **0.8.0** — 플러그인 마켓플레이스 인프라(261개 공식 플러그인, 매니페스트 사양, 에이전트별 설치 스크립트)
-- [x] **0.9.0** — Open Design Cloud(앱에 내장된 공식 Model Router: 설정 불필요, 원클릭 로그인)
+- [x] **0.9.0** — SankiWork Cloud(앱에 내장된 공식 Model Router: 설정 불필요, 원클릭 로그인)
 - [x] 패키징된 Electron 빌드 — macOS(Apple Silicon + Intel) + Windows(x64) + Linux AppImage(선택적 레인)
 - [ ] 코멘트 모드 정밀 편집 — 부분 출시됨; 안정적인 타깃 패칭 진행 중
 - [ ] AI가 내보내는 tweaks 패널 UX — 아직 구현되지 않음
-- [ ] `DESIGN.md`로 프로젝트를 스캐폴드하는 `npx od init`
-- [ ] 플러그인 SDK + `od plugin {add,list,remove,test,publish}` CLI
+- [ ] `DESIGN.md`로 프로젝트를 스캐폴드하는 `npx sw init`
+- [ ] 플러그인 SDK + `sw plugin {add,list,remove,test,publish}` CLI
 - [ ] Figma / Pencil → React / Next / Vue 마이그레이션 플러그인(알파)
 - [ ] 기존 코드베이스 새롭게 하기 플러그인(git 저장소 + `DESIGN.md`에 겨눔)
 
@@ -597,7 +597,7 @@ pnpm guard && pnpm --filter @open-design/plugin-runtime typecheck
 
 ## 기여하기
 
-Open Design가 계속 나아가는 것은 기여자들 — 디자이너, 엔지니어, 프롬프트 작성자 — 이 계속 모습을 드러내기 때문입니다. 가장 많이 쓰이는 스킬, 디자인 시스템, 플러그인의 상당수는 핵심 팀 바깥의 사람들이 작성했습니다.
+SankiWork가 계속 나아가는 것은 기여자들 — 디자이너, 엔지니어, 프롬프트 작성자 — 이 계속 모습을 드러내기 때문입니다. 가장 많이 쓰이는 스킬, 디자인 시스템, 플러그인의 상당수는 핵심 팀 바깥의 사람들이 작성했습니다.
 
 ### 🎯 어디서 시작할까 (최대 레버리지, 최소 변경)
 
@@ -617,7 +617,7 @@ Open Design가 계속 나아가는 것은 기여자들 — 디자이너, 엔지�
 ```bash
 # 1. Boot locally
 git clone https://github.com/nexu-io/open-design.git
-cd open-design && corepack enable && pnpm install
+cd sankiwork && corepack enable && pnpm install
 pnpm tools-dev run web
 
 # 2. Find a good-first-issue and assign yourself
@@ -626,7 +626,7 @@ gh issue develop <number>   # create a branch and worktree
 
 # 3. Make the change, run the checks
 pnpm guard && pnpm typecheck
-pnpm --filter @open-design/<package> test
+pnpm --filter @sankiwork/<package> test
 
 # 4. Open the PR
 gh pr create --fill
@@ -634,9 +634,9 @@ gh pr create --fill
 
 전체 에이전트 친화적 기여 흐름, 코드 스타일, PR 기준 → [`CONTRIBUTING.ko.md`](CONTRIBUTING.ko.md) ([Deutsch](CONTRIBUTING.de.md) · [Français](CONTRIBUTING.fr.md) · [简体中文](CONTRIBUTING.zh-CN.md) · [日本語](CONTRIBUTING.ja-JP.md) · [Português](CONTRIBUTING.pt-BR.md)).
 
-### 🏅 Open Design Fellow 프로그램
+### 🏅 SankiWork Fellow 프로그램
 
-우리는 전 세계에서 **Open Design Fellow**를 모집하고 있습니다 — Fellow는 핵심 팀과 함께 제품을 빚어내고, 자신의 지역에서 Open Design를 공식적으로 대표하며, 지역 커뮤니티를 키웁니다. 여기에는 자금 지원($1,000 / MR), 무료 LLM 크레딧, 직통 리뷰 트랙이 뒷받침됩니다. 자세히 → [`MAINTAINERS.md`](../../MAINTAINERS.md) 및 [Discord](https://discord.gg/mHAjSMV6gz)의 공지.
+우리는 전 세계에서 **SankiWork Fellow**를 모집하고 있습니다 — Fellow는 핵심 팀과 함께 제품을 빚어내고, 자신의 지역에서 SankiWork를 공식적으로 대표하며, 지역 커뮤니티를 키웁니다. 여기에는 자금 지원($1,000 / MR), 무료 LLM 크레딧, 직통 리뷰 트랙이 뒷받침됩니다. 자세히 → [`MAINTAINERS.md`](../../MAINTAINERS.md) 및 [Discord](https://discord.gg/mHAjSMV6gz)의 공지.
 
 ---
 
@@ -670,7 +670,7 @@ gh pr create --fill
 참여해 주신 모든 분께 감사드립니다 — 코드, 문서, 피드백, 날카로운 이슈, 새 스킬, 새 디자인 시스템.
 
 <a href="https://github.com/nexu-io/open-design/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=nexu-io/open-design&max=500&columns=20&anon=1&cache_bust=2026-08-04" alt="Open Design contributors" />
+  <img src="https://contrib.rocks/image?repo=nexu-io/open-design&max=500&columns=20&anon=1&cache_bust=2026-08-04" alt="SankiWork contributors" />
 </a>
 
 ---
@@ -678,7 +678,7 @@ gh pr create --fill
 ## 저장소 활동
 
 <picture>
-  <img alt="Open Design — repository metrics" src="https://repo-assets.open-design.ai/resources/images/github-metrics.svg" />
+  <img alt="SankiWork — repository metrics" src="https://repo-assets.sanki-ai.cloud/resources/images/github-metrics.svg" />
 </picture>
 
 위의 SVG는 [`lowlighter/metrics`](https://github.com/lowlighter/metrics)를 사용해 [`.github/workflows/metrics.yml`](../../.github/workflows/metrics.yml)에 의해 매일 다시 생성됩니다.
@@ -688,7 +688,7 @@ gh pr create --fill
 ## 스타를 눌러주세요
 
 <p align="center">
-  <a href="https://github.com/nexu-io/open-design"><img src="https://repo-assets.open-design.ai/resources/images/star-us.png" alt="Star Open Design on GitHub — github.com/nexu-io/open-design" width="100%" /></a>
+  <a href="https://github.com/nexu-io/open-design"><img src="https://repo-assets.sanki-ai.cloud/resources/images/star-us.png" alt="Star SankiWork on GitHub — github.com/nexu-io/open-design" width="100%" /></a>
 </p>
 
 이것이 당신의 30분을 아껴줬다면 ★를 눌러주세요. 스타가 집세를 내주지는 않지만 — 다음 디자이너, 에이전트, 기여자에게 이 실험이 관심을 쏟을 가치가 있다고 알려줍니다. 한 번의 클릭, 3초, 진짜 신호입니다.
@@ -697,7 +697,7 @@ gh pr create --fill
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&theme=dark&cache_bust=2026-08-04" />
     <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-08-04" />
-    <img alt="Open Design star history" src="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-08-04" />
+    <img alt="SankiWork star history" src="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-08-04" />
   </picture>
 </a>
 
@@ -715,7 +715,7 @@ gh pr create --fill
 | [`multica-ai/multica`](https://github.com/multica-ai/multica) | 데몬 + 어댑터 아키텍처 — PATH 스캔 에이전트 감지, 유일한 특권 프로세스로서의 로컬 데몬. |
 | [`VoltAgent/awesome-design-md`](https://github.com/VoltAgent/awesome-design-md) | 원래 9개 섹션 `DESIGN.md` 스키마와 업스트림에서 파생된 70개 시스템의 역사적 출처이며, 현재 패키지는 이 기반을 확장할 수 있습니다. |
 | [`bergside/awesome-design-skills`](https://github.com/bergside/awesome-design-skills) | `design-systems/` 아래에 추가된 57개 디자인 스킬의 출처. |
-| [`heygen-com/hyperframes`](https://github.com/heygen-com/hyperframes) | HTML→MP4 모션 그래픽 프레임워크로, Open Design에 일급 `hyperframes-html`로 통합됨. |
+| [`heygen-com/hyperframes`](https://github.com/heygen-com/hyperframes) | HTML→MP4 모션 그래픽 프레임워크로, SankiWork에 일급 `hyperframes-html`로 통합됨. |
 | [Claude Code skills][skill] | 우리가 그대로 채택한 `SKILL.md` 관례. |
 
 자세한 출처 → [`docs/references.md`](../../docs/references.md).

@@ -25,7 +25,7 @@ Produce an `.od-figma.json` either way:
 - **OD Clipper** popup → *Download Figma (.json)* — captures the current page and downloads
   the file directly.
 - **OD Library** → open an `html` asset captured with the clipper → *Download Figma JSON*
-  (or the CLI: `od library figma <assetId> --out page.od-figma.json`).
+  (or the CLI: `sw library figma <assetId> --out page.od-figma.json`).
 
 ## 2. Install the plugin (one time)
 

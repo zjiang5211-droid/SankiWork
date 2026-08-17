@@ -46,9 +46,9 @@ export interface TeamPricingContent {
 }
 
 const EN: TeamPricingContent = {
-  metaTitle: 'Pricing — Open Design',
+  metaTitle: 'Pricing — SankiWork',
   metaDescription:
-    'Compare Open Design Creator and Team plans, including model credits, per-seat collaboration, annual savings, and Enterprise support.',
+    'Compare SankiWork Creator and Team plans, including model credits, per-seat collaboration, annual savings, and Enterprise support.',
   breadcrumbLabel: 'Pricing',
   audienceTabsLabel: 'Plan audience',
   creatorTab: 'Creator',
@@ -90,9 +90,9 @@ const EN: TeamPricingContent = {
 };
 
 const ZH: TeamPricingContent = {
-  metaTitle: '价格方案 — Open Design',
+  metaTitle: '价格方案 — SankiWork',
   metaDescription:
-    '比较 Open Design 创作会员与团队版方案，了解模型额度、按席位协作、年付优惠和企业支持。',
+    '比较 SankiWork 创作会员与团队版方案，了解模型额度、按席位协作、年付优惠和企业支持。',
   breadcrumbLabel: '价格方案',
   audienceTabsLabel: '方案类型',
   creatorTab: '创作会员',
@@ -134,9 +134,9 @@ const ZH: TeamPricingContent = {
 };
 
 const JA: TeamPricingContent = {
-  metaTitle: '料金プラン — Open Design',
+  metaTitle: '料金プラン — SankiWork',
   metaDescription:
-    'Open Design のクリエイター向けプランと Team プランを比較。モデルクレジット、席単位の共同作業、年払い割引、Enterprise サポートを確認できます。',
+    'SankiWork のクリエイター向けプランと Team プランを比較。モデルクレジット、席単位の共同作業、年払い割引、Enterprise サポートを確認できます。',
   breadcrumbLabel: '料金プラン',
   audienceTabsLabel: 'プラン対象',
   creatorTab: 'クリエイター',
@@ -178,9 +178,9 @@ const JA: TeamPricingContent = {
 };
 
 const KO: TeamPricingContent = {
-  metaTitle: '요금제 — Open Design',
+  metaTitle: '요금제 — SankiWork',
   metaDescription:
-    'Open Design 크리에이터 및 Team 요금제의 모델 크레딧, 좌석 기반 협업, 연간 할인과 Enterprise 지원을 비교하세요.',
+    'SankiWork 크리에이터 및 Team 요금제의 모델 크레딧, 좌석 기반 협업, 연간 할인과 Enterprise 지원을 비교하세요.',
   breadcrumbLabel: '요금제',
   audienceTabsLabel: '요금제 대상',
   creatorTab: '크리에이터',
@@ -222,9 +222,9 @@ const KO: TeamPricingContent = {
 };
 
 const DE: TeamPricingContent = {
-  metaTitle: 'Preise — Open Design',
+  metaTitle: 'Preise — SankiWork',
   metaDescription:
-    'Vergleiche Open Design Creator- und Team-Pläne mit Modellguthaben, Zusammenarbeit pro Sitz, Jahresrabatten und Enterprise-Support.',
+    'Vergleiche SankiWork Creator- und Team-Pläne mit Modellguthaben, Zusammenarbeit pro Sitz, Jahresrabatten und Enterprise-Support.',
   breadcrumbLabel: 'Preise',
   audienceTabsLabel: 'Planzielgruppe',
   creatorTab: 'Creator',
@@ -266,9 +266,9 @@ const DE: TeamPricingContent = {
 };
 
 const FR: TeamPricingContent = {
-  metaTitle: 'Tarifs — Open Design',
+  metaTitle: 'Tarifs — SankiWork',
   metaDescription:
-    'Comparez les offres Creator et Team d’Open Design : crédits modèles, collaboration par siège, réductions annuelles et support Enterprise.',
+    'Comparez les offres Creator et Team d’SankiWork : crédits modèles, collaboration par siège, réductions annuelles et support Enterprise.',
   breadcrumbLabel: 'Tarifs',
   audienceTabsLabel: 'Public de l’offre',
   creatorTab: 'Créateur',
@@ -310,9 +310,9 @@ const FR: TeamPricingContent = {
 };
 
 const RU: TeamPricingContent = {
-  metaTitle: 'Тарифы — Open Design',
+  metaTitle: 'Тарифы — SankiWork',
   metaDescription:
-    'Сравните тарифы Open Design для авторов и команд: кредиты моделей, совместная работа по местам, годовые скидки и поддержка Enterprise.',
+    'Сравните тарифы SankiWork для авторов и команд: кредиты моделей, совместная работа по местам, годовые скидки и поддержка Enterprise.',
   breadcrumbLabel: 'Тарифы',
   audienceTabsLabel: 'Тип тарифа',
   creatorTab: 'Для авторов',
@@ -354,9 +354,9 @@ const RU: TeamPricingContent = {
 };
 
 const ES: TeamPricingContent = {
-  metaTitle: 'Precios — Open Design',
+  metaTitle: 'Precios — SankiWork',
   metaDescription:
-    'Compara los planes Creator y Team de Open Design: créditos de modelos, colaboración por asiento, ahorro anual y soporte Enterprise.',
+    'Compara los planes Creator y Team de SankiWork: créditos de modelos, colaboración por asiento, ahorro anual y soporte Enterprise.',
   breadcrumbLabel: 'Precios',
   audienceTabsLabel: 'Público del plan',
   creatorTab: 'Creadores',
@@ -398,9 +398,9 @@ const ES: TeamPricingContent = {
 };
 
 const PT_BR: TeamPricingContent = {
-  metaTitle: 'Preços — Open Design',
+  metaTitle: 'Preços — SankiWork',
   metaDescription:
-    'Compare os planos Creator e Team do Open Design, com créditos de modelos, colaboração por assento, economia anual e suporte Enterprise.',
+    'Compare os planos Creator e Team do SankiWork, com créditos de modelos, colaboração por assento, economia anual e suporte Enterprise.',
   breadcrumbLabel: 'Preços',
   audienceTabsLabel: 'Público do plano',
   creatorTab: 'Criadores',
@@ -442,9 +442,9 @@ const PT_BR: TeamPricingContent = {
 };
 
 const IT: TeamPricingContent = {
-  metaTitle: 'Prezzi — Open Design',
+  metaTitle: 'Prezzi — SankiWork',
   metaDescription:
-    'Confronta i piani Creator e Team di Open Design: crediti modello, collaborazione per postazione, risparmio annuale e supporto Enterprise.',
+    'Confronta i piani Creator e Team di SankiWork: crediti modello, collaborazione per postazione, risparmio annuale e supporto Enterprise.',
   breadcrumbLabel: 'Prezzi',
   audienceTabsLabel: 'Destinatari del piano',
   creatorTab: 'Creator',
@@ -486,9 +486,9 @@ const IT: TeamPricingContent = {
 };
 
 const TR: TeamPricingContent = {
-  metaTitle: 'Fiyatlandırma — Open Design',
+  metaTitle: 'Fiyatlandırma — SankiWork',
   metaDescription:
-    'Open Design Creator ve Team planlarını; model kredileri, koltuk başına iş birliği, yıllık tasarruf ve Enterprise desteğiyle karşılaştırın.',
+    'SankiWork Creator ve Team planlarını; model kredileri, koltuk başına iş birliği, yıllık tasarruf ve Enterprise desteğiyle karşılaştırın.',
   breadcrumbLabel: 'Fiyatlandırma',
   audienceTabsLabel: 'Plan hedefi',
   creatorTab: 'İçerik üretici',

@@ -9,7 +9,7 @@
  *   templates/live-artifacts/<slug>/index.html → /previews/templates/live-<slug>.webp
  *   templates/live-artifacts/<slug>/preview.png → reused verbatim where it exists
  *
- * Run with: `pnpm --filter @open-design/landing-page previews`
+ * Run with: `pnpm --filter @sankiwork/landing-page previews`
  *
  * Outputs are intentionally NOT committed by this script — the caller
  * decides whether to commit (small, deterministic) or upload to R2

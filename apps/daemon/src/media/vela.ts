@@ -357,7 +357,7 @@ export async function renderVelaImage(
       `Vela model ${wireModel} is not in the published image catalogue, so quality ${requestedQuality} cannot be requested`,
     );
   }
-  const tempDir = await mkdtemp(path.join(os.tmpdir(), 'open-design-vela-image-'));
+  const tempDir = await mkdtemp(path.join(os.tmpdir(), 'sankiwork-vela-image-'));
   const outputPath = path.join(tempDir, 'result.bin');
   try {
     const stagedImageRefs = await stageInputImages(input.imageRefs, tempDir);
@@ -426,19 +426,19 @@ export async function renderVelaVideo(
   }
 
   const wireModel = wireModelForVela(input.model, input.wireModel);
-  const tempDir = await mkdtemp(path.join(os.tmpdir(), 'open-design-vela-video-'));
+  const tempDir = await mkdtemp(path.join(os.tmpdir(), 'sankiwork-vela-video-'));
   const outputPath = path.join(tempDir, 'result.mp4');
   const startedAt = Date.now();
   const pollIntervalMs = positiveIntegerFromEnv(
-    'OD_VELA_VIDEO_POLL_INTERVAL_MS',
+    'SW_VELA_VIDEO_POLL_INTERVAL_MS',
     DEFAULT_VELA_VIDEO_POLL_INTERVAL_MS,
   );
   const totalTimeoutMs = positiveIntegerFromEnv(
-    'OD_VELA_VIDEO_TIMEOUT_MS',
+    'SW_VELA_VIDEO_TIMEOUT_MS',
     DEFAULT_VELA_VIDEO_TOTAL_TIMEOUT_MS,
   );
   const pollCommandTimeoutMs = positiveIntegerFromEnv(
-    'OD_VELA_VIDEO_POLL_COMMAND_TIMEOUT_MS',
+    'SW_VELA_VIDEO_POLL_COMMAND_TIMEOUT_MS',
     DEFAULT_VELA_VIDEO_POLL_COMMAND_TIMEOUT_MS,
   );
   let lastStatus = 'submitted';

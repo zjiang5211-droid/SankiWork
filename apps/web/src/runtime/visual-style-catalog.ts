@@ -34,7 +34,7 @@ interface VisualStyleCatalogEntry {
   recommended?: boolean;
 }
 
-const STYLE_CATALOG_ASSET_BASE_URL = 'https://repo-assets.open-design.ai/style-catalog/v1';
+const STYLE_CATALOG_ASSET_BASE_URL = 'https://repo-assets.sanki-ai.cloud/style-catalog/v1';
 
 const DECK_STYLE_CATALOG: VisualStyleCatalogEntry[] = [
   {

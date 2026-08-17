@@ -8,14 +8,14 @@ import {
 } from "../../src/main/invite-deeplink-core.js";
 
 const VALID =
-  "opendesign://workspace/invite/continue?workspace_id=ws-1&member_id=wm-1&invite_id=inv-1&nonce=n-1";
+  "sankiwork://workspace/invite/continue?workspace_id=ws-1&member_id=wm-1&invite_id=inv-1&nonce=n-1";
 
 function jsonResponse(status: number, body: unknown): Response {
   return { ok: status >= 200 && status < 300, status, json: async () => body } as unknown as Response;
 }
 
 describe("findDeeplinkArg", () => {
-  it("finds the opendesign url in an argv list", () => {
+  it("finds the sankiwork url in an argv list", () => {
     expect(findDeeplinkArg(["/path/to/app", VALID])).toBe(VALID);
     expect(findDeeplinkArg(["/path/to/app", "--some-flag"])).toBeNull();
   });
@@ -50,7 +50,7 @@ describe("continueInviteFromUrl", () => {
     const fetchImpl = vi.fn() as unknown as typeof fetch;
     const focus = vi.fn();
     const onCompleted = vi.fn();
-    const out = await continueInviteFromUrl("opendesign://workspace/open", {
+    const out = await continueInviteFromUrl("sankiwork://workspace/open", {
       resolveDaemonBaseUrl: async () => "http://x",
       fetch: fetchImpl,
       focus,
@@ -64,7 +64,7 @@ describe("continueInviteFromUrl", () => {
 
   it("settles with a structured failure when the focus dep throws (no-throw contract)", async () => {
     const onCompleted = vi.fn();
-    const out = await continueInviteFromUrl("opendesign://workspace/open", {
+    const out = await continueInviteFromUrl("sankiwork://workspace/open", {
       resolveDaemonBaseUrl: async () => "http://x",
       focus: () => {
         throw new Error("window torn down");
@@ -79,7 +79,7 @@ describe("continueInviteFromUrl", () => {
     const fetchImpl = vi.fn() as unknown as typeof fetch;
     const focus = vi.fn();
     const out = await continueInviteFromUrl(
-      "opendesign://workspace/open/?source=cli_activate",
+      "sankiwork://workspace/open/?source=cli_activate",
       { resolveDaemonBaseUrl: async () => "http://x", fetch: fetchImpl, focus },
     );
     expect(out).toEqual({ ok: true, reason: WORKSPACE_OPEN_FOCUS_REASON });
@@ -87,15 +87,15 @@ describe("continueInviteFromUrl", () => {
     expect((fetchImpl as unknown as ReturnType<typeof vi.fn>).mock.calls.length).toBe(0);
   });
 
-  // Any web page can fire the `opendesign://` scheme, so pin where the focus
+  // Any web page can fire the `sankiwork://` scheme, so pin where the focus
   // match stops: a loosened matcher (e.g. `pathname.startsWith("/open")`) must
   // not silently turn neighbouring urls into a foreground grab.
   it.each([
-    "opendesign://workspace/openx",
-    "opendesign://workspace/open/extra",
-    "opendesign://other/open",
-    "opendesign://workspace/OPEN",
-    "opendesign://Workspace/open",
+    "sankiwork://workspace/openx",
+    "sankiwork://workspace/open/extra",
+    "sankiwork://other/open",
+    "sankiwork://workspace/OPEN",
+    "sankiwork://Workspace/open",
   ])("does not focus for %s", async (url) => {
     const fetchImpl = vi.fn() as unknown as typeof fetch;
     const focus = vi.fn();
@@ -111,7 +111,7 @@ describe("continueInviteFromUrl", () => {
 
   it("ignores a url that is not an invite deeplink (no daemon call)", async () => {
     const fetchImpl = vi.fn() as unknown as typeof fetch;
-    const out = await continueInviteFromUrl("opendesign://something/else", {
+    const out = await continueInviteFromUrl("sankiwork://something/else", {
       resolveDaemonBaseUrl: async () => "http://x",
       fetch: fetchImpl,
     });

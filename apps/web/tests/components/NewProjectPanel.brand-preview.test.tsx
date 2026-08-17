@@ -3,17 +3,17 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { BrandSummary } from '@open-design/contracts';
-import { isOpenDesignHostAvailable, pickHostWorkingDir } from '@open-design/host';
+import type { BrandSummary } from '@sankiwork/contracts';
+import { isSankiWorkHostAvailable, pickHostWorkingDir } from '@sankiwork/host';
 import { NewProjectPanel } from '../../src/components/NewProjectPanel';
 import { openFolderDialog } from '../../src/providers/registry';
 import type { DesignSystemSummary, SkillSummary } from '../../src/types';
 
-vi.mock('@open-design/host', async () => {
-  const actual = await vi.importActual<typeof import('@open-design/host')>('@open-design/host');
+vi.mock('@sankiwork/host', async () => {
+  const actual = await vi.importActual<typeof import('@sankiwork/host')>('@sankiwork/host');
   return {
     ...actual,
-    isOpenDesignHostAvailable: vi.fn(),
+    isSankiWorkHostAvailable: vi.fn(),
     pickHostWorkingDir: vi.fn(),
   };
 });
@@ -38,7 +38,7 @@ vi.mock('../../src/runtime/brands', () => ({
   useBrandsByDesignSystemId: () => brandsByDesignSystem,
 }));
 
-const mockedIsHostAvailable = vi.mocked(isOpenDesignHostAvailable);
+const mockedIsHostAvailable = vi.mocked(isSankiWorkHostAvailable);
 const mockedOpenFolderDialog = vi.mocked(openFolderDialog);
 
 const skills: SkillSummary[] = [

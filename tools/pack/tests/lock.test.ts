@@ -8,7 +8,7 @@ import { withDirectoryLock } from "../src/lock.js";
 
 describe("withDirectoryLock", () => {
   it("reclaims a stale lock when the owner process is gone", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-lock-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-lock-"));
     const lockRoot = join(root, "locks");
     const lockPath = join(lockRoot, "global.lock");
 
@@ -37,7 +37,7 @@ describe("withDirectoryLock", () => {
   });
 
   it("reclaims an orphaned lock without owner metadata after the grace period", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-lock-orphan-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-lock-orphan-"));
     const lockRoot = join(root, "locks");
     const lockPath = join(lockRoot, "global.lock");
 

@@ -29,8 +29,8 @@ describe('POST /api/projects/:id/handoff — request-lifecycle abort', () => {
     baseUrl = started.url;
     server = started.server;
 
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
 
     await fetch(`${baseUrl}/api/projects`, {
       method: 'POST',

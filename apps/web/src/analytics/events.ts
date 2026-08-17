@@ -1,5 +1,5 @@
 // Typed track* helpers for the v2 analytics schema. Each helper accepts a
-// strongly typed props payload (from @open-design/contracts/analytics) and
+// strongly typed props payload (from @sankiwork/contracts/analytics) and
 // forwards it through the loosely typed `track()` from AnalyticsProvider.
 // Keeping the event-name → prop-shape coupling in one place means call sites
 // stay short and stay in lockstep with the daemon-side capture.
@@ -179,7 +179,7 @@ import type {
   WorkspaceSharedProjectOpenResultProps,
   WorkspaceResourceActionResultProps,
   ProjectCommentCreateResultProps,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 
 type TrackOptions = { requestId?: string; insertId?: string };
 type Track = (

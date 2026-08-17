@@ -13,7 +13,7 @@ import {
 } from '../../src/components/ProjectSearchModal';
 import { I18nProvider } from '../../src/i18n';
 import type { Project } from '../../src/types';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 afterEach(() => cleanup());
 

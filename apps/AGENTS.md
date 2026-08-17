@@ -4,10 +4,10 @@ Follow the root `AGENTS.md` first. This file only records module-level boundarie
 
 ## Active apps
 
-- `apps/web`: Next.js 16 App Router + React 18 web runtime. Entrypoints live in `apps/web/app/`; the main client shell is `apps/web/src/App.tsx`. During local `tools-dev` web runs, `apps/web/next.config.ts` rewrites `/api/*`, `/artifacts/*`, and `/frames/*` to `OD_PORT`.
-- `apps/daemon`: Express + SQLite local daemon and `od` bin. It owns REST/SSE APIs, agent CLI spawning, skills, design systems, artifact persistence, static serving, and daemon-managed data. Before describing or changing daemon data paths, read the root `AGENTS.md` section **Daemon data directory contract**; it is mandatory and must not be restated here.
+- `apps/web`: Next.js 16 App Router + React 18 web runtime. Entrypoints live in `apps/web/app/`; the main client shell is `apps/web/src/App.tsx`. During local `tools-dev` web runs, `apps/web/next.config.ts` rewrites `/api/*`, `/artifacts/*`, and `/frames/*` to `SW_PORT`.
+- `apps/daemon`: Express + SQLite local daemon and `sw` bin. It owns REST/SSE APIs, agent CLI spawning, skills, design systems, artifact persistence, static serving, and daemon-managed data. Before describing or changing daemon data paths, read the root `AGENTS.md` section **Daemon data directory contract**; it is mandatory and must not be restated here.
 - `apps/desktop`: Electron shell. Desktop does not guess the web port; it reads runtime status through sidecar IPC and opens the reported web URL.
-- `apps/packaged`: Thin packaged Electron runtime entry. It starts packaged daemon/web sidecars, registers the `od://` entry protocol, and delegates desktop host behavior to `apps/desktop`.
+- `apps/packaged`: Thin packaged Electron runtime entry. It starts packaged daemon/web sidecars, registers the `sankiwork://` entry protocol, and delegates desktop host behavior to `apps/desktop`.
 - `apps/landing-page`: Standalone static Astro marketing and public catalog site. It reads canonical repository content at build time, deploys independently, and must not import product-runtime internals from the other apps.
 
 ## Daemon layout
@@ -40,23 +40,23 @@ Follow the root `AGENTS.md` first. This file only records module-level boundarie
 ## Packaged runtime
 
 - `apps/nextjs` has been removed; do not restore it.
-- Packaged web uses Next.js SSR through the web sidecar; do not put Next output under daemon `OD_RESOURCE_ROOT`.
-- Packaged `OD_RESOURCE_ROOT` is for daemon non-Next read-only resources. The authoritative bundled-tree list lives in `tools/pack/src/resources.ts` and currently includes skills, design templates, design systems, craft, official and registry plugin data, frames, community pets, prompt templates, and baked plugin-preview metadata.
+- Packaged web uses Next.js SSR through the web sidecar; do not put Next output under daemon `SW_RESOURCE_ROOT`.
+- Packaged `SW_RESOURCE_ROOT` is for daemon non-Next read-only resources. The authoritative bundled-tree list lives in `tools/pack/src/resources.ts` and currently includes skills, design templates, design systems, craft, official and registry plugin data, frames, community pets, prompt templates, and baked plugin-preview metadata.
 - Packaged data/log/runtime/cache paths must be namespace-scoped and must not depend on daemon or web ports.
 - Daemon↔web packaged traffic still uses an HTTP origin/port because Next.js dev server and SSR proxy paths assume HTTP origins; switching to Unix sockets would require patching Next internals. The invariant is that data/log/runtime/cache paths never embed ports.
 
 ## Common app commands
 
 ```bash
-pnpm --filter @open-design/web typecheck
-pnpm --filter @open-design/web test
-pnpm --filter @open-design/daemon typecheck
-pnpm --filter @open-design/daemon test
-pnpm --filter @open-design/daemon build
-pnpm --filter @open-design/desktop typecheck
-pnpm --filter @open-design/desktop build
-pnpm --filter @open-design/packaged typecheck
-pnpm --filter @open-design/packaged build
-pnpm --filter @open-design/landing-page typecheck
-pnpm --filter @open-design/landing-page build:static
+pnpm --filter @sankiwork/web typecheck
+pnpm --filter @sankiwork/web test
+pnpm --filter @sankiwork/daemon typecheck
+pnpm --filter @sankiwork/daemon test
+pnpm --filter @sankiwork/daemon build
+pnpm --filter @sankiwork/desktop typecheck
+pnpm --filter @sankiwork/desktop build
+pnpm --filter @sankiwork/packaged typecheck
+pnpm --filter @sankiwork/packaged build
+pnpm --filter @sankiwork/landing-page typecheck
+pnpm --filter @sankiwork/landing-page build:static
 ```

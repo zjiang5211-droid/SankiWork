@@ -1,18 +1,18 @@
 ---
-title: Open Design 0.19.0 — Image Generation, Unlocked
-description: Bring ideas to life with your Open Design subscription—generate images directly with Seedream 5.0 Pro, GPT Image 2.0, and Nano Banana 2.0.
+title: SankiWork 0.19.0 — Image Generation, Unlocked
+description: Bring ideas to life with your SankiWork subscription—generate images directly with Seedream 5.0 Pro, GPT Image 2.0, and Nano Banana 2.0.
 ---
 
 ### 🌟 Codename: *Image Generation, Unlocked*
 
-🖼️ **Bring ideas to life with your Open Design subscription—generate images
+🖼️ **Bring ideas to life with your SankiWork subscription—generate images
 directly with Seedream 5.0 Pro, GPT Image 2.0, and Nano Banana 2.0.**
 
 ## 🔥 Highlights
 
 - 🎨 **Three flagship image models, included with your subscription.** Generate
   and edit images directly with Seedream 5.0 Pro, GPT Image 2.0, and Nano
-  Banana 2.0 through Open Design Cloud. The agent can pass multiple reference
+  Banana 2.0 through SankiWork Cloud. The agent can pass multiple reference
   images and explicit aspect ratio, resolution, and quality settings when the
   selected model publishes them. Requests are checked before generation starts,
   progress remains visible, output paths come from the daemon, and one transient
@@ -83,7 +83,7 @@ directly with Seedream 5.0 Pro, GPT Image 2.0, and Nano Banana 2.0.**
 - Packaged launches refresh the persisted launcher path after an update. MCP
   clients no longer relaunch an old executable and trigger a desktop restart
   loop. (#6621)
-- The local `od://` proxy stops retrying immediately when the machine runs out
+- The local `sankiwork://` proxy stops retrying immediately when the machine runs out
   of sockets or file descriptors, instead of multiplying the failed requests.
   (#6530)
 - Windows uninstall removes only the protocol registration owned by that
@@ -102,6 +102,6 @@ None reported.
 
 ## ⬆️ Upgrade note
 
-Install Open Design 0.19.0 through the normal in-app update flow or the current
+Install SankiWork 0.19.0 through the normal in-app update flow or the current
 installer after the stable release is available. No additional manual steps
 are documented for this release.

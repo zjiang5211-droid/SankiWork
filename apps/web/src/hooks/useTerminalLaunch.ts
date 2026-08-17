@@ -1,4 +1,4 @@
-// Capability-detected wrapper around the Open Design host shell.openPath
+// Capability-detected wrapper around the SankiWork host shell.openPath
 // bridge for the Continue in CLI button (#451). On desktop builds the
 // host bridge exposes shell.openPath; the renderer hands it
 // a *project ID* (not a path) and the desktop main process asks the
@@ -11,9 +11,9 @@
 
 import { useMemo } from 'react';
 import {
-  isOpenDesignHostAvailable,
+  isSankiWorkHostAvailable,
   openHostProjectPath,
-} from '@open-design/host';
+} from '@sankiwork/host';
 
 export interface TerminalLaunchResult {
   kind: 'host' | 'web-fallback';
@@ -27,7 +27,7 @@ export interface TerminalLauncher {
 
 export function useTerminalLaunch(): TerminalLauncher {
   return useMemo<TerminalLauncher>(() => {
-    const isHost = isOpenDesignHostAvailable();
+    const isHost = isSankiWorkHostAvailable();
 
     async function open(projectId: string): Promise<TerminalLaunchResult> {
       if (!isHost) {

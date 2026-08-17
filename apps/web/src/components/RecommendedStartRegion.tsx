@@ -5,7 +5,7 @@ import {
   trackHomeRecommendationClick,
   trackHomeRecommendationSurfaceView,
 } from '../analytics/events';
-import type { TrackingOnboardingProductType } from '@open-design/contracts/analytics';
+import type { TrackingOnboardingProductType } from '@sankiwork/contracts/analytics';
 import type { ProjectMetadata } from '../types';
 import {
   nextStarter,

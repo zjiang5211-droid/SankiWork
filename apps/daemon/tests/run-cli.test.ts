@@ -155,7 +155,7 @@ async function runCli(args: string[]): Promise<{ stdout: string; stderr: string;
   }
 }
 
-describe('od run CLI', () => {
+describe('sw run CLI', () => {
   it('continues a resumable run through the normal run creation API', async () => {
     stub = await startRunStubServer(true);
 

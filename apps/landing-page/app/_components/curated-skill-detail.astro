@@ -45,7 +45,7 @@ const href = (path: string) => localizedHref(path, locale);
 // Four fills the 4-up grid exactly, so the row never ends ragged.
 const related = binding.skills.filter((s) => s.slug !== skill.slug).slice(0, 4);
 
-const title = `${sc.name} · ${binding.collectionName} · Open Design`;
+const title = `${sc.name} · ${binding.collectionName} · SankiWork`;
 const description = `${sc.tagline} ${sc.whatIsIt}`;
 
 const jsonLd = [
@@ -93,7 +93,7 @@ const jsonLd = [
             <div class="dbcta-row">
               {/*
                 A true "install into the client" button would need the desktop
-                app to register `od://` as a system URL scheme. Today that
+                app to register `sankiwork://` as a system URL scheme. Today that
                 scheme is Electron-internal only, so a web page can neither
                 detect an installed client nor hand it an install intent.
                 Until that exists, this stays an honest download link.

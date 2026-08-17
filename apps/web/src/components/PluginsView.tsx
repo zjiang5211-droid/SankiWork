@@ -9,7 +9,7 @@ import {
   type KeyboardEvent,
   type SetStateAction,
 } from 'react';
-import { Dialog } from '@open-design/components';
+import { Dialog } from '@sankiwork/components';
 import {
   PLUGIN_SHARE_ACTION_PLUGIN_IDS,
   resolveLocalizedText,
@@ -19,7 +19,7 @@ import {
   type PluginSourceKind,
   type SkillSummary,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   fetchSkills,
   importSkill,
@@ -47,7 +47,7 @@ import {
   stableAnalyticsRequestErrorCode,
   workspaceAnalyticsDimensions,
 } from '../analytics/workspace';
-import type { TrackingWorkspaceScope } from '@open-design/contracts/analytics';
+import type { TrackingWorkspaceScope } from '@sankiwork/contracts/analytics';
 import {
   addPluginMarketplace,
   applyPlugin,
@@ -192,22 +192,22 @@ const PLUGIN_SHARE_DETAILS: Record<PluginShareAction, {
     eyebrow: 'GitHub repository',
     fallbackTitle: 'Publish Plugin to GitHub',
     fallbackDescription:
-      'Creates a public GitHub repository for this local Open Design plugin.',
+      'Creates a public GitHub repository for this local SankiWork plugin.',
     confirmLabel: 'Start publishing',
     steps: [
-      'Create a new Open Design project for the publish workflow.',
+      'Create a new SankiWork project for the publish workflow.',
       'Copy this plugin into that project as isolated source context.',
       'Run the official publish action plugin against the local daemon.',
     ],
   },
-  'contribute-open-design': {
-    eyebrow: 'Open Design pull request',
-    fallbackTitle: 'Contribute Plugin to Open Design',
+  'contribute-sankiwork': {
+    eyebrow: 'SankiWork pull request',
+    fallbackTitle: 'Contribute Plugin to SankiWork',
     fallbackDescription:
-      'Opens a pull request that adds this plugin to the Open Design community catalog.',
+      'Opens a pull request that adds this plugin to the SankiWork community catalog.',
     confirmLabel: 'Start contribution',
     steps: [
-      'Create a new Open Design project for the contribution workflow.',
+      'Create a new SankiWork project for the contribution workflow.',
       'Copy this plugin into that project as isolated source context.',
       'Run the official contribution action plugin against the local daemon.',
     ],
@@ -355,8 +355,8 @@ export function PluginsView({
 
   useEffect(() => {
     void refresh();
-    window.addEventListener('open-design:plugins-changed', refresh);
-    return () => window.removeEventListener('open-design:plugins-changed', refresh);
+    window.addEventListener('sankiwork:plugins-changed', refresh);
+    return () => window.removeEventListener('sankiwork:plugins-changed', refresh);
     // Re-run on workspace switch (not just mount) so "installed" reflects the
     // newly active workspace's binding — see `pluginsWorkspaceContext` above.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1381,7 +1381,7 @@ export function ExtensionsMarketplace({
     setLoading(false);
   }
 
-  // `open-design:plugins-changed` re-reads on mutation. Re-registered per
+  // `sankiwork:plugins-changed` re-reads on mutation. Re-registered per
   // identity so the handler always closes over a current `refresh`.
   const marketplaceAccountGeneration = currentWorkspaceAccountGeneration();
   const marketplaceReadMode = workspaceContext
@@ -1405,8 +1405,8 @@ export function ExtensionsMarketplace({
       if (isActiveRef.current) void refresh();
       else catalogStaleRef.current = true;
     };
-    window.addEventListener('open-design:plugins-changed', onPluginsChanged);
-    return () => window.removeEventListener('open-design:plugins-changed', onPluginsChanged);
+    window.addEventListener('sankiwork:plugins-changed', onPluginsChanged);
+    return () => window.removeEventListener('sankiwork:plugins-changed', onPluginsChanged);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [marketplaceIdentity]);
 
@@ -2035,7 +2035,7 @@ export function ExtensionsMarketplace({
         skill={selectedSkill}
         author={
           scope === 'official'
-            ? 'Open Design'
+            ? 'SankiWork'
             : scope === 'team'
               ? 'Nexu Team'
               : t('chat.you')
@@ -2902,7 +2902,7 @@ function pluginShareSlug(name: string): string {
     name
       .toLowerCase()
       .replace(/[^a-z0-9._-]+/g, '-')
-      .replace(/(^[-._]+|[-._]+$)/g, '') || 'open-design-plugin'
+      .replace(/(^[-._]+|[-._]+$)/g, '') || 'sankiwork-plugin'
   );
 }
 
@@ -3288,7 +3288,7 @@ function AvailablePluginDetailsModal({
                 </h3>
               </div>
               <p className="plugin-details-modal__section-hint">
-                This official catalog entry is bundled with Open Design and is ready to use.
+                This official catalog entry is bundled with SankiWork and is ready to use.
               </p>
             </section>
           ) : (
@@ -4083,7 +4083,7 @@ function buildAvailableInstallCommand(
   version: string,
 ): string {
   const suffix = version && version !== 'latest' ? `@${version}` : '';
-  return `od plugin install ${entry.name}${suffix}`;
+  return `sw plugin install ${entry.name}${suffix}`;
 }
 
 function buildAvailablePluginProvenance({

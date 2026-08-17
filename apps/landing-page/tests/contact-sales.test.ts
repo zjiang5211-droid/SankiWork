@@ -46,7 +46,7 @@ type CallOptions = {
 // allowed after the backup write has succeeded.
 async function call(
   payload: unknown,
-  origin = "https://open-design.ai",
+  origin = "https://sanki-ai.cloud",
   options: CallOptions = {},
 ): Promise<{
   status: number;
@@ -57,7 +57,7 @@ async function call(
   const waited: Promise<unknown>[] = [];
   const kv = options.kv === undefined ? new MemoryKV() : options.kv;
   const request = new Request(
-    options.url ?? "https://open-design.ai/contact-sales",
+    options.url ?? "https://sanki-ai.cloud/contact-sales",
     {
       method: "POST",
       headers: {
@@ -247,7 +247,7 @@ function velaServiceHeaders(
 
 describe("contact-sales canonical KV intake", () => {
   it("does not acknowledge a lead until its canonical KV write succeeds", async () => {
-    const missing = await call(ENTERPRISE_OK, "https://open-design.ai", {
+    const missing = await call(ENTERPRISE_OK, "https://sanki-ai.cloud", {
       kv: null,
     });
     assert.equal(missing.status, 503);
@@ -255,14 +255,14 @@ describe("contact-sales canonical KV intake", () => {
 
     const kv = new MemoryKV();
     kv.failWrites = true;
-    const failed = await call(ENTERPRISE_OK, "https://open-design.ai", { kv });
+    const failed = await call(ENTERPRISE_OK, "https://sanki-ai.cloud", { kv });
     assert.equal(failed.status, 503);
     assert.equal(failed.body.error, "lead_storage_failed");
   });
 
   it("stores only lead:<sha256(email)> and overwrites the same normalized email", async () => {
     const kv = new MemoryKV();
-    const first = await call(ENTERPRISE_OK, "https://open-design.ai", {
+    const first = await call(ENTERPRISE_OK, "https://sanki-ai.cloud", {
       kv,
       now: SERVICE_NOW,
     });
@@ -271,7 +271,7 @@ describe("contact-sales canonical KV intake", () => {
       email: " ADA@ACME.COM ",
       company: "Acme Updated",
     };
-    const second = await call(secondPayload, "https://open-design.ai", {
+    const second = await call(secondPayload, "https://sanki-ai.cloud", {
       kv,
       now: SERVICE_NOW + 1_000,
     });
@@ -297,13 +297,13 @@ describe("contact-sales canonical KV intake", () => {
     assert.equal(crossOrigin.body.error, "origin_not_allowed");
 
     assert.equal(
-      (await call(ENTERPRISE_OK, "https://open-design.ai")).status,
+      (await call(ENTERPRISE_OK, "https://sanki-ai.cloud")).status,
       200,
     );
     assert.equal(
       (
-        await call(ENTERPRISE_OK, "https://staging.open-design.ai", {
-          url: "https://staging.open-design.ai/contact-sales",
+        await call(ENTERPRISE_OK, "https://staging.sanki-ai.cloud", {
+          url: "https://staging.sanki-ai.cloud/contact-sales",
         })
       ).status,
       200,
@@ -366,7 +366,7 @@ describe("contact-sales canonical KV intake", () => {
     };
     try {
       const kv = new MemoryKV();
-      const result = await call(ENTERPRISE_OK, "https://open-design.ai", {
+      const result = await call(ENTERPRISE_OK, "https://sanki-ai.cloud", {
         kv,
         // Legacy notification variables must have no effect if they remain
         // configured on a Cloudflare project during rollout.

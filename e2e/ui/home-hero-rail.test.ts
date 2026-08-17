@@ -17,9 +17,9 @@ import { T } from '@/timeouts';
 
 test.describe.configure({ timeout: T.xlong });
 
-const STORAGE_KEY = 'open-design:config';
-const LOCALE_KEY = 'open-design:locale';
-const LOCALE_SOURCE_KEY = 'open-design:locale-source';
+const STORAGE_KEY = 'sankiwork:config';
+const LOCALE_KEY = 'sankiwork:locale';
+const LOCALE_SOURCE_KEY = 'sankiwork:locale-source';
 
 const HOME_CONFIG = {
   mode: 'daemon',
@@ -180,7 +180,7 @@ const HOME_PLUGINS = [
       name: 'example-live-artifact',
       title: 'Live Artifact',
       version: '0.1.0',
-      description: 'Create refreshable, auditable Open Design artifacts.',
+      description: 'Create refreshable, auditable SankiWork artifacts.',
       od: {
         kind: 'scenario',
         taskKind: 'new-generation',
@@ -188,7 +188,7 @@ const HOME_PLUGINS = [
         scenario: 'live',
         useCase: {
           query:
-            'Create refreshable, auditable Open Design artifacts backed by connector or local data.',
+            'Create refreshable, auditable SankiWork artifacts backed by connector or local data.',
         },
       },
     },
@@ -378,7 +378,7 @@ const PROMPT_TEMPLATES = [
     category: 'product',
     model: 'gpt-image-2',
     aspect: '16:9',
-    source: { repo: 'open-design/image-prompts', license: 'MIT' },
+    source: { repo: 'sankiwork/image-prompts', license: 'MIT' },
   },
   {
     id: 'video-reveal',
@@ -388,7 +388,7 @@ const PROMPT_TEMPLATES = [
     category: 'product',
     model: 'doubao-seedance-2-0-260128',
     aspect: '16:9',
-    source: { repo: 'open-design/video-prompts', license: 'MIT' },
+    source: { repo: 'sankiwork/video-prompts', license: 'MIT' },
   },
   {
     id: 'hyperframes-caption',
@@ -403,7 +403,7 @@ const PROMPT_TEMPLATES = [
 ];
 
 async function waitForLoadingToClear(page: Page) {
-  await page.getByText('Loading Open Design…').waitFor({ state: 'hidden', timeout: 15_000 });
+  await page.getByText('Loading SankiWork…').waitFor({ state: 'hidden', timeout: 15_000 });
 }
 
 async function seedBrowserConfig(page: Page, config: Record<string, unknown>) {
@@ -428,7 +428,7 @@ async function seedBrowserLocale(page: Page, locale: string) {
 async function gotoEntryHome(page: Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await waitForLoadingToClear(page);
-  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve Open Design' });
+  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve SankiWork' });
   if (await privacyDialog.isVisible().catch(() => false)) {
     await privacyDialog.getByRole('button', { name: /I get it|not now|got it|don't share/i }).click();
   }
@@ -635,12 +635,12 @@ test('[P1] home composer plus menu opens project, local code, Figma help, and de
     await route.fulfill({
       json: {
         project: referenceProject,
-        resolvedDir: '/tmp/open-design/reference-home-project',
+        resolvedDir: '/tmp/sankiwork/reference-home-project',
       },
     });
   });
   await page.route('**/api/dialog/open-folder', async (route) => {
-    await route.fulfill({ json: { path: '/tmp/open-design/local-code-home' } });
+    await route.fulfill({ json: { path: '/tmp/sankiwork/local-code-home' } });
   });
   await page.route('**/api/dir-exists', async (route) => {
     await route.fulfill({ json: { exists: true } });
@@ -903,12 +903,12 @@ test('[P1] home composer sends referenced workspace context into project creatio
     await route.fulfill({
       json: {
         project: referenceProject,
-        resolvedDir: '/tmp/open-design/reference-home-payload',
+        resolvedDir: '/tmp/sankiwork/reference-home-payload',
       },
     });
   });
   await page.route('**/api/dialog/open-folder', async (route) => {
-    await route.fulfill({ json: { path: '/tmp/open-design/local-code-home-payload' } });
+    await route.fulfill({ json: { path: '/tmp/sankiwork/local-code-home-payload' } });
   });
   await page.route('**/api/dir-exists', async (route) => {
     await route.fulfill({ json: { exists: true } });
@@ -938,8 +938,8 @@ test('[P1] home composer sends referenced workspace context into project creatio
   await expect.poll(() => createBodies.length).toBe(1);
   const metadata = createBodies[0]?.metadata as { linkedDirs?: string[] } | undefined;
   expect(metadata?.linkedDirs ?? []).toEqual([
-    '/tmp/open-design/reference-home-payload',
-    '/tmp/open-design/local-code-home-payload',
+    '/tmp/sankiwork/reference-home-payload',
+    '/tmp/sankiwork/local-code-home-payload',
   ]);
 });
 
@@ -994,7 +994,7 @@ test('[P1] home staged workspace context auto-sends into the first project run',
     await route.fulfill({
       json: {
         project: referenceProject,
-        resolvedDir: '/tmp/open-design/reference-home-autosend',
+        resolvedDir: '/tmp/sankiwork/reference-home-autosend',
       },
     });
   });
@@ -1085,7 +1085,7 @@ test('[P1] home staged workspace context auto-sends into the first project run',
     runId: 'home-autosend-context-run',
   });
   await page.route('**/api/dialog/open-folder', async (route) => {
-    await route.fulfill({ json: { path: '/tmp/open-design/local-code-home-autosend' } });
+    await route.fulfill({ json: { path: '/tmp/sankiwork/local-code-home-autosend' } });
   });
   await page.route('**/api/dir-exists', async (route) => {
     await route.fulfill({ json: { exists: true } });
@@ -1122,12 +1122,12 @@ test('[P1] home staged workspace context auto-sends into the first project run',
       expect.objectContaining({
         id: 'project:ref-home-autosend',
         label: 'Reference Home Autosend',
-        absolutePath: '/tmp/open-design/reference-home-autosend',
+        absolutePath: '/tmp/sankiwork/reference-home-autosend',
       }),
       expect.objectContaining({
-        id: 'local-code:/tmp/open-design/local-code-home-autosend',
+        id: 'local-code:/tmp/sankiwork/local-code-home-autosend',
         label: 'local-code-home-autosend',
-        absolutePath: '/tmp/open-design/local-code-home-autosend',
+        absolutePath: '/tmp/sankiwork/local-code-home-autosend',
       }),
     ]),
   );
@@ -1366,8 +1366,8 @@ test('[P1] home suggestion entry remains retryable after create failures', async
 
 test('[P2] zh-CN home smoke exposes the localized creation type, design system, working directory, and run entries', async ({ page }) => {
   await page.addInitScript(() => {
-    window.localStorage.setItem('open-design:locale', 'zh-CN');
-    window.localStorage.setItem('open-design:locale-source', 'manual');
+    window.localStorage.setItem('sankiwork:locale', 'zh-CN');
+    window.localStorage.setItem('sankiwork:locale-source', 'manual');
   });
   await seedBrowserLocale(page, 'zh-CN');
   await routeHomeDesignSystems(page);
@@ -1779,7 +1779,7 @@ test('[P1] selecting another example updates the composer input', async ({ page 
   await expect(input).toHaveText('Create a live Notion dashboard artifact.');
 
   await useExamplePreset(page, 'example-live-artifact');
-  await expect(input).toHaveText('Create refreshable, auditable Open Design artifacts.');
+  await expect(input).toHaveText('Create refreshable, auditable SankiWork artifacts.');
 });
 
 /**

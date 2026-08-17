@@ -26,7 +26,7 @@
 
 import { promises as fsp } from 'node:fs';
 import path from 'node:path';
-import { PROFILE_MEMORY_ID } from '@open-design/contracts';
+import { PROFILE_MEMORY_ID } from '@sankiwork/contracts';
 import {
   deleteMemoryEntry,
   isHeuristicExtractionArtifact,

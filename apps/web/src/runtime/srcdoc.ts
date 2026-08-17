@@ -14,8 +14,8 @@
  *   { type: 'od:slide-state', active: number, count: number }
  * after every navigation so the host can render its own counter / dots.
  */
-import { injectDeckStageFallback } from '@open-design/contracts/runtime/deck-stage-fallback';
-import { buildPreviewObservabilityBridge } from '@open-design/contracts/runtime/preview-observability';
+import { injectDeckStageFallback } from '@sankiwork/contracts/runtime/deck-stage-fallback';
+import { buildPreviewObservabilityBridge } from '@sankiwork/contracts/runtime/preview-observability';
 
 import {
   buildManualEditBridge,
@@ -1208,7 +1208,7 @@ function serializeHtmlDocument(doc: Document): string {
  * Auto-annotate structural HTML elements that lack `data-od-id` or
  * `data-screen-label` so that the selection bridge (Picker / Pods /
  * Tweaks) can target them. This fixes imported designs whose HTML was
- * generated outside of Open Design and therefore carries no OD-specific
+ * generated outside of SankiWork and therefore carries no OD-specific
  * annotations.
  */
 function annotateMissingOdIds(doc: string): string {

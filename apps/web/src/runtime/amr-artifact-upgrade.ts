@@ -1,5 +1,5 @@
 export const AMR_ARTIFACT_UPGRADE_REQUEST_EVENT =
-  'open-design:amr-artifact-upgrade-request';
+  'sankiwork:amr-artifact-upgrade-request';
 
 export type AmrArtifactUpgradeDecision = 'proceed' | 'cancel';
 

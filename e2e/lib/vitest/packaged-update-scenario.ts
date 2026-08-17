@@ -3,7 +3,7 @@ import {
   isReleaseChannel,
   parseReleaseVersion,
   type ReleaseChannel,
-} from '@open-design/release';
+} from '@sankiwork/release';
 
 export type PackagedUpdateChannel = ReleaseChannel;
 
@@ -31,7 +31,7 @@ export function resolvePackagedUpdateScenario(input: {
   }
 
   if (releaseChannel == null || releaseChannel === '' || releaseVersion == null || releaseVersion === '') {
-    throw new Error('OD_PACKAGED_E2E_RELEASE_CHANNEL and OD_PACKAGED_E2E_RELEASE_VERSION must be set together');
+    throw new Error('SW_PACKAGED_E2E_RELEASE_CHANNEL and SW_PACKAGED_E2E_RELEASE_VERSION must be set together');
   }
 
   const channel = parseChannel(releaseChannel);
@@ -49,14 +49,14 @@ export function applyPackagedUpdateEnv(
   metadataUrl: string,
   options: { openDryRun?: boolean } = {},
 ): void {
-  env.OD_UPDATE_ENABLED = '1';
-  env.OD_UPDATE_METADATA_URL = metadataUrl;
-  env.OD_UPDATE_OPEN_DRY_RUN = options.openDryRun === false ? '0' : '1';
-  env.OD_UPDATE_AUTO_CHECK = '1';
+  env.SW_UPDATE_ENABLED = '1';
+  env.SW_UPDATE_METADATA_URL = metadataUrl;
+  env.SW_UPDATE_OPEN_DRY_RUN = options.openDryRun === false ? '0' : '1';
+  env.SW_UPDATE_AUTO_CHECK = '1';
   if (scenario.currentVersionOverride == null) {
-    delete env.OD_UPDATE_CURRENT_VERSION;
+    delete env.SW_UPDATE_CURRENT_VERSION;
   } else {
-    env.OD_UPDATE_CURRENT_VERSION = scenario.currentVersionOverride;
+    env.SW_UPDATE_CURRENT_VERSION = scenario.currentVersionOverride;
   }
 }
 

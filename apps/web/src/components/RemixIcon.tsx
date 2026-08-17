@@ -11,7 +11,7 @@ interface RemixIconProps {
 
 /**
  * Remix Icon glyphs rendered as inline SVG. This deliberately does NOT use
- * the remixicon icon font: the packaged od:// protocol cannot load url()
+ * the remixicon icon font: the packaged sankiwork:// protocol cannot load url()
  * fonts at all (Chromium's font loader rejects them on custom-scheme
  * documents), which turned every glyph into a tofu square. Inline vector
  * data has no load step to fail. Unknown names render an empty placeholder

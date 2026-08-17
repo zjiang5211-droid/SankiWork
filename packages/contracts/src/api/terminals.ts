@@ -5,7 +5,7 @@
  * plain POST endpoints. No WebSocket — the transport mirrors the chat-run
  * lifecycle in `apps/daemon/src/runs.ts`.
  *
- * Both the web `<TerminalViewer>` and `od shell` drive the same
+ * Both the web `<TerminalViewer>` and `sw shell` drive the same
  * `/api/projects/:id/terminals` surface, so this contract is the single source
  * of truth for the session shape and the SSE event union.
  */

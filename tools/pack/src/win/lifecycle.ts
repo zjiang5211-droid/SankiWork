@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_MESSAGES,
   SIDECAR_MODES,
   SIDECAR_SOURCES,
@@ -16,8 +16,8 @@ import {
   type DesktopUpdateResult,
   type SidecarStamp,
   type WebStatusSnapshot,
-} from "@open-design/sidecar-proto";
-import { createSidecarLaunchEnv, requestJsonIpc, resolveAppIpcPath } from "@open-design/sidecar";
+} from "@sankiwork/sidecar-proto";
+import { createSidecarLaunchEnv, requestJsonIpc, resolveAppIpcPath } from "@sankiwork/sidecar";
 import {
   collectProcessTreePids,
   createProcessStampArgs,
@@ -26,7 +26,7 @@ import {
   readLogTail,
   spawnBackgroundProcess,
   stopProcesses,
-} from "@open-design/platform";
+} from "@sankiwork/platform";
 
 import type { ToolPackConfig } from "../config.js";
 import { resolveToolPackLauncherLayout } from "../launcher-layout.js";
@@ -62,13 +62,13 @@ import type {
   WinPaths,
 } from "./types.js";
 
-const PACKAGED_CONFIG_PATH_ENV = "OD_PACKAGED_CONFIG_PATH";
+const PACKAGED_CONFIG_PATH_ENV = "SW_PACKAGED_CONFIG_PATH";
 const UPDATE_ACTION_TIMEOUT_MS = 10 * 60 * 1000;
 
 function desktopStamp(config: ToolPackConfig): SidecarStamp {
   return {
     app: APP_KEYS.DESKTOP,
-    ipc: resolveAppIpcPath({ app: APP_KEYS.DESKTOP, contract: OPEN_DESIGN_SIDECAR_CONTRACT, namespace: config.namespace }),
+    ipc: resolveAppIpcPath({ app: APP_KEYS.DESKTOP, contract: SANKIWORK_SIDECAR_CONTRACT, namespace: config.namespace }),
     mode: SIDECAR_MODES.RUNTIME,
     namespace: config.namespace,
     source: SIDECAR_SOURCES.TOOLS_PACK,
@@ -76,7 +76,7 @@ function desktopStamp(config: ToolPackConfig): SidecarStamp {
 }
 
 function appIpcPath(config: ToolPackConfig, app: SidecarStamp["app"]): string {
-  return resolveAppIpcPath({ app, contract: OPEN_DESIGN_SIDECAR_CONTRACT, namespace: config.namespace });
+  return resolveAppIpcPath({ app, contract: SANKIWORK_SIDECAR_CONTRACT, namespace: config.namespace });
 }
 
 function desktopLogPath(config: ToolPackConfig): string {
@@ -190,7 +190,7 @@ export async function installPackedWinApp(config: ToolPackConfig): Promise<WinIn
   // Portable shipping builds omit namespaceBaseRoot so end users fall back to
   // Electron userData. The tools-pack installed copy must retain its isolated
   // runtime root for OS protocol cold launches, which inherit none of the
-  // OD_PACKAGED_CONFIG_PATH environment used by `tools-pack win start`.
+  // SW_PACKAGED_CONFIG_PATH environment used by `tools-pack win start`.
   await measureLifecycleStep(lifecycleTimings, "pin installed packaged namespace", async () => {
     await pinInstalledPackagedConfigNamespace(config, paths.installedExePath);
   });
@@ -234,7 +234,7 @@ async function pinInstalledPackagedConfigNamespace(
   config: ToolPackConfig,
   executablePath: string,
 ): Promise<{ installedConfigPath: string; launchConfigPath: string }> {
-  const installedConfigPath = join(dirname(executablePath), "resources", "open-design-config.json");
+  const installedConfigPath = join(dirname(executablePath), "resources", "sankiwork-config.json");
   if (!(await pathExists(installedConfigPath))) {
     throw new Error(`installed packaged config missing at ${installedConfigPath}`);
   }
@@ -249,7 +249,7 @@ async function pinInstalledPackagedConfigNamespace(
   };
   const body = `${JSON.stringify(pinned, null, 2)}\n`;
   await writeFile(installedConfigPath, body, "utf8");
-  const launchConfigPath = join(config.roots.runtime.namespaceRoot, "runtime", "launch-open-design-config.json");
+  const launchConfigPath = join(config.roots.runtime.namespaceRoot, "runtime", "launch-sankiwork-config.json");
   await mkdir(dirname(launchConfigPath), { recursive: true });
   await writeFile(launchConfigPath, body, "utf8");
   return { installedConfigPath, launchConfigPath };
@@ -282,12 +282,12 @@ export async function startPackedWinApp(config: ToolPackConfig, options: { waitF
   await mkdir(dirname(logPath), { recursive: true });
   await writeFile(logPath, "", "utf8");
   const spawned = await spawnBackgroundProcess({
-    args: createProcessStampArgs(stamp, OPEN_DESIGN_SIDECAR_CONTRACT),
+    args: createProcessStampArgs(stamp, SANKIWORK_SIDECAR_CONTRACT),
     command: target.executablePath,
     cwd: dirname(target.executablePath),
     env: createSidecarLaunchEnv({
       base: join(config.roots.runtime.namespaceRoot, "runtime"),
-      contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+      contract: SANKIWORK_SIDECAR_CONTRACT,
       extraEnv: {
         ...process.env,
         [DESKTOP_LOG_ECHO_ENV]: "0",
@@ -315,7 +315,7 @@ async function findManagedDesktopProcessTree(config: ToolPackConfig): Promise<nu
         matchesStampedProcess(
           processInfo,
           { mode: SIDECAR_MODES.RUNTIME, namespace: config.namespace, source },
-          OPEN_DESIGN_SIDECAR_CONTRACT,
+          SANKIWORK_SIDECAR_CONTRACT,
         )
       ),
     )
@@ -649,8 +649,8 @@ export async function diagnosePackedWinIpc(
   const attempts = resolveOptionalPositiveInteger(options.diagnoseAttempts, "--diagnose-attempts") ?? 10;
   const statusPollCount = resolveOptionalPositiveInteger(options.statusPollCount, "--status-poll-count") ?? 20;
   const statusPollIntervalMs = resolveOptionalPositiveInteger(options.statusPollIntervalMs, "--status-poll-interval-ms") ?? 250;
-  const previousTrace = process.env.OD_JSON_IPC_TRACE;
-  process.env.OD_JSON_IPC_TRACE = "1";
+  const previousTrace = process.env.SW_JSON_IPC_TRACE;
+  process.env.SW_JSON_IPC_TRACE = "1";
   const results: WinIpcDiagnoseAttempt[] = [];
   try {
     for (let attempt = 1; attempt <= attempts; attempt += 1) {
@@ -669,9 +669,9 @@ export async function diagnosePackedWinIpc(
     }
   } finally {
     if (previousTrace == null) {
-      delete process.env.OD_JSON_IPC_TRACE;
+      delete process.env.SW_JSON_IPC_TRACE;
     } else {
-      process.env.OD_JSON_IPC_TRACE = previousTrace;
+      process.env.SW_JSON_IPC_TRACE = previousTrace;
     }
   }
   return {

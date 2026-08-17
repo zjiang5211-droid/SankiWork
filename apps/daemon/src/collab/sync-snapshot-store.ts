@@ -11,7 +11,7 @@
 // its own (see the Daemon data directory contract in AGENTS.md).
 
 import type Database from 'better-sqlite3';
-import type { CollabCloudMemberDirectoryEntry, TeamProject } from '@open-design/contracts';
+import type { CollabCloudMemberDirectoryEntry, TeamProject } from '@sankiwork/contracts';
 import type { SyncDigestFace } from './sync-digest.js';
 
 type SqliteDb = Database.Database;

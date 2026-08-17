@@ -15,7 +15,7 @@ import {
   listExtractions,
 } from '../src/memory-extractions.js';
 
-const dataDir = path.join(process.env.OD_DATA_DIR ?? process.cwd(), 'memory-connectors-test');
+const dataDir = path.join(process.env.SW_DATA_DIR ?? process.cwd(), 'memory-connectors-test');
 const originalFetch = globalThis.fetch;
 
 const notionDefinition: ConnectorCatalogDefinition = {
@@ -67,12 +67,12 @@ function createNotionService(
         accountLabel: 'Product wiki',
         toolName: request.toolName,
         safety: notionDefinition.tools[0]!.safety,
-        outputSummary: 'Found OpenDesign design memory notes in Notion.',
+        outputSummary: 'Found SankiWork design memory notes in Notion.',
         output: {
           pages: [
             {
-              title: 'OpenDesign memory plan',
-              text: 'OpenDesign connector memory should collect design preferences, UI decisions, and visual references from Notion.',
+              title: 'SankiWork memory plan',
+              text: 'SankiWork connector memory should collect design preferences, UI decisions, and visual references from Notion.',
             },
           ],
         },
@@ -93,9 +93,9 @@ describe('connector memory extraction', () => {
               entries: [
                 {
                   type: 'project',
-                  name: 'OpenDesign design memory',
+                  name: 'SankiWork design memory',
                   description: 'Connector memories should stay design-related',
-                  body: 'OpenDesign connector memories should focus on design preferences, UI decisions, and visual references rather than generic app activity.',
+                  body: 'SankiWork connector memories should focus on design preferences, UI decisions, and visual references rather than generic app activity.',
                 },
               ],
             }),
@@ -134,9 +134,9 @@ describe('connector memory extraction', () => {
     expect(result.attemptedLLM).toBe(true);
     expect(result.suggestions).toEqual([
       expect.objectContaining({
-        id: 'project_opendesign_design_memory_1',
+        id: 'project_sankiwork_design_memory_1',
         type: 'project',
-        name: 'OpenDesign design memory',
+        name: 'SankiWork design memory',
         source: expect.objectContaining({
           kind: 'connector',
           connectorId: 'notion',
@@ -152,7 +152,7 @@ describe('connector memory extraction', () => {
       }),
     ]);
     await expect(
-      readMemoryEntry(dataDir, 'project_opendesign_design_memory'),
+      readMemoryEntry(dataDir, 'project_sankiwork_design_memory'),
     ).resolves.toBeNull();
     expect(listExtractions()[0]).toMatchObject({
       kind: 'connector',
@@ -189,7 +189,7 @@ describe('connector memory extraction', () => {
             pages: [
               {
                 title: 'Memory project',
-                text: 'OpenDesign should summarize connector findings when no durable memory is obvious.',
+                text: 'SankiWork should summarize connector findings when no durable memory is obvious.',
               },
             ],
           },
@@ -207,7 +207,7 @@ describe('connector memory extraction', () => {
     expect(executeCalls.length).toBeGreaterThan(1);
     expect(executeCalls[0]).toEqual(expect.objectContaining({
       input: expect.objectContaining({
-        query: '设计思路 设计偏好 UI UX 视觉风格 品牌 logo 设计系统 OpenDesign',
+        query: '设计思路 设计偏好 UI UX 视觉风格 品牌 logo 设计系统 SankiWork',
       }),
     }));
     expect(executeCalls[1]).toEqual(expect.objectContaining({
@@ -651,7 +651,7 @@ describe('connector memory extraction', () => {
             pages: [
               {
                 title: 'Memory source notes',
-                text: 'OpenDesign should read the currently available Notion search tool.',
+                text: 'SankiWork should read the currently available Notion search tool.',
               },
             ],
           },
@@ -732,7 +732,7 @@ describe('connector memory extraction', () => {
           pages: [
             {
               title: 'Memory source notes',
-              text: 'OpenDesign should summarize connector findings before saving them as memory.',
+              text: 'SankiWork should summarize connector findings before saving them as memory.',
             },
           ],
         },
@@ -766,13 +766,13 @@ describe('connector memory extraction', () => {
                   type: 'reference',
                   name: 'GitHub context summary',
                   description: 'Summary from GitHub',
-                  body: 'OpenDesign read GitHub via List notifications. Summary: Found 5 readable items from GitHub. Save this if it should be reused as context in future chats.',
+                  body: 'SankiWork read GitHub via List notifications. Summary: Found 5 readable items from GitHub. Save this if it should be reused as context in future chats.',
                 },
                 {
                   type: 'feedback',
                   name: 'UI density preference',
                   description: 'The user prefers denser design interfaces',
-                  body: 'The user prefers OpenDesign UI to use higher information density with clear hierarchy instead of spacious marketing-style cards.',
+                  body: 'The user prefers SankiWork UI to use higher information density with clear hierarchy instead of spacious marketing-style cards.',
                 },
               ],
             }),
@@ -808,7 +808,7 @@ describe('connector memory extraction', () => {
           type: 'feedback',
           name: 'Design memory source',
           description: 'Connector memory should use Claude Code',
-          body: 'OpenDesign connector memory extraction should use the same Claude Code Local CLI selected for chat when the memory model is set to same as chat.',
+          body: 'SankiWork connector memory extraction should use the same Claude Code Local CLI selected for chat when the memory model is set to same as chat.',
         },
       ],
     }));
@@ -855,7 +855,7 @@ describe('connector memory extraction', () => {
           type: 'project',
           name: 'OpenCode design memory',
           description: 'Connector memory should use OpenCode',
-          body: 'OpenDesign connector memory extraction should use the same OpenCode Local CLI selected for chat instead of falling back to an OpenAI API key.',
+          body: 'SankiWork connector memory extraction should use the same OpenCode Local CLI selected for chat instead of falling back to an OpenAI API key.',
         },
       ],
     }));
@@ -902,7 +902,7 @@ describe('connector memory extraction', () => {
           type: 'project',
           name: 'Codex design memory',
           description: 'Connector memory should use Codex',
-          body: 'OpenDesign connector memory extraction should use the same Codex Local CLI selected for chat instead of falling back to an OpenAI API key.',
+          body: 'SankiWork connector memory extraction should use the same Codex Local CLI selected for chat instead of falling back to an OpenAI API key.',
         },
       ],
     }));
@@ -947,7 +947,7 @@ describe('connector memory extraction', () => {
     const binPath = path.join(tempDir, 'codex');
     const capturePath = path.join(tempDir, 'capture.json');
     const previousPath = process.env.PATH;
-    const previousCapture = process.env.OD_MEMORY_CODEX_ARGS_OUT;
+    const previousCapture = process.env.SW_MEMORY_CODEX_ARGS_OUT;
 
     await fsp.writeFile(
       binPath,
@@ -955,7 +955,7 @@ describe('connector memory extraction', () => {
 const fs = require('node:fs');
 const args = process.argv.slice(2);
 const stdin = fs.readFileSync(0, 'utf8');
-fs.writeFileSync(process.env.OD_MEMORY_CODEX_ARGS_OUT, JSON.stringify({ args, stdin }));
+fs.writeFileSync(process.env.SW_MEMORY_CODEX_ARGS_OUT, JSON.stringify({ args, stdin }));
 process.stdout.write(JSON.stringify({
   type: 'item.completed',
   item: {
@@ -965,7 +965,7 @@ process.stdout.write(JSON.stringify({
         type: 'project',
         name: 'Codex stdin prompt',
         description: 'Codex memory used stdin',
-        body: 'OpenDesign connector memory extraction should pass the compacted prompt to Codex stdin and parse the JSON event stream response.'
+        body: 'SankiWork connector memory extraction should pass the compacted prompt to Codex stdin and parse the JSON event stream response.'
       }]
     })
   }
@@ -977,7 +977,7 @@ process.stdout.write(JSON.stringify({
 
     try {
       process.env.PATH = `${tempDir}${path.delimiter}${previousPath ?? ''}`;
-      process.env.OD_MEMORY_CODEX_ARGS_OUT = capturePath;
+      process.env.SW_MEMORY_CODEX_ARGS_OUT = capturePath;
 
       const result = await suggestMemoryFromConnectors(dataDir, {
         projectsRoot: process.cwd(),
@@ -1007,7 +1007,7 @@ process.stdout.write(JSON.stringify({
         'gpt-5',
       ]));
       expect(captured.stdin).toContain('You are a design-memory extractor');
-      expect(captured.stdin).toContain('OpenDesign connector memory should collect design preferences');
+      expect(captured.stdin).toContain('SankiWork connector memory should collect design preferences');
     } finally {
       if (previousPath == null) {
         delete process.env.PATH;
@@ -1015,9 +1015,9 @@ process.stdout.write(JSON.stringify({
         process.env.PATH = previousPath;
       }
       if (previousCapture == null) {
-        delete process.env.OD_MEMORY_CODEX_ARGS_OUT;
+        delete process.env.SW_MEMORY_CODEX_ARGS_OUT;
       } else {
-        process.env.OD_MEMORY_CODEX_ARGS_OUT = previousCapture;
+        process.env.SW_MEMORY_CODEX_ARGS_OUT = previousCapture;
       }
       await fsp.rm(tempDir, { recursive: true, force: true });
     }
@@ -1029,7 +1029,7 @@ process.stdout.write(JSON.stringify({
     const binPath = path.join(tempDir, 'opencode-cli');
     const capturePath = path.join(tempDir, 'capture.json');
     const previousPath = process.env.PATH;
-    const previousCapture = process.env.OD_MEMORY_OPENCODE_ARGS_OUT;
+    const previousCapture = process.env.SW_MEMORY_OPENCODE_ARGS_OUT;
 
     // Model the real `opencode run` arg parser: `-f, --file` is a yargs
     // *array* option, so it greedily swallows every following non-flag
@@ -1051,7 +1051,7 @@ if (fileFlag >= 0) {
     files.push(args[i]);
   }
 }
-fs.writeFileSync(process.env.OD_MEMORY_OPENCODE_ARGS_OUT, JSON.stringify({ args, stdin, files }));
+fs.writeFileSync(process.env.SW_MEMORY_OPENCODE_ARGS_OUT, JSON.stringify({ args, stdin, files }));
 for (const f of files) {
   if (!fs.existsSync(f)) {
     process.stderr.write('Error: File not found: ' + f + '\\n');
@@ -1067,7 +1067,7 @@ process.stdout.write(JSON.stringify({
         type: 'project',
         name: 'OpenCode stdin prompt',
         description: 'OpenCode memory used stdin',
-        body: 'OpenDesign connector memory extraction should pass the compacted prompt to OpenCode on stdin and parse the JSON event stream response.'
+        body: 'SankiWork connector memory extraction should pass the compacted prompt to OpenCode on stdin and parse the JSON event stream response.'
       }]
     })
   }
@@ -1079,7 +1079,7 @@ process.stdout.write(JSON.stringify({
 
     try {
       process.env.PATH = `${tempDir}${path.delimiter}${previousPath ?? ''}`;
-      process.env.OD_MEMORY_OPENCODE_ARGS_OUT = capturePath;
+      process.env.SW_MEMORY_OPENCODE_ARGS_OUT = capturePath;
 
       const result = await suggestMemoryFromConnectors(dataDir, {
         projectsRoot: process.cwd(),
@@ -1111,7 +1111,7 @@ process.stdout.write(JSON.stringify({
       expect(captured.args).not.toContain('-f');
       expect(captured.files).toEqual([]);
       expect(captured.stdin).toContain('You are a design-memory extractor');
-      expect(captured.stdin).toContain('OpenDesign connector memory should collect design preferences');
+      expect(captured.stdin).toContain('SankiWork connector memory should collect design preferences');
     } finally {
       if (previousPath == null) {
         delete process.env.PATH;
@@ -1119,9 +1119,9 @@ process.stdout.write(JSON.stringify({
         process.env.PATH = previousPath;
       }
       if (previousCapture == null) {
-        delete process.env.OD_MEMORY_OPENCODE_ARGS_OUT;
+        delete process.env.SW_MEMORY_OPENCODE_ARGS_OUT;
       } else {
-        process.env.OD_MEMORY_OPENCODE_ARGS_OUT = previousCapture;
+        process.env.SW_MEMORY_OPENCODE_ARGS_OUT = previousCapture;
       }
       await fsp.rm(tempDir, { recursive: true, force: true });
     }
@@ -1157,12 +1157,12 @@ process.stdout.write(JSON.stringify({
     ]);
     expect(result.changed).toHaveLength(1);
     expect(result.changed[0]).toMatchObject({
-      id: 'project_opendesign_design_memory',
+      id: 'project_sankiwork_design_memory',
       type: 'project',
-      name: 'OpenDesign design memory',
+      name: 'SankiWork design memory',
     });
 
-    const stored = await readMemoryEntry(dataDir, 'project_opendesign_design_memory');
+    const stored = await readMemoryEntry(dataDir, 'project_sankiwork_design_memory');
     expect(stored?.body).toContain('design preferences');
     expect(listExtractions()[0]).toMatchObject({
       kind: 'connector',

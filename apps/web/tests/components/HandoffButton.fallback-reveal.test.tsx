@@ -10,7 +10,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { HandoffButton } from '../../src/components/HandoffButton';
 import { I18nProvider } from '../../src/i18n';
-import type { AgentInfo, HostEditorsResponse } from '@open-design/contracts';
+import type { AgentInfo, HostEditorsResponse } from '@sankiwork/contracts';
 
 const fetchHostEditors = vi.fn<() => Promise<HostEditorsResponse>>();
 const openProjectInEditor = vi.fn();
@@ -110,7 +110,7 @@ describe('HandoffButton zero-editors fallback', () => {
         <HandoffButton
           projectId="p1"
           projectName="Landing"
-          projectDir="/tmp/open-design/Landing"
+          projectDir="/tmp/sankiwork/Landing"
           agents={agents}
           metricsConsent
           installationId="od-install-abc"
@@ -120,10 +120,10 @@ describe('HandoffButton zero-editors fallback', () => {
 
     fireEvent.click(await screen.findByTestId('handoff-caret'));
     fireEvent.click(await screen.findByRole('tab', { name: '复制给 CLI' }));
-    // The "Open Design Cloud website" link was removed from the CLI tab
+    // The "SankiWork Cloud website" link was removed from the CLI tab
     // (acceptance #101); the CLI agent cards remain the surface here.
-    expect(screen.queryByRole('link', { name: /打开 Open Design Cloud 官网/ })).toBeNull();
-    expect(screen.getByTestId('handoff-cli-item-amr').textContent).toContain('Open Design');
+    expect(screen.queryByRole('link', { name: /打开 SankiWork Cloud 官网/ })).toBeNull();
+    expect(screen.getByTestId('handoff-cli-item-amr').textContent).toContain('SankiWork');
     expect(screen.getByTestId('handoff-cli-item-amr').textContent).not.toContain('未安装');
     expect(
       screen.getByTestId('handoff-cli-item-amr').compareDocumentPosition(
@@ -135,7 +135,7 @@ describe('HandoffButton zero-editors fallback', () => {
 
     await waitFor(() => expect(copyToClipboard).toHaveBeenCalledTimes(1));
     const prompt = copyToClipboard.mock.calls[0]?.[0] as string;
-    expect(prompt).toContain('/tmp/open-design/Landing');
+    expect(prompt).toContain('/tmp/sankiwork/Landing');
     expect(prompt).toContain('Vue.js');
     expect(prompt).toContain('Claude Code');
     expect(prompt).toContain('真实可运行');
@@ -153,7 +153,7 @@ describe('HandoffButton zero-editors fallback', () => {
       ],
     });
     copyToClipboard.mockResolvedValue(true);
-    const projectDir = '/tmp/open-design/Landing';
+    const projectDir = '/tmp/sankiwork/Landing';
 
     render(
       <I18nProvider initial="en">

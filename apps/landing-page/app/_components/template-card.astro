@@ -73,7 +73,7 @@ const detailHref = record.detailHref;
  * surface get the lighter affordance.
  */
 const pcopy = getPluginsCopy(locale);
-const shareUrl = new URL(detailHref, 'https://open-design.ai').toString();
+const shareUrl = new URL(detailHref, 'https://sanki-ai.cloud').toString();
 const shareText = pcopy.shareTemplate({ title: name, url: shareUrl });
 
 /*
@@ -102,13 +102,13 @@ const accent = (record.mode && ACCENT_BY_MODE[record.mode]) ?? PALETTE[index % P
 /*
  * Author + date strip. Author surfaces the manifest's `author.name`
  * with a leading `@` per YouMind convention; first-party manifests
- * read as `@open-design`. Date is intentionally absent — bundled
+ * read as `@sankiwork`. Date is intentionally absent — bundled
  * manifests don't carry a `published_at` and inferring it from git
  * mtime adds build-time complexity for a soft signal. We render
- * a paper-toned `Open Design` attribution badge in the date slot
+ * a paper-toned `SankiWork` attribution badge in the date slot
  * instead so the row still balances visually.
  */
-const authorRaw = record.authorName ?? 'Open Design';
+const authorRaw = record.authorName ?? 'SankiWork';
 const authorHandle = `@${authorRaw.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
 
 /*
@@ -156,7 +156,7 @@ const isVideoPreview = record.previewType === 'video' && record.previewVideo;
 
   <div class="tpl-meta">
     <span class="tpl-author">{authorHandle}</span>
-    <span class="tpl-meta-date">Open Design</span>
+    <span class="tpl-meta-date">SankiWork</span>
   </div>
 
   <a class="tpl-excerpt" href={detailHref}>

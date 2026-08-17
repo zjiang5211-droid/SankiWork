@@ -26,7 +26,7 @@ import type {
 /** The star CTA points at the harness itself until a curated list repo exists. */
 export const DSH_REPO_URL = 'https://github.com/deepseek-ai/deepseek-harness';
 export const DEEPSEEK_HUB_PATH = '/plugins/deepseek-harness-design-plugins/';
-export const DEEPSEEK_OD_DOWNLOAD_URL = '/download/';
+export const DEEPSEEK_SW_DOWNLOAD_URL = '/download/';
 export const DEEPSEEK_GUIDE_HREF = '/agents/deepseek-harness-design/';
 
 export type DeepseekSkillCategory =

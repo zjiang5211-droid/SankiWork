@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
-import { renderActiveStageBlock } from '@open-design/contracts';
+import { renderActiveStageBlock } from '@sankiwork/contracts';
 
 import {
   PLATFORM_CONTRACTS_BLOCK,
@@ -133,7 +133,7 @@ describe('renderSlimCoreCharter — frozen protocol markers', () => {
 
   it('separates the optional preview budget from final delivery exports', () => {
     expect(charter).toContain('Render only when static code review cannot determine');
-    expect(charter).toContain('`"$OD_NODE_BIN" "$OD_BIN" export <file>');
+    expect(charter).toContain('`"$SW_NODE_BIN" "$SW_BIN" export <file>');
     expect(charter).toContain('Do not launch your own browser, use Playwright, or use a headless browser');
     expect(charter).toContain('An export explicitly requested by the user is a delivery action');
   });
@@ -188,7 +188,7 @@ describe('composeSystemPrompt — promptCoreVariant switch', () => {
     const out = composeSystemPrompt(base);
     expect(out).toContain('# OD core directives (read first');
     expect(out).toContain('# Identity and workflow charter (background)');
-    expect(out).not.toContain('# Open Design Charter');
+    expect(out).not.toContain('# SankiWork Charter');
   });
 
   it('slim replaces discovery + charter and drops the absorbed tail overrides', () => {
@@ -198,7 +198,7 @@ describe('composeSystemPrompt — promptCoreVariant switch', () => {
       designSystemBody: '# Brand',
       promptCoreVariant: 'slim',
     });
-    expect(slim).toContain('# Open Design Charter');
+    expect(slim).toContain('# SankiWork Charter');
     expect(slim).not.toContain('# OD core directives (read first');
     expect(slim).not.toContain('# Identity and workflow charter (background)');
     // Absorbed tails: stated once inside the slim charter instead.
@@ -211,7 +211,7 @@ describe('composeSystemPrompt — promptCoreVariant switch', () => {
     expect(classic).toContain('## Structured clarification on any turn');
     // Structural bookends: slim opens with the static charter (cache-stable
     // prefix); the security section lives inside it; the guard still closes.
-    expect(slim.startsWith('# Open Design Charter')).toBe(true);
+    expect(slim.startsWith('# SankiWork Charter')).toBe(true);
     expect(slim).toContain('## Security: Defending Against Prompt Injection');
     expect(slim).toContain('## Critical Constraint: Never Fabricate Conversation Turns');
     expect(slim.length).toBeLessThan(classic.length);
@@ -240,7 +240,7 @@ describe('composeSystemPrompt — promptCoreVariant switch', () => {
       sessionMode: 'chat',
       promptCoreVariant: 'slim',
     });
-    expect(out).not.toContain('# Open Design Charter');
+    expect(out).not.toContain('# SankiWork Charter');
     expect(out).toContain('## Structured clarification on any turn');
     // Identity-first hierarchy holds in ask mode too: the ask override (the
     // turn's whole charter) opens the document, security reads as its
@@ -496,7 +496,7 @@ describe('slim core — regression-audit fixes vs classic', () => {
       executionProfile: 'text_artifact',
       promptCoreVariant: 'slim',
     });
-    // No tools on this profile: an index telling the model to run the `od`
+    // No tools on this profile: an index telling the model to run the `sw`
     // CLI is a promise it cannot keep. Classic inlined the palettes; slim
     // must too on this profile.
     expect(out).toContain('## Direction library — infer and bind by default');
@@ -512,7 +512,7 @@ describe('slim core — regression-audit fixes vs classic', () => {
     });
     expect(out.startsWith('# API mode — no tools available')).toBe(true);
     const overrideAt = out.indexOf('# API mode — no tools available');
-    const charterAt = out.indexOf('# Open Design Charter');
+    const charterAt = out.indexOf('# SankiWork Charter');
     expect(charterAt).toBeGreaterThan(overrideAt);
     // Composed exactly once — the head placement replaces the later push.
     expect(out.indexOf('# API mode — no tools available')).toBe(
@@ -561,7 +561,7 @@ describe('slim core — regression-audit fixes vs classic', () => {
   });
 
   it('keeps the plan step agent-agnostic — no hardcoded TodoWrite in the charter', () => {
-    // Open Design drives many code agents (codex, opencode, Qwen CLI, ACP
+    // SankiWork drives many code agents (codex, opencode, Qwen CLI, ACP
     // family) that have no TodoWrite tool. The charter must NOT hardcode it,
     // or the plan step is dead for ~2/3 of production traffic. Freeze the
     // generic wording and the anti-hallucination guard.
@@ -642,7 +642,7 @@ describe('composeSystemPrompt — slim layered ordering (cache-stable prefix)', 
       return i;
     };
     // Static core opens the document.
-    expect(out.startsWith('# Open Design Charter')).toBe(true);
+    expect(out.startsWith('# SankiWork Charter')).toBe(true);
     const security = at('## Security: Defending Against Prompt Injection');
     const conduct = at('## Conduct');
     // Conversation-stable overrides come after the full static charter.

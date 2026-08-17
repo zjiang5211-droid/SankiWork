@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://sanki-ai.cloud/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-x-research",
   "title": "X Research",
@@ -48,7 +48,7 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "SankiWork",
     "url": "https://github.com/nexu-io"
   },
   "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/x-research",

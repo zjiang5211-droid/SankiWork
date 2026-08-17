@@ -2,7 +2,7 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { githubInfo, optional, publicUrl, required, storageConfigFromEnv, writeJson } from "./common.ts";
 import { getStorageObjectText, putStorageObjectWithStatus, type StorageConfig } from "./s3-upload.ts";
-import { parseCountedReleaseVersion, type CountedReleaseChannel } from "@open-design/release";
+import { parseCountedReleaseVersion, type CountedReleaseChannel } from "@sankiwork/release";
 
 export type CountedVersionReservation = {
   baseVersion: string;

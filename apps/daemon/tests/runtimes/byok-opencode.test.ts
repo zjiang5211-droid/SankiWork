@@ -30,7 +30,7 @@ describe('byok-opencode runtime config', () => {
         'json',
         '--dangerously-skip-permissions',
         '-m',
-        'open-design-byok/gpt-5.5',
+        'sankiwork-byok/gpt-5.5',
       ]);
     } finally {
       agentCapabilities.delete('byok-opencode');
@@ -38,8 +38,8 @@ describe('byok-opencode runtime config', () => {
   });
 
   it('prefixes raw BYOK models with the run-scoped OpenCode provider id', () => {
-    expect(opencodeByokModelId('gpt-4o-mini')).toBe('open-design-byok/gpt-4o-mini');
-    expect(opencodeByokModelId('open-design-byok/gpt-4o-mini')).toBe('open-design-byok/gpt-4o-mini');
+    expect(opencodeByokModelId('gpt-4o-mini')).toBe('sankiwork-byok/gpt-4o-mini');
+    expect(opencodeByokModelId('sankiwork-byok/gpt-4o-mini')).toBe('sankiwork-byok/gpt-4o-mini');
     expect(opencodeByokModelId('default')).toBeNull();
   });
 
@@ -53,7 +53,7 @@ describe('byok-opencode runtime config', () => {
       'deepseek-v4-flash',
     );
 
-    expect(out?.modelId).toBe('open-design-byok/deepseek-v4-flash');
+    expect(out?.modelId).toBe('sankiwork-byok/deepseek-v4-flash');
     expect(out?.env).toEqual({ [BYOK_OPENCODE_API_KEY_ENV]: 'sk-secret' });
     expect(JSON.stringify(out?.config)).not.toContain('sk-secret');
     expect(out?.config).toMatchObject({
@@ -84,7 +84,7 @@ describe('byok-opencode runtime config', () => {
       'gpt-5.5',
     );
 
-    expect(out?.modelId).toBe('open-design-byok/gpt-5.5');
+    expect(out?.modelId).toBe('sankiwork-byok/gpt-5.5');
     expect(out?.config).toMatchObject({
       provider: {
         [BYOK_OPENCODE_PROVIDER_ID]: {
@@ -376,7 +376,7 @@ describe('byok-opencode runtime config', () => {
       'llama3.2',
     );
 
-    expect(out?.modelId).toBe('open-design-byok/llama3.2');
+    expect(out?.modelId).toBe('sankiwork-byok/llama3.2');
     expect(out?.env).toEqual({});
     expect(out?.config).toMatchObject({
       provider: {
@@ -411,7 +411,7 @@ describe('byok-opencode runtime config', () => {
       'model',
     );
 
-    expect(out?.modelId).toBe('open-design-byok/model');
+    expect(out?.modelId).toBe('sankiwork-byok/model');
     expect(out?.env).toEqual({});
     expect(out?.config).toMatchObject({
       provider: {

@@ -20,7 +20,7 @@ import type {
   LibraryAssetKind,
   LibraryStorage,
   LibrarySourceKind,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   addLibraryAssetSource,
   findLibraryAssetByHash,
@@ -416,7 +416,7 @@ export async function registerLibraryAsset(
  * Record the enrichment task. The programmatic layer (size / mime / dims /
  * tags) already ran inline above, so it lands `done`; the AI layer (caption /
  * OCR / embedding) is recorded `skipped` until a model is configured — a
- * future `od library reindex` can re-run it.
+ * future `sw library reindex` can re-run it.
  */
 function recordEnrichmentTask(db: SqliteDb, assetId: string, kind: LibraryAssetKind): string {
   const id = randomUUID();

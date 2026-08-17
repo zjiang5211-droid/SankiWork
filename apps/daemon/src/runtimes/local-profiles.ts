@@ -29,14 +29,14 @@ function isInsideDir(parent: string, child: string): boolean {
 }
 
 function localAgentProfilesFile(): string | null {
-  const explicit = process.env.OD_AGENT_PROFILES_CONFIG;
+  const explicit = process.env.SW_AGENT_PROFILES_CONFIG;
   const explicitPath =
     typeof explicit === 'string' && explicit.trim()
       ? path.resolve(explicit.trim())
       : null;
 
   if (isSandboxModeEnabled(process.env)) {
-    if (!process.env.OD_DATA_DIR?.trim()) return null;
+    if (!process.env.SW_DATA_DIR?.trim()) return null;
     const sandboxRuntime = resolveSandboxRuntimeConfigFromEnv(
       process.env,
       RUNTIME_PROJECT_ROOT,
@@ -54,7 +54,7 @@ function localAgentProfilesFile(): string | null {
   if (explicitPath) {
     return explicitPath;
   }
-  return path.join(homedir(), '.open-design', 'agents.local.json');
+  return path.join(homedir(), '.sankiwork', 'agents.local.json');
 }
 
 function normalizeStringList(value: unknown): string[] {

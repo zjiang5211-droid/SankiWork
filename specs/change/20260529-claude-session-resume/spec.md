@@ -43,7 +43,7 @@ Constraints:
 - Claude-only in v1. Other adapters keep `resumesSessionViaCli` unset and the
   transcript path unchanged.
 - Honor the UI/CLI dual-track rule: a force-fresh control must exist on both
-  the web composer and the `od` run path.
+  the web composer and the `sw` run path.
 
 Open questions:
 - Should resume default on for Claude, or ship behind a per-project opt-in for
@@ -287,7 +287,7 @@ turn N+1: resolveResumeDecision(conv, agent, epoch, forceFresh, caps)
    instruction-block guard (multica's "Focus on THIS turn" analog) telling the
    model the prior form was already answered.
 6. **Force-fresh is first-class and dual-surface.** Retry-from-message, history
-   edits, an explicit composer toggle, and `od --fresh-session` all set
+   edits, an explicit composer toggle, and `sw --fresh-session` all set
    `forceFreshSession`, mirroring multica's `ForceFreshSession`.
 
 ### Why this design
@@ -423,7 +423,7 @@ if (exitedWith('unknown session') && usedResume) {
 
 ### Verification
 
-- `pnpm guard`, `pnpm typecheck`, `pnpm --filter @open-design/daemon test` per
+- `pnpm guard`, `pnpm typecheck`, `pnpm --filter @sankiwork/daemon test` per
   changed surface.
 - Token-savings telemetry (`sessionResumed`, input-token delta) confirms the
   win that motivates the change.

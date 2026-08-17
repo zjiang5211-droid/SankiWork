@@ -139,10 +139,10 @@ against a design-template id continue to compose its instructions.
 
 ### Runtime resource staging
 
-Open Design does not distribute an active bundle by symlinking it into every
+SankiWork does not distribute an active bundle by symlinking it into every
 agent's global configuration. Before a project run, the daemon makes a real
 copy of every active skill/template with side files under the project's
-`.od-skills/` alias. The prompt preamble advertises that CWD-relative copy and
+`.sankiwork-skills/` alias. The prompt preamble advertises that CWD-relative copy and
 an absolute fallback. This keeps references and assets reachable across
 agents, including filesystems where symlink or cross-device rename semantics
 differ. A local library installation may itself be represented by a managed
@@ -182,7 +182,7 @@ The daemon normalizes `od.mode` to one of seven values. These values classify bo
 - **Purpose:** classify a functional workflow that creates, extracts, audits,
   or transforms design-system material.
 - **Output:** defined by the skill. A portable workflow may emit only
-  `DESIGN.md`; current Open Design import/create flows build a package with
+  `DESIGN.md`; current SankiWork import/create flows build a package with
   `manifest.json`, `DESIGN.md`, `tokens.css`, and optional rich resources.
 - **Schema:** no fixed nine headings. Repository packages require substantive
   coverage and keep prose synchronized with the token contract; see
@@ -267,10 +267,10 @@ The split keeps DESIGN.md authors free of universal-craft duplication and keeps 
 ## 6. Skill inspection and distribution
 
 ```sh
-od skills list
+sw skills list
 # → id and display label for entries returned by /api/skills
 
-od skills show <id>
+sw skills show <id>
 # → the daemon's JSON representation of one skill
 
 od skill install github:owner/repo
@@ -283,7 +283,7 @@ Remote skill import accepts the same source grammar as Plugin URL import:
 top-level `SKILL.md`. Downloads are size-capped and reject private-network
 targets, path traversal, symbolic/hard links, malformed manifests, and
 duplicate skill ids. An intentional replacement is explicit: uninstall the
-existing user skill first, then install the new bundle. `od skills` remains the
+existing user skill first, then install the new bundle. `sw skills` remains the
 compatibility alias for list/show/install/uninstall. Repository-owned
 functional skills and rendering templates still live under `skills/` and
 `design-templates/` respectively. Do not document a concrete daemon-managed
@@ -294,13 +294,13 @@ the only path authority.
 
 The upstream-inspired bundle ships at
 [`design-templates/guizang-ppt/`](../design-templates/guizang-ppt/) with its
-license preserved and Open Design metadata applied:
+license preserved and SankiWork metadata applied:
 
 1. The daemon lists it through `/api/design-templates`, independently of the
    functional `/api/skills` registry.
 2. The user opens the Deck creation tab and selects the guizang template from
    the rendering catalogue.
-3. Open Design stores the selected template id as the project's primary
+3. SankiWork stores the selected template id as the project's primary
    `skillId`. The daemon's combined skill-like resolver loads that template's
    `SKILL.md` and resources; it does not also inject the Deck tab's default
    functional skill.
@@ -346,7 +346,7 @@ od:
 # Workflow
 
 1. Apply the active design-system context supplied above this skill.
-2. Copy `.od-skills/saas-landing/assets/base.html` to `index.html` in the project workspace.
+2. Copy `.sankiwork-skills/saas-landing/assets/base.html` to `index.html` in the project workspace.
 3. Fill sections: hero, features (3–6), social proof, pricing, CTA, footer.
 4. Inline all CSS. Use system font stack as fallback if DESIGN.md typography fails to load.
 5. Write `index.html`. Done.
@@ -354,7 +354,7 @@ od:
 
 ## 9. Testing skills
 
-There is no `od skills test` command and no runtime contract for a
+There is no `sw skills test` command and no runtime contract for a
 `tests/basic.prompt` tree. Repository-owned entries are checked by the root
 guard, localized-content coverage, registry tests, and any focused tests for
 their assets or prompt behavior. Run at least `pnpm guard` and

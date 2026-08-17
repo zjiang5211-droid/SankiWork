@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import type { SkillDetail, SkillSummary } from '@open-design/contracts';
+import type { SkillDetail, SkillSummary } from '@sankiwork/contracts';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../../src/providers/registry', () => ({

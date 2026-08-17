@@ -15,7 +15,7 @@ import type {
   BrandVoice,
   DesignSystemPackageInfo,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { designSystemStaticUrl, fetchProjectFileText, projectRawUrl } from '../providers/registry';
 import { parseDesignMd, type ParsedDesignMd } from './design-md-parse';
 

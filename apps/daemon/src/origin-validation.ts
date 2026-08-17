@@ -13,7 +13,7 @@ export interface RequestWithOriginHeaders {
 }
 
 export function configuredAllowedOrigins(env: NodeJS.ProcessEnv = process.env): string[] {
-  const raw = env.OD_ALLOWED_ORIGINS || '';
+  const raw = env.SW_ALLOWED_ORIGINS || '';
   if (!raw.trim()) return [];
   return raw
     .split(',')
@@ -22,7 +22,7 @@ export function configuredAllowedOrigins(env: NodeJS.ProcessEnv = process.env): 
     .map((origin) => {
       const parsed = new URL(origin);
       if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-        throw new Error('OD_ALLOWED_ORIGINS only supports http:// and https:// origins');
+        throw new Error('SW_ALLOWED_ORIGINS only supports http:// and https:// origins');
       }
       return parsed.origin;
     });
@@ -52,7 +52,7 @@ export function configuredAllowedInternalHosts(
   env: NodeJS.ProcessEnv = process.env,
   warn: (message: string) => void = (message) => console.warn(message),
 ): string[] {
-  const raw = env.OD_ALLOWED_INTERNAL_HOSTS || '';
+  const raw = env.SW_ALLOWED_INTERNAL_HOSTS || '';
   if (!raw.trim()) return [];
   const hosts: string[] = [];
   for (const part of raw.split(/[,\s]+/)) {
@@ -64,7 +64,7 @@ export function configuredAllowedInternalHosts(
     // still carries a scheme, so exclude those from the CIDR heuristic.)
     if (!entry.includes('://') && /^[^/]+\/\d{1,3}$/.test(entry)) {
       warn(
-        `[ssrf] ignoring CIDR entry in OD_ALLOWED_INTERNAL_HOSTS: ${JSON.stringify(entry)} — list individual hosts instead`,
+        `[ssrf] ignoring CIDR entry in SW_ALLOWED_INTERNAL_HOSTS: ${JSON.stringify(entry)} — list individual hosts instead`,
       );
       continue;
     }
@@ -80,7 +80,7 @@ export function configuredAllowedInternalHosts(
     }
     if (!hostname) {
       warn(
-        `[ssrf] ignoring malformed OD_ALLOWED_INTERNAL_HOSTS entry: ${JSON.stringify(entry)}`,
+        `[ssrf] ignoring malformed SW_ALLOWED_INTERNAL_HOSTS entry: ${JSON.stringify(entry)}`,
       );
       continue;
     }
@@ -96,7 +96,7 @@ export function allowedBrowserPorts(
   const ports = [];
   const primary = Number(port);
   if (primary) ports.push(primary);
-  const webPort = Number(env.OD_WEB_PORT);
+  const webPort = Number(env.SW_WEB_PORT);
   if (webPort && webPort !== primary) ports.push(webPort);
   return ports;
 }
@@ -217,7 +217,7 @@ export function isLocalSameOrigin(
   const host = String(headerValue(req.headers?.host) || '');
   const origin = headerValue(req.headers?.origin);
   const ports = allowedBrowserPorts(port, env);
-  const bindHost = env.OD_BIND_HOST || '127.0.0.1';
+  const bindHost = env.SW_BIND_HOST || '127.0.0.1';
   const extraAllowedOrigins = configuredAllowedOrigins(env);
   const ipOnlyExtraOrigins = extraAllowedOrigins.filter((o) =>
     isIpLiteralHostname(new URL(o).hostname),
@@ -228,7 +228,7 @@ export function isLocalSameOrigin(
     if (localHostAllowed) return true;
     // Browsers (Firefox, Chrome) omit Origin on same-origin GET subresource
     // requests per the Fetch spec, which made hostname entries in
-    // OD_ALLOWED_ORIGINS unreachable for legitimate same-origin GETs
+    // SW_ALLOWED_ORIGINS unreachable for legitimate same-origin GETs
     // through a reverse proxy. Sec-Fetch-Site is set by the user agent and
     // cannot be modified by JavaScript, so a value of "same-origin"
     // attests that the request originated from the same origin as the
@@ -246,7 +246,7 @@ export function isLocalSameOrigin(
   // connection to the daemon. The Host header the daemon sees is the
   // proxy upstream's address, not the browser-visible origin, so the host
   // check below fails even when the user explicitly listed their proxy
-  // origin in OD_ALLOWED_ORIGINS. Trust the Origin header in that case:
+  // origin in SW_ALLOWED_ORIGINS. Trust the Origin header in that case:
   // a client-supplied origin that exactly matches an explicitly allow-
   // listed entry is the documented escape hatch for these deployments.
   if (extraAllowedOrigins.includes(origin)) return true;

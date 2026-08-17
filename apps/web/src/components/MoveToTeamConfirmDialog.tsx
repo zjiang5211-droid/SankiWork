@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Dialog, DialogDescription, DialogFooter, DialogTitle } from '@open-design/components';
+import { Dialog, DialogDescription, DialogFooter, DialogTitle } from '@sankiwork/components';
 import { useT } from '../i18n';
 
 /** Same skip key the recent-projects grid persists its 不再提示 choice under. */

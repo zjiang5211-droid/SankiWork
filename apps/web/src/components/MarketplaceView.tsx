@@ -10,7 +10,7 @@
 // primary daily-driver flow.
 
 import { useEffect, useState } from 'react';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 import { listPlugins } from '../state/projects';
 import { navigate } from '../router';
 import { useI18n } from '../i18n';
@@ -86,7 +86,7 @@ export function MarketplaceView() {
       <section className="marketplace-view__grid" data-testid="marketplace-grid">
         {visible.length === 0 && !loading ? (
           <div className="marketplace-view__empty">
-            {t('marketplace.emptyBefore')} <code>od plugin install &lt;source&gt;</code>{t('marketplace.emptyAfter')}
+            {t('marketplace.emptyBefore')} <code>sw plugin install &lt;source&gt;</code>{t('marketplace.emptyAfter')}
           </div>
         ) : null}
         {visible.map((p) => (
@@ -114,7 +114,7 @@ export function MarketplaceView() {
         <h2>{t('marketplace.catalogsTitle')}</h2>
         {marketplaces.length === 0 ? (
           <div>
-            {t('marketplace.catalogsEmpty')} <code>od marketplace add &lt;url&gt;</code>.
+            {t('marketplace.catalogsEmpty')} <code>sw marketplace add &lt;url&gt;</code>.
           </div>
         ) : (
           <ul>

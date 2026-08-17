@@ -14,7 +14,7 @@ build/
 *.tsbuildinfo
 
 # Runtime / local data (created by the daemon at runtime)
-**/.od/
+**/.sankiwork/
 .opencode/
 
 # Env files (keep committed examples)
@@ -36,3 +36,6 @@ apps/desktop/vendor/dom-to-pptx/dom-to-pptx.bundle.js
 
 # Playwright test output (junit, html report, results)
 e2e/ui/reports/
+
+# Landing-page vendored enhancer scripts (fetched by scripts/vendor-enhancers.ts)
+apps/landing-page/public/enhancers/

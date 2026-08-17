@@ -1,5 +1,5 @@
 /**
- * @module @open-design/sidecar
+ * @module @sankiwork/sidecar
  *
  * Public barrel for the generic sidecar runtime package. Re-exports the exact
  * prior public surface — the data types, IPC-path validators, namespace/runtime

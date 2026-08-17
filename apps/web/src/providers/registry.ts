@@ -1,4 +1,4 @@
-import { workspaceContextHasTeamIdentity } from '@open-design/contracts';
+import { workspaceContextHasTeamIdentity } from '@sankiwork/contracts';
 import { boundedRequestErrorCode } from '../analytics/workspace';
 import type {
   ConnectorAuthConfigPrepareResponse,
@@ -13,7 +13,7 @@ import type {
   ImportGitHubDesignSystemResponse,
   ImportShadcnDesignSystemRequest,
   ImportShadcnDesignSystemResponse,
-  OpenDesignGithubLatestReleaseResponse,
+  SankiWorkGithubLatestReleaseResponse,
   ImportLocalDesignSystemRequest,
   ImportLocalDesignSystemResponse,
   ReplaceProjectWorkingDirResponse,
@@ -28,7 +28,7 @@ import type {
   SocialShareRequest,
   SocialShareResponse,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type {
   AgentInfo,
   AppVersionInfo,
@@ -79,9 +79,9 @@ import type {
 import type { ArtifactManifest } from '../artifacts/types';
 import { GENERIC_DEPLOY_ENVELOPE_CODES } from '../analytics/deploy-error-code';
 import {
-  isOpenDesignHostAvailable,
+  isSankiWorkHostAvailable,
   openHostExternalUrl,
-} from '@open-design/host';
+} from '@sankiwork/host';
 import {
   coalescedGet,
   evictCoalescedGet,
@@ -1188,13 +1188,13 @@ export interface ConnectorActionResult {
 }
 
 function popupBlockedMessage(): string {
-  return 'Popup blocked. Allow popups for Open Design and try again.';
+  return 'Popup blocked. Allow popups for SankiWork and try again.';
 }
 
 export async function openExternalUrl(url: string): Promise<boolean> {
   const bridgedUrl = await bridgeFirstPartyUrl(url);
   const targetUrl = bridgedUrl ?? url;
-  if (isOpenDesignHostAvailable()) {
+  if (isSankiWorkHostAvailable()) {
     const opened = await openHostExternalUrl(targetUrl);
     if (opened.ok) return true;
   }
@@ -1222,7 +1222,7 @@ export async function openExternalUrl(url: string): Promise<boolean> {
 async function bridgeFirstPartyUrl(url: string): Promise<string | null> {
   try {
     const target = new URL(url);
-    if (!['open-design.ai', 'www.open-design.ai', 'staging.open-design.ai'].includes(target.hostname)) return null;
+    if (!['sanki-ai.cloud', 'www.sanki-ai.cloud', 'staging.sanki-ai.cloud'].includes(target.hostname)) return null;
     const resp = await fetch('/api/attribution/bridge-url', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1247,7 +1247,7 @@ async function decodeConnectorError(resp: Response): Promise<string> {
 
 export async function connectConnector(connectorId: string): Promise<ConnectorActionResult> {
   let authWindow: Window | null = null;
-  const useExternalBrowser = isOpenDesignHostAvailable();
+  const useExternalBrowser = isSankiWorkHostAvailable();
   try {
     if (!useExternalBrowser) {
       authWindow = window.open('about:blank', '_blank');
@@ -1522,7 +1522,7 @@ export async function fetchLatestGithubReleaseInfo(): Promise<LatestGithubReleas
   try {
     const resp = await fetch('/api/github/open-design/releases/latest');
     if (!resp.ok) return null;
-    const json = (await resp.json()) as Partial<OpenDesignGithubLatestReleaseResponse>;
+    const json = (await resp.json()) as Partial<SankiWorkGithubLatestReleaseResponse>;
     if (typeof json.tag_name !== 'string' || typeof json.html_url !== 'string') return null;
     return {
       tagName: json.tag_name,
@@ -1834,7 +1834,7 @@ export async function createSocialSharePayload(
   return (await resp.json()) as SocialShareResponse;
 }
 
-// Project files — all paths are scoped under .od/projects/<id>/ on disk.
+// Project files — all paths are scoped under .sankiwork/projects/<id>/ on disk.
 
 function projectFilesCacheKey(
   projectId: string,
@@ -1925,8 +1925,8 @@ export async function fetchProjectFiles(
   }
 }
 
-export type ProjectDesignTokenSuggestion = import('@open-design/contracts').ProjectDesignTokenSuggestion;
-export type ProjectDesignTokenSuggestionProp = import('@open-design/contracts').ProjectDesignTokenSuggestionProp;
+export type ProjectDesignTokenSuggestion = import('@sankiwork/contracts').ProjectDesignTokenSuggestion;
+export type ProjectDesignTokenSuggestionProp = import('@sankiwork/contracts').ProjectDesignTokenSuggestionProp;
 
 export async function fetchProjectDesignTokenSuggestions(
   projectId: string,
@@ -2312,7 +2312,7 @@ export async function fetchProjectPreviewBaseHref(
     if (!response.ok) return null;
     const body = (await response.json()) as ProjectPreviewUrlResponse;
     if (typeof body.url !== 'string' || !body.url.startsWith('/')) return null;
-    const parsed = new URL(body.url, 'http://open-design.local');
+    const parsed = new URL(body.url, 'http://sankiwork.local');
     const expectedPrefix = `/api/projects/${encodeURIComponent(projectId)}/preview/`;
     if (!parsed.pathname.startsWith(expectedPrefix)) return null;
     const directoryEnd = parsed.pathname.lastIndexOf('/') + 1;
@@ -3064,7 +3064,7 @@ export async function dirExists(path: string): Promise<boolean> {
 // Global most-recently-used working directories (the local folders the user
 // grants the agent read-only awareness of). Persisted in the daemon's
 // app-config so they survive browser resets and are shared across projects
-// and the `od` CLI. Returns most-recent-first.
+// and the `sw` CLI. Returns most-recent-first.
 export async function fetchRecentLinkedDirs(): Promise<string[]> {
   try {
     // `/api/recent-dirs` returns the list pruned to folders that still exist
@@ -3144,18 +3144,18 @@ export async function replaceProjectWorkingDir(
 // editors on demand (PATH probe + macOS bundle scan), and the POST
 // endpoint spawns the chosen app with the project's resolvedDir.
 export async function fetchHostEditors(): Promise<
-  import('@open-design/contracts').HostEditorsResponse
+  import('@sankiwork/contracts').HostEditorsResponse
 > {
   const resp = await fetch('/api/editors');
   if (!resp.ok) throw new Error(`GET /api/editors failed: ${resp.status}`);
-  return (await resp.json()) as import('@open-design/contracts').HostEditorsResponse;
+  return (await resp.json()) as import('@sankiwork/contracts').HostEditorsResponse;
 }
 
 export async function openProjectInEditor(
   projectId: string,
-  editorId: import('@open-design/contracts').HostEditorId,
+  editorId: import('@sankiwork/contracts').HostEditorId,
   workspaceContext?: WorkspaceCollabContext | null,
-): Promise<import('@open-design/contracts').OpenProjectInEditorResponse> {
+): Promise<import('@sankiwork/contracts').OpenProjectInEditorResponse> {
   const resp = await fetch(
     `/api/projects/${encodeURIComponent(projectId)}/open-in`,
     {
@@ -3171,7 +3171,7 @@ export async function openProjectInEditor(
     const body = await readApiErrorBody(resp);
     throw new Error(body.message);
   }
-  return (await resp.json()) as import('@open-design/contracts').OpenProjectInEditorResponse;
+  return (await resp.json()) as import('@sankiwork/contracts').OpenProjectInEditorResponse;
 }
 
 export async function fetchDesignSystemPreview(
@@ -3390,8 +3390,8 @@ import type {
   LibraryIngestResponse,
   LibraryPairingStartResponse,
   LibrarySyncResponse,
-} from '@open-design/contracts';
-import { LIBRARY_UPLOAD_MAX_BYTES, isLibraryUploadMimeAllowed } from '@open-design/contracts';
+} from '@sankiwork/contracts';
+import { LIBRARY_UPLOAD_MAX_BYTES, isLibraryUploadMimeAllowed } from '@sankiwork/contracts';
 
 /** Raw bytes URL for a library asset (image src / download href). */
 export function libraryAssetRawUrl(id: string): string {

@@ -1,8 +1,8 @@
 /// <reference path="../.astro/types.d.ts" />
 
 // Compile-time constant injected by `vite.define` in astro.config.ts. True on
-// staging / PR-preview builds (OD_LANDING_NOINDEX=1), false in production.
-declare const __OD_LANDING_NOINDEX__: boolean;
+// staging / PR-preview builds (SW_LANDING_NOINDEX=1), false in production.
+declare const __SW_LANDING_NOINDEX__: boolean;
 
 interface ImportMetaEnv {
   readonly PUBLIC_GA_MEASUREMENT_ID?: string;
@@ -21,7 +21,7 @@ interface Window {
   __odDownloadPrompt?: { show: (trigger?: string) => boolean };
   __odRecordCampaignEntry?: (sourceDetail: string, campaignId?: string) => {
     entry_id: string;
-    source_product: 'open_design';
+    source_product: 'sankiwork';
     source_detail: string;
     entry_occurred_at: string;
     conversion_source: string;

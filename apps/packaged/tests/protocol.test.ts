@@ -1,8 +1,8 @@
 /**
- * Regression coverage for the `od://` protocol proxy in
+ * Regression coverage for the `sankiwork://` protocol proxy in
  * apps/packaged/src/protocol.ts.
  *
- * The packaged Electron entry registers `od://` as the loader for the
+ * The packaged Electron entry registers `sankiwork://` as the loader for the
  * web runtime and forwards every renderer request to the local web
  * sidecar through Node's global `fetch` (which is undici under the
  * hood). Without a try/catch in the handler, undici throwing
@@ -43,7 +43,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe('od:// protocol proxy', () => {
+describe('sankiwork:// protocol proxy', () => {
   it('proxies the request through fetchImpl with the rewritten target URL', async () => {
     const captured: Request[] = [];
     const fetchImpl: typeof fetch = async (input) => {
@@ -51,7 +51,7 @@ describe('od:// protocol proxy', () => {
       return new Response('ok', { status: 200 });
     };
 
-    const request = new Request('od://app/api/codex-pets/sync', { method: 'POST' });
+    const request = new Request('sankiwork://app/api/codex-pets/sync', { method: 'POST' });
     const response = await handleOdRequest(request, 'http://127.0.0.1:17579/', fetchImpl);
 
     expect(response.status).toBe(200);
@@ -70,7 +70,7 @@ describe('od:// protocol proxy', () => {
     const fetchImpl: typeof fetch = async () =>
       new Response('ttf-bytes', { status: 200, headers: { 'content-type': 'font/ttf' } });
 
-    const request = new Request('od://app/remixicon.ttf');
+    const request = new Request('sankiwork://app/remixicon.ttf');
     const response = await handleOdRequest(request, 'http://127.0.0.1:17579/', fetchImpl);
 
     expect(response.status).toBe(200);
@@ -94,7 +94,7 @@ describe('od:// protocol proxy', () => {
         },
       });
 
-    const request = new Request('od://app/remixicon.ttf');
+    const request = new Request('sankiwork://app/remixicon.ttf');
     const response = await handleOdRequest(request, 'http://127.0.0.1:17579/', fetchImpl);
 
     expect(response.headers.get('content-encoding')).toBeNull();
@@ -107,7 +107,7 @@ describe('od:// protocol proxy', () => {
   it('stamps CORS allowance on bodyless upstream responses too', async () => {
     const fetchImpl: typeof fetch = async () => new Response(null, { status: 204 });
 
-    const request = new Request('od://app/api/projects/x', { method: 'DELETE' });
+    const request = new Request('sankiwork://app/api/projects/x', { method: 'DELETE' });
     const response = await handleOdRequest(request, 'http://127.0.0.1:17579/', fetchImpl);
 
     expect(response.status).toBe(204);
@@ -121,7 +121,7 @@ describe('od:// protocol proxy', () => {
       return new Response('', { status: 204 });
     };
 
-    const request = new Request('od://app/api/projects?limit=5#section', { method: 'GET' });
+    const request = new Request('sankiwork://app/api/projects?limit=5#section', { method: 'GET' });
     await handleOdRequest(request, 'http://127.0.0.1:42424/', fetchImpl);
 
     const target = new URL(captured[0]!.url);
@@ -148,7 +148,7 @@ describe('od:// protocol proxy', () => {
       throw error;
     };
 
-    const request = new Request('od://app/api/codex-pets/sync', { method: 'POST' });
+    const request = new Request('sankiwork://app/api/codex-pets/sync', { method: 'POST' });
     const response = await handleOdRequest(request, 'http://127.0.0.1:17579/', fetchImpl);
 
     expect(response.status).toBe(502);
@@ -158,7 +158,7 @@ describe('od:// protocol proxy', () => {
       code?: string;
       target: string;
     };
-    expect(body.error).toBe('OD_PROTOCOL_PROXY_FAILED');
+    expect(body.error).toBe('SW_PROTOCOL_PROXY_FAILED');
     expect(body.message).toContain('setTypeOfService');
     expect(body.code).toBe('EINVAL');
     expect(body.target).toBe('http://127.0.0.1:17579/api/codex-pets/sync');
@@ -171,7 +171,7 @@ describe('od:// protocol proxy', () => {
 
     // The promise must resolve with a Response, never reject.
     await expect(
-      handleOdRequest(new Request('od://app/'), 'http://127.0.0.1:1/', fetchImpl),
+      handleOdRequest(new Request('sankiwork://app/'), 'http://127.0.0.1:1/', fetchImpl),
     ).resolves.toBeInstanceOf(Response);
   });
 
@@ -182,7 +182,7 @@ describe('od:// protocol proxy', () => {
     };
 
     const response = await handleOdRequest(
-      new Request('od://app/api/probe'),
+      new Request('sankiwork://app/api/probe'),
       'http://127.0.0.1:1/',
       fetchImpl,
     );
@@ -219,12 +219,12 @@ describe('od:// protocol proxy', () => {
     ) => Promise<Response>;
     expect(handler).toBeTypeOf('function');
 
-    await handler(new Request('od://app/api/runs'));
+    await handler(new Request('sankiwork://app/api/runs'));
 
     // The sidecar dies and comes back on a different ephemeral port.
     current = 'http://127.0.0.1:59530';
 
-    await handler(new Request('od://app/api/runs'));
+    await handler(new Request('sankiwork://app/api/runs'));
 
     expect(targets).toEqual([
       'http://127.0.0.1:50401/api/runs',
@@ -233,13 +233,13 @@ describe('od:// protocol proxy', () => {
   });
 });
 
-// On first launch the top navigation `od://app/` flows through the same
+// On first launch the top navigation `sankiwork://app/` flows through the same
 // handler. If undici throws its transient socket error (#895) on that
 // single attempt, the synthetic 502 below IS the document the window
 // renders — the React app never mounts and the splash reveals a raw 502
 // after its ceiling. Idempotent requests must absorb a transient throw
 // by retrying before surfacing the 502.
-describe('od:// proxy cancellation plumbing (SSE pool-slot leak guard)', () => {
+describe('sankiwork:// proxy cancellation plumbing (SSE pool-slot leak guard)', () => {
   it('aborts the upstream fetch when the returned body stream is cancelled', async () => {
     let upstreamAborted = false;
     const fetchImpl: typeof fetch = async (input) => {
@@ -256,7 +256,7 @@ describe('od:// proxy cancellation plumbing (SSE pool-slot leak guard)', () => {
       return new Response(body, { status: 200, headers: { 'content-type': 'text/event-stream' } });
     };
 
-    const request = new Request('od://app/api/workspace/events');
+    const request = new Request('sankiwork://app/api/workspace/events');
     const response = await handleOdRequest(request, 'http://127.0.0.1:17579/', fetchImpl);
     expect(response.status).toBe(200);
     expect(response.body).not.toBeNull();
@@ -280,7 +280,7 @@ describe('od:// proxy cancellation plumbing (SSE pool-slot leak guard)', () => {
     };
 
     const controller = new AbortController();
-    const request = new Request('od://app/api/workspace/events', { signal: controller.signal });
+    const request = new Request('sankiwork://app/api/workspace/events', { signal: controller.signal });
     const response = await handleOdRequest(request, 'http://127.0.0.1:17579/', fetchImpl);
     expect(response.status).toBe(200);
 
@@ -291,7 +291,7 @@ describe('od:// proxy cancellation plumbing (SSE pool-slot leak guard)', () => {
   });
 });
 
-describe('od:// protocol transient retry', () => {
+describe('sankiwork:// protocol transient retry', () => {
   const transientSocketError = (): Error => {
     const error = new Error('setTypeOfService EINVAL') as NodeJS.ErrnoException;
     error.code = 'EINVAL';
@@ -309,7 +309,7 @@ describe('od:// protocol transient retry', () => {
     };
 
     const response = await handleOdRequest(
-      new Request('od://app/'),
+      new Request('sankiwork://app/'),
       'http://127.0.0.1:17579/',
       fetchImpl,
       noDelay,
@@ -327,7 +327,7 @@ describe('od:// protocol transient retry', () => {
     };
 
     const response = await handleOdRequest(
-      new Request('od://app/'),
+      new Request('sankiwork://app/'),
       'http://127.0.0.1:17579/',
       fetchImpl,
       noDelay,
@@ -335,7 +335,7 @@ describe('od:// protocol transient retry', () => {
 
     expect(response.status).toBe(502);
     const body = (await response.json()) as { error: string; code?: string };
-    expect(body.error).toBe('OD_PROTOCOL_PROXY_FAILED');
+    expect(body.error).toBe('SW_PROTOCOL_PROXY_FAILED');
     expect(body.code).toBe('EINVAL');
     expect(calls).toBe(3);
   });
@@ -348,7 +348,7 @@ describe('od:// protocol transient retry', () => {
     };
 
     const response = await handleOdRequest(
-      new Request('od://app/api/codex-pets/sync', { method: 'POST' }),
+      new Request('sankiwork://app/api/codex-pets/sync', { method: 'POST' }),
       'http://127.0.0.1:17579/',
       fetchImpl,
       noDelay,
@@ -366,7 +366,7 @@ describe('od:// protocol transient retry', () => {
     };
 
     const response = await handleOdRequest(
-      new Request('od://app/api/projects'),
+      new Request('sankiwork://app/api/projects'),
       'http://127.0.0.1:17579/',
       fetchImpl,
       noDelay,
@@ -385,7 +385,7 @@ describe('od:// protocol transient retry', () => {
       throw transientSocketError();
     };
 
-    await handleOdRequest(new Request('od://app/'), 'http://127.0.0.1:17579/', fetchImpl, {
+    await handleOdRequest(new Request('sankiwork://app/'), 'http://127.0.0.1:17579/', fetchImpl, {
       delay: async (ms: number) => {
         waits.push(ms);
       },
@@ -413,7 +413,7 @@ describe('od:// protocol transient retry', () => {
  * A client-cancelled request must cost one attempt, no backoff, and must not
  * be reported as an upstream failure.
  */
-describe('od:// proxy client-cancellation is not an upstream failure', () => {
+describe('sankiwork:// proxy client-cancellation is not an upstream failure', () => {
   const abortError = (): Error => {
     const error = new Error('The operation was aborted.');
     error.name = 'AbortError';
@@ -434,7 +434,7 @@ describe('od:// proxy client-cancellation is not an upstream failure', () => {
     const waits: number[] = [];
 
     await handleOdRequest(
-      new Request('od://app/fonts/AlbertSans-VariableFont_wght.ttf', {
+      new Request('sankiwork://app/fonts/AlbertSans-VariableFont_wght.ttf', {
         signal: controller.signal,
       }),
       'http://127.0.0.1:17579/',
@@ -456,7 +456,7 @@ describe('od:// proxy client-cancellation is not an upstream failure', () => {
     controller.abort();
 
     const response = await handleOdRequest(
-      new Request('od://app/api/projects/p-1/presence/leave', {
+      new Request('sankiwork://app/api/projects/p-1/presence/leave', {
         method: 'POST',
         signal: controller.signal,
       }),
@@ -467,7 +467,7 @@ describe('od:// proxy client-cancellation is not an upstream failure', () => {
 
     expect(response.status).not.toBe(502);
     const body = (await response.json()) as { error: string };
-    expect(body.error).toBe('OD_PROTOCOL_CLIENT_ABORTED');
+    expect(body.error).toBe('SW_PROTOCOL_CLIENT_ABORTED');
   });
 
   it('stops retrying the moment the client aborts mid-flight', async () => {
@@ -488,7 +488,7 @@ describe('od:// proxy client-cancellation is not an upstream failure', () => {
     }) as unknown as typeof fetch;
 
     const response = await handleOdRequest(
-      new Request('od://app/agent-icons/opencode.svg', { signal: controller.signal }),
+      new Request('sankiwork://app/agent-icons/opencode.svg', { signal: controller.signal }),
       'http://127.0.0.1:17579/',
       fetchImpl,
       { delay: async () => {} },
@@ -519,7 +519,7 @@ describe('od:// proxy client-cancellation is not an upstream failure', () => {
  * undici (that fallback rescues real Electron transport regressions such as
  * CSS-mask GETs).
  */
-describe('od:// proxy fails fast on local resource exhaustion', () => {
+describe('sankiwork:// proxy fails fast on local resource exhaustion', () => {
   beforeEach(() => {
     vi.mocked(protocol.handle).mockClear();
     vi.mocked(net.fetch).mockReset();
@@ -549,7 +549,7 @@ describe('od:// proxy fails fast on local resource exhaustion', () => {
 
     registerOdProtocol(() => 'http://127.0.0.1:61424/');
     const handler = registeredHandler();
-    const response = await handler(new Request('od://app/agent-icons/opencode.svg'));
+    const response = await handler(new Request('sankiwork://app/agent-icons/opencode.svg'));
 
     // Exhaustion must cost exactly one upstream attempt: no undici double,
     // no retry amplification, an honest 502 to the renderer.
@@ -557,7 +557,7 @@ describe('od:// proxy fails fast on local resource exhaustion', () => {
     expect(vi.mocked(net.fetch)).toHaveBeenCalledTimes(1);
     expect(response.status).toBe(502);
     const body = (await response.json()) as { error: string; message: string };
-    expect(body.error).toBe('OD_PROTOCOL_PROXY_FAILED');
+    expect(body.error).toBe('SW_PROTOCOL_PROXY_FAILED');
     expect(body.message).toContain('ERR_INSUFFICIENT_RESOURCES');
   });
 
@@ -570,7 +570,7 @@ describe('od:// proxy fails fast on local resource exhaustion', () => {
     };
 
     const response = await handleOdRequest(
-      new Request('od://app/'),
+      new Request('sankiwork://app/'),
       'http://127.0.0.1:17579/',
       fetchImpl,
       {
@@ -596,7 +596,7 @@ describe('od:// proxy fails fast on local resource exhaustion', () => {
       };
 
       const response = await handleOdRequest(
-        new Request('od://app/'),
+        new Request('sankiwork://app/'),
         'http://127.0.0.1:17579/',
         fetchImpl,
         {
@@ -625,7 +625,7 @@ describe('od:// proxy fails fast on local resource exhaustion', () => {
     };
 
     const response = await handleOdRequest(
-      new Request('od://app/'),
+      new Request('sankiwork://app/'),
       'http://127.0.0.1:17579/',
       fetchImpl,
       { delay: async () => {} },
@@ -646,7 +646,7 @@ describe('od:// proxy fails fast on local resource exhaustion', () => {
 
     registerOdProtocol(() => 'http://127.0.0.1:61424/');
     const handler = registeredHandler();
-    const response = await handler(new Request('od://app/agent-icons/opencode.svg'));
+    const response = await handler(new Request('sankiwork://app/agent-icons/opencode.svg'));
 
     expect(response.status).toBe(200);
     expect(undiciFetch).toHaveBeenCalledTimes(1);
@@ -654,7 +654,7 @@ describe('od:// proxy fails fast on local resource exhaustion', () => {
 });
 
 /**
- * The od:// proxy target must be RESOLVED PER REQUEST, never captured as a
+ * The sankiwork:// proxy target must be RESOLVED PER REQUEST, never captured as a
  * constant at registration time.
  *
  * Two failure shapes motivated this:
@@ -674,7 +674,7 @@ describe('od:// proxy fails fast on local resource exhaustion', () => {
  *    runtime surfaced as a confusing connection error against a nonsense port
  *    instead of an honest "the web runtime is not up".
  */
-describe('od:// protocol target resolution', () => {
+describe('sankiwork:// protocol target resolution', () => {
   beforeEach(() => {
     vi.mocked(protocol.handle).mockClear();
     vi.mocked(net.fetch).mockReset();
@@ -700,12 +700,12 @@ describe('od:// protocol target resolution', () => {
     registerOdProtocol(() => webRuntimeUrl);
     const handler = registeredHandler();
 
-    const first = await handler(new Request('od://app/_next/static/chunk-a.js'));
+    const first = await handler(new Request('sankiwork://app/_next/static/chunk-a.js'));
     expect(first.status).toBe(200);
 
     webRuntimeUrl = 'http://127.0.0.1:52001/';
 
-    const second = await handler(new Request('od://app/_next/static/chunk-b.js'));
+    const second = await handler(new Request('sankiwork://app/_next/static/chunk-b.js'));
     expect(second.status).toBe(200);
 
     expect(captured).toEqual([
@@ -725,7 +725,7 @@ describe('od:// protocol target resolution', () => {
 
     registerOdProtocol(() => 'http://127.0.0.1:61424/');
     const handler = registeredHandler();
-    const response = await handler(new Request('od://app/agent-icons/opencode.svg'));
+    const response = await handler(new Request('sankiwork://app/agent-icons/opencode.svg'));
 
     expect(response.status).toBe(200);
     expect(response.headers.get('content-type')).toBe('image/svg+xml');
@@ -744,7 +744,7 @@ describe('od:// protocol target resolution', () => {
 
     registerOdProtocol(() => 'http://127.0.0.1:61424/');
     const handler = registeredHandler();
-    const response = await handler(new Request('od://app/api/projects', { method: 'POST' }));
+    const response = await handler(new Request('sankiwork://app/api/projects', { method: 'POST' }));
 
     expect(response.status).toBe(502);
     expect(vi.mocked(net.fetch)).toHaveBeenCalledTimes(1);
@@ -759,7 +759,7 @@ describe('od:// protocol target resolution', () => {
     };
 
     const response = await handleOdRequest(
-      new Request('od://app/_next/static/chunk-a.js'),
+      new Request('sankiwork://app/_next/static/chunk-a.js'),
       null,
       fetchImpl,
       { delay: async () => {} },
@@ -767,7 +767,7 @@ describe('od:// protocol target resolution', () => {
 
     expect(response.status).toBe(503);
     const body = (await response.json()) as { error: string; target?: string };
-    expect(body.error).toBe('OD_PROTOCOL_TARGET_UNAVAILABLE');
+    expect(body.error).toBe('SW_PROTOCOL_TARGET_UNAVAILABLE');
     // Nothing may be dialled: there is no address to dial, and 127.0.0.1:0 is
     // not a real one.
     expect(fetchCalls).toBe(0);
@@ -782,11 +782,11 @@ describe('od:// protocol target resolution', () => {
     registerOdProtocol(() => null);
     const handler = registeredHandler();
 
-    const response = await handler(new Request('od://app/'));
+    const response = await handler(new Request('sankiwork://app/'));
 
     expect(response.status).toBe(503);
     const body = (await response.json()) as { error: string };
-    expect(body.error).toBe('OD_PROTOCOL_TARGET_UNAVAILABLE');
+    expect(body.error).toBe('SW_PROTOCOL_TARGET_UNAVAILABLE');
     expect(vi.mocked(net.fetch)).not.toHaveBeenCalled();
   });
 
@@ -798,7 +798,7 @@ describe('od:// protocol target resolution', () => {
     const fetchImpl: typeof fetch = async () => new Response('ok', { status: 200 });
 
     await expect(
-      handleOdRequest(new Request('od://app/'), 'not-a-url', fetchImpl, { delay: async () => {} }),
+      handleOdRequest(new Request('sankiwork://app/'), 'not-a-url', fetchImpl, { delay: async () => {} }),
     ).resolves.toBeInstanceOf(Response);
   });
 });

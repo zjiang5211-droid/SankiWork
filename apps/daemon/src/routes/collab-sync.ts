@@ -9,7 +9,7 @@ import {
   type ProjectSyncIntentEvent,
   type TeamProject,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type {
   ProjectContentTransferToken,
 } from '../collab/project-content-transfer-state.js';
@@ -424,7 +424,7 @@ async function readJsonObject(filePath: string): Promise<Record<string, unknown>
 }
 
 async function inferNameFromSkillManifest(projectDir: string): Promise<string | null> {
-  const skillsDir = path.join(projectDir, '.od-skills');
+  const skillsDir = path.join(projectDir, '.sankiwork-skills');
   let entries: string[];
   try {
     entries = await readdir(skillsDir);
@@ -545,7 +545,7 @@ function encodePublicFileUrlPath(filePath: string): string {
  * workspace can address (`workspaceContextHasTeamIdentity`). A personal or
  * signed-out session — and a team session whose context read momentarily fails —
  * lands here. Ship a sentence alongside the code so every surface that is not
- * the web UI (the `od` CLI, embedding agents) states the reason instead of
+ * the web UI (the `sw` CLI, embedding agents) states the reason instead of
  * echoing `WORKSPACE_IDENTITY_REQUIRED` at a human. The web UI localizes the
  * code itself; see `publicFilePublishFailureKey` in apps/web.
  */
@@ -553,7 +553,7 @@ function workspaceIdentityRequiredBody() {
   return {
     error: 'WORKSPACE_IDENTITY_REQUIRED',
     message:
-      'Publishing a public link needs a signed-in workspace. Sign in to Open Design Cloud, ' +
+      'Publishing a public link needs a signed-in workspace. Sign in to SankiWork Cloud, ' +
       'or use Deploy to publish this file without one.',
   };
 }
@@ -595,7 +595,7 @@ function publicFilePrincipal(context: WorkspaceCollabContext | null): ResourceHu
 }
 
 function publicResourceHubBaseUrl(): string | null {
-  return readVelaControlApiContext()?.apiUrl?.trim() || process.env.OD_RESOURCE_HUB_URL?.trim() || null;
+  return readVelaControlApiContext()?.apiUrl?.trim() || process.env.SW_RESOURCE_HUB_URL?.trim() || null;
 }
 
 function publicSnapshotFileUrl(baseUrl: string, slug: string, filePath: string): string {
@@ -1222,7 +1222,7 @@ export function registerCollabSyncRoutes(
       await mkdir(path.dirname(targetFile), { recursive: true });
       await writeFile(targetFile, data);
       const metadata = {
-        source: 'open-design',
+        source: 'sankiwork',
         projectId,
         fileName: filePath,
       };

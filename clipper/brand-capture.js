@@ -1,4 +1,4 @@
-// Open Design web clipper brand/design-system capture runtime.
+// SankiWork web clipper brand/design-system capture runtime.
 //
 // Injected on demand by the service worker. It does not clone the page. Instead
 // it programmatically reads brand signals from the live DOM/CSSOM and fills a
@@ -11,7 +11,7 @@
   const MAX_IMAGES = 15;
   const MAX_LOGOS = 8;
   const MAX_RESOURCES = 120;
-  const I18N = globalThis.OD_CLIPPER_I18N;
+  const I18N = globalThis.SW_CLIPPER_I18N;
   let activeLocale = I18N?.currentLocale ? I18N.currentLocale() : 'en';
 
   // Built-in English copy for every label this capture renders. The extension's
@@ -151,12 +151,12 @@
   }
 
   function setActiveLocale(locale) {
-    const api = globalThis.OD_CLIPPER_I18N || I18N;
+    const api = globalThis.SW_CLIPPER_I18N || I18N;
     activeLocale = api?.normalizeLocale ? (api.normalizeLocale(locale) || activeLocale) : (locale || activeLocale);
   }
 
   function tr(key, vars) {
-    const api = globalThis.OD_CLIPPER_I18N || I18N;
+    const api = globalThis.SW_CLIPPER_I18N || I18N;
     if (api?.t) {
       const value = api.t(key, vars, activeLocale);
       // The shared bundle returns the key unchanged when it has no entry; treat
@@ -1286,7 +1286,7 @@
         all: tr('brandAllImages', { count: images.length }),
       }),
     );
-    const api = globalThis.OD_CLIPPER_I18N || I18N;
+    const api = globalThis.SW_CLIPPER_I18N || I18N;
     const htmlLocale = api && api.htmlLang ? api.htmlLang(activeLocale) : activeLocale;
     const dir = api && api.isRtl && api.isRtl(activeLocale) ? 'rtl' : 'ltr';
 

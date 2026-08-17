@@ -11,7 +11,7 @@ import {
   createDevWorkspaceContextProvider,
   withLastKnownWorkspaceContext,
 } from '../../src/collab/workspace-context.js';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 const roots: string[] = [];
 

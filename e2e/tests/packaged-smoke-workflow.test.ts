@@ -235,7 +235,7 @@ async function runReleaseStableForFailure(env: Record<string, string>): Promise<
         ...process.env,
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_RELEASE_CHANNEL: "stable",
+        SANKIWORK_RELEASE_CHANNEL: "stable",
         ...env,
       },
     });
@@ -282,7 +282,7 @@ if (process.argv.includes("--jq")) {
         GITHUB_EVENT_PATH: eventPath,
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_GH_NODE_SCRIPT: ghPath,
+        SANKIWORK_GH_NODE_SCRIPT: ghPath,
       }, tempDir),
     });
     return JSON.parse(stdout) as Record<string, unknown>;
@@ -294,9 +294,9 @@ if (process.argv.includes("--jq")) {
 async function runRunners(mode?: string): Promise<Record<string, string>> {
   const env = { ...process.env };
   if (mode === undefined) {
-    delete env.OD_CI_RUNNER_MODE;
+    delete env.SW_CI_RUNNER_MODE;
   } else {
-    env.OD_CI_RUNNER_MODE = mode;
+    env.SW_CI_RUNNER_MODE = mode;
   }
   delete env.GITHUB_OUTPUT;
 
@@ -409,7 +409,7 @@ describe("packaged smoke workflow", () => {
     expect(workflow).not.toContain("Smoke PR mac packaged runtime");
     expect(workflow).not.toContain("Smoke PR windows packaged runtime");
     expect(workflow).not.toContain("Smoke PR linux headless packaged runtime");
-    expect(workflow).not.toContain("OD_PACKAGED_E2E_");
+    expect(workflow).not.toContain("SW_PACKAGED_E2E_");
     expect(workflow).not.toContain("actions/cache/save");
   });
 
@@ -421,7 +421,7 @@ describe("packaged smoke workflow", () => {
     expect(job).toContain("fromJSON(needs.runners.outputs.runs_on).windows_tools");
     expect(job).toContain("toJSON(fromJSON(needs.runners.outputs.runs_on).windows_tools)");
     expect(job).toContain("needs.scopes.outputs.run_windows_tools_pack_payload_tests == 'true'");
-    expect(job).toContain("pnpm --filter @open-design/tools-pack exec vitest run tests/launcher-payload.test.ts");
+    expect(job).toContain("pnpm --filter @sankiwork/tools-pack exec vitest run tests/launcher-payload.test.ts");
     expect(validate).toContain("windows_tools_pack_payload_tests");
   });
 
@@ -602,7 +602,7 @@ describe("packaged smoke workflow", () => {
     expect(workflow).toContain("secrets.RELEASE_BOT_APP_ID");
 
     // Only a non-draft, same-repo PR authored by the release bot, targeting release/v*, is merged.
-    expect(workflow).toContain("steps.pr.outputs.author == 'app/open-design-release-bot'");
+    expect(workflow).toContain("steps.pr.outputs.author == 'app/sankiwork-release-bot'");
     expect(workflow).toContain("steps.pr.outputs.cross == 'false'");
     expect(workflow).toContain("steps.pr.outputs.draft == 'false'");
     expect(workflow).toContain('startswith("release/v")');
@@ -645,7 +645,7 @@ describe("packaged smoke workflow", () => {
     expect(workflow).toContain("gh pr review");
     expect(workflow).toContain("--approve");
     const approveStep = sectionBetween(workflow, "Approve the clean backport", "gh pr review");
-    expect(approveStep).toContain("steps.pr.outputs.author == 'app/open-design-release-bot'");
+    expect(approveStep).toContain("steps.pr.outputs.author == 'app/sankiwork-release-bot'");
     expect(approveStep).toContain("steps.pr.outputs.pristine == 'true'");
     expect(approveStep).toContain("github.token");
     expect(approveStep).toContain("github.event.workflow_run.conclusion == 'success'");
@@ -654,7 +654,7 @@ describe("packaged smoke workflow", () => {
     // backport-* PR can't spam the release group and stale failed runs do not page after the PR
     // head advanced. Alert on failure and timed_out, but not routine cancelled runs.
     const feishuStep = sectionBetween(workflow, "Notify Feishu on failed backport CI", "python3");
-    expect(feishuStep).toContain("steps.pr.outputs.author == 'app/open-design-release-bot'");
+    expect(feishuStep).toContain("steps.pr.outputs.author == 'app/sankiwork-release-bot'");
     expect(feishuStep).toContain("steps.pr.outputs.cross == 'false'");
     expect(feishuStep).toContain("steps.pr.outputs.head_oid == github.event.workflow_run.head_sha");
     expect(feishuStep).toContain(
@@ -841,11 +841,11 @@ process.stdin.on("end", () => {
       ]);
       await Promise.all([
         writeJson("package.json", { name: "root", version: "0.12.0", dependencies: { untouched: "0.12.0" } }),
-        writeJson("apps/web/package.json", { name: "@open-design/web", version: "0.12.0" }),
-        writeJson("packages/platform/package.json", { name: "@open-design/platform", version: "0.12.0" }),
-        writeJson("packages/components/package.json", { name: "@open-design/components", version: "0.5.0" }),
-        writeJson("tools/dev/package.json", { name: "@open-design/dev", version: "0.12.0" }),
-        writeJson("e2e/package.json", { name: "@open-design/e2e", version: "0.12.0" }),
+        writeJson("apps/web/package.json", { name: "@sankiwork/web", version: "0.12.0" }),
+        writeJson("packages/platform/package.json", { name: "@sankiwork/platform", version: "0.12.0" }),
+        writeJson("packages/components/package.json", { name: "@sankiwork/components", version: "0.5.0" }),
+        writeJson("tools/dev/package.json", { name: "@sankiwork/dev", version: "0.12.0" }),
+        writeJson("e2e/package.json", { name: "@sankiwork/e2e", version: "0.12.0" }),
       ]);
 
       await execFileAsync("bash", ["-c", script], {
@@ -945,7 +945,7 @@ process.stdin.on("end", () => {
     expect(workflow).toContain("secrets.RELEASE_BOT_APP_ID");
 
     // Only a non-draft, same-repo PR authored by the release bot, targeting main, is merged.
-    expect(workflow).toContain("steps.pr.outputs.author == 'app/open-design-release-bot'");
+    expect(workflow).toContain("steps.pr.outputs.author == 'app/sankiwork-release-bot'");
     expect(workflow).toContain("steps.pr.outputs.cross == 'false'");
     expect(workflow).toContain("steps.pr.outputs.draft == 'false'");
     expect(workflow).toContain('select(.base.ref == "main")');
@@ -979,7 +979,7 @@ process.stdin.on("end", () => {
     expect(workflow).toContain("gh pr review");
     expect(workflow).toContain("--approve");
     const approveStep = sectionBetween(workflow, "Approve the clean manifest PR", "gh pr review");
-    expect(approveStep).toContain("steps.pr.outputs.author == 'app/open-design-release-bot'");
+    expect(approveStep).toContain("steps.pr.outputs.author == 'app/sankiwork-release-bot'");
     expect(approveStep).toContain("steps.pr.outputs.pristine == 'true'");
     expect(approveStep).toContain("github.token");
     // Approve only when the run CI actually succeeded — dropping this predicate would approve a
@@ -990,7 +990,7 @@ process.stdin.on("end", () => {
     // and merges via the native --auto path bound to the validated SHA. Dropping the success
     // predicate here would enqueue a PR whose CI failed.
     const enqueueStep = sectionBetween(workflow, "Enqueue the clean manifest PR", "gh pr merge");
-    expect(enqueueStep).toContain("steps.pr.outputs.author == 'app/open-design-release-bot'");
+    expect(enqueueStep).toContain("steps.pr.outputs.author == 'app/sankiwork-release-bot'");
     expect(enqueueStep).toContain("steps.pr.outputs.pristine == 'true'");
     expect(enqueueStep).toContain("steps.pr.outputs.head_oid == github.event.workflow_run.head_sha");
     expect(enqueueStep).toContain("github.event.workflow_run.conclusion == 'success'");
@@ -1005,7 +1005,7 @@ process.stdin.on("end", () => {
     // The Feishu failure path carries the same identity gates, so a fork / non-bot PR can't spam
     // the release group, and fires only on a CI *failure* (not success).
     const feishuStep = sectionBetween(workflow, "Notify Feishu on failed manifest CI", "python3");
-    expect(feishuStep).toContain("steps.pr.outputs.author == 'app/open-design-release-bot'");
+    expect(feishuStep).toContain("steps.pr.outputs.author == 'app/sankiwork-release-bot'");
     expect(feishuStep).toContain("steps.pr.outputs.cross == 'false'");
     // Page on every terminal RED state that strands the PR — failure AND timed_out (ci.yml has
     // timeout-minutes jobs) — but NOT cancelled, which a routine force-push of the rolling branch
@@ -1130,12 +1130,12 @@ process.stdin.on("end", () => {
     const workspaceUnit = sectionBetween(workflow, "  workspace_unit_tests:", "  daemon_unit_tests:");
 
     expect(workspaceUnit).toContain(`if [ "\${{ needs.scopes.outputs.tools_pack_tests_required }}" = "true" ]; then
-            pnpm --filter @open-design/desktop build
-            pnpm --filter @open-design/desktop test
-            pnpm --filter @open-design/packaged test
-            pnpm --filter @open-design/tools-pack test
+            pnpm --filter @sankiwork/desktop build
+            pnpm --filter @sankiwork/desktop test
+            pnpm --filter @sankiwork/packaged test
+            pnpm --filter @sankiwork/tools-pack test
             if [ "\${{ needs.scopes.outputs.run_e2e_vitest }}" != "true" ]; then
-              pnpm --filter @open-design/e2e test tests/packaged-launcher-update-loop.test.ts
+              pnpm --filter @sankiwork/e2e test tests/packaged-launcher-update-loop.test.ts
             fi
           fi`);
   });
@@ -1148,7 +1148,7 @@ process.stdin.on("end", () => {
     expect(daemonTests).toContain("if: ${{ needs.scopes.outputs.daemon_tests_required == 'true' }}");
     expect(daemonTests).toContain("fail-fast: false");
     expect(daemonTests).toContain("shard: [1, 2, 3, 4]");
-    expect(daemonTests).toContain("pnpm --filter @open-design/daemon test --shard=${{ matrix.shard }}/4");
+    expect(daemonTests).toContain("pnpm --filter @sankiwork/daemon test --shard=${{ matrix.shard }}/4");
     expect(validate).toContain("- daemon_unit_tests");
     expect(validate).toContain('when($out.daemon_tests_required == "true"; ["daemon_unit_tests"])');
   });
@@ -1331,11 +1331,11 @@ process.stdin.on("end", () => {
     expect(webWorkspaceTests).toContain("toJSON(fromJSON(needs.runners.outputs.runs_on).js_hot)");
     expect(webWorkspaceTests).not.toContain('"od-persistent-ci"');
     // Pin two-way vitest sharding so a later YAML edit cannot collapse the split or restore the
-    // monolithic `pnpm --filter @open-design/web test` command while this suite still passes.
+    // monolithic `pnpm --filter @sankiwork/web test` command while this suite still passes.
     expect(webWorkspaceTests).toContain("fail-fast: false");
     expect(webWorkspaceTests).toContain("shard: [1, 2]");
     expect(webWorkspaceTests).toContain(
-      "pnpm --filter @open-design/web exec vitest run -c vitest.config.ts --maxWorkers=2 --shard=${{ matrix.shard }}/2",
+      "pnpm --filter @sankiwork/web exec vitest run -c vitest.config.ts --maxWorkers=2 --shard=${{ matrix.shard }}/2",
     );
     expect(e2eVitest).toContain("fromJSON(needs.runners.outputs.runs_on).js_hot");
     expect(e2eVitest).toContain("toJSON(fromJSON(needs.runners.outputs.runs_on).js_hot)");
@@ -1450,8 +1450,8 @@ process.stdin.on("end", () => {
     expect(action).toContain('playwright_workers="$workers"');
     expect(action).toContain('if [ "$playwright_workers" -gt 2 ]; then');
     expect(action).toContain("playwright_workers=2");
-    expect(action).toContain('echo "OD_PLAYWRIGHT_WORKERS=$playwright_workers"');
-    expect(action).toContain('echo "OPEN_DESIGN_WORKSPACE_CONCURRENCY=$workers"');
+    expect(action).toContain('echo "SW_PLAYWRIGHT_WORKERS=$playwright_workers"');
+    expect(action).toContain('echo "SANKIWORK_WORKSPACE_CONCURRENCY=$workers"');
   });
 
   it("[P1] routes external fork PRs through GitHub-hosted runner profiles", async () => {
@@ -1460,10 +1460,10 @@ process.stdin.on("end", () => {
 
     expect(runners).toContain("github.event_name == 'pull_request'");
     expect(runners).toContain("github.event.pull_request.head.repo.full_name != github.repository");
-    expect(runners).toContain("|| vars.OD_CI_RUNNER_MODE == 'economic'");
+    expect(runners).toContain("|| vars.SW_CI_RUNNER_MODE == 'economic'");
     expect(runners).toContain("&& 'ubuntu-24.04'");
     expect(runners).toContain("&& 'economic'");
-    expect(runners).toContain("|| vars.OD_CI_RUNNER_MODE");
+    expect(runners).toContain("|| vars.SW_CI_RUNNER_MODE");
   });
 
   it("[P1] pins ShellCheck for actionlint across runner profiles", async () => {
@@ -1508,8 +1508,8 @@ process.stdin.on("end", () => {
     expect(fullUi).toContain("fromJSON(needs.p0_runners.outputs.runs_on).ui_hot");
     expect(fullUi).toContain("inputs.suite == 'full'");
     expect(fullUi).toContain("shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]");
-    expect(fullUi).toContain('OD_PLAYWRIGHT_FULLY_PARALLEL: "1"');
-    expect(fullUi).not.toContain("OD_PLAYWRIGHT_WORKERS");
+    expect(fullUi).toContain('SW_PLAYWRIGHT_FULLY_PARALLEL: "1"');
+    expect(fullUi).not.toContain("SW_PLAYWRIGHT_WORKERS");
     expect(fullUi).toContain("name: Run full UI shard");
     expect(fullUi).toContain("playwright test -c playwright.config.ts ui --shard=${{ matrix.shard }}/12");
     expect(fullUi).toContain("name: ui-full-${{ github.run_id }}-shard-${{ matrix.shard }}-of-12");
@@ -1552,12 +1552,12 @@ process.stdin.on("end", () => {
     expect(e2eVitestGate).toContain("needs: metadata");
     expect(e2eVitestGate).toContain("ref: ${{ needs.metadata.outputs.commit }}");
     expect(e2eVitestGate).toContain("playwright install --with-deps chromium");
-    expect(e2eVitestGate).toContain("pnpm --filter @open-design/e2e test");
+    expect(e2eVitestGate).toContain("pnpm --filter @sankiwork/e2e test");
 
     const daemonGate = sectionBetween(prerelease, "  daemon_unit_tests:", "  verify:");
     expect(daemonGate).toContain("shard: [1, 2, 3, 4]");
     expect(daemonGate).toContain("ref: ${{ needs.metadata.outputs.commit }}");
-    expect(daemonGate).toContain("pnpm --filter @open-design/daemon test --shard=${{ matrix.shard }}/4");
+    expect(daemonGate).toContain("pnpm --filter @sankiwork/daemon test --shard=${{ matrix.shard }}/4");
 
     expect(functionalE2e).toContain("workflow_call:");
     expect(functionalE2e).not.toContain("schedule:");
@@ -1771,7 +1771,7 @@ process.stdin.on("end", () => {
     expect(workflow).toContain("Prepare linux_x64 assets");
     expect(workflow).toContain("Publish linux_x64 platform");
     expect(workflow).toContain("Upload linux_x64 publish manifest");
-    expect(workflow).toContain("open-design-beta-linux-x64-publish-manifest");
+    expect(workflow).toContain("sankiwork-beta-linux-x64-publish-manifest");
     expect(workflow).toContain("Download linux_x64 publish manifest");
     expect(workflow).not.toContain(".github/scripts/release/assets/linux.sh");
     expect(workflow).not.toContain(".github/scripts/release/r2/publish-platform.ts");
@@ -1790,7 +1790,7 @@ process.stdin.on("end", () => {
     expect(workflow).toContain("manifest.json");
     expect(workflow).toContain("tools-pack.json");
     expect(workflow).toContain("Upload linux e2e spec report");
-    expect(workflow).toContain("open-design-release-linux-e2e-report");
+    expect(workflow).toContain("sankiwork-release-linux-e2e-report");
     expect(workflow).toContain("Download linux e2e spec report");
     expectReleaseLinuxBuildPreservesEvidence(workflow, "Build release linux artifacts");
     expectReleaseLinuxSmokePreservesEvidenceBeforeApt(workflow, "Smoke release linux AppImage runtime");
@@ -1816,13 +1816,13 @@ process.stdin.on("end", () => {
     expect(releaseStableWorkflow).toContain("win_namespace: ${{ steps.stable.outputs.win_namespace }}");
     expect(releaseStableWorkflow).toContain("linux_namespace: ${{ steps.stable.outputs.linux_namespace }}");
     expect(releaseStableWorkflow).toContain('--namespace "${{ needs.metadata.outputs.namespace }}"');
-    expect(releaseStableWorkflow).toContain("OD_PACKAGED_E2E_NAMESPACE: ${{ needs.metadata.outputs.namespace }}");
+    expect(releaseStableWorkflow).toContain("SW_PACKAGED_E2E_NAMESPACE: ${{ needs.metadata.outputs.namespace }}");
     expect(releaseStableWorkflow).toContain('"--namespace", "${{ needs.metadata.outputs.win_namespace }}",');
-    expect(releaseStableWorkflow).toContain('OD_PACKAGED_E2E_NAMESPACE: ${{ needs.metadata.outputs.win_namespace }}');
+    expect(releaseStableWorkflow).toContain('SW_PACKAGED_E2E_NAMESPACE: ${{ needs.metadata.outputs.win_namespace }}');
     expect(releaseStableWorkflow).toContain('--namespace "${{ needs.metadata.outputs.linux_namespace }}"');
     expect(releaseStableWorkflow).toContain('"namespace": "${{ needs.metadata.outputs.linux_namespace }}",');
     expect(releaseStableWorkflow).not.toMatch(/--namespace release-stable(?:-intel|-win|-linux)?\b/);
-    expect(releaseStableWorkflow).not.toMatch(/OD_PACKAGED_E2E_NAMESPACE: release-stable(?:-win|-linux)?\b/);
+    expect(releaseStableWorkflow).not.toMatch(/SW_PACKAGED_E2E_NAMESPACE: release-stable(?:-win|-linux)?\b/);
     expect(releaseStableWorkflow).not.toMatch(/namespaces\/release-stable(?:-intel|-win|-linux)?\b/);
 
     expectChannelWorkflowNamespaces(releasePreviewWorkflow, "preview", { hasLinuxSmoke: false });
@@ -1835,7 +1835,7 @@ process.stdin.on("end", () => {
     expect(releaseBetaWorkflow).toContain("RELEASE_TARGET: win_x64");
     expect(releaseBetaWorkflow).toContain("RELEASE_TARGET: mac_x64");
     expect(releaseBetaWorkflow).toContain("RELEASE_TARGET: linux_x64");
-    expect(releaseBetaWorkflow).toContain("OD_PACKAGED_E2E_MAC_UPDATE_FIXTURE: ${{ inputs.mac_arm64_smoke_mode == 'full' && inputs.mac_arm64_update_metadata_url == '' && inputs.mac_arm64_update_target_version == '' && 'tools-serve' || '' }}");
+    expect(releaseBetaWorkflow).toContain("SW_PACKAGED_E2E_MAC_UPDATE_FIXTURE: ${{ inputs.mac_arm64_smoke_mode == 'full' && inputs.mac_arm64_update_metadata_url == '' && inputs.mac_arm64_update_target_version == '' && 'tools-serve' || '' }}");
     const betaWinJob = sectionBetween(releaseBetaWorkflow, "  build_win_x64:", "  build_linux_x64:");
     expect(betaWinJob).not.toContain("tools\\release\\scripts\\build-platform.ps1");
     expect(betaWinJob).toContain("uses: actions/cache/restore@v5");
@@ -1848,16 +1848,16 @@ process.stdin.on("end", () => {
     expect(betaBuildScript).toContain("required RELEASE_CHANNEL");
     expect(betaBuildScript).toContain('release_channel="$RELEASE_CHANNEL"');
     expect(betaBuildScript).not.toContain('RELEASE_CHANNEL:-beta');
-    expect(betaBuildScript).toContain('OD_PACKAGED_E2E_RELEASE_CHANNEL="$release_channel"');
-    expect(betaBuildScript).toContain('OD_PACKAGED_E2E_RELEASE_VERSION="$RELEASE_VERSION"');
-    expect(betaBuildScript).toContain('OD_PACKAGED_E2E_MAC_UPDATE_FIXTURE="${update_build_json_path:+tools-serve}"');
+    expect(betaBuildScript).toContain('SW_PACKAGED_E2E_RELEASE_CHANNEL="$release_channel"');
+    expect(betaBuildScript).toContain('SW_PACKAGED_E2E_RELEASE_VERSION="$RELEASE_VERSION"');
+    expect(betaBuildScript).toContain('SW_PACKAGED_E2E_MAC_UPDATE_FIXTURE="${update_build_json_path:+tools-serve}"');
     const betaWindowsBuildScript = await readFile(releaseBetaWindowsBuildScriptPath, "utf8");
     expect(betaWindowsBuildScript).toContain('throw "RELEASE_CHANNEL is required"');
     expect(betaWindowsBuildScript).not.toContain('"beta" } else { $env:RELEASE_CHANNEL }');
     expect(betaWindowsBuildScript).toContain('Test-JsonString $manifest.channel "channel" $ReleaseChannel');
     expect(betaWindowsBuildScript).toContain('channel = $ReleaseChannel');
-    expect(betaWindowsBuildScript).toContain('$env:OD_PACKAGED_E2E_RELEASE_CHANNEL = $ReleaseChannel');
-    expect(betaWindowsBuildScript).toContain('$env:OD_PACKAGED_E2E_WIN_UPDATE_FIXTURE = "tools-serve"');
+    expect(betaWindowsBuildScript).toContain('$env:SW_PACKAGED_E2E_RELEASE_CHANNEL = $ReleaseChannel');
+    expect(betaWindowsBuildScript).toContain('$env:SW_PACKAGED_E2E_WIN_UPDATE_FIXTURE = "tools-serve"');
 
     expectWindowsUpdaterSmokeContract(releaseBetaWorkflow, "beta");
     expectWindowsUpdaterSmokeContract(releasePreviewWorkflow, "preview");
@@ -1906,13 +1906,13 @@ process.stdin.on("end", () => {
     expectCountedReleaseWorkflowCallContract(previewWorkflow, "preview");
     expectCountedReleaseWorkflowCallContract(prereleaseWorkflow, "prerelease");
 
-    expect(previewWorkflow).toContain("OPEN_DESIGN_PREVIEW_VERSION: ${{ inputs.release_version }}");
+    expect(previewWorkflow).toContain("SANKIWORK_PREVIEW_VERSION: ${{ inputs.release_version }}");
     expect(previewWorkflow).toContain("Empty uses preview/vX.Y.Z when present, otherwise apps/packaged/package.json.");
     expect(previewScript).toContain("function resolvePreviewBaseVersion");
     expect(previewScript).toContain('source: "apps/packaged/package.json"');
     expect(previewScript).not.toContain("release-preview can only run from preview/vX.Y.Z branches");
 
-    expect(prereleaseWorkflow).toContain("OPEN_DESIGN_STABLE_VERSION: ${{ inputs.release_version }}");
+    expect(prereleaseWorkflow).toContain("SANKIWORK_STABLE_VERSION: ${{ inputs.release_version }}");
     expect(prereleaseWorkflow).toContain("Required when ref is not release/vX.Y.Z");
   });
 
@@ -1938,7 +1938,7 @@ process.stdin.on("end", () => {
 
     // The Windows installer is retrievable as a GitHub artifact too, covering
     // every win_x64_target (nsis -> setup exe, zip -> portable zip, all -> both).
-    expect(winJob).toContain("name: open-design-beta-win-x64-installer");
+    expect(winJob).toContain("name: sankiwork-beta-win-x64-installer");
     expect(winJob).toContain("builder\\*-setup.exe");
     expect(winJob).toContain("builder\\*-portable.zip");
 
@@ -2000,7 +2000,7 @@ process.stdin.on("end", () => {
       readFile(releaseStableScriptPath, "utf8"),
     ]);
 
-    expect(workflow).not.toContain("OPEN_DESIGN_STABLE_VERSION:");
+    expect(workflow).not.toContain("SANKIWORK_STABLE_VERSION:");
     expect(workflow).not.toContain("inputs.release_version");
     expect(workflow).toContain("Stable release branch to build, for example release/v0.5.1.");
 
@@ -2016,7 +2016,7 @@ process.stdin.on("end", () => {
   it("[P2] rejects stable release runs without the release version branch", async () => {
     const output = await runReleaseStableForFailure({
       GITHUB_REF_NAME: "main",
-      OPEN_DESIGN_STABLE_VERSION: "",
+      SANKIWORK_STABLE_VERSION: "",
     });
 
     expect(output).toContain("release-stable requires GITHUB_REF_NAME to be release/vX.Y.Z; got main");
@@ -2025,7 +2025,7 @@ process.stdin.on("end", () => {
   it("[P2] ignores explicit stable version inputs in favor of the release branch gate", async () => {
     const output = await runReleaseStableForFailure({
       GITHUB_REF_NAME: "main",
-      OPEN_DESIGN_STABLE_VERSION: "0.10.1",
+      SANKIWORK_STABLE_VERSION: "0.10.1",
     });
 
     expect(output).toContain("release-stable requires GITHUB_REF_NAME to be release/vX.Y.Z; got main");
@@ -2063,8 +2063,8 @@ process.stdin.on("end", () => {
           GITHUB_REF_NAME: "main",
           GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
           NODE_TLS_REJECT_UNAUTHORIZED: "0",
-          OPEN_DESIGN_BETA_METADATA_URL: `${fixture.origin}/beta/latest/metadata.json`,
-          OPEN_DESIGN_STABLE_METADATA_URL: `${fixture.origin}/stable/latest/metadata.json`,
+          SANKIWORK_BETA_METADATA_URL: `${fixture.origin}/beta/latest/metadata.json`,
+          SANKIWORK_STABLE_METADATA_URL: `${fixture.origin}/stable/latest/metadata.json`,
         },
         maxBuffer: 1024 * 1024,
       });
@@ -2099,7 +2099,7 @@ process.stdin.on("end", () => {
       GITHUB_OUTPUT: outputPath,
       GITHUB_RUN_NUMBER: "4242",
       NODE_TLS_REJECT_UNAUTHORIZED: "0",
-      OPEN_DESIGN_BETA_METADATA_URL: `${fixture.origin}/beta/latest/metadata.json`,
+      SANKIWORK_BETA_METADATA_URL: `${fixture.origin}/beta/latest/metadata.json`,
       PACKAGED_VERSION: packagedVersion,
     };
 
@@ -2164,7 +2164,7 @@ process.stdin.on("end", () => {
     expect(publisherGuard).toContain('[ "$built_sha" != "$main_sha" ]');
     expect(publisherGuard).toContain("publish=false");
     expect(betaWorkflow).not.toContain("recover_foreign_beta");
-    expect(betaWorkflow).not.toContain("OPEN_DESIGN_RECOVER_FOREIGN_BETA");
+    expect(betaWorkflow).not.toContain("SANKIWORK_RECOVER_FOREIGN_BETA");
     expect(metadataJob).toContain("branch: ${{ steps.identity.outputs.branch }}");
     expect(metadataJob).toContain("commit: ${{ steps.identity.outputs.commit }}");
     expect(metadataJob).toContain("promote: ${{ inputs.promote }}");
@@ -2276,11 +2276,11 @@ process.stdin.on("end", () => {
     expect(canary).toContain("ref: main");
     expect(canary).not.toContain("inputs.ref");
     expect(canary).toContain("runs-on: windows-latest");
-    expect(canary).toContain("OPEN_DESIGN_AMR_PROFILE: prod");
-    expect(canary).toContain("OD_VELA_WEB_URL: ${{ secrets.VELA_WEB_URL_PROD }}");
+    expect(canary).toContain("SANKIWORK_AMR_PROFILE: prod");
+    expect(canary).toContain("SW_VELA_WEB_URL: ${{ secrets.VELA_WEB_URL_PROD }}");
     expect(canary).toContain("--namespace release-prerelease-canary-win");
-    expect(canary).toContain('OD_PACKAGED_E2E_RELEASE_CHANNEL: prerelease');
-    expect(canary).toContain('OD_PACKAGED_E2E_WIN_SMOKE_PROFILE: core');
+    expect(canary).toContain('SW_PACKAGED_E2E_RELEASE_CHANNEL: prerelease');
+    expect(canary).toContain('SW_PACKAGED_E2E_WIN_SMOKE_PROFILE: core');
     expect(canary).toContain("pnpm exec tsx scripts/release-smoke.ts win specs/win.spec.ts");
     expect(canary).toContain("tools-pack win validate-payload");
     expect(canary).toContain("tools/release/src/notifications/feishu-notice.ts");
@@ -2373,7 +2373,7 @@ process.stdin.on("end", () => {
     expect(linuxJob).toContain("outputs:\n      smoke_result: ${{ steps.linux_smoke.outcome }}");
     expect(linuxSmoke).toContain("id: linux_smoke");
     expect(linuxSmoke).toContain("continue-on-error: true");
-    expect(linuxSmoke).toContain('OD_PACKAGED_E2E_LINUX_APPIMAGE: "1"');
+    expect(linuxSmoke).toContain('SW_PACKAGED_E2E_LINUX_APPIMAGE: "1"');
     expect(linuxSmoke).toContain("xvfb-run -a pnpm test specs/linux.spec.ts");
     expect(linuxJob.indexOf("Smoke prerelease linux AppImage runtime")).toBeLessThan(
       linuxJob.indexOf("Publish linux prerelease platform"),
@@ -2599,7 +2599,7 @@ process.stdin.on("end", () => {
       productionWorkflow.indexOf("pages deploy out"),
     );
 
-    expect(script).toContain('const STAGING_URL = "https://staging.open-design.ai"');
+    expect(script).toContain('const STAGING_URL = "https://staging.sanki-ai.cloud"');
     expect(script).toContain('const STAGING_WORKFLOW = "landing-page-staging.yml"');
     expect(script).toContain('const PRODUCTION_WORKFLOW = "landing-page-production.yml"');
     expect(script).toContain("type StagingSnapshot");
@@ -2615,8 +2615,8 @@ process.stdin.on("end", () => {
     expect(script).toContain("正式环境基线");
     expect(script).toContain("待 QA 验收");
     expect(script).toContain("git\", [\"merge-base\", \"--is-ancestor\"");
-    expect(script).toContain("已自动部署到当前 staging.open-design.ai");
-    expect(script).toContain("正在部署到 staging.open-design.ai");
+    expect(script).toContain("已自动部署到当前 staging.sanki-ai.cloud");
+    expect(script).toContain("正在部署到 staging.sanki-ai.cloud");
     expect(script).toContain("apps/landing-page/");
     expect(script).toContain(".github/workflows/landing-page-staging.yml");
   });
@@ -2631,14 +2631,14 @@ process.stdin.on("end", () => {
     expect(workflow).toContain(
       "Release mode. metadata stops after promotion metadata; prepublish runs build/smoke/report/plan without publishing; publish performs the stable release.",
     );
-    expect(workflow).toContain("group: open-design-release-stable-${{ inputs.dry_run }}");
+    expect(workflow).toContain("group: sankiwork-release-stable-${{ inputs.dry_run }}");
     expect(workflow).toContain("type: choice");
     expect(workflow).toContain("- metadata");
     expect(workflow).toContain("- prepublish");
     expect(workflow).toContain("- publish");
     expect(workflow).toContain("default: metadata");
     expect(workflow).not.toContain("inputs.channel");
-    expect(workflow).toContain("OPEN_DESIGN_RELEASE_DRY_RUN: ${{ inputs.dry_run == 'publish' && 'false' || inputs.dry_run }}");
+    expect(workflow).toContain("SANKIWORK_RELEASE_DRY_RUN: ${{ inputs.dry_run == 'publish' && 'false' || inputs.dry_run }}");
     expect(workflow).toContain("RELEASE_PUBLIC_ORIGIN: ${{ vars.CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN }}");
     expect(workflow).toContain("run: bash .github/scripts/release/github/stable-notes.sh");
     expect(workflow).toContain("dry_run: ${{ steps.stable.outputs.dry_run }}");
@@ -2647,7 +2647,7 @@ process.stdin.on("end", () => {
     expect(workflow).toContain("RELEASE_PUBLISH_SIDE_EFFECTS: ${{ needs.metadata.outputs.publish_side_effects_enabled }}");
 
     expect(script).toContain("function parseStableDryRunMode");
-    expect(script).toContain("OPEN_DESIGN_RELEASE_DRY_RUN must be metadata, prepublish, true, or false");
+    expect(script).toContain("SANKIWORK_RELEASE_DRY_RUN must be metadata, prepublish, true, or false");
     expect(script).toContain('setOutput("dry_run", dryRun ? "true" : "false");');
     expect(script).toContain('setOutput("dry_run_mode", stableDryRunMode);');
     expect(script).toContain('setOutput("run_prepublish_jobs", runPrepublishJobs ? "true" : "false");');
@@ -2656,8 +2656,8 @@ process.stdin.on("end", () => {
 
   it("[P2] writes stable release notes from the release public origin variable", async () => {
     for (const [envName, origin] of [
-      ["RELEASE_PUBLIC_ORIGIN", "https://releases.open-design.ai/current/"],
-      ["CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN", "https://releases.open-design.ai/legacy/"],
+      ["RELEASE_PUBLIC_ORIGIN", "https://releases.sanki-ai.cloud/current/"],
+      ["CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN", "https://releases.sanki-ai.cloud/legacy/"],
     ] as const) {
       const runnerTemp = await mkdtemp(join(tmpdir(), "od-stable-notes-"));
       const outputPath = join(runnerTemp, "github-output.txt");
@@ -2712,11 +2712,11 @@ process.stdin.on("end", () => {
           GITHUB_REPOSITORY: "nexu-io/open-design",
           GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
           NODE_TLS_REJECT_UNAUTHORIZED: "0",
-          OPEN_DESIGN_RELEASE_CHANNEL: "stable",
-          OPEN_DESIGN_RELEASE_DRY_RUN: "true",
-          OPEN_DESIGN_RELEASES_PUBLIC_ORIGIN: fixture.origin,
-          OPEN_DESIGN_GH_NODE_SCRIPT: join(runnerTemp, "bin", "gh"),
-          OPEN_DESIGN_STABLE_PRERELEASE_VERSION: prereleaseVersion,
+          SANKIWORK_RELEASE_CHANNEL: "stable",
+          SANKIWORK_RELEASE_DRY_RUN: "true",
+          SANKIWORK_RELEASES_PUBLIC_ORIGIN: fixture.origin,
+          SANKIWORK_GH_NODE_SCRIPT: join(runnerTemp, "bin", "gh"),
+          SANKIWORK_STABLE_PRERELEASE_VERSION: prereleaseVersion,
         }, join(runnerTemp, "bin")),
       });
 
@@ -2733,11 +2733,11 @@ process.stdin.on("end", () => {
   it("[P2] rejects invalid release dry-run values before remote checks", async () => {
     const output = await runReleaseStableForFailure({
       GITHUB_REF_NAME: "release/v0.10.0",
-      OPEN_DESIGN_RELEASE_DRY_RUN: "maybe",
-      OPEN_DESIGN_STABLE_VERSION: "",
+      SANKIWORK_RELEASE_DRY_RUN: "maybe",
+      SANKIWORK_STABLE_VERSION: "",
     });
 
-    expect(output).toContain("OPEN_DESIGN_RELEASE_DRY_RUN must be metadata, prepublish, true, or false");
+    expect(output).toContain("SANKIWORK_RELEASE_DRY_RUN must be metadata, prepublish, true, or false");
   });
 
   it("keeps both beta release lanes on the shared payload-aware metadata surface", async () => {
@@ -2757,8 +2757,8 @@ process.stdin.on("end", () => {
     expect(releaseBetaWorkflow).toContain("RELEASE_ASSET_SUFFIX: ${{ needs.metadata.outputs.asset_version_suffix }}");
     expect(releaseBetaSelfHostedWorkflow).toContain("RELEASE_ASSET_SUFFIX: auto");
     expect(platformPublishScript).toContain("artifacts.payload");
-    expect(platformPublishScript).toContain("open-design-${releaseVersion}${assetSuffix}-mac-${arch}-payload.zip");
-    expect(platformPublishScript).toContain("open-design-${releaseVersion}${assetSuffix}-win-x64-payload.7z");
+    expect(platformPublishScript).toContain("sankiwork-${releaseVersion}${assetSuffix}-mac-${arch}-payload.zip");
+    expect(platformPublishScript).toContain("sankiwork-${releaseVersion}${assetSuffix}-win-x64-payload.7z");
     expect(publishMetadataScript).toContain("for (const [artifactName, artifact] of Object.entries(manifest.artifacts ?? {}))");
     expect(publishMetadataScript).toContain("outputs[`${target}_${artifactName}_url`] = artifact.url");
   });
@@ -2810,8 +2810,8 @@ process.stdin.on("end", () => {
     expect(workflow).not.toMatch(/^      update_metadata_url:/m);
     expect(workflow).not.toMatch(/^      update_target_version:/m);
     expect(workflow).toContain("name: Prepare betas metadata");
-    expect(workflow).toContain("OPEN_DESIGN_BETAS_METADATA_URL: ${{ inputs.release_public_origin }}/betas/latest/metadata.json");
-    expect(workflow).toContain("OPEN_DESIGN_STABLE_METADATA_URL: https://releases.open-design.ai/stable/latest/metadata.json");
+    expect(workflow).toContain("SANKIWORK_BETAS_METADATA_URL: ${{ inputs.release_public_origin }}/betas/latest/metadata.json");
+    expect(workflow).toContain("SANKIWORK_STABLE_METADATA_URL: https://releases.sanki-ai.cloud/stable/latest/metadata.json");
     expect(workflow).toContain('repo_dir="$PWD/_release-metadata"');
     expect(workflow).toContain("--filter=blob:none --depth=1");
     expect(workflow).toContain("for attempt in 1 2 3");
@@ -2830,11 +2830,11 @@ process.stdin.on("end", () => {
     expect(workflow).toContain("needs: metadata");
     expect(workflow).toContain('-ReleaseTarget win_x64');
     expect(workflow).toContain('-ReleaseVersion "${{ needs.metadata.outputs.release_version }}"');
-    expect(workflow).toContain('OD_BETA_WINDOWS_SIGNING_ENABLED: ${{ steps.sign_probe.outputs.enabled }}');
-    expect(workflow).toContain('OD_BETA_WINDOWS_SIGNING_PROBED: ${{ steps.sign_probe.outputs.probed }}');
-    expect(workflow).toContain('OD_BETA_WINDOWS_SIGNTOOL_PATH: ${{ steps.sign_probe.outputs.signtool_path }}');
-    expect(workflow).toContain("OD_PACKAGED_E2E_WIN_UPDATE_METADATA_URL: ${{ inputs.win_x64_update_metadata_url }}");
-    expect(workflow).toContain("OD_PACKAGED_E2E_WIN_UPDATE_VERSION: ${{ inputs.win_x64_update_target_version }}");
+    expect(workflow).toContain('SW_BETA_WINDOWS_SIGNING_ENABLED: ${{ steps.sign_probe.outputs.enabled }}');
+    expect(workflow).toContain('SW_BETA_WINDOWS_SIGNING_PROBED: ${{ steps.sign_probe.outputs.probed }}');
+    expect(workflow).toContain('SW_BETA_WINDOWS_SIGNTOOL_PATH: ${{ steps.sign_probe.outputs.signtool_path }}');
+    expect(workflow).toContain("SW_PACKAGED_E2E_WIN_UPDATE_METADATA_URL: ${{ inputs.win_x64_update_metadata_url }}");
+    expect(workflow).toContain("SW_PACKAGED_E2E_WIN_UPDATE_VERSION: ${{ inputs.win_x64_update_target_version }}");
     expect(windowsBuildScript).toContain('"pnpm.cmd", "exec", "tools-pack", "win", "build"');
     expect(windowsBuildScript).toContain('if ($SmokeMode -eq "full" -and -not $hasExternalUpdateMetadata -and -not $hasExternalUpdateArtifactPair)');
     expect(windowsBuildScript).not.toContain("fnm");
@@ -2844,14 +2844,14 @@ process.stdin.on("end", () => {
     expect(posixBuildScript).toContain("RELEASE_TARGET");
     expect(posixBuildScript).toContain("REQUIRE_VELA_CLI");
     expect(posixBuildScript).toContain('--cache-dir "$TOOLS_PACK_CACHE_DIR"');
-    expect(posixBuildScript).not.toContain("OPEN_DESIGN_RELEASE_PROFILE");
+    expect(posixBuildScript).not.toContain("SANKIWORK_RELEASE_PROFILE");
     expect(posixBuildScript).not.toContain("corepack prepare");
     expect(posixBuildScript).not.toContain("RUNNER_TEMP");
     expect(workflow).toContain("Publish win_x64 platform");
     expect(workflow).toContain("tools-release publish-platform");
     expect(workflow).toContain("Write win_x64 release report");
     expect(workflow).toContain("RELEASE_REPORT_DIR: C:\\.tmp\\runner\\od-beta\\win_x64\\release-report\\win_x64");
-    expect(posixBuildScript).toContain('OD_PACKAGED_E2E_MAC_SMOKE_PROFILE="$RELEASE_SMOKE_MODE"');
+    expect(posixBuildScript).toContain('SW_PACKAGED_E2E_MAC_SMOKE_PROFILE="$RELEASE_SMOKE_MODE"');
     expect(workflow).toContain("runs-on: [self-hosted, macOS, ARM64, nexu-mac, release-beta]");
     expect(workflow).toContain("path: _release-build");
     expect(workflow).toContain("working-directory: _release-build");
@@ -2886,8 +2886,8 @@ process.stdin.on("end", () => {
     expect(workflow).toContain("RELEASE_MANIFEST_DIR: ${{ runner.temp }}/release-platform-manifests");
     expect(workflow).toContain("-IncludeZip $${{ inputs.win_x64_target == 'all' || inputs.win_x64_target == 'zip' }}");
     expect(workflow).toContain("release-beta-s publish requires win_x64_target=nsis or all");
-    expect(workflow).toContain("open-design-betas-win-x64-publish-manifest");
-    expect(workflow).toContain("open-design-betas-mac-arm64-publish-manifest");
+    expect(workflow).toContain("sankiwork-betas-win-x64-publish-manifest");
+    expect(workflow).toContain("sankiwork-betas-mac-arm64-publish-manifest");
     expect(workflow).toContain('STATE_SOURCE: ${{ needs.metadata.outputs.state_source }}');
     expect(workflow).not.toContain("Verify betas metadata");
     expect(workflow).not.toContain("tools-release verify-metadata");
@@ -2931,7 +2931,7 @@ process.stdin.on("end", () => {
           {
         artifacts: {
           dmg: {
-            url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.3.unsigned/Open Design Beta.dmg",
+            url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.3.unsigned/SankiWork Beta.dmg",
           },
         },
         channel: "beta",
@@ -2974,7 +2974,7 @@ process.stdin.on("end", () => {
             RELEASE_MANIFEST_DIR: platformManifestRoot,
             RELEASE_METADATA_DIR: join(runnerTemp, "release-metadata"),
             RELEASE_OUTPUTS_PATH: join(runnerTemp, "release-metadata", "outputs.json"),
-            RELEASE_PUBLIC_ORIGIN: "https://releases.open-design.ai",
+            RELEASE_PUBLIC_ORIGIN: "https://releases.sanki-ai.cloud",
             RELEASE_SIGNED: "false",
             RELEASE_STORAGE_ACCESS_KEY_ID: "test-access-key",
             RELEASE_STORAGE_BUCKET: fixture.bucket,
@@ -3015,7 +3015,7 @@ process.stdin.on("end", () => {
           {
         artifacts: {
           dmg: {
-            url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/Open Design Beta.dmg",
+            url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/SankiWork Beta.dmg",
           },
         },
         channel: "beta",
@@ -3058,7 +3058,7 @@ process.stdin.on("end", () => {
             RELEASE_MANIFEST_DIR: platformManifestRoot,
             RELEASE_METADATA_DIR: join(runnerTemp, "release-metadata"),
             RELEASE_OUTPUTS_PATH: join(runnerTemp, "release-metadata", "outputs.json"),
-            RELEASE_PUBLIC_ORIGIN: "https://releases.open-design.ai",
+            RELEASE_PUBLIC_ORIGIN: "https://releases.sanki-ai.cloud",
             RELEASE_SIGNED: "false",
             RELEASE_STORAGE_ACCESS_KEY_ID: "test-access-key",
             RELEASE_STORAGE_BUCKET: fixture.bucket,
@@ -3099,7 +3099,7 @@ process.stdin.on("end", () => {
           {
         artifacts: {
           dmg: {
-            url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/Open Design Beta.dmg",
+            url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/SankiWork Beta.dmg",
           },
         },
         channel: "beta",
@@ -3139,7 +3139,7 @@ process.stdin.on("end", () => {
           RELEASE_MANIFEST_DIR: platformManifestRoot,
           RELEASE_METADATA_DIR: join(runnerTemp, "release-metadata"),
           RELEASE_OUTPUTS_PATH: join(runnerTemp, "release-metadata", "outputs.json"),
-          RELEASE_PUBLIC_ORIGIN: "https://releases.open-design.ai",
+          RELEASE_PUBLIC_ORIGIN: "https://releases.sanki-ai.cloud",
           RELEASE_SIGNED: "false",
           RELEASE_STORAGE_ACCESS_KEY_ID: "test-access-key",
           RELEASE_STORAGE_BUCKET: fixture.bucket,
@@ -3178,7 +3178,7 @@ process.stdin.on("end", () => {
           {
             artifacts: {
               installer: {
-                url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/open-design-1.2.3-beta.4.unsigned-win-x64-setup.exe",
+                url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/sankiwork-1.2.3-beta.4.unsigned-win-x64-setup.exe",
               },
             },
             channel: "beta",
@@ -3190,7 +3190,7 @@ process.stdin.on("end", () => {
             legacyPlatformKey: "win",
             feed: {
               name: "latest.yml",
-              url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/latest.yml",
+              url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/latest.yml",
             },
             platform: "win",
             platformKey: "win_x64",
@@ -3224,7 +3224,7 @@ process.stdin.on("end", () => {
           RELEASE_MANIFEST_DIR: platformManifestRoot,
           RELEASE_METADATA_DIR: join(runnerTemp, "release-metadata"),
           RELEASE_OUTPUTS_PATH: join(runnerTemp, "release-metadata", "outputs.json"),
-          RELEASE_PUBLIC_ORIGIN: "https://releases.open-design.ai",
+          RELEASE_PUBLIC_ORIGIN: "https://releases.sanki-ai.cloud",
           RELEASE_SIGNED: "false",
           RELEASE_STORAGE_ACCESS_KEY_ID: "test-access-key",
           RELEASE_STORAGE_BUCKET: fixture.bucket,
@@ -3270,11 +3270,11 @@ process.stdin.on("end", () => {
           {
             artifacts: {
               dmg: {
-                url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/open-design-1.2.3-beta.4.unsigned-mac-arm64.dmg",
+                url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/sankiwork-1.2.3-beta.4.unsigned-mac-arm64.dmg",
               },
               payload: {
-                sha256Url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/open-design-1.2.3-beta.4.unsigned-mac-arm64-payload.zip.sha256",
-                url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/open-design-1.2.3-beta.4.unsigned-mac-arm64-payload.zip",
+                sha256Url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/sankiwork-1.2.3-beta.4.unsigned-mac-arm64-payload.zip.sha256",
+                url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/sankiwork-1.2.3-beta.4.unsigned-mac-arm64-payload.zip",
               },
             },
             channel: "beta",
@@ -3304,17 +3304,17 @@ process.stdin.on("end", () => {
           {
             artifacts: {
               installer: {
-                url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/open-design-1.2.3-beta.4.unsigned-win-x64-setup.exe",
+                url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/sankiwork-1.2.3-beta.4.unsigned-win-x64-setup.exe",
               },
               payload: {
-                sha256Url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/open-design-1.2.3-beta.4.unsigned-win-x64-payload.7z.sha256",
-                url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/open-design-1.2.3-beta.4.unsigned-win-x64-payload.7z",
+                sha256Url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/sankiwork-1.2.3-beta.4.unsigned-win-x64-payload.7z.sha256",
+                url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/sankiwork-1.2.3-beta.4.unsigned-win-x64-payload.7z",
               },
             },
             channel: "beta",
             feed: {
               name: "latest.yml",
-              url: "https://releases.open-design.ai/betas/versions/1.2.3-beta.4.unsigned/latest.yml",
+              url: "https://releases.sanki-ai.cloud/betas/versions/1.2.3-beta.4.unsigned/latest.yml",
             },
             github: {
               commit: "current-sha",
@@ -3354,7 +3354,7 @@ process.stdin.on("end", () => {
           RELEASE_MANIFEST_DIR: platformManifestRoot,
           RELEASE_METADATA_DIR: join(runnerTemp, "release-metadata"),
           RELEASE_OUTPUTS_PATH: join(runnerTemp, "release-metadata", "outputs.json"),
-          RELEASE_PUBLIC_ORIGIN: "https://releases.open-design.ai",
+          RELEASE_PUBLIC_ORIGIN: "https://releases.sanki-ai.cloud",
           RELEASE_SIGNED: "false",
           RELEASE_STORAGE_ACCESS_KEY_ID: "test-access-key",
           RELEASE_STORAGE_BUCKET: fixture.bucket,
@@ -3413,8 +3413,8 @@ process.stdin.on("end", () => {
     expect(workflow).toContain('& "C:\\Users\\runner\\.cargo\\bin\\fnm.exe" exec --using=24 -- pwsh -NoProfile -File tools\\release\\scripts\\build-platform.ps1');
     expect(workflow).toContain("corepack prepare pnpm@10.33.2 --activate");
     expect(workflow).toContain('pnpm.cmd install --frozen-lockfile --prefer-offline');
-    expect(workflow).toContain("sudo -n \"$OPEN_DESIGN_MAC_SIGNING_HELPER\" \"$cert_path\" \"$password_path\"");
-    expect(workflow).not.toContain("PATH: /usr/local/libexec/open-design/wrappers:${{ env.PATH }}");
+    expect(workflow).toContain("sudo -n \"$SANKIWORK_MAC_SIGNING_HELPER\" \"$cert_path\" \"$password_path\"");
+    expect(workflow).not.toContain("PATH: /usr/local/libexec/sankiwork/wrappers:${{ env.PATH }}");
     expect(posixBuildScript).not.toContain("fnm");
     expect(posixBuildScript).not.toContain("corepack");
     expect(posixBuildScript).not.toContain("pnpm install");
@@ -3429,8 +3429,8 @@ process.stdin.on("end", () => {
     expect(winBuildScript).toMatch(
       /Measure-Step "tools-pack win build update fixture" \{[\s\S]*?\r?\n    \}\r?\n    \$updateBuild = Get-Content -LiteralPath \$fixtureJsonPath -Raw \| ConvertFrom-Json\r?\n    \$localUpdateArtifactPath = \[string\]\$updateBuild\.installerPath/,
     );
-    expect(winBuildScript).toContain('$env:OD_PACKAGED_E2E_WIN_UPDATE_FIXTURE = "tools-serve"');
-    expect(winBuildScript).toContain("$env:OD_PACKAGED_E2E_WIN_UPDATE_ARTIFACT_PATH = $localUpdateArtifactPath");
+    expect(winBuildScript).toContain('$env:SW_PACKAGED_E2E_WIN_UPDATE_FIXTURE = "tools-serve"');
+    expect(winBuildScript).toContain("$env:SW_PACKAGED_E2E_WIN_UPDATE_ARTIFACT_PATH = $localUpdateArtifactPath");
   });
 });
 
@@ -3441,14 +3441,14 @@ function expectChannelWorkflowNamespaces(
 ): void {
   const namespace = `release-${channel}`;
   expect(workflow).toContain(`--namespace ${namespace}`);
-  expect(workflow).toContain(`OD_PACKAGED_E2E_NAMESPACE: ${namespace}`);
+  expect(workflow).toContain(`SW_PACKAGED_E2E_NAMESPACE: ${namespace}`);
   expect(workflow).toContain(`--namespace ${namespace}-intel`);
   expect(workflow).toContain(`"--namespace", "${namespace}-win",`);
-  expect(workflow).toContain(`OD_PACKAGED_E2E_NAMESPACE: ${namespace}-win`);
+  expect(workflow).toContain(`SW_PACKAGED_E2E_NAMESPACE: ${namespace}-win`);
   expect(workflow).toContain(`--namespace ${namespace}-linux`);
 
   if (options.hasLinuxSmoke) {
-    expect(workflow).toContain(`OD_PACKAGED_E2E_NAMESPACE: ${namespace}-linux`);
+    expect(workflow).toContain(`SW_PACKAGED_E2E_NAMESPACE: ${namespace}-linux`);
   }
 }
 
@@ -3457,10 +3457,10 @@ function expectWindowsUpdaterSmokeContract(workflow: string, channel: "beta" | "
   expect(workflow).toContain("win_x64_update_metadata_url:");
   expect(workflow).toContain("win_x64_update_target_version:");
   expect(workflow).toMatch(/win_x64_smoke_mode:[\s\S]*?options:[\s\S]*?- skip[\s\S]*?- core[\s\S]*?- full[\s\S]*?default: core/);
-  expect(workflow).toContain("OD_PACKAGED_E2E_WIN_SMOKE_PROFILE: ${{ inputs.win_x64_smoke_mode }}");
-  expect(workflow).toContain("OD_PACKAGED_E2E_WIN_UPDATE_FIXTURE: ${{ inputs.win_x64_smoke_mode == 'full' && inputs.win_x64_update_metadata_url == '' && inputs.win_x64_update_target_version == '' && 'tools-serve' || '' }}");
-  expect(workflow).toContain("OD_PACKAGED_E2E_WIN_UPDATE_METADATA_URL: ${{ inputs.win_x64_update_metadata_url }}");
-  expect(workflow).toContain("OD_PACKAGED_E2E_WIN_UPDATE_VERSION: ${{ inputs.win_x64_update_target_version }}");
+  expect(workflow).toContain("SW_PACKAGED_E2E_WIN_SMOKE_PROFILE: ${{ inputs.win_x64_smoke_mode }}");
+  expect(workflow).toContain("SW_PACKAGED_E2E_WIN_UPDATE_FIXTURE: ${{ inputs.win_x64_smoke_mode == 'full' && inputs.win_x64_update_metadata_url == '' && inputs.win_x64_update_target_version == '' && 'tools-serve' || '' }}");
+  expect(workflow).toContain("SW_PACKAGED_E2E_WIN_UPDATE_METADATA_URL: ${{ inputs.win_x64_update_metadata_url }}");
+  expect(workflow).toContain("SW_PACKAGED_E2E_WIN_UPDATE_VERSION: ${{ inputs.win_x64_update_target_version }}");
   if (channel === "stable") {
     expect(workflow).toContain("Build stable win_x64 update fixture");
     expect(workflow).toContain('full Windows stable smoke requires stable version x.y.z');
@@ -3471,7 +3471,7 @@ function expectWindowsUpdaterSmokeContract(workflow: string, channel: "beta" | "
     expect(workflow).toContain(`Build ${channel} win_x64 update fixture`);
     expect(workflow).toContain(`full Windows smoke requires a counted ${channel} version`);
   }
-  expect(workflow).not.toContain("OD_PACKAGED_E2E_WIN_SMOKE_PROFILE: core");
+  expect(workflow).not.toContain("SW_PACKAGED_E2E_WIN_SMOKE_PROFILE: core");
 }
 
 function expectCountedReleaseWorkflowCallContract(workflow: string, channel: "preview" | "prerelease"): void {
@@ -3587,8 +3587,8 @@ function stablePrereleaseMetadataFixture(baseVersion: string, prereleaseVersion:
       mac: {
         arch: "arm64",
         artifacts: {
-          dmg: artifact("Open Design.dmg"),
-          zip: artifact("Open Design-mac-arm64.zip"),
+          dmg: artifact("SankiWork.dmg"),
+          zip: artifact("SankiWork-mac-arm64.zip"),
         },
         enabled: true,
         signed: true,
@@ -3596,8 +3596,8 @@ function stablePrereleaseMetadataFixture(baseVersion: string, prereleaseVersion:
       macIntel: {
         arch: "x64",
         artifacts: {
-          dmg: artifact("Open Design Intel.dmg"),
-          zip: artifact("Open Design-mac-x64.zip"),
+          dmg: artifact("SankiWork Intel.dmg"),
+          zip: artifact("SankiWork-mac-x64.zip"),
         },
         enabled: true,
         signed: true,
@@ -3605,7 +3605,7 @@ function stablePrereleaseMetadataFixture(baseVersion: string, prereleaseVersion:
       win: {
         arch: "x64",
         artifacts: {
-          installer: artifact("Open Design Setup.exe"),
+          installer: artifact("SankiWork Setup.exe"),
         },
         enabled: true,
       },

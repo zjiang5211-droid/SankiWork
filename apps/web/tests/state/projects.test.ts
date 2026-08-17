@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   applyPlugin,
   cacheTabsLocally,
-  contributeGeneratedPluginToOpenDesign,
+  contributeGeneratedPluginToSankiWork,
   createConversation,
   createDesignSystemProjectFromProject,
   createProject,
@@ -38,7 +38,7 @@ import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   projectDisplaySnapshotKey,
   readProjectDisplaySnapshot,
@@ -1754,7 +1754,7 @@ describe('generated plugin share actions', () => {
       'generated-plugin',
       context,
     );
-    const contribute = await contributeGeneratedPluginToOpenDesign(
+    const contribute = await contributeGeneratedPluginToSankiWork(
       'project-1',
       'generated-plugin',
       context,
@@ -1776,7 +1776,7 @@ describe('generated plugin share actions', () => {
     );
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
-      '/api/projects/project-1/plugins/contribute-open-design',
+      '/api/projects/project-1/plugins/contribute-sankiwork',
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
@@ -1907,7 +1907,7 @@ describe('createPluginShareProject', () => {
 
     const outcome = await createPluginShareProject(
       'sample-plugin',
-      'contribute-open-design',
+      'contribute-sankiwork',
     );
 
     expect(outcome).toEqual({
@@ -2269,7 +2269,7 @@ describe('deleteProject local caches', () => {
     vi.unstubAllGlobals();
   });
 
-  const tabsKey = 'open-design:project-tabs:v1:p1';
+  const tabsKey = 'sankiwork:project-tabs:v1:p1';
   const historyKey = designBrowserHistoryStorageKey('p1');
   const viewportKey = designBrowserViewportStorageKey('p1');
 

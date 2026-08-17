@@ -90,7 +90,7 @@ async function runCli(args: string[]): Promise<{ stdout: string; stderr: string;
   }
 }
 
-describe('od amr login CLI', () => {
+describe('sw amr login CLI', () => {
   let stub: StubServer;
 
   beforeAll(async () => {
@@ -106,11 +106,11 @@ describe('od amr login CLI', () => {
     stub.setResponder(() => ({ status: 404, body: { error: 'unexpected request' } }));
   });
 
-  it('documents login in `od amr help`', async () => {
+  it('documents login in `sw amr help`', async () => {
     const result = await runCli(['amr', 'help']);
     expect(result.code).toBe(0);
-    expect(result.stdout).toContain('od amr login');
-    expect(result.stdout).toContain('od amr logout');
+    expect(result.stdout).toContain('sw amr login');
+    expect(result.stdout).toContain('sw amr logout');
   });
 
   it('logs out through the daemon and emits machine-readable JSON', async () => {
@@ -145,7 +145,7 @@ describe('od amr login CLI', () => {
             profile: 'default',
             user: null,
             configPath: '/local/private/vela.json',
-            activationUrl: 'https://amr-link.open-design.ai/activate',
+            activationUrl: 'https://amr-link.sanki-ai.cloud/activate',
             userCode: 'ABCD-EFGH',
           },
         };
@@ -168,7 +168,7 @@ describe('od amr login CLI', () => {
         profile: 'default',
         user: null,
         configPath: '/local/private/vela.json',
-        activationUrl: 'https://amr-link.open-design.ai/activate',
+        activationUrl: 'https://amr-link.sanki-ai.cloud/activate',
         userCode: 'ABCD-EFGH',
       },
     });
@@ -190,7 +190,7 @@ describe('od amr login CLI', () => {
           profile: 'default',
           user: null,
           configPath: '/local/private/vela.json',
-          activationUrl: 'https://amr-link.open-design.ai/activate',
+          activationUrl: 'https://amr-link.sanki-ai.cloud/activate',
           userCode: 'ABCD-EFGH',
           browserOpenFailed: true,
         },
@@ -200,7 +200,7 @@ describe('od amr login CLI', () => {
     const result = await runCli(['amr', 'login', '--daemon-url', stub.baseUrl]);
 
     expect(result.code).toBe(0);
-    expect(result.stdout).toContain('https://amr-link.open-design.ai/activate');
+    expect(result.stdout).toContain('https://amr-link.sanki-ai.cloud/activate');
     expect(result.stdout).toContain('ABCD-EFGH');
     expect(result.stdout).toContain('browser could not be opened automatically');
   });

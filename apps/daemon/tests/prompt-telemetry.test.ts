@@ -80,15 +80,15 @@ describe('prompt telemetry builder', () => {
 
   it('normalizes dev-container workspace roots before fingerprinting', () => {
     const first = buildPromptStackTelemetry({
-      composedPrompt: 'open /workspace/open-design/src/App.tsx',
+      composedPrompt: 'open /workspace/sankiwork/src/App.tsx',
       sections: [
-        { kind: 'userRequest', content: 'open /workspace/open-design/src/App.tsx' },
+        { kind: 'userRequest', content: 'open /workspace/sankiwork/src/App.tsx' },
       ],
     });
     const second = buildPromptStackTelemetry({
-      composedPrompt: 'open /workspaces/open-design/src/App.tsx',
+      composedPrompt: 'open /workspaces/sankiwork/src/App.tsx',
       sections: [
-        { kind: 'userRequest', content: 'open /workspaces/open-design/src/App.tsx' },
+        { kind: 'userRequest', content: 'open /workspaces/sankiwork/src/App.tsx' },
       ],
     });
 
@@ -128,12 +128,12 @@ describe('prompt telemetry builder', () => {
   it('redacts non-home Linux project and attachment roots before fingerprinting', () => {
     const first = buildPromptStackTelemetry({
       composedPrompt:
-        'cwd /media/william/disk/project, service /srv/open-design, image @/media/william/disk/screenshot.png',
+        'cwd /media/william/disk/project, service /srv/sankiwork, image @/media/william/disk/screenshot.png',
       sections: [
         {
           kind: 'daemonSystemPrompt',
           content:
-            'cwd /media/william/disk/project, service /srv/open-design, image @/media/william/disk/screenshot.png',
+            'cwd /media/william/disk/project, service /srv/sankiwork, image @/media/william/disk/screenshot.png',
         },
       ],
     });
@@ -153,7 +153,7 @@ describe('prompt telemetry builder', () => {
       `cwd ${PROMPT_STACK_PATH_MARKER}, service ${PROMPT_STACK_PATH_MARKER}, image @${PROMPT_STACK_PATH_MARKER}`,
     );
     expect(first.sections[0]!.redactedContent).not.toContain('/media/william');
-    expect(first.sections[0]!.redactedContent).not.toContain('/srv/open-design');
+    expect(first.sections[0]!.redactedContent).not.toContain('/srv/sankiwork');
     expect(first.promptFingerprint).toBe(second.promptFingerprint);
     expect(first.sections[0]!.fingerprint).toBe(second.sections[0]!.fingerprint);
   });
@@ -161,12 +161,12 @@ describe('prompt telemetry builder', () => {
   it('redacts opt, usr-local, and macOS var-tmp project roots before fingerprinting', () => {
     const first = buildPromptStackTelemetry({
       composedPrompt:
-        'cwd /opt/project, src /usr/local/src/app, temp /var/tmp/project, private temp /private/var/tmp/open-design, route /foo/bar',
+        'cwd /opt/project, src /usr/local/src/app, temp /var/tmp/project, private temp /private/var/tmp/sankiwork, route /foo/bar',
       sections: [
         {
           kind: 'daemonSystemPrompt',
           content:
-            'cwd /opt/project, src /usr/local/src/app, temp /var/tmp/project, private temp /private/var/tmp/open-design, route /foo/bar',
+            'cwd /opt/project, src /usr/local/src/app, temp /var/tmp/project, private temp /private/var/tmp/sankiwork, route /foo/bar',
         },
       ],
     });
@@ -189,7 +189,7 @@ describe('prompt telemetry builder', () => {
     expect(first.sections[0]!.redactedContent).not.toContain('/usr/local/src/app');
     expect(first.sections[0]!.redactedContent).not.toContain('/var/tmp/project');
     expect(first.sections[0]!.redactedContent).not.toContain(
-      '/private/var/tmp/open-design',
+      '/private/var/tmp/sankiwork',
     );
     expect(first.sections[0]!.redactedContent).toContain('/foo/bar');
     expect(first.promptFingerprint).toBe(second.promptFingerprint);
@@ -250,14 +250,14 @@ describe('prompt telemetry builder', () => {
           kind: 'runtimeToolPrompt',
           content: [
             '## Runtime tool environment',
-            '- `OD_TOOL_TOKEN` is available in your environment for this run.',
+            '- `SW_TOOL_TOKEN` is available in your environment for this run.',
             '- Daemon URL: `http://127.0.0.1:1234`.',
           ].join('\n'),
         },
       ],
     });
 
-    expect(telemetry.sections[0]!.redactedContent).not.toContain('OD_TOOL_TOKEN');
+    expect(telemetry.sections[0]!.redactedContent).not.toContain('SW_TOOL_TOKEN');
     expect(telemetry.sections[0]!.redactedContent).toContain('Daemon URL');
   });
 

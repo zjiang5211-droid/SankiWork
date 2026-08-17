@@ -4,16 +4,16 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-libra
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import type {
-  OpenDesignHostUpdaterOpenDialogListener,
-  OpenDesignHostUpdaterStatusListener,
-  OpenDesignHostUpdaterStatusSnapshot,
-} from '@open-design/host';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+  SankiWorkHostUpdaterOpenDialogListener,
+  SankiWorkHostUpdaterStatusListener,
+  SankiWorkHostUpdaterStatusSnapshot,
+} from '@sankiwork/host';
+import { installMockSankiWorkHost } from '@sankiwork/host/testing';
 
 import { UpdateDialog } from '../../src/components/UpdateDialog';
 import { I18nProvider } from '../../src/i18n';
 
-function idleStatus(overrides: Partial<OpenDesignHostUpdaterStatusSnapshot> = {}): OpenDesignHostUpdaterStatusSnapshot {
+function idleStatus(overrides: Partial<SankiWorkHostUpdaterStatusSnapshot> = {}): SankiWorkHostUpdaterStatusSnapshot {
   return {
     arch: 'arm64',
     capabilities: {
@@ -33,28 +33,28 @@ function idleStatus(overrides: Partial<OpenDesignHostUpdaterStatusSnapshot> = {}
   };
 }
 
-function payloadReadyStatus(overrides: Partial<OpenDesignHostUpdaterStatusSnapshot> = {}): OpenDesignHostUpdaterStatusSnapshot {
+function payloadReadyStatus(overrides: Partial<SankiWorkHostUpdaterStatusSnapshot> = {}): SankiWorkHostUpdaterStatusSnapshot {
   return idleStatus({
     artifact: {
-      name: 'open-design-1.2.4-payload.zip',
+      name: 'sankiwork-1.2.4-payload.zip',
       platformKey: 'mac',
       type: 'payload',
-      url: 'https://example.test/open-design-1.2.4-payload.zip',
+      url: 'https://example.test/sankiwork-1.2.4-payload.zip',
     },
     availableVersion: '1.2.4',
-    downloadPath: '/tmp/open-design-1.2.4-payload.zip',
+    downloadPath: '/tmp/sankiwork-1.2.4-payload.zip',
     state: 'downloaded',
     ...overrides,
   });
 }
 
-function availableStatus(overrides: Partial<OpenDesignHostUpdaterStatusSnapshot> = {}): OpenDesignHostUpdaterStatusSnapshot {
+function availableStatus(overrides: Partial<SankiWorkHostUpdaterStatusSnapshot> = {}): SankiWorkHostUpdaterStatusSnapshot {
   return idleStatus({
     artifact: {
-      name: 'open-design-1.2.4-payload.zip',
+      name: 'sankiwork-1.2.4-payload.zip',
       platformKey: 'mac',
       type: 'payload',
-      url: 'https://example.test/open-design-1.2.4-payload.zip',
+      url: 'https://example.test/sankiwork-1.2.4-payload.zip',
     },
     availableVersion: '1.2.4',
     state: 'available',
@@ -72,10 +72,10 @@ describe('UpdateDialog', () => {
   });
 
   it('updates silently in the background and opens ready state only after the native menu request', async () => {
-    let statusListener: OpenDesignHostUpdaterStatusListener | null = null;
-    let openDialogListener: OpenDesignHostUpdaterOpenDialogListener | null = null;
+    let statusListener: SankiWorkHostUpdaterStatusListener | null = null;
+    let openDialogListener: SankiWorkHostUpdaterOpenDialogListener | null = null;
     const ready = payloadReadyStatus();
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => idleStatus()),
@@ -110,13 +110,13 @@ describe('UpdateDialog', () => {
   });
 
   it('shows reinstall copy and the operator link when the feed forces the installer route', async () => {
-    let openDialogListener: OpenDesignHostUpdaterOpenDialogListener | null = null;
+    let openDialogListener: SankiWorkHostUpdaterOpenDialogListener | null = null;
     const ready = payloadReadyStatus({
       artifact: {
-        name: 'open-design-1.2.4-setup.exe',
+        name: 'sankiwork-1.2.4-setup.exe',
         platformKey: 'win',
         type: 'installer',
-        url: 'https://example.test/open-design-1.2.4-setup.exe',
+        url: 'https://example.test/sankiwork-1.2.4-setup.exe',
       },
       reinstall: {
         installedVersion: '1.0.0',
@@ -125,7 +125,7 @@ describe('UpdateDialog', () => {
         url: 'https://example.com/reinstall-help',
       },
     });
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => ready),
@@ -145,16 +145,16 @@ describe('UpdateDialog', () => {
 
     await screen.findByRole('dialog', { name: 'Check for updates' });
     expect(
-      screen.getByText('Open Design 1.2.4 requires a full reinstall. Open Design will close and open the installer.'),
+      screen.getByText('SankiWork 1.2.4 requires a full reinstall. SankiWork will close and open the installer.'),
     ).toBeTruthy();
     expect(screen.getByTestId('update-dialog-reinstall-learn-more')).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Explore new features' })).toBeNull();
   });
 
   it('starts an explicit auto-downloading check when opened from an idle menu state', async () => {
-    let openDialogListener: OpenDesignHostUpdaterOpenDialogListener | null = null;
+    let openDialogListener: SankiWorkHostUpdaterOpenDialogListener | null = null;
     const check = vi.fn(async () => idleStatus({ state: 'not-available' }));
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           check,
@@ -185,15 +185,15 @@ describe('UpdateDialog', () => {
   });
 
   it('keeps copy and actions focused as an update moves from available to downloading and installing', async () => {
-    let statusListener: OpenDesignHostUpdaterStatusListener | null = null;
-    let openDialogListener: OpenDesignHostUpdaterOpenDialogListener | null = null;
+    let statusListener: SankiWorkHostUpdaterStatusListener | null = null;
+    let openDialogListener: SankiWorkHostUpdaterOpenDialogListener | null = null;
     const available = availableStatus();
     const downloading = availableStatus({
       progress: { receivedBytes: 42, totalBytes: 100 },
       state: 'downloading',
     });
     const download = vi.fn(async () => downloading);
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           download,
@@ -234,12 +234,12 @@ describe('UpdateDialog', () => {
   });
 
   it('replaces technical check errors with concise recovery copy', async () => {
-    let openDialogListener: OpenDesignHostUpdaterOpenDialogListener | null = null;
+    let openDialogListener: SankiWorkHostUpdaterOpenDialogListener | null = null;
     const failed = idleStatus({
       error: { code: 'network-timeout', message: 'ETIMEDOUT https://updates.example.test/latest.yml' },
       state: 'error',
     });
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           check: vi.fn(async () => failed),
@@ -265,10 +265,10 @@ describe('UpdateDialog', () => {
   });
 
   it('offers a manual download instead of another check when in-app updates are unsupported', async () => {
-    let openDialogListener: OpenDesignHostUpdaterOpenDialogListener | null = null;
+    let openDialogListener: SankiWorkHostUpdaterOpenDialogListener | null = null;
     const openExternal = vi.fn(async () => ({ ok: true as const }));
     const unsupported = idleStatus({ enabled: false, state: 'unsupported', supported: false });
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         shell: { openExternal },
         updater: {
@@ -295,7 +295,7 @@ describe('UpdateDialog', () => {
   });
 
   it('defaults to Later when tasks are active and requires an explicit Restart anyway override', async () => {
-    let openDialogListener: OpenDesignHostUpdaterOpenDialogListener | null = null;
+    let openDialogListener: SankiWorkHostUpdaterOpenDialogListener | null = null;
     const ready = payloadReadyStatus();
     const blocked = payloadReadyStatus({
       error: {
@@ -307,7 +307,7 @@ describe('UpdateDialog', () => {
     const installed = payloadReadyStatus({
       installResult: {
         openedAt: '2026-07-16T12:00:00.000Z',
-        path: '/tmp/open-design-1.2.4-payload.zip',
+        path: '/tmp/sankiwork-1.2.4-payload.zip',
       },
       state: 'installing',
     });
@@ -315,7 +315,7 @@ describe('UpdateDialog', () => {
       .mockResolvedValueOnce(blocked)
       .mockResolvedValueOnce(installed);
     const quit = vi.fn(async () => ({ ok: true as const }));
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           install,
@@ -336,7 +336,7 @@ describe('UpdateDialog', () => {
     });
     fireEvent.click(await screen.findByRole('button', { name: 'Install and restart' }));
 
-    expect(await screen.findByText('Open Design is still working')).toBeTruthy();
+    expect(await screen.findByText('SankiWork is still working')).toBeTruthy();
     expect(screen.getByText('2 active tasks are still running. Restarting now will interrupt them.')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Later' })).toHaveFocus();
 

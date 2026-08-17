@@ -3,7 +3,7 @@
 // The daemon decodes a `.fig` (offline, no Figma account) or a Figma URL
 // (via the OAuth `figma-extract` atom) into a canonical `figma/` snapshot
 // and returns the inventory below. Web (DesignSystemFlow, FigmaImportModal)
-// and the `od figma` CLI both consume these shapes; keep this file pure TS.
+// and the `sw figma` CLI both consume these shapes; keep this file pure TS.
 
 /** A (family, styles) pair referenced by the file's TEXT nodes. */
 export interface FigmaFontFace {

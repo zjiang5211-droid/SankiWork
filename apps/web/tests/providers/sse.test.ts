@@ -549,7 +549,7 @@ describe('streamViaDaemon', () => {
     ]);
 
     expect(transcript).toContain('## user');
-    expect(transcript).toContain('[Open Design truncated 1000 chars from this prior message');
+    expect(transcript).toContain('[SankiWork truncated 1000 chars from this prior message');
     expect(transcript).not.toContain('x'.repeat(13_000));
     expect(transcript).toContain('small answer');
   });
@@ -1099,7 +1099,7 @@ describe('streamViaDaemon', () => {
           sseResponse(
             [
               'event: error',
-              'data: {"message":"AMR balance unavailable","error":{"code":"AMR_INSUFFICIENT_BALANCE","message":"AMR balance unavailable","details":{"kind":"amr_account","action":"recharge","actionUrl":"https://open-design.ai/amr/dashboard"}}}',
+              'data: {"message":"AMR balance unavailable","error":{"code":"AMR_INSUFFICIENT_BALANCE","message":"AMR balance unavailable","details":{"kind":"amr_account","action":"recharge","actionUrl":"https://sanki-ai.cloud/amr/dashboard"}}}',
               '',
               '',
             ].join('\n'),
@@ -1122,7 +1122,7 @@ describe('streamViaDaemon', () => {
         details: {
           kind: 'amr_account',
           action: 'recharge',
-          actionUrl: 'https://open-design.ai/amr/dashboard',
+          actionUrl: 'https://sanki-ai.cloud/amr/dashboard',
         },
       }),
     );
@@ -1177,7 +1177,7 @@ describe('streamViaDaemon', () => {
       }),
     );
     const message = (handlers.onError.mock.calls[0]?.[0] as Error).message;
-    expect(message).toContain('Open Design link URL or model route');
+    expect(message).toContain('SankiWork link URL or model route');
     expect(message).not.toContain('json-rpc id 4');
     expect(message).not.toContain('https://example.invalid');
     expect(handlers.onDone).not.toHaveBeenCalled();
@@ -1209,7 +1209,7 @@ describe('streamViaDaemon', () => {
                     message,
                     marker: '## user',
                     retryable: true,
-                    promoted_by: 'open_design_acp',
+                    promoted_by: 'sankiwork_acp',
                   },
                 },
               })}`,
@@ -1276,7 +1276,7 @@ describe('streamViaDaemon', () => {
                     message: 'Provider returned error',
                     statusCode: 503,
                     retryable: true,
-                    url: 'https://amr-link.open-design.ai/v1/chat/completions',
+                    url: 'https://amr-link.sanki-ai.cloud/v1/chat/completions',
                     suggestion: 'Retry later or switch to another model.',
                     responseBodyPreview,
                   },
@@ -1314,7 +1314,7 @@ describe('streamViaDaemon', () => {
     expect(message).not.toContain('opencode event stream');
     expect(message).not.toContain('opencode session error');
     expect(message).not.toContain('json-rpc id 4');
-    expect(message).not.toContain('https://amr-link.open-design.ai');
+    expect(message).not.toContain('https://amr-link.sanki-ai.cloud');
   });
 
   it('treats an explicit succeeded status with a SIGTERM exit as a successful run', async () => {
@@ -1535,7 +1535,7 @@ describe('streamViaDaemon', () => {
 
     expect(handlers.onError).toHaveBeenCalledWith(expect.any(Error));
     const message = (handlers.onError.mock.calls[0]?.[0] as Error).message;
-    expect(message).toContain('Open Design started, but the run did not complete');
+    expect(message).toContain('SankiWork started, but the run did not complete');
     expect(message).not.toContain('sqlite-migration');
     expect(message).not.toContain('OPENCODE_SERVER_PASSWORD');
     expect(message).not.toContain('opencode server listening');

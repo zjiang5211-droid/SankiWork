@@ -2,12 +2,12 @@ import {
   SIDECAR_DEFAULTS,
   resolveWindowsReleaseNamespaceToken,
   resolveWindowsUninstallRegistryKey,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import {
   releaseChannelFromNamespace,
   releaseChannelFromVersion,
   releaseInstallIdentity,
-} from "@open-design/release";
+} from "@sankiwork/release";
 
 import type { ToolPackConfig } from "../config.js";
 import { PRODUCT_NAME } from "./constants.js";

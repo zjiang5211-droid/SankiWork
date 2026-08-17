@@ -60,7 +60,7 @@ export interface AppConfigPrefs {
   allowSilentUpdates?: boolean;
   orbit?: OrbitConfigPrefs;
   customInstructions?: string | null;
-  /** External project library roots. The daemon adds its built-in .od/projects location at read time. */
+  /** External project library roots. The daemon adds its built-in .sankiwork/projects location at read time. */
   projectLocations?: ProjectLocationPrefs[];
   /** Project location id used for new projects when the create request does not choose one explicitly. */
   defaultProjectLocationId?: string | null;

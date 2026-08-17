@@ -22,10 +22,10 @@ export const MEDIA_POLICY_DENIAL_CODES = [
 export type MediaPolicyDenialCode = (typeof MEDIA_POLICY_DENIAL_CODES)[number];
 
 /**
- * Run-scoped policy controlling Open Design-owned media generation only.
+ * Run-scoped policy controlling SankiWork-owned media generation only.
  *
  * `allowedSurfaces` and `allowedModels` apply solely to `/api/tools/media/generate`
- * and in-run `od media generate`. External MCP media tools are intentionally
+ * and in-run `sw media generate`. External MCP media tools are intentionally
  * unaffected: provider policy for those belongs to the MCP server / orchestrator.
  */
 export interface MediaExecutionPolicy {

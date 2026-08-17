@@ -1,9 +1,9 @@
 /**
  * Shared shorthand-expander for env-supplied directory paths. Both
- * resolveDataDir (server.ts, drives OD_DATA_DIR) and resolveOverrideDir
- * (media-config.ts, drives OD_MEDIA_CONFIG_DIR + the OD_DATA_DIR fallback)
+ * resolveDataDir (server.ts, drives SW_DATA_DIR) and resolveOverrideDir
+ * (media-config.ts, drives SW_MEDIA_CONFIG_DIR + the SW_DATA_DIR fallback)
  * use this so the two resolvers cannot split state — a launcher passing
- * $HOME/.open-design lands every daemon write at the same expanded path.
+ * $HOME/.sankiwork lands every daemon write at the same expanded path.
  *
  * Recognized shorthands (case-sensitive):
  *   '~'        | '~/...'   | '~\\...'
@@ -12,8 +12,8 @@
  *
  * Anything else (absolute paths, plain relative paths, $OTHER variables) is
  * returned unchanged. Both forward and back slashes are accepted in the
- * prefix so a Windows launcher passing $HOME\.open-design behaves the same
- * as a Unix launcher passing $HOME/.open-design; the result is rebuilt via
+ * prefix so a Windows launcher passing $HOME\.sankiwork behaves the same
+ * as a Unix launcher passing $HOME/.sankiwork; the result is rebuilt via
  * path.join so the platform separator is correct in the output regardless
  * of which the input used.
  */

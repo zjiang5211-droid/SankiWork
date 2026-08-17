@@ -1,6 +1,6 @@
 // Liquid Glass — SDF displacement-map refraction for floating surfaces.
 //
-// Ported from the opendesign skill's liquid-glass.js (itself a port of
+// Ported from the sankiwork skill's liquid-glass.js (itself a port of
 // shuding/liquid-glass). For every pixel inside the element a rounded-rect
 // signed distance field yields a displacement factor (center = 1 so the
 // glass stays see-through, edges pull toward the center like a lens); the

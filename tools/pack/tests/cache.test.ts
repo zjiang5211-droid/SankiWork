@@ -17,7 +17,7 @@ async function pathExists(path: string): Promise<boolean> {
 
 describe("ToolPackCache", () => {
   it("builds once, materializes copies, and reports cache hits", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-cache-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-cache-"));
     const cacheRoot = join(root, "cache");
     const firstOut = join(root, "first", "payload");
     const secondOut = join(root, "second", "payload");
@@ -51,7 +51,7 @@ describe("ToolPackCache", () => {
   });
 
   it("rebuilds stale entries when declared outputs are missing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-cache-stale-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-cache-stale-"));
     const cacheRoot = join(root, "cache");
     const out = join(root, "out", "payload");
     let builds = 0;
@@ -91,7 +91,7 @@ describe("ToolPackCache", () => {
   });
 
   it("reads existing hits without building", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-cache-read-hit-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-cache-read-hit-"));
     const cacheRoot = join(root, "cache");
     const out = join(root, "out", "payload");
     let builds = 0;
@@ -124,7 +124,7 @@ describe("ToolPackCache", () => {
   });
 
   it("reuses stamped materialized targets until the cache key changes", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-cache-reuse-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-cache-reuse-"));
     const cacheRoot = join(root, "cache");
     const out = join(root, "out", "payload");
     let builds = 0;
@@ -160,7 +160,7 @@ describe("ToolPackCache", () => {
   });
 
   it("seeds a miss from an alias but still builds the exact entry", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-cache-seed-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-cache-seed-"));
     const cacheRoot = join(root, "cache");
     const out = join(root, "out", "payload");
     let builds = 0;
@@ -203,7 +203,7 @@ describe("ToolPackCache", () => {
   });
 
   it("skips alias seeds that cannot materialize the requested source", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-cache-missing-seed-source-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-cache-missing-seed-source-"));
     const cacheRoot = join(root, "cache");
     const out = join(root, "out", "payload");
     let builds = 0;

@@ -27,7 +27,7 @@ type ShikiThemeObject = Exclude<
 // reuses `--coral`, `--olive`, and `--ink-*` tokens for syntax accents so
 // fenced blocks read as part of the editorial body, not a foreign widget.
 const editorialPaperTheme: ShikiThemeObject = {
-  name: 'open-design-editorial',
+  name: 'sankiwork-editorial',
   type: 'light',
   colors: {
     'editor.background': '#f7f1de', // --bone
@@ -104,16 +104,16 @@ const editorialPaperTheme: ShikiThemeObject = {
 // `@astrojs/sitemap` for every URL it emits, and by `index.astro` to
 // build the `<link rel="canonical">` / `og:url` tags.
 //
-// `open-design.ai` is the live domain bound to the Cloudflare Pages
+// `sanki-ai.cloud` is the live domain bound to the Cloudflare Pages
 // project (`open-design-landing`); the env override exists so preview
 // builds (Cloudflare Pages preview deployments, local previews on a
 // different host) can stamp their own URL without forking the config.
-const site = process.env.OD_LANDING_SITE ?? 'https://open-design.ai';
-// Staging / PR-preview builds set OD_LANDING_NOINDEX=1. Resolved here (config
+const site = process.env.SW_LANDING_SITE ?? 'https://sanki-ai.cloud';
+// Staging / PR-preview builds set SW_LANDING_NOINDEX=1. Resolved here (config
 // runs in Node and can read process.env) and inlined into components as the
-// compile-time constant `__OD_LANDING_NOINDEX__` via vite.define below —
+// compile-time constant `__SW_LANDING_NOINDEX__` via vite.define below —
 // `.astro` frontmatter is transformed by Vite and cannot read process.env.
-const landingNoindex = process.env.OD_LANDING_NOINDEX === '1';
+const landingNoindex = process.env.SW_LANDING_NOINDEX === '1';
 
 // Staging / PR-preview only: append a catch-all `X-Robots-Tag: noindex` to the
 // Cloudflare Pages `_headers` so EVERY response stays out of search indexes —
@@ -175,9 +175,9 @@ export default defineConfig({
   trailingSlash: 'always',
   vite: {
     define: {
-      // Staging / PR-preview builds set OD_LANDING_NOINDEX=1. SeoHead reads
+      // Staging / PR-preview builds set SW_LANDING_NOINDEX=1. SeoHead reads
       // this compile-time constant (frontmatter can't read process.env).
-      __OD_LANDING_NOINDEX__: JSON.stringify(landingNoindex),
+      __SW_LANDING_NOINDEX__: JSON.stringify(landingNoindex),
     },
     server: {
       // The project path contains a space + emoji ("open design-👌"), which can
@@ -294,7 +294,7 @@ export default defineConfig({
         } else if (
           // High-intent landing pages — these are the brand defense
           // and commercial-intent surfaces from
-          // growth/seo-opendesigner-analysis.md. They should be
+          // growth/seo-sankiworker-analysis.md. They should be
           // crawled more often than the catalog and prioritized
           // above generic detail pages.
           path === '/official/' ||

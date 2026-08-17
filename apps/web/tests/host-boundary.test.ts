@@ -21,9 +21,9 @@ describe('host bridge boundary', () => {
     const forbidden = [
       'electronAPI',
       '__odDesktop',
-      '__OD_CLIENT_TYPE__',
-      '__od__',
-      'OPEN_DESIGN_HOST_GLOBAL',
+      '__SW_CLIENT_TYPE__',
+      '__sankiwork__',
+      'SANKIWORK_HOST_GLOBAL',
     ];
     const candidates = [
       ...filesUnder(join(webRoot, 'src')),

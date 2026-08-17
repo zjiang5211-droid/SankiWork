@@ -36,7 +36,7 @@ The v1 manifest uses fixed canonical file names:
   "description": "A concise English catalog summary.",
   "source": {
     "type": "bundled",
-    "origin": "Open Design curated bundled fixture"
+    "origin": "SankiWork curated bundled fixture"
   },
   "files": {
     "design": "DESIGN.md",
@@ -124,7 +124,7 @@ The daemon validates the graph and pushes only a compact canonical-intent index
 into the prompt. A filesystem agent resolves the selected intent on demand with:
 
 ```bash
-"$OD_NODE_BIN" "$OD_BIN" tools design-systems resolve \
+"$SW_NODE_BIN" "$SW_BIN" tools design-systems resolve \
   --intent account.settings.save
 ```
 
@@ -141,7 +141,7 @@ component manifest / fixture path.
 After writing the artifact, the agent closes the loop with:
 
 ```bash
-"$OD_NODE_BIN" "$OD_BIN" tools design-systems validate \
+"$SW_NODE_BIN" "$SW_BIN" tools design-systems validate \
   --intent account.settings.save \
   --artifact account-settings.html \
   --artifact styles.css
@@ -182,7 +182,7 @@ The complete authoring guide and review checklist are in
 ## Importing and refreshing
 
 The product exposes local-folder, GitHub, and shadcn import flows in both the UI
-and the `od design-systems import-*` CLI. Those importers write the package
+and the `sw design-systems import-*` CLI. Those importers write the package
 contract rather than a standalone `DESIGN.md`.
 
 [`scripts/sync-design-systems.ts`](../scripts/sync-design-systems.ts) remains

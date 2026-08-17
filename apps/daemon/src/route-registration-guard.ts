@@ -5,7 +5,7 @@ export interface RouteRegistration {
   path: string;
 }
 
-const routeInventorySymbol = Symbol.for('open-design.routeInventory');
+const routeInventorySymbol = Symbol.for('sankiwork.routeInventory');
 
 const guardedRouteKeys = new Set([
   'POST /api/projects/:id/export/pdf',

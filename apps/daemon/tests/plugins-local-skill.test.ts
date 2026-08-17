@@ -19,7 +19,7 @@ import {
   pickFirstLocalSkillPath,
 } from '../src/plugins/apply.js';
 import { loadPluginLocalSkill } from '../src/plugins/local-skill.js';
-import type { InstalledPluginRecord, PluginManifest } from '@open-design/contracts';
+import type { InstalledPluginRecord, PluginManifest } from '@sankiwork/contracts';
 
 function manifestWithSkills(skills: Array<{ ref?: string; path?: string }>): PluginManifest {
   return {

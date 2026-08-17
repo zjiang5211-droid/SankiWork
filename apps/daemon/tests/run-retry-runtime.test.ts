@@ -74,7 +74,7 @@ describe('same-run retry runtime', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -132,7 +132,7 @@ describe('same-run retry runtime', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -164,9 +164,9 @@ describe('same-run retry runtime', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
     process.env.VELA_RUNTIME_KEY = `fake-runtime-key-${randomUUID()}`;
-    process.env.VELA_LINK_URL = 'https://amr-link.open-design.ai/v1';
+    process.env.VELA_LINK_URL = 'https://amr-link.sanki-ai.cloud/v1';
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -210,14 +210,14 @@ describe('same-run retry runtime', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
     process.env.VELA_RUNTIME_KEY = `fake-runtime-key-${randomUUID()}`;
-    process.env.VELA_LINK_URL = 'https://amr-link.open-design.ai/v1';
+    process.env.VELA_LINK_URL = 'https://amr-link.sanki-ai.cloud/v1';
     // The heartbeats keep both legacy inactivity watchdogs alive. Only the
     // absolute first-output deadline may terminate attempt 0.
-    process.env.OD_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS = '100';
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
-    process.env.OD_ACP_STAGE_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+    process.env.SW_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS = '100';
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+    process.env.SW_ACP_STAGE_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -306,12 +306,12 @@ describe('same-run retry runtime', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
     process.env.VELA_RUNTIME_KEY = `fake-runtime-key-${randomUUID()}`;
-    process.env.VELA_LINK_URL = 'https://amr-link.open-design.ai/v1';
-    process.env.OD_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS = '100';
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
-    process.env.OD_ACP_STAGE_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+    process.env.VELA_LINK_URL = 'https://amr-link.sanki-ai.cloud/v1';
+    process.env.SW_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS = '100';
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+    process.env.SW_ACP_STAGE_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -348,11 +348,11 @@ describe('same-run retry runtime', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
     // Trip the no-output watchdog on the silent first attempt so the same-run
     // retry fires; sized above cold-start so the retry doesn't trip it too
     // (see STALL_WATCHDOG_TIMEOUT_MS).
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -422,8 +422,8 @@ describe('same-run retry runtime', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -493,8 +493,8 @@ describe('same-run retry runtime', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -573,7 +573,7 @@ describe('same-run retry runtime', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
     // Watchdog trips the first (silent) attempt; the escalation grace is short
     // so the stale SIGTERM/SIGKILL land while the retry child is mid-work. Both
     // the escalation window (trip + grace) and the retry lifetime (trip +
@@ -582,8 +582,8 @@ describe('same-run retry runtime', () => {
     // clear the retry's cold-start (see STALL_WATCHDOG_TIMEOUT_MS). Retry backoff
     // is <=500ms and the retry keeps emitting for ~2.1s, so the 800ms grace
     // still lands mid-work.
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
-    process.env.OD_CHAT_RUN_INACTIVITY_KILL_GRACE_MS = '800';
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+    process.env.SW_CHAT_RUN_INACTIVITY_KILL_GRACE_MS = '800';
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -653,13 +653,13 @@ function snapshotEnv(): Record<string, string | undefined> {
     LANGFUSE_PUBLIC_KEY: process.env.LANGFUSE_PUBLIC_KEY,
     LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
     LANGFUSE_BASE_URL: process.env.LANGFUSE_BASE_URL,
-    OPEN_DESIGN_TELEMETRY_RELAY_URL: process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL,
+    SANKIWORK_TELEMETRY_RELAY_URL: process.env.SANKIWORK_TELEMETRY_RELAY_URL,
     POSTHOG_KEY: process.env.POSTHOG_KEY,
     POSTHOG_HOST: process.env.POSTHOG_HOST,
-    OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS: process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS,
-    OD_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS: process.env.OD_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS,
-    OD_CHAT_RUN_INACTIVITY_KILL_GRACE_MS: process.env.OD_CHAT_RUN_INACTIVITY_KILL_GRACE_MS,
-    OD_ACP_STAGE_TIMEOUT_MS: process.env.OD_ACP_STAGE_TIMEOUT_MS,
+    SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS: process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS,
+    SW_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS: process.env.SW_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS,
+    SW_CHAT_RUN_INACTIVITY_KILL_GRACE_MS: process.env.SW_CHAT_RUN_INACTIVITY_KILL_GRACE_MS,
+    SW_ACP_STAGE_TIMEOUT_MS: process.env.SW_ACP_STAGE_TIMEOUT_MS,
     VELA_RUNTIME_KEY: process.env.VELA_RUNTIME_KEY,
     VELA_LINK_URL: process.env.VELA_LINK_URL,
   };
@@ -678,12 +678,12 @@ function configureAmrFirstOutputEnv(): void {
   delete process.env.LANGFUSE_PUBLIC_KEY;
   delete process.env.LANGFUSE_SECRET_KEY;
   delete process.env.LANGFUSE_BASE_URL;
-  delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+  delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
   process.env.VELA_RUNTIME_KEY = `fake-runtime-key-${randomUUID()}`;
-  process.env.VELA_LINK_URL = 'https://amr-link.open-design.ai/v1';
-  process.env.OD_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS = '100';
-  process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
-  process.env.OD_ACP_STAGE_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+  process.env.VELA_LINK_URL = 'https://amr-link.sanki-ai.cloud/v1';
+  process.env.SW_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS = '100';
+  process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
+  process.env.SW_ACP_STAGE_TIMEOUT_MS = STALL_WATCHDOG_TIMEOUT_MS;
 }
 
 async function writeFlakyClaude(dir: string, name: string): Promise<string> {

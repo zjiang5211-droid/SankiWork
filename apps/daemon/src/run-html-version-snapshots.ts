@@ -5,10 +5,10 @@ import type {
   ArtifactOrigin,
   ProjectFileVersion,
   ProjectFileVersionPromptSource,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import { ensureCurrentProjectFileVersion } from './project-file-versions.js';
-import { OPEN_DESIGN_PLUGIN_ID } from './mcp-observability.js';
+import { SANKIWORK_PLUGIN_ID } from './mcp-observability.js';
 import type { RunArtifactDiff } from './run-artifact-fs.js';
 
 export interface AiHtmlVersionSnapshotInput {
@@ -43,7 +43,7 @@ export function artifactOriginForRun(input: {
   const analytics = input.externalPluginAnalytics;
   if (
     analytics?.entrySurface !== 'external_mcp'
-    || analytics.externalPluginId !== OPEN_DESIGN_PLUGIN_ID
+    || analytics.externalPluginId !== SANKIWORK_PLUGIN_ID
     || typeof analytics.pluginWorkflowId !== 'string'
     || !analytics.pluginWorkflowId
   ) {
@@ -51,7 +51,7 @@ export function artifactOriginForRun(input: {
   }
   return {
     entrySurface: 'external_mcp',
-    externalPluginId: OPEN_DESIGN_PLUGIN_ID,
+    externalPluginId: SANKIWORK_PLUGIN_ID,
     pluginWorkflowId: analytics.pluginWorkflowId,
     runId: input.runId,
   };

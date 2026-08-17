@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import { installMockSankiWorkHost } from '@sankiwork/host/testing';
 import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import {
   cancelConnectorAuthorization,
@@ -1622,7 +1622,7 @@ describe('connectConnector', () => {
     vi.stubGlobal('window', {
       open,
     } as unknown as Window & typeof globalThis);
-    const restoreHost = installMockOpenDesignHost({
+    const restoreHost = installMockSankiWorkHost({
       host: { shell: { openExternal } },
     });
     const fetchMock = vi.fn(async (url: string) => {
@@ -1658,7 +1658,7 @@ describe('connectConnector', () => {
     vi.stubGlobal('window', {
       open,
     } as unknown as Window & typeof globalThis);
-    const restoreHost = installMockOpenDesignHost({
+    const restoreHost = installMockSankiWorkHost({
       host: { shell: { openExternal } },
     });
     const fetchMock = vi.fn(async (url: string) => {
@@ -1680,7 +1680,7 @@ describe('connectConnector', () => {
       await expect(connectConnector('github')).resolves.toEqual({
         connector: { id: 'github', name: 'GitHub', status: 'available', tools: [] },
         auth: { kind: 'redirect_required', redirectUrl: 'https://example.com/oauth' },
-        error: 'Popup blocked. Allow popups for Open Design and try again.',
+        error: 'Popup blocked. Allow popups for SankiWork and try again.',
       });
     } finally {
       restoreHost();
@@ -1939,7 +1939,7 @@ describe('deploy provider registry helpers', () => {
       projectId: 'project-1',
       fileName: 'index.html',
       providerId: CLOUDFLARE_PAGES_PROVIDER_ID,
-      url: 'https://open-design-preview.pages.dev',
+      url: 'https://sankiwork-preview.pages.dev',
       deploymentId: 'cf-deployment-1',
       deploymentCount: 1,
       target: 'preview',
@@ -1958,7 +1958,7 @@ describe('deploy provider registry helpers', () => {
     ).resolves.toMatchObject({
       providerId: CLOUDFLARE_PAGES_PROVIDER_ID,
       deploymentId: 'cf-deployment-1',
-      url: 'https://open-design-preview.pages.dev',
+      url: 'https://sankiwork-preview.pages.dev',
     });
 
     expect(fetchMock).toHaveBeenCalledWith('/api/projects/project-1/deploy', {
@@ -1982,7 +1982,7 @@ describe('deploy provider registry helpers', () => {
       projectId: 'project-1',
       fileName: 'index.html',
       providerId: CLOUDFLARE_PAGES_PROVIDER_ID,
-      url: 'https://open-design-preview.pages.dev',
+      url: 'https://sankiwork-preview.pages.dev',
       deploymentId: 'cf-deployment-2',
       deploymentCount: 1,
       target: 'production',

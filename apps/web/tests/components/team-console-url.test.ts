@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { teamConsoleUrl, workspaceUpgradeUrl } from '../../src/components/EntryNavRail';
 import { setRuntimeAmrConsoleOrigin } from '../../src/runtime/amr-guidance';
-import type { WorkspaceBillingSummary, WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceBillingSummary, WorkspaceCollabContext } from '@sankiwork/contracts';
 
 // Stand-in for an internal deployment's console origin — the real hostnames are
 // injected at build time and reported by the daemon, never literals in source.
@@ -200,7 +200,7 @@ describe('workspaceUpgradeUrl', () => {
   it('falls back to the profile plans deep link for CTA callers that must always link somewhere', () => {
     setRuntimeAmrConsoleOrigin(RUNTIME_CONSOLE_ORIGIN);
     expect(workspaceUpgradeUrl(null, null, { fallbackProfile: 'feature-test' })).toBe(
-      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=open_design&billing=plan`,
+      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=sankiwork&billing=plan`,
     );
   });
 });

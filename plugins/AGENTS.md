@@ -1,6 +1,6 @@
 # Plugin Directory Guide
 
-This directory owns Open Design plugin content and plugin authoring material.
+This directory owns SankiWork plugin content and plugin authoring material.
 
 ## Boundaries
 
@@ -25,11 +25,11 @@ For plugin content changes, run:
 
 ```bash
 pnpm guard
-pnpm --filter @open-design/plugin-runtime typecheck
+pnpm --filter @sankiwork/plugin-runtime typecheck
 ```
 
 When the daemon CLI is built and available, also validate runnable plugin folders with:
 
 ```bash
-od plugin validate ./plugins/spec/examples/<plugin-id>
+sw plugin validate ./plugins/spec/examples/<plugin-id>
 ```

@@ -48,9 +48,9 @@ Connector-backed refresh sources use the same connector execution service as age
 
 Before creating a connector-backed refresh source:
 
-1. List connectors with `"$OD_NODE_BIN" "$OD_BIN" tools connectors list --format compact`.
+1. List connectors with `"$SW_NODE_BIN" "$SW_BIN" tools connectors list --format compact`.
 2. If the user named a connector/source and it is connected, select that connector directly instead of asking where the source is. Then select a tool whose safety is `read` + `auto` and whose catalog metadata marks it refresh-eligible.
-3. Execute once with `"$OD_NODE_BIN" "$OD_BIN" tools connectors execute --connector <id> --tool <name> --input input.json` to produce compact normalized preview data.
+3. Execute once with `"$SW_NODE_BIN" "$SW_BIN" tools connectors execute --connector <id> --tool <name> --input input.json` to produce compact normalized preview data.
 4. Store only non-sensitive connector references, the bounded input object, output mapping, and compatibility `refreshPermission` in `sourceJson`.
 
 On each refresh, the daemon must re-check connector status, account label, allowlist membership, input schema, and output protection. If any check fails or output protection rejects the result, refresh fails all-or-nothing and preserves the previous valid preview.

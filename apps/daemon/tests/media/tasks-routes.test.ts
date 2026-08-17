@@ -30,7 +30,7 @@ describe('media task route recovery', () => {
   });
 
   it('accepts only a same-project token explicitly allowed to poll media tasks', async () => {
-    const dataDir = process.env.OD_DATA_DIR;
+    const dataDir = process.env.SW_DATA_DIR;
     const db = openDatabase(process.cwd(), dataDir === undefined ? {} : { dataDir });
     const projectId = `project_${randomUUID()}`;
     const taskId = `task_${randomUUID()}`;
@@ -138,7 +138,7 @@ describe('media task route recovery', () => {
   });
 
   it('fails closed when a media wait request presents an invalid or expired bearer token', async () => {
-    const dataDir = process.env.OD_DATA_DIR;
+    const dataDir = process.env.SW_DATA_DIR;
     const db = openDatabase(process.cwd(), dataDir === undefined ? {} : { dataDir });
     const projectId = `project_${randomUUID()}`;
     const taskId = `task_${randomUUID()}`;
@@ -201,7 +201,7 @@ describe('media task route recovery', () => {
   });
 
   it('checks fresh tool authority before revealing whether a media task exists', async () => {
-    const dataDir = process.env.OD_DATA_DIR;
+    const dataDir = process.env.SW_DATA_DIR;
     const db = openDatabase(process.cwd(), dataDir === undefined ? {} : { dataDir });
     const projectId = `project_${randomUUID()}`;
     const workspaceId = `workspace_${randomUUID()}`;
@@ -252,7 +252,7 @@ describe('media task route recovery', () => {
     if (!authorityAddress || typeof authorityAddress === 'string') {
       throw new Error('authority server did not bind to a TCP port');
     }
-    vi.stubEnv('OD_WORKSPACE_CONTEXT_SOURCE', 'vela');
+    vi.stubEnv('SW_WORKSPACE_CONTEXT_SOURCE', 'vela');
     vi.stubEnv('VELA_CONTROL_KEY', 'test-control-key');
     vi.stubEnv('VELA_API_URL', `http://127.0.0.1:${authorityAddress.port}`);
 
@@ -292,7 +292,7 @@ describe('media task route recovery', () => {
   });
 
   it('recovers a pre-restart running task so wait returns interrupted instead of 404', async () => {
-    const dataDir = process.env.OD_DATA_DIR;
+    const dataDir = process.env.SW_DATA_DIR;
     const db = openDatabase(process.cwd(), dataDir === undefined ? {} : { dataDir });
     const projectId = `project_${randomUUID()}`;
     const taskId = `task_${randomUUID()}`;
@@ -342,7 +342,7 @@ describe('media task route recovery', () => {
   });
 
   it('marks the media task failed when proxy setup throws before generation starts', async () => {
-    const dataDir = process.env.OD_DATA_DIR;
+    const dataDir = process.env.SW_DATA_DIR;
     const originalHttpProxy = process.env.HTTP_PROXY;
     const originalHttpsProxy = process.env.HTTPS_PROXY;
     const originalAllProxy = process.env.ALL_PROXY;

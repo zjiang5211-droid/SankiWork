@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { atomcodeAgentDef } from '../../src/runtimes/defs/atomcode.js';
 import { DEFAULT_MODEL_OPTION } from '../../src/runtimes/defs/shared.js';
 
-const promptFileContext = { promptFilePath: '/tmp/open-design/atomcode-prompt.md' };
+const promptFileContext = { promptFilePath: '/tmp/sankiwork/atomcode-prompt.md' };
 
 describe('atomcode buildArgs', () => {
   it('requires a staged prompt file', () => {

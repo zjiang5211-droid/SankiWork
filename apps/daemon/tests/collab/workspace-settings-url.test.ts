@@ -12,18 +12,18 @@ describe('resolveWorkspaceSettingsUrl', () => {
   it('builds the settings deep link with the workspace id pinned', () => {
     expect(
       resolveWorkspaceSettingsUrl('ws-1', undefined, {
-        OD_VELA_WEB_URL: 'https://web.example',
+        SW_VELA_WEB_URL: 'https://web.example',
       } as NodeJS.ProcessEnv),
-    ).toBe('https://web.example/settings?workspaceId=ws-1&source=open_design');
+    ).toBe('https://web.example/settings?workspaceId=ws-1&source=sankiwork');
   });
 
   it('appends the id to an explicit URL that lacks it and preserves one that has it', () => {
     expect(resolveWorkspaceSettingsUrl('ws-1', 'https://web.example/settings')).toBe(
-      'https://web.example/settings?workspaceId=ws-1&source=open_design',
+      'https://web.example/settings?workspaceId=ws-1&source=sankiwork',
     );
     expect(
       resolveWorkspaceSettingsUrl('ws-1', 'https://web.example/settings?workspaceId=ws-other'),
-    ).toBe('https://web.example/settings?workspaceId=ws-other&source=open_design');
+    ).toBe('https://web.example/settings?workspaceId=ws-other&source=sankiwork');
     expect(
       resolveWorkspaceSettingsUrl(
         'ws-1',
@@ -53,7 +53,7 @@ describe('parseWorkspaceCollabContext', () => {
     });
 
     expect(context?.workspaceSettingsUrl).toBe(
-      'https://web.example/settings?workspaceId=ws-personal&source=open_design',
+      'https://web.example/settings?workspaceId=ws-personal&source=sankiwork',
     );
   });
 });

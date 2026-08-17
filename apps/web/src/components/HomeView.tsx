@@ -8,7 +8,7 @@
 // textarea can live centered in the hero.
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Dialog, DialogFooter, DialogTitle } from '@open-design/components';
+import { Dialog, DialogFooter, DialogTitle } from '@sankiwork/components';
 import type {
   ApplyResult,
   ChatSessionMode,
@@ -22,9 +22,9 @@ import type {
   WorkspaceProjectSummary,
   AudioVoiceOption,
   WorkspaceContextItem,
-} from '@open-design/contracts';
-import { DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID } from '@open-design/contracts';
-import { projectKindFromMetadataToTracking } from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts';
+import { DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID } from '@sankiwork/contracts';
+import { projectKindFromMetadataToTracking } from '@sankiwork/contracts/analytics';
 import { useAnalytics } from '../analytics/provider';
 import {
   trackCommunityGalleryClick,
@@ -77,7 +77,7 @@ import {
   openFolderDialog,
   pushRecentLinkedDir,
 } from '../providers/registry';
-import { isOpenDesignHostAvailable, pickHostWorkingDir } from '@open-design/host';
+import { isSankiWorkHostAvailable, pickHostWorkingDir } from '@sankiwork/host';
 import type {
   DesignSystemSummary,
   Project,
@@ -238,9 +238,9 @@ interface PendingPluginUseHandoff {
 }
 
 const AUTHORING_DEFAULT_SCENARIO_INPUTS = {
-  artifactKind: 'Open Design plugin',
-  audience: 'Open Design plugin authors',
-  topic: 'packaging a reusable workflow as an Open Design plugin',
+  artifactKind: 'SankiWork plugin',
+  audience: 'SankiWork plugin authors',
+  topic: 'packaging a reusable workflow as an SankiWork plugin',
 };
 
 
@@ -325,9 +325,9 @@ const EMPTY_PROMPT_TEMPLATES: PromptTemplateSummary[] = [];
 // intentionally NOT persisted here — they reference live catalogue records /
 // File handles / a desktop auth token that cannot round-trip through JSON
 // safely.
-const HOME_COMPOSER_PROMPT_KEY = 'open-design:home-composer:prompt';
-const HOME_COMPOSER_DESIGN_SYSTEM_KEY = 'open-design:home-composer:design-system';
-const HOME_COMPOSER_DESIGN_SYSTEM_SCOPE_KEY = 'open-design:home-composer:design-system-scope';
+const HOME_COMPOSER_PROMPT_KEY = 'sankiwork:home-composer:prompt';
+const HOME_COMPOSER_DESIGN_SYSTEM_KEY = 'sankiwork:home-composer:design-system';
+const HOME_COMPOSER_DESIGN_SYSTEM_SCOPE_KEY = 'sankiwork:home-composer:design-system-scope';
 // The active type-chip + bound plugin (the "创作类型" + "示例提示词" pick) is a
 // third piece of composer state that used to fall through this same crack:
 // `active` (below) held only a live `InstalledPluginRecord` + resolved apply
@@ -338,7 +338,7 @@ const HOME_COMPOSER_DESIGN_SYSTEM_SCOPE_KEY = 'open-design:home-composer:design-
 // kind) and re-resolve the full `ActivePlugin` from the live plugin catalog
 // on remount (see `pendingChipRestore` below), the same way a cross-surface
 // "use this plugin" hand-off resolves `pendingPluginUseHandoff`.
-const HOME_COMPOSER_CHIP_KEY = 'open-design:home-composer:chip';
+const HOME_COMPOSER_CHIP_KEY = 'sankiwork:home-composer:chip';
 
 interface HomeComposerChipDraft {
   chipId: string | null;
@@ -354,7 +354,7 @@ interface HomeComposerChipDraft {
 // remount into — it writes the draft key but nobody re-reads it. Dispatch a
 // live event too so an already-mounted HomeView can pick up the seed
 // directly; the draft key stays as the true-cold-mount fallback.
-const HOME_COMPOSER_SEED_EVENT = 'open-design:home-composer:seed';
+const HOME_COMPOSER_SEED_EVENT = 'sankiwork:home-composer:seed';
 
 function readHomeComposerDraft(key: string): string | null {
   if (typeof window === 'undefined') return null;
@@ -883,7 +883,7 @@ export function HomeView({
       if (homeActiveRef.current) load(true, true);
       else pluginCatalogStaleRef.current = true;
     };
-    window.addEventListener('open-design:plugins-changed', onChanged);
+    window.addEventListener('sankiwork:plugins-changed', onChanged);
     return () => {
       cancelled = true;
       // A Workspace-directory refresh can briefly mask the catalog identity
@@ -899,7 +899,7 @@ export function HomeView({
       if (pluginCatalogReloadRef.current === load) {
         pluginCatalogReloadRef.current = async () => {};
       }
-      window.removeEventListener('open-design:plugins-changed', onChanged);
+      window.removeEventListener('sankiwork:plugins-changed', onChanged);
     };
   }, [desiredPluginCatalogKey, workspaceContext?.workspaceType]);
 
@@ -2038,7 +2038,7 @@ export function HomeView({
   async function handlePickWorkingDir() {
     // On desktop the working-dir POST is gated behind a host-minted token, so
     // pick through the host bridge to capture { baseDir, token } together.
-    if (isOpenDesignHostAvailable()) {
+    if (isSankiWorkHostAvailable()) {
       const result = await pickHostWorkingDir();
       if (result.ok) {
         setWorkingDir(result.baseDir);
@@ -2057,7 +2057,7 @@ export function HomeView({
       // auth gate and surface as a confusing late create-time failure.
       // Surface the host error instead and keep the existing working dir.
       setError(
-        `Couldn't open the folder picker (${'reason' in result ? result.reason : 'host unavailable'}). Please update Open Design and try again.`,
+        `Couldn't open the folder picker (${'reason' in result ? result.reason : 'host unavailable'}). Please update SankiWork and try again.`,
       );
       return null;
     }
@@ -2074,7 +2074,7 @@ export function HomeView({
   }
 
   async function handlePickLocalCodeDir() {
-    if (isOpenDesignHostAvailable()) {
+    if (isSankiWorkHostAvailable()) {
       const result = await pickHostWorkingDir();
       if (result.ok) {
         void rememberRecentDir(result.baseDir);
@@ -2082,7 +2082,7 @@ export function HomeView({
       }
       if ('canceled' in result && result.canceled) return null;
       setError(
-        `Couldn't open the folder picker (${'reason' in result ? result.reason : 'host unavailable'}). Please update Open Design and try again.`,
+        `Couldn't open the folder picker (${'reason' in result ? result.reason : 'host unavailable'}). Please update SankiWork and try again.`,
       );
       return null;
     }

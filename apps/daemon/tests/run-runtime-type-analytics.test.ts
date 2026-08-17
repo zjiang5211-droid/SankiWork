@@ -8,7 +8,7 @@
 // behavioural funnel can split AMR / BYOK / CLI on the server-side events.
 
 import { describe, expect, it } from 'vitest';
-import { deriveConfigureGlobals } from '@open-design/contracts/analytics';
+import { deriveConfigureGlobals } from '@sankiwork/contracts/analytics';
 import {
   agentProviderIdForRunAnalytics,
   runtimeTypeForRunAnalytics,

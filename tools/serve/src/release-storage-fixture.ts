@@ -26,7 +26,7 @@ type StoredObject = {
   etag: string;
 };
 
-const BUCKET = "open-design-release-fixture";
+const BUCKET = "sankiwork-release-fixture";
 
 function listen(server: Server, port: number, host: string): Promise<void> {
   return new Promise<void>((resolveListen, rejectListen) => {

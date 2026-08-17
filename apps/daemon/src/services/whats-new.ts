@@ -1,4 +1,4 @@
-import type { WhatsNewContent, WhatsNewLocaleContent } from '@open-design/contracts';
+import type { WhatsNewContent, WhatsNewLocaleContent } from '@sankiwork/contracts';
 
 // Fetches the post-update "what's new" highlight from a single hosted document
 // on a dedicated R2 bucket. Operators edit that one file after a release; the
@@ -27,12 +27,12 @@ export interface WhatsNewService {
 }
 
 /** The dedicated, hardcoded highlights document. Operators update this file. */
-export const DEFAULT_WHATS_NEW_URL = 'https://whatsnew.open-design.ai/whats-new.json';
+export const DEFAULT_WHATS_NEW_URL = 'https://whatsnew.sanki-ai.cloud/whats-new.json';
 
 /**
  * The post-update card is a release feature. Only real release channels fetch
  * the hosted document; development/CI builds resolve to no card so the card
- * never intrudes on tests or unreleased builds. `OD_WHATS_NEW_URL` opts any
+ * never intrudes on tests or unreleased builds. `SW_WHATS_NEW_URL` opts any
  * channel in (used by e2e fixtures that exercise the card on purpose).
  */
 const WHATS_NEW_RELEASE_CHANNELS = new Set(['beta', 'prerelease', 'preview', 'stable']);
@@ -45,12 +45,12 @@ const WHATS_NEW_TIMEOUT_MS = 4_000;
 
 /**
  * The document URL, or null when this build must not show the card.
- * `OD_WHATS_NEW_URL` overrides it for local fixtures and tests (e.g. a
+ * `SW_WHATS_NEW_URL` overrides it for local fixtures and tests (e.g. a
  * tools-serve endpoint) regardless of channel; otherwise the dedicated R2
  * object is used only on release channels.
  */
 export function whatsNewSourceUrl(env: NodeJS.ProcessEnv, channel: string): string | null {
-  const override = env.OD_WHATS_NEW_URL?.trim();
+  const override = env.SW_WHATS_NEW_URL?.trim();
   if (override) return override;
   return WHATS_NEW_RELEASE_CHANNELS.has(channel) ? DEFAULT_WHATS_NEW_URL : null;
 }

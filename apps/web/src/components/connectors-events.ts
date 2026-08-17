@@ -1,5 +1,5 @@
-export const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'open-design:connector-connected';
-export const CONNECTORS_CHANGED_EVENT = 'open-design:connectors-changed';
+export const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'sankiwork:connector-connected';
+export const CONNECTORS_CHANGED_EVENT = 'sankiwork:connectors-changed';
 
 export function notifyConnectorsChanged(): void {
   if (typeof window === 'undefined') return;

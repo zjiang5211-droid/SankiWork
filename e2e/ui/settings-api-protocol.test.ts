@@ -4,7 +4,7 @@ import { openSettingsDialog, settingsSurface } from '../lib/playwright/amr.js';
 import { routeAgents, suppressWhatsNew } from '../lib/playwright/mock-factory.js';
 import { T } from '@/timeouts';
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'sankiwork:config';
 const OPEN_SETTINGS_LABEL = /Open settings|打开设置|開啟設定|Account & settings/i;
 const LOCAL_CLI_LABEL = /Local CLI|本机 CLI|本地 CLI/i;
 const MODEL_POPOVER_SELECTOR = '.model-select-searchable__popover';
@@ -16,13 +16,13 @@ test.beforeEach(async ({ page }) => {
 });
 
 async function waitForLoadingToClear(page: Page) {
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, { timeout: T.long });
+  await expect(page.getByText('Loading SankiWork…')).toHaveCount(0, { timeout: T.long });
 }
 
 async function gotoEntryHome(page: Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await waitForLoadingToClear(page);
-  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve Open Design' });
+  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve SankiWork' });
   if (await privacyDialog.isVisible()) {
     await privacyDialog.getByRole('button', { name: /I get it|not now|got it|don't share/i }).click();
   }
@@ -481,7 +481,7 @@ test('[P0] BYOK autosave waits until required fields are valid', async ({ page }
   const baseUrlInput = dialog.getByLabel('Base URL');
   // A non-http scheme is still rejected client-side. (An internal-IP URL is no
   // longer rejected here — it is syntactically valid and the daemon owns the
-  // OD_ALLOWED_INTERNAL_HOSTS decision; see #3225.)
+  // SW_ALLOWED_INTERNAL_HOSTS decision; see #3225.)
   await baseUrlInput.fill('ftp://api.example.com');
   await expect(dialog.locator('#settings-base-url-error')).toContainText(/public http:\/\/ or https:\/\//i);
 

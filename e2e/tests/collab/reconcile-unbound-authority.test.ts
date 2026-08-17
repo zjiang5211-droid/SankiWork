@@ -39,7 +39,7 @@
 // persisting the asserted identity are separate decisions. The security property
 // is that no unverifiable claim is ever written.
 //
-// Runs with `OD_WORKSPACE_CONTEXT_SOURCE=vela` so the membership authority is
+// Runs with `SW_WORKSPACE_CONTEXT_SOURCE=vela` so the membership authority is
 // live, seeded only through the daemon's real vela integration against a
 // temporary server-level mock. No source-level backdoor.
 
@@ -326,7 +326,7 @@ describe('reconciling an unbound project verifies the asserted workspace first',
         {
           env: {
             AMR_HOME: await emptyAmrHome(suite.scratchDir),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: readableAuthority.url,
             VELA_CONTROL_KEY: 'e2e-reconcile-control-key',
           },
@@ -384,7 +384,7 @@ describe('reconciling an unbound project verifies the asserted workspace first',
         {
           env: {
             AMR_HOME: await emptyAmrHome(suite.scratchDir),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: selectionAuthority.url,
             VELA_CONTROL_KEY: 'e2e-reconcile-control-key',
           },
@@ -418,7 +418,7 @@ describe('reconciling an unbound project verifies the asserted workspace first',
         {
           env: {
             AMR_HOME: await emptyAmrHome(suite.scratchDir),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: unreadableAuthority.url,
             VELA_CONTROL_KEY: 'e2e-reconcile-control-key',
           },

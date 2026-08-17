@@ -19,7 +19,7 @@
 #   stale copies even longer — after `landing-page-production` deploys.
 #   CF Pages "deploy invalidates cache" is NOT reliable enough for this
 #   custom-domain + long TTL setup (see 2026-08 DeepSeek campaign rollout).
-#   Production deploy therefore also purges `open-design.ai` by hostname
+#   Production deploy therefore also purges `sanki-ai.cloud` by hostname
 #   (see `.github/workflows/landing-page-production.yml`). Short s-maxage is
 #   belt-and-suspenders so a missed purge self-heals within ~1 minute.
 #
@@ -69,7 +69,7 @@
   Cache-Control: public, max-age=0, s-maxage=60, must-revalidate
 
 # Static assets in public/. Filenames don't carry a content hash, so we use
-# a moderate browser TTL. Production deploy purges the open-design.ai host.
+# a moderate browser TTL. Production deploy purges the sanki-ai.cloud host.
 /favicon.png
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 /favicon.ico

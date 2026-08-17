@@ -2,11 +2,11 @@
 
 ## Title
 
-Public Agent CLI Contract Registry for Open Design runtime compatibility.
+Public Agent CLI Contract Registry for SankiWork runtime compatibility.
 
 ## Why
 
-Open Design depends on many external coding-agent CLIs. Their observable
+SankiWork depends on many external coding-agent CLIs. Their observable
 protocols can change across CLI versions, platforms, account state, provider
 backends, and server-side rollout flags. The current mock CLI corpus is useful,
 but it is not enough as a compatibility source of truth because many recordings
@@ -15,8 +15,8 @@ usually validates only the CLI versions installed on one machine.
 
 The desired outcome is a public, auditable contract registry that says exactly
 which agent CLI versions, observed protocol shapes, platforms, and error forms
-Open Design has validated. The registry must support automated drift detection,
-safe public publishing, and offline consumption by the Open Design repository.
+SankiWork has validated. The registry must support automated drift detection,
+safe public publishing, and offline consumption by the SankiWork repository.
 
 ## Sources
 
@@ -45,16 +45,16 @@ safe public publishing, and offline consumption by the Open Design repository.
 
 ## Goals
 
-- Create a public contract registry, likely `open-design-agent-contracts`.
-- Publish a pnpm-consumable package, likely `@open-design/agent-cli-contracts`.
+- Create a public contract registry, likely `sankiwork-agent-contracts`.
+- Publish a pnpm-consumable package, likely `@sankiwork/agent-cli-contracts`.
 - Track real CLI observations by agent, CLI version, platform, protocol family,
   probe, and observed shape signature.
 - Support multiple active shapes for the same CLI version, including
   server-side rollout variants.
 - Cover success streams, model/version probes, tool/file/artifact flows,
   bidirectional RPC transports, and error classification shapes.
-- Let Open Design CI replay supported contracts through the daemon parsers.
-- Let Open Design runtime classify installed CLIs as verified, newer than
+- Let SankiWork CI replay supported contracts through the daemon parsers.
+- Let SankiWork runtime classify installed CLIs as verified, newer than
   verified, too old, known breaking, or unknown.
 - Keep raw transcripts, credentials, runner homes, and account-specific state out
   of public artifacts.
@@ -64,7 +64,7 @@ safe public publishing, and offline consumption by the Open Design repository.
 - Do not prove that every historical CLI build or every provider backend state
   works forever.
 - Do not evaluate model output quality.
-- Do not automatically generate Open Design parser logic from contract data.
+- Do not automatically generate SankiWork parser logic from contract data.
 - Do not run real CLI capture on untrusted PR code or fork PRs.
 - Do not publish raw stdout/stderr/stdin transcripts that may contain secrets,
   local paths, account identifiers, or model-generated user content.
@@ -72,7 +72,7 @@ safe public publishing, and offline consumption by the Open Design repository.
 ## Repository Shape
 
 ```text
-open-design-agent-contracts/
+sankiwork-agent-contracts/
   registry/
     agents.json
     support-matrix.json
@@ -109,7 +109,7 @@ open-design-agent-contracts/
       sha256-<shape>.transcript.jsonl
 
   goldens/
-    open-design-parser/
+    sankiwork-parser/
       json-event-stream/
         sha256-<shape>.events.json
 
@@ -200,7 +200,7 @@ do not have child-process transcripts or redaction artifacts.
 | `redaction.status` | yes | none | `passed`, `failed`, or `manual_review_required` |
 | `shape.signature` | yes | none | shape hash |
 | `shape.path` | yes | none | relative path under `shapes/` |
-| `parser_replay.open_design_commit` | no | `null` | commit used for parser replay |
+| `parser_replay.sankiwork_commit` | no | `null` | commit used for parser replay |
 | `parser_replay.status` | no | `not_run` | `compatible`, `incompatible`, or `not_run` |
 
 Invalid examples that must fail validation:
@@ -297,7 +297,7 @@ Invalid examples that must fail validation:
 |---|---:|---|---|
 | `schema_version` | yes | none | integer, currently `1` |
 | `generated_at` | yes | none | UTC timestamp |
-| `open_design_min_commit` | no | `null` | lowest Open Design commit that consumed this matrix |
+| `sankiwork_min_commit` | no | `null` | lowest SankiWork commit that consumed this matrix |
 | `agents[]` | yes | none | one entry per agent with any public claim |
 
 Each `agents[]` entry requires:
@@ -430,9 +430,9 @@ Example observation:
     "path": "shapes/json-event-stream/sha256-....shape.json"
   },
   "parser_replay": {
-    "open_design_commit": "...",
+    "sankiwork_commit": "...",
     "status": "compatible",
-    "golden": "goldens/open-design-parser/json-event-stream/sha256-....events.json"
+    "golden": "goldens/sankiwork-parser/json-event-stream/sha256-....events.json"
   }
 }
 ```
@@ -441,7 +441,7 @@ Example observation:
 
 Capturing stdout and stderr is necessary but not sufficient.
 
-Open Design starts agent CLIs as child processes, but the protocol over the
+SankiWork starts agent CLIs as child processes, but the protocol over the
 pipes differs by runtime:
 
 - `plain`: stdout is assistant text; stderr carries diagnostics.
@@ -481,7 +481,7 @@ Design harness as well as frames emitted by the CLI:
 ```
 
 Without the client-side frames, the shape cannot prove that the observed CLI was
-responding to the same handshake Open Design uses.
+responding to the same handshake SankiWork uses.
 
 ## Capture Protocol
 
@@ -535,17 +535,17 @@ Example minimum event expectation:
 
 ### Capture Runner
 
-For Open Design-owned protocol semantics, the runner must not hand-roll a
+For SankiWork-owned protocol semantics, the runner must not hand-roll a
 "similar enough" client:
 
 - `plain`, `claude-stream-json`, `json-event-stream`,
   `qoder-stream-json`, and `copilot-stream-json` captures should use the same
   spawn argv, environment, prompt transport, stdin-close behavior, stderr
   filtering, and process-close rules as `server.ts`.
-- `acp-json-rpc` captures must reuse or vendor the Open Design ACP attach
+- `acp-json-rpc` captures must reuse or vendor the SankiWork ACP attach
   harness, including initialize, session creation, model selection, prompt
   send, permission handling, content filtering, and termination semantics.
-- `pi-rpc` captures must reuse or vendor the Open Design Pi RPC attach harness,
+- `pi-rpc` captures must reuse or vendor the SankiWork Pi RPC attach harness,
   including new/resumed session handling, prompt send, image encoding, session
   file capture, and termination semantics.
 
@@ -553,7 +553,7 @@ This can be implemented either by running a daemon in capture mode and recording
 its child-process boundary, or by extracting the production harnesses into a
 small shared package used by both the daemon and contract runner. The contract
 is not valid if the capture runner speaks a protocol dialect that production
-Open Design never sends.
+SankiWork never sends.
 
 ```ts
 async function captureContract(input: CaptureInput) {
@@ -583,7 +583,7 @@ async function captureContract(input: CaptureInput) {
   const shape = normalizeToShape(sanitized, input.protocol_family);
   const shapeId = shape.signature;
 
-  const daemonEvents = replayThroughOpenDesignParser({
+  const daemonEvents = replayThroughSankiWorkParser({
     agent: input.agent,
     protocolFamily: input.protocol_family,
     sanitized,
@@ -655,7 +655,7 @@ protocol shape visible.
 ## Error Contract Coverage
 
 Error parsing is a first-class contract surface. The registry must not only
-prove successful streams parse correctly; it must also prove that Open Design's
+prove successful streams parse correctly; it must also prove that SankiWork's
 failure classification remains accurate.
 
 Every Tier 0 runtime should have error probes for:
@@ -709,7 +709,7 @@ Error contract fixtures must include:
 }
 ```
 
-Open Design CI should replay error fixtures through the same classifier used by
+SankiWork CI should replay error fixtures through the same classifier used by
 production:
 
 ```ts
@@ -790,7 +790,7 @@ Each shape receives a public validity level:
 - `runtime_observed`: observed from a real CLI capture.
 - `confirmed`: observed at least twice, ideally across independent time windows
   or runners.
-- `community_confirmed`: independently reproduced by a non-Open Design
+- `community_confirmed`: independently reproduced by a non-SankiWork
   contributor using the public capture command.
 - `server_variant`: same CLI version has multiple active observed shapes.
 - `source_derived`: derived from open-source CLI code, not yet observed at
@@ -836,18 +836,18 @@ Source scan does not replace runtime capture because service-side rollout,
 account feature flags, provider errors, and closed-source wrappers can change
 the actual observed shape.
 
-## Open Design Consumption
+## SankiWork Consumption
 
-Open Design should consume the contract package in three ways.
+SankiWork should consume the contract package in three ways.
 
 ### Parser Replay Gate
 
 Add a daemon parser test that replays all supported parser-level shapes:
 
 ```ts
-import contracts from "@open-design/agent-cli-contracts";
+import contracts from "@sankiwork/agent-cli-contracts";
 
-test("supported agent CLI contracts replay through Open Design parsers", () => {
+test("supported agent CLI contracts replay through SankiWork parsers", () => {
   for (const contract of contracts.supportedShapes()) {
     const parser = getParserHarness(contract.agent, contract.protocolFamily);
     const actualEvents = parser.replay(contract.sanitizedFixture);
@@ -881,7 +881,7 @@ contract transcript and pass it through the same run lifecycle that production
 uses:
 
 ```ts
-import contracts from "@open-design/agent-cli-contracts";
+import contracts from "@sankiwork/agent-cli-contracts";
 
 test("supported agent CLI contracts replay through daemon run semantics", async () => {
   for (const contract of contracts.daemonRunShapes()) {
@@ -958,10 +958,10 @@ The web UI can show:
   confirmation.
 - `active_shape_unknown` or `unknown`: experimental warning.
 
-### Open Design Surface Closure
+### SankiWork Surface Closure
 
 Runtime compatibility is user-facing, so the implementation must close the
-shared API, web UI, and `od` CLI in the same PR. The daemon HTTP route remains
+shared API, web UI, and `sw` CLI in the same PR. The daemon HTTP route remains
 the single source of truth; web and CLI must not compute different status
 shapes locally.
 
@@ -970,7 +970,7 @@ shapes locally.
 | Contract DTO | `packages/contracts/src/api/agentCliCompatibility.ts` exports `AgentCliCompatibilityRequest`, `AgentCliCompatibilityResponse`, `AgentCliCompatibilityStatus`, `AgentCliCompatibilityEvidence`, and example payloads. |
 | Daemon API | `GET /api/agents/:agent/cli-compatibility?probe=0|1` returns the DTO for one agent; `GET /api/agents/cli-compatibility?probe=0|1` returns all configured agents. Probe execution must be bounded and opt-in when it may call a real provider. |
 | Web UI | The agent/provider settings surface shows the status, evidence timestamp, verified version range, and guidance. Warning/blocking policy comes from the DTO, not duplicated UI rules. |
-| `od` CLI | `od agent compatibility [agent] --json --probe` calls the same API. Without `--json`, it prints a concise table with agent, installed version, status, policy, and next action. With `--json`, it emits the DTO unchanged. |
+| `sw` CLI | `sw agent compatibility [agent] --json --probe` calls the same API. Without `--json`, it prints a concise table with agent, installed version, status, policy, and next action. With `--json`, it emits the DTO unchanged. |
 | Tests | Contract examples typecheck; daemon route tests assert policy/status mapping; CLI tests assert text and `--json` output; web tests assert rendering for normal, warning, and blocking statuses. |
 
 The DTO status enum must match the support-matrix enum exactly:
@@ -1016,7 +1016,7 @@ export interface AgentCliCompatibilityResponse {
 Example CLI output:
 
 ```text
-$ od agent compatibility codex
+$ sw agent compatibility codex
 agent  version  status                  policy  next action
 codex  0.133.0  local_shape_verified    allow   none
 ```
@@ -1049,9 +1049,9 @@ Example machine-readable output:
 
 The existing `mocks/` replay system can gradually consume contract fixtures:
 
-- `OD_CONTRACT_SHAPE=codex@0.133.0#sha256-...`
-- `OD_CONTRACT_PROBE=chat-tool-success`
-- `OD_CONTRACT_ERROR=auth-failure`
+- `SW_CONTRACT_SHAPE=codex@0.133.0#sha256-...`
+- `SW_CONTRACT_PROBE=chat-tool-success`
+- `SW_CONTRACT_ERROR=auth-failure`
 
 This lets mock tests use versioned, provenance-backed fixtures rather than
 fixtures that only satisfy the current parser.
@@ -1065,7 +1065,7 @@ observed shapes:
 {
   "schema_version": 1,
   "generated_at": "2026-06-27T10:00:00Z",
-  "open_design_min_commit": "b784c8650",
+  "sankiwork_min_commit": "b784c8650",
   "agents": [
     {
       "agent": "codex",
@@ -1161,7 +1161,7 @@ The first milestone should be deliberately small and end-to-end:
 
 After that baseline is stable, broaden the probe catalog by risk.
 
-The registry should cover Open Design's integration surface, not every CLI
+The registry should cover SankiWork's integration surface, not every CLI
 feature.
 
 Minimum viable contract per runtime:
@@ -1285,12 +1285,12 @@ Contract repository:
 - Re-normalize every sanitized fixture and verify it matches the published
   shape hash.
 - Verify observation metadata references existing shape, fixture, and golden.
-- Run replay harness against embedded Open Design parser package or a checked
-  Open Design parser adapter.
+- Run replay harness against embedded SankiWork parser package or a checked
+  SankiWork parser adapter.
 - Run secret/path scans over all publishable artifacts.
 - Generate support matrix from observations and check it is committed.
 
-Open Design repository:
+SankiWork repository:
 
 - Add `agent-contract-replay.test.ts`.
 - Add `agent-contract-errors.test.ts`.
@@ -1307,7 +1307,7 @@ Open Design repository:
 - What is the freshness SLA for Tier 0 runtimes?
 - Which exact agents are Tier 0 for the first milestone?
 - Should known breaking versions block local runs or only warn?
-- Should Open Design consume the full contract package at runtime, or only a
+- Should SankiWork consume the full contract package at runtime, or only a
   generated compact support matrix?
 - How should community-submitted observations be verified before moving from
   `single_observed` to `community_confirmed`?

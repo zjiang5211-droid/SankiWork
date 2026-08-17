@@ -1,7 +1,7 @@
 import type {
   WorkspaceBillingInterestResponse,
   WorkspaceBillingInterestScope,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 const RENEW_FLOOR_MS = 5_000;
 const RENEW_CEILING_MS = 20_000;

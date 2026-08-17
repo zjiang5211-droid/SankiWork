@@ -58,13 +58,13 @@ describe('Workspace resource mutation authority preflight', () => {
     await response.text();
 
     expect(response.status).toBe(400);
-    const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+    const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
     expect(getInstalledPlugin(db, pluginId)).toBeNull();
   });
 
   it('rejects a partial Skill import scope before creating its folder or binding', async () => {
     const skillId = `partial-skill-${Date.now()}`;
-    const userSkillDir = path.join(process.env.OD_DATA_DIR!, 'skills', skillId);
+    const userSkillDir = path.join(process.env.SW_DATA_DIR!, 'skills', skillId);
 
     const response = await fetch(`${baseUrl}/api/skills/import`, {
       method: 'POST',

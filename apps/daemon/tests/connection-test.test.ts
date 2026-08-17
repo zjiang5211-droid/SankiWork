@@ -9,14 +9,14 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { Socks5ProxyAgent } from 'undici';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import * as platform from '@open-design/platform';
+import * as platform from '@sankiwork/platform';
 
 const { resolveSystemProxyEnvMock } = vi.hoisted(() => ({
   resolveSystemProxyEnvMock: vi.fn(() => ({})),
 }));
 
-vi.mock('@open-design/platform', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@open-design/platform')>()),
+vi.mock('@sankiwork/platform', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@sankiwork/platform')>()),
   resolveSystemProxyEnv: resolveSystemProxyEnvMock,
 }));
 
@@ -118,7 +118,7 @@ async function withOnlyFakeAgent<T>(
 ): Promise<T> {
   const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-bin-'));
   const oldPath = process.env.PATH;
-  const oldAgentHome = process.env.OD_AGENT_HOME;
+  const oldAgentHome = process.env.SW_AGENT_HOME;
   const oldClaudeBin = process.env.CLAUDE_BIN;
   try {
     if (process.platform === 'win32') {
@@ -134,13 +134,13 @@ async function withOnlyFakeAgent<T>(
       await fsp.chmod(bin, 0o755);
     }
     process.env.PATH = dir;
-    process.env.OD_AGENT_HOME = dir;
+    process.env.SW_AGENT_HOME = dir;
     delete process.env.CLAUDE_BIN;
     return await run();
   } finally {
     process.env.PATH = oldPath;
-    if (oldAgentHome === undefined) delete process.env.OD_AGENT_HOME;
-    else process.env.OD_AGENT_HOME = oldAgentHome;
+    if (oldAgentHome === undefined) delete process.env.SW_AGENT_HOME;
+    else process.env.SW_AGENT_HOME = oldAgentHome;
     if (oldClaudeBin === undefined) delete process.env.CLAUDE_BIN;
     else process.env.CLAUDE_BIN = oldClaudeBin;
     await fsp.rm(dir, { recursive: true, force: true });
@@ -618,9 +618,9 @@ describe('POST /api/provider/models', () => {
 
   it('lets an operator-allowlisted internal endpoint reach the upstream model fetch (#3225)', async () => {
     // The exact symptom in #3225 — "Could not fetch models: Internal IPs
-    // blocked". With the host opted in via OD_ALLOWED_INTERNAL_HOSTS, model
+    // blocked". With the host opted in via SW_ALLOWED_INTERNAL_HOSTS, model
     // discovery must reach the internal gateway instead of returning forbidden.
-    vi.stubEnv('OD_ALLOWED_INTERNAL_HOSTS', '10.0.0.5');
+    vi.stubEnv('SW_ALLOWED_INTERNAL_HOSTS', '10.0.0.5');
     const fetchMock = passThroughOrUpstream(() =>
       jsonResponse({ data: [{ id: 'gpt-4o-internal' }] }),
     );
@@ -2450,7 +2450,7 @@ describe('POST /api/test/connection agent mode', () => {
           agentId: 'amr',
           agentCliEnv: {
             amr: {
-              OPEN_DESIGN_AMR_PROFILE: 'local',
+              SANKIWORK_AMR_PROFILE: 'local',
             },
           },
         });
@@ -2676,8 +2676,8 @@ describe('POST /api/test/connection agent mode', () => {
 
   it('resolves the AMR connection-test scope from the merged launch env', async () => {
     rememberLiveModels('amr', [{ id: 'local-env-model', label: 'local-env-model' }], 'local');
-    const previousProfile = process.env.OPEN_DESIGN_AMR_PROFILE;
-    process.env.OPEN_DESIGN_AMR_PROFILE = 'local';
+    const previousProfile = process.env.SANKIWORK_AMR_PROFILE;
+    process.env.SANKIWORK_AMR_PROFILE = 'local';
 
     try {
       await withFakeAgent(
@@ -2702,8 +2702,8 @@ describe('POST /api/test/connection agent mode', () => {
         },
       );
     } finally {
-      if (previousProfile === undefined) delete process.env.OPEN_DESIGN_AMR_PROFILE;
-      else process.env.OPEN_DESIGN_AMR_PROFILE = previousProfile;
+      if (previousProfile === undefined) delete process.env.SANKIWORK_AMR_PROFILE;
+      else process.env.SANKIWORK_AMR_PROFILE = previousProfile;
     }
   });
 
@@ -2731,14 +2731,14 @@ setImmediate(() => process.exit(0));
   });
 
   it('keeps service tier overrides when connection tests omit model but settings has one', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for service tier settings tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for service tier settings tests');
     }
     const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-service-tier-'));
     const argvFile = path.join(markerDir, 'argv.json');
-    const previousConfig = await readAppConfig(process.env.OD_DATA_DIR);
+    const previousConfig = await readAppConfig(process.env.SW_DATA_DIR);
     try {
-      await writeAppConfig(process.env.OD_DATA_DIR, {
+      await writeAppConfig(process.env.SW_DATA_DIR, {
         agentModels: { codex: { model: 'gpt-5.5' } },
       });
       await withFakeCodex(
@@ -2783,21 +2783,21 @@ setImmediate(() => process.exit(0));
       );
     } finally {
       await fsp.rm(markerDir, { recursive: true, force: true });
-      await writeAppConfig(process.env.OD_DATA_DIR, {
+      await writeAppConfig(process.env.SW_DATA_DIR, {
         agentModels: previousConfig.agentModels ?? null,
       });
     }
   });
 
   it('keeps service tier overrides when connection tests omit model and settings has none', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for service tier settings tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for service tier settings tests');
     }
     const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-service-tier-'));
     const argvFile = path.join(markerDir, 'argv.json');
-    const previousConfig = await readAppConfig(process.env.OD_DATA_DIR);
+    const previousConfig = await readAppConfig(process.env.SW_DATA_DIR);
     try {
-      await writeAppConfig(process.env.OD_DATA_DIR, { agentModels: null });
+      await writeAppConfig(process.env.SW_DATA_DIR, { agentModels: null });
       await withFakeCodex(
         `
 const fs = require('node:fs');
@@ -2841,7 +2841,7 @@ setImmediate(() => process.exit(0));
       );
     } finally {
       await fsp.rm(markerDir, { recursive: true, force: true });
-      await writeAppConfig(process.env.OD_DATA_DIR, {
+      await writeAppConfig(process.env.SW_DATA_DIR, {
         agentModels: previousConfig.agentModels ?? null,
       });
     }
@@ -2859,7 +2859,7 @@ fs.writeFileSync(${JSON.stringify(envFile)}, JSON.stringify({
   CODEX_HOME: process.env.CODEX_HOME || null,
   OPENAI_BASE_URL: process.env.OPENAI_BASE_URL || null,
   CODEX_API_KEY: process.env.CODEX_API_KEY || null,
-  SHOULD_NOT_PASS: process.env.OD_CONNECTION_TEST_SHOULD_NOT_PASS || null,
+  SHOULD_NOT_PASS: process.env.SW_CONNECTION_TEST_SHOULD_NOT_PASS || null,
 }));
 console.log(JSON.stringify({ type: 'item.completed', item: { type: 'agent_message', text: 'ok' } }));
 setImmediate(() => process.exit(0));
@@ -2879,7 +2879,7 @@ setImmediate(() => process.exit(0));
                   CODEX_HOME: codexHome,
                   OPENAI_BASE_URL: 'https://proxy.example.com/v1',
                   CODEX_API_KEY: 'codex-key',
-                  OD_CONNECTION_TEST_SHOULD_NOT_PASS: 'leaked',
+                  SW_CONNECTION_TEST_SHOULD_NOT_PASS: 'leaked',
                 },
                 claude: {
                   CLAUDE_CONFIG_DIR: path.join(markerDir, 'claude'),
@@ -2929,7 +2929,7 @@ console.log(JSON.stringify({ type: 'item.completed', item: { type: 'agent_messag
 setImmediate(() => process.exit(0));
 `,
         async () => {
-          // These keys come from the process environment, not Open Design
+          // These keys come from the process environment, not SankiWork
           // BYOK/agentCliEnv. Preserve them so local CLI API-key auth works.
           const res = await realFetch(`${baseUrl}/api/test/connection`, {
             method: 'POST',
@@ -4527,14 +4527,14 @@ process.stdin.on('end', () => {
     // `claude`, even on machines that have a pinned CLAUDE_BIN or an
     // alternate user toolchain home configured. PATH alone is no longer
     // sufficient because runtime resolution also consults CLI env
-    // overrides and OD_AGENT_HOME-scoped toolchain bins.
+    // overrides and SW_AGENT_HOME-scoped toolchain bins.
     const oldPath = process.env.PATH;
     const oldClaudeBin = process.env.CLAUDE_BIN;
-    const oldAgentHome = process.env.OD_AGENT_HOME;
+    const oldAgentHome = process.env.SW_AGENT_HOME;
     const emptyHome = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-missing-claude-home-'));
     process.env.PATH = '';
     delete process.env.CLAUDE_BIN;
-    process.env.OD_AGENT_HOME = emptyHome;
+    process.env.SW_AGENT_HOME = emptyHome;
     try {
       const result = await testAgentConnection({ agentId: 'claude' });
       expect(result.ok).toBe(false);
@@ -4545,8 +4545,8 @@ process.stdin.on('end', () => {
       process.env.PATH = oldPath;
       if (oldClaudeBin === undefined) delete process.env.CLAUDE_BIN;
       else process.env.CLAUDE_BIN = oldClaudeBin;
-      if (oldAgentHome === undefined) delete process.env.OD_AGENT_HOME;
-      else process.env.OD_AGENT_HOME = oldAgentHome;
+      if (oldAgentHome === undefined) delete process.env.SW_AGENT_HOME;
+      else process.env.SW_AGENT_HOME = oldAgentHome;
       await fsp.rm(emptyHome, { recursive: true, force: true });
     }
   });
@@ -4671,24 +4671,24 @@ describe('connection test helpers', () => {
 describe('connection test timeout overrides', () => {
   it('returns the fallback when the override is missing or empty', () => {
     expect(
-      resolveConnectionTestTimeoutMs('OD_CONNECTION_TEST_PROVIDER_TIMEOUT_MS', 12_000, {}),
+      resolveConnectionTestTimeoutMs('SW_CONNECTION_TEST_PROVIDER_TIMEOUT_MS', 12_000, {}),
     ).toBe(12_000);
     expect(
-      resolveConnectionTestTimeoutMs('OD_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
-        OD_CONNECTION_TEST_AGENT_TIMEOUT_MS: '',
+      resolveConnectionTestTimeoutMs('SW_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
+        SW_CONNECTION_TEST_AGENT_TIMEOUT_MS: '',
       }),
     ).toBe(45_000);
   });
 
   it('honors a positive integer override', () => {
     expect(
-      resolveConnectionTestTimeoutMs('OD_CONNECTION_TEST_PROVIDER_TIMEOUT_MS', 12_000, {
-        OD_CONNECTION_TEST_PROVIDER_TIMEOUT_MS: '30000',
+      resolveConnectionTestTimeoutMs('SW_CONNECTION_TEST_PROVIDER_TIMEOUT_MS', 12_000, {
+        SW_CONNECTION_TEST_PROVIDER_TIMEOUT_MS: '30000',
       }),
     ).toBe(30_000);
     expect(
-      resolveConnectionTestTimeoutMs('OD_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
-        OD_CONNECTION_TEST_AGENT_TIMEOUT_MS: '120000',
+      resolveConnectionTestTimeoutMs('SW_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
+        SW_CONNECTION_TEST_AGENT_TIMEOUT_MS: '120000',
       }),
     ).toBe(120_000);
   });
@@ -4698,8 +4698,8 @@ describe('connection test timeout overrides', () => {
     try {
       for (const bad of ['fast', '0', '-1', '1.5', 'NaN']) {
         expect(
-          resolveConnectionTestTimeoutMs('OD_CONNECTION_TEST_PROVIDER_TIMEOUT_MS', 12_000, {
-            OD_CONNECTION_TEST_PROVIDER_TIMEOUT_MS: bad,
+          resolveConnectionTestTimeoutMs('SW_CONNECTION_TEST_PROVIDER_TIMEOUT_MS', 12_000, {
+            SW_CONNECTION_TEST_PROVIDER_TIMEOUT_MS: bad,
           }),
         ).toBe(12_000);
       }
@@ -4720,19 +4720,19 @@ describe('connection test timeout overrides', () => {
     try {
       const tooLarge = '3000000000'; // ~50 minutes; exceeds 2_147_483_647 ms
       expect(
-        resolveConnectionTestTimeoutMs('OD_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
-          OD_CONNECTION_TEST_AGENT_TIMEOUT_MS: tooLarge,
+        resolveConnectionTestTimeoutMs('SW_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
+          SW_CONNECTION_TEST_AGENT_TIMEOUT_MS: tooLarge,
         }),
       ).toBe(45_000);
       // The exact maximum is still accepted; anything past it is not.
       expect(
-        resolveConnectionTestTimeoutMs('OD_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
-          OD_CONNECTION_TEST_AGENT_TIMEOUT_MS: '2147483647',
+        resolveConnectionTestTimeoutMs('SW_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
+          SW_CONNECTION_TEST_AGENT_TIMEOUT_MS: '2147483647',
         }),
       ).toBe(2_147_483_647);
       expect(
-        resolveConnectionTestTimeoutMs('OD_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
-          OD_CONNECTION_TEST_AGENT_TIMEOUT_MS: '2147483648',
+        resolveConnectionTestTimeoutMs('SW_CONNECTION_TEST_AGENT_TIMEOUT_MS', 45_000, {
+          SW_CONNECTION_TEST_AGENT_TIMEOUT_MS: '2147483648',
         }),
       ).toBe(45_000);
       expect(warn).toHaveBeenCalled();
@@ -4902,32 +4902,32 @@ describe('validateBaseUrlResolved (DNS-aware base URL validation)', () => {
   });
 });
 
-describe('validateUserProviderBaseUrl: OD_ALLOWED_INTERNAL_HOSTS opt-in (issue #3225)', () => {
+describe('validateUserProviderBaseUrl: SW_ALLOWED_INTERNAL_HOSTS opt-in (issue #3225)', () => {
   afterEach(() => {
     vi.unstubAllEnvs();
   });
 
   it('exempts an operator-allowlisted literal internal IP for user-configured endpoints', async () => {
-    vi.stubEnv('OD_ALLOWED_INTERNAL_HOSTS', '10.0.0.5');
+    vi.stubEnv('SW_ALLOWED_INTERNAL_HOSTS', '10.0.0.5');
     const result = await validateUserProviderBaseUrl('http://10.0.0.5:4000/v1');
     expect(result.error).toBeUndefined();
   });
 
   it('exempts a hostname that resolves into private space when that hostname is allowlisted', async () => {
-    vi.stubEnv('OD_ALLOWED_INTERNAL_HOSTS', 'litellm.internal');
+    vi.stubEnv('SW_ALLOWED_INTERNAL_HOSTS', 'litellm.internal');
     const lookup = vi.fn(async () => [{ address: '10.0.0.5', family: 4 }]);
     const result = await validateUserProviderBaseUrl('http://litellm.internal:4000/v1', lookup);
     expect(result.error).toBeUndefined();
   });
 
   it('still blocks a private endpoint that is not on the allowlist', async () => {
-    vi.stubEnv('OD_ALLOWED_INTERNAL_HOSTS', '10.0.0.5');
+    vi.stubEnv('SW_ALLOWED_INTERNAL_HOSTS', '10.0.0.5');
     const result = await validateUserProviderBaseUrl('http://192.168.1.5:4000/v1');
     expect(result).toMatchObject({ error: 'Internal IPs blocked', forbidden: true });
   });
 
   it('keeps the attacker-controllable asset guard strict — the plain resolver never consults the allowlist', async () => {
-    vi.stubEnv('OD_ALLOWED_INTERNAL_HOSTS', '10.0.0.5');
+    vi.stubEnv('SW_ALLOWED_INTERNAL_HOSTS', '10.0.0.5');
     const result = await validateBaseUrlResolved('http://10.0.0.5:4000/v1');
     expect(result).toMatchObject({ error: 'Internal IPs blocked', forbidden: true });
   });

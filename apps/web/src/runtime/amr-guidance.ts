@@ -6,11 +6,11 @@
 import {
   isModelWindowLimitFailure,
   readModelWindowResetAt,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 // AMR model-gateway console (account, balance, top-up, plans).
-// `source=open_design` tags the landing page_view so vela analytics can
-// attribute the visit to Open Design (per-product revenue/traffic attribution).
+// `source=sankiwork` tags the landing page_view so vela analytics can
+// attribute the visit to SankiWork (per-product revenue/traffic attribution).
 //
 // The console's dashboard — not a wallet page — is the account surface every
 // entry here targets. A wallet route still answers on B's side, but it is no
@@ -19,13 +19,13 @@ import {
 // (vela #1055), so sending a user to /wallet would drop them on a surface the
 // product no longer navigates to.
 export const AMR_CONSOLE_URL =
-  'https://open-design.ai/amr/dashboard?source=open_design';
+  'https://sanki-ai.cloud/amr/dashboard?source=sankiwork';
 export const DEFAULT_AMR_RECHARGE_URL = AMR_CONSOLE_URL;
 export const AMR_RECHARGE_URL = DEFAULT_AMR_RECHARGE_URL;
 
 // Path + attribution the console is always reached through, so a runtime
 // origin only has to carry the host.
-const AMR_CONSOLE_PATH = '/dashboard?source=open_design';
+const AMR_CONSOLE_PATH = '/dashboard?source=sankiwork';
 
 /**
  * The console's `billing=<intent>` value that means "open the upgrade surface
@@ -43,8 +43,8 @@ export const AMR_CONSOLE_UPGRADE_INTENT = 'plan';
 
 const AMR_CONSOLE_URL_BY_PROFILE: Record<string, string> = {
   prod: DEFAULT_AMR_RECHARGE_URL,
-  test: 'https://vela.powerformer.net/dashboard?source=open_design',
-  local: 'http://localhost:5173/dashboard?source=open_design',
+  test: 'https://vela.powerformer.net/dashboard?source=sankiwork',
+  local: 'http://localhost:5173/dashboard?source=sankiwork',
 };
 
 // Every AMR profile the packaged runtime can be built with (mirrors the daemon's
@@ -57,7 +57,7 @@ const KNOWN_AMR_PROFILES: ReadonlySet<string> = new Set([
 ]);
 
 // Console origin the daemon reported for THIS runtime (GET
-// /api/integrations/vela/status -> consoleOrigin, sourced from OD_VELA_WEB_URL).
+// /api/integrations/vela/status -> consoleOrigin, sourced from SW_VELA_WEB_URL).
 //
 // The web bundle ships publicly, so the hostnames of internal (non-public) AMR
 // environments are not literals in this source tree: packaging injects the
@@ -464,7 +464,7 @@ const AGENT_AGNOSTIC_DETAIL_FAILURE_UI: Record<string, RunFailureUi> = {
   // The bundled agent binary needs a CPU instruction set (AVX2) this device
   // doesn't have, so it crashes on launch — retrying reproduces the crash and
   // switching hosted models doesn't help (the runtime binary is the problem).
-  // The fix is updating Open Design to a build that bundles a compatible
+  // The fix is updating SankiWork to a build that bundles a compatible
   // (baseline) runtime, so show guidance copy without a dead Retry button.
   cpu_unsupported: {
     primaryAction: 'none',
@@ -533,7 +533,7 @@ export function resolveRunFailureUi(
         primaryAction: 'authorize',
         // PRD「需要登录」type — shared title with the non-AMR sign-in case.
         titleKey: 'chat.runError.title.signInRequired',
-        // "Open Design 智能体尚未登录，前往登录即可正常使用" — single CTA, no
+        // "SankiWork 智能体尚未登录，前往登录即可正常使用" — single CTA, no
         // AMR promotion (the agent already IS AMR). The authorize action reuses
         // the inline AmrLoginPill (sign-in + auto-retry on success).
         messageKey: 'chat.runError.signInMessage.amr',

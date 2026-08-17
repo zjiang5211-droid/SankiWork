@@ -13,7 +13,7 @@ set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 MOCKS="$(cd "$HERE/.." && pwd -P)"
-TRACE_ID="${OD_MOCKS_SMOKE_TRACE:-04097377}"   # the 17-tool claude session
+TRACE_ID="${SW_MOCKS_SMOKE_TRACE:-04097377}"   # the 17-tool claude session
 
 # Ensure recordings are on disk — the corpus is hosted on R2 and fetched
 # on demand. If nothing's been pulled yet (or only a few are), run the
@@ -25,8 +25,8 @@ if ! ls "$MOCKS/recordings"/*.jsonl >/dev/null 2>&1; then
 fi
 
 export PATH="$MOCKS/bin:$PATH"
-export OD_MOCKS_TRACE="$TRACE_ID"
-export OD_MOCKS_NO_DELAY=1
+export SW_MOCKS_TRACE="$TRACE_ID"
+export SW_MOCKS_NO_DELAY=1
 
 failed=0
 pass()  { printf '  \033[32m✓\033[0m %s\n' "$1"; }

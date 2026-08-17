@@ -19,7 +19,7 @@
 
 import DOMPurify from 'dompurify';
 
-import { DECK_SLIDE_SELECTOR } from '@open-design/contracts/runtime/deck-stage-fallback';
+import { DECK_SLIDE_SELECTOR } from '@sankiwork/contracts/runtime/deck-stage-fallback';
 
 export type DeckThumbnailFallbackReason =
   | 'no-dom-parser'

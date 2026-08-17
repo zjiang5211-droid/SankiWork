@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
-import { Button, Input, Textarea } from '@open-design/components';
+import { Button, Input, Textarea } from '@sankiwork/components';
 import { useT } from '../i18n';
 import { modalOverlay, modalContent } from '../motion';
 

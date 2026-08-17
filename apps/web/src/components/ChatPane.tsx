@@ -14,7 +14,7 @@ import {
   type ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { hasOdCard } from '@open-design/contracts';
+import { hasOdCard } from '@sankiwork/contracts';
 import { useAnalytics } from '../analytics/provider';
 import { getResolvedDeviceId } from '../analytics/client';
 import {
@@ -54,11 +54,11 @@ import type {
   ChatSessionMode,
   RunContextSelection,
   WorkspaceContextItem,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type {
   TrackingProjectKind,
   TrackingRunRecoveryActionType,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import {
   DESIGN_SYSTEM_WORKSPACE_DISPLAY_DESCRIPTION,
   DESIGN_SYSTEM_WORKSPACE_DISPLAY_TITLE,
@@ -601,11 +601,11 @@ interface Props {
   ) => Promise<{ message?: string; url?: string } | void> | { message?: string; url?: string } | void;
   activePluginActionPaths?: Set<string>;
   hiddenPluginActionPaths?: Set<string>;
-  // "Share to Open Design" button on each completed assistant message —
+  // "Share to SankiWork" button on each completed assistant message —
   // wired by ProjectView to handleSend with the bundled
   // `od-share-to-community` scenario's trigger prompt.
-  onShareToOpenDesign?: (assistantMessageId: string) => void;
-  shareToOpenDesignBusyMessageId?: string | null;
+  onShareToSankiWork?: (assistantMessageId: string) => void;
+  shareToSankiWorkBusyMessageId?: string | null;
   forceStreamingMessageIds?: Set<string>;
   // Live-only streaming tool-input partials keyed by tool-use id. Threaded to
   // AssistantMessage so an in-flight Write/Edit can render its code in real
@@ -777,7 +777,7 @@ interface Props {
   config?: AppConfig;
 }
 
-const AMR_PROFILE_ENV_KEY = 'OPEN_DESIGN_AMR_PROFILE';
+const AMR_PROFILE_ENV_KEY = 'SANKIWORK_AMR_PROFILE';
 
 type Tab = 'chat' | 'comments';
 
@@ -923,8 +923,8 @@ export function ChatPane({
   onRequestPluginFolderAgentAction,
   activePluginActionPaths,
   hiddenPluginActionPaths,
-  onShareToOpenDesign,
-  shareToOpenDesignBusyMessageId,
+  onShareToSankiWork,
+  shareToSankiWorkBusyMessageId,
   forceStreamingMessageIds,
   liveToolInput,
   initialDraft,
@@ -1099,7 +1099,7 @@ export function ChatPane({
     onBrandBrowserAssistConfirm,
     onArtifactShare,
     onForkFromMessage,
-    onShareToOpenDesign,
+    onShareToSankiWork,
     onNextStepAiOptimize: onContinueBrandEnrichment,
     onNextStepContinueExtraction: onContinueBrandExtraction,
     onNextStepContinueAiExtraction: onContinueBrandAgentExtraction,
@@ -1113,7 +1113,7 @@ export function ChatPane({
     onBrandBrowserAssistConfirm,
     onArtifactShare,
     onForkFromMessage,
-    onShareToOpenDesign,
+    onShareToSankiWork,
     onNextStepAiOptimize: onContinueBrandEnrichment,
     onNextStepContinueExtraction: onContinueBrandExtraction,
     onNextStepContinueAiExtraction: onContinueBrandAgentExtraction,
@@ -2724,8 +2724,8 @@ export function ChatPane({
                 onRequestPluginFolderAgentAction={onRequestPluginFolderAgentAction}
                 activePluginActionPaths={activePluginActionPaths}
                 hiddenPluginActionPaths={hiddenPluginActionPaths}
-                onShareToOpenDesign={onShareToOpenDesign}
-                shareToOpenDesignBusyMessageId={shareToOpenDesignBusyMessageId}
+                onShareToSankiWork={onShareToSankiWork}
+                shareToSankiWorkBusyMessageId={shareToSankiWorkBusyMessageId}
                 forceStreamingMessageIds={forceStreamingMessageIds}
                 lastAssistantId={lastAssistantId}
                 activePluginSnapshot={activePluginSnapshot}
@@ -3117,7 +3117,7 @@ interface AssistantCallbacks {
   onBrandBrowserAssistConfirm: BrandBrowserAssistConfirm | undefined;
   onArtifactShare: ((fileName: string) => void) | undefined;
   onForkFromMessage: ((message: ChatMessage) => void) | undefined;
-  onShareToOpenDesign: ((assistantMessageId: string) => void) | undefined;
+  onShareToSankiWork: ((assistantMessageId: string) => void) | undefined;
   onNextStepAiOptimize: (() => void) | undefined;
   onNextStepContinueExtraction: (() => void) | undefined;
   onNextStepContinueAiExtraction: (() => void) | undefined;
@@ -3422,8 +3422,8 @@ function ChatRows({
   onRequestPluginFolderAgentAction,
   activePluginActionPaths,
   hiddenPluginActionPaths,
-  onShareToOpenDesign,
-  shareToOpenDesignBusyMessageId,
+  onShareToSankiWork,
+  shareToSankiWorkBusyMessageId,
   forceStreamingMessageIds,
   lastAssistantId,
   activePluginSnapshot,
@@ -3479,8 +3479,8 @@ function ChatRows({
   onRequestPluginFolderAgentAction?: (relativePath: string, action: PluginFolderAgentAction) => void;
   activePluginActionPaths?: Set<string>;
   hiddenPluginActionPaths?: Set<string>;
-  onShareToOpenDesign?: (assistantMessageId: string) => void;
-  shareToOpenDesignBusyMessageId?: string | null;
+  onShareToSankiWork?: (assistantMessageId: string) => void;
+  shareToSankiWorkBusyMessageId?: string | null;
   forceStreamingMessageIds?: Set<string>;
   lastAssistantId: string | undefined;
   activePluginSnapshot?: AppliedPluginSnapshot | null;
@@ -3643,12 +3643,12 @@ function ChatRows({
         onRequestPluginFolderAgentAction={onRequestPluginFolderAgentAction}
         activePluginActionPaths={activePluginActionPaths}
         hiddenPluginActionPaths={hiddenPluginActionPaths}
-        onShareToOpenDesign={
-          onShareToOpenDesign
-            ? () => assistantCallbacksRef.current.onShareToOpenDesign?.(m.id)
+        onShareToSankiWork={
+          onShareToSankiWork
+            ? () => assistantCallbacksRef.current.onShareToSankiWork?.(m.id)
             : undefined
         }
-        shareToOpenDesignBusy={shareToOpenDesignBusyMessageId === m.id}
+        shareToSankiWorkBusy={shareToSankiWorkBusyMessageId === m.id}
         showRole={assistantRoleByMessageId.get(m.id) ?? true}
         isLast={m.id === lastAssistantId}
         errorCardOwnerId={errorCardOwnerId}
@@ -4285,7 +4285,7 @@ function QueuedSendStrip({
   );
 }
 
-const QUEUED_SEND_DRAG_MIME = 'application/x-open-design-queued-send';
+const QUEUED_SEND_DRAG_MIME = 'application/x-sankiwork-queued-send';
 const QUEUED_SEND_VISIBLE_ROW_COUNT = 4;
 
 type QueuedSendDropEdge = 'before' | 'after';
@@ -4539,7 +4539,7 @@ export function buildRunErrorDiagnosticText(input: RunErrorDiagnosticInput): str
   }
 
   lines.push(
-    'Open Design run error diagnostics',
+    'SankiWork run error diagnostics',
     `trace_id: ${input.traceId ?? 'n/a'}`,
     `run_id: ${input.traceId ?? 'n/a'}`,
     `error_code: ${input.errorCode ?? 'n/a'}`,
@@ -4734,7 +4734,7 @@ function UserMessageImpl({
               items={appliedContextItems}
               t={t}
               onOpenPlugin={onRequestPluginDetails}
-              onOpenDesignSystem={onRequestDesignSystemDetails}
+              onSankiWorkSystem={onRequestDesignSystemDetails}
             />
           ) : null}
         </div>
@@ -4826,12 +4826,12 @@ function AppliedContextDisclosure({
   items,
   t,
   onOpenPlugin,
-  onOpenDesignSystem,
+  onSankiWorkSystem,
 }: {
   items: AppliedContextItem[];
   t: TranslateFn;
   onOpenPlugin?: (pluginId: string) => void;
-  onOpenDesignSystem?: (system: DesignSystemSummary) => void;
+  onSankiWorkSystem?: (system: DesignSystemSummary) => void;
 }) {
   const [open, setOpen] = useState(false);
   const names = items.map((item) => item.title).join(' · ');
@@ -4863,7 +4863,7 @@ function AppliedContextDisclosure({
                   ? 'Skill'
                   : 'Design System';
               const canOpenPlugin = item.kind === 'plugin' && !!onOpenPlugin;
-              const canOpenSystem = item.kind === 'design-system' && !!item.system && !!onOpenDesignSystem;
+              const canOpenSystem = item.kind === 'design-system' && !!item.system && !!onSankiWorkSystem;
               const content = (
                 <>
                   <span className="msg-applied-context__kind">{label}</span>
@@ -4878,7 +4878,7 @@ function AppliedContextDisclosure({
                   onClick={() => {
                     if (item.kind === 'plugin') onOpenPlugin?.(item.pluginId);
                     if (item.kind === 'design-system' && item.system) {
-                      onOpenDesignSystem?.(item.system);
+                      onSankiWorkSystem?.(item.system);
                     }
                   }}
                 >

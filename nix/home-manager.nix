@@ -1,4 +1,4 @@
-# Home Manager module for Open Design — primary interface for individual
+# Home Manager module for SankiWork — primary interface for individual
 # developers. Linux uses systemd --user units; macOS uses launchd agents.
 #
 # Both the daemon and the optional web frontend are user-scoped and run
@@ -6,8 +6,8 @@
 # privileged port binding by default.
 #
 # Usage:
-#   imports = [ inputs.open-design.homeManagerModules.default ];
-#   services.open-design = {
+#   imports = [ inputs.sankiwork.homeManagerModules.default ];
+#   services.sankiwork = {
 #     enable = true;
 #     autoStart = true;
 #     webFrontend.enable = true;
@@ -21,11 +21,11 @@
   pkgs,
   ...
 }: let
-  cfg = config.services.open-design;
+  cfg = config.services.sankiwork;
 
   commonOpts = moduleCommon {
     inherit lib pkgs flake;
-    defaultDataDir = "${config.home.homeDirectory}/.od";
+    defaultDataDir = "${config.home.homeDirectory}/.sankiwork";
   };
 
   daemonExe = lib.getExe cfg.package;
@@ -34,7 +34,7 @@
   # SPA-style fallback if any deep link bypasses the trailingSlash
   # directories Next.js emits, and ~30MB is acceptable for an opt-in
   # service. Users who want lighter can override
-  # `services.open-design.webFrontend.package` and bring their own
+  # `services.sankiwork.webFrontend.package` and bring their own
   # server — though that disables the bundled service in favor of
   # whatever they wire up.
   caddy = pkgs.caddy;
@@ -42,7 +42,7 @@
   # Synthesize a Caddyfile pointing at the static package's out tree.
   #
   # The web frontend is a static SPA bundled at build time with
-  # `OD_DAEMON_URL=""`, so the bundled JS calls relative URLs like
+  # `SW_DAEMON_URL=""`, so the bundled JS calls relative URLs like
   # `/api/agents`, `/artifacts/...`, and `/frames/...`. The daemon
   # serves those routes on `cfg.port`; caddy reverse-proxies them so
   # the SPA works same-origin without CORS or runtime config.
@@ -58,7 +58,7 @@
   # Site address is explicitly `http://` — a bare `host:port` lets Caddy
   # pick the listener scheme by port, which collides with `auto_https
   # off` and surfaces as TLS errors when the browser hits plain HTTP.
-  caddyfile = pkgs.writeText "open-design-web.Caddyfile" ''
+  caddyfile = pkgs.writeText "sankiwork-web.Caddyfile" ''
     {
       auto_https off
       admin off
@@ -133,8 +133,8 @@
 
   daemonEnv =
     {
-      OD_PORT = toString cfg.port;
-      OD_DATA_DIR = toString cfg.dataDir;
+      SW_PORT = toString cfg.port;
+      SW_DATA_DIR = toString cfg.dataDir;
       PATH = lib.concatStringsSep ":" daemonPathEntries;
     }
     // lib.optionalAttrs cfg.webFrontend.enable {
@@ -142,7 +142,7 @@
       # otherwise PUT/POST requests from the SPA served on
       # `webFrontend.port` get 403'd by the /api middleware
       # (apps/daemon/src/server.ts buildAllowedOrigins).
-      OD_WEB_PORT = toString cfg.webFrontend.port;
+      SW_WEB_PORT = toString cfg.webFrontend.port;
     }
     // lib.optionalAttrs (cfg.webFrontend.allowedOrigins != []) {
       # Operator-declared external origins for the LAN-exposure escape
@@ -152,13 +152,13 @@
       # still widen the daemon's same-origin allowlist via this
       # option. Comma-joined; parsed by configuredAllowedOrigins() in
       # apps/daemon/src/origin-validation.ts.
-      OD_ALLOWED_ORIGINS = lib.concatStringsSep "," cfg.webFrontend.allowedOrigins;
+      SW_ALLOWED_ORIGINS = lib.concatStringsSep "," cfg.webFrontend.allowedOrigins;
     }
     // cfg.extraEnv;
 
   envToList = e: lib.mapAttrsToList (k: v: "${k}=${v}") e;
 in {
-  options.services.open-design = commonOpts;
+  options.services.sankiwork = commonOpts;
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
     {
@@ -166,7 +166,7 @@ in {
 
       # Ensure the data directory exists ahead of first daemon launch.
       # mkdir -p so this is safe to re-run.
-      home.activation.openDesignDataDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      home.activation.sankiWorkDataDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
         run mkdir -p ${lib.escapeShellArg (toString cfg.dataDir)}
       '';
 
@@ -182,16 +182,16 @@ in {
             || isLoopbackHost cfg.webFrontend.host
             || cfg.webFrontend.allowedOrigins != [];
           message = ''
-            services.open-design.webFrontend.host = "${cfg.webFrontend.host}" exposes the
+            services.sankiwork.webFrontend.host = "${cfg.webFrontend.host}" exposes the
             bundled web frontend on a non-loopback interface, but
-            services.open-design.webFrontend.allowedOrigins is empty.
+            services.sankiwork.webFrontend.allowedOrigins is empty.
 
             The daemon's same-origin allowlist would reject every API
             write the SPA issues from that host. Either keep the
             default loopback bind, or declare every external origin
             the SPA will be loaded from, e.g.
 
-              services.open-design.webFrontend.allowedOrigins = [
+              services.sankiwork.webFrontend.allowedOrigins = [
                 "http://laptop.local:''${toString cfg.webFrontend.port}"
               ];
           '';
@@ -201,9 +201,9 @@ in {
 
     # ----- Linux: systemd --user units --------------------------------
     (lib.mkIf (pkgs.stdenv.isLinux && cfg.autoStart) {
-      systemd.user.services.open-design = {
+      systemd.user.services.sankiwork = {
         Unit = {
-          Description = "Open Design daemon (user service)";
+          Description = "SankiWork daemon (user service)";
           After = ["network-online.target"];
           Wants = ["network-online.target"];
         };
@@ -223,9 +223,9 @@ in {
     })
 
     (lib.mkIf (pkgs.stdenv.isLinux && cfg.webFrontend.enable) {
-      systemd.user.services.open-design-web = {
+      systemd.user.services.sankiwork-web = {
         Unit = {
-          Description = "Open Design web frontend (static file server)";
+          Description = "SankiWork web frontend (static file server)";
           After = ["network-online.target"];
           Wants = ["network-online.target"];
         };
@@ -246,7 +246,7 @@ in {
       # at runtime — keeps secrets out of the world-readable Nix store
       # while still honoring the documented `environmentFile` option on
       # Darwin (parity with the Linux systemd path above).
-      daemonLaunchScript = pkgs.writeShellScript "open-design-daemon-launch" ''
+      daemonLaunchScript = pkgs.writeShellScript "sankiwork-daemon-launch" ''
         set -a
         . ${lib.escapeShellArg (toString cfg.environmentFile)}
         set +a
@@ -257,25 +257,25 @@ in {
         then [(toString daemonLaunchScript)]
         else [daemonExe "--port" (toString cfg.port) "--no-open"];
     in {
-      launchd.agents.open-design = {
+      launchd.agents.sankiwork = {
         enable = true;
         config = {
-          Label = "io.nexu.open-design";
+          Label = "io.nexu.sankiwork";
           ProgramArguments = programArguments;
           RunAtLoad = true;
           KeepAlive = true;
           EnvironmentVariables = daemonEnv;
-          StandardOutPath = "${cfg.dataDir}/open-design.out.log";
-          StandardErrorPath = "${cfg.dataDir}/open-design.err.log";
+          StandardOutPath = "${cfg.dataDir}/sankiwork.out.log";
+          StandardErrorPath = "${cfg.dataDir}/sankiwork.err.log";
         };
       };
     }))
 
     (lib.mkIf (pkgs.stdenv.isDarwin && cfg.webFrontend.enable) {
-      launchd.agents.open-design-web = {
+      launchd.agents.sankiwork-web = {
         enable = true;
         config = {
-          Label = "io.nexu.open-design-web";
+          Label = "io.nexu.sankiwork-web";
           ProgramArguments = [
             (lib.getExe caddy)
             "run"

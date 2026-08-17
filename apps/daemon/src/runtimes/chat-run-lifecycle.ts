@@ -25,7 +25,7 @@ export function assertValidRuntimeDefFirstOutputTimeoutMs(agentDefault?: number)
 
 export function resolveChatRunInactivityTimeoutMs(agentDefault?: number) {
   assertValidRuntimeDefInactivityTimeoutMs(agentDefault);
-  const env = Number(process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS);
+  const env = Number(process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS);
   if (Number.isFinite(env)) {
     return Math.min(MAX_CHAT_RUN_INACTIVITY_TIMEOUT_MS, Math.max(0, Math.floor(env)));
   }
@@ -37,7 +37,7 @@ export function resolveChatRunInactivityTimeoutMs(agentDefault?: number) {
 
 export function resolveChatRunFirstOutputTimeoutMs(agentDefault?: number): number {
   assertValidRuntimeDefFirstOutputTimeoutMs(agentDefault);
-  const env = Number(process.env.OD_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS);
+  const env = Number(process.env.SW_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS);
   if (Number.isFinite(env)) {
     return Math.min(MAX_CHAT_RUN_INACTIVITY_TIMEOUT_MS, Math.max(0, Math.floor(env)));
   }
@@ -48,7 +48,7 @@ export function resolveChatRunFirstOutputTimeoutMs(agentDefault?: number): numbe
 }
 
 export function resolveChatRunArtifactQuietPeriodMs() {
-  const raw = Number(process.env.OD_CHAT_RUN_ARTIFACT_QUIET_PERIOD_MS);
+  const raw = Number(process.env.SW_CHAT_RUN_ARTIFACT_QUIET_PERIOD_MS);
   if (!Number.isFinite(raw)) return DEFAULT_CHAT_RUN_ARTIFACT_QUIET_PERIOD_MS;
   return Math.min(MAX_CHAT_RUN_INACTIVITY_TIMEOUT_MS, Math.max(0, Math.floor(raw)));
 }
@@ -142,14 +142,14 @@ export function applyClaudeStreamJsonRunBookkeeping(
 }
 
 export function resolveChatRunShutdownGraceMs() {
-  const raw = Number(process.env.OD_CHAT_RUN_SHUTDOWN_GRACE_MS);
+  const raw = Number(process.env.SW_CHAT_RUN_SHUTDOWN_GRACE_MS);
   if (!Number.isFinite(raw)) return 3_000;
   return Math.max(0, Math.floor(raw));
 }
 
 export function resolveAcpStageTimeoutMs(agentDefault?: number): number | undefined {
   assertValidRuntimeDefInactivityTimeoutMs(agentDefault);
-  const raw = Number(process.env.OD_ACP_STAGE_TIMEOUT_MS);
+  const raw = Number(process.env.SW_ACP_STAGE_TIMEOUT_MS);
   if (Number.isFinite(raw)) {
     return Math.min(MAX_CHAT_RUN_INACTIVITY_TIMEOUT_MS, Math.max(0, Math.floor(raw)));
   }

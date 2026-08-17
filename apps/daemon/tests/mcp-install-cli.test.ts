@@ -33,20 +33,20 @@ async function runCli(args: string[]): Promise<{ stdout: string; stderr: string;
   }
 }
 
-describe('od mcp install CLI identity probe', () => {
+describe('sw mcp install CLI identity probe', () => {
   it('emits a stable identity token without requiring an agent slug', async () => {
-    const result = await runCli(['mcp', 'install', '--open-design-cli-probe']);
+    const result = await runCli(['mcp', 'install', '--sankiwork-cli-probe']);
 
     expect(result.code).toBe(0);
     expect(result.stderr).toBe('');
-    expect(result.stdout).toBe('open-design-cli:mcp-install:v1\n');
+    expect(result.stdout).toBe('sankiwork-cli:mcp-install:v1\n');
   });
 
   it('includes the resolved launch spec in JSON dry-run output', async () => {
     const launchSpec = {
-      command: '/opt/open-design/runtime',
-      args: ['/opt/open-design/daemon-cli.mjs', 'mcp'],
-      env: { OD_DATA_DIR: '/tmp/open-design-data' },
+      command: '/opt/sankiwork/runtime',
+      args: ['/opt/sankiwork/daemon-cli.mjs', 'mcp'],
+      env: { SW_DATA_DIR: '/tmp/sankiwork-data' },
     };
     const server = createServer((_req, res) => {
       res.setHeader('content-type', 'application/json');

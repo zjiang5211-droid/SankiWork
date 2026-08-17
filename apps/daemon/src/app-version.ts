@@ -1,11 +1,11 @@
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, join, parse as parsePath } from 'node:path';
-import { releaseChannelFromVersion } from '@open-design/release';
+import { releaseChannelFromVersion } from '@sankiwork/release';
 
 export const APP_VERSION_FALLBACK = '0.0.0';
 
-// Keep this structurally aligned with `@open-design/contracts` AppVersionInfo.
+// Keep this structurally aligned with `@sankiwork/contracts` AppVersionInfo.
 // Daemon cannot import the package root type directly yet because its NodeNext
 // test typecheck follows the contracts source re-exports and requires explicit
 // `.js` extensions across that package.
@@ -37,7 +37,7 @@ export interface ReadAppVersionInfoOptions extends ResolveAppVersionInfoOptions 
 const processWithResources = process as NodeJS.Process & { resourcesPath?: string };
 
 // The compiled daemon ships in two layouts depending on which tsconfig produced
-// it: `dist/app-version.js` (rootDir=src, used by the `od` CLI) and
+// it: `dist/app-version.js` (rootDir=src, used by the `sw` CLI) and
 // `dist/src/app-version.js` (rootDir=., used by the packaged sidecar entry).
 // A fixed relative path like `../package.json` only points at the daemon
 // `package.json` in the first layout — in the sidecar layout it resolves to
@@ -45,7 +45,7 @@ const processWithResources = process as NodeJS.Process & { resourcesPath?: strin
 // back to `APP_VERSION_FALLBACK`. Walk up from `import.meta.url` until we find
 // a real `package.json` so both build outputs (and the TypeScript source
 // during `tools-dev`) read the daemon's actual version. Callers that already
-// inject the version via `OD_APP_VERSION` (packaged runtime) keep working
+// inject the version via `SW_APP_VERSION` (packaged runtime) keep working
 // because that env still wins inside `resolveAppVersionInfo`.
 async function findNearestPackageJsonUrl(startUrl: URL): Promise<URL | null> {
   let currentDir: string;
@@ -113,12 +113,12 @@ export function resolveAppVersionInfo({
   arch = process.arch,
 }: ResolveAppVersionInfoOptions = {}): AppVersionInfo {
   const packaged = isPackagedRuntime({ resourcesPath, execPath, platform });
-  const version = cleanString(env.OD_APP_VERSION)
+  const version = cleanString(env.SW_APP_VERSION)
     ?? cleanString(packageMetadata?.version)
     ?? APP_VERSION_FALLBACK;
   const inferredChannel = inferReleaseChannelFromVersion(version);
-  const channel = cleanString(env.OD_RELEASE_CHANNEL)
-    ?? cleanString(env.OD_APP_CHANNEL)
+  const channel = cleanString(env.SW_RELEASE_CHANNEL)
+    ?? cleanString(env.SW_APP_CHANNEL)
     ?? inferredChannel
     ?? (packaged ? 'stable' : 'development');
 

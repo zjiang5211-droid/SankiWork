@@ -1,4 +1,4 @@
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 // Settings shell role gating (E-frontend, D4.3). The base SettingsDialog renders
 // every personal section unconditionally; this is the new layer that decides

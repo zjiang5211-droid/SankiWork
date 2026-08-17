@@ -93,7 +93,7 @@ describe('asInProjectFilePath', () => {
     it('matches local absolute paths against known project files', () => {
       expect(
         asInProjectFilePath(
-          '/Users/mac/open-design/open-design-preview-0.10.0/projects/Web%20Prototype/index.html',
+          '/Users/mac/sankiwork/sankiwork-preview-0.10.0/projects/Web%20Prototype/index.html',
           new Set(['index.html']),
         ),
       ).toBe('index.html');
@@ -102,7 +102,7 @@ describe('asInProjectFilePath', () => {
     it('keeps unknown local absolute paths as normal links', () => {
       expect(
         asInProjectFilePath(
-          '/Users/mac/open-design/open-design-preview-0.10.0/projects/Web%20Prototype/index.html',
+          '/Users/mac/sankiwork/sankiwork-preview-0.10.0/projects/Web%20Prototype/index.html',
           new Set(['summary.html']),
         ),
       ).toBeNull();
@@ -152,7 +152,7 @@ describe('asInProjectFilePath', () => {
     });
 
     it('Electron od: protocol', () => {
-      expect(asInProjectFilePath('od://app/projects/123')).toBeNull();
+      expect(asInProjectFilePath('sankiwork://app/projects/123')).toBeNull();
     });
 
     it('blob: URLs', () => {
@@ -237,7 +237,7 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
       // basename also appears in `projectFileNames`.
       expect(
         resolveChatFileLink(
-          '/Users/mac/open-design/data/projects/project-1/index.html',
+          '/Users/mac/sankiwork/data/projects/project-1/index.html',
           new Set(['index.html']),
           'project-1',
         ),
@@ -280,7 +280,7 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
       // so the current-project basename fallback wins.
       expect(
         resolveChatFileLink(
-          '/Users/mac/.open-design/data/projects/other-project/index.html',
+          '/Users/mac/.sankiwork/data/projects/other-project/index.html',
           new Set(['index.html']),
           'project-1',
         ),
@@ -294,10 +294,10 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
       // same-named current-project file no longer captures the click.
       expect(
         resolveChatFileLink(
-          '/Users/mac/.open-design/data/projects/other-project/index.html',
+          '/Users/mac/.sankiwork/data/projects/other-project/index.html',
           new Set(['index.html']),
           'project-1',
-          '/Users/mac/.open-design/data/projects/project-1',
+          '/Users/mac/.sankiwork/data/projects/project-1',
         ),
       ).toEqual({ kind: 'project-file', projectId: 'other-project', filePath: 'index.html' });
     });
@@ -309,7 +309,7 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
       // tab, never navigate to `/projects/File Link Routing/…`.
       expect(
         resolveChatFileLink(
-          '/Users/mac/open-design/open-design-preview-0.10.0/projects/File%20Link%20Routing/index.html',
+          '/Users/mac/sankiwork/sankiwork-preview-0.10.0/projects/File%20Link%20Routing/index.html',
           new Set(['index.html']),
           'file-link-routing-1752480000000-abc123',
         ),
@@ -323,7 +323,7 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
       // fallback still reopens the current project's tab.
       expect(
         resolveChatFileLink(
-          '/Users/mac/open-design/open-design-preview-0.10.0/projects/File%20Link%20Routing/index.html',
+          '/Users/mac/sankiwork/sankiwork-preview-0.10.0/projects/File%20Link%20Routing/index.html',
           new Set(['index.html']),
           'file-link-routing-1752480000000-abc123',
           '/tmp/od-e2e-data/projects/file-link-routing-1752480000000-abc123',
@@ -338,10 +338,10 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
       // the current project's resolvedDir under the same managed root.
       expect(
         resolveChatFileLink(
-          '/Users/mac/.open-design/data/projects/04d5e136-0cf2-4bf4/deck-outline.md',
+          '/Users/mac/.sankiwork/data/projects/04d5e136-0cf2-4bf4/deck-outline.md',
           new Set(['unrelated.html']),
           'project-1',
-          '/Users/mac/.open-design/data/projects/project-1',
+          '/Users/mac/.sankiwork/data/projects/project-1',
         ),
       ).toEqual({
         kind: 'project-file',
@@ -356,7 +356,7 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
       // navigate anywhere (the click-layer swallow keeps it inert).
       expect(
         resolveChatFileLink(
-          '/Users/mac/.open-design/data/projects/04d5e136-0cf2-4bf4/deck-outline.md',
+          '/Users/mac/.sankiwork/data/projects/04d5e136-0cf2-4bf4/deck-outline.md',
           new Set(['unrelated.html']),
           'project-1',
         ),
@@ -405,10 +405,10 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
     it('keeps a stale current-project file under a backslash resolvedDir on the CURRENT project', () => {
       expect(
         resolveChatFileLink(
-          'C:\\Users\\me\\.open-design\\data\\projects\\project-1\\new-file.md',
+          'C:\\Users\\me\\.sankiwork\\data\\projects\\project-1\\new-file.md',
           new Set(['other.html']),
           'project-1',
-          'C:\\Users\\me\\.open-design\\data\\projects\\project-1',
+          'C:\\Users\\me\\.sankiwork\\data\\projects\\project-1',
         ),
       ).toEqual({ kind: 'workspace-file', filePath: 'new-file.md' });
     });
@@ -416,10 +416,10 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
     it('navigates a managed sibling directory to its owning project', () => {
       expect(
         resolveChatFileLink(
-          'C:\\Users\\me\\.open-design\\data\\projects\\other-project\\deck-outline.md',
+          'C:\\Users\\me\\.sankiwork\\data\\projects\\other-project\\deck-outline.md',
           new Set(['unrelated.html']),
           'project-1',
-          'C:\\Users\\me\\.open-design\\data\\projects\\project-1',
+          'C:\\Users\\me\\.sankiwork\\data\\projects\\project-1',
         ),
       ).toEqual({
         kind: 'project-file',
@@ -431,10 +431,10 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
     it('matches across mixed separators (forward-slash href, backslash resolvedDir)', () => {
       expect(
         resolveChatFileLink(
-          'C:/Users/me/.open-design/data/projects/project-1/sub/hero.html',
+          'C:/Users/me/.sankiwork/data/projects/project-1/sub/hero.html',
           undefined,
           'project-1',
-          'C:\\Users\\me\\.open-design\\data\\projects\\project-1',
+          'C:\\Users\\me\\.sankiwork\\data\\projects\\project-1',
         ),
       ).toEqual({ kind: 'workspace-file', filePath: 'sub/hero.html' });
     });
@@ -442,10 +442,10 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
     it('refuses traversal segments in drive-letter paths', () => {
       expect(
         resolveChatFileLink(
-          'C:\\Users\\me\\.open-design\\data\\projects\\project-1\\..\\secret.md',
+          'C:\\Users\\me\\.sankiwork\\data\\projects\\project-1\\..\\secret.md',
           undefined,
           'project-1',
-          'C:\\Users\\me\\.open-design\\data\\projects\\project-1',
+          'C:\\Users\\me\\.sankiwork\\data\\projects\\project-1',
         ),
       ).toBeNull();
     });
@@ -455,10 +455,10 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
       // casing differs (#5611 review round 8).
       expect(
         resolveChatFileLink(
-          'C:\\users\\ME\\.open-design\\data\\projects\\project-1\\new-file.md',
+          'C:\\users\\ME\\.sankiwork\\data\\projects\\project-1\\new-file.md',
           new Set(['other.html']),
           'project-1',
-          'C:\\Users\\me\\.open-design\\data\\projects\\project-1',
+          'C:\\Users\\me\\.sankiwork\\data\\projects\\project-1',
         ),
       ).toEqual({ kind: 'workspace-file', filePath: 'new-file.md' });
     });
@@ -466,10 +466,10 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
     it('navigates a mixed-case managed sibling and preserves its original casing', () => {
       expect(
         resolveChatFileLink(
-          'c:/users/me/.open-design/data/projects/Other-Project/deck-outline.md',
+          'c:/users/me/.sankiwork/data/projects/Other-Project/deck-outline.md',
           new Set(['unrelated.html']),
           'project-1',
-          'C:\\Users\\me\\.open-design\\data\\projects\\project-1',
+          'C:\\Users\\me\\.sankiwork\\data\\projects\\project-1',
         ),
       ).toEqual({
         kind: 'project-file',
@@ -549,7 +549,7 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
 
     it('never derives a managed root from an imported baseDir', () => {
       // resolvedDir does not end with `/<projectId>`, so a sibling under the
-      // same parent is NOT provably another Open Design project.
+      // same parent is NOT provably another SankiWork project.
       expect(
         resolveChatFileLink(
           '/Users/mac/workspace/projects/other-folder/index.html',
@@ -673,7 +673,7 @@ describe('isPathLikeChatHref (suppresses the detached home-window fallback)', ()
 
   it('false for mailto: and other schemes', () => {
     expect(isPathLikeChatHref('mailto:foo@bar.com')).toBe(false);
-    expect(isPathLikeChatHref('od://app/projects/123')).toBe(false);
+    expect(isPathLikeChatHref('sankiwork://app/projects/123')).toBe(false);
     expect(isPathLikeChatHref('file:///etc/passwd')).toBe(false);
   });
 

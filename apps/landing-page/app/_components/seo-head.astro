@@ -30,7 +30,7 @@ import ResourceHints from './resource-hints.astro';
 export interface SeoHeadProps {
   /** 'website' for landing/list pages, 'article' for blog posts. */
   kind: 'website' | 'article';
-  /** For article: raw post title (component appends " — Open Design"). For website: the full title string. */
+  /** For article: raw post title (component appends " — SankiWork"). For website: the full title string. */
   title: string;
   /** Meta description, 150–160 chars recommended. */
   description: string;
@@ -43,7 +43,7 @@ export interface SeoHeadProps {
   dateModified?: Date;
   /** Required for kind: 'article'. e.g. "Guides". */
   category?: string;
-  /** Defaults to "Open Design". */
+  /** Defaults to "SankiWork". */
   author?: string;
   /** Set when this page has no generated per-locale variants. */
   localeCanonicalOnly?: boolean;
@@ -73,24 +73,24 @@ export interface SeoHeadProps {
 
 const props = Astro.props as SeoHeadProps;
 
-// Staging / PR-preview builds set OD_LANDING_NOINDEX=1 so the mirror at
-// staging.open-design.ai (exposed via certificate-transparency logs) is kept
+// Staging / PR-preview builds set SW_LANDING_NOINDEX=1 so the mirror at
+// staging.sanki-ai.cloud (exposed via certificate-transparency logs) is kept
 // out of the search index. We emit `noindex` rather than a robots.txt
 // `Disallow` so crawlers can still fetch the page and read both this tag and
 // the canonical (which points at the production origin). Production builds
 // leave the flag unset and stay fully indexable.
 //
-// `__OD_LANDING_NOINDEX__` is a compile-time constant injected by
+// `__SW_LANDING_NOINDEX__` is a compile-time constant injected by
 // `vite.define` in astro.config.ts — `.astro` frontmatter is transformed by
 // Vite and cannot read process.env directly.
-const stagingNoindex = __OD_LANDING_NOINDEX__;
+const stagingNoindex = __SW_LANDING_NOINDEX__;
 const noindex = stagingNoindex || props.noindex === true;
 // Staging hides the whole mirror, so nothing there is worth crawling onward.
 // A page-level opt-out is the opposite case: the page itself shouldn't rank,
 // but its outbound links should still pass equity, hence `follow`.
 const robotsContent = stagingNoindex ? 'noindex, nofollow' : 'noindex, follow';
 
-const SITE_NAME = 'Open Design';
+const SITE_NAME = 'SankiWork';
 const TAGLINE = 'Design with the agent already on your laptop.';
 const isArticle = props.kind === 'article';
 const locale = localeFromPath(props.pathname);
@@ -139,12 +139,12 @@ const articleJsonLd =
         author: {
           '@type': 'Organization',
           name: author,
-          url: Astro.site?.toString() ?? 'https://open-design.ai/',
+          url: Astro.site?.toString() ?? 'https://sanki-ai.cloud/',
         },
         publisher: {
           '@type': 'Organization',
           name: SITE_NAME,
-          url: Astro.site?.toString() ?? 'https://open-design.ai/',
+          url: Astro.site?.toString() ?? 'https://sanki-ai.cloud/',
           logo: {
             '@type': 'ImageObject',
             url: image,
@@ -164,7 +164,7 @@ const websiteJsonLd =
         '@type': 'WebSite',
         name: SITE_NAME,
         alternateName: TAGLINE,
-        url: Astro.site?.toString() ?? 'https://open-design.ai/',
+        url: Astro.site?.toString() ?? 'https://sanki-ai.cloud/',
         inLanguage: localeDef.htmlLang,
         availableLanguage: LANDING_LOCALES.map((entry) => entry.htmlLang),
       }
@@ -182,7 +182,7 @@ const blogJsonLd =
         publisher: {
           '@type': 'Organization',
           name: SITE_NAME,
-          url: Astro.site?.toString() ?? 'https://open-design.ai/',
+          url: Astro.site?.toString() ?? 'https://sanki-ai.cloud/',
         },
       }
     : null;
@@ -200,7 +200,7 @@ const blogJsonLd =
     robots noindex drops its x-default pointer too (on `noindex: true` posts
     the English target itself is noindexed). */}
 {props.noindex !== true && <link rel='alternate' hreflang='x-default' href={xDefaultHref} />}
-<link rel='alternate' type='application/rss+xml' title='Open Design Blog' href={rssUrl} />
+<link rel='alternate' type='application/rss+xml' title='SankiWork Blog' href={rssUrl} />
 <FaviconLinks />
 <ResourceHints />
 

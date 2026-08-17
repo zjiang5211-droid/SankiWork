@@ -4,8 +4,8 @@ const { createRequire } = require("node:module");
 const path = require("node:path");
 const { promisify } = require("node:util");
 
-const CONFIG_ENV = "OD_TOOLS_PACK_WEB_STANDALONE_HOOK_CONFIG";
-const STANDALONE_RESOURCE_NAME = "open-design-web-standalone";
+const CONFIG_ENV = "SW_TOOLS_PACK_WEB_STANDALONE_HOOK_CONFIG";
+const STANDALONE_RESOURCE_NAME = "sankiwork-web-standalone";
 const REQUIRED_MODULES = ["next/package.json", "react/package.json", "react-dom/package.json", "styled-jsx/package.json"];
 const execFileAsync = promisify(execFile);
 
@@ -781,8 +781,8 @@ async function pruneRootNext(appNodeModulesRoot, platformName) {
   }
 
   await removePathAndRecord(
-    path.join(appNodeModulesRoot, "@open-design", "web", ".next", "standalone"),
-    "root @open-design/web standalone output",
+    path.join(appNodeModulesRoot, "@sankiwork", "web", ".next", "standalone"),
+    "root @sankiwork/web standalone output",
     removedPaths,
   );
 
@@ -832,12 +832,12 @@ async function pruneRootSharp(appNodeModulesRoot) {
 async function pruneRootWebPackage(appNodeModulesRoot, platformName) {
   if (platformName !== "win32") return [];
 
-  const webPackageRoot = path.join(appNodeModulesRoot, "@open-design", "web");
+  const webPackageRoot = path.join(appNodeModulesRoot, "@sankiwork", "web");
   const removedPaths = [];
   for (const entry of [".next", "app", "next.config.ts", "public", "src"]) {
     await removePathAndRecord(
       path.join(webPackageRoot, entry),
-      "root @open-design/web standalone-safe package residue",
+      "root @sankiwork/web standalone-safe package residue",
       removedPaths,
     );
   }
@@ -845,12 +845,12 @@ async function pruneRootWebPackage(appNodeModulesRoot, platformName) {
 }
 
 async function auditRootWebPackage(appNodeModulesRoot) {
-  const webPackageRoot = path.join(appNodeModulesRoot, "@open-design", "web");
+  const webPackageRoot = path.join(appNodeModulesRoot, "@sankiwork", "web");
   const packageJsonPath = path.join(webPackageRoot, "package.json");
   const sidecarEntryPath = path.join(webPackageRoot, "dist", "sidecar", "index.js");
   for (const requiredPath of [packageJsonPath, sidecarEntryPath]) {
     if (!(await pathExists(requiredPath))) {
-      throw new Error(`[tools-pack web-standalone] root @open-design/web audit missing: ${requiredPath}`);
+      throw new Error(`[tools-pack web-standalone] root @sankiwork/web audit missing: ${requiredPath}`);
     }
   }
   return {

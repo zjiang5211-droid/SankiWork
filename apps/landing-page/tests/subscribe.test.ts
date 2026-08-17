@@ -17,7 +17,7 @@ const BASE_RECORD = {
   email: "user@example.com",
   subscribedAt: "2026-06-05T00:00:00.000Z",
   source: "landing",
-  referer: "https://open-design.ai/",
+  referer: "https://sanki-ai.cloud/",
   userAgentHash: "agent-hash",
 };
 
@@ -68,9 +68,9 @@ function createEnv(kv: TestKv) {
 
 describe("newsletter subscribe welcome email", () => {
   it("allows packaged desktop app requests from the od protocol", () => {
-    const headers = __newsletterSubscribeTest.corsHeaders("od://app");
+    const headers = __newsletterSubscribeTest.corsHeaders("sankiwork://app");
 
-    assert.equal(headers["Access-Control-Allow-Origin"], "od://app");
+    assert.equal(headers["Access-Control-Allow-Origin"], "sankiwork://app");
   });
 
   it("allows localhost web runtime requests", () => {
@@ -96,12 +96,12 @@ describe("newsletter subscribe welcome email", () => {
     assert.equal(calls[1]?.init.headers?.["Idempotency-Key" as keyof HeadersInit], "newsletter-welcome-sub:abc");
 
     const emailBody = JSON.parse(String(calls[1]?.init.body));
-    assert.equal(emailBody.from, "Open Design <updates@open-design.ai>");
-    assert.equal(emailBody.reply_to, "updates@open-design.ai");
+    assert.equal(emailBody.from, "SankiWork <updates@sanki-ai.cloud>");
+    assert.equal(emailBody.reply_to, "updates@sanki-ai.cloud");
     assert.equal(emailBody.to, "user@example.com");
-    assert.equal(emailBody.subject, "Welcome to OpenDesign — you're in 🎉");
-    assert.match(emailBody.text, /Thanks for subscribing to the OpenDesign newsletter/);
-    assert.match(emailBody.html, /Welcome to OpenDesign/);
+    assert.equal(emailBody.subject, "Welcome to SankiWork — you're in 🎉");
+    assert.match(emailBody.text, /Thanks for subscribing to the SankiWork newsletter/);
+    assert.match(emailBody.html, /Welcome to SankiWork/);
 
     const stored = JSON.parse(kv.values.get("sub:abc") ?? "{}");
     assert.equal(stored.welcomeEmailId, "welcome-email-id");

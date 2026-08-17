@@ -339,8 +339,8 @@ const USEFUL_TIPS: ReadonlyArray<{ key: keyof Dict; url?: string }> = [
   { key: 'designFiles.usefulInfoTip8', url: 'https://x.com/OpenDesignHQ' },
   { key: 'designFiles.usefulInfoTip16', url: 'https://www.threads.com/@opendesign.ai' },
   { key: 'designFiles.usefulInfoTip17', url: 'https://www.instagram.com/opendesign.ai/' },
-  { key: 'designFiles.usefulInfoTip18', url: 'https://www.youtube.com/@Open-Design-ai' },
-  { key: 'designFiles.usefulInfoTip19', url: 'https://www.linkedin.com/company/open-design-ai/' },
+  { key: 'designFiles.usefulInfoTip18', url: 'https://www.youtube.com/@SankiWork-ai' },
+  { key: 'designFiles.usefulInfoTip19', url: 'https://www.linkedin.com/company/sankiwork-ai/' },
   {
     key: 'designFiles.usefulInfoTip20',
     url: 'https://www.xiaohongshu.com/user/profile/691effad000000003002978f',
@@ -431,7 +431,7 @@ function RotatingTip({ auxiliary = false }: { auxiliary?: boolean }) {
 }
 
 /**
- * Full-panel browser for a project's `.od/projects/<id>/` folder. Mirrors
+ * Full-panel browser for a project's `.sankiwork/projects/<id>/` folder. Mirrors
  * Claude Design's "Design Files" surface: a single-line toolbar (up / refresh
  * / breadcrumbs + actions), semantic sections (Folders, Stylesheets, Scripts,
  * Documents, Images …), hover-revealed row checkbox + menu, and a static
@@ -1744,7 +1744,7 @@ export function DesignFilesPanel({
                               void handlePluginFolderAgentAction(folder.path, 'contribute')
                             }
                           >
-                            {sharingFolder === `contribute:${folder.path}` ? 'Sending…' : 'Open Design PR'}
+                            {sharingFolder === `contribute:${folder.path}` ? 'Sending…' : 'SankiWork PR'}
                           </button>
                         </div>
                       ) : null}

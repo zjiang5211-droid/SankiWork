@@ -9,7 +9,7 @@
 - **Node.js：** `~24`（Node 24.x）。程式碼庫在 `package.json#engines` 中強制要求該版本。
 - **pnpm：** `10.33.x`。程式碼庫透過 `packageManager` 固定為 `pnpm@10.33.2`；若使用 Corepack，該固定版本將被自動選中。
 - **作業系統：** 主要支援 macOS、Linux、WSL2。Windows 原生環境大部分流程也可執行，但 WSL2 是更穩定的基準。
-- **可選的本地 agent CLI：** Open Design 透過 registry 支援 Claude Code、Codex、Devin for Terminal、OpenCode、Cursor Agent、Qwen、Qoder CLI、GitHub Copilot CLI 等本地 runtime；目前清單以 [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts) 為準。即使未安裝任何本地 runtime，也可使用在 Settings 中設定的 BYOK runtime。
+- **可選的本地 agent CLI：** SankiWork 透過 registry 支援 Claude Code、Codex、Devin for Terminal、OpenCode、Cursor Agent、Qwen、Qoder CLI、GitHub Copilot CLI 等本地 runtime；目前清單以 [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts) 為準。即使未安裝任何本地 runtime，也可使用在 Settings 中設定的 BYOK runtime。
 
 `nvm` / `fnm` 為可選的便捷工具，並非專案必要依賴。如需使用，請在執行 pnpm 之前安裝並切換到 Node 24：
 
@@ -63,8 +63,8 @@ pnpm tools-dev status          # 檢查受管理的 runtime 狀態
 pnpm tools-dev logs            # 查看 daemon / web / desktop 日誌
 pnpm tools-dev check           # 查看 status + 最近日誌 + 常見診斷
 pnpm tools-dev stop            # 停止受管理的 runtime
-pnpm --filter @open-design/daemon build  # 建置 apps/daemon/dist/cli.js，供 `od` 使用
-pnpm --filter @open-design/web build     # 在需要時建置 web package
+pnpm --filter @sankiwork/daemon build  # 建置 apps/daemon/dist/cli.js，供 `sw` 使用
+pnpm --filter @sankiwork/web build     # 在需要時建置 web package
 pnpm typecheck                 # 對整個 workspace 執行 typecheck
 ```
 
@@ -74,7 +74,7 @@ pnpm typecheck                 # 對整個 workspace 執行 typecheck
 
 ## Docker 部署
 
-在一個完全容器化的環境中執行 Open Design，無需安裝 Node.js 或 pnpm。
+在一個完全容器化的環境中執行 SankiWork，無需安裝 Node.js 或 pnpm。
 
 ### 環境需求
 
@@ -89,7 +89,7 @@ docker compose version
 
 ---
 
-## 啟動 Open Design
+## 啟動 SankiWork
 
 從倉庫根目錄開始：
 
@@ -106,7 +106,7 @@ docker compose version
    openssl rand -hex 32
    ```
 
-3. 用編輯器開啟 `.env`，找到 `OD_API_TOKEN=`，將產生的令牌貼上。
+3. 用編輯器開啟 `.env`，找到 `SW_API_TOKEN=`，將產生的令牌貼上。
 
 然後啟動服務：
 
@@ -171,20 +171,20 @@ cp deploy/.env.example deploy/.env
 
 ```env
 # 主機暴露的埠號
-OPEN_DESIGN_PORT=7456
+SANKIWORK_PORT=7456
 
 # 容器記憶體限制
-OPEN_DESIGN_MEM_LIMIT=384m
+SANKIWORK_MEM_LIMIT=384m
 
 # 允許的 CORS 來源
-OPEN_DESIGN_ALLOWED_ORIGINS=https://yourdomain.com
+SANKIWORK_ALLOWED_ORIGINS=https://yourdomain.com
 
 # Docker 映像檔標籤
-OPEN_DESIGN_IMAGE=ghcr.io/nexu-io/od:latest
+SANKIWORK_IMAGE=ghcr.io/nexu-io/od:latest
 
 # Daemon 安全所需的 API 令牌
 # 使用以下命令產生：openssl rand -hex 32
-OD_API_TOKEN=
+SW_API_TOKEN=
 ```
 
 ---
@@ -207,33 +207,33 @@ OD_API_TOKEN=
 
 ## 媒體生成 / agent dispatcher 問題排除
 
-Image、video、audio、HyperFrames 等 skill 在透過 daemon 啟動 agent 時，會注入環境變數以呼叫本地 `od` CLI：
+Image、video、audio、HyperFrames 等 skill 在透過 daemon 啟動 agent 時，會注入環境變數以呼叫本地 `sw` CLI：
 
-- `OD_BIN` —— `apps/daemon/dist/cli.js` 的絕對路徑。
-- `OD_DAEMON_URL` —— 目前執行的 daemon URL。
-- `OD_PROJECT_ID` —— 目前啟用的專案 id。
-- `OD_PROJECT_DIR` —— 目前啟用專案的檔案目錄。
+- `SW_BIN` —— `apps/daemon/dist/cli.js` 的絕對路徑。
+- `SW_DAEMON_URL` —— 目前執行的 daemon URL。
+- `SW_PROJECT_ID` —— 目前啟用的專案 id。
+- `SW_PROJECT_DIR` —— 目前啟用專案的檔案目錄。
 
-若媒體生成發生錯誤 `OD_BIN: parameter not set`、提示找不到 `apps/daemon/dist/cli.js`、或出現 `failed to reach daemon at http://127.0.0.1:0`，請重新建置 daemon CLI 並重新啟動受管理的 runtime：
+若媒體生成發生錯誤 `SW_BIN: parameter not set`、提示找不到 `apps/daemon/dist/cli.js`、或出現 `failed to reach daemon at http://127.0.0.1:0`，請重新建置 daemon CLI 並重新啟動受管理的 runtime：
 
 ```bash
-pnpm --filter @open-design/daemon build
+pnpm --filter @sankiwork/daemon build
 pnpm tools-dev restart --daemon-port 7457 --web-port 5175
 ls -la apps/daemon/dist/cli.js
 curl -s http://127.0.0.1:7457/api/health
 ```
 
-隨後，在 Open Design 應用程式中**重新開啟**該專案，請勿重複使用先前 terminal 中的 agent 會話。由 daemon 啟動的 agent 應當能夠看到類似如下的值：
+隨後，在 SankiWork 應用程式中**重新開啟**該專案，請勿重複使用先前 terminal 中的 agent 會話。由 daemon 啟動的 agent 應當能夠看到類似如下的值：
 
 ```bash
-echo "OD_BIN=$OD_BIN"
-echo "OD_PROJECT_ID=$OD_PROJECT_ID"
-echo "OD_PROJECT_DIR=$OD_PROJECT_DIR"
-echo "OD_DAEMON_URL=$OD_DAEMON_URL"
-ls -la "$OD_BIN"
+echo "SW_BIN=$SW_BIN"
+echo "SW_PROJECT_ID=$SW_PROJECT_ID"
+echo "SW_PROJECT_DIR=$SW_PROJECT_DIR"
+echo "SW_DAEMON_URL=$SW_DAEMON_URL"
+ls -la "$SW_BIN"
 ```
 
-`OD_DAEMON_URL` 必須為真實的 daemon 連接埠，例如 `http://127.0.0.1:7457`，而非 `http://127.0.0.1:0`。`:0` 僅是內部用於「自動選擇可用連接埠」的啟動佔位值，不應洩漏到 agent 會話中。
+`SW_DAEMON_URL` 必須為真實的 daemon 連接埠，例如 `http://127.0.0.1:7457`，而非 `http://127.0.0.1:0`。`:0` 僅是內部用於「自動選擇可用連接埠」的啟動佔位值，不應洩漏到 agent 會話中。
 
 僅執行 daemon 的生產模式下，daemon 會自行在 `http://localhost:7456` 提供 Next.js 的靜態匯出產物，不經過反向代理。
 
@@ -282,11 +282,11 @@ BASE_SYSTEM_PROMPT   （按執行 profile 採用檔案或 <artifact> 交付）
 ## 檔案結構
 
 ```
-open-design/
+sankiwork/
 ├── apps/
 │   ├── daemon/                # Node/Express —— 啟動本地 agent + 提供 API
 │   │   └── src/
-│   │       ├── cli.ts             # `od` bin 入口
+│   │       ├── cli.ts             # `sw` bin 入口
 │   │       ├── server.ts          # /api/* + 靜態資源
 │   │       ├── agents.ts          # runtime 模組的相容性匯出
 │   │       ├── runtimes/
@@ -310,7 +310,7 @@ open-design/
 │   └── desktop/               # Electron runtime，由 tools-dev 啟動 / 檢查
 ├── packages/
 │   ├── contracts/             # 共享的 web/daemon 應用程式契約
-│   ├── sidecar-proto/         # Open Design sidecar 協定契約
+│   ├── sidecar-proto/         # SankiWork sidecar 協定契約
 │   ├── sidecar/               # 通用 sidecar runtime 原語
 │   └── platform/              # 通用 process/platform 原語
 ├── tools/dev/                 # `pnpm tools-dev` 生命週期與 inspect CLI
@@ -321,15 +321,15 @@ open-design/
 ├── scripts/sync-design-systems.ts    # 從上游 getdesign tarball 重新匯入
 ├── docs/                      # 產品願景 + spec
 ├── pnpm-workspace.yaml        # apps/* + packages/* + tools/* + e2e
-└── package.json               # 頂層品質腳本 + `od` bin
+└── package.json               # 頂層品質腳本 + `sw` bin
 ```
 
 ## 排障
 
 - **"no agents found on PATH"** —— 安裝 [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts) 中註冊的任一本地 runtime，確認 daemon 能找到其執行檔，然後在 **Settings → Execution mode** 中執行 **Rescan**；也可以在 Settings 中設定 BYOK runtime。
 - **daemon 在 /api/chat 上返回 500** —— 查看 daemon 終端機的 stderr 尾部；通常是 CLI 拒絕了傳入的參數。不同 CLI 的 argv 結構各異；如需調整，請查看 `apps/daemon/src/runtimes/defs/` 中對應的定義。
-- **媒體生成發生錯誤，`OD_BIN` 缺失、或 daemon URL 為 `:0`** —— 執行上述媒體 dispatcher 問題排除步驟。請勿重複使用既有的 CLI 會話；從 Open Design 應用程式中重新開啟專案，daemon 才會注入新的 `OD_*` 變數。
-- **Codex 載入的插件上下文過多** —— 使用 `OD_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` 啟動 Open Design，daemon 啟動 Codex 時會傳入 `--disable plugins`。
+- **媒體生成發生錯誤，`SW_BIN` 缺失、或 daemon URL 為 `:0`** —— 執行上述媒體 dispatcher 問題排除步驟。請勿重複使用既有的 CLI 會話；從 SankiWork 應用程式中重新開啟專案，daemon 才會注入新的 `SW_*` 變數。
+- **Codex 載入的插件上下文過多** —— 使用 `SW_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` 啟動 SankiWork，daemon 啟動 Codex 時會傳入 `--disable plugins`。
 - **artifact 始終不渲染** —— 先確認本次執行的交付 profile。對於具備檔案系統能力的本地 runtime，檢查 agent 是否建立了可預覽的專案檔案、檔案事件是否抵達 daemon；此路徑不應把原始碼放進 `<artifact>`。對於 plain/純文字或 BYOK 執行，檢查是否存在一個完整的 `<artifact>` 區塊，並在 daemon 日誌中定位第一處失敗邊界。
 
 ## 回到產品願景

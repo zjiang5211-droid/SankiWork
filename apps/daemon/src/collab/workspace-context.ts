@@ -1,7 +1,7 @@
 import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type {
   CollabMemberRole,
   WorkspaceBillingState,
@@ -10,7 +10,7 @@ import type {
   WorkspaceMemberStatus,
   WorkspaceProviderMode,
   WorkspaceType,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 // The daemon's single B-integration point . Presence + sync need the
 // caller's workspace identity (workspaceMemberId + role + lifecycle). In
@@ -185,7 +185,7 @@ function nonNegativeInt(value: unknown, fallback: number): number {
  * The URL of the workspace settings/management console on the cloud web app.
  * Team actions (create, invite, members, billing) live there — the local client
  * only links out to them. Prefers an explicit value the upstream context carries;
- * otherwise builds one from `OD_VELA_WEB_URL` when configured. Undefined when
+ * otherwise builds one from `SW_VELA_WEB_URL` when configured. Undefined when
  * neither is available (the client then hides the settings entry).
  */
 export function resolveWorkspaceSettingsUrl(
@@ -204,7 +204,7 @@ export function resolveWorkspaceSettingsUrl(
   if (typeof explicit === 'string' && explicit.trim()) {
     return withWorkspaceDeepLink(explicit.trim(), workspaceId);
   }
-  const base = env.OD_VELA_WEB_URL?.trim();
+  const base = env.SW_VELA_WEB_URL?.trim();
   if (!base) return undefined;
   return withWorkspaceDeepLink(`${base.replace(/\/$/, '')}/settings`, workspaceId);
 }
@@ -216,7 +216,7 @@ function withWorkspaceDeepLink(url: string, workspaceId: string): string {
       parsed.searchParams.set('workspaceId', workspaceId.trim());
     }
     if (!parsed.searchParams.get('source')) {
-      parsed.searchParams.set('source', 'open_design');
+      parsed.searchParams.set('source', 'sankiwork');
     }
     return parsed.toString();
   } catch {
@@ -303,7 +303,7 @@ export function parseWorkspaceCollabContext(input: unknown): WorkspaceCollabCont
 
 /**
  * Dev/demo provider: holds a single in-memory context, optionally seeded from
- * `OD_DEV_WORKSPACE_CONTEXT` (JSON). Ignores the request — a real B-backed
+ * `SW_DEV_WORKSPACE_CONTEXT` (JSON). Ignores the request — a real B-backed
  * provider derives the context per-caller from the token instead.
  */
 export function createDevWorkspaceContextProvider(
@@ -321,7 +321,7 @@ export function createDevWorkspaceContextProvider(
 }
 
 function readEnvContext(): WorkspaceCollabContext | null {
-  const raw = process.env.OD_DEV_WORKSPACE_CONTEXT;
+  const raw = process.env.SW_DEV_WORKSPACE_CONTEXT;
   if (!raw) return null;
   try {
     return parseWorkspaceCollabContext(JSON.parse(raw));

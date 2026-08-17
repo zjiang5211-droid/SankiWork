@@ -12,18 +12,18 @@ import {
   DIAGNOSTICS_FILENAME_PREFIX,
   diagnosticsFileName,
   type LogSource,
-} from '@open-design/diagnostics';
+} from '@sankiwork/diagnostics';
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_MODES,
   type SidecarStamp,
-} from '@open-design/sidecar-proto';
+} from '@sankiwork/sidecar-proto';
 import {
   resolveLogFilePath,
   resolveRuntimeNamespaceRoot,
   type SidecarRuntimeContext,
-} from '@open-design/sidecar';
+} from '@sankiwork/sidecar';
 
 import { readCurrentAppVersionInfo } from './app-version.js';
 import { agentCliEnvForAgent, readAppConfig } from './app-config.js';
@@ -60,7 +60,7 @@ async function resolveDiagnosticsAgentEnvironment(
     const envFor = (agentId: string) =>
       spawnEnvForAgent(
         agentId,
-        { ...process.env, OD_DATA_DIR: dataDir },
+        { ...process.env, SW_DATA_DIR: dataDir },
         agentCliEnvForAgent(appConfig.agentCliEnv, agentId),
       );
     const clean = (value: string | undefined): string | null => {
@@ -90,7 +90,7 @@ export interface DiagnosticsHandlerOptions {
   projectRoot: string;
   /** Directory containing per-run event logs at <runsDir>/<runId>/events.jsonl. */
   runsDir?: string | null;
-  /** Open Design data dir (OD_DATA_DIR), used to locate the AMR OpenCode home. */
+  /** SankiWork data dir (SW_DATA_DIR), used to locate the AMR OpenCode home. */
   dataDir?: string | null;
 }
 
@@ -106,7 +106,7 @@ function safeUsername(): string | undefined {
 }
 
 export const STANDALONE_LAUNCH_WARNING =
-  "Daemon started without a sidecar runtime (plain `od` / standalone launch); " +
+  "Daemon started without a sidecar runtime (plain `sw` / standalone launch); " +
   "file-based logs are not captured. Re-run via `pnpm tools-dev` or the packaged " +
   "desktop app to include daemon/web/desktop log files in the bundle.";
 
@@ -145,7 +145,7 @@ async function buildSidecarLogSources(
   // accounts for that (a plain `resolveNamespaceRoot` here resolved every
   // daemon/web log to an ENOENT phantom path and captured none of them).
   const namespaceRoot = resolveRuntimeNamespaceRoot({
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     runtime,
     runtimeMode: SIDECAR_MODES.RUNTIME,
   });
@@ -154,7 +154,7 @@ async function buildSidecarLogSources(
   for (const app of apps) {
     const absolutePath = resolveLogFilePath({
       app,
-      contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+      contract: SANKIWORK_SIDECAR_CONTRACT,
       runtimeRoot: namespaceRoot,
     });
     sources.push({
@@ -212,13 +212,13 @@ async function buildSidecarLogSources(
 function resolveDesktopCrashDumpsDir(runtime: SidecarRuntimeContext<SidecarStamp> | null): string | null {
   if (runtime == null) return null;
   const namespaceRoot = resolveRuntimeNamespaceRoot({
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     runtime,
     runtimeMode: SIDECAR_MODES.RUNTIME,
   });
   const desktopLog = resolveLogFilePath({
     app: APP_KEYS.DESKTOP,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     runtimeRoot: namespaceRoot,
   });
   return join(dirname(desktopLog), 'crashes');
@@ -265,7 +265,7 @@ export function createDiagnosticsExportHandler(options: DiagnosticsHandlerOption
       const result = await buildDiagnosticsZip({
         context: {
           app: {
-            name: 'open-design',
+            name: 'sankiwork',
             version: versionInfo?.version,
             channel: versionInfo?.channel,
             packaged: versionInfo?.packaged,
@@ -321,11 +321,11 @@ export function createDiagnosticsExportHandler(options: DiagnosticsHandlerOption
         },
         redaction: { username },
         crashReports: {
-          // Restrict to Open Design's own process names. A generic "Electron"
+          // Restrict to SankiWork's own process names. A generic "Electron"
           // substring would sweep up crash reports from any other Electron
           // app on the host (VS Code, Slack, …) and leak unrelated user data
           // into the support bundle.
-          matchSubstrings: ['Open Design', 'open-design'],
+          matchSubstrings: ['SankiWork', 'sankiwork'],
           withinDays: 7,
           maxReports: 10,
           homeDir: home,

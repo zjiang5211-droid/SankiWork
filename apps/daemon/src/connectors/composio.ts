@@ -11,7 +11,7 @@ import { ConnectorServiceError, type ConnectorCredentialMaterial } from './servi
 
 const DEFAULT_COMPOSIO_BASE_URL = 'https://backend.composio.dev';
 const DEFAULT_COMPOSIO_TIMEOUT_MS = 30_000;
-const DEFAULT_COMPOSIO_USER_ID = 'open-design-local-user';
+const DEFAULT_COMPOSIO_USER_ID = 'sankiwork-local-user';
 const OAUTH_STATE_TTL_MS = 10 * 60 * 1000;
 const DISCOVERY_CACHE_TTL_MS = 60_000;
 const PERSISTED_CATALOG_REFRESH_MS = 24 * 60 * 60 * 1000;
@@ -39,7 +39,7 @@ interface PersistedComposioCatalogCache {
   definitions: ConnectorCatalogDefinition[];
 }
 
-let composioCatalogCacheFilePath = path.join(process.cwd(), '.od', 'connectors', 'composio-catalog-cache.json');
+let composioCatalogCacheFilePath = path.join(process.cwd(), '.sankiwork', 'connectors', 'composio-catalog-cache.json');
 
 const FEATURED_COMPOSIO_CATALOG: ConnectorCatalogDefinition[] = [
   {
@@ -1163,7 +1163,7 @@ export class ComposioConnectorProvider {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
-        'user-agent': 'OpenDesign/0.1 ComposioConnectorProvider',
+        'user-agent': 'SankiWork/0.1 ComposioConnectorProvider',
         'x-api-key': apiKey,
       },
       ...(input.body ? { body: input.body } : {}),
@@ -1401,17 +1401,17 @@ function isGenericComposioDescription(description: string): boolean {
 
 function fallbackComposioDescription(name: string, category: string | undefined): string {
   const normalizedCategory = category?.trim().toLowerCase();
-  if (normalizedCategory?.includes('project')) return `Coordinate ${name} projects, tasks, and workflow data inside Open Design.`;
-  if (normalizedCategory?.includes('communication')) return `Bring ${name} conversations, channels, and collaboration context into Open Design.`;
-  if (normalizedCategory?.includes('documentation')) return `Search and reuse ${name} knowledge, pages, and documentation in Open Design.`;
-  if (normalizedCategory?.includes('storage')) return `Find and reference ${name} files, folders, and document metadata from Open Design.`;
-  if (normalizedCategory?.includes('developer')) return `Inspect ${name} developer resources, activity, and operational context from Open Design.`;
-  if (normalizedCategory?.includes('crm') || normalizedCategory?.includes('sales')) return `Use ${name} customer, deal, and account context in Open Design artifacts.`;
-  if (normalizedCategory?.includes('marketing')) return `Analyze ${name} campaigns, audiences, and marketing activity from Open Design.`;
-  if (normalizedCategory?.includes('finance') || normalizedCategory?.includes('commerce')) return `Work with ${name} business, billing, and transaction data in Open Design.`;
-  if (normalizedCategory?.includes('observability')) return `Surface ${name} incidents, metrics, and operational signals in Open Design.`;
-  if (normalizedCategory?.includes('data')) return `Query ${name} datasets and platform metadata for data-backed Open Design artifacts.`;
-  return `Use ${name} tools and data directly from Open Design.`;
+  if (normalizedCategory?.includes('project')) return `Coordinate ${name} projects, tasks, and workflow data inside SankiWork.`;
+  if (normalizedCategory?.includes('communication')) return `Bring ${name} conversations, channels, and collaboration context into SankiWork.`;
+  if (normalizedCategory?.includes('documentation')) return `Search and reuse ${name} knowledge, pages, and documentation in SankiWork.`;
+  if (normalizedCategory?.includes('storage')) return `Find and reference ${name} files, folders, and document metadata from SankiWork.`;
+  if (normalizedCategory?.includes('developer')) return `Inspect ${name} developer resources, activity, and operational context from SankiWork.`;
+  if (normalizedCategory?.includes('crm') || normalizedCategory?.includes('sales')) return `Use ${name} customer, deal, and account context in SankiWork artifacts.`;
+  if (normalizedCategory?.includes('marketing')) return `Analyze ${name} campaigns, audiences, and marketing activity from SankiWork.`;
+  if (normalizedCategory?.includes('finance') || normalizedCategory?.includes('commerce')) return `Work with ${name} business, billing, and transaction data in SankiWork.`;
+  if (normalizedCategory?.includes('observability')) return `Surface ${name} incidents, metrics, and operational signals in SankiWork.`;
+  if (normalizedCategory?.includes('data')) return `Query ${name} datasets and platform metadata for data-backed SankiWork artifacts.`;
+  return `Use ${name} tools and data directly from SankiWork.`;
 }
 
 function getComposioAuthConfigId(response: ComposioAuthConfigResponse): string | undefined {

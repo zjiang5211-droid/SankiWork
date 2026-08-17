@@ -1,4 +1,4 @@
-import { validateBaseUrl } from '@open-design/contracts/api/connectionTest';
+import { validateBaseUrl } from '@sankiwork/contracts/api/connectionTest';
 import type { ApiProtocol, ProviderModelOption } from '../../types';
 
 export type ByokDraftField = 'api_key' | 'base_url' | 'model';
@@ -169,7 +169,7 @@ export function validateByokDraft(
   } else {
     // #3225 — a `forbidden` result is a syntactically-valid URL that points at
     // an internal address. Don't block it here: the Test / model-fetch actions
-    // gate on these issues, and the daemon owns the OD_ALLOWED_INTERNAL_HOSTS
+    // gate on these issues, and the daemon owns the SW_ALLOWED_INTERNAL_HOSTS
     // decision. Only genuinely malformed / non-http URLs are a client blocker.
     const baseUrlCheck = validateBaseUrl(baseUrl);
     if (baseUrlCheck.error && !baseUrlCheck.forbidden) {

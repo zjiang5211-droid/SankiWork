@@ -1,4 +1,4 @@
-// Pure routing helper for the `od export` CLI, extracted so it can be unit
+// Pure routing helper for the `sw export` CLI, extracted so it can be unit
 // tested without executing the CLI entrypoint (cli.ts runs argv dispatch on
 // import). Visual formats rasterize through the desktop screenshot renderer;
 // HTML uses the daemon-owned dependency graph bundler and works headlessly.

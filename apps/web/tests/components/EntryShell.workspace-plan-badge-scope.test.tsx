@@ -34,7 +34,7 @@ import {
   type WorkspaceBillingResponse,
   type WorkspaceBillingSummary,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { EntryShell } from '../../src/components/EntryShell';
@@ -146,7 +146,7 @@ function billingResponse(
 function agent(): AgentInfo {
   return {
     id: 'amr',
-    name: 'Open Design AMR',
+    name: 'SankiWork AMR',
     bin: 'amr',
     available: true,
     models: [{ id: 'glm-5', label: 'GLM 5' }],
@@ -249,7 +249,7 @@ async function mountHomeShell(initial: WorkspaceCollabContext): Promise<Harness>
     }
     if (url.includes('/api/workspace/billing?')) {
       const workspaceId =
-        new URL(url, 'http://open-design.test').searchParams.get('workspaceId') ?? '';
+        new URL(url, 'http://sankiwork.test').searchParams.get('workspaceId') ?? '';
       billingReads.push(workspaceId);
       if (workspaceId === PAID_TEAM.workspaceId) {
         return jsonResponse(

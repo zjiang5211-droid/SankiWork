@@ -61,7 +61,7 @@ export const onRequest: PagesFunction<AttributionEnv> = async ({ request, env })
     properties: attributionProperties({ landingUrl, referrer, platform, utm }),
   };
   await kv.put(recordKey(token), JSON.stringify(payload), { expirationTtl: ATTRIBUTION_TTL_SECONDS });
-  const assetName = encodeURIComponent(assetUrl.split('/').pop() || 'open-design-download');
+  const assetName = encodeURIComponent(assetUrl.split('/').pop() || 'sankiwork-download');
   const platformPath = platform === 'windows' ? 'windows/x64' : platform === 'macos' ? 'macos/auto' : 'linux/auto';
   const downloadUrl = new URL(`/${platformPath}/${token}/${assetName}`, request.url).toString();
   return json(200, { downloadUrl, token });

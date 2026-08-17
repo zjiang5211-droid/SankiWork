@@ -1,51 +1,51 @@
 import path from 'node:path';
 
 import { describe, expect, it, vi } from 'vitest';
-import { SIDECAR_ENV } from '@open-design/sidecar-proto';
+import { SIDECAR_ENV } from '@sankiwork/sidecar-proto';
 
 import {
   createAgentRuntimeEnv,
   createAgentRuntimeToolPrompt,
   createDaemonDataDirConfiguredAgentEnv,
-  createOpenDesignToolEnv,
-  resolveOpenDesignNodeBin,
+  createSankiWorkToolEnv,
+  resolveSankiWorkNodeBin,
 } from '../../src/server.js';
 import { applyAgentLaunchEnv } from '../../src/runtimes/launch.js';
 import { spawnEnvForAgent } from '../../src/runtimes/env.js';
 
 describe('agent runtime tool environment', () => {
-  it('prefers explicit OD_NODE_BIN over the process executable', () => {
-    expect(resolveOpenDesignNodeBin({
-      env: { OD_NODE_BIN: 'C:\\Open Design\\resources\\open-design\\bin\\node.exe' },
-      execPath: 'C:\\Users\\Ada\\AppData\\Roaming\\Open Design\\en\\hash\\Open Design.exe',
+  it('prefers explicit SW_NODE_BIN over the process executable', () => {
+    expect(resolveSankiWorkNodeBin({
+      env: { SW_NODE_BIN: 'C:\\SankiWork\\resources\\sankiwork\\bin\\node.exe' },
+      execPath: 'C:\\Users\\Ada\\AppData\\Roaming\\SankiWork\\en\\hash\\SankiWork.exe',
       platform: 'win32',
       resourceRoot: null,
-    })).toBe('C:\\Open Design\\resources\\open-design\\bin\\node.exe');
+    })).toBe('C:\\SankiWork\\resources\\sankiwork\\bin\\node.exe');
   });
 
   it('resolves the bundled resource node before falling back to process.execPath', () => {
-    expect(resolveOpenDesignNodeBin({
+    expect(resolveSankiWorkNodeBin({
       env: {},
-      execPath: 'C:\\Users\\Ada\\AppData\\Roaming\\Open Design\\en\\hash\\Open Design.exe',
+      execPath: 'C:\\Users\\Ada\\AppData\\Roaming\\SankiWork\\en\\hash\\SankiWork.exe',
       platform: 'win32',
-      resourceRoot: 'C:\\Users\\Ada\\AppData\\Local\\Programs\\Open Design\\resources\\open-design',
-      exists: (candidate) => candidate.endsWith('\\resources\\open-design\\bin\\node.exe'),
-    })).toBe('C:\\Users\\Ada\\AppData\\Local\\Programs\\Open Design\\resources\\open-design\\bin\\node.exe');
+      resourceRoot: 'C:\\Users\\Ada\\AppData\\Local\\Programs\\SankiWork\\resources\\sankiwork',
+      exists: (candidate) => candidate.endsWith('\\resources\\sankiwork\\bin\\node.exe'),
+    })).toBe('C:\\Users\\Ada\\AppData\\Local\\Programs\\SankiWork\\resources\\sankiwork\\bin\\node.exe');
   });
 
   it('injects daemon URL and run-scoped tool token into agent sessions', () => {
     const env = createAgentRuntimeEnv(
-      { PATH: '/bin', OD_TOOL_TOKEN: 'stale-token' },
+      { PATH: '/bin', SW_TOOL_TOKEN: 'stale-token' },
       'http://127.0.0.1:7456',
       { token: 'fresh-token' },
-      '/opt/open-design/bin/node',
+      '/opt/sankiwork/bin/node',
     );
 
     expect(env).toMatchObject({
-      PATH: `/opt/open-design/bin${path.delimiter}/bin`,
-      OD_DAEMON_URL: 'http://127.0.0.1:7456',
-      OD_NODE_BIN: '/opt/open-design/bin/node',
-      OD_TOOL_TOKEN: 'fresh-token',
+      PATH: `/opt/sankiwork/bin${path.delimiter}/bin`,
+      SW_DAEMON_URL: 'http://127.0.0.1:7456',
+      SW_NODE_BIN: '/opt/sankiwork/bin/node',
+      SW_TOOL_TOKEN: 'fresh-token',
     });
   });
 
@@ -91,31 +91,31 @@ describe('agent runtime tool environment', () => {
 
   it('does not leak stale inherited tool tokens when no run token was minted', () => {
     const env = createAgentRuntimeEnv(
-      { PATH: '/bin', OD_TOOL_TOKEN: 'stale-token' },
+      { PATH: '/bin', SW_TOOL_TOKEN: 'stale-token' },
       'http://127.0.0.1:7456',
       null,
-      '/opt/open-design/bin/node',
+      '/opt/sankiwork/bin/node',
     );
 
-    expect(env.OD_DAEMON_URL).toBe('http://127.0.0.1:7456');
-    expect(env.OD_NODE_BIN).toBe('/opt/open-design/bin/node');
-    expect(env.OD_TOOL_TOKEN).toBeUndefined();
+    expect(env.SW_DAEMON_URL).toBe('http://127.0.0.1:7456');
+    expect(env.SW_NODE_BIN).toBe('/opt/sankiwork/bin/node');
+    expect(env.SW_TOOL_TOKEN).toBeUndefined();
   });
 
   it('does not expose the broad daemon API token to run-scoped agent sessions', () => {
     const env = createAgentRuntimeEnv(
       {
         PATH: '/bin',
-        OD_API_TOKEN: 'broad-daemon-token',
+        SW_API_TOKEN: 'broad-daemon-token',
         Od_Api_Token: 'windows-cased-broad-token',
       },
       'http://100.64.0.10:7456',
       { token: 'run-scoped-token' },
-      '/opt/open-design/bin/node',
+      '/opt/sankiwork/bin/node',
     );
 
-    expect(env.OD_TOOL_TOKEN).toBe('run-scoped-token');
-    expect(Object.keys(env).some((key) => key.toUpperCase() === 'OD_API_TOKEN')).toBe(false);
+    expect(env.SW_TOOL_TOKEN).toBe('run-scoped-token');
+    expect(Object.keys(env).some((key) => key.toUpperCase() === 'SW_API_TOKEN')).toBe(false);
   });
 
   it('pins the daemon runtime data dir into agent sessions', () => {
@@ -123,21 +123,21 @@ describe('agent runtime tool environment', () => {
       { PATH: '/bin' },
       'http://127.0.0.1:7456',
       null,
-      '/opt/open-design/bin/node',
+      '/opt/sankiwork/bin/node',
     );
 
-    expect(env.OD_DATA_DIR).toBe(process.env.OD_DATA_DIR);
+    expect(env.SW_DATA_DIR).toBe(process.env.SW_DATA_DIR);
   });
 
   it('keeps wrapper media commands on the daemon data dir even when configured agent env is stale', () => {
     const base = createAgentRuntimeEnv(
-      { PATH: '/bin', OD_DATA_DIR: '/stale/process/data' },
+      { PATH: '/bin', SW_DATA_DIR: '/stale/process/data' },
       'http://127.0.0.1:7456',
       null,
-      '/opt/open-design/bin/node',
+      '/opt/sankiwork/bin/node',
     );
     const configuredAgentEnv = createDaemonDataDirConfiguredAgentEnv({
-      OD_DATA_DIR: '/stale/configured/data',
+      SW_DATA_DIR: '/stale/configured/data',
     });
 
     const env = {
@@ -146,19 +146,19 @@ describe('agent runtime tool environment', () => {
         base,
         configuredAgentEnv,
       ),
-      ...createOpenDesignToolEnv({
+      ...createSankiWorkToolEnv({
         daemonUrl: 'http://127.0.0.1:7456',
         projectDir: '/tmp/project',
         projectId: 'project-1',
       }),
     };
 
-    expect(env.OD_DATA_DIR).toBe(process.env.OD_DATA_DIR);
+    expect(env.SW_DATA_DIR).toBe(process.env.SW_DATA_DIR);
     expect(env.OPENCODE_TEST_HOME).toBe(
-      path.join(process.env.OD_DATA_DIR ?? '', 'amr', 'opencode-home'),
+      path.join(process.env.SW_DATA_DIR ?? '', 'amr', 'opencode-home'),
     );
-    expect(env.OD_PROJECT_ID).toBe('project-1');
-    expect(env.OD_PROJECT_DIR).toBe('/tmp/project');
+    expect(env.SW_PROJECT_ID).toBe('project-1');
+    expect(env.SW_PROJECT_DIR).toBe('/tmp/project');
   });
 
   it('keeps non-sandbox NO_PROXY behavior unchanged', () => {
@@ -166,7 +166,7 @@ describe('agent runtime tool environment', () => {
       { PATH: '/bin', HTTP_PROXY: 'http://127.0.0.1:9', NO_PROXY: '' },
       'http://127.0.0.1:7456',
       { token: 'fresh-token' },
-      '/opt/open-design/bin/node',
+      '/opt/sankiwork/bin/node',
     );
 
     expect(env.HTTP_PROXY).toBe('http://127.0.0.1:9');
@@ -176,23 +176,23 @@ describe('agent runtime tool environment', () => {
 
   it('passes the daemon sidecar IPC path from the explicit base env into agent wrapper sessions', () => {
     const env = createAgentRuntimeEnv(
-      { PATH: '/bin', [SIDECAR_ENV.IPC_PATH]: '/tmp/open-design/ipc/daemon.sock' },
+      { PATH: '/bin', [SIDECAR_ENV.IPC_PATH]: '/tmp/sankiwork/ipc/daemon.sock' },
       'http://127.0.0.1:7456',
       null,
-      '/opt/open-design/bin/node',
+      '/opt/sankiwork/bin/node',
     );
 
-    expect(env[SIDECAR_ENV.IPC_PATH]).toBe('/tmp/open-design/ipc/daemon.sock');
+    expect(env[SIDECAR_ENV.IPC_PATH]).toBe('/tmp/sankiwork/ipc/daemon.sock');
   });
 
   it('does not pull the daemon sidecar IPC path from ambient process state', () => {
-    vi.stubEnv(SIDECAR_ENV.IPC_PATH, '/tmp/open-design/ipc/stale.sock');
+    vi.stubEnv(SIDECAR_ENV.IPC_PATH, '/tmp/sankiwork/ipc/stale.sock');
     try {
       const env = createAgentRuntimeEnv(
         { PATH: '/bin' },
         'http://127.0.0.1:7456',
         null,
-        '/opt/open-design/bin/node',
+        '/opt/sankiwork/bin/node',
       );
 
       expect(env[SIDECAR_ENV.IPC_PATH]).toBeUndefined();
@@ -207,11 +207,11 @@ describe('agent runtime tool environment', () => {
     });
 
     expect(prompt).toContain('Daemon URL: `http://127.0.0.1:7456`');
-    expect(prompt).toContain('`OD_DAEMON_URL`');
-    expect(prompt).toContain('`OD_NODE_BIN`');
-    expect(prompt).toContain('`"$OD_NODE_BIN" "$OD_BIN" tools ...`');
-    expect(prompt).toContain('& $env:OD_NODE_BIN $env:OD_BIN tools ...');
-    expect(prompt).toContain('`OD_TOOL_TOKEN` is available');
+    expect(prompt).toContain('`SW_DAEMON_URL`');
+    expect(prompt).toContain('`SW_NODE_BIN`');
+    expect(prompt).toContain('`"$SW_NODE_BIN" "$SW_BIN" tools ...`');
+    expect(prompt).toContain('& $env:SW_NODE_BIN $env:SW_BIN tools ...');
+    expect(prompt).toContain('`SW_TOOL_TOKEN` is available');
     expect(prompt).toContain('do not print, persist, or override it');
     expect(prompt).not.toContain('secret-run-token');
   });
@@ -220,7 +220,7 @@ describe('agent runtime tool environment', () => {
     const prompt = createAgentRuntimeToolPrompt('http://127.0.0.1:7456', null);
 
     expect(prompt).toContain('Daemon URL: `http://127.0.0.1:7456`');
-    expect(prompt).toContain('`OD_TOOL_TOKEN` is not available');
+    expect(prompt).toContain('`SW_TOOL_TOKEN` is not available');
     expect(prompt).not.toContain('Bearer');
   });
 });

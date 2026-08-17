@@ -12,7 +12,7 @@ These are the structured choices the user made (or skipped) when creating this p
 - **durationSeconds**: 30
 - **voice**: rachel
 
-This is an **audio** project. Lock the content intent first, then dispatch via the **media generation contract** using \`"$OD_NODE_BIN" "$OD_BIN" media generate --surface audio --audio-kind <kind> --model <audioModel> --duration <seconds>\` and add \`--voice <voice-id>\` for speech when you have a provider-specific voice id. Do NOT emit \`<artifact>\` HTML."
+This is an **audio** project. Lock the content intent first, then dispatch via the **media generation contract** using \`"$SW_NODE_BIN" "$SW_BIN" media generate --surface audio --audio-kind <kind> --model <audioModel> --duration <seconds>\` and add \`--voice <voice-id>\` for speech when you have a provider-specific voice id. Do NOT emit \`<artifact>\` HTML."
 `;
 
 exports[`renderMetadataBlock (characterization via composeSystemPrompt chat-mode) > brand extraction project with brand ids 1`] = `
@@ -51,7 +51,7 @@ These are the structured choices the user made (or skipped) when creating this p
 - **styleNotes**: cinematic
 - **referenceTemplate**: Golden Hour Portrait
 
-This is an **image** project. Plan the prompt carefully, then dispatch via the **media generation contract** using \`"$OD_NODE_BIN" "$OD_BIN" media generate --surface image --model <imageModel>\`. Do NOT emit \`<artifact>\` HTML for media surfaces.
+This is an **image** project. Plan the prompt carefully, then dispatch via the **media generation contract** using \`"$SW_NODE_BIN" "$SW_BIN" media generate --surface image --model <imageModel>\`. Do NOT emit \`<artifact>\` HTML for media surfaces.
 
 ### Reference prompt template — "Golden Hour Portrait"
 category: portrait · suggested model: seedream · aspect: 3:4 · tags: warm, portrait
@@ -166,6 +166,6 @@ These are the structured choices the user made (or skipped) when creating this p
 - **lengthSeconds**: 5
 - **aspectRatio**: 16:9
 
-This is a **video** project. Plan the shotlist and motion, then dispatch via the **media generation contract** using \`"$OD_NODE_BIN" "$OD_BIN" media generate --surface video --model <videoModel> --length <seconds> --aspect <ratio>\`. Do NOT emit \`<artifact>\` HTML.
+This is a **video** project. Plan the shotlist and motion, then dispatch via the **media generation contract** using \`"$SW_NODE_BIN" "$SW_BIN" media generate --surface video --model <videoModel> --length <seconds> --aspect <ratio>\`. Do NOT emit \`<artifact>\` HTML.
 Special case: \`hyperframes-html\` is a local HTML-to-MP4 renderer, not a photoreal text-to-video model. Treat it like a motion design renderer, ask at most one clarifying question, then dispatch immediately."
 `;

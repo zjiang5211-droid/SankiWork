@@ -1,7 +1,7 @@
 // OD Library — global asset registry contracts.
 //
 // The library is the system-wide asset registration center: every asset that
-// enters Open Design (clipper capture, manual upload, agent-task upload or
+// enters SankiWork (clipper capture, manual upload, agent-task upload or
 // generation, design-system staging) is indexed here through a single
 // `registerLibraryAsset` hook. Each logical asset is deduped by content hash
 // and may carry many source records (1 asset : N sources) so the same image
@@ -24,7 +24,7 @@ export type LibraryAssetKind =
 /**
  * Storage model:
  * - `owned`: the library holds its own content-addressed copy under
- *   LIBRARY_DIR (clipper capture, `od library import`, independent sources).
+ *   LIBRARY_DIR (clipper capture, `sw library import`, independent sources).
  * - `referenced`: the bytes already live inside a project / design-system
  *   directory; the library only stores a pointer + metadata + embedding.
  */
@@ -210,7 +210,7 @@ export interface LibraryElementMeta {
 /**
  * Marker stamped onto an `html` asset's `metadata.figmaCapture` when a clipper
  * capture shipped an OD Figma IR sidecar. Its presence is what gates the
- * Library "Download as Figma" action and the `od library figma` CLI command.
+ * Library "Download as Figma" action and the `sw library figma` CLI command.
  */
 export interface LibraryFigmaCaptureMeta {
   version: number;
@@ -309,7 +309,7 @@ export interface LibraryEditAsPageResponse {
 
 /**
  * Result of a Library reconcile pass (`POST /api/library/sync`, the web "Sync"
- * button, and `od library sync`). Reconcile registers *referenced* Library rows
+ * button, and `sw library sync`). Reconcile registers *referenced* Library rows
  * for design systems and agent-produced project deliverables so the Library
  * mirrors everything a user has made, not just clips/uploads. It is idempotent —
  * re-running it does not duplicate rows — so the counts report what this pass
@@ -331,7 +331,7 @@ export interface LibrarySyncResponse {
 // ---------------------------------------------------------------------------
 //
 // The Library is a design-asset registry, so manual uploads (the web upload UI
-// and `od library import`) are restricted to design-relevant resources —
+// and `sw library import`) are restricted to design-relevant resources —
 // images, fonts, and the text family (plain text, HTML, CSS, Markdown, CSV…)
 // plus JSON / design data. Audio and video are explicitly turned away. This is
 // the single shared policy: the daemon ingest route enforces it as the source

@@ -2,7 +2,7 @@ import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import type { ProcessSnapshot, StopProcessesResult } from "@open-design/platform";
+import type { ProcessSnapshot, StopProcessesResult } from "@sankiwork/platform";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -50,8 +50,8 @@ async function createMacInstalledOuter(): Promise<{
   launchPath: string;
 }> {
   if (process.platform === "win32") {
-    const launchPath = "/Applications/Open Design.app";
-    const executablePath = `${launchPath}/Contents/MacOS/Open Design`;
+    const launchPath = "/Applications/SankiWork.app";
+    const executablePath = `${launchPath}/Contents/MacOS/SankiWork`;
     return {
       executablePath,
       inspectInstalledOuterPath: macInspectMock(launchPath, executablePath),
@@ -60,8 +60,8 @@ async function createMacInstalledOuter(): Promise<{
   }
   const root = await mkdtemp(join(tmpdir(), "od-obsolete-outer-"));
   roots.push(root);
-  const launchPath = join(root, "Open Design.app");
-  const executablePath = join(launchPath, "Contents", "MacOS", "Open Design");
+  const launchPath = join(root, "SankiWork.app");
+  const executablePath = join(launchPath, "Contents", "MacOS", "SankiWork");
   await mkdir(join(launchPath, "Contents", "MacOS"), { recursive: true });
   await writeFile(executablePath, "legacy outer", "utf8");
   return { executablePath, launchPath };
@@ -72,14 +72,14 @@ function fileInspectMock(symbolicLink = false): InspectInstalledOuterPath {
 }
 
 async function createWindowsInstalledOuter(
-  executableName = "Open Design.exe",
+  executableName = "SankiWork.exe",
 ): Promise<{
   executablePath: string;
   inspectInstalledOuterPath?: InspectInstalledOuterPath;
   launchPath: string;
 }> {
   if (process.platform !== "win32") {
-    const executablePath = `C:\\Program Files\\Open Design\\${executableName}`;
+    const executablePath = `C:\\Program Files\\SankiWork\\${executableName}`;
     return { executablePath, inspectInstalledOuterPath: fileInspectMock(), launchPath: executablePath };
   }
   const root = await mkdtemp(join(tmpdir(), "od-obsolete-outer-win-"));
@@ -114,21 +114,21 @@ describe("createObsoleteInstalledOuterRetirement", () => {
     const { executablePath, inspectInstalledOuterPath, launchPath } = await createMacInstalledOuter();
     const snapshots = [
       snapshot(101, 1, executablePath),
-      snapshot(102, 101, `${launchPath}/Contents/Frameworks/Open Design Helper.app/Contents/MacOS/Open Design Helper`),
+      snapshot(102, 101, `${launchPath}/Contents/Frameworks/SankiWork Helper.app/Contents/MacOS/SankiWork Helper`),
       snapshot(103, 102, "helper-child"),
       snapshot(104, 1, `${executablePath} Helper`),
-      snapshot(105, 1, "/unrelated/Open Design"),
-      snapshot(900, 1, "/payload/Open Design.app/Contents/MacOS/Open Design"),
+      snapshot(105, 1, "/unrelated/SankiWork"),
+      snapshot(900, 1, "/payload/SankiWork.app/Contents/MacOS/SankiWork"),
     ];
     const stopProcesses = stopMock();
     const logger = { info: vi.fn(), warn: vi.fn() };
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "/payload/Open Design.app/Contents/MacOS/Open Design",
+      currentExecutablePath: "/payload/SankiWork.app/Contents/MacOS/SankiWork",
       currentPid: 900,
       installedLaunchPath: launchPath,
       logger,
       payloadDesktopProcess: true,
-      payloadExecutablePath: "/payload/Open Design.app/Contents/MacOS/Open Design",
+      payloadExecutablePath: "/payload/SankiWork.app/Contents/MacOS/SankiWork",
       platform: "darwin",
     }, {
       inspectInstalledOuterPath,
@@ -156,7 +156,7 @@ describe("createObsoleteInstalledOuterRetirement", () => {
     const listProcessSnapshots = vi.fn(async () => []);
     const stopProcesses = vi.fn(async () => stopped([]));
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "/installed/Open Design",
+      currentExecutablePath: "/installed/SankiWork",
       currentPid: 900,
       installedLaunchPath: launchPath,
       logger: { info: vi.fn(), warn: vi.fn() },
@@ -174,27 +174,27 @@ describe("createObsoleteInstalledOuterRetirement", () => {
     let inspectInstalledOuterPath: InspectInstalledOuterPath | undefined;
     let launchPath: string;
     if (process.platform === "win32") {
-      launchPath = "/Applications/Open Design.app";
-      const executablePath = `${launchPath}/Contents/MacOS/Open Design`;
+      launchPath = "/Applications/SankiWork.app";
+      const executablePath = `${launchPath}/Contents/MacOS/SankiWork`;
       inspectInstalledOuterPath = macInspectMock(launchPath, executablePath, true);
     } else {
       const root = await mkdtemp(join(tmpdir(), "od-obsolete-outer-symlink-"));
       roots.push(root);
-      launchPath = join(root, "Open Design.app");
+      launchPath = join(root, "SankiWork.app");
       const executableDirectory = join(launchPath, "Contents", "MacOS");
       const target = join(root, "target");
       await mkdir(executableDirectory, { recursive: true });
       await writeFile(target, "not the installed executable", "utf8");
-      await symlink(target, join(executableDirectory, "Open Design"));
+      await symlink(target, join(executableDirectory, "SankiWork"));
     }
     const listProcessSnapshots = vi.fn(async () => []);
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "/payload/Open Design",
+      currentExecutablePath: "/payload/SankiWork",
       currentPid: 900,
       installedLaunchPath: launchPath,
       logger: { info: vi.fn(), warn: vi.fn() },
       payloadDesktopProcess: true,
-      payloadExecutablePath: "/payload/Open Design",
+      payloadExecutablePath: "/payload/SankiWork",
       platform: "darwin",
     }, {
       inspectInstalledOuterPath,
@@ -210,19 +210,19 @@ describe("createObsoleteInstalledOuterRetirement", () => {
     const { executablePath, inspectInstalledOuterPath, launchPath } = await createMacInstalledOuter();
     const stopProcesses = stopMock();
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "/payload/Open Design",
+      currentExecutablePath: "/payload/SankiWork",
       currentPid: 900,
       installedLaunchPath: launchPath,
       logger: { info: vi.fn(), warn: vi.fn() },
       payloadDesktopProcess: true,
-      payloadExecutablePath: "/payload/Open Design",
+      payloadExecutablePath: "/payload/SankiWork",
       platform: "darwin",
     }, {
       inspectInstalledOuterPath,
       listProcessSnapshots: async () => [
         snapshot(101, 1, executablePath),
         snapshot(800, 101, "handoff daemon"),
-        snapshot(900, 800, "/payload/Open Design"),
+        snapshot(900, 800, "/payload/SankiWork"),
         snapshot(901, 900, "payload helper"),
       ],
       stopProcesses,
@@ -246,12 +246,12 @@ describe("createObsoleteInstalledOuterRetirement", () => {
     });
     const stopProcesses = stopMock();
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "/payload/Open Design",
+      currentExecutablePath: "/payload/SankiWork",
       currentPid: 900,
       installedLaunchPath: launchPath,
       logger: { info: vi.fn(), warn: vi.fn() },
       payloadDesktopProcess: true,
-      payloadExecutablePath: "/payload/Open Design",
+      payloadExecutablePath: "/payload/SankiWork",
       platform: "darwin",
     }, { inspectInstalledOuterPath, listProcessSnapshots, stopProcesses });
 
@@ -274,19 +274,19 @@ describe("Windows obsolete installed outer retirement", () => {
     const { executablePath, inspectInstalledOuterPath, launchPath } = await createWindowsInstalledOuter();
     const firstSnapshots = [
       snapshot(201, 1, `"${executablePath.toUpperCase()}"`),
-      snapshot(202, 201, "Open Design.exe --type=gpu-process"),
-      snapshot(203, 202, "Open Design.exe --type=utility"),
-      snapshot(204, 1, `"${executablePath}" od://project/123`),
+      snapshot(202, 201, "SankiWork.exe --type=gpu-process"),
+      snapshot(203, 202, "SankiWork.exe --type=utility"),
+      snapshot(204, 1, `"${executablePath}" sankiwork://project/123`),
       snapshot(205, 1, `${executablePath}.old`),
-      snapshot(900, 1, "C:\\payload\\Open Design.exe"),
+      snapshot(900, 1, "C:\\payload\\SankiWork.exe"),
     ];
     const secondSnapshots = [
       snapshot(201, 1, `"${executablePath}"`),
-      snapshot(202, 201, "Open Design.exe --type=gpu-process"),
-      snapshot(206, 202, "Open Design.exe --type=renderer"),
-      snapshot(204, 1, `"${executablePath}" od://project/123`),
+      snapshot(202, 201, "SankiWork.exe --type=gpu-process"),
+      snapshot(206, 202, "SankiWork.exe --type=renderer"),
+      snapshot(204, 1, `"${executablePath}" sankiwork://project/123`),
       snapshot(205, 1, `${executablePath}.old`),
-      snapshot(900, 1, "C:\\payload\\Open Design.exe"),
+      snapshot(900, 1, "C:\\payload\\SankiWork.exe"),
     ];
     const listProcessSnapshots = vi.fn()
       .mockResolvedValueOnce(firstSnapshots)
@@ -294,12 +294,12 @@ describe("Windows obsolete installed outer retirement", () => {
     const stopProcesses = stopMock();
     const logger = { info: vi.fn(), warn: vi.fn() };
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "C:\\PAYLOAD\\OPEN DESIGN.EXE",
+      currentExecutablePath: "C:\\PAYLOAD\\SANKIWORK.EXE",
       currentPid: 900,
       installedLaunchPath: launchPath,
       logger,
       payloadDesktopProcess: true,
-      payloadExecutablePath: "c:\\payload\\Open Design.exe",
+      payloadExecutablePath: "c:\\payload\\SankiWork.exe",
       platform: "win32",
     }, { inspectInstalledOuterPath, listProcessSnapshots, stopProcesses });
 
@@ -320,20 +320,20 @@ describe("Windows obsolete installed outer retirement", () => {
     const listProcessSnapshots = vi.fn()
       .mockResolvedValueOnce([
         snapshot(201, 1, `"${executablePath}"`),
-        snapshot(202, 201, "Open Design.exe --type=gpu-process"),
+        snapshot(202, 201, "SankiWork.exe --type=gpu-process"),
       ])
       .mockResolvedValueOnce([
         snapshot(201, 1, "C:\\Windows\\System32\\notepad.exe"),
-        snapshot(202, 201, "Open Design.exe --type=gpu-process"),
+        snapshot(202, 201, "SankiWork.exe --type=gpu-process"),
       ]);
     const stopProcesses = stopMock();
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "C:\\payload\\Open Design.exe",
+      currentExecutablePath: "C:\\payload\\SankiWork.exe",
       currentPid: 900,
       installedLaunchPath: launchPath,
       logger: { info: vi.fn(), warn: vi.fn() },
       payloadDesktopProcess: true,
-      payloadExecutablePath: "C:\\payload\\Open Design.exe",
+      payloadExecutablePath: "C:\\payload\\SankiWork.exe",
       platform: "win32",
     }, { inspectInstalledOuterPath, listProcessSnapshots, stopProcesses });
 
@@ -343,16 +343,16 @@ describe("Windows obsolete installed outer retirement", () => {
   });
 
   it("rejects installed executables whose basename does not match the payload", async () => {
-    const { inspectInstalledOuterPath, launchPath } = await createWindowsInstalledOuter("Not Open Design.exe");
+    const { inspectInstalledOuterPath, launchPath } = await createWindowsInstalledOuter("Not SankiWork.exe");
     const listProcessSnapshots = vi.fn(async () => []);
     const stopProcesses = stopMock();
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "C:\\payload\\Open Design.exe",
+      currentExecutablePath: "C:\\payload\\SankiWork.exe",
       currentPid: 900,
       installedLaunchPath: launchPath,
       logger: { info: vi.fn(), warn: vi.fn() },
       payloadDesktopProcess: true,
-      payloadExecutablePath: "C:\\payload\\Open Design.exe",
+      payloadExecutablePath: "C:\\payload\\SankiWork.exe",
       platform: "win32",
     }, { inspectInstalledOuterPath, listProcessSnapshots, stopProcesses });
 
@@ -366,17 +366,17 @@ describe("Windows obsolete installed outer retirement", () => {
     const snapshots = [
       snapshot(201, 1, `"${executablePath}"`),
       snapshot(800, 201, "handoff daemon"),
-      snapshot(900, 800, "C:\\payload\\Open Design.exe"),
+      snapshot(900, 800, "C:\\payload\\SankiWork.exe"),
     ];
     const listProcessSnapshots = vi.fn(async () => snapshots);
     const stopProcesses = stopMock();
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "C:\\payload\\Open Design.exe",
+      currentExecutablePath: "C:\\payload\\SankiWork.exe",
       currentPid: 900,
       installedLaunchPath: launchPath,
       logger: { info: vi.fn(), warn: vi.fn() },
       payloadDesktopProcess: true,
-      payloadExecutablePath: "C:\\payload\\Open Design.exe",
+      payloadExecutablePath: "C:\\payload\\SankiWork.exe",
       platform: "win32",
     }, { inspectInstalledOuterPath, listProcessSnapshots, stopProcesses });
 
@@ -389,16 +389,16 @@ describe("Windows obsolete installed outer retirement", () => {
   });
 
   it("rejects a symlinked Windows executable before enumerating processes", async () => {
-    const executablePath = "C:\\Program Files\\Open Design\\Open Design.exe";
+    const executablePath = "C:\\Program Files\\SankiWork\\SankiWork.exe";
     const listProcessSnapshots = vi.fn(async () => []);
     const stopProcesses = stopMock();
     const retire = createObsoleteInstalledOuterRetirement({
-      currentExecutablePath: "C:\\payload\\Open Design.exe",
+      currentExecutablePath: "C:\\payload\\SankiWork.exe",
       currentPid: 900,
       installedLaunchPath: executablePath,
       logger: { info: vi.fn(), warn: vi.fn() },
       payloadDesktopProcess: true,
-      payloadExecutablePath: "C:\\payload\\Open Design.exe",
+      payloadExecutablePath: "C:\\payload\\SankiWork.exe",
       platform: "win32",
     }, {
       inspectInstalledOuterPath: fileInspectMock(true),

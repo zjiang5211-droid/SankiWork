@@ -3,7 +3,7 @@ import {
   ATTRIBUTION_CLAIM_PATH,
   type AttributionClaimResponse,
   type AttributionClaimSource,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { AnalyticsService } from '../analytics.js';
 import type { AppConfigPrefs } from '../app-config.js';
 import {
@@ -13,7 +13,7 @@ import {
   type PendingAttribution,
 } from '../installation.js';
 
-const DEFAULT_ATTRIBUTION_LEDGER_URL = 'https://download.open-design.ai/api/attribution';
+const DEFAULT_ATTRIBUTION_LEDGER_URL = 'https://download.sanki-ai.cloud/api/attribution';
 
 type ReadAppConfig = (dataDir: string) => Promise<AppConfigPrefs>;
 
@@ -92,8 +92,8 @@ export function createAttributionService(deps: Omit<RegisterAttributionRoutesDep
       const installation = await readInstallationFile(installationDir);
       const installationId = cleanString(appConfig.installationId) ?? cleanString(installation.installationId);
       if (appConfig.telemetry?.metrics !== true || !installationId) return null;
-      const baseUrl = env.OD_ATTRIBUTION_LEDGER_URL?.trim() || DEFAULT_ATTRIBUTION_LEDGER_URL;
-      const secret = env.OD_ATTRIBUTION_LEDGER_TOKEN?.trim();
+      const baseUrl = env.SW_ATTRIBUTION_LEDGER_URL?.trim() || DEFAULT_ATTRIBUTION_LEDGER_URL;
+      const secret = env.SW_ATTRIBUTION_LEDGER_TOKEN?.trim();
       if (!secret) return null;
       try {
         const result = await (deps.fetchImpl ?? fetch)(`${baseUrl.replace(/\/+$/, '')}/bridge/mint`, {
@@ -271,9 +271,9 @@ async function consumeLedgerToken(input: {
   installationId: string;
   token: string;
 }): Promise<LedgerConsumeResult | null> {
-  const baseUrl = input.env.OD_ATTRIBUTION_LEDGER_URL?.trim() || DEFAULT_ATTRIBUTION_LEDGER_URL;
+  const baseUrl = input.env.SW_ATTRIBUTION_LEDGER_URL?.trim() || DEFAULT_ATTRIBUTION_LEDGER_URL;
   if (!baseUrl) return null;
-  const secret = input.env.OD_ATTRIBUTION_LEDGER_TOKEN?.trim();
+  const secret = input.env.SW_ATTRIBUTION_LEDGER_TOKEN?.trim();
   const url = `${baseUrl.replace(/\/+$/, '')}/consume`;
   try {
     const response = await input.fetchImpl(url, {
@@ -331,7 +331,7 @@ function trustedFirstPartyUrl(value: string): URL | null {
   try {
     const url = new URL(value);
     if (url.protocol !== 'https:') return null;
-    return ['open-design.ai', 'www.open-design.ai', 'staging.open-design.ai'].includes(url.hostname)
+    return ['sanki-ai.cloud', 'www.sanki-ai.cloud', 'staging.sanki-ai.cloud'].includes(url.hostname)
       ? url
       : null;
   } catch {

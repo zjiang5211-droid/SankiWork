@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import type { DesignSystemTokenContractRebuildJobResponse } from '@open-design/contracts';
+import type { DesignSystemTokenContractRebuildJobResponse } from '@sankiwork/contracts';
 
 import { isLocalSameOrigin } from '../src/origin-validation.js';
 import { listDesignSystems } from '../src/design-systems/index.js';
@@ -51,7 +51,7 @@ describe('static resource mutation routes', () => {
             DESIGN_SYSTEMS_DIR: path.join(tempRoot, 'design-systems'),
             DESIGN_TEMPLATES_DIR: path.join(tempRoot, 'design-templates'),
             LIBRARY_DIR: path.join(tempRoot, 'library'),
-            OD_BIN: path.join(tempRoot, 'od'),
+            SW_BIN: path.join(tempRoot, 'od'),
             PROJECT_ROOT: tempRoot,
             PROJECTS_DIR: path.join(tempRoot, 'projects'),
             PROMPT_TEMPLATES_DIR: path.join(tempRoot, 'prompt-templates'),
@@ -223,7 +223,7 @@ describe('design system import catalog lookup', () => {
             DESIGN_SYSTEMS_DIR: path.join(tempRoot, 'design-systems'),
             DESIGN_TEMPLATES_DIR: path.join(tempRoot, 'design-templates'),
             LIBRARY_DIR: path.join(tempRoot, 'library'),
-            OD_BIN: path.join(tempRoot, 'od'),
+            SW_BIN: path.join(tempRoot, 'od'),
             PROJECT_ROOT: tempRoot,
             PROJECTS_DIR: path.join(tempRoot, 'projects'),
             PROMPT_TEMPLATES_DIR: path.join(tempRoot, 'prompt-templates'),

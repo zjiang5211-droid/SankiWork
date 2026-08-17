@@ -43,7 +43,7 @@
  *   - HALT  — at a hard ceiling, terminate the child so the worst case is
  *             bounded instead of open-ended. Opt-in: the daemon defaults to
  *             warn (heads-up only); operators enable the hard stop via
- *             OD_TOOL_LOOP_GUARD=halt.
+ *             SW_TOOL_LOOP_GUARD=halt.
  *
  * Latching: WARN fires at most once; after it, continued failures can still
  * escalate to HALT (also once). HALT supersedes WARN if the first counted
@@ -60,11 +60,11 @@ export type ToolLoopAction = 'warn' | 'halt';
 /** Operating mode. `off` disables the guard entirely. `warn` (the daemon
  *  default) only ever emits heads-up events and never halts. `halt` warns
  *  first, then terminates the run at the hard ceiling; opt in via
- *  OD_TOOL_LOOP_GUARD=halt. */
+ *  SW_TOOL_LOOP_GUARD=halt. */
 export type ToolLoopMode = 'off' | 'warn' | 'halt';
 
 /** The verdict returned the instant a threshold is crossed. Shaped to match
- *  the `tool_loop` SSE payload in `@open-design/contracts`. */
+ *  the `tool_loop` SSE payload in `@sankiwork/contracts`. */
 export interface ToolLoopVerdict {
   type: 'tool_loop';
   reason: ToolLoopReason;
@@ -455,15 +455,15 @@ export function createToolLoopGuard(options: ToolLoopGuardOptions = {}): ToolLoo
 }
 
 /**
- * Resolve the guard mode from the environment. `OD_TOOL_LOOP_GUARD` accepts
+ * Resolve the guard mode from the environment. `SW_TOOL_LOOP_GUARD` accepts
  * `warn` (default), `halt`, or `off`. The default is `warn`: a heuristic guard
  * should surface a heads-up before it terminates anyone's run, and operators
  * opt into `halt` for the hard stop. Anything unrecognised falls back to `warn`
- * so a typo never changes behavior unexpectedly. Mirrors the OD_*_GUARD
- * convention (e.g. OD_ARTIFACT_STUB_GUARD).
+ * so a typo never changes behavior unexpectedly. Mirrors the SW_*_GUARD
+ * convention (e.g. SW_ARTIFACT_STUB_GUARD).
  */
 export function resolveToolLoopMode(env: NodeJS.ProcessEnv = process.env): ToolLoopMode {
-  const raw = (env.OD_TOOL_LOOP_GUARD ?? '').trim().toLowerCase();
+  const raw = (env.SW_TOOL_LOOP_GUARD ?? '').trim().toLowerCase();
   if (raw === 'off' || raw === 'warn' || raw === 'halt') return raw;
   return 'warn';
 }

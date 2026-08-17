@@ -1,7 +1,7 @@
 // @ts-nocheck
 // Install/uninstall logic for user-managed skills and design systems.
-// Installed items live under ~/.open-design/skills/ and
-// ~/.open-design/design-systems/ respectively.
+// Installed items live under ~/.sankiwork/skills/ and
+// ~/.sankiwork/design-systems/ respectively.
 
 import { execFile } from 'node:child_process';
 import fs from 'node:fs';
@@ -55,7 +55,7 @@ export async function containsSymlink(dir) {
 
 /**
  * @param {InstallTarget} target
- * @param {string} userDir - user-installed directory (e.g. ~/.open-design/skills)
+ * @param {string} userDir - user-installed directory (e.g. ~/.sankiwork/skills)
  * @param {'skill' | 'design-system'} kind
  * @returns {Promise<{ok: true, dir: string} | {ok: false, error: string}>}
  */

@@ -102,7 +102,7 @@ type PlatformCase = {
   expectedPayloadExecutablePath: (root: string, namespace: string) => string;
   expectedResourceRoot: (root: string, namespace: string) => string;
   fixturePlatformKey: "mac" | "win";
-  productName: "Open Design" | "Open Design Beta" | "Open Design Prerelease";
+  productName: "SankiWork" | "SankiWork Beta" | "SankiWork Prerelease";
   namespace: "release-beta" | "release-beta-win" | "release-prerelease";
   payloadArchiveName: string;
   payloadPath: string;
@@ -134,7 +134,7 @@ function fakePackagedConfig(root: string, testCase: PlatformCase): PackagedConfi
     nodeCommand: null,
     posthogHost: null,
     posthogKey: null,
-    resourceRoot: join(root, "installed", "resources", "open-design"),
+    resourceRoot: join(root, "installed", "resources", "sankiwork"),
     telemetryRelayUrl: null,
     webOutputMode: "server",
     webSidecarEntry: null,
@@ -149,7 +149,7 @@ function serverAddress(server: Server): string {
 }
 
 async function createPayloadMetadataFixture(options: PlatformCase): Promise<FixtureServer> {
-  const payloadBody = Buffer.from("open design launcher payload update loop fixture");
+  const payloadBody = Buffer.from("sankiwork launcher payload update loop fixture");
   const payloadDigest = createHash("sha256").update(payloadBody).digest("hex");
   const server = createServer((request, response) => {
     const url = request.url ?? "/";
@@ -168,8 +168,8 @@ async function createPayloadMetadataFixture(options: PlatformCase): Promise<Fixt
             artifacts: {
               [options.platform === "win32" ? "installer" : "dmg"]: {
                 name: options.platform === "win32"
-                  ? `open-design-${options.promotedVersion}-win-x64-setup.exe`
-                  : `open-design-${options.promotedVersion}-mac-arm64.dmg`,
+                  ? `sankiwork-${options.promotedVersion}-win-x64-setup.exe`
+                  : `sankiwork-${options.promotedVersion}-mac-arm64.dmg`,
                 sha256: "unused-full-package-checksum",
                 url: `http://${serverAddress(server)}/${options.platform === "win32" ? "installer.exe" : "app.dmg"}`,
               },
@@ -219,19 +219,19 @@ async function createPayloadMetadataFixture(options: PlatformCase): Promise<Fixt
 
 async function writeExtractedWindowsPayload(destinationRoot: string, testCase: PlatformCase): Promise<void> {
   const executableName = `${testCase.productName}.exe`;
-  await mkdir(join(destinationRoot, "payload", "resources", "open-design", "bin"), { recursive: true });
+  await mkdir(join(destinationRoot, "payload", "resources", "sankiwork", "bin"), { recursive: true });
   await mkdir(join(destinationRoot, "payload", "resources", "prebundled", "daemon"), { recursive: true });
   await mkdir(join(destinationRoot, "payload", "resources", "prebundled", "web"), { recursive: true });
   await writeFile(join(destinationRoot, "payload", executableName), "");
-  await writeFile(join(destinationRoot, "payload", "resources", "open-design", "bin", "node.exe"), "");
+  await writeFile(join(destinationRoot, "payload", "resources", "sankiwork", "bin", "node.exe"), "");
   await writeFile(join(destinationRoot, "payload", "resources", "prebundled", "daemon", "daemon-sidecar.mjs"), "");
   await writeFile(join(destinationRoot, "payload", "resources", "prebundled", "web", "web-sidecar.mjs"), "");
   await writeFile(
-    join(destinationRoot, "payload", "resources", "open-design-config.json"),
+    join(destinationRoot, "payload", "resources", "sankiwork-config.json"),
     `${JSON.stringify({
       appVersion: testCase.promotedVersion,
       daemonSidecarEntryRelative: "prebundled/daemon/daemon-sidecar.mjs",
-      nodeCommandRelative: "open-design/bin/node.exe",
+      nodeCommandRelative: "sankiwork/bin/node.exe",
       webOutputMode: "standalone",
       webSidecarEntryRelative: "prebundled/web/web-sidecar.mjs",
     })}\n`,
@@ -253,20 +253,20 @@ async function writeExtractedWindowsPayload(destinationRoot: string, testCase: P
 async function writeExtractedMacPayload(destinationRoot: string, testCase: PlatformCase): Promise<void> {
   const appBundleName = `${testCase.productName}.app`;
   const resourcesRoot = join(destinationRoot, "payload", appBundleName, "Contents", "Resources");
-  await mkdir(join(resourcesRoot, "open-design", "bin"), { recursive: true });
+  await mkdir(join(resourcesRoot, "sankiwork", "bin"), { recursive: true });
   await mkdir(join(resourcesRoot, "prebundled", "daemon"), { recursive: true });
   await mkdir(join(resourcesRoot, "prebundled", "web"), { recursive: true });
   await mkdir(join(destinationRoot, "payload", appBundleName, "Contents", "MacOS"), { recursive: true });
   await writeFile(join(destinationRoot, "payload", appBundleName, "Contents", "MacOS", testCase.productName), "");
-  await writeFile(join(resourcesRoot, "open-design", "bin", "node"), "");
+  await writeFile(join(resourcesRoot, "sankiwork", "bin", "node"), "");
   await writeFile(join(resourcesRoot, "prebundled", "daemon", "daemon-sidecar.mjs"), "");
   await writeFile(join(resourcesRoot, "prebundled", "web", "web-sidecar.mjs"), "");
   await writeFile(
-    join(resourcesRoot, "open-design-config.json"),
+    join(resourcesRoot, "sankiwork-config.json"),
     `${JSON.stringify({
       appVersion: testCase.promotedVersion,
       daemonSidecarEntryRelative: "prebundled/daemon/daemon-sidecar.mjs",
-      nodeCommandRelative: "open-design/bin/node",
+      nodeCommandRelative: "sankiwork/bin/node",
       webOutputMode: "standalone",
       webSidecarEntryRelative: "prebundled/web/web-sidecar.mjs",
     })}\n`,
@@ -298,13 +298,13 @@ const platformCases: PlatformCase[] = [
     channel: "beta",
     currentVersion: "1.2.3-beta.4",
     expectedPayloadExecutablePath: (root, namespace) =>
-      join(root, "launcher", "channels", "beta", "namespaces", namespace, "versions", "1.2.3-beta.5", "payload", "Open Design.exe"),
+      join(root, "launcher", "channels", "beta", "namespaces", namespace, "versions", "1.2.3-beta.5", "payload", "SankiWork.exe"),
     expectedResourceRoot: (root, namespace) =>
-      join(root, "launcher", "channels", "beta", "namespaces", namespace, "versions", "1.2.3-beta.5", "payload", "resources", "open-design"),
+      join(root, "launcher", "channels", "beta", "namespaces", namespace, "versions", "1.2.3-beta.5", "payload", "resources", "sankiwork"),
     fixturePlatformKey: "win",
     namespace: "release-beta-win",
-    productName: "Open Design",
-    payloadArchiveName: "open-design-1.2.3-beta.5-win-x64-payload.7z",
+    productName: "SankiWork",
+    payloadArchiveName: "sankiwork-1.2.3-beta.5-win-x64-payload.7z",
     payloadPath: "/payload.7z",
     platform: "win32",
     promotedVersion: "1.2.3-beta.5",
@@ -315,13 +315,13 @@ const platformCases: PlatformCase[] = [
     channel: "beta",
     currentVersion: "1.2.3-beta.4",
     expectedPayloadExecutablePath: (root, namespace) =>
-      join(root, "launcher", "channels", "beta", "namespaces", namespace, "versions", "1.2.3-beta.5", "payload", "Open Design Beta.app", "Contents", "MacOS", "Open Design Beta"),
+      join(root, "launcher", "channels", "beta", "namespaces", namespace, "versions", "1.2.3-beta.5", "payload", "SankiWork Beta.app", "Contents", "MacOS", "SankiWork Beta"),
     expectedResourceRoot: (root, namespace) =>
-      join(root, "launcher", "channels", "beta", "namespaces", namespace, "versions", "1.2.3-beta.5", "payload", "Open Design Beta.app", "Contents", "Resources", "open-design"),
+      join(root, "launcher", "channels", "beta", "namespaces", namespace, "versions", "1.2.3-beta.5", "payload", "SankiWork Beta.app", "Contents", "Resources", "sankiwork"),
     fixturePlatformKey: "mac",
     namespace: "release-beta",
-    productName: "Open Design Beta",
-    payloadArchiveName: "open-design-1.2.3-beta.5-mac-arm64-payload.zip",
+    productName: "SankiWork Beta",
+    payloadArchiveName: "sankiwork-1.2.3-beta.5-mac-arm64-payload.zip",
     payloadPath: "/payload.zip",
     platform: "darwin",
     promotedVersion: "1.2.3-beta.5",
@@ -332,13 +332,13 @@ const platformCases: PlatformCase[] = [
     channel: "prerelease",
     currentVersion: "1.2.3-prerelease.4",
     expectedPayloadExecutablePath: (root, namespace) =>
-      join(root, "launcher", "channels", "prerelease", "namespaces", namespace, "versions", "1.2.3-prerelease.5", "payload", "Open Design Prerelease.app", "Contents", "MacOS", "Open Design Prerelease"),
+      join(root, "launcher", "channels", "prerelease", "namespaces", namespace, "versions", "1.2.3-prerelease.5", "payload", "SankiWork Prerelease.app", "Contents", "MacOS", "SankiWork Prerelease"),
     expectedResourceRoot: (root, namespace) =>
-      join(root, "launcher", "channels", "prerelease", "namespaces", namespace, "versions", "1.2.3-prerelease.5", "payload", "Open Design Prerelease.app", "Contents", "Resources", "open-design"),
+      join(root, "launcher", "channels", "prerelease", "namespaces", namespace, "versions", "1.2.3-prerelease.5", "payload", "SankiWork Prerelease.app", "Contents", "Resources", "sankiwork"),
     fixturePlatformKey: "mac",
     namespace: "release-prerelease",
-    productName: "Open Design Prerelease",
-    payloadArchiveName: "open-design-1.2.3-prerelease.5-mac-arm64-payload.zip",
+    productName: "SankiWork Prerelease",
+    payloadArchiveName: "sankiwork-1.2.3-prerelease.5-mac-arm64-payload.zip",
     payloadPath: "/prerelease-payload.zip",
     platform: "darwin",
     promotedVersion: "1.2.3-prerelease.5",
@@ -502,7 +502,7 @@ describe("packaged launcher payload update loop", () => {
  *  - the RUNNING version (`config.currentVersion`) advances with every payload
  *    update, so after one payload update it no longer describes the shell;
  *  - the INSTALLED OUTER version is read from the outer bundle's own
- *    `open-design-config.json` and is what an installer reinstall replaces.
+ *    `sankiwork-config.json` and is what an installer reinstall replaces.
  *
  * A shell too old to run the new payload therefore looks CURRENT on the running
  * axis. Every scenario below keeps the two apart so a regression that compares
@@ -531,7 +531,7 @@ const RUNNING_PAYLOAD_VERSION = "0.16.1";
 /** The release that requires the newer outer, and the floor it publishes. */
 const RELEASE_VERSION = "0.17.0";
 /** Operator-supplied recovery link. Never an internal hostname in source. */
-const FLOOR_URL = "https://example.test/open-design/download";
+const FLOOR_URL = "https://example.test/sankiwork/download";
 
 const CONFIGURED_FLOOR: NodeJS.ProcessEnv = {
   RELEASE_LAUNCHER_VERSION_MIN_STABLE: RELEASE_VERSION,
@@ -596,13 +596,13 @@ async function createFloorMetadataFixture(options: {
   target: FloorPlatformTarget;
 }): Promise<FixtureServer> {
   const { target } = options;
-  const payloadBody = Buffer.from("open design reinstall floor fixture payload");
+  const payloadBody = Buffer.from("sankiwork reinstall floor fixture payload");
   const payloadDigest = createHash("sha256").update(payloadBody).digest("hex");
-  const payloadArchiveName = `open-design-${RELEASE_VERSION}-${target.fixturePlatformKey}-${target.arch}-payload${target.payloadArchiveExtension}`;
+  const payloadArchiveName = `sankiwork-${RELEASE_VERSION}-${target.fixturePlatformKey}-${target.arch}-payload${target.payloadArchiveExtension}`;
   // The installer artifact needs real bytes and a real digest here: every
   // reinstall scenario selects it, and the updater verifies it before it will
   // expose an install action.
-  const installerBody = Buffer.from("open design reinstall floor fixture installer");
+  const installerBody = Buffer.from("sankiwork reinstall floor fixture installer");
   const installerDigest = createHash("sha256").update(installerBody).digest("hex");
   const server = createServer((request, response) => {
     const url = request.url ?? "/";
@@ -618,7 +618,7 @@ async function createFloorMetadataFixture(options: {
             enabled: true,
             artifacts: {
               [target.installerArtifactKey]: {
-                name: `open-design-${RELEASE_VERSION}-${target.fixturePlatformKey}-${target.arch}${target.installerExtension}`,
+                name: `sankiwork-${RELEASE_VERSION}-${target.fixturePlatformKey}-${target.arch}${target.installerExtension}`,
                 sha256: installerDigest,
                 size: installerBody.byteLength,
                 url: `http://${serverAddress(server)}/installer${target.installerExtension}`,
@@ -708,23 +708,23 @@ type FloorPlatformTarget = {
  * effect stays the only difference between scenarios.
  */
 async function writeExtractedFloorMacPayload(destinationRoot: string): Promise<void> {
-  const appBundleName = "Open Design.app";
+  const appBundleName = "SankiWork.app";
   const bundleRoot = join(destinationRoot, "payload", appBundleName);
   const resourcesRoot = join(bundleRoot, "Contents", "Resources");
-  await mkdir(join(resourcesRoot, "open-design", "bin"), { recursive: true });
+  await mkdir(join(resourcesRoot, "sankiwork", "bin"), { recursive: true });
   await mkdir(join(resourcesRoot, "prebundled", "daemon"), { recursive: true });
   await mkdir(join(resourcesRoot, "prebundled", "web"), { recursive: true });
   await mkdir(join(bundleRoot, "Contents", "MacOS"), { recursive: true });
-  await writeFile(join(bundleRoot, "Contents", "MacOS", "Open Design"), "");
-  await writeFile(join(resourcesRoot, "open-design", "bin", "node"), "");
+  await writeFile(join(bundleRoot, "Contents", "MacOS", "SankiWork"), "");
+  await writeFile(join(resourcesRoot, "sankiwork", "bin", "node"), "");
   await writeFile(join(resourcesRoot, "prebundled", "daemon", "daemon-sidecar.mjs"), "");
   await writeFile(join(resourcesRoot, "prebundled", "web", "web-sidecar.mjs"), "");
   await writeFile(
-    join(resourcesRoot, "open-design-config.json"),
+    join(resourcesRoot, "sankiwork-config.json"),
     `${JSON.stringify({
       appVersion: RELEASE_VERSION,
       daemonSidecarEntryRelative: "prebundled/daemon/daemon-sidecar.mjs",
-      nodeCommandRelative: "open-design/bin/node",
+      nodeCommandRelative: "sankiwork/bin/node",
       webOutputMode: "standalone",
       webSidecarEntryRelative: "prebundled/web/web-sidecar.mjs",
     })}\n`,
@@ -735,7 +735,7 @@ async function writeExtractedFloorMacPayload(destinationRoot: string): Promise<v
       channel: CHANNEL,
       entry: {
         cwd: `payload/${appBundleName}`,
-        executable: `payload/${appBundleName}/Contents/MacOS/Open Design`,
+        executable: `payload/${appBundleName}/Contents/MacOS/SankiWork`,
       },
       namespace: "default",
       payloadRoot: "payload",
@@ -748,22 +748,22 @@ async function writeExtractedFloorMacPayload(destinationRoot: string): Promise<v
 
 /** The Windows counterpart: a flat payload rooted at the executable. */
 async function writeExtractedFloorWindowsPayload(destinationRoot: string): Promise<void> {
-  const executableName = "Open Design.exe";
+  const executableName = "SankiWork.exe";
   const payloadRoot = join(destinationRoot, "payload");
   const resourcesRoot = join(payloadRoot, "resources");
-  await mkdir(join(resourcesRoot, "open-design", "bin"), { recursive: true });
+  await mkdir(join(resourcesRoot, "sankiwork", "bin"), { recursive: true });
   await mkdir(join(resourcesRoot, "prebundled", "daemon"), { recursive: true });
   await mkdir(join(resourcesRoot, "prebundled", "web"), { recursive: true });
   await writeFile(join(payloadRoot, executableName), "");
-  await writeFile(join(resourcesRoot, "open-design", "bin", "node.exe"), "");
+  await writeFile(join(resourcesRoot, "sankiwork", "bin", "node.exe"), "");
   await writeFile(join(resourcesRoot, "prebundled", "daemon", "daemon-sidecar.mjs"), "");
   await writeFile(join(resourcesRoot, "prebundled", "web", "web-sidecar.mjs"), "");
   await writeFile(
-    join(resourcesRoot, "open-design-config.json"),
+    join(resourcesRoot, "sankiwork-config.json"),
     `${JSON.stringify({
       appVersion: RELEASE_VERSION,
       daemonSidecarEntryRelative: "prebundled/daemon/daemon-sidecar.mjs",
-      nodeCommandRelative: "open-design/bin/node.exe",
+      nodeCommandRelative: "sankiwork/bin/node.exe",
       webOutputMode: "standalone",
       webSidecarEntryRelative: "prebundled/web/web-sidecar.mjs",
     })}\n`,
@@ -785,9 +785,9 @@ async function writeExtractedFloorWindowsPayload(destinationRoot: string): Promi
 const floorPlatformTargets = {
   mac: {
     arch: "arm64",
-    // Inside the bundle: <launchPath>/Contents/Resources/open-design-config.json
-    installedOuterConfigPath: (launchPath) => join(launchPath, "Contents", "Resources", "open-design-config.json"),
-    installedLaunchPath: (installedRoot) => join(installedRoot, "Open Design.app"),
+    // Inside the bundle: <launchPath>/Contents/Resources/sankiwork-config.json
+    installedOuterConfigPath: (launchPath) => join(launchPath, "Contents", "Resources", "sankiwork-config.json"),
+    installedLaunchPath: (installedRoot) => join(installedRoot, "SankiWork.app"),
     installedLaunchPathIsDirectory: true,
     installerArtifactKey: "dmg",
     installerExtension: ".dmg",
@@ -798,9 +798,9 @@ const floorPlatformTargets = {
   },
   win: {
     arch: "x64",
-    // Beside the executable: dirname(<launchPath>)/resources/open-design-config.json
-    installedOuterConfigPath: (launchPath) => join(dirname(launchPath), "resources", "open-design-config.json"),
-    installedLaunchPath: (installedRoot) => join(installedRoot, "Open Design.exe"),
+    // Beside the executable: dirname(<launchPath>)/resources/sankiwork-config.json
+    installedOuterConfigPath: (launchPath) => join(dirname(launchPath), "resources", "sankiwork-config.json"),
+    installedLaunchPath: (installedRoot) => join(installedRoot, "SankiWork.exe"),
     installedLaunchPathIsDirectory: false,
     installerArtifactKey: "installer",
     installerExtension: ".exe",
@@ -814,7 +814,7 @@ const floorPlatformTargets = {
 /**
  * Materialize the physically installed outer package the update check will read
  * its version from — the real file at the real per-platform location, never the
- * `OD_UPDATE_INSTALLED_VERSION` override, because that override short-circuits
+ * `SW_UPDATE_INSTALLED_VERSION` override, because that override short-circuits
  * `resolveInstalledOuterVersion` before the platform branch it is meant to
  * exercise. Pass a null version to leave the package present but unidentifiable.
  */
@@ -842,7 +842,7 @@ type FloorScenario = {
   /**
    * What the physically installed outer package reports, or `null` to leave it
    * present but unidentifiable — the state a client lands in when the outer's
-   * own `open-design-config.json` cannot be read.
+   * own `sankiwork-config.json` cannot be read.
    */
   installedOuterVersion: string | null;
   /** Remote launcher-contract schema, when the ABI axis is under test. */
@@ -888,7 +888,7 @@ async function checkPackagedUpdate(scenario: FloorScenario): Promise<{
       nodeCommand: null,
       posthogHost: null,
       posthogKey: null,
-      resourceRoot: join(root, "installed", "resources", "open-design"),
+      resourceRoot: join(root, "installed", "resources", "sankiwork"),
       telemetryRelayUrl: null,
       webOutputMode: "server",
       webSidecarEntry: null,

@@ -115,7 +115,7 @@ interface Props extends Omit<SVGProps<SVGSVGElement>, 'name'> {
 }
 
 // #5517 swapped the app's icon language to Remix Icon (the demo renders
-// `ri-*` font glyphs). Packaged od:// documents cannot load url() fonts at
+// `ri-*` font glyphs). Packaged sankiwork:// documents cannot load url() fonts at
 // all, so we render the same glyphs as inline SVG path data instead
 // (extracted from remixicon@4.9.1 into remix-icon-paths.ts). Names missing
 // here fall back to the legacy hand-drawn stroke set below.
@@ -225,7 +225,7 @@ const REMIX_ICON: Partial<Record<IconName, string>> = {
 
 /**
  * Lightweight inline-SVG icon set tuned to the design system. Most names map
- * to Remix Icon glyphs (#5517 icon language, inlined for od://); the
+ * to Remix Icon glyphs (#5517 icon language, inlined for sankiwork://); the
  * remaining stroke-based (Feather/Lucide style) drawings below are the
  * fallback for names Remix doesn't cover. Use sparingly inside buttons that
  * already have accessible labels — set `aria-hidden` by default.
@@ -264,7 +264,7 @@ export function Icon({ name, size = 14, strokeWidth = 1.6, ...rest }: Props) {
     focusable: 'false' as const,
     // Every glyph carries `od-icon`, the hook ~35 selectors across
     // entry-layout / design-files / plus-menu / recent-projects style against.
-    // Moving off the icon FONT to inline SVG (packaged `od://` can't load
+    // Moving off the icon FONT to inline SVG (packaged `sankiwork://` can't load
     // url() fonts) dropped this class, which silently killed all of them —
     // several stylesheets already carry `> svg` workarounds noting as much.
     className: `od-icon${strokeClassName ? ` ${strokeClassName}` : ''}`,

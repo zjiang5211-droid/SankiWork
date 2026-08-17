@@ -11,7 +11,7 @@
 import { readdir, rm, stat } from "node:fs/promises";
 import { join } from "node:path";
 
-import { removePathBestEffort } from "@open-design/platform";
+import { removePathBestEffort } from "@sankiwork/platform";
 
 import { DEFAULT_PRUNE_OLDER_THAN_MS, LOCK_DIR, PARTIAL_DIR, STATE_DIR } from "./constants.js";
 import { ensureManagedBase } from "./store.js";

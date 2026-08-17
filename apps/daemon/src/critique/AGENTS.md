@@ -9,7 +9,7 @@ without churning code paths.
 
 | File | Responsibility |
 |---|---|
-| `config.ts` | `CritiqueConfig` defaults + `OD_CRITIQUE_*` env-var parsing. The single source of truth for thresholds, weights, max-rounds, timeouts. |
+| `config.ts` | `CritiqueConfig` defaults + `SW_CRITIQUE_*` env-var parsing. The single source of truth for thresholds, weights, max-rounds, timeouts. |
 | `orchestrator.ts` | The state machine. Spawns a CLI session, feeds the panelist prompts in order, awaits each round's SHIP / round_end, and decides whether to continue or terminate. |
 | `parser.ts` + `parsers/v1.ts` | Streaming parser that ingests the agent's stdout and yields `PanelEvent`s. Owns the `<CRITIQUE_RUN>`, `<PANELIST>`, `<SHIP>` envelope. |
 | `errors.ts` | Typed parser failures: `MalformedBlockError`, `OversizeBlockError`, `MissingArtifactError`. Each maps to a `DegradedReason` so the wire-level `critique.degraded` event carries the right tag. |

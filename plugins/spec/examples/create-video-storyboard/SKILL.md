@@ -3,7 +3,7 @@ name: create-video-storyboard
 description: Use this plugin when the user wants a video concept, storyboard, shot list, prompt pack, or render-ready motion brief for a product, campaign, or explainer.
 license: MIT
 metadata:
-  author: open-design-spec
+  author: sankiwork-spec
   version: "0.1.0"
 od:
   mode: video

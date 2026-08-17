@@ -11,7 +11,7 @@ import {
 } from '../../src/db.js';
 import {
   accountScopedRunWorkspaceScopeForProject,
-  openDesignAmrTraceEnvForRun,
+  sankiWorkAmrTraceEnvForRun,
   pinRunWorkspaceScopeForProject,
 } from '../../src/runtimes/project-amr-trace-env.js';
 
@@ -48,14 +48,14 @@ function projectDb(input: {
   return db;
 }
 
-describe('openDesignAmrTraceEnvForRun', () => {
+describe('sankiWorkAmrTraceEnvForRun', () => {
   it('does not resolve project scope for a non-AMR runtime', async () => {
     const db = projectDb({
       projectId: 'project-a',
       workspaceId: 'workspace-a',
       memberId: 'member-a',
     });
-    await expect(openDesignAmrTraceEnvForRun({
+    await expect(sankiWorkAmrTraceEnvForRun({
       agentId: 'claude',
       runId: 'run-claude',
       runAttempt: 0,
@@ -69,7 +69,7 @@ describe('openDesignAmrTraceEnvForRun', () => {
       workspaceId: 'workspace-a',
       memberId: 'member-a',
     });
-    const env = await openDesignAmrTraceEnvForRun({
+    const env = await sankiWorkAmrTraceEnvForRun({
       agentId: 'amr',
       runId: 'run-a',
       conversationId: 'conversation-a',
@@ -79,9 +79,9 @@ describe('openDesignAmrTraceEnvForRun', () => {
     });
 
     expect(env).toMatchObject({
-      OPEN_DESIGN_RUN_ID: 'run-a',
-      OPEN_DESIGN_SESSION_ID: 'conversation-a',
-      OPEN_DESIGN_WORKSPACE_ID: 'workspace-a',
+      SANKIWORK_RUN_ID: 'run-a',
+      SANKIWORK_SESSION_ID: 'conversation-a',
+      SANKIWORK_WORKSPACE_ID: 'workspace-a',
     });
   });
 
@@ -91,7 +91,7 @@ describe('openDesignAmrTraceEnvForRun', () => {
       workspaceId: 'workspace-team',
       memberId: 'member-team',
     });
-    const env = await openDesignAmrTraceEnvForRun({
+    const env = await sankiWorkAmrTraceEnvForRun({
       agentId: 'amr',
       runId: 'run-team-draft',
       runAttempt: 0,
@@ -99,7 +99,7 @@ describe('openDesignAmrTraceEnvForRun', () => {
       workspaceScope: pinRunWorkspaceScopeForProject(db, 'project-team-draft'),
     });
 
-    expect(env.OPEN_DESIGN_WORKSPACE_ID).toBe('workspace-team');
+    expect(env.SANKIWORK_WORKSPACE_ID).toBe('workspace-team');
   });
 
   it('passes a persisted Personal Workspace explicitly instead of treating it as unscoped', async () => {
@@ -108,7 +108,7 @@ describe('openDesignAmrTraceEnvForRun', () => {
       workspaceId: 'workspace-personal',
       memberId: 'member-personal',
     });
-    const env = await openDesignAmrTraceEnvForRun({
+    const env = await sankiWorkAmrTraceEnvForRun({
       agentId: 'amr',
       runId: 'run-personal',
       runAttempt: 0,
@@ -116,25 +116,25 @@ describe('openDesignAmrTraceEnvForRun', () => {
       workspaceScope: pinRunWorkspaceScopeForProject(db, 'project-personal'),
     });
 
-    expect(env.OPEN_DESIGN_WORKSPACE_ID).toBe('workspace-personal');
+    expect(env.SANKIWORK_WORKSPACE_ID).toBe('workspace-personal');
   });
 
   it('spawns a truly unbound local project on the signed-in account wallet', async () => {
     const db = projectDb({ projectId: 'project-legacy' });
-    const env = await openDesignAmrTraceEnvForRun({
+    const env = await sankiWorkAmrTraceEnvForRun({
       agentId: 'amr',
       runId: 'run-legacy',
       runAttempt: 0,
       projectId: 'project-legacy',
       workspaceScope: accountScopedRunWorkspaceScopeForProject('project-legacy'),
     });
-    expect(env.OPEN_DESIGN_RUN_ID).toBe('run-legacy');
-    expect(env).not.toHaveProperty('OPEN_DESIGN_WORKSPACE_ID');
+    expect(env.SANKIWORK_RUN_ID).toBe('run-legacy');
+    expect(env).not.toHaveProperty('SANKIWORK_WORKSPACE_ID');
   });
 
   it('does not infer account scope from a missing run proof', async () => {
     projectDb({ projectId: 'project-proof-missing' });
-    await expect(openDesignAmrTraceEnvForRun({
+    await expect(sankiWorkAmrTraceEnvForRun({
       agentId: 'amr',
       runId: 'run-proof-missing',
       runAttempt: 0,
@@ -148,7 +148,7 @@ describe('openDesignAmrTraceEnvForRun', () => {
 
   it('refuses AMR scratch execution without a Workspace-bound project', async () => {
     const db = projectDb({ projectId: 'project-control' });
-    await expect(openDesignAmrTraceEnvForRun({
+    await expect(sankiWorkAmrTraceEnvForRun({
       agentId: 'amr',
       runId: 'run-scratch',
       runAttempt: 0,

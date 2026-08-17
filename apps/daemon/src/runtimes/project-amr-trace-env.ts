@@ -1,5 +1,5 @@
 import { getWorkspaceProjectByProjectId } from '../db.js';
-import { openDesignAmrTraceEnv } from './env.js';
+import { sankiWorkAmrTraceEnv } from './env.js';
 
 type SqliteDb = Parameters<typeof getWorkspaceProjectByProjectId>[0];
 
@@ -109,11 +109,11 @@ export function pinRunWorkspaceScopeForProject(
  * Project A stays pinned to A for initial spawn and every retry even if the UI
  * switches to B, authority lookup is unavailable, or the project is later
  * rebound. Vela/AMR receives the signed-in account credentials plus
- * `OPEN_DESIGN_WORKSPACE_ID=A` and remains the final authorization/billing
+ * `SANKIWORK_WORKSPACE_ID=A` and remains the final authorization/billing
  * authority. A genuinely unbound local project stays account-scoped and omits
  * the Workspace env var on every attempt.
  */
-export async function openDesignAmrTraceEnvForRun(
+export async function sankiWorkAmrTraceEnvForRun(
   input: {
     agentId: string;
     runId: string;
@@ -138,7 +138,7 @@ export async function openDesignAmrTraceEnvForRun(
       ? { externalPluginAnalytics: input.externalPluginAnalytics }
       : {}),
   };
-  if (input.agentId !== 'amr') return openDesignAmrTraceEnv(traceInput);
+  if (input.agentId !== 'amr') return sankiWorkAmrTraceEnv(traceInput);
 
   const projectId = input.projectId?.trim();
   if (!projectId) throw new AmrWorkspaceScopeRequiredError(null);
@@ -164,11 +164,11 @@ export async function openDesignAmrTraceEnvForRun(
     workspaceId,
   });
   if (!workspaceId) {
-    if (accountScoped) return openDesignAmrTraceEnv(traceInput);
+    if (accountScoped) return sankiWorkAmrTraceEnv(traceInput);
     throw new AmrWorkspaceScopeRequiredError(projectId);
   }
 
-  return openDesignAmrTraceEnv({
+  return sankiWorkAmrTraceEnv({
     ...traceInput,
     workspaceId,
   });

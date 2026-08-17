@@ -10,7 +10,7 @@ import type {
   AnalyticsPublisherClass,
   TrackingRuntimeType,
 } from '../public-params.js';
-import type { ReleaseChannel } from '@open-design/release';
+import type { ReleaseChannel } from '@sankiwork/release';
 import type { ArtifactOriginEntrySurface, ArtifactOriginStatus } from '../../api/files.js';
 import type { TrackingDesignSystemEditSurface, TrackingDesignSystemKind, TrackingDesignSystemLengthBucket, TrackingDesignSystemOrigin, TrackingDesignSystemRunEntryFrom } from './design-systems.js';
 import type { TrackingSettingsPage } from './event-names.js';
@@ -382,7 +382,7 @@ export interface RunCreatedProps extends RunTaskLineageProps {
   tokens: RunTokenProps;
   design_system?: RunDesignSystemProps;
   // External MCP/Plugin attribution. These fields are optional so existing UI
-  // and CLI Run producers keep their current contract; the Open Design Cloud
+  // and CLI Run producers keep their current contract; the SankiWork Cloud
   // Plugin path validates and supplies the complete subset.
   entry_surface?: AnalyticsEntrySurface;
   host_product?: AnalyticsHostProduct;
@@ -723,7 +723,7 @@ export type FileUploadResultProps = TrackingFileUploadSurface & {
 export interface ArtifactExportResultProps {
   page_name: 'artifact';
   area: 'share_option_popover';
-  entry_surface: 'open_design_ui';
+  entry_surface: 'sankiwork_ui';
   artifact_id: string;
   artifact_kind: TrackingArtifactKind;
   export_format: TrackingExportFormat;

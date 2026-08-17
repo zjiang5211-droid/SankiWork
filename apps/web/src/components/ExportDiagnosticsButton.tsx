@@ -9,18 +9,18 @@ type DesktopExportResult =
   | { ok: false; cancelled: true }
   | { ok: false; cancelled: false; message: string };
 
-interface OpenDesignDesktopApi {
+interface SankiWorkDesktopApi {
   exportDiagnostics(): Promise<DesktopExportResult>;
 }
 
 declare global {
   interface Window {
-    openDesignDesktop?: OpenDesignDesktopApi;
+    sankiWorkDesktop?: SankiWorkDesktopApi;
   }
 }
 
 const DIAGNOSTICS_EXPORT_PATH = '/api/diagnostics/export';
-const DIAGNOSTICS_FILENAME_PREFIX = 'open-design-diagnostics';
+const DIAGNOSTICS_FILENAME_PREFIX = 'sankiwork-diagnostics';
 const STATUS_CLEAR_MS = 6000;
 
 type Status =
@@ -78,7 +78,7 @@ async function exportViaHttp(): Promise<{ filename: string }> {
 /**
  * Designed for the Settings → About panel. Renders a labeled button with a
  * short status line below it. Works in both the Electron shell (uses native
- * save dialog via window.openDesignDesktop) and the browser (triggers a
+ * save dialog via window.sankiWorkDesktop) and the browser (triggers a
  * browser download via the daemon HTTP endpoint).
  */
 export function ExportDiagnosticsRow() {
@@ -99,8 +99,8 @@ export function ExportDiagnosticsRow() {
     if (status.kind === 'busy') return;
     setStatus({ kind: 'busy' });
     try {
-      if (window.openDesignDesktop != null) {
-        const result = await window.openDesignDesktop.exportDiagnostics();
+      if (window.sankiWorkDesktop != null) {
+        const result = await window.sankiWorkDesktop.exportDiagnostics();
         if (result.ok) {
           setStatus({ kind: 'success', message: t('diagnostics.exportSuccess').replace('{path}', result.path) });
           scheduleClear();

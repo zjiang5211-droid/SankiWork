@@ -15,7 +15,7 @@ type ServerModule = {
   startServer: (options: { port: number; returnServer: boolean }) => Promise<StartedServer>;
 };
 
-const originalDataDir = process.env.OD_DATA_DIR;
+const originalDataDir = process.env.SW_DATA_DIR;
 let started: StartedServer | null = null;
 let dataDir: string | null = null;
 let serverModule: ServerModule | null = null;
@@ -26,8 +26,8 @@ describe('project design-system copy route', () => {
     register.clear();
     if (dataDir) await rm(dataDir, { recursive: true, force: true });
     dataDir = null;
-    if (originalDataDir === undefined) delete process.env.OD_DATA_DIR;
-    else process.env.OD_DATA_DIR = originalDataDir;
+    if (originalDataDir === undefined) delete process.env.SW_DATA_DIR;
+    else process.env.SW_DATA_DIR = originalDataDir;
     serverModule = null;
     vi.resetModules();
   }, 30_000);
@@ -74,7 +74,7 @@ describe('project design-system copy route', () => {
     expect(copied.project.designSystemId).toMatch(/^user:/);
     expect(copied.designSystemId).toBe(copied.project.designSystemId);
     expect(copied.conversationId).toBeTruthy();
-    expect(copied.project.pendingPrompt).toContain('complete Open Design design system');
+    expect(copied.project.pendingPrompt).toContain('complete SankiWork design system');
     expect(copied.project.pendingPrompt).toContain('context/source-context.md');
     expect(copied.project.pendingPrompt).toContain('refs/brand.md');
     expect(copied.project.metadata).toMatchObject({
@@ -254,7 +254,7 @@ describe('project design-system copy route', () => {
 });
 
 async function startIsolatedServer(root: string): Promise<StartedServer> {
-  process.env.OD_DATA_DIR = root;
+  process.env.SW_DATA_DIR = root;
   if (!serverModule) {
     vi.resetModules();
     serverModule = await import('../src/server.js') as unknown as ServerModule;

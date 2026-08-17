@@ -35,18 +35,18 @@ function seedWalletLogin(): void {
 
 beforeEach(() => {
   originalHome = process.env.HOME;
-  originalProfile = process.env.OPEN_DESIGN_AMR_PROFILE;
+  originalProfile = process.env.SANKIWORK_AMR_PROFILE;
   testHome = mkdtempSync(path.join(tmpdir(), 'od-vela-wallet-'));
   process.env.HOME = testHome;
-  process.env.OPEN_DESIGN_AMR_PROFILE = 'local';
+  process.env.SANKIWORK_AMR_PROFILE = 'local';
   seedWalletLogin();
 });
 
 afterEach(() => {
   if (originalHome === undefined) delete process.env.HOME;
   else process.env.HOME = originalHome;
-  if (originalProfile === undefined) delete process.env.OPEN_DESIGN_AMR_PROFILE;
-  else process.env.OPEN_DESIGN_AMR_PROFILE = originalProfile;
+  if (originalProfile === undefined) delete process.env.SANKIWORK_AMR_PROFILE;
+  else process.env.SANKIWORK_AMR_PROFILE = originalProfile;
   rmSync(testHome, { recursive: true, force: true });
 });
 

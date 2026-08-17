@@ -707,7 +707,7 @@ test('cursor stream emits partial text once and usage events', () => {
     '\n' +
     JSON.stringify({
       type: 'assistant',
-      message: { role: 'assistant', content: [{ type: 'text', text: 'OD_OK' }] },
+      message: { role: 'assistant', content: [{ type: 'text', text: 'SW_OK' }] },
     }) +
     '\n' +
     JSON.stringify({
@@ -1445,7 +1445,7 @@ test('codex json stream surfaces disallowed connector tool selections as termina
       item: {
         id: 'item-connector',
         type: 'command_execution',
-        command: 'od tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
+        command: 'sw tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
         aggregated_output: '',
         exit_code: null,
         status: 'in_progress',
@@ -1457,7 +1457,7 @@ test('codex json stream surfaces disallowed connector tool selections as termina
       item: {
         id: 'item-connector',
         type: 'command_execution',
-        command: 'od tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
+        command: 'sw tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
         aggregated_output: `${connectorError}\n`,
         exit_code: 1,
         status: 'failed',
@@ -1472,7 +1472,7 @@ test('codex json stream surfaces disallowed connector tool selections as termina
       id: 'item-connector',
       name: 'Bash',
       input: {
-        command: 'od tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
+        command: 'sw tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
       },
     },
     {
@@ -1513,7 +1513,7 @@ test('codex json stream finds connector tool errors after earlier noise json out
       item: {
         id: 'item-connector-noise',
         type: 'command_execution',
-        command: 'od tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
+        command: 'sw tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
         aggregated_output: '',
         exit_code: null,
         status: 'in_progress',
@@ -1525,7 +1525,7 @@ test('codex json stream finds connector tool errors after earlier noise json out
       item: {
         id: 'item-connector-noise',
         type: 'command_execution',
-        command: 'od tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
+        command: 'sw tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
         aggregated_output: `${noiseLine}\n${connectorError}\n`,
         exit_code: 1,
         status: 'failed',
@@ -1540,7 +1540,7 @@ test('codex json stream finds connector tool errors after earlier noise json out
       id: 'item-connector-noise',
       name: 'Bash',
       input: {
-        command: 'od tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
+        command: 'sw tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
       },
     },
     {
@@ -1579,7 +1579,7 @@ test('codex json stream surfaces wrapped connector tool errors as terminal error
       item: {
         id: 'item-connector-wrapped',
         type: 'command_execution',
-        command: 'od tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
+        command: 'sw tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
         aggregated_output: '',
         exit_code: null,
         status: 'in_progress',
@@ -1591,7 +1591,7 @@ test('codex json stream surfaces wrapped connector tool errors as terminal error
       item: {
         id: 'item-connector-wrapped',
         type: 'command_execution',
-        command: 'od tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
+        command: 'sw tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
         aggregated_output: `${connectorError}\n`,
         exit_code: 1,
         status: 'failed',
@@ -1606,7 +1606,7 @@ test('codex json stream surfaces wrapped connector tool errors as terminal error
       id: 'item-connector-wrapped',
       name: 'Bash',
       input: {
-        command: 'od tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
+        command: 'sw tools connectors execute --connector github --tool github.github_list_notifications --input .daily-digest-tmp/notifications.json',
       },
     },
     {

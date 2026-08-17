@@ -2,13 +2,13 @@
 // (entry slice).
 //
 // Stores user-configured federated catalog indexes in
-// `plugin_marketplaces`. The actual `od plugin install <name>` resolution
+// `plugin_marketplaces`. The actual `sw plugin install <name>` resolution
 // through these catalogs lands in Phase 3 alongside the trust UI; this
 // module is the storage + refresh half so the desktop / CLI can already
 // register and inspect catalogs.
 //
 // We intentionally treat the catalog body as opaque JSON in v1 — Zod
-// validation lives in `@open-design/plugin-runtime`'s parser and we only
+// validation lives in `@sankiwork/plugin-runtime`'s parser and we only
 // store what the parser returns. Trust default mirrors §9: a freshly
 // added user-supplied marketplace is `restricted` (discovery only)
 // unless `--trust` is passed.
@@ -19,11 +19,11 @@ import type Database from 'better-sqlite3';
 import {
   parseMarketplace,
   type MarketplaceParseResult,
-} from '@open-design/plugin-runtime';
+} from '@sankiwork/plugin-runtime';
 import {
-  OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+  SANKIWORK_PLUGIN_SPEC_VERSION,
   type MarketplaceManifest,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   parsePluginSpecifier,
   resolveMarketplaceEntryVersion,
@@ -77,22 +77,22 @@ const HTTPS_RE = /^https:\/\//i;
 const DEFAULT_MARKETPLACE_REPO = 'nexu-io/open-design';
 const DEFAULT_MARKETPLACE_REPO_REF = 'main';
 const DEFAULT_MARKETPLACE_REGISTRY_PATH = 'plugins/registry';
-const PUBLIC_MARKETPLACE_BASE_URL = 'https://open-design.ai/marketplace';
-const PUBLIC_PLUGINS_BASE_URL = 'https://open-design.ai/plugins';
+const PUBLIC_MARKETPLACE_BASE_URL = 'https://sanki-ai.cloud/marketplace';
+const PUBLIC_PLUGINS_BASE_URL = 'https://sanki-ai.cloud/plugins';
 
 function marketplaceRegistryRepo(): string {
-  return (process.env.OD_MARKETPLACE_REPO?.trim() || DEFAULT_MARKETPLACE_REPO)
+  return (process.env.SW_MARKETPLACE_REPO?.trim() || DEFAULT_MARKETPLACE_REPO)
     .replace(/^\/+|\/+$/g, '');
 }
 
 export function marketplaceRegistryBaseUrl(): string {
-  const explicit = process.env.OD_MARKETPLACE_REGISTRY_BASE_URL?.trim();
+  const explicit = process.env.SW_MARKETPLACE_REGISTRY_BASE_URL?.trim();
   if (explicit) return explicit.replace(/\/+$/, '');
 
   const repo = marketplaceRegistryRepo();
-  const ref = (process.env.OD_MARKETPLACE_REPO_REF?.trim() || DEFAULT_MARKETPLACE_REPO_REF)
+  const ref = (process.env.SW_MARKETPLACE_REPO_REF?.trim() || DEFAULT_MARKETPLACE_REPO_REF)
     .replace(/^\/+|\/+$/g, '');
-  const registryPath = (process.env.OD_MARKETPLACE_REGISTRY_PATH?.trim() || DEFAULT_MARKETPLACE_REGISTRY_PATH)
+  const registryPath = (process.env.SW_MARKETPLACE_REGISTRY_PATH?.trim() || DEFAULT_MARKETPLACE_REGISTRY_PATH)
     .replace(/^\/+|\/+$/g, '');
   return `https://raw.githubusercontent.com/${repo}/${ref}/${registryPath}`;
 }
@@ -439,7 +439,7 @@ function safeParseManifest(raw: string): MarketplaceManifest {
       ...legacy,
       specVersion: typeof legacy['specVersion'] === 'string'
         ? legacy['specVersion'] as string
-        : OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+        : SANKIWORK_PLUGIN_SPEC_VERSION,
       name: typeof legacy['name'] === 'string' ? legacy['name'] as string : 'unknown',
       version: typeof legacy['version'] === 'string' && (legacy['version'] as string).length > 0
         ? legacy['version'] as string
@@ -454,7 +454,7 @@ function safeParseManifest(raw: string): MarketplaceManifest {
   // Last-resort fallback: return a minimal shape so the caller doesn't
   // explode if a database row was stored before a schema patch.
   return {
-    specVersion: OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+    specVersion: SANKIWORK_PLUGIN_SPEC_VERSION,
     name: 'unknown',
     version: '0.0.0',
     plugins: [],

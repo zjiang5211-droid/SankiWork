@@ -98,16 +98,16 @@ describe('intent signals × stable prompt cache', () => {
     started = null;
     if (binDir) await rm(binDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 });
     binDir = null;
-    // OD_DATA_DIR is shared by every test file in this Vitest process, so a
+    // SW_DATA_DIR is shared by every test file in this Vitest process, so a
     // memory entry left behind here would silently join the personal-memory
     // block of unrelated suites.
-    if (process.env.OD_DATA_DIR) {
+    if (process.env.SW_DATA_DIR) {
       for (const id of createdMemoryIds.splice(0)) {
-        await deleteMemoryEntry(process.env.OD_DATA_DIR, id);
+        await deleteMemoryEntry(process.env.SW_DATA_DIR, id);
       }
     }
-    if (process.env.OD_DATA_DIR && originalMemoryConfig) {
-      await writeMemoryConfig(process.env.OD_DATA_DIR, {
+    if (process.env.SW_DATA_DIR && originalMemoryConfig) {
+      await writeMemoryConfig(process.env.SW_DATA_DIR, {
         enabled: originalMemoryConfig.enabled,
         extraction: originalMemoryConfig.extraction ?? null,
       });
@@ -127,8 +127,8 @@ describe('intent signals × stable prompt cache', () => {
     type: string;
     body: string;
   }): Promise<void> {
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR must be set for this suite');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR must be set for this suite');
     const entry = await upsertMemoryEntry(dataDir, input, { silent: true, source: 'manual' });
     createdMemoryIds.push(entry.id);
   }
@@ -145,9 +145,9 @@ describe('intent signals × stable prompt cache', () => {
     // `memoryEnabled` turns the block back on for the tests that assert on
     // memory attribution itself; `extraction` stays null either way so only
     // what the test writes can move the block.
-    if (process.env.OD_DATA_DIR) {
-      originalMemoryConfig = await readMemoryConfig(process.env.OD_DATA_DIR);
-      await writeMemoryConfig(process.env.OD_DATA_DIR, {
+    if (process.env.SW_DATA_DIR) {
+      originalMemoryConfig = await readMemoryConfig(process.env.SW_DATA_DIR);
+      await writeMemoryConfig(process.env.SW_DATA_DIR, {
         enabled: memoryEnabled,
         extraction: null,
       });
@@ -406,7 +406,7 @@ function snapshotEnv(): Record<string, string | undefined> {
     LANGFUSE_PUBLIC_KEY: process.env.LANGFUSE_PUBLIC_KEY,
     LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
     LANGFUSE_BASE_URL: process.env.LANGFUSE_BASE_URL,
-    OPEN_DESIGN_TELEMETRY_RELAY_URL: process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL,
+    SANKIWORK_TELEMETRY_RELAY_URL: process.env.SANKIWORK_TELEMETRY_RELAY_URL,
     POSTHOG_KEY: process.env.POSTHOG_KEY,
     POSTHOG_HOST: process.env.POSTHOG_HOST,
   };
@@ -425,5 +425,5 @@ function clearTelemetryEnv(): void {
   delete process.env.LANGFUSE_PUBLIC_KEY;
   delete process.env.LANGFUSE_SECRET_KEY;
   delete process.env.LANGFUSE_BASE_URL;
-  delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+  delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
 }

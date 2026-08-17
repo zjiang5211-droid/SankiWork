@@ -1,7 +1,7 @@
 // Pure core of the desktop invite hand-off — no electron import, so it is unit
 // testable. The electron scheme registration lives in `invite-deeplink.ts`.
 
-export const INVITE_DEEPLINK_SCHEME = "opendesign";
+export const INVITE_DEEPLINK_SCHEME = "sankiwork";
 const INVITE_DEEPLINK_HOST = "workspace";
 const INVITE_DEEPLINK_PATH = "/invite/continue";
 const WORKSPACE_OPEN_DEEPLINK_PATH = "/open";
@@ -16,7 +16,7 @@ interface ParsedInviteDeeplink {
 }
 
 /**
- * Parse `opendesign://workspace/invite/continue?workspace_id=&member_id=&invite_id=
+ * Parse `sankiwork://workspace/invite/continue?workspace_id=&member_id=&invite_id=
  * &nonce=` into its four required fields, or null if the scheme/host/path is wrong
  * or any field is missing. The desktop only forwards the nonce to the daemon, but
  * all four are validated so a malformed deeplink is rejected rather than
@@ -43,7 +43,7 @@ function parseInviteDeeplink(url: string): ParsedInviteDeeplink | null {
 }
 
 /**
- * True for `opendesign://workspace/open[?...]` — the cloud device-activation
+ * True for `sankiwork://workspace/open[?...]` — the cloud device-activation
  * page fires this after a client-originated sign-in completes in the browser,
  * to hand the user back to the desktop app. It carries no payload on purpose:
  * the login itself lands through the daemon's `vela login` polling, so handling
@@ -121,7 +121,7 @@ export function createInviteDeeplinkDispatcher(
   };
 }
 
-/** Extract an `opendesign://` url from a process argv list, if present. */
+/** Extract an `sankiwork://` url from a process argv list, if present. */
 export function findDeeplinkArg(argv: readonly string[]): string | null {
   return argv.find((arg) => arg.startsWith(`${INVITE_DEEPLINK_SCHEME}://`)) ?? null;
 }

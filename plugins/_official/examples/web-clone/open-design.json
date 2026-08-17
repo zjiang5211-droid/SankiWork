@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://sanki-ai.cloud/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-web-clone",
   "title": "Website Clone",
@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Jane xiaoer / Open Design",
+    "name": "Jane xiaoer / SankiWork",
     "url": "https://github.com/Jane-xiaoer/claude-skill-web-clone"
   },
   "homepage": "https://github.com/Jane-xiaoer/claude-skill-web-clone",

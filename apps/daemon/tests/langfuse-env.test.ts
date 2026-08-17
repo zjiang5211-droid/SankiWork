@@ -2,19 +2,19 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { buildTracePayload } from '../src/langfuse-trace.js';
 
-const ORIGINAL_OD_TELEMETRY_ENV = process.env.OD_TELEMETRY_ENV;
+const ORIGINAL_SW_TELEMETRY_ENV = process.env.SW_TELEMETRY_ENV;
 
 afterEach(() => {
-  if (ORIGINAL_OD_TELEMETRY_ENV === undefined) {
-    delete process.env.OD_TELEMETRY_ENV;
+  if (ORIGINAL_SW_TELEMETRY_ENV === undefined) {
+    delete process.env.SW_TELEMETRY_ENV;
   } else {
-    process.env.OD_TELEMETRY_ENV = ORIGINAL_OD_TELEMETRY_ENV;
+    process.env.SW_TELEMETRY_ENV = ORIGINAL_SW_TELEMETRY_ENV;
   }
 });
 
 describe('langfuse telemetry environment', () => {
   it('stamps trace metadata with env', () => {
-    process.env.OD_TELEMETRY_ENV = 'local_development';
+    process.env.SW_TELEMETRY_ENV = 'local_development';
 
     const batch = buildTracePayload({
       installationId: 'install-1',

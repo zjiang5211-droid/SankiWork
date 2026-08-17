@@ -12,7 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from 'react-dom';
-import { Button } from '@open-design/components';
+import { Button } from '@sankiwork/components';
 import { useI18n } from '../i18n';
 import { localizePluginDescription, localizePluginTitle } from './plugins-home/localization';
 import type { Dict, Locale } from '../i18n/types';
@@ -34,8 +34,8 @@ import {
 import type {
   ComposerBarClickProps,
   DesignToolboxClickProps,
-} from '@open-design/contracts/analytics';
-import { sessionModeToTracking } from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
+import { sessionModeToTracking } from '@sankiwork/contracts/analytics';
 import { deriveUploadCohort } from '../analytics/upload-tracking';
 import { projectRawUrl, uploadProjectFiles, openFolderDialog, fetchRecentLinkedDirs, pushRecentLinkedDir, dirExists, applyLibraryAsset, fetchLibraryAssetElementHtml } from "../providers/registry";
 import {
@@ -59,7 +59,7 @@ import type {
   RunContextSelection,
   WorkspaceCollabContext,
   WorkspaceContextItem,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { buildVisualAnnotationAttachment, commentTargetDisplayName } from '../comments';
 import { Icon, type IconName } from "./Icon";
 import { ComposerPlusMenu, PLUS_SUBMENU_RESOURCE_KIND, type PlusMenuSubmenu } from './ComposerPlusMenu';
@@ -72,7 +72,7 @@ import {
 } from './ProjectReferenceModal';
 import { assetTitle, elementMetaOf } from './LibraryAssetMeta';
 import { ComposerModePicker } from './ComposerModePicker';
-import type { LibraryAsset, LibraryElementMeta } from '@open-design/contracts';
+import type { LibraryAsset, LibraryElementMeta } from '@sankiwork/contracts';
 import {
   DESIGN_TOOLBOX_ACTIONS,
   designToolboxActionBadge,
@@ -113,7 +113,7 @@ import { ANNOTATION_EVENT, type AnnotationEventDetail } from "./PreviewDrawOverl
  * design browser's hover "添加到对话" capture, which writes the PNG via
  * writeProjectBase64File before notifying the composer.
  */
-export const STAGE_ATTACHMENT_EVENT = 'opendesign:stage-attachment';
+export const STAGE_ATTACHMENT_EVENT = 'sankiwork:stage-attachment';
 export interface StageAttachmentEventDetail {
   attachments: ChatAttachment[];
 }
@@ -386,7 +386,7 @@ export interface ChatComposerHandle {
   /** Open the standalone toolbox popover (the 设计百宝箱 quick pill above the
    *  composer input; the "+" menu no longer carries a toolbox row). `opener` is
    *  the control focus returns to when the popover is dismissed. */
-  openDesignToolbox: (opener?: HTMLElement | null) => void;
+  sankiWorkToolbox: (opener?: HTMLElement | null) => void;
   /** Open the standalone plugins popover (the 插件 quick pill above the
    *  composer input; the "+" menu no longer carries a plugins row). `opener` is
    *  the control focus returns to when the popover is dismissed. */
@@ -550,7 +550,7 @@ export const ChatComposer = forwardRef<ChatComposerHandle, Props>(
     const [stagedSkills, setStagedSkills] = useState<SkillSummary[]>([]);
     // Legacy standalone design-toolbox popover. The next-step card now renders
     // its own cascading skill menu, so nothing opens this anymore; kept compiling
-    // behind `openDesignToolbox` until the panel subsystem is removed wholesale.
+    // behind `sankiWorkToolbox` until the panel subsystem is removed wholesale.
     const [designToolboxOpen, setDesignToolboxOpen] = useState(false);
     const [pluginsPanelOpen, setPluginsPanelOpen] = useState(false);
     // Shared close timer for the two legacy standalone popovers (插件 /
@@ -1092,9 +1092,9 @@ export const ChatComposer = forwardRef<ChatComposerHandle, Props>(
           `Search for: ${query}`,
           '',
           'Before answering, your first tool action must be the OD research command for your shell.',
-          'POSIX: "$OD_NODE_BIN" "$OD_BIN" research search --query "<search query>" --max-sources 5',
-          'PowerShell: & $env:OD_NODE_BIN $env:OD_BIN research search --query "<search query>" --max-sources 5',
-          'cmd.exe: "%OD_NODE_BIN%" "%OD_BIN%" research search --query "<search query>" --max-sources 5',
+          'POSIX: "$SW_NODE_BIN" "$SW_BIN" research search --query "<search query>" --max-sources 5',
+          'PowerShell: & $env:SW_NODE_BIN $env:SW_BIN research search --query "<search query>" --max-sources 5',
+          'cmd.exe: "%SW_NODE_BIN%" "%SW_BIN%" research search --query "<search query>" --max-sources 5',
           'Use the canonical query below as the exact search query, with safe quoting for your shell.',
           '',
           'Canonical query:',
@@ -1221,7 +1221,7 @@ export const ChatComposer = forwardRef<ChatComposerHandle, Props>(
           pendingEntryFromRef.current = 'next_step';
           applyDesignToolboxSkillByIdRef.current(skillId);
         },
-        openDesignToolbox: (opener?: HTMLElement | null) => {
+        sankiWorkToolbox: (opener?: HTMLElement | null) => {
           cancelComposerPanelClose();
           setComposerEngaged(true);
           panelOpenerRef.current = resolveStandalonePanelOpener(opener);
@@ -2812,7 +2812,7 @@ export const ChatComposer = forwardRef<ChatComposerHandle, Props>(
     const showStopButton = streaming && !hasComposerPayload;
     const showSendButton = !streaming || hasComposerPayload;
 
-    const openDesignSystemPicker = () => {
+    const sankiWorkSystemPicker = () => {
       const trigger = composerRootRef.current?.querySelector<HTMLButtonElement>(
         '[data-testid="project-ds-picker-trigger"]',
       );
@@ -3290,9 +3290,9 @@ export const ChatComposer = forwardRef<ChatComposerHandle, Props>(
                 });
                 setFigmaHelpOpen(true);
               }}
-              onOpenDesignSystems={projectId && designSystemPicker ? () => {
+              onSankiWorkSystems={projectId && designSystemPicker ? () => {
                 trackComposerBar({ element: 'design_system_open' });
-                openDesignSystemPicker();
+                sankiWorkSystemPicker();
               } : undefined}
               // 插件 and 设计百宝箱 live inside the "+" menu (right below
               // 工作目录) as hover-expand submenus. The toolbox flyout reuses
@@ -4263,7 +4263,7 @@ function ToolsPluginsPanel({
           {plugins.length === 0 ? (
             <>
               No plugins installed yet. Browse Official or add your own with{' '}
-              <code>od plugin install &lt;source&gt;</code>.
+              <code>sw plugin install &lt;source&gt;</code>.
             </>
           ) : query ? (
             <>No {source === 'community' ? 'Official' : 'My plugins'} results for “{query}”.</>

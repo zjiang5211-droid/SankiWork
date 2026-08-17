@@ -1,6 +1,6 @@
 /**
  * Regression coverage for the URL-policy helpers re-exported from
- * `@open-design/desktop/main`. The helpers are part of the security
+ * `@sankiwork/desktop/main`. The helpers are part of the security
  * boundary for child-window navigation (see `setWindowOpenHandler`
  * in `apps/desktop/src/main/runtime.ts`); the packaged workspace
  * hosts the test because `apps/desktop` itself has no vitest setup
@@ -32,7 +32,7 @@ import {
   isAllowedEmbeddedBrowserUrl,
   isHttpUrl,
   resolveDesktopStatusUrl,
-} from '@open-design/desktop/main';
+} from '@sankiwork/desktop/main';
 
 describe('isHttpUrl', () => {
   it('matches http and https protocols', () => {
@@ -41,7 +41,7 @@ describe('isHttpUrl', () => {
   });
 
   it('rejects non-http schemes', () => {
-    expect(isHttpUrl('od://app/foo')).toBe(false);
+    expect(isHttpUrl('sankiwork://app/foo')).toBe(false);
     expect(isHttpUrl('file:///etc/passwd')).toBe(false);
     expect(isHttpUrl('blob:http://x/abc')).toBe(false);
     expect(isHttpUrl('javascript:alert(1)')).toBe(false);
@@ -55,14 +55,14 @@ describe('isHttpUrl', () => {
 });
 
 describe('isAllowedChildWindowUrl (issue #911)', () => {
-  it('allows the packaged od:// scheme so live artifact previews open in a child BrowserWindow', () => {
+  it('allows the packaged sankiwork:// scheme so live artifact previews open in a child BrowserWindow', () => {
     // The flagship #911 case: the Orbit panel's "Open artifact"
     // button is an `<a target="_blank" href="/api/live-artifacts/.../preview?projectId=...">`.
-    // In packaged builds the renderer lives at `od://app/`, so that
-    // relative href resolves to `od://app/api/live-artifacts/.../preview?projectId=...`
+    // In packaged builds the renderer lives at `sankiwork://app/`, so that
+    // relative href resolves to `sankiwork://app/api/live-artifacts/.../preview?projectId=...`
     // by the time `setWindowOpenHandler` sees it.
-    expect(isAllowedChildWindowUrl('od://app/api/live-artifacts/abc/preview?projectId=p1')).toBe(true);
-    expect(isAllowedChildWindowUrl('od://app/')).toBe(true);
+    expect(isAllowedChildWindowUrl('sankiwork://app/api/live-artifacts/abc/preview?projectId=p1')).toBe(true);
+    expect(isAllowedChildWindowUrl('sankiwork://app/')).toBe(true);
   });
 
   it('continues to allow blob: URLs (existing behaviour)', () => {
@@ -118,19 +118,19 @@ describe('isAllowedEmbeddedBrowserUrl', () => {
   it('rejects executable or privileged schemes for embedded browser startup', () => {
     expect(isAllowedEmbeddedBrowserUrl('javascript:alert(1)')).toBe(false);
     expect(isAllowedEmbeddedBrowserUrl('data:text/html,<script>alert(1)</script>')).toBe(false);
-    expect(isAllowedEmbeddedBrowserUrl('od://app/')).toBe(false);
+    expect(isAllowedEmbeddedBrowserUrl('sankiwork://app/')).toBe(false);
     expect(isAllowedEmbeddedBrowserUrl('not a url')).toBe(false);
   });
 });
 
 describe('resolveDesktopStatusUrl', () => {
   it('reports the pending URL while navigation is in flight', () => {
-    expect(resolveDesktopStatusUrl(null, 'od://app/')).toBe('od://app/');
-    expect(resolveDesktopStatusUrl('http://127.0.0.1:3000/', 'od://app/')).toBe('od://app/');
+    expect(resolveDesktopStatusUrl(null, 'sankiwork://app/')).toBe('sankiwork://app/');
+    expect(resolveDesktopStatusUrl('http://127.0.0.1:3000/', 'sankiwork://app/')).toBe('sankiwork://app/');
   });
 
   it('falls back to the last successful URL when no navigation is pending', () => {
-    expect(resolveDesktopStatusUrl('od://app/', null)).toBe('od://app/');
+    expect(resolveDesktopStatusUrl('sankiwork://app/', null)).toBe('sankiwork://app/');
     expect(resolveDesktopStatusUrl(null, null)).toBe(null);
   });
 });

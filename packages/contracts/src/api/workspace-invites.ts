@@ -74,10 +74,10 @@ export function normalizeWorkspaceInviteCreateErrorCode(
 }
 
 /** The custom URL scheme the desktop client registers for continuation deeplinks. */
-export const INVITE_DEEPLINK_SCHEME = 'opendesign' as const;
+export const INVITE_DEEPLINK_SCHEME = 'sankiwork' as const;
 export type InviteDeeplinkScheme = typeof INVITE_DEEPLINK_SCHEME;
 
-/** Fixed authority + path of a continuation deeplink: `opendesign://workspace/invite/continue`. */
+/** Fixed authority + path of a continuation deeplink: `sankiwork://workspace/invite/continue`. */
 export const INVITE_DEEPLINK_PATH = 'workspace/invite/continue' as const;
 
 /** Client capability + install hints B returns with a preview. */
@@ -309,7 +309,7 @@ export interface InviteDeeplinkPayload {
 
 /**
  * Build the canonical continuation deeplink:
- *   `opendesign://workspace/invite/continue?workspace_id=..&member_id=..&invite_id=..&nonce=..`
+ *   `sankiwork://workspace/invite/continue?workspace_id=..&member_id=..&invite_id=..&nonce=..`
  *
  * In production B mints `deeplinkUrl` directly; this is the symmetric
  * constructor used for the fallback path and round-trip tests.
@@ -338,7 +338,7 @@ export function parseInviteDeeplink(url: string): InviteDeeplinkPayload | null {
     return null;
   }
   if (parsed.protocol !== `${INVITE_DEEPLINK_SCHEME}:`) return null;
-  // Non-special scheme: `opendesign://workspace/invite/continue` parses to
+  // Non-special scheme: `sankiwork://workspace/invite/continue` parses to
   // host='workspace', pathname='/invite/continue'. Recombine and strip any
   // trailing slash before comparing to the fixed authority+path.
   const path = `${parsed.host}${parsed.pathname}`.replace(/\/+$/, '');

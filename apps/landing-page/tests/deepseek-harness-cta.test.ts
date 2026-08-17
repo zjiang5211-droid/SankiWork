@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import {
   DEEPSEEK_HARNESS_REPO,
   DOWNLOAD_HREF,
-  OPEN_DESIGN_DISCORD,
-  OPEN_DESIGN_FEISHU,
+  SANKIWORK_DISCORD,
+  SANKIWORK_FEISHU,
   deepseekHarnessHeroCtas,
 } from '../app/cta-actions.ts';
 import { getInfoPageCopy } from '../app/info-page-i18n.ts';
@@ -21,8 +21,8 @@ test('DeepSeek Harness hero CTAs are complete for every active locale', () => {
     assert.equal(actions.length, 3, `${code}: expected exactly three hero actions`);
     assert.equal(actions[0]?.href, DOWNLOAD_HREF, `${code}: download must be first`);
     assert.equal(actions[0]?.variant, 'primary', `${code}: download must be primary`);
-    assert.equal(actions[1]?.href, OPEN_DESIGN_DISCORD, `${code}: Discord must be second`);
-    assert.equal(actions[2]?.href, OPEN_DESIGN_FEISHU, `${code}: Feishu must be third`);
+    assert.equal(actions[1]?.href, SANKIWORK_DISCORD, `${code}: Discord must be second`);
+    assert.equal(actions[2]?.href, SANKIWORK_FEISHU, `${code}: Feishu must be third`);
     assert.equal(actions[1]?.variant, 'ghost', `${code}: Discord must be secondary`);
     assert.equal(actions[2]?.variant, 'ghost', `${code}: Feishu must be secondary`);
     assert.ok(actions[0]?.label.trim(), `${code}: download label is empty`);
@@ -32,7 +32,7 @@ test('DeepSeek Harness hero CTAs are complete for every active locale', () => {
     if (code !== 'en') {
       assert.notEqual(
         actions[1]?.label,
-        'Join Open Design Discord',
+        'Join SankiWork Discord',
         `${code}: Discord label fell back to the English sentence`,
       );
       assert.notEqual(
@@ -99,8 +99,8 @@ test('DeepSeek Harness tutorial exposes the official resources and connection wa
       `${code}: missing the official DeepSeek Harness repository`,
     );
 
-    const connectionSection = page.rich?.sections.find(({ id }) => id === 'open-design');
-    assert.ok(connectionSection, `${code}: missing the Open Design connection section`);
+    const connectionSection = page.rich?.sections.find(({ id }) => id === 'sankiwork');
+    assert.ok(connectionSection, `${code}: missing the SankiWork connection section`);
     const connectionSteps = connectionSection.blocks.find((block) => block.kind === 'steps');
     assert.ok(connectionSteps, `${code}: missing the numbered connection steps`);
     assert.deepEqual(
@@ -111,7 +111,7 @@ test('DeepSeek Harness tutorial exposes the official resources and connection wa
     assert.match(
       connectionSteps.items.map(({ label, body }) => `${label} ${body}`).join(' '),
       /0\.19\.1/,
-      `${code}: missing the minimum Open Design version`,
+      `${code}: missing the minimum SankiWork version`,
     );
     const imageSources = connectionSection.blocks.flatMap((block) =>
       block.kind === 'image' ? [block.src] : [],
@@ -130,7 +130,7 @@ test('DeepSeek Harness tutorial exposes the official resources and connection wa
     assert.ok(setupSection, `${code}: missing the local Harness setup section`);
     assert.doesNotMatch(
       JSON.stringify(page.rich),
-      /open-design\.ai\/install-dsh\.(?:sh|ps1|cmd)/,
+      /sanki-ai\.cloud\/install-dsh\.(?:sh|ps1|cmd)/,
       `${code}: unpublished one-line installer leaked into the public tutorial`,
     );
     assert.ok(
@@ -188,8 +188,8 @@ test('DeepSeek Harness page leads with the design search intent', () => {
   assert.match(JSON.stringify(zhSetup), /立即生效/);
   assert.match(JSON.stringify(zhSetup), /Ctrl\+C/);
 
-  const enConnection = en.rich.sections.find(({ id }) => id === 'open-design');
-  const zhConnection = zh.rich.sections.find(({ id }) => id === 'open-design');
+  const enConnection = en.rich.sections.find(({ id }) => id === 'sankiwork');
+  const zhConnection = zh.rich.sections.find(({ id }) => id === 'sankiwork');
   assert.match(JSON.stringify(enConnection), /click Test/);
   assert.match(JSON.stringify(zhConnection), /点击“测试”/);
 });

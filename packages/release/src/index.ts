@@ -51,8 +51,8 @@ export const RELEASE_PLATFORM_NAMESPACE_SUFFIXES = Object.freeze({
   win: "win",
 } as const satisfies Record<ReleasePlatform, string>);
 
-const PRODUCT_NAME = "Open Design";
-const DEFAULT_NAMESPACE = "open-design";
+const PRODUCT_NAME = "SankiWork";
+const DEFAULT_NAMESPACE = "sankiwork";
 
 const descriptors: Record<ReleaseChannel, ReleaseChannelDescriptor> = {
   beta: {

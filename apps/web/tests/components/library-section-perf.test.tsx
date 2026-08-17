@@ -11,7 +11,7 @@
 
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { LibraryAsset } from '@open-design/contracts';
+import type { LibraryAsset } from '@sankiwork/contracts';
 
 // Control lazy-mount visibility per test.
 let lazyInView = false;

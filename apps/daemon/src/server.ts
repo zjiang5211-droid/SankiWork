@@ -6,7 +6,7 @@ import type {
   DesktopExportPdfResult,
   DesktopRenderSlidesInput,
   DesktopRenderSlidesResult,
-} from '@open-design/sidecar-proto';
+} from '@sankiwork/sidecar-proto';
 import express from 'express';
 import multer from 'multer';
 import JSZip from 'jszip';
@@ -17,13 +17,13 @@ import path from 'node:path';
 import fs from 'node:fs';
 import os from 'node:os';
 import net from 'node:net';
-import { executionProfileFromStreamFormat, PLUGIN_SHARE_ACTION_PLUGIN_IDS } from '@open-design/contracts';
-import { isTodoWriteToolName, stopReasonIsTruncation, todoItemsFromTodoWriteInput } from '@open-design/contracts';
+import { executionProfileFromStreamFormat, PLUGIN_SHARE_ACTION_PLUGIN_IDS } from '@sankiwork/contracts';
+import { isTodoWriteToolName, stopReasonIsTruncation, todoItemsFromTodoWriteInput } from '@sankiwork/contracts';
 import type {
   CollabCloudMemberDirectoryEntry,
   TeamProject,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   composeSystemPrompt,
   detectDeckIntentSignal,
@@ -41,7 +41,7 @@ import {
 import { emittedRenderableQuestionForm } from './question-form-detect.js';
 import { runHadFailedDesignSystemWrapper } from './runtimes/run-artifacts.js';
 import { resolveProjectRoot } from './project-root.js';
-import { OPEN_DESIGN_PLUGIN_ID } from './mcp-observability.js';
+import { SANKIWORK_PLUGIN_ID } from './mcp-observability.js';
 import {
   resolveDaemonCliPath,
   resolveDaemonPluginPreviewsDir,
@@ -186,8 +186,8 @@ export {
 } from './runtimes/run-lifecycle-analytics.js';
 
 export { resolveProjectRoot };
-import { createCommandInvocation } from '@open-design/platform';
-import { SIDECAR_ENV } from '@open-design/sidecar-proto';
+import { createCommandInvocation } from '@sankiwork/platform';
+import { SIDECAR_ENV } from '@sankiwork/sidecar-proto';
 import {
   buildLiveArtifactsMcpServersForAgent,
   checkPromptArgvBudget,
@@ -198,8 +198,8 @@ import {
   isKnownModel,
   isKnownReasoningEffort,
   isKnownServiceTier,
-  openDesignAmrRunAttempt,
-  openDesignAmrTraceEnv,
+  sankiWorkAmrRunAttempt,
+  sankiWorkAmrTraceEnv,
   applyAgentLaunchEnv,
   resolveAgentLaunch,
   sanitizeCustomModel,
@@ -486,7 +486,7 @@ import { newInsertId, readAnalyticsContext, type AnalyticsService } from './anal
 import {
   agentIdToTracking,
   modelIdForTracking,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import {
   mergeNoProxyWithLoopbackDefaults,
   redactSecrets,
@@ -570,7 +570,7 @@ import {
 } from './routines.js';
 import { buildMcpInstallPayload } from './mcp-install-info.js';
 import { createDiagnosticsExportHandler } from './diagnostics-export.js';
-import { DIAGNOSTICS_EXPORT_PATH } from '@open-design/diagnostics';
+import { DIAGNOSTICS_EXPORT_PATH } from '@sankiwork/diagnostics';
 import {
   createProjectArchiveStream,
   createBatchArchiveStream,
@@ -742,7 +742,7 @@ import { registerRunRoutes } from './routes/runs.js';
 import { registerTerminalRoutes } from './routes/terminal.js';
 import { createTerminalService } from './terminals.js';
 import { registerSocialShareRoutes } from './routes/social-share.js';
-import { registerOpenDesignPublicMetadataRoutes } from './routes/open-design-public-metadata.js';
+import { registerSankiWorkPublicMetadataRoutes } from './routes/open-design-public-metadata.js';
 import { registerWhatsNewRoutes } from './routes/whats-new.js';
 import { registerMemoryRoutes } from './routes/memory.js';
 import {
@@ -781,7 +781,7 @@ import {
 import { resolveWorkspaceScope } from './collab/workspace-scope.js';
 import {
   AmrWorkspaceScopeRequiredError,
-  openDesignAmrTraceEnvForRun,
+  sankiWorkAmrTraceEnvForRun,
   pinRunWorkspaceScopeForProject,
 } from './runtimes/project-amr-trace-env.js';
 import {
@@ -999,7 +999,7 @@ import {
   isApiAuthDisabled,
   isApiTokenMiddlewareEnabled,
 } from './api-token-auth.js';
-import { createOpenDesignPublicMetadataService } from './services/open-design-public-metadata.js';
+import { createSankiWorkPublicMetadataService } from './services/open-design-public-metadata.js';
 import { createWhatsNewService } from './services/whats-new.js';
 import { execCommandViaLoginShell } from './services/login-shell.js';
 import {
@@ -1029,25 +1029,25 @@ import {
 import { renderOAuthResultPage } from './http/oauth-result-page.js';
 import { bearerTokenFromRequest, createToolRequestAuth } from './http/tool-request-auth.js';
 
-/** @typedef {import('@open-design/contracts').ApiErrorCode} ApiErrorCode */
-/** @typedef {import('@open-design/contracts').ApiError} ApiError */
-/** @typedef {import('@open-design/contracts').ApiErrorResponse} ApiErrorResponse */
-/** @typedef {import('@open-design/contracts').ChatRequest} ChatRequest */
-/** @typedef {import('@open-design/contracts').ChatSseEvent} ChatSseEvent */
-/** @typedef {import('@open-design/contracts').ProxyStreamRequest} ProxyStreamRequest */
-/** @typedef {import('@open-design/contracts').ProxySseEvent} ProxySseEvent */
-/** @typedef {import('@open-design/contracts').ProjectConversationCreatedSsePayload} ProjectConversationCreatedSsePayload */
+/** @typedef {import('@sankiwork/contracts').ApiErrorCode} ApiErrorCode */
+/** @typedef {import('@sankiwork/contracts').ApiError} ApiError */
+/** @typedef {import('@sankiwork/contracts').ApiErrorResponse} ApiErrorResponse */
+/** @typedef {import('@sankiwork/contracts').ChatRequest} ChatRequest */
+/** @typedef {import('@sankiwork/contracts').ChatSseEvent} ChatSseEvent */
+/** @typedef {import('@sankiwork/contracts').ProxyStreamRequest} ProxyStreamRequest */
+/** @typedef {import('@sankiwork/contracts').ProxySseEvent} ProxySseEvent */
+/** @typedef {import('@sankiwork/contracts').ProjectConversationCreatedSsePayload} ProjectConversationCreatedSsePayload */
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = resolveProjectRoot(__dirname);
-const RESOURCE_ROOT_ENV = 'OD_RESOURCE_ROOT';
+const RESOURCE_ROOT_ENV = 'SW_RESOURCE_ROOT';
 
 const DAEMON_RESOURCE_ROOT = resolveDaemonResourceRoot({
   safeBases: [
     PROJECT_ROOT,
     resolveProcessResourcesPath(),
-    process.env.OD_INSTALLATION_DIR,
+    process.env.SW_INSTALLATION_DIR,
   ],
 });
 // Built web app lives in `out/` — that's where Next.js writes the static
@@ -1062,8 +1062,8 @@ const PLUGIN_PREVIEWS_DIR = resolveDaemonPluginPreviewsDir({
   resourceRoot: DAEMON_RESOURCE_ROOT,
   projectRoot: PROJECT_ROOT,
 });
-const OD_BIN = resolveDaemonCliPath();
-export function resolveOpenDesignNodeBin({
+const SW_BIN = resolveDaemonCliPath();
+export function resolveSankiWorkNodeBin({
   env = process.env,
   execPath = process.execPath,
   platform = process.platform,
@@ -1076,7 +1076,7 @@ export function resolveOpenDesignNodeBin({
   resourceRoot?: string | null;
   exists?: (path: string) => boolean;
 } = {}): string {
-  const configured = env.OD_NODE_BIN?.trim();
+  const configured = env.SW_NODE_BIN?.trim();
   if (configured) return configured;
 
   const bundledName = platform === 'win32' ? 'node.exe' : 'node';
@@ -1088,7 +1088,7 @@ export function resolveOpenDesignNodeBin({
   return execPath;
 }
 
-const OD_NODE_BIN = resolveOpenDesignNodeBin();
+const SW_NODE_BIN = resolveSankiWorkNodeBin();
 const SKILLS_DIR = resolveDaemonResourceDir(
   DAEMON_RESOURCE_ROOT,
   'skills',
@@ -1114,7 +1114,7 @@ const CRAFT_DIR = resolveDaemonResourceDir(
   path.join(PROJECT_ROOT, 'craft'),
 );
 // User-installed skills and design systems live under the runtime data dir
-// so they respect OD_DATA_DIR overrides (test isolation, packaged runs).
+// so they respect SW_DATA_DIR overrides (test isolation, packaged runs).
 // Defined after RUNTIME_DATA_DIR is resolved below.
 const FRAMES_DIR = resolveDaemonResourceDir(
   DAEMON_RESOURCE_ROOT,
@@ -1159,7 +1159,7 @@ const {
 });
 
 const SANDBOX_MODE_ENABLED = isSandboxModeEnabled(process.env);
-const RUNTIME_DATA_DIR = resolveDataDir(process.env.OD_DATA_DIR, PROJECT_ROOT, {
+const RUNTIME_DATA_DIR = resolveDataDir(process.env.SW_DATA_DIR, PROJECT_ROOT, {
   requireExplicit: SANDBOX_MODE_ENABLED,
 });
 const SANDBOX_RUNTIME = resolveSandboxRuntimeConfig(SANDBOX_MODE_ENABLED, RUNTIME_DATA_DIR);
@@ -1169,7 +1169,7 @@ const PLUGIN_LOCKFILE_PATH = path.join(RUNTIME_DATA_DIR, 'od-plugin-lock.json');
 // that compare it against a user-supplied realpath() result. On macOS, /var
 // is a symlink to /private/var, so an import realpath lands in /private/var
 // and would never start-with the raw RUNTIME_DATA_DIR. Keep RUNTIME_DATA_DIR
-// itself as the stable, user-shaped path so OD_DATA_DIR resolution stays
+// itself as the stable, user-shaped path so SW_DATA_DIR resolution stays
 // predictable; only this canonical alias is used for symlink-aware checks.
 const RUNTIME_DATA_DIR_CANONICAL = (() => {
   try {
@@ -1178,13 +1178,13 @@ const RUNTIME_DATA_DIR_CANONICAL = (() => {
     return RUNTIME_DATA_DIR;
   }
 })();
-// One-shot legacy data migration. When OD_LEGACY_DATA_DIR is set and the
-// new data root is fresh (no app.sqlite), copy the 0.3.x .od/ payload
+// One-shot legacy data migration. When SW_LEGACY_DATA_DIR is set and the
+// new data root is fresh (no app.sqlite), copy the 0.3.x .sankiwork/ payload
 // across before SQLite opens. Synchronous on purpose: openDatabase below
 // would race an async copy. See apps/daemon/src/legacy-data-migrator.ts
 // and https://github.com/nexu-io/open-design/issues/710.
 migrateLegacyDataDirSync({
-  legacyDir: process.env.OD_LEGACY_DATA_DIR,
+  legacyDir: process.env.SW_LEGACY_DATA_DIR,
   dataDir: RUNTIME_DATA_DIR,
 });
 const ARTIFACTS_DIR = path.join(RUNTIME_DATA_DIR, 'artifacts');
@@ -1223,7 +1223,7 @@ const ALL_SKILL_LIKE_ROOTS = [
   DESIGN_TEMPLATES_DIR,
 ];
 // Global OD Library data root — owned, content-addressed assets captured by
-// the clipper / `od library import`. Derived from RUNTIME_DATA_DIR per the
+// the clipper / `sw library import`. Derived from RUNTIME_DATA_DIR per the
 // daemon data directory contract.
 const LIBRARY_DIR = path.join(RUNTIME_DATA_DIR, 'library');
 fs.mkdirSync(PROJECTS_DIR, { recursive: true });
@@ -1247,7 +1247,7 @@ const mcpPendingAuth = new PendingAuthCache();
  * Resolve the daemon's public base URL — the origin the user's browser
  * (or the OAuth provider) reaches us at. Order of precedence:
  *
- *   1. `OD_PUBLIC_BASE_URL` env var. Cloud and packaged-electron deployments
+ *   1. `SW_PUBLIC_BASE_URL` env var. Cloud and packaged-electron deployments
  *      set this to the externally-routable URL (e.g. `https://app.example.com`).
  *   2. `req.protocol://req.get('host')` from the inbound request. Works in
  *      local dev and most reverse-proxy setups (Express respects
@@ -1259,13 +1259,13 @@ const mcpPendingAuth = new PendingAuthCache();
  * will reject `redirect_uri` mismatches.
  */
 function getPublicBaseUrl(req) {
-  const env = process.env.OD_PUBLIC_BASE_URL;
+  const env = process.env.SW_PUBLIC_BASE_URL;
   if (env && /^https?:\/\//i.test(env)) {
     return env.replace(/\/+$/u, '');
   }
   const proto = req.protocol || 'http';
   const host = req.get('host');
-  if (!host) return `http://localhost:${process.env.OD_PORT ?? '7456'}`;
+  if (!host) return `http://localhost:${process.env.SW_PORT ?? '7456'}`;
   return `${proto}://${host}`;
 }
 
@@ -1556,7 +1556,7 @@ const promptFileBootstrap = (fp) =>
   'it contains the system prompt, design system, skill workflow, and user request. ' +
   'Do not begin your response until you have read the entire file.';
 
-// Load Critique Theater config once at startup so a bad OD_CRITIQUE_* value
+// Load Critique Theater config once at startup so a bad SW_CRITIQUE_* value
 // surfaces immediately as a boot-time RangeError instead of silently at
 // run time. Default: enabled=false (M0 dark launch).
 const critiqueCfg = loadCritiqueConfigFromEnv();
@@ -1584,14 +1584,14 @@ export function createAgentRuntimeEnv(
   baseEnv: NodeJS.ProcessEnv | Record<string, string | undefined>,
   daemonUrl: string,
   toolTokenGrant: { token?: string } | null = null,
-  nodeBin: string = OD_NODE_BIN,
+  nodeBin: string = SW_NODE_BIN,
 ): NodeJS.ProcessEnv {
   const env: NodeJS.ProcessEnv = applySandboxRuntimeEnv(
     {
       ...baseEnv,
-      OD_DATA_DIR: RUNTIME_DATA_DIR,
-      OD_DAEMON_URL: daemonUrl,
-      OD_NODE_BIN: nodeBin,
+      SW_DATA_DIR: RUNTIME_DATA_DIR,
+      SW_DAEMON_URL: daemonUrl,
+      SW_NODE_BIN: nodeBin,
     },
     SANDBOX_RUNTIME,
   );
@@ -1599,7 +1599,7 @@ export function createAgentRuntimeEnv(
   // children receive only their run-scoped tool capability, never that broad
   // credential inherited from the daemon process (including Windows casing).
   for (const key of Object.keys(env)) {
-    if (key.toUpperCase() === 'OD_API_TOKEN') delete env[key];
+    if (key.toUpperCase() === 'SW_API_TOKEN') delete env[key];
   }
   const sidecarIpcPath = baseEnv[SIDECAR_ENV.IPC_PATH];
   if (typeof sidecarIpcPath === 'string' && sidecarIpcPath.length > 0) {
@@ -1642,9 +1642,9 @@ export function createAgentRuntimeEnv(
   }
 
   if (toolTokenGrant?.token) {
-    env.OD_TOOL_TOKEN = toolTokenGrant.token;
+    env.SW_TOOL_TOKEN = toolTokenGrant.token;
   } else {
-    delete env.OD_TOOL_TOKEN;
+    delete env.SW_TOOL_TOKEN;
   }
 
   return env;
@@ -1655,22 +1655,22 @@ export function createAgentRuntimeToolPrompt(
   toolTokenGrant: { token?: string } | null = null,
 ): string {
   const tokenLine = toolTokenGrant?.token
-    ? '- `OD_TOOL_TOKEN` is available in your environment for this run. Use it only through project wrapper commands; do not print, persist, or override it.'
-    : '- `OD_TOOL_TOKEN` is not available for this run, so `/api/tools/*` wrapper commands may be unavailable.';
+    ? '- `SW_TOOL_TOKEN` is available in your environment for this run. Use it only through project wrapper commands; do not print, persist, or override it.'
+    : '- `SW_TOOL_TOKEN` is not available for this run, so `/api/tools/*` wrapper commands may be unavailable.';
 
   return [
     '## Runtime tool environment',
     '',
-    `- Daemon URL: \`${daemonUrl}\` (also available as \`OD_DAEMON_URL\`).`,
-    '- `OD_NODE_BIN` is the absolute path to the Node-compatible runtime that started the daemon; packaged desktop installs provide this even when the user has no system `node` on PATH.',
-    '- `OD_BIN` is the absolute path to the Open Design CLI script. On POSIX shells run wrappers with `"$OD_NODE_BIN" "$OD_BIN" tools ...`; do not call bare `od`, which may resolve to the system octal-dump command on Unix-like systems.',
-    '- On PowerShell use `& $env:OD_NODE_BIN $env:OD_BIN tools ...`; on cmd.exe use `"%OD_NODE_BIN%" "%OD_BIN%" tools ...`.',
+    `- Daemon URL: \`${daemonUrl}\` (also available as \`SW_DAEMON_URL\`).`,
+    '- `SW_NODE_BIN` is the absolute path to the Node-compatible runtime that started the daemon; packaged desktop installs provide this even when the user has no system `node` on PATH.',
+    '- `SW_BIN` is the absolute path to the SankiWork CLI script. On POSIX shells run wrappers with `"$SW_NODE_BIN" "$SW_BIN" tools ...`; do not call bare `sw`, which may resolve to the system octal-dump command on Unix-like systems.',
+    '- On PowerShell use `& $env:SW_NODE_BIN $env:SW_BIN tools ...`; on cmd.exe use `"%SW_NODE_BIN%" "%SW_BIN%" tools ...`.',
     tokenLine,
-    '- Prefer project wrapper commands through `OD_NODE_BIN` + `OD_BIN` over raw HTTP. The wrappers read these environment values automatically.',
+    '- Prefer project wrapper commands through `SW_NODE_BIN` + `SW_BIN` over raw HTTP. The wrappers read these environment values automatically.',
   ].join('\n');
 }
 
-export function createOpenDesignToolEnv({
+export function createSankiWorkToolEnv({
   daemonUrl,
   projectDir,
   projectId,
@@ -1680,14 +1680,14 @@ export function createOpenDesignToolEnv({
   projectId?: string | null;
 }): NodeJS.ProcessEnv {
   return {
-    OD_BIN,
-    OD_DATA_DIR: RUNTIME_DATA_DIR,
-    OD_NODE_BIN,
-    OD_DAEMON_URL: daemonUrl,
+    SW_BIN,
+    SW_DATA_DIR: RUNTIME_DATA_DIR,
+    SW_NODE_BIN,
+    SW_DAEMON_URL: daemonUrl,
     ...(typeof projectId === 'string' && projectId && projectDir
       ? {
-          OD_PROJECT_ID: projectId,
-          OD_PROJECT_DIR: projectDir,
+          SW_PROJECT_ID: projectId,
+          SW_PROJECT_DIR: projectDir,
         }
       : {}),
   };
@@ -1698,7 +1698,7 @@ export function createDaemonDataDirConfiguredAgentEnv(
 ): Record<string, string> {
   return {
     ...configuredAgentEnv,
-    OD_DATA_DIR: RUNTIME_DATA_DIR,
+    SW_DATA_DIR: RUNTIME_DATA_DIR,
   };
 }
 
@@ -1824,7 +1824,7 @@ export function telemetryPromptFromRunRequest(message, currentPrompt) {
   return typeof currentPrompt === 'string' ? currentPrompt : message;
 }
 
-// Keep this header grammar aligned with parseFormAnswers in @open-design/contracts.
+// Keep this header grammar aligned with parseFormAnswers in @sankiwork/contracts.
 const FORM_ANSWERS_HEADER_RE =
   /^\s*\[form answers(?:\s*[\u2014\-:]\s*([^\]\r\n]+))?\]\s*(?:\r?\n|$)/i;
 
@@ -1925,7 +1925,7 @@ export function composeChatUserRequestForAgent(
   // native session memory provides the rest.
   const skip = options.skipTranscript === true;
   // Native-session clients normally provide `currentPrompt`, but headless
-  // callers such as `od run start --message` only populate `message`. On a
+  // callers such as `sw run start --message` only populate `message`. On a
   // resumed session that value is the latest turn, not a rendered transcript,
   // so dropping it would send the misleading empty-turn placeholder instead.
   const bodySource = skip
@@ -2318,8 +2318,8 @@ const figmaUpload = multer({
 const pluginShareTaskStore = createPluginShareTaskStore({
   randomUUID,
   execCommandViaLoginShell,
-  OD_NODE_BIN,
-  OD_BIN,
+  SW_NODE_BIN,
+  SW_BIN,
 });
 
 // Project-scoped multi-file upload. Lands files directly in the project
@@ -2342,7 +2342,7 @@ const projectUpload = multer({
         // the user's files so the agent can read them via the same path
         // it sees. projectMetadataLookup is populated at startServer() boot
         // and keyed by project id; null fallback gives the standard
-        // .od/projects/<id>/ behavior for non-imported projects.
+        // .sankiwork/projects/<id>/ behavior for non-imported projects.
         const meta = projectMetadataLookup?.(req.params.id) ?? null;
         // Optional `dir` form field (sent BEFORE the file parts by the web
         // client) routes uploads into a subfolder, so files dropped/picked
@@ -2541,7 +2541,7 @@ export interface StartServerResult {
 
 export async function startServer({
   port = 7456,
-  host = normalizeDaemonBindHost(process.env.OD_BIND_HOST),
+  host = normalizeDaemonBindHost(process.env.SW_BIND_HOST),
   returnServer = false,
   desktopPdfExporter = null,
   desktopSlideRenderer = null,
@@ -2554,18 +2554,18 @@ export async function startServer({
   let daemonShuttingDown = false;
   const extraAllowedOrigins = configuredAllowedOrigins();
   const workspaceAuthorityCacheMode = resolveWorkspaceAuthorityCacheMode(
-    process.env.OD_WORKSPACE_AUTHORITY_CACHE_MODE,
+    process.env.SW_WORKSPACE_AUTHORITY_CACHE_MODE,
   );
 
   // Plan §3.K1 / spec §15.7 — bound-API-token guard.
   //
   // The daemon refuses to bind to a public interface unless an
-  // OD_API_TOKEN is set. This is the spec §16 Phase 5 safety floor:
+  // SW_API_TOKEN is set. This is the spec §16 Phase 5 safety floor:
   // a hosted operator can no longer accidentally publish an unsecured
-  // daemon by setting OD_BIND_HOST=0.0.0.0 without a token.
+  // daemon by setting SW_BIND_HOST=0.0.0.0 without a token.
   //
   // Loopback hosts (127.0.0.1 / ::1 / localhost) are always allowed —
-  // the desktop / dev flow remains unchanged. Setting OD_API_TOKEN is
+  // the desktop / dev flow remains unchanged. Setting SW_API_TOKEN is
   // purely additive: when present, every /api/* request must carry a
   // matching Bearer token or browser Basic credentials (loopback origins
   // are exempted so the desktop UI keeps working).
@@ -2576,10 +2576,10 @@ export async function startServer({
     apiTokenAuthEnabled && apiTokenAuthorizationMatches(authorization, apiToken);
   if (!isLoopbackHostname(host) && apiToken.length === 0 && !apiAuthDisabled) {
     throw new Error(
-      `OD_BIND_HOST=${host} requires OD_API_TOKEN to be set. ` +
+      `SW_BIND_HOST=${host} requires SW_API_TOKEN to be set. ` +
       `Generate one with \`openssl rand -hex 32\` and re-launch. ` +
       `(Loopback hosts 127.0.0.1 / ::1 / localhost do not need a token.) ` +
-      `Set OD_DISABLE_API_AUTH=1 only when a trusted reverse proxy already authenticates every request.`,
+      `Set SW_DISABLE_API_AUTH=1 only when a trusted reverse proxy already authenticates every request.`,
     );
   }
 
@@ -2603,7 +2603,7 @@ export async function startServer({
 
   // Plan §3.K1 — API-token middleware.
   //
-  // Active only when OD_API_TOKEN is set and API auth is not disabled.
+  // Active only when SW_API_TOKEN is set and API auth is not disabled.
   // Loopback origins skip the check (the desktop UI / local CLI never carry
   // credentials); every other request must present a matching bearer token
   // (CLI / proxy) or matching HTTP Basic credentials (browser UI). A currently
@@ -2654,7 +2654,7 @@ export async function startServer({
       return res.status(401).json({
         error: {
           code: 'API_TOKEN_REQUIRED',
-          message: 'Authorization: Bearer <OD_API_TOKEN> or browser Basic authentication required',
+          message: 'Authorization: Bearer <SW_API_TOKEN> or browser Basic authentication required',
         },
       });
     });
@@ -2672,7 +2672,7 @@ export async function startServer({
 
       res.setHeader('WWW-Authenticate', API_TOKEN_BASIC_CHALLENGE);
       return res.status(401).type('text/plain').send(
-        'Open Design authentication required. Use username "open-design" and OD_API_TOKEN as the password.',
+        'SankiWork authentication required. Use username "sankiwork" and SW_API_TOKEN as the password.',
       );
     });
   }
@@ -2957,8 +2957,8 @@ export async function startServer({
     mediaTaskStore.hydrateMediaTask(row);
   }
 
-  if (process.env.OD_CODEX_DISABLE_PLUGINS === '1') {
-    console.log('[od] Codex plugins disabled via OD_CODEX_DISABLE_PLUGINS=1');
+  if (process.env.SW_CODEX_DISABLE_PLUGINS === '1') {
+    console.log('[od] Codex plugins disabled via SW_CODEX_DISABLE_PLUGINS=1');
   }
 
   let bundledMarketplaceEntries = [];
@@ -2975,18 +2975,18 @@ export async function startServer({
       marketplaceProvenance: {
         sourceMarketplaceId: OFFICIAL_MARKETPLACE_ID,
         marketplaceTrust:    'official',
-        entryNamePrefix:     'open-design',
+        entryNamePrefix:     'sankiwork',
       },
     });
     bundledMarketplaceEntries = result.registered.map((plugin) => ({
-      name:        `open-design/${plugin.id}`,
+      name:        `sankiwork/${plugin.id}`,
       title:       plugin.title,
       title_i18n:  plugin.manifest.title_i18n,
       description: plugin.manifest.description,
       description_i18n: plugin.manifest.description_i18n,
       version:     plugin.version,
       source:      bundledPluginRegistrySource(plugin.source),
-      publisher:   { id: 'open-design', url: 'https://open-design.ai' },
+      publisher:   { id: 'sankiwork', url: 'https://sanki-ai.cloud' },
       homepage:    plugin.manifest.homepage,
       license:     plugin.manifest.license,
       tags:        plugin.manifest.tags,
@@ -3033,7 +3033,7 @@ export async function startServer({
   }
 
   // Plan §3.A5 / spec §16 Phase 5 / PB2: periodic snapshot GC. Disabled
-  // when OD_SNAPSHOT_GC_INTERVAL_MS is 0; otherwise one-time bootstrap
+  // when SW_SNAPSHOT_GC_INTERVAL_MS is 0; otherwise one-time bootstrap
   // sweep + interval. The function returns a NOOP_HANDLE when disabled
   // so we don't have to branch on the result.
   const snapshotGc = startSnapshotGc({ db });
@@ -3181,7 +3181,7 @@ export async function startServer({
     req: any;
     requireTeam?: boolean;
   }, options: { fresh?: boolean; backgroundFresh?: boolean } = {}) => {
-    if (process.env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') {
+    if (process.env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') {
       let fetchDirectory = fetchFreshMutationWorkspaceDirectory;
       if (options.fresh === false) {
         fetchDirectory = fetchWorkspaceDirectory;
@@ -3243,7 +3243,7 @@ export async function startServer({
   const verifyWorkspaceRequestAuthority = (req: unknown) =>
     verifyExplicitWorkspaceRequestContext({ req });
   const verifyPersonalProjectDeleteLeaseAuthority =
-    process.env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela'
+    process.env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela'
       ? (req: unknown) => verifyWorkspaceRequestContext({
           req,
           // A miss is intentionally returned as unavailable. The project gate
@@ -3259,7 +3259,7 @@ export async function startServer({
   // Keep this separate from read-side directory fetches so an unconfigured
   // daemon never turns ordinary local creation into a network-dependent path.
   const fetchProjectCreationWorkspaceDirectory =
-    process.env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela'
+    process.env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela'
       ? fetchFreshMutationWorkspaceDirectory
       : undefined;
   const listWorkspaceDirectory = async () => {
@@ -3750,7 +3750,7 @@ export async function startServer({
 
   // Collab cloud (C-lane §D2.5/§D4): cross-daemon comment sync + member
   // directory. The client is null (all calls degrade to no-op) unless
-  // OD_COLLAB_CLOUD_URL is set. The service ties it to the one workspace context
+  // SW_COLLAB_CLOUD_URL is set. The service ties it to the one workspace context
   // so a single identity drives member registration, comment push, and the
   // pull+merge poller. Kept out of collab/runtime.ts to avoid colliding with the
   // team-project-catalog work also editing that file.
@@ -4773,7 +4773,7 @@ export async function startServer({
       const project = getProject(db, projectId);
       if (!project) return false;
       // Authorized Vela mirrors contain the shared project files, not the
-      // local-only `.open-design/project.json`. Their exact-scope receipt is
+      // local-only `.sankiwork/project.json`. Their exact-scope receipt is
       // the durable version proof; the live directory proves the promoted
       // namespace still exists. Both are required so a deleted tree heals,
       // while another workspace/owner's receipt can never satisfy this pull.
@@ -5277,7 +5277,7 @@ export async function startServer({
     resolveEndpoint: async () => {
       // Same gating as the workspace-context provider: only the vela source
       // has a hub to subscribe to (dev daemons must not dial production).
-      if (process.env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() !== 'vela') return null;
+      if (process.env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() !== 'vela') return null;
       return resolveVelaWorkspaceHubEventsEndpoint(
         subscribedWorkspaceId,
         process.env,
@@ -7188,7 +7188,7 @@ export async function startServer({
     SKILL_ROOTS,
     PROMPT_TEMPLATES_DIR,
     BUNDLED_PETS_DIR,
-    OD_BIN,
+    SW_BIN,
   };
 
   app.get('/api/health', async (_req, res) => {
@@ -7221,7 +7221,7 @@ export async function startServer({
     const reportHost = reportHostForPoweredPreview();
     const baseOrigin = resolvedPort ? `http://${reportHost}:${resolvedPort}` : null;
     res.setHeader('Cache-Control', 'no-store');
-    /** @type {import('@open-design/contracts').ProjectPreviewIsolationResponse} */
+    /** @type {import('@sankiwork/contracts').ProjectPreviewIsolationResponse} */
     const body = {
       supported: Boolean(baseOrigin),
       baseOrigin,
@@ -7245,10 +7245,10 @@ export async function startServer({
     env: process.env,
   });
 
-  const openDesignPublicMetadata = createOpenDesignPublicMetadataService();
-  registerOpenDesignPublicMetadataRoutes(app, {
+  const sankiWorkPublicMetadata = createSankiWorkPublicMetadataService();
+  registerSankiWorkPublicMetadataRoutes(app, {
     http: httpDeps,
-    openDesignPublicMetadata,
+    sankiWorkPublicMetadata,
   });
 
   registerWhatsNewRoutes(app, {
@@ -7331,7 +7331,7 @@ export async function startServer({
     if (!binding?.workspaceId) return { workspace: null };
 
     let authority;
-    if (process.env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') {
+    if (process.env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') {
       const directory = await fetchFreshMutationWorkspaceDirectory().catch(
         () => ({ ok: false, items: [] }),
       );
@@ -8307,7 +8307,7 @@ export async function startServer({
           marketplaceResolution = resolvePluginInMarketplaces(db, plugin.sourceMarketplaceEntryName);
           if (marketplaceResolution) source = marketplaceResolution.source;
         }
-        if (!source) return res.status(409).json({ error: { code: 'missing-source', message: `Plugin "${id}" has no recorded install source — cannot upgrade. Reinstall via 'od plugin install --source <...>' to set one.`, data: { id } } });
+        if (!source) return res.status(409).json({ error: { code: 'missing-source', message: `Plugin "${id}" has no recorded install source — cannot upgrade. Reinstall via 'sw plugin install --source <...>' to set one.`, data: { id } } });
       } else {
         source = typeof body.source === 'string' ? body.source : '';
         if (!source) return res.status(400).json({ error: 'source is required' });
@@ -8321,7 +8321,7 @@ export async function startServer({
           const locked = lockfile.plugins[source];
           if (locked?.version && !source.includes('@')) lookupName = `${source}@${locked.version}`;
           const resolved = resolvePluginInMarketplaces(db, lookupName);
-          if (!resolved) return res.status(404).json({ error: { code: 'plugin-not-found', message: `No marketplace plugin named "${source}". Add a marketplace via 'od marketplace add <url>' or pass a github: / https:// / local source.`, data: { name: source } } });
+          if (!resolved) return res.status(404).json({ error: { code: 'plugin-not-found', message: `No marketplace plugin named "${source}". Add a marketplace via 'sw marketplace add <url>' or pass a github: / https:// / local source.`, data: { name: source } } });
           marketplaceResolution = resolved;
           source = resolved.source;
         }
@@ -8377,7 +8377,7 @@ export async function startServer({
         if (!USER_PLUGIN_SOURCE_KINDS.has(sourcePlugin.sourceKind)) return res.status(409).json({ ok: false, code: 'plugin-not-shareable', message: 'Only user-installed plugins can start a share project.' });
         const body = req.body && typeof req.body === 'object' ? req.body : {};
         const action = normalizePluginShareAction(body.action);
-        if (!action) return sendApiError(res, 400, 'BAD_REQUEST', 'action must be publish-github or contribute-open-design');
+        if (!action) return sendApiError(res, 400, 'BAD_REQUEST', 'action must be publish-github or contribute-sankiwork');
         const createWorkspace = await authorizeCreatedProjectWorkspace(
           req,
           fetchProjectCreationWorkspaceDirectory,
@@ -8439,7 +8439,7 @@ export async function startServer({
       try { const project = getProject(db, req.params.id); if (!project) return sendApiError(res, 404, 'PROJECT_NOT_FOUND', 'project not found'); const projectBinding = getWorkspaceProjectByProjectId(db, req.params.id); if (!projectBinding?.workspaceId || !projectBinding.createdByWorkspaceMemberId) return sendApiError(res, 409, 'WORKSPACE_PROJECT_UNBOUND', 'project must have an exact workspace owner before installing a plugin'); const installScope = { workspaceId: String(projectBinding.workspaceId), workspaceMemberId: String(projectBinding.createdByWorkspaceMemberId) }; const body = req.body && typeof req.body === 'object' ? req.body : {}; const relativePath = normalizeProjectPluginFolderPath(body.path); const projectRoot = resolveProjectDir(PROJECTS_DIR, req.params.id, project.metadata); const folder = await resolveProjectChildDirectory(projectRoot, relativePath); const warnings = []; const log = []; let plugin = null; let message = 'Install finished.'; for await (const ev of installPlugin(db, { source: folder, roots: PLUGIN_REGISTRY_ROOTS, allowReplacePlugin: (pluginId) => allowScopedPluginReplace(installScope, pluginId) })) { if (ev.message) log.push(ev.message); if (Array.isArray(ev.warnings)) warnings.splice(0, warnings.length, ...ev.warnings); if (ev.kind === 'success') { plugin = ev.plugin; ensureWorkspaceResource(db, 'plugin', installScope.workspaceId, ev.plugin.id, { visibility: 'personal', resourceState: 'active', createdByWorkspaceMemberId: installScope.workspaceMemberId, updatedByWorkspaceMemberId: installScope.workspaceMemberId }); message = `Installed ${ev.plugin.title}.`; break; } if (ev.kind === 'error') { message = ev.message; break; } } res.status(plugin ? 200 : 400).json({ ok: Boolean(plugin), plugin, warnings, message, log }); } catch (err) { const code = err && err.code; const status = code === 'ENOENT' || code === 'ENOTDIR' ? 404 : 400; sendApiError(res, status, status === 404 ? 'PLUGIN_FOLDER_NOT_FOUND' : 'BAD_REQUEST', String(err?.message || err)); }
     },
     handleProjectPluginCli: async (req, res, action) => {
-      try { const project = getProject(db, req.params.id); if (!project) return sendApiError(res, 404, 'PROJECT_NOT_FOUND', 'project not found'); const body = req.body && typeof req.body === 'object' ? req.body : {}; const relativePath = normalizeProjectPluginFolderPath(body.path); const projectRoot = resolveProjectDir(PROJECTS_DIR, req.params.id, project.metadata); const folder = await resolveProjectChildDirectory(projectRoot, relativePath); const subcommand = action === 'publish-github' ? 'publish-repo' : 'open-design-pr'; const timeout = action === 'publish-github' ? 240_000 : 300_000; const result = await execCommandViaLoginShell(OD_NODE_BIN, [OD_BIN, 'plugin', subcommand, folder, '--json'], { timeout }); const payload = result.stdout ? JSON.parse(result.stdout) : null; if (!result.ok || !payload?.ok) return res.status(500).json({ ok: false, code: payload?.error?.label || (action === 'publish-github' ? 'publish-repo-failed' : 'open-design-pr-failed'), message: payload?.error?.stderr || payload?.error?.stdout || (action === 'publish-github' ? 'GitHub repo publish failed.' : 'Open Design PR creation failed.'), log: payload?.steps?.map((step) => step.stderr || step.stdout || step.command).filter(Boolean) ?? [result.stderr || result.stdout || `${subcommand} failed`] }); res.json({ ok: true, message: action === 'publish-github' ? (payload.repoUrl ? `Published plugin to ${payload.repoUrl}.` : 'Published plugin to GitHub.') : (payload.prUrl ? `Opened Open Design PR flow at ${payload.prUrl}.` : 'Opened Open Design PR flow.'), ...(payload.repoUrl ? { url: payload.repoUrl } : {}), ...(payload.prUrl ? { url: payload.prUrl } : {}), log: payload.steps?.map((step) => step.stderr || step.stdout || step.command).filter(Boolean) ?? [] }); } catch (err) { res.status(400).json({ ok: false, message: String(err?.message || err), log: [] }); }
+      try { const project = getProject(db, req.params.id); if (!project) return sendApiError(res, 404, 'PROJECT_NOT_FOUND', 'project not found'); const body = req.body && typeof req.body === 'object' ? req.body : {}; const relativePath = normalizeProjectPluginFolderPath(body.path); const projectRoot = resolveProjectDir(PROJECTS_DIR, req.params.id, project.metadata); const folder = await resolveProjectChildDirectory(projectRoot, relativePath); const subcommand = action === 'publish-github' ? 'publish-repo' : 'sankiwork-pr'; const timeout = action === 'publish-github' ? 240_000 : 300_000; const result = await execCommandViaLoginShell(SW_NODE_BIN, [SW_BIN, 'plugin', subcommand, folder, '--json'], { timeout }); const payload = result.stdout ? JSON.parse(result.stdout) : null; if (!result.ok || !payload?.ok) return res.status(500).json({ ok: false, code: payload?.error?.label || (action === 'publish-github' ? 'publish-repo-failed' : 'sankiwork-pr-failed'), message: payload?.error?.stderr || payload?.error?.stdout || (action === 'publish-github' ? 'GitHub repo publish failed.' : 'SankiWork PR creation failed.'), log: payload?.steps?.map((step) => step.stderr || step.stdout || step.command).filter(Boolean) ?? [result.stderr || result.stdout || `${subcommand} failed`] }); res.json({ ok: true, message: action === 'publish-github' ? (payload.repoUrl ? `Published plugin to ${payload.repoUrl}.` : 'Published plugin to GitHub.') : (payload.prUrl ? `Opened SankiWork PR flow at ${payload.prUrl}.` : 'Opened SankiWork PR flow.'), ...(payload.repoUrl ? { url: payload.repoUrl } : {}), ...(payload.prUrl ? { url: payload.prUrl } : {}), log: payload.steps?.map((step) => step.stderr || step.stdout || step.command).filter(Boolean) ?? [] }); } catch (err) { res.status(400).json({ ok: false, message: String(err?.message || err), log: [] }); }
     },
     handleCandidateDraft: async (req, res) => {
       if (!isLocalSameOrigin(req, resolvedPort)) return res.status(403).json({ error: 'cross-origin request rejected' });
@@ -8447,11 +8447,11 @@ export async function startServer({
     },
     handleCandidateShareTask: async (req, res) => {
       if (!isLocalSameOrigin(req, resolvedPort)) return res.status(403).json({ error: 'cross-origin request rejected' });
-      try { const project = getProject(db, req.params.id); if (!project) return sendApiError(res, 404, 'PROJECT_NOT_FOUND', 'project not found'); const body = req.body && typeof req.body === 'object' ? req.body : {}; const action = body.action === 'publish-github' || body.action === 'contribute-open-design' ? body.action : null; if (!action) return sendApiError(res, 400, 'BAD_REQUEST', 'plugin share action is required'); const projectRoot = resolveProjectDir(PROJECTS_DIR, req.params.id, project.metadata); const draft = await generateSkillPluginDraft(db, projectRoot, req.params.id, req.params.candidateId); if (!draft) return sendApiError(res, 404, 'NOT_FOUND', 'plugin candidate not found'); if (!draft.validation.ok) return res.status(422).json({ ok: false, code: 'plugin-draft-invalid', message: 'Generated plugin draft is invalid.', draft }); const task = pluginShareTaskStore.createAndStart(req.params.id, { action, path: draft.draftPath }, draft.folder); res.status(202).json({ taskId: task.id, action, path: draft.draftPath, status: task.status, startedAt: task.startedAt, draft }); } catch (err) { res.status(400).json({ ok: false, message: String(err?.message || err) }); }
+      try { const project = getProject(db, req.params.id); if (!project) return sendApiError(res, 404, 'PROJECT_NOT_FOUND', 'project not found'); const body = req.body && typeof req.body === 'object' ? req.body : {}; const action = body.action === 'publish-github' || body.action === 'contribute-sankiwork' ? body.action : null; if (!action) return sendApiError(res, 400, 'BAD_REQUEST', 'plugin share action is required'); const projectRoot = resolveProjectDir(PROJECTS_DIR, req.params.id, project.metadata); const draft = await generateSkillPluginDraft(db, projectRoot, req.params.id, req.params.candidateId); if (!draft) return sendApiError(res, 404, 'NOT_FOUND', 'plugin candidate not found'); if (!draft.validation.ok) return res.status(422).json({ ok: false, code: 'plugin-draft-invalid', message: 'Generated plugin draft is invalid.', draft }); const task = pluginShareTaskStore.createAndStart(req.params.id, { action, path: draft.draftPath }, draft.folder); res.status(202).json({ taskId: task.id, action, path: draft.draftPath, status: task.status, startedAt: task.startedAt, draft }); } catch (err) { res.status(400).json({ ok: false, message: String(err?.message || err) }); }
     },
     handleProjectShareTask: async (req, res) => {
       if (!isLocalSameOrigin(req, resolvedPort)) return res.status(403).json({ error: 'cross-origin request rejected' });
-      try { const project = getProject(db, req.params.id); if (!project) return sendApiError(res, 404, 'PROJECT_NOT_FOUND', 'project not found'); const body = req.body && typeof req.body === 'object' ? req.body : {}; const action: PluginShareAction | null = body.action === 'publish-github' || body.action === 'contribute-open-design' ? body.action : null; if (!action) return sendApiError(res, 400, 'BAD_REQUEST', 'plugin share action is required'); const relativePath = normalizeProjectPluginFolderPath(body.path); const projectRoot = resolveProjectDir(PROJECTS_DIR, req.params.id, project.metadata); const folder = await resolveProjectChildDirectory(projectRoot, relativePath); const task = pluginShareTaskStore.createAndStart(req.params.id, { action, path: relativePath }, folder); res.status(202).json({ taskId: task.id, action, path: relativePath, status: task.status, startedAt: task.startedAt }); } catch (err) { const code = err && err.code; const status = code === 'ENOENT' || code === 'ENOTDIR' ? 404 : 400; sendApiError(res, status, status === 404 ? 'PLUGIN_FOLDER_NOT_FOUND' : 'BAD_REQUEST', String(err?.message || err)); }
+      try { const project = getProject(db, req.params.id); if (!project) return sendApiError(res, 404, 'PROJECT_NOT_FOUND', 'project not found'); const body = req.body && typeof req.body === 'object' ? req.body : {}; const action: PluginShareAction | null = body.action === 'publish-github' || body.action === 'contribute-sankiwork' ? body.action : null; if (!action) return sendApiError(res, 400, 'BAD_REQUEST', 'plugin share action is required'); const relativePath = normalizeProjectPluginFolderPath(body.path); const projectRoot = resolveProjectDir(PROJECTS_DIR, req.params.id, project.metadata); const folder = await resolveProjectChildDirectory(projectRoot, relativePath); const task = pluginShareTaskStore.createAndStart(req.params.id, { action, path: relativePath }, folder); res.status(202).json({ taskId: task.id, action, path: relativePath, status: task.status, startedAt: task.startedAt }); } catch (err) { const code = err && err.code; const status = code === 'ENOENT' || code === 'ENOTDIR' ? 404 : 400; sendApiError(res, status, status === 404 ? 'PLUGIN_FOLDER_NOT_FOUND' : 'BAD_REQUEST', String(err?.message || err)); }
     },
   };
 
@@ -8509,7 +8509,7 @@ export async function startServer({
     type ScenarioEntry = {
       id: string;
       taskKind: 'new-generation' | 'figma-migration' | 'code-migration' | 'tune-collab';
-      pipeline: NonNullable<NonNullable<import('@open-design/contracts').PluginManifest['od']>['pipeline']>;
+      pipeline: NonNullable<NonNullable<import('@sankiwork/contracts').PluginManifest['od']>['pipeline']>;
     };
     const byTaskKind = new Map<ScenarioEntry['taskKind'], ScenarioEntry>();
     try {
@@ -9156,7 +9156,7 @@ export async function startServer({
     // files are absent) gets the structured token contract appended to
     // the system prompt automatically.
     //
-    // `OD_DESIGN_TOKEN_CHANNEL=0` is the kill switch: it forces the
+    // `SW_DESIGN_TOKEN_CHANNEL=0` is the kill switch: it forces the
     // daemon back to the pre-PR-C DESIGN.md-only path for every brand,
     // including the structured ones. Any other value (unset, `1`,
     // `true`, etc.) keeps the new default. Drift on prose-only brands
@@ -9397,10 +9397,10 @@ export async function startServer({
     // the way it did when the toggle had never been touched.
     const projectCritiqueOverride = narrowProjectCritiqueOverride(metadata);
     const critiqueEnabledForRun = isCritiqueEnabled({
-      phase: parseRolloutPhase(process.env.OD_CRITIQUE_ROLLOUT_PHASE),
+      phase: parseRolloutPhase(process.env.SW_CRITIQUE_ROLLOUT_PHASE),
       skillPolicy: skillCritiquePolicy,
       projectOverride: projectCritiqueOverride,
-      envOverride: parseEnvEnabled(process.env.OD_CRITIQUE_ENABLED),
+      envOverride: parseEnvEnabled(process.env.SW_CRITIQUE_ENABLED),
     });
     const critiqueBrand = critiqueEnabledForRun
       && typeof designSystemTitle === 'string'
@@ -9462,11 +9462,11 @@ export async function startServer({
     // into `## Active stage` blocks via the contracts helper when
     // the run carries a snapshot with a pipeline. Default is now ON
     // (flipped in §3.V1 once the bundled SKILL.md fragments covered
-    // every Phase 6/7/8 atom); set OD_BUNDLED_ATOM_PROMPTS=0 to opt
+    // every Phase 6/7/8 atom); set SW_BUNDLED_ATOM_PROMPTS=0 to opt
     // out (the runs that need pre-§3.V1 byte-equal prompts: snapshot
     // replay against an older daemon, regression-bisects).
     let activeStageBlocks;
-    const bundledAtomPromptsEnabled = process.env.OD_BUNDLED_ATOM_PROMPTS !== '0';
+    const bundledAtomPromptsEnabled = process.env.SW_BUNDLED_ATOM_PROMPTS !== '0';
     if (
       bundledAtomPromptsEnabled
       && typeof appliedPluginSnapshotId === 'string'
@@ -9477,7 +9477,7 @@ export async function startServer({
         const stages = snap?.pipeline?.stages ?? [];
         if (stages.length > 0) {
           const { loadAtomBodies } = await import('./plugins/atom-bodies.js');
-          const { renderActiveStageBlocks } = await import('@open-design/contracts');
+          const { renderActiveStageBlocks } = await import('@sankiwork/contracts');
           const stageViews = [];
           for (const stage of stages) {
             const bodies = await loadAtomBodies(db, stage.atoms ?? []);
@@ -9522,7 +9522,7 @@ export async function startServer({
       template,
       audioVoiceOptions,
       audioVoiceOptionsError,
-      // critiqueCfg.enabled is loaded from OD_CRITIQUE_ENABLED only, so a
+      // critiqueCfg.enabled is loaded from SW_CRITIQUE_ENABLED only, so a
       // run that the resolver enabled via phase / project / skill (env
       // unset) would have critiqueShouldRun = true while critiqueCfg.enabled
       // remains false. Without this override the composer's own gate
@@ -9549,10 +9549,10 @@ export async function startServer({
       // VALIDATION DEFAULT — feat/system-prompt integration branch only.
       // Slim is the default here so packaged beta builds exercise the
       // rewritten charter without env plumbing (the packaged sidecar env
-      // allowlist does not forward OD_PROMPT_CORE); OD_PROMPT_CORE=classic
+      // allowlist does not forward SW_PROMPT_CORE); SW_PROMPT_CORE=classic
       // restores the classic stack. main keeps classic as the default —
       // do NOT carry this flip into a PR against main.
-      promptCoreVariant: process.env.OD_PROMPT_CORE === 'classic' ? undefined : 'slim',
+      promptCoreVariant: process.env.SW_PROMPT_CORE === 'classic' ? undefined : 'slim',
     };
     const prompt = composeSystemPrompt(systemPromptInputs);
     // The chat handler also needs to know where the active skill lives
@@ -9590,7 +9590,7 @@ export async function startServer({
   // run's SSE stream. Synchronous first emit (the first
   // pipeline_stage_started event lands before the agent process
   // starts) + async tail. Stage D wires the atom-worker registry as
-  // the default stage runner; set OD_PIPELINE_RUNNER=stub to fall
+  // the default stage runner; set SW_PIPELINE_RUNNER=stub to fall
   // back to the canned v1 stub for diagnostic bisection or replay
   // of pre-Stage-D runs. Errors are swallowed (logged) so a bad
   // pipeline never blocks the agent run.
@@ -9607,7 +9607,7 @@ export async function startServer({
     const projectIdForRun = run.projectId
       ?? snapshot.resolvedContext?.items?.[0]?.id
       ?? 'project-unknown';
-    const runnerMode = process.env.OD_PIPELINE_RUNNER === 'stub'
+    const runnerMode = process.env.SW_PIPELINE_RUNNER === 'stub'
       ? 'stub'
       : 'registry';
     let runStage;
@@ -10132,9 +10132,9 @@ export async function startServer({
     //   2. Latch detections onto the conversation (monotonic ON), so a
     //      history trim on agent switch or a non-transcript client cannot
     //      flip a previously seen signal back OFF.
-    // OD_INTENT_SIGNAL_MODE=legacy restores the pre-hotfix whole-text,
+    // SW_INTENT_SIGNAL_MODE=legacy restores the pre-hotfix whole-text,
     // unlatched scan.
-    const legacyIntentSignalScan = process.env.OD_INTENT_SIGNAL_MODE === 'legacy';
+    const legacyIntentSignalScan = process.env.SW_INTENT_SIGNAL_MODE === 'legacy';
     const intentSignalTexts = legacyIntentSignalScan
       ? [message, currentPrompt]
       : [
@@ -10172,7 +10172,7 @@ export async function startServer({
         byokMediaDefaults,
         // Plan §3.M2 / §3.V1 — forward the run's snapshot id so the
         // prompt composer can splice in `## Active stage` blocks.
-        // Default ON; set OD_BUNDLED_ATOM_PROMPTS=0 to opt out.
+        // Default ON; set SW_BUNDLED_ATOM_PROMPTS=0 to opt out.
         appliedPluginSnapshotId: run?.appliedPluginSnapshotId ?? null,
         // User-authored-only, conversation-latched detections (see the
         // intentSignals block above): a deck mention in the user's own words
@@ -10196,7 +10196,7 @@ export async function startServer({
     // (2/3) so the agent can pick whichever works.
     //
     //   1. CWD-relative copy. Stage every active/composed skill into
-    //      `<cwd>/.od-skills/<folder>/` so any agent CLI — not just the
+    //      `<cwd>/.sankiwork-skills/<folder>/` so any agent CLI — not just the
     //      ones that honour `--add-dir` — can reach those files via a
     //      path inside its working directory. We copy (not symlink) so
     //      each staged directory is a true write barrier — agents cannot
@@ -11290,11 +11290,11 @@ export async function startServer({
     const mcpServers = buildLiveArtifactsMcpServersForAgent(def, {
       enabled: Boolean(toolTokenGrant?.token),
       command: process.execPath,
-      argsPrefix: [OD_BIN],
+      argsPrefix: [SW_BIN],
     });
 
     // External MCP servers configured by the user in Settings → External MCP.
-    // Open Design relays them to the agent so the model can call those tools.
+    // SankiWork relays them to the agent so the model can call those tools.
     // Two delivery shapes today:
     //   - Claude Code: write a `.mcp.json` into the project cwd. Claude Code
     //     auto-loads that file at spawn (same format the CLI accepts via
@@ -11650,7 +11650,7 @@ export async function startServer({
       );
       await normalizeCodexConfigFile(codexConfigEnv);
 
-      // When Open Design leaves model selection at `default`, Codex resolves
+      // When SankiWork leaves model selection at `default`, Codex resolves
       // the concrete model from config.toml. A known-old CLI can accept the
       // config, start `exec`, and only then reject a newer configured model.
       // Gate only evidence-backed stable-version/model combinations before
@@ -11754,7 +11754,7 @@ export async function startServer({
           disablePlugins:
             def.id === 'codex'
             && run.externalPluginAnalytics?.externalPluginId
-              === OPEN_DESIGN_PLUGIN_ID,
+              === SANKIWORK_PLUGIN_ID,
         },
       );
     } catch (err) {
@@ -11900,10 +11900,10 @@ export async function startServer({
       resolveChatRunFirstOutputTimeoutMs(def.firstOutputTimeoutMs);
     const artifactQuietPeriodMs = resolveChatRunArtifactQuietPeriodMs();
     // Grace before the inactivity watchdog escalates a stalled child from
-    // SIGTERM to SIGKILL. Env-tunable like its OD_CHAT_RUN_* cancel-grace
+    // SIGTERM to SIGKILL. Env-tunable like its SW_CHAT_RUN_* cancel-grace
     // siblings so the escalation path can be exercised deterministically.
     const inactivityKillGraceMs = (() => {
-      const raw = Number(process.env.OD_CHAT_RUN_INACTIVITY_KILL_GRACE_MS);
+      const raw = Number(process.env.SW_CHAT_RUN_INACTIVITY_KILL_GRACE_MS);
       return Number.isFinite(raw) && raw > 0 ? raw : 3_000;
     })();
     let inactivityTimer = null;
@@ -12133,8 +12133,8 @@ export async function startServer({
       // immediately so we don't have to wait for the next agent event
       // before the new ceiling takes effect. Call unconditionally:
       // an earlier `if (inactivityTimer)` gate left the run in limbo
-      // when `OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS=0` but
-      // `OD_CHAT_RUN_ARTIFACT_QUIET_PERIOD_MS>0` — noteAgentActivity()
+      // when `SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS=0` but
+      // `SW_CHAT_RUN_ARTIFACT_QUIET_PERIOD_MS>0` — noteAgentActivity()
       // had returned early at run start (pre-artifact delay = 0,
       // no timer set), so the guard then skipped the re-arm and the
       // newly-positive quiet-period delay never armed a timer at all.
@@ -12176,10 +12176,10 @@ export async function startServer({
     }
     const browserUseRuntimeEnv = run.browserUse
       ? {
-          OD_BROWSER_USE_REQUESTED: run.browserUse.requested ? '1' : '0',
-          OD_BROWSER_USE_AVAILABLE: run.browserUse.available ? '1' : '0',
-          ...(run.browserUse.reason ? { OD_BROWSER_USE_UNAVAILABLE_REASON: run.browserUse.reason } : {}),
-          OD_BROWSER_USE_REGISTRY_PATH: run.browserUse.diagnostics?.registryPath ?? '',
+          SW_BROWSER_USE_REQUESTED: run.browserUse.requested ? '1' : '0',
+          SW_BROWSER_USE_AVAILABLE: run.browserUse.available ? '1' : '0',
+          ...(run.browserUse.reason ? { SW_BROWSER_USE_UNAVAILABLE_REASON: run.browserUse.reason } : {}),
+          SW_BROWSER_USE_REGISTRY_PATH: run.browserUse.diagnostics?.registryPath ?? '',
         }
       : {};
     const configuredAgentSpawnEnv = createDaemonDataDirConfiguredAgentEnv(configuredAgentEnv);
@@ -12208,7 +12208,7 @@ export async function startServer({
         return finishRun('failed', 1, null);
       }
     }
-    const odMediaEnv = createOpenDesignToolEnv({
+    const odMediaEnv = createSankiWorkToolEnv({
       daemonUrl,
       projectDir: cwd,
       projectId: typeof projectId === 'string' ? projectId : null,
@@ -12269,11 +12269,11 @@ export async function startServer({
         ...(mmdRouteLaunchEnv || {}),
         ...odMediaEnv,
         ...(byokOpenCodeProvider ? byokOpenCodeProvider.env : {}),
-        ...await openDesignAmrTraceEnvForRun({
+        ...await sankiWorkAmrTraceEnvForRun({
           agentId: def.id,
           runId: run.id,
           conversationId: run.conversationId,
-          runAttempt: openDesignAmrRunAttempt({
+          runAttempt: sankiWorkAmrRunAttempt({
             retryAttemptCount: run.retryAttemptCount,
             manualResumeAttemptCount: run.manualResumeAttemptCount,
           }),
@@ -12902,7 +12902,7 @@ export async function startServer({
     // guard observes the normalized tool_use/tool_result events EVERY agent
     // path emits, so one instance covers Claude, Codex/OpenCode, Copilot, ACP,
     // … It emits a one-shot `tool_loop` warning, then (in halt mode) terminates
-    // the run at a hard ceiling. Mode via OD_TOOL_LOOP_GUARD (halt|warn|off).
+    // the run at a hard ceiling. Mode via SW_TOOL_LOOP_GUARD (halt|warn|off).
     const toolLoopGuard = createToolLoopGuard({ mode: resolveToolLoopMode() });
     let toolLoopAbortFired = false;
 
@@ -14280,11 +14280,11 @@ export async function startServer({
       systemPrompt: [
         renderOrbitTemplateSystemPrompt(template),
         systemPrompt,
-        'You are Orbit, an autonomous activity-summary agent inside Open Design.',
+        'You are Orbit, an autonomous activity-summary agent inside SankiWork.',
         'You must discover connectors and connector tools yourself through the OD CLI; the daemon has not chosen tools for you.',
         'You must create and register a Live Artifact as the final deliverable. Do not merely describe what you would do.',
         'Do not ask follow-up questions, do not emit <question-form>, and do not wait for user input. This run is unattended; pick reasonable defaults and complete the artifact.',
-        'Keep connector credentials and OD_TOOL_TOKEN private; never print or persist secrets.',
+        'Keep connector credentials and SW_TOOL_TOKEN private; never print or persist secrets.',
       ].join('\n'),
     }, run));
 
@@ -14866,7 +14866,7 @@ export async function startServer({
     },
     agents: agentDeps,
     critique: critiqueDeps,
-    openDesignPublicMetadata,
+    sankiWorkPublicMetadata,
     lifecycle: { isDaemonShuttingDown: () => daemonShuttingDown },
   });
 

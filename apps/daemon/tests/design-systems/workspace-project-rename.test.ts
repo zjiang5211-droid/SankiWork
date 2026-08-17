@@ -289,8 +289,8 @@ describe('PATCH /api/projects/:id design-system rename write-through', () => {
   it('aborts the PATCH when the write-through fails, leaving the project row unchanged', async () => {
     const { projectId } = await createWorkspaceProject('Broken Binding');
 
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     // ds-<dirId> project ids mirror user:<dirId> design-system ids.
     const dirId = projectId.replace(/^ds-/, '');
     await rm(path.join(dataDir, 'design-systems', dirId), { recursive: true, force: true });

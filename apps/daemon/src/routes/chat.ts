@@ -32,7 +32,7 @@ import {
   classifyAIHubMixModel,
 } from '../integrations/aihubmix.js';
 import { isSafeId as isSafeProjectId } from '../projects.js';
-import { projectKindToTracking } from '@open-design/contracts/analytics';
+import { projectKindToTracking } from '@sankiwork/contracts/analytics';
 import { proxyDispatcherRequestInit, validateUserProviderBaseUrl } from '../connectionTest.js';
 import { isKnownReasoningEffort, resolveModelForServiceTier } from '../runtimes/models.js';
 import { googleStreamGenerateContentUrl } from '../integrations/google-models.js';
@@ -1102,8 +1102,8 @@ export function registerChatRoutes(app: Express, ctx: RegisterChatRoutesDeps) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${apiKey}`,
           ...(validated.parsed!.hostname === 'openrouter.ai' ? {
-            'HTTP-Referer': 'https://opendesign.dev',
-            'X-Title': 'Open Design',
+            'HTTP-Referer': 'https://sanki-ai.cloud',
+            'X-Title': 'SankiWork',
           } : {}),
         },
         redirect: 'error' as const,
@@ -2240,7 +2240,7 @@ export function registerChatRoutes(app: Express, ctx: RegisterChatRoutesDeps) {
     const sse = createSseResponse(res);
     // These gateways issue one API key that works for both
     // /v1/chat/completions and the image / TTS surfaces. Mirror the
-    // BYOK key into media-config so the CLI agent path (`od media
+    // BYOK key into media-config so the CLI agent path (`sw media
     // generate`) picks it up automatically — fire-and-forget; the
     // chat stream must not block on the disk write. seedProviderIfMissing
     // is idempotent and preserves env-var-resolved keys.

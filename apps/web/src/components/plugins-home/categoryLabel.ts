@@ -13,7 +13,7 @@
 // Kept as a pure module so the resolver can be unit-tested without React and
 // the three card components can share one call.
 
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 import type { useT } from '../../i18n';
 
 // The 15 canonical commercial category ids. English labels live in the i18n

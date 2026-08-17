@@ -52,7 +52,7 @@ test("collectRelativeSpecifiers ignores external specifiers and string literals 
     "a.ts",
     [
       "import path from 'node:path';",
-      "import { Button } from '@open-design/components';",
+      "import { Button } from '@sankiwork/components';",
       "// import { x } from './commented.js';",
       "const label = './not-an-import.js';",
     ].join("\n"),

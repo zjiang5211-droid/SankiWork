@@ -11,7 +11,7 @@ const DOC = {
   id: '0.13.0',
   title: 'Design system sync',
   body: 'Import, edit and sync design systems.',
-  imageUrl: 'https://whatsnew.open-design.ai/0.13.0.png',
+  imageUrl: 'https://whatsnew.sanki-ai.cloud/0.13.0.png',
   linkUrl: 'https://github.com/nexu-io/open-design/releases/tag/open-design-v0.13.0',
   locales: { 'zh-CN': { title: '设计系统同步' } },
 };
@@ -34,8 +34,8 @@ describe('whatsNewSourceUrl', () => {
     expect(whatsNewSourceUrl({}, '')).toBeNull();
   });
 
-  it('honors OD_WHATS_NEW_URL for fixtures and tests regardless of channel', () => {
-    expect(whatsNewSourceUrl({ OD_WHATS_NEW_URL: 'https://fixture.local/whats-new.json' }, 'development')).toBe(
+  it('honors SW_WHATS_NEW_URL for fixtures and tests regardless of channel', () => {
+    expect(whatsNewSourceUrl({ SW_WHATS_NEW_URL: 'https://fixture.local/whats-new.json' }, 'development')).toBe(
       'https://fixture.local/whats-new.json',
     );
   });

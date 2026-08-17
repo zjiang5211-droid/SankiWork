@@ -98,8 +98,8 @@ describe('AssistantMessage next-step affordance', () => {
     expect(screen.queryByTestId('next-step-actions')).toBeNull();
   });
 
-  it('reaches Contribute (share to Open Design) through the More → Share cascade', () => {
-    const onShareToOpenDesign = vi.fn();
+  it('reaches Contribute (share to SankiWork) through the More → Share cascade', () => {
+    const onShareToSankiWork = vi.fn();
     render(
       <AssistantMessage
         message={baseMessage({ producedFiles: [producedFile('landing.html')] })}
@@ -107,14 +107,14 @@ describe('AssistantMessage next-step affordance', () => {
         projectId="proj-1"
         isLast
         onFeedback={vi.fn()}
-        onShareToOpenDesign={onShareToOpenDesign}
+        onShareToSankiWork={onShareToSankiWork}
         {...handlers()}
       />,
     );
     fireEvent.mouseEnter(screen.getByTestId('next-step-toolbox-more'));
     fireEvent.mouseEnter(screen.getByTestId('next-step-more-share'));
     fireEvent.click(screen.getByTestId('next-step-share-contribute'));
-    expect(onShareToOpenDesign).toHaveBeenCalledTimes(1);
+    expect(onShareToSankiWork).toHaveBeenCalledTimes(1);
   });
 
   it('does not render after a simple answer with no deliverable', () => {

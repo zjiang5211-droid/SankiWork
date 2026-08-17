@@ -1,7 +1,7 @@
 /*
  * Blog author registry.
  *
- * Authors are Open Design *team personas* — recurring bylines attributed to the
+ * Authors are SankiWork *team personas* — recurring bylines attributed to the
  * team, NOT impersonations of independent outside experts. A post opts in via
  * the optional `author: <id>` frontmatter field; posts without it render no
  * byline (unchanged behaviour). Avatars are warm editorial portrait
@@ -19,22 +19,22 @@ export const BLOG_AUTHORS: Record<string, BlogAuthor> = {
   'mira-zhao': {
     id: 'mira-zhao',
     name: 'Mira Zhao',
-    role: 'Design Engineer, Open Design',
-    bio: 'Works on the design-to-code pipeline at Open Design and writes about agentic design workflows.',
+    role: 'Design Engineer, SankiWork',
+    bio: 'Works on the design-to-code pipeline at SankiWork and writes about agentic design workflows.',
     avatar: '/blog/authors/mira-zhao.webp',
   },
   'theo-lindqvist': {
     id: 'theo-lindqvist',
     name: 'Theo Lindqvist',
-    role: 'Product, Open Design',
-    bio: 'Product at Open Design, focused on BYOK and the open plugin ecosystem.',
+    role: 'Product, SankiWork',
+    bio: 'Product at SankiWork, focused on BYOK and the open plugin ecosystem.',
     avatar: '/blog/authors/theo-lindqvist.webp',
   },
   'nadia-haddad': {
     id: 'nadia-haddad',
     name: 'Nadia Haddad',
-    role: 'Design Systems, Open Design',
-    bio: 'Works on design systems and developer experience at Open Design.',
+    role: 'Design Systems, SankiWork',
+    bio: 'Works on design systems and developer experience at SankiWork.',
     avatar: '/blog/authors/nadia-haddad.webp',
   },
 };

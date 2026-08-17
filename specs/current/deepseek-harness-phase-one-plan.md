@@ -7,7 +7,7 @@ Date: 2026-08-14
 Related contract: `specs/current/deepseek-harness-profile-adapter.md`
 
 The implementation uses a user-installed official `dsh` plus an OD profile
-bundle and a versioned JSONL protocol; Open Design does not package a Harness
+bundle and a versioned JSONL protocol; SankiWork does not package a Harness
 carrier.
 
 ## 1. Phase-one goal
@@ -15,7 +15,7 @@ carrier.
 Deliver the smallest useful vertical slice:
 
 > A user who has installed official DSH can explicitly connect it from the
-> normal Open Design CLI picker, select a discovered model and reasoning level,
+> normal SankiWork CLI picker, select a discovered model and reasoning level,
 > generate a previewable file artifact, cold-resume the conversation in a new
 > process, and modify that artifact.
 
@@ -31,7 +31,7 @@ not because every Harness capability is exposed.
 3. The user configures a DeepSeek credential through Harness or the process
    environment.
 4. OD detects `dsh`, verifies `--version`, and runs
-   `dsh --profile open-design --probe`.
+   `dsh --profile sankiwork --probe`.
 5. OD rescans, selects, and connection-tests DeepSeek Harness. A compatible
    pre-existing profile skips the dialog and selects immediately.
 6. A first request creates an HTML artifact in the OD project and OD previews
@@ -52,7 +52,7 @@ storage, MCP injection, and automatic background maintenance deferred.
 - detect the user's official `dsh`, including `DSH_BIN`;
 - probe a usable version;
 - treat untested parseable versions as available with a warning;
-- require a compatible `open-design --probe` response;
+- require a compatible `sankiwork --probe` response;
 - build an OD profile bundle compatible with the tested official DSH family;
 - keep the bundle source, daemon protocol types, and fixtures in the same
   repository and embed its exact packed artifact in each OD build;
@@ -66,7 +66,7 @@ storage, MCP injection, and automatic background maintenance deferred.
 - install the hash-verified embedded tarball through the user's `dsh` only
   after confirmation;
 - rescan, select, and connection-test on success;
-- expose the same operation as `od agent setup deepseek-harness --json`;
+- expose the same operation as `sw agent setup deepseek-harness --json`;
 - do not reinstall or prompt when the compatible profile already exists.
 
 ### Models and reasoning
@@ -78,7 +78,7 @@ storage, MCP injection, and automatic background maintenance deferred.
 
 ### Runtime protocol
 
-- `dsh --profile open-design --stdio`;
+- `dsh --profile sankiwork --stdio`;
 - generation-1 JSONL `ready`, `execute`, `cancel`, `session`, `thinking`,
   `text`, `tool_call`, `tool_result`, `usage`, `result`, and
   `protocol_error` frames;
@@ -153,14 +153,14 @@ These are deferred without changing the chosen architecture.
 | display name | `DeepSeek Harness` |
 | executable | user-installed `dsh` |
 | override | `DSH_BIN` |
-| profile | `open-design` |
+| profile | `sankiwork` |
 | stream format | `dsh-profile-jsonl` |
 | protocol generation | `1` |
 | process model | one child per OD run |
 | session model | one compatible Harness session per OD conversation |
 | completion | exactly one matching terminal `result` |
 | resume failure | fail; never silently create |
-| profile setup | explicit selection dialog or `od agent setup` |
+| profile setup | explicit selection dialog or `sw agent setup` |
 | bundle delivery | pinned tarball embedded in OD; official `dsh` stays external |
 | credential source | preconfigured Harness or inherited environment |
 | MCP | not forwarded in phase one |
@@ -202,7 +202,7 @@ Retain:
 
 Replace:
 
-- `--profile headless -- -- <prompt>` with `--profile open-design --stdio`;
+- `--profile headless -- -- <prompt>` with `--profile sankiwork --stdio`;
 - positional prompt and 30 KB argv budget with stdin JSONL;
 - `plain` output with structured frames;
 - fresh full-transcript turns with stable cold resume;
@@ -321,7 +321,7 @@ The agent picker and Settings both place an installed-but-unconfigured DSH in
 the ordinary **Your CLIs** group. Clicking it opens the same confirmation
 dialog; Settings' **Test** remains a pure connection test. The setup operation
 has a shared contract DTO and daemon endpoint, a Web surface, and the explicit
-`od agent setup deepseek-harness --json` CLI peer.
+`sw agent setup deepseek-harness --json` CLI peer.
 
 The existing normal chat/run APIs expose DeepSeek Harness by runtime id like
 other coding agents. Future credential management must likewise land as one
@@ -349,8 +349,8 @@ HTTP/UI/CLI closure, with CLI secrets accepted through stdin or a key file.
 Before Checkpoint A handoff:
 
 ```text
-pnpm --filter @open-design/daemon typecheck
-pnpm --filter @open-design/contracts typecheck
+pnpm --filter @sankiwork/daemon typecheck
+pnpm --filter @sankiwork/contracts typecheck
 focused daemon protocol and detection tests
 git diff --check
 ```
@@ -360,12 +360,12 @@ Before phase-one completion:
 ```text
 pnpm guard
 pnpm typecheck
-pnpm --filter @open-design/daemon test
+pnpm --filter @sankiwork/daemon test
 profile package/install/probe smoke
 macOS/Linux real two-process smoke
 Windows process-tree smoke
 credentialed OD artifact E2E
 ```
 
-No upstream DeepSeek PR and no Open Design-packaged Harness carrier are on the
+No upstream DeepSeek PR and no SankiWork-packaged Harness carrier are on the
 phase-one critical path.

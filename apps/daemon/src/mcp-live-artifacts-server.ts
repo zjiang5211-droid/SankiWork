@@ -43,7 +43,7 @@ export function createLiveArtifactsMcpTools(): McpTool[] {
   return [
     {
       name: 'live_artifacts_create',
-      description: 'Create a project-scoped live artifact through the daemon tool endpoint. POSIX equivalent: `"$OD_NODE_BIN" "$OD_BIN" tools live-artifacts create --input artifact.json`.',
+      description: 'Create a project-scoped live artifact through the daemon tool endpoint. POSIX equivalent: `"$SW_NODE_BIN" "$SW_BIN" tools live-artifacts create --input artifact.json`.',
       inputSchema: {
         type: 'object',
         additionalProperties: false,
@@ -57,12 +57,12 @@ export function createLiveArtifactsMcpTools(): McpTool[] {
     },
     {
       name: 'live_artifacts_list',
-      description: 'List compact project-scoped live artifacts through the daemon tool endpoint. POSIX equivalent: `"$OD_NODE_BIN" "$OD_BIN" tools live-artifacts list --format compact`.',
+      description: 'List compact project-scoped live artifacts through the daemon tool endpoint. POSIX equivalent: `"$SW_NODE_BIN" "$SW_BIN" tools live-artifacts list --format compact`.',
       inputSchema: EMPTY_OBJECT_SCHEMA,
     },
     {
       name: 'live_artifacts_update',
-      description: 'Update a live artifact through the daemon tool endpoint. POSIX equivalent: `"$OD_NODE_BIN" "$OD_BIN" tools live-artifacts update --artifact-id <id> --input artifact.json`.',
+      description: 'Update a live artifact through the daemon tool endpoint. POSIX equivalent: `"$SW_NODE_BIN" "$SW_BIN" tools live-artifacts update --artifact-id <id> --input artifact.json`.',
       inputSchema: {
         type: 'object',
         additionalProperties: false,
@@ -77,7 +77,7 @@ export function createLiveArtifactsMcpTools(): McpTool[] {
     },
     {
       name: 'live_artifacts_refresh',
-      description: 'Refresh a live artifact through the daemon tool endpoint. POSIX equivalent: `"$OD_NODE_BIN" "$OD_BIN" tools live-artifacts refresh --artifact-id <id>`.',
+      description: 'Refresh a live artifact through the daemon tool endpoint. POSIX equivalent: `"$SW_NODE_BIN" "$SW_BIN" tools live-artifacts refresh --artifact-id <id>`.',
       inputSchema: {
         type: 'object',
         additionalProperties: false,
@@ -89,12 +89,12 @@ export function createLiveArtifactsMcpTools(): McpTool[] {
     },
     {
       name: 'connectors_list',
-      description: 'List connector catalog and available read-only tools through the daemon tool endpoint. Use `{ "useCase": "personal_daily_digest" }` for curated daily-digest tools. POSIX equivalent: `"$OD_NODE_BIN" "$OD_BIN" tools connectors list --use-case personal_daily_digest --format compact` or fallback `"$OD_NODE_BIN" "$OD_BIN" tools connectors list --format compact`.',
+      description: 'List connector catalog and available read-only tools through the daemon tool endpoint. Use `{ "useCase": "personal_daily_digest" }` for curated daily-digest tools. POSIX equivalent: `"$SW_NODE_BIN" "$SW_BIN" tools connectors list --use-case personal_daily_digest --format compact` or fallback `"$SW_NODE_BIN" "$SW_BIN" tools connectors list --format compact`.',
       inputSchema: CONNECTORS_LIST_INPUT_SCHEMA,
     },
     {
       name: 'connectors_execute',
-      description: 'Execute an allowed connector read tool through the daemon tool endpoint. POSIX equivalent: `"$OD_NODE_BIN" "$OD_BIN" tools connectors execute --connector <id> --tool <name> --input input.json`.',
+      description: 'Execute an allowed connector read tool through the daemon tool endpoint. POSIX equivalent: `"$SW_NODE_BIN" "$SW_BIN" tools connectors execute --connector <id> --tool <name> --input input.json`.',
       inputSchema: {
         type: 'object',
         additionalProperties: false,
@@ -110,8 +110,8 @@ export function createLiveArtifactsMcpTools(): McpTool[] {
 }
 
 function daemonUrl(): URL {
-  const rawUrl = process.env.OD_DAEMON_URL;
-  if (!rawUrl) throw new Error('OD_DAEMON_URL is required');
+  const rawUrl = process.env.SW_DAEMON_URL;
+  if (!rawUrl) throw new Error('SW_DAEMON_URL is required');
   const url = new URL(rawUrl);
   url.pathname = url.pathname.replace(/\/+$/u, '');
   url.search = '';
@@ -120,8 +120,8 @@ function daemonUrl(): URL {
 }
 
 function toolToken(): string {
-  const token = process.env.OD_TOOL_TOKEN;
-  if (!token) throw new Error('OD_TOOL_TOKEN is required');
+  const token = process.env.SW_TOOL_TOKEN;
+  if (!token) throw new Error('SW_TOOL_TOKEN is required');
   return token;
 }
 
@@ -215,7 +215,7 @@ export async function handleLiveArtifactsMcpRequest(request: JsonRpcRequest): Pr
         result: {
           protocolVersion: '2025-03-26',
           capabilities: { tools: {} },
-          serverInfo: { name: 'open-design-live-artifacts', version: '0.1.0' },
+          serverInfo: { name: 'sankiwork-live-artifacts', version: '0.1.0' },
         },
       };
     }

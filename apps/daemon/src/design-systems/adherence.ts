@@ -23,7 +23,7 @@ import {
   type DesignSystemAdherenceReport,
   type DesignSystemIntentSelection,
   type DesignSystemRuntimeBundle,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export type DesignSystemAdherenceArtifact = {
   path: string;

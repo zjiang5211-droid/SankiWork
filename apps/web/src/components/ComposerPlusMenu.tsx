@@ -14,7 +14,7 @@ import type {
   McpServerConfig,
   SkillSummary,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { useI18n, useT } from '../i18n';
 import { LIBRARY_UI_VISIBLE } from '../features/libraryUi';
 import { ComposerPluginPreview } from './ComposerPluginPreview';
@@ -238,7 +238,7 @@ export interface ComposerPlusMenuProps {
    * implement it by clicking the design-system trigger that already sits in
    * the same composer footer, so the row duplicated a visible control.
    */
-  onOpenDesignSystems?: () => void;
+  onSankiWorkSystems?: () => void;
 
   /**
    * Optional "Design toolbox" row, rendered LAST. Only the project composer

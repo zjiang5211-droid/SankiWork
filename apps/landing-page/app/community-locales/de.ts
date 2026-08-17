@@ -2,15 +2,15 @@ import type { DeepPartial, CommunityCopy } from '../community-i18n';
 
 const de: DeepPartial<CommunityCopy> = {
   hub: {
-    title: 'Community — Open Design',
-    desc: 'Die Open-Design-Community: Mitwirkende, die öffentlich liefern, Botschafter, die lokale Ateliers ausrichten, und Moderatoren, die den Discord warmhalten.',
-    heroTitle: 'Open Design <em>nimmt Gestalt an</em><br/>, wenn du es lieferst.',
+    title: 'Community — SankiWork',
+    desc: 'Die SankiWork-Community: Mitwirkende, die öffentlich liefern, Botschafter, die lokale Ateliers ausrichten, und Moderatoren, die den Discord warmhalten.',
+    heroTitle: 'SankiWork <em>nimmt Gestalt an</em><br/>, wenn du es lieferst.',
     heroLead:
-      'Open Design wird von Menschen gebaut, in aller Öffentlichkeit. Skills, DESIGN.md-Systeme, Plugins, Docs: Jeder Commit ist ein Pinselstrich. Wähl unten eine Tür und finde deinen Raum.',
+      'SankiWork wird von Menschen gebaut, in aller Öffentlichkeit. Skills, DESIGN.md-Systeme, Plugins, Docs: Jeder Commit ist ein Pinselstrich. Wähl unten eine Tür und finde deinen Raum.',
     cardMetaH: 'Automatisch geprägt beim ersten Merge',
     cardMetaS: 'PNG · geteilt auf X',
     cardHeroAlt:
-      'Ehrenkarte eines Open-Design-Mitwirkenden — @dev-kp-eloper, Top 99,9 %, Giotto-Stufe',
+      'Ehrenkarte eines SankiWork-Mitwirkenden — @dev-kp-eloper, Top 99,9 %, Giotto-Stufe',
     cards: [
       {
         ord: 'I',
@@ -21,7 +21,7 @@ const de: DeepPartial<CommunityCopy> = {
       {
         ord: 'II',
         title: 'Ambassadors',
-        sub: 'Open Designs <em>Stimme</em> in deiner Stadt.',
+        sub: 'SankiWorks <em>Stimme</em> in deiner Stadt.',
         body: 'Eröffne ein lokales Atelier. Ruf die Meetups, die Demos, die nächtlichen Kritiken zusammen. Gestützt durch Budget, Materialien und einen privaten Kanal zum Kernteam.',
       },
       {
@@ -33,14 +33,14 @@ const de: DeepPartial<CommunityCopy> = {
     ],
   },
   contributors: {
-    title: 'Contributors — Open Design',
-    desc: 'Mach bei Open Design mit: Maintainer, wöchentliche und Allzeit-Bestenlisten der Mitwirkenden, „good first issue“-Einstiege und ein Zero-Code-Weg, dein erstes Werk zu liefern.',
+    title: 'Contributors — SankiWork',
+    desc: 'Mach bei SankiWork mit: Maintainer, wöchentliche und Allzeit-Bestenlisten der Mitwirkenden, „good first issue“-Einstiege und ein Zero-Code-Weg, dein erstes Werk zu liefern.',
     heroTitle: 'Die Hände, die die Arbeit <em>liefern</em>.',
     heroLead:
-      'Open Design wird von Menschen gebaut, in aller Öffentlichkeit. Skills, DESIGN.md-Systeme, Plugins, Docs: Jeder Commit ist ein Pinselstrich. Wähl ein Issue, schick einen PR und verdien dir eine einmalige Ehrenkarte in dem Moment, in dem du gemergt wirst.',
+      'SankiWork wird von Menschen gebaut, in aller Öffentlichkeit. Skills, DESIGN.md-Systeme, Plugins, Docs: Jeder Commit ist ein Pinselstrich. Wähl ein Issue, schick einen PR und verdien dir eine einmalige Ehrenkarte in dem Moment, in dem du gemergt wirst.',
     showcase: {
       kicker: 'Plugin everything',
-      h2: 'Open Design als Bühne. <em>Deine Arbeit</em> als die Show.',
+      h2: 'SankiWork als Bühne. <em>Deine Arbeit</em> als die Show.',
       intro:
         'Das Atelier ist zugleich eine Galerie. Dir beim Schaffen zu helfen ist die halbe Miete; dafür zu sorgen, dass der Raum zum Schauen kommt, ist die andere. Jedes Werk, das du lieferst, landet nicht in einem Tresor, sondern an einer Wand, wo die Welt es finden kann.',
       tenets: [
@@ -54,11 +54,11 @@ const de: DeepPartial<CommunityCopy> = {
         },
         {
           h3: 'Ist es einmal drin, <em>reist es</em>.',
-          body: 'Die Registry auf <a href="https://open-design.ai/plugins/" target="_blank" rel="noopener">open-design.ai/plugins</a> ist nur die Schwelle. Von dort werden die stärksten Werke nach außen getragen: zu X, zu Discords <span class="num">#showcase</span>, zum Newsletter, zu den Video-Reels. Jede Übergabe weitet den Raum; die Welt begegnet deiner Hand.',
+          body: 'Die Registry auf <a href="https://sanki-ai.cloud/plugins/" target="_blank" rel="noopener">sanki-ai.cloud/plugins</a> ist nur die Schwelle. Von dort werden die stärksten Werke nach außen getragen: zu X, zu Discords <span class="num">#showcase</span>, zum Newsletter, zu den Video-Reels. Jede Übergabe weitet den Raum; die Welt begegnet deiner Hand.',
         },
         {
           h3: 'Brauchst du einen <em>ersten Strich</em>?',
-          body: 'Geh durch die <a href="https://open-design.ai/plugins/" target="_blank" rel="noopener">Plugin-Registry</a>. Die dort hängenden Werke sind der Zunder für dein eigenes. Borg dir den Funken und schaff dann das Werk, das nur deine Hand schaffen konnte.',
+          body: 'Geh durch die <a href="https://sanki-ai.cloud/plugins/" target="_blank" rel="noopener">Plugin-Registry</a>. Die dort hängenden Werke sind der Zunder für dein eigenes. Borg dir den Funken und schaff dann das Werk, das nur deine Hand schaffen konnte.',
         },
       ],
       pane: {
@@ -70,7 +70,7 @@ const de: DeepPartial<CommunityCopy> = {
         steps: [
           {
             h4: 'Gib dem Agenten die Zeile',
-            body: 'Füge den Befehl oben in den Agenten innerhalb von Open Design ein oder in den, den du ohnehin zur Hand hast: Claude Code, Codex, Cursor. Er installiert sich selbst.',
+            body: 'Füge den Befehl oben in den Agenten innerhalb von SankiWork ein oder in den, den du ohnehin zur Hand hast: Claude Code, Codex, Cursor. Er installiert sich selbst.',
           },
           {
             h4: 'Weck den Skill',
@@ -87,20 +87,20 @@ const de: DeepPartial<CommunityCopy> = {
       kicker: 'Steering the ship',
       h2: 'Die <em>Maintainer</em>.',
       intro:
-        'Maintainer schützen Richtung und Qualität von Open Design: Sie prüfen Beiträge, halten den Standard kohärent und schaffen Raum, damit sich mehr Mitwirkende ihren Platz im Projekt verdienen.',
+        'Maintainer schützen Richtung und Qualität von SankiWork: Sie prüfen Beiträge, halten den Standard kohärent und schaffen Raum, damit sich mehr Mitwirkende ihren Platz im Projekt verdienen.',
       role: 'Maintainer',
       bios: {
         'Nagendhra-web':
-          'Nagendhra bringt den Instinkt eines Data Engineers für die Wahrheit in Produktion mit: den Fehler finden, den Grenzfall messen und ihn ordentlich beheben. In Open Design zeigt sich das in Deploy-Preflight-Arbeit, gehärtetem Asset-Bundling und Windows-Fixes, die das Projekt vertrauenswürdig wirken lassen, wenn Mitwirkende liefern.',
+          'Nagendhra bringt den Instinkt eines Data Engineers für die Wahrheit in Produktion mit: den Fehler finden, den Grenzfall messen und ihn ordentlich beheben. In SankiWork zeigt sich das in Deploy-Preflight-Arbeit, gehärtetem Asset-Bundling und Windows-Fixes, die das Projekt vertrauenswürdig wirken lassen, wenn Mitwirkende liefern.',
         'Sid-Qin':
-          'Sid ist der Generalist-Engineer mit dem Blick eines Designers fürs Detail: die Art von Maintainer, der sowohl den kaputten CLI-Pfad als auch die schiefe Interaktions-Affordanz bemerkt. In Open Design hält Sid Export-Flows, Plugin-Aktionen, Windows-Shims, MIME-Handling und Agent-Plumbing scharf genug, dass eine Community darauf aufbauen kann.',
+          'Sid ist der Generalist-Engineer mit dem Blick eines Designers fürs Detail: die Art von Maintainer, der sowohl den kaputten CLI-Pfad als auch die schiefe Interaktions-Affordanz bemerkt. In SankiWork hält Sid Export-Flows, Plugin-Aktionen, Windows-Shims, MIME-Handling und Agent-Plumbing scharf genug, dass eine Community darauf aufbauen kann.',
       },
     },
     allTime: {
       kicker: 'All-time signal',
       h2: 'Die Mitwirkenden mit <em>tiefen Wurzeln</em>.',
       intro:
-        'Ein langlaufendes Verzeichnis talentierter Mitwirkender, die Ideen, Fixes und Handwerk immer wieder in den gemeinsamen Open-Design-Standard verwandeln.',
+        'Ein langlaufendes Verzeichnis talentierter Mitwirkender, die Ideen, Fixes und Handwerk immer wieder in den gemeinsamen SankiWork-Standard verwandeln.',
       rankLabel: 'Mitwirkende aller Zeiten',
       week: 'Repository-Historie',
       quote:
@@ -116,12 +116,12 @@ const de: DeepPartial<CommunityCopy> = {
       kicker: 'Das Signal dieser Woche',
       h2: 'Zehn Mitwirkende, die <em>diese Woche</em> vorangehen.',
       intro:
-        'Eine Momentaufnahme scharfer Mitwirkender, die PRs landen, das Produkt verbessern und Open Design lebendig wirken lassen.',
+        'Eine Momentaufnahme scharfer Mitwirkender, die PRs landen, das Produkt verbessern und SankiWork lebendig wirken lassen.',
       rankLabel: 'Vorreiter dieser Woche',
       week: 'Letzte 7 Tage',
       handleSuffix: '· führend diese Woche',
       blurbTemplate:
-        '{name} gibt diese Woche das Tempo vor mit {prs} gemergten PRs und der Art stetigem Handwerk, das Open Design in Bewegung hält.',
+        '{name} gibt diese Woche das Tempo vor mit {prs} gemergten PRs und der Art stetigem Handwerk, das SankiWork in Bewegung hält.',
       statRank: 'Rang',
       statPrs: 'PRs · 7 T',
       headContributor: 'Mitwirkende:r',
@@ -132,7 +132,7 @@ const de: DeepPartial<CommunityCopy> = {
       kicker: 'Wähl deinen ersten Beitrag',
       h2: 'Offene Issues, <em>für dich getaggt</em>.',
       intro:
-        'Live aus <span class="num">label:&ldquo;good first issue&rdquo;</span> im Open-Design-Repo. Kommentiere ein Issue, um es dir zu sichern, und ein Maintainer weist es dir innerhalb eines Tages zu.',
+        'Live aus <span class="num">label:&ldquo;good first issue&rdquo;</span> im SankiWork-Repo. Kommentiere ein Issue, um es dir zu sichern, und ein Maintainer weist es dir innerhalb eines Tages zu.',
       loading: 'good first issue',
       foot: 'Es werden die ersten <span class="num" id="issue-count">—</span> offenen good-first-issues gezeigt',
       seeAll: 'Alle auf GitHub ansehen',
@@ -164,16 +164,16 @@ const de: DeepPartial<CommunityCopy> = {
         {
           n: 'Schritt 04',
           h3: 'Merge → <em>Karte</em>.',
-          body: 'Der Bot prägt deine Ehrenkarte in dem Moment, in dem du gemergt wirst, und pusht sie in den bot-cards-Branch. Teil sie auf X mit #OpenDesign, und wir reposten die besten.',
+          body: 'Der Bot prägt deine Ehrenkarte in dem Moment, in dem du gemergt wirst, und pusht sie in den bot-cards-Branch. Teil sie auf X mit #SankiWork, und wir reposten die besten.',
         },
       ],
       cta: 'Lies den Contributing-Guide',
     },
   },
   ambassadors: {
-    title: 'Ambassadors — Open Design',
-    desc: 'Werde Open-Design-Botschafter: Eröffne ein lokales Atelier, richte Meetups und Kritiken aus und erhalte Budget, Materialien und einen privaten Kanal zum Kernteam.',
-    heroTitle: 'Sei Open Designs <em>Stimme</em> in deiner Stadt.',
+    title: 'Ambassadors — SankiWork',
+    desc: 'Werde SankiWork-Botschafter: Eröffne ein lokales Atelier, richte Meetups und Kritiken aus und erhalte Budget, Materialien und einen privaten Kanal zum Kernteam.',
+    heroTitle: 'Sei SankiWorks <em>Stimme</em> in deiner Stadt.',
     heroLead:
       'Eröffne ein lokales Atelier. Ruf die Meetups, die Demos, die nächtlichen Kritiken zusammen. Wir stützen dich mit Budget, Materialien und einem privaten Kanal zum Kernteam.',
     program: {
@@ -181,7 +181,7 @@ const de: DeepPartial<CommunityCopy> = {
       h2: 'Berufung, <em>Förderung</em>, Bund.',
       applyCta: 'Über Google-Formular bewerben',
       applyNote:
-        'Botschafter machen Open Design aus einem Repository zu etwas, dem Mitwirkende in einem Raum begegnen können, mit Tinte auf dem Tisch und kalt gewordenem Kaffee.',
+        'Botschafter machen SankiWork aus einem Repository zu etwas, dem Mitwirkende in einem Raum begegnen können, mit Tinte auf dem Tisch und kalt gewordenem Kaffee.',
       cols: [
         {
           n: 'I · Berufung',
@@ -224,7 +224,7 @@ const de: DeepPartial<CommunityCopy> = {
       kicker: 'Im Feld',
       h2: 'Lern die <em>Botschafter</em> kennen.',
       intro:
-        'Lokale Organisatoren, Kreative und Community-Builder, die Open Design helfen, mehr Designer und Teams zu erreichen.',
+        'Lokale Organisatoren, Kreative und Community-Builder, die SankiWork helfen, mehr Designer und Teams zu erreichen.',
       places: [
         'Sunshine Coast, Australien',
         'Kuala Lumpur, Malaysia',
@@ -234,8 +234,8 @@ const de: DeepPartial<CommunityCopy> = {
     },
   },
   moderators: {
-    title: 'Moderators — Open Design',
-    desc: 'Lern die Open-Design-Discord-Moderatoren kennen und tritt dem Raum bei, in dem AI-native Designer Arbeit liefern, Plugins öffnen, Betas knacken und einander aus der Klemme helfen.',
+    title: 'Moderators — SankiWork',
+    desc: 'Lern die SankiWork-Discord-Moderatoren kennen und tritt dem Raum bei, in dem AI-native Designer Arbeit liefern, Plugins öffnen, Betas knacken und einander aus der Klemme helfen.',
     heroTitle: 'Der Raum, in dem die <em>Contributors</em> abhängen.',
     heroLead:
       'Die Front der Agent-Design-Ära öffnet sich hier. Discord ist der Ort, an dem sich die schärfsten AI-nativen Designer der Welt versammeln. Lern die Verwalter kennen, die den Raum warmhalten.',
@@ -248,11 +248,11 @@ const de: DeepPartial<CommunityCopy> = {
       cards: [
         {
           role: 'Aus dem Studio',
-          bio: 'Aus dem Gründungsteam von Open Design. Hofft, dass der Discord ein guter Ort zum Sein bleibt. Wink jederzeit, bei jeder Frage.',
+          bio: 'Aus dem Gründungsteam von SankiWork. Hofft, dass der Discord ein guter Ort zum Sein bleibt. Wink jederzeit, bei jeder Frage.',
         },
         {
           role: 'Verwalter des Raums',
-          bio: 'Eine geübte Hand bei Discord und Community-Pflege. Hält den Raum warm, die Türen offen, das Gespräch im Fluss. Begeistert von Open Design.',
+          bio: 'Eine geübte Hand bei Discord und Community-Pflege. Hält den Raum warm, die Türen offen, das Gespräch im Fluss. Begeistert von SankiWork.',
         },
       ],
       channelNotes: ['gelieferte Arbeit', 'Builder', 'frühes Feedback', 'aus der Klemme'],

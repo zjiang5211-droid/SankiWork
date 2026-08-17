@@ -1,4 +1,4 @@
-import { Button } from '@open-design/components';
+import { Button } from '@sankiwork/components';
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 

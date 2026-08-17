@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="__OD_BRAND_LANG__">
+<html lang="__SW_BRAND_LANG__">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>__OD_BRAND_TITLE__</title>
+<title>__SW_BRAND_TITLE__</title>
 <!--
   Self-contained brand-kit page. The daemon's brand-kit renderer replaces the
   payload token in the script tag below with a JSON blob { status, brand,
@@ -12,10 +12,10 @@
   While status is "extracting" the page softly reloads itself so the user
   watches the kit fill in as the agent writes brand.json and re-renders.
 -->
-<script id="od-brand-payload" type="application/json">__OD_BRAND_PAYLOAD__</script>
+<script id="od-brand-payload" type="application/json">__SW_BRAND_PAYLOAD__</script>
 <!-- Self-hosted @font-face rules (replaced with the brand's fonts/ manifest, or
      emptied when no webfonts were harvested) so specimens render for real. -->
-<style data-brand-fonts>__OD_BRAND_FONTFACE__</style>
+<style data-brand-fonts>__SW_BRAND_FONTFACE__</style>
 <style>
   :root {
     --paper: #ffffff;
@@ -901,7 +901,7 @@
   });
 
   // While extraction is live, softly reload so the page fills in as the agent
-  // updates brand.json + re-runs `od brand preview`. Stops the moment the
+  // updates brand.json + re-runs `sw brand preview`. Stops the moment the
   // payload reports a ready brand. While a preview overlay is open the reload
   // is deferred (re-armed) so it never yanks the lightbox / asset modal out
   // from under the user mid-interaction.

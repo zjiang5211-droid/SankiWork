@@ -1,6 +1,6 @@
-# NotebookLM: export issues/PRs from Open Design
+# NotebookLM: export issues/PRs from SankiWork
 
-Open Design gets a lot of feedback via GitHub Issues + PRs. If you want NotebookLM to help with:
+SankiWork gets a lot of feedback via GitHub Issues + PRs. If you want NotebookLM to help with:
 
 - support answers (with citations)
 - clustering + taxonomy of user scenarios
@@ -36,7 +36,7 @@ You can override the output path:
 ```bash
 pnpm exec tsx scripts/notebooklm-export-github.ts \
   --repo nexu-io/open-design \
-  --out notebooklm/open-design-snapshot.md
+  --out notebooklm/sankiwork-snapshot.md
 ```
 
 ### Flags

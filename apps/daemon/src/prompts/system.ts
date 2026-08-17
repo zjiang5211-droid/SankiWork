@@ -44,7 +44,7 @@ import {
   renderMediaGenerationContract,
 } from './media-contract.js';
 import { renderPanelPrompt } from './panel.js';
-import { defaultCritiqueConfig, type CritiqueConfig } from '@open-design/contracts/critique';
+import { defaultCritiqueConfig, type CritiqueConfig } from '@sankiwork/contracts/critique';
 import {
   executionProfileFromStreamFormat,
   INTEGRATIONS_MCP_PATH,
@@ -54,7 +54,7 @@ import {
   type ExecutionProfile,
   type MediaExecutionPolicy,
   type MediaSurface,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 // Prepended first in every composed prompt so it wins precedence over all
 // later sections, including skill bodies and user/project instructions.
@@ -94,7 +94,7 @@ function renderUiLocalePrompt(
   const lines = [
     '# UI locale override',
     '',
-    `The Open Design UI locale for this run is \`${normalized}\` (${languageName}). All user-visible chat prose and generated UI controls must follow this locale, especially \`<question-form>\` titles, descriptions, labels, placeholders, helper text, and option labels. Keep machine-readable ids and object option \`value\` fields exact and unlocalized.`,
+    `The SankiWork UI locale for this run is \`${normalized}\` (${languageName}). All user-visible chat prose and generated UI controls must follow this locale, especially \`<question-form>\` titles, descriptions, labels, placeholders, helper text, and option labels. Keep machine-readable ids and object option \`value\` fields exact and unlocalized.`,
     `The artifacts you generate must also be in ${languageName}: every piece of user-visible copy in the HTML/React/page/deck you produce — headings, body text, navigation, button and link labels, captions, alt text, and form fields — is written in this language by default. This holds even when a chosen template, plugin, or design system ships its reference/example content in another language: treat that copy as a layout and style reference and translate/adapt it into ${languageName}, do not ship its wording verbatim. Keep brand names, code, and technical identifiers as-is, and honor an explicit user request for a different output language.`,
   ];
   // The worked zh-CN quick-brief copy below matches the CLASSIC default
@@ -444,10 +444,10 @@ This project was created through the daemon API with \`skipDiscoveryBrief: true\
 // media generation if the user asks for it mid-session (e.g. "generate an
 // image with fal"). Without this, agents in prototype/deck projects try to
 // call provider REST APIs directly and ask the user for keys that the daemon
-// already holds in .od/media-config.json.
+// already holds in .sankiwork/media-config.json.
 // Kept deliberately compact: this hint ships on EVERY non-media project
 // (the vast majority never generate media), so the worked generate→wait
-// bash recipe lives in `od media help` (printMediaHelp in cli.ts) and the
+// bash recipe lives in `sw media help` (printMediaHelp in cli.ts) and the
 // CLI's own stderr handoff guidance instead of the prompt. The hint only
 // needs to (1) route the agent to the dispatcher instead of provider APIs,
 // (2) state the handoff/exit-code semantics, and (3) pin the behavioral
@@ -461,15 +461,15 @@ const MEDIA_DISPATCH_HINT = `
 
 If the user asks you to generate an image, video, or audio file — regardless of which provider or model they mention (fal, Replicate, OpenAI, etc.) — use the daemon dispatcher via your **Bash tool**. Do NOT call provider REST APIs directly.
 
-Open Design Cloud models use the \`vela/*\` prefix. Never invoke the \`vela\`
+SankiWork Cloud models use the \`vela/*\` prefix. Never invoke the \`vela\`
 CLI directly for those models: the OD dispatcher owns trusted Workspace
 attribution, polling, downloads, and final project-file placement.
 
 The daemon injects these env vars into your shell (**POSIX bash — not PowerShell**):
 
-- \`OD_NODE_BIN\`   — absolute path to the Node runtime
-- \`OD_BIN\`        — absolute path to the OD CLI script
-- \`OD_PROJECT_ID\` — the active project id
+- \`SW_NODE_BIN\`   — absolute path to the Node runtime
+- \`SW_BIN\`        — absolute path to the OD CLI script
+- \`SW_PROJECT_ID\` — the active project id
 
 **Always use the generate→wait loop below.** \`media generate\` always exits 0 — either with \`{"file":{...}}\` if done within ~25s, or with \`{"taskId":"..."}\` as a handoff for slow models. Whenever the output contains a \`taskId\`, keep polling with \`media wait\` until exit 0 (done) or exit 5 (failed).
 
@@ -478,8 +478,8 @@ Use **POSIX \`$VAR\` syntax** — do NOT translate to PowerShell (\`$env:VAR\`, 
 \`\`\`bash
 # POSIX bash — do NOT convert to PowerShell
 IMAGE_MODEL=IMAGE_MODEL_VALUE
-out=\$("$OD_NODE_BIN" "$OD_BIN" media generate \\
-  --project "$OD_PROJECT_ID" \\
+out=\$("$SW_NODE_BIN" "$SW_BIN" media generate \\
+  --project "$SW_PROJECT_ID" \\
   --surface image \\
   --model "$IMAGE_MODEL" \\
   --prompt "..." \\
@@ -491,7 +491,7 @@ task_id=\$(printf '%s\\n' "\$last" | python3 -c "import sys,json; d=json.load(sy
 since=\$(printf '%s\\n' "\$last" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('nextSince',0))" 2>/dev/null)
 since="\${since:-0}"
 while [ -n "\$task_id" ]; do
-  out=\$("$OD_NODE_BIN" "$OD_BIN" media wait "\$task_id" --since "\$since")
+  out=\$("$SW_NODE_BIN" "$SW_BIN" media wait "\$task_id" --since "\$since")
   ec=\$?
   last=\$(printf '%s\\n' "\$out" | tail -1)
   since=\$(printf '%s\\n' "\$last" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('nextSince',\$since))" 2>/dev/null)
@@ -592,7 +592,7 @@ function renderRuntimeMediaDefaultsHint(
   if (lines.length === 0) return '';
   return `
 
-### Open Design Cloud media defaults
+### SankiWork Cloud media defaults
 
 This AMR run uses these managed media defaults when the user has not selected
 a different run-scoped model:
@@ -605,7 +605,7 @@ const FILESYSTEM_HANDOFF_OVERRIDE = `
 
 ## Filesystem handoff
 
-This run uses Open Design's filesystem execution profile. Project files are the source of truth for generated artifacts.
+This run uses SankiWork's filesystem execution profile. Project files are the source of truth for generated artifacts.
 
 Normal rhythm for artifact work:
 1. Start with a short ordinary assistant message or compact \`<od-card>\` that states the locked direction.
@@ -615,7 +615,7 @@ Normal rhythm for artifact work:
 
 Never type a tool invocation into assistant text as XML, markdown, JSON, or prose; if the runtime cannot call the tool, briefly explain that instead of simulating it.
 
-This tool-call rule does not apply to Open Design UI markup. \`<question-form>\` and \`<od-card>\` are assistant text blocks that the host renders in the UI, not tool calls. When you need to ask structured questions, emit the complete \`<question-form>...</question-form>\` block directly in assistant text; do not route it through a native tool call and do not stop after an introductory sentence.
+This tool-call rule does not apply to SankiWork UI markup. \`<question-form>\` and \`<od-card>\` are assistant text blocks that the host renders in the UI, not tool calls. When you need to ask structured questions, emit the complete \`<question-form>...</question-form>\` block directly in assistant text; do not route it through a native tool call and do not stop after an introductory sentence.
 
 When you write or edit an HTML file in the project folder through the native file tool, that file is already visible in the user's file panel and preview.
 
@@ -709,7 +709,7 @@ export interface ComposeInput {
   // shipped as sibling files to DESIGN.md when available. Both fields are
   // optional; the daemon populates them by default for every brand that
   // ships `tokens.css` / `components.html` (today: `default` and
-  // `kami`). `OD_DESIGN_TOKEN_CHANNEL=0` disables the channel as a kill
+  // `kami`). `SW_DESIGN_TOKEN_CHANNEL=0` disables the channel as a kill
   // switch. When present they are appended AFTER the DESIGN.md block so
   // prose still sets the high-level voice and the structured form
   // disambiguates token names + worked component shapes.
@@ -799,7 +799,7 @@ export interface ComposeInput {
   // Plan §3.L2 / spec §23.4 — pre-rendered `## Active stage: <id>`
   // blocks (one per pipeline stage active for the run). The daemon's
   // pipeline runner builds these from `loadAtomBodies()` +
-  // `renderActiveStageBlock()` when the OD_BUNDLED_ATOM_PROMPTS env
+  // `renderActiveStageBlock()` when the SW_BUNDLED_ATOM_PROMPTS env
   // flag is set; otherwise this stays undefined and the prompt
   // composer's hard-coded constants keep their precedence (back-compat).
   activeStageBlocks?: ReadonlyArray<string> | undefined;
@@ -839,7 +839,7 @@ export interface ComposeInput {
   // `core-slim.ts` (every rule stated once, explicit precedence ladder,
   // ~6x smaller); the tail overrides it absorbed (filesystem handoff,
   // active-DS direction, mid-conversation clarifying questions) are then
-  // skipped. Daemon callers select it via OD_PROMPT_CORE=slim.
+  // skipped. Daemon callers select it via SW_PROMPT_CORE=slim.
   promptCoreVariant?: 'classic' | 'slim' | undefined;
   // Whether the visible conversation mentions generating media (see
   // `detectMediaIntentSignal`). Only consulted for non-media projects:
@@ -985,7 +985,7 @@ export function composeSystemPrompt({
     executionProfile ?? executionProfileFromStreamFormat(streamFormat);
 
   // API/BYOK mode (streamFormat === 'plain'): mirrors the same fix from
-  // `@open-design/contracts`'s composer. The daemon hits this path for
+  // `@sankiwork/contracts`'s composer. The daemon hits this path for
   // any plain-stream adapter (e.g. DeepSeek), so without pinning the
   // override above DISCOVERY_AND_PHILOSOPHY here too, those daemon
   // agents still emit the `<todo-list>` / `[读取 X]` pseudo-tool
@@ -1058,7 +1058,7 @@ export function composeSystemPrompt({
     // fingerprint stays cacheable).
     if (!activeDesignSystemBody) {
       // Slim carries only the id+label index and the agent pulls the chosen
-      // direction's full spec via `od tools directions --id <id>` — but ONLY
+      // direction's full spec via `sw tools directions --id <id>` — but ONLY
       // on filesystem runs. text_artifact runs (BYOK/plain adapters) have no
       // tools to dereference the index, so they keep the full inline library
       // like classic; anything less tells them to bind palettes they cannot
@@ -1253,7 +1253,7 @@ export function composeSystemPrompt({
   if (designSystemIntentIndex && designSystemIntentIndex.trim().length > 0) {
     const resolutionInstruction = resolvedExecutionProfile === 'text_artifact'
       ? 'This runtime cannot call the resolver or adherence checker. Use the visible intent-to-component mapping to choose the component, but do not invent hidden variants, properties, states, or implementation details. Before finishing, self-check that every mapped component is reused and every visible value comes from the active tokens.'
-      : 'Before writing UI for a listed business intent, run `"$OD_NODE_BIN" "$OD_BIN" tools design-systems resolve --intent <canonical-intent>` once. Reuse the returned implementation and selectors, apply its variant and properties, and include every required state. If the result requires confirmation or forbids invention, follow that decision instead of creating a near-copy. After writing, run `"$OD_NODE_BIN" "$OD_BIN" tools design-systems validate --intent <canonical-intent> --artifact <project-relative-file>` and add one `--artifact` for every related HTML, CSS, or component source file. A failed report must be fixed and re-run before completion. A confirmation-required report must be surfaced to the user; do not silently bypass it.';
+      : 'Before writing UI for a listed business intent, run `"$SW_NODE_BIN" "$SW_BIN" tools design-systems resolve --intent <canonical-intent>` once. Reuse the returned implementation and selectors, apply its variant and properties, and include every required state. If the result requires confirmation or forbids invention, follow that decision instead of creating a near-copy. After writing, run `"$SW_NODE_BIN" "$SW_BIN" tools design-systems validate --intent <canonical-intent> --artifact <project-relative-file>` and add one `--artifact` for every related HTML, CSS, or component source file. A failed report must be fixed and re-run before completion. A confirmation-required report must be surfaced to the user; do not silently bypass it.';
     parts.push(
       `\n\n## Structured component intent routing${designSystemTitle ? ` — ${designSystemTitle}` : ''}\n\nThis intent map and its resolver are the sole component-selection authority. Do not select components from prose, a legacy component manifest, or a fixture. Identify the page's business intent first, then choose from the canonical ids below. ${resolutionInstruction}\n\n\`\`\`text\n${designSystemIntentIndex.trim()}\n\`\`\``,
     );
@@ -1267,7 +1267,7 @@ export function composeSystemPrompt({
 
   if (designSystemPullIndex && designSystemPullIndex.trim().length > 0) {
     parts.push(
-      `\n\n## Pull-layer files available on demand${designSystemTitle ? ` — ${designSystemTitle}` : ''}\n\nThis design-system package declares richer files for inspection, source evidence, or human preview. Keep the push prompt light: use the index below to decide what to read later. When the runtime tool environment is available, read a listed path with \`\"$OD_NODE_BIN\" \"$OD_BIN\" tools design-systems read --path <path>\`; the daemon will reject paths outside this manifest allowlist.\n\n\`\`\`text\n${designSystemPullIndex.trim()}\n\`\`\``,
+      `\n\n## Pull-layer files available on demand${designSystemTitle ? ` — ${designSystemTitle}` : ''}\n\nThis design-system package declares richer files for inspection, source evidence, or human preview. Keep the push prompt light: use the index below to decide what to read later. When the runtime tool environment is available, read a listed path with \`\"$SW_NODE_BIN\" \"$SW_BIN\" tools design-systems read --path <path>\`; the daemon will reject paths outside this manifest allowlist.\n\n\`\`\`text\n${designSystemPullIndex.trim()}\n\`\`\``,
     );
   }
 
@@ -1379,7 +1379,7 @@ export function composeSystemPrompt({
     if (runtimeDefaultsHint) parts.push(runtimeDefaultsHint);
   } else if (mediaHintSignal ?? true) {
     // Non-media projects (prototype, deck, etc.): inject a lightweight hint
-    // so the agent uses `od media generate` if the user asks for an image/video
+    // so the agent uses `sw media generate` if the user asks for an image/video
     // mid-session, rather than hunting for provider API keys in the environment.
     // Gated on the media-intent signal: most conversations never mention
     // media, and the transcript-scanned signal flips the hint on for the
@@ -1430,7 +1430,7 @@ export function composeSystemPrompt({
   // originating assistant message, and answers return as the next user message.
   // Applies to every agent — question-form is UI-parsed markup, not a tool.
   if (!isSlimCharterHead || isAskMode) parts.push(
-    "\n\n---\n\n## Structured clarification on any turn\n\nWhen clarification is materially necessary and the answer benefits from structured input, emit a `<question-form>` block instead of writing a bulleted list of options in markdown. The host renders it inline in the originating assistant message; a markdown list renders as plain text and forces the user to type a reply. Use the richest appropriate web form controls (`radio`, `checkbox`, `select`, `text`, `textarea`, `number`, `range`, `date`, `time`, `datetime-local`, `color`, `url`, `email`, `tel`, `file`, `switch`, or `direction-cards`). When the clarification needs reference images, source docs, screenshots, or other user files, combine a `type: \"file\"` question with the text/options in the same form; selected files are uploaded into Design Files and submitted as attached/context files on the answer turn. For every finite-choice question, keep user control by leaving `allowCustom` unset or setting it to `true`, and add localized `customLabel` / `customPlaceholder` when useful. Use free-form prose questions only when a form would add no structure. Do NOT also duplicate the form's questions as markdown text alongside it.\n\n`<question-form>` is assistant text for the Open Design UI, not a native tool call. If you need to clarify direction, emit the complete `<question-form>...</question-form>` block directly in the assistant message before any TodoWrite, file write/edit, Bash, or other native tool call. Do not stop after an introductory sentence such as \"先确认一下方向：\"; the same message must include the full form.",
+    "\n\n---\n\n## Structured clarification on any turn\n\nWhen clarification is materially necessary and the answer benefits from structured input, emit a `<question-form>` block instead of writing a bulleted list of options in markdown. The host renders it inline in the originating assistant message; a markdown list renders as plain text and forces the user to type a reply. Use the richest appropriate web form controls (`radio`, `checkbox`, `select`, `text`, `textarea`, `number`, `range`, `date`, `time`, `datetime-local`, `color`, `url`, `email`, `tel`, `file`, `switch`, or `direction-cards`). When the clarification needs reference images, source docs, screenshots, or other user files, combine a `type: \"file\"` question with the text/options in the same form; selected files are uploaded into Design Files and submitted as attached/context files on the answer turn. For every finite-choice question, keep user control by leaving `allowCustom` unset or setting it to `true`, and add localized `customLabel` / `customPlaceholder` when useful. Use free-form prose questions only when a form would add no structure. Do NOT also duplicate the form's questions as markdown text alongside it.\n\n`<question-form>` is assistant text for the SankiWork UI, not a native tool call. If you need to clarify direction, emit the complete `<question-form>...</question-form>` block directly in the assistant message before any TodoWrite, file write/edit, Bash, or other native tool call. Do not stop after an introductory sentence such as \"先确认一下方向：\"; the same message must include the full form.",
   );
 
   // Pinned LAST so recency bias reinforces the role-marker prohibition.
@@ -1492,11 +1492,11 @@ If the rules below tell you to plan with TodoWrite, write the plan as prose inst
 // after this override (see `isAskMode` gating in composeSystemPrompt) — so this
 // block is the whole behavioral charter for the turn and must read as
 // self-contained, not as a preface that overrides "rules below". Keep it
-// BYTE-IDENTICAL to the @open-design/contracts copy so a daemon chat and a
+// BYTE-IDENTICAL to the @sankiwork/contracts copy so a daemon chat and a
 // BYOK/API chat behave the same.
 const CHAT_MODE_OVERRIDE = `# Ask mode — bare conversation (this is the whole charter for this turn)
 
-This conversation is in Open Design Ask mode: a fast, low-overhead chat kept deliberately light to save tokens. Open Design is the open-source Claude Design alternative and a native Figma counterpart. Official links: GitHub https://github.com/nexu-io/open-design, website https://open-design.ai/, Discord https://discord.gg/mHAjSMV6gz.
+This conversation is in SankiWork Ask mode: a fast, low-overhead chat kept deliberately light to save tokens. SankiWork is the open-source Claude Design alternative and a native Figma counterpart. Official links: GitHub https://github.com/nexu-io/open-design, website https://sanki-ai.cloud/, Discord https://discord.gg/mHAjSMV6gz.
 
 Behave like a direct, multi-turn desktop chat assistant. Prefer concise prose: answer the question, explain, compare options, debug prompts, and review existing work. You still have the user's project files, attachments, connectors, MCP servers, project memory, any active design system, and any skills they attached for this turn — use them as context, and follow an attached skill's workflow when one is present.
 
@@ -1504,11 +1504,11 @@ This mode does not load the heavy design-discovery workflow or the full designer
 
 If the user explicitly asks you to build, generate, design, or export a concrete artifact (a page, prototype, deck, image, video, audio, or a file change), handle it inline only when it is genuinely trivial; for anything substantial, say so in one line and suggest switching to Design mode (or Plan mode for a document-first brief), where the full design workflow, brand discipline, and artifact tooling are loaded. Keep this turn conversational.
 
-For mid-conversation clarification you may still emit a \`<question-form>\` block — it is markup the Open Design UI parses, not a native tool call.`;
+For mid-conversation clarification you may still emit a \`<question-form>\` block — it is markup the SankiWork UI parses, not a native tool call.`;
 
 const PLAN_MODE_OVERRIDE = `# Plan mode — editable document first (read first — overrides every rule below)
 
-This conversation is in Open Design Plan mode. Use the same context, files, attachments, connectors, MCP servers, project memory, tools, and design systems as Design mode, but do NOT create the final design artifact first.
+This conversation is in SankiWork Plan mode. Use the same context, files, attachments, connectors, MCP servers, project memory, tools, and design systems as Design mode, but do NOT create the final design artifact first.
 
 In filesystem runs, substantial plan-document work still starts with a real TodoWrite/task-list tool call and keeps it updated as work progresses. Do not narrate TodoWrite availability to the user; show progress through the Todo card when the runtime supports it. In plain API runs, follow the API-mode override above and write the plan directly as prose without mentioning missing tools.
 
@@ -1732,7 +1732,7 @@ function renderMetadataBlock(
     lines.push('');
     lines.push(renderMediaMetadataAction(
       'image',
-      '`"$OD_NODE_BIN" "$OD_BIN" media generate --surface image --model <imageModel>`',
+      '`"$SW_NODE_BIN" "$SW_BIN" media generate --surface image --model <imageModel>`',
       mediaExecution,
     ));
   }
@@ -1756,12 +1756,12 @@ function renderMetadataBlock(
     lines.push('');
     lines.push(renderMediaMetadataAction(
       'video',
-      '`"$OD_NODE_BIN" "$OD_BIN" media generate --surface video --model <videoModel> --length <seconds> --aspect <ratio>`',
+      '`"$SW_NODE_BIN" "$SW_BIN" media generate --surface video --model <videoModel> --length <seconds> --aspect <ratio>`',
       mediaExecution,
     ));
     if (metadata.videoModel === 'hyperframes-html') {
       lines.push(
-        'Special case: `hyperframes-html` is a local HTML-to-MP4 renderer, not a photoreal text-to-video model. Treat it like a motion design renderer, ask at most one clarifying question, then create a HyperFrames composition with `npx hyperframes init` under `.hyperframes-cache/`, edit `index.html`, and dispatch via `"$OD_NODE_BIN" "$OD_BIN" media generate --surface video --model hyperframes-html --composition-dir <rel>`. Do not run `npx hyperframes render` yourself.',
+        'Special case: `hyperframes-html` is a local HTML-to-MP4 renderer, not a photoreal text-to-video model. Treat it like a motion design renderer, ask at most one clarifying question, then create a HyperFrames composition with `npx hyperframes init` under `.hyperframes-cache/`, edit `index.html`, and dispatch via `"$SW_NODE_BIN" "$SW_BIN" media generate --surface video --model hyperframes-html --composition-dir <rel>`. Do not run `npx hyperframes render` yourself.',
       );
     }
   }
@@ -1811,7 +1811,7 @@ function renderMetadataBlock(
     lines.push('');
     lines.push(renderMediaMetadataAction(
       'audio',
-      '`"$OD_NODE_BIN" "$OD_BIN" media generate --surface audio --audio-kind <kind> --model <audioModel> --duration <seconds>` and add `--voice <voice-id>` for speech when you have a provider-specific voice id',
+      '`"$SW_NODE_BIN" "$SW_BIN" media generate --surface audio --audio-kind <kind> --model <audioModel> --duration <seconds>` and add `--voice <voice-id>` for speech when you have a provider-specific voice id',
       mediaExecution,
     ));
   }
@@ -1964,7 +1964,7 @@ function renderMediaMetadataAction(
   const article = surface === 'audio' ? 'an' : 'a';
   const mode = mediaExecution?.mode ?? 'enabled';
   if (mode === 'disabled') {
-    return `This is ${article} **${surface}** project, but Open Design-owned media execution is disabled for this run. Plan the creative brief only unless an external MCP media tool is explicitly configured. Do NOT call OD media generation tools and do NOT emit \`<artifact>\` HTML for media surfaces.`;
+    return `This is ${article} **${surface}** project, but SankiWork-owned media execution is disabled for this run. Plan the creative brief only unless an external MCP media tool is explicitly configured. Do NOT call OD media generation tools and do NOT emit \`<artifact>\` HTML for media surfaces.`;
   }
   return `This is ${article} **${surface}** project. Plan the creative brief carefully, then dispatch via the **media generation contract** using ${command}. Do NOT emit \`<artifact>\` HTML for media surfaces.`;
 }

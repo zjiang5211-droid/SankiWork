@@ -5,7 +5,7 @@
 This document describes the code-backed runtime topology and the boundaries
 between the web app, daemon, desktop/packaged shells, agent runtimes, and
 content registries. For repository ownership rules, the root and layer
-`AGENTS.md` files remain authoritative. For embedding Open Design behind
+`AGENTS.md` files remain authoritative. For embedding SankiWork behind
 another control plane, see [`orchestrator-workspaces.md`](orchestrator-workspaces.md).
 
 > Historical note: the first architecture draft sketched a Vercel tunnel
@@ -72,7 +72,7 @@ Express daemon ◄────────────────┘
                             └─ structured events, file writes, or text output
 ```
 
-The web UI and the `od` CLI call the same daemon HTTP APIs. The CLI is not a
+The web UI and the `sw` CLI call the same daemon HTTP APIs. The CLI is not a
 second business-logic implementation; it is the machine-readable surface for
 the same capabilities.
 
@@ -147,7 +147,7 @@ storage rules; they are not additional skill roots.
 
 ### 3.5 Persistence and project files
 
-On startup, `apps/daemon/src/server.ts` resolves `OD_DATA_DIR` once into
+On startup, `apps/daemon/src/server.ts` resolves `SW_DATA_DIR` once into
 `RUNTIME_DATA_DIR`. SQLite, managed project workspaces, artifacts, user-owned
 registry entries, credentials, automation state, plugin state, and other
 daemon-owned data derive from that resolved root.
@@ -176,7 +176,7 @@ signals that must come from the active frame re-check the active window.
 
 ### Filesystem execution profile
 
-1. The web UI or `od` CLI creates/selects a project through `/api/projects`.
+1. The web UI or `sw` CLI creates/selects a project through `/api/projects`.
 2. A chat/run request reaches the daemon over `/api/*`.
 3. The daemon resolves the project, design system, primary skill or design
    template, per-turn skills, runtime definition, and execution metadata.
@@ -275,5 +275,5 @@ Shared DTOs live in `packages/contracts`.
 | User-level validation | `e2e/` |
 
 When a user-facing capability changes, keep its daemon endpoint, shared
-contract, web surface, and `od` CLI surface aligned as required by the root
+contract, web surface, and `sw` CLI surface aligned as required by the root
 `AGENTS.md` dual-track rule.

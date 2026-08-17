@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type {
   CollabCloudMemberDirectoryEntry,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { useTeamMembers } from '../src/collab/useTeamMembers';
 import { WorkspaceMemberDirectoryPreloader } from '../src/collab/WorkspaceMemberDirectoryPreloader';
 import { workspaceContextFixture } from './helpers/workspace-context';

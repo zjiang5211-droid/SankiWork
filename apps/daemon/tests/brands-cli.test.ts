@@ -8,7 +8,7 @@ const execFileAsync = promisify(execFile);
 const daemonRoot = fileURLToPath(new URL('..', import.meta.url));
 const cliEntry = fileURLToPath(new URL('../src/cli.ts', import.meta.url));
 
-describe('od brand CLI', () => {
+describe('sw brand CLI', () => {
   it('continues deterministic extraction through the daemon route', async () => {
     const seenRequests: Array<{ method: string; url: string; body: string }> = [];
     const server = http.createServer((req, res) => {

@@ -10,7 +10,7 @@
  * Runtime defs can now advertise a recommended `inactivityTimeoutMs`,
  * and the resolver merges it under the env override:
  *
- *   OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS   highest priority (operator override)
+ *   SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS   highest priority (operator override)
  *   def.inactivityTimeoutMs             next (agent-specific recommendation)
  *   DEFAULT_CHAT_RUN_INACTIVITY_TIMEOUT_MS (10 min)   global default
  */
@@ -25,8 +25,8 @@ import {
 import { amrAgentDef } from '../../src/runtimes/defs/amr.js';
 import { copilotAgentDef } from '../../src/runtimes/defs/copilot.js';
 
-const ENV_KEY = 'OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS';
-const FIRST_OUTPUT_ENV_KEY = 'OD_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS';
+const ENV_KEY = 'SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS';
+const FIRST_OUTPUT_ENV_KEY = 'SW_CHAT_RUN_FIRST_OUTPUT_TIMEOUT_MS';
 const TEN_MINUTES_MS = 10 * 60 * 1000;
 const THIRTY_MINUTES_MS = 30 * 60 * 1000;
 const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
@@ -125,7 +125,7 @@ describe('resolveChatRunInactivityTimeoutMs', () => {
     // Reviewer-correctness fix: an earlier ordering placed the env
     // early-return before the def validation, so a bad runtime def
     // could sit unnoticed in source whenever an operator had set
-    // OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS. The fast-fail now runs first
+    // SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS. The fast-fail now runs first
     // and catches the typo regardless of which branch eventually
     // wins.
     process.env[ENV_KEY] = '15000';
@@ -143,33 +143,33 @@ describe('resolveChatRunInactivityTimeoutMs', () => {
 });
 
 describe('resolveAcpStageTimeoutMs', () => {
-  const originalEnv = process.env.OD_ACP_STAGE_TIMEOUT_MS;
+  const originalEnv = process.env.SW_ACP_STAGE_TIMEOUT_MS;
 
   afterEach(() => {
     if (originalEnv === undefined) {
-      delete process.env.OD_ACP_STAGE_TIMEOUT_MS;
+      delete process.env.SW_ACP_STAGE_TIMEOUT_MS;
     } else {
-      process.env.OD_ACP_STAGE_TIMEOUT_MS = originalEnv;
+      process.env.SW_ACP_STAGE_TIMEOUT_MS = originalEnv;
     }
   });
 
   it('leaves the ACP session default untouched when no env override or def hint is set', () => {
-    delete process.env.OD_ACP_STAGE_TIMEOUT_MS;
+    delete process.env.SW_ACP_STAGE_TIMEOUT_MS;
     expect(resolveAcpStageTimeoutMs()).toBeUndefined();
   });
 
   it('uses the runtime inactivity hint when the ACP env override is unset', () => {
-    delete process.env.OD_ACP_STAGE_TIMEOUT_MS;
+    delete process.env.SW_ACP_STAGE_TIMEOUT_MS;
     expect(resolveAcpStageTimeoutMs(THIRTY_MINUTES_MS)).toBe(THIRTY_MINUTES_MS);
   });
 
   it('lets the ACP env override take precedence over the runtime inactivity hint', () => {
-    process.env.OD_ACP_STAGE_TIMEOUT_MS = '900000';
+    process.env.SW_ACP_STAGE_TIMEOUT_MS = '900000';
     expect(resolveAcpStageTimeoutMs(THIRTY_MINUTES_MS)).toBe(900_000);
   });
 
   it('throws on an invalid runtime inactivity hint so ACP and chat watchdog config cannot drift silently', () => {
-    delete process.env.OD_ACP_STAGE_TIMEOUT_MS;
+    delete process.env.SW_ACP_STAGE_TIMEOUT_MS;
     expect(() => resolveAcpStageTimeoutMs(Number.NaN)).toThrow(
       /RuntimeAgentDef\.inactivityTimeoutMs/,
     );

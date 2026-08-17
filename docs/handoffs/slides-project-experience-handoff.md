@@ -191,8 +191,8 @@ Changed areas:
 Run with Node 24:
 
 ```bash
-PATH=/Users/pftom/.nvm/versions/node/v24.15.0/bin:$PATH pnpm --filter @open-design/web typecheck
-PATH=/Users/pftom/.nvm/versions/node/v24.15.0/bin:$PATH pnpm --filter @open-design/web exec vitest run -c vitest.config.ts tests/runtime/speaker-notes.test.ts tests/runtime/srcdoc-deck-bridge-framework-deck.test.ts tests/components/FileViewer.test.tsx
+PATH=/Users/pftom/.nvm/versions/node/v24.15.0/bin:$PATH pnpm --filter @sankiwork/web typecheck
+PATH=/Users/pftom/.nvm/versions/node/v24.15.0/bin:$PATH pnpm --filter @sankiwork/web exec vitest run -c vitest.config.ts tests/runtime/speaker-notes.test.ts tests/runtime/srcdoc-deck-bridge-framework-deck.test.ts tests/components/FileViewer.test.tsx
 PATH=/Users/pftom/.nvm/versions/node/v24.15.0/bin:$PATH pnpm guard
 PATH=/Users/pftom/.nvm/versions/node/v24.15.0/bin:$PATH pnpm typecheck
 git diff --check

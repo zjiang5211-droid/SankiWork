@@ -123,7 +123,7 @@ export function __resetPluginEventBufferForTests(): void {
 // __resetPluginEventBufferForTests because it returns the
 // pre-purge stats so the caller can audit what was discarded.
 // Exposed via the loopback-only `POST /api/plugins/events/purge`
-// route + `od plugin events purge` CLI subcommand.
+// route + `sw plugin events purge` CLI subcommand.
 export interface PurgePluginEventBufferResult {
   purged:        number;
   // The ids of the first / last entry that was discarded, so an
@@ -150,7 +150,7 @@ export function purgePluginEventBuffer(): PurgePluginEventBufferResult {
 }
 
 // Plan §3.KK2 — pure roll-up over a slice of events. Useful for
-// dashboards + the `od plugin events stats` CLI summary. Lives
+// dashboards + the `sw plugin events stats` CLI summary. Lives
 // next to the buffer so consumers can compute the same rollup
 // shape over either the full buffer or a filtered subset.
 

@@ -168,7 +168,7 @@ describe("readDefaultMailtoHandlerBundleId", () => {
   });
 });
 
-const expectedRealMailtoHandler = process.env.OD_EXPECT_REAL_MAILTO_HANDLER;
+const expectedRealMailtoHandler = process.env.SW_EXPECT_REAL_MAILTO_HANDLER;
 const realMacLaunchServicesTest =
   process.platform === "darwin" && expectedRealMailtoHandler ? test : test.skip;
 
@@ -182,11 +182,11 @@ realMacLaunchServicesTest(
 );
 
 describe("openFirstPartyMailto", () => {
-  const MAILTO = "mailto:support@open-design.ai";
+  const MAILTO = "mailto:support@sanki-ai.cloud";
 
   test("refuses anything that is not a mailto", async () => {
     const calls: string[] = [];
-    const opened = await openFirstPartyMailto("https://open-design.ai", {
+    const opened = await openFirstPartyMailto("https://sanki-ai.cloud", {
       platform: "darwin",
       readHandlerBundleId: async () => null,
       openWithAppleMail: async (url) => void calls.push(`mail:${url}`),

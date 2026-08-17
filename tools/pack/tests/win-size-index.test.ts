@@ -8,7 +8,7 @@ import { PathSizeIndex } from "../src/win/fs.js";
 
 describe("PathSizeIndex", () => {
   it("indexes directory sizes and filtered file totals in a single tree", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-size-index-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-size-index-"));
 
     try {
       await mkdir(join(root, "app", "node_modules", "@next", "swc-win32-x64"), { recursive: true });

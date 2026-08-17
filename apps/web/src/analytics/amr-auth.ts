@@ -21,7 +21,7 @@ import type {
   AmrEntryAttribution,
   TrackingAmrEntrySource,
   TrackingPageName,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import { amrEntryPageForSource } from './amr-attribution';
 import { setAnalyticsUserId } from './client';
 import { trackAmrAuthResult, trackAmrAuthStage } from './events';

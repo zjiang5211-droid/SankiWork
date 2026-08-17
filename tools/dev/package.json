@@ -1,6 +1,6 @@
 {
-  "name": "@open-design/tools-dev",
-  "version": "0.19.2",
+  "name": "@sankiwork/tools-dev",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "bin": {
@@ -13,9 +13,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@open-design/platform": "workspace:*",
-    "@open-design/sidecar": "workspace:*",
-    "@open-design/sidecar-proto": "workspace:*",
+    "@sankiwork/platform": "workspace:*",
+    "@sankiwork/sidecar": "workspace:*",
+    "@sankiwork/sidecar-proto": "workspace:*",
     "cac": "6.7.14"
   },
   "devDependencies": {

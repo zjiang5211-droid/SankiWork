@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import type { CollabCloudComment } from '@open-design/contracts';
+import type { CollabCloudComment } from '@sankiwork/contracts';
 import {
   closeDatabase,
   confirmPreviewCommentPinSeq,

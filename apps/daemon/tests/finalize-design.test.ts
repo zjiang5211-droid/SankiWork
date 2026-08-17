@@ -2,7 +2,7 @@
 // Tests for `apps/daemon/src/finalize-design.ts` — fills in across phases
 // D-I. Phase D adds the truncation helper tests; phases E-I extend.
 //
-// Per memory `project_open_design_493_merged.md`: this file uses
+// Per memory `project_sankiwork_493_merged.md`: this file uses
 // `import fs from 'node:fs'` (default import) so `vi.spyOn(fs, '<fn>')`
 // can redefine properties on the underlying CJS exports object. ESM
 // namespace import (`import * as fs from 'node:fs'`) gives a frozen
@@ -787,7 +787,7 @@ describe('finalizeDesignPackage (pipeline integration)', () => {
   // PR #832 P1 fix from @lefarcen: imported-folder projects (created via
   // /api/import/folder) carry metadata.baseDir which redirects file IO to
   // the user's actual folder. Pre-fix, the pipeline called projectDir()
-  // unconditionally so DESIGN.md landed in the hidden .od/projects/<id>
+  // unconditionally so DESIGN.md landed in the hidden .sankiwork/projects/<id>
   // dir instead of metadata.baseDir; the resolver also missed the user's
   // real artifacts. Post-fix, both call sites use resolveProjectDir.
   it('writes DESIGN.md under metadata.baseDir for imported-folder projects', async () => {
@@ -797,7 +797,7 @@ describe('finalizeDesignPackage (pipeline integration)', () => {
     fs.mkdirSync(path.join(designSystemsRoot, 'shadcn'), { recursive: true });
     fs.writeFileSync(path.join(designSystemsRoot, 'shadcn', 'DESIGN.md'), '# shadcn\n');
 
-    // The user's actual folder lives outside .od/projects/.
+    // The user's actual folder lives outside .sankiwork/projects/.
     const userFolder = path.join(tempDir, 'user-imported-folder');
     fs.mkdirSync(userFolder, { recursive: true });
 
@@ -835,7 +835,7 @@ describe('finalizeDesignPackage (pipeline integration)', () => {
     } as any);
 
     // DESIGN.md must land in the user's actual folder, NOT the hidden
-    // `.od/projects/<id>` dir.
+    // `.sankiwork/projects/<id>` dir.
     expect(result.designMdPath).toBe(path.join(userFolder, 'DESIGN.md'));
     expect(fs.existsSync(result.designMdPath)).toBe(true);
     expect(fs.readFileSync(result.designMdPath, 'utf8')).toBe(
@@ -1055,7 +1055,7 @@ describe('POST /api/projects/:id/finalize/anthropic — HTTP-layer validation', 
 // pure-dot ids (`.`, `..`, `...`) because `.` is in the character class.
 // `projectDir` and `resolveProjectDir` both delegated to `isSafeId` so they
 // inherited the hole; an id of `..` would resolve to the PARENT of
-// `.od/projects/` via `path.join`. The HTTP layer happens to reject this
+// `.sankiwork/projects/` via `path.join`. The HTTP layer happens to reject this
 // today because Express normalizes `%2e%2e` to `..` and collapses the
 // path before the route handler sees it (yielding 404), but a direct CLI
 // or scripted caller would still reach the function and trigger the

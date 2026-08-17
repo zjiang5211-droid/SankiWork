@@ -33,9 +33,9 @@ describe("AMR Environment Profile desktop menu helpers", () => {
         },
         agentCliEnv: {
           amr: {
-            VELA_BIN: "/opt/open-design/vela",
+            VELA_BIN: "/opt/sankiwork/vela",
             VELA_LINK_URL: "https://amr.example.test/link",
-            OPEN_DESIGN_AMR_PROFILE: "prod",
+            SANKIWORK_AMR_PROFILE: "prod",
           },
           claude: {
             ANTHROPIC_BASE_URL: "https://claude.example.test",
@@ -55,9 +55,9 @@ describe("AMR Environment Profile desktop menu helpers", () => {
       },
       agentCliEnv: {
         amr: {
-          VELA_BIN: "/opt/open-design/vela",
+          VELA_BIN: "/opt/sankiwork/vela",
           VELA_LINK_URL: "https://amr.example.test/link",
-          OPEN_DESIGN_AMR_PROFILE: "local",
+          SANKIWORK_AMR_PROFILE: "local",
         },
         claude: {
           ANTHROPIC_BASE_URL: "https://claude.example.test",
@@ -71,7 +71,7 @@ describe("AMR Environment Profile desktop menu helpers", () => {
     expect(mergeAmrEnvironmentProfileConfig({}, "feature-test")).toEqual({
       agentCliEnv: {
         amr: {
-          OPEN_DESIGN_AMR_PROFILE: "feature-test",
+          SANKIWORK_AMR_PROFILE: "feature-test",
         },
       },
     });
@@ -92,7 +92,7 @@ describe("AMR Environment Profile desktop menu helpers", () => {
     expect(result).toEqual({
       agentCliEnv: {
         amr: {
-          OPEN_DESIGN_AMR_PROFILE: "test",
+          SANKIWORK_AMR_PROFILE: "test",
         },
       },
       agentModels: {},
@@ -101,7 +101,7 @@ describe("AMR Environment Profile desktop menu helpers", () => {
     expect(JSON.parse(JSON.stringify(result))).toEqual({
       agentCliEnv: {
         amr: {
-          OPEN_DESIGN_AMR_PROFILE: "test",
+          SANKIWORK_AMR_PROFILE: "test",
         },
       },
       agentModels: {},
@@ -121,7 +121,7 @@ describe("AMR Environment Profile desktop menu helpers", () => {
         },
         agentCliEnv: {
           amr: {
-            OPEN_DESIGN_AMR_PROFILE: " prod ",
+            SANKIWORK_AMR_PROFILE: " prod ",
           },
         },
       },
@@ -139,7 +139,7 @@ describe("AMR Environment Profile desktop menu helpers", () => {
       },
       agentCliEnv: {
         amr: {
-          OPEN_DESIGN_AMR_PROFILE: "prod",
+          SANKIWORK_AMR_PROFILE: "prod",
         },
       },
     });

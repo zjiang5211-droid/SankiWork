@@ -8,13 +8,13 @@ import {
   parseLauncherHandoffResumeArgs,
   resolveLauncherPaths,
   resolveLauncherVersionPaths,
-} from "@open-design/launcher-proto";
-import { readProcessStamp } from "@open-design/platform";
+} from "@sankiwork/launcher-proto";
+import { readProcessStamp } from "@sankiwork/platform";
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_SOURCES,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import { describe, expect, it, vi } from "vitest";
 
 import {
@@ -35,13 +35,13 @@ describe("legacy payload desktop handoff", () => {
         root,
         version: "1.2.3-beta.5",
       });
-      const outerExecutablePath = join(root, "installed", "Open Design Beta.app", "Contents", "MacOS", "Open Design Beta");
+      const outerExecutablePath = join(root, "installed", "SankiWork Beta.app", "Contents", "MacOS", "SankiWork Beta");
       const payloadExecutablePath = join(
         versionPaths.payloadRoot,
-        "Open Design Beta.app",
+        "SankiWork Beta.app",
         "Contents",
         "MacOS",
-        "Open Design Beta",
+        "SankiWork Beta",
       );
       await mkdir(join(payloadExecutablePath, ".."), { recursive: true });
       await mkdir(join(outerExecutablePath, ".."), { recursive: true });
@@ -52,8 +52,8 @@ describe("legacy payload desktop handoff", () => {
       await writeFile(versionPaths.manifestPath, `${JSON.stringify({
         channel: "beta",
         entry: {
-          cwd: "payload/Open Design Beta.app",
-          executable: "payload/Open Design Beta.app/Contents/MacOS/Open Design Beta",
+          cwd: "payload/SankiWork Beta.app",
+          executable: "payload/SankiWork Beta.app/Contents/MacOS/SankiWork Beta",
         },
         namespace,
         payloadRoot: "payload",
@@ -77,15 +77,15 @@ describe("legacy payload desktop handoff", () => {
       })}\n`);
       await writeFile(launcherPaths.installPath, `${JSON.stringify({
         channel: "beta",
-        launchPath: join(root, "installed", "Open Design Beta.app"),
+        launchPath: join(root, "installed", "SankiWork Beta.app"),
         namespace,
         schemaVersion: LAUNCHER_SCHEMA_VERSION,
       })}\n`);
 
       const prepared = await prepareLegacyPayloadDesktopHandoff({
         env: {
-          OD_APP_VERSION: "1.2.3-beta.5",
-          OD_INSTALLATION_DIR: root,
+          SW_APP_VERSION: "1.2.3-beta.5",
+          SW_INSTALLATION_DIR: root,
         },
         namespace,
         parentPid: 4321,
@@ -107,7 +107,7 @@ describe("legacy payload desktop handoff", () => {
         pid: 4321,
         stamp: {
           app: APP_KEYS.DESKTOP,
-          ipc: "/tmp/open-design/ipc/release-beta/desktop.sock",
+          ipc: "/tmp/sankiwork/ipc/release-beta/desktop.sock",
           mode: "runtime",
           namespace,
           source: SIDECAR_SOURCES.PACKAGED,
@@ -148,7 +148,7 @@ describe("legacy payload desktop handoff", () => {
         confirmTimeoutMs: 100,
         env: {
           ELECTRON_RUN_AS_NODE: "1",
-          OD_SIDECAR_BASE: runtimeRoot,
+          SW_SIDECAR_BASE: runtimeRoot,
           PATH: "/usr/bin",
         },
         now: () => new Date("2026-07-15T02:00:00.000Z"),
@@ -175,16 +175,16 @@ describe("legacy payload desktop handoff", () => {
       });
       expect(spawn).toHaveBeenCalledOnce();
       expect(launchedEnv).not.toHaveProperty("ELECTRON_RUN_AS_NODE");
-      expect(launchedEnv).not.toHaveProperty("OD_SIDECAR_BASE");
+      expect(launchedEnv).not.toHaveProperty("SW_SIDECAR_BASE");
       expect(launchedEnv).toMatchObject({
-        OD_PACKAGED_NAMESPACE_BASE_ROOT: join(root, "namespaces"),
+        SW_PACKAGED_NAMESPACE_BASE_ROOT: join(root, "namespaces"),
         PATH: "/usr/bin",
       });
       expect(parseLauncherAfterQuitArgs(launchedArgs)).toEqual({ targetPid: 4321, timeoutMs: 60_000 });
       expect(parseLauncherHandoffResumeArgs(launchedArgs)).toEqual({
         handoffId: "f5d4a712-8ba9-4c28-bcad-6dbed5db2d7c",
       });
-      expect(readProcessStamp(launchedArgs, OPEN_DESIGN_SIDECAR_CONTRACT)).toMatchObject({
+      expect(readProcessStamp(launchedArgs, SANKIWORK_SIDECAR_CONTRACT)).toMatchObject({
         app: APP_KEYS.DESKTOP,
         namespace,
         source: SIDECAR_SOURCES.PACKAGED,
@@ -210,7 +210,7 @@ describe("legacy payload desktop handoff", () => {
         pid: 4321,
         stamp: {
           app: APP_KEYS.DESKTOP,
-          ipc: "/tmp/open-design/ipc/release-beta/desktop.sock",
+          ipc: "/tmp/sankiwork/ipc/release-beta/desktop.sock",
           mode: "runtime",
           namespace,
           source: SIDECAR_SOURCES.TOOLS_PACK,
@@ -220,8 +220,8 @@ describe("legacy payload desktop handoff", () => {
 
       const coldStart = await prepareLegacyPayloadDesktopHandoff({
         env: {
-          OD_APP_VERSION: "1.2.3-beta.5",
-          OD_INSTALLATION_DIR: root,
+          SW_APP_VERSION: "1.2.3-beta.5",
+          SW_INSTALLATION_DIR: root,
         },
         namespace,
         now: () => new Date("2026-07-15T03:00:00.000Z"),
@@ -279,13 +279,13 @@ describe("legacy payload desktop handoff", () => {
       root,
       version: "1.2.3-beta.5",
     });
-    const outerExecutablePath = join(root, "installed", "Open Design Beta.app", "Contents", "MacOS", "Open Design Beta");
+    const outerExecutablePath = join(root, "installed", "SankiWork Beta.app", "Contents", "MacOS", "SankiWork Beta");
     const payloadExecutablePath = join(
       versionPaths.payloadRoot,
-      "Open Design Beta.app",
+      "SankiWork Beta.app",
       "Contents",
       "MacOS",
-      "Open Design Beta",
+      "SankiWork Beta",
     );
     await mkdir(join(payloadExecutablePath, ".."), { recursive: true });
     await mkdir(join(outerExecutablePath, ".."), { recursive: true });
@@ -296,8 +296,8 @@ describe("legacy payload desktop handoff", () => {
     await writeFile(versionPaths.manifestPath, `${JSON.stringify({
       channel: "beta",
       entry: {
-        cwd: "payload/Open Design Beta.app",
-        executable: "payload/Open Design Beta.app/Contents/MacOS/Open Design Beta",
+        cwd: "payload/SankiWork Beta.app",
+        executable: "payload/SankiWork Beta.app/Contents/MacOS/SankiWork Beta",
       },
       namespace,
       payloadRoot: "payload",
@@ -321,15 +321,15 @@ describe("legacy payload desktop handoff", () => {
     })}\n`);
     await writeFile(launcherPaths.installPath, `${JSON.stringify({
       channel: "beta",
-      launchPath: join(root, "installed", "Open Design Beta.app"),
+      launchPath: join(root, "installed", "SankiWork Beta.app"),
       namespace,
       schemaVersion: LAUNCHER_SCHEMA_VERSION,
     })}\n`);
 
     const prepared = await prepareLegacyPayloadDesktopHandoff({
       env: {
-        OD_APP_VERSION: "1.2.3-beta.5",
-        OD_INSTALLATION_DIR: root,
+        SW_APP_VERSION: "1.2.3-beta.5",
+        SW_INSTALLATION_DIR: root,
       },
       namespace,
       parentPid: 4321,
@@ -347,7 +347,7 @@ describe("legacy payload desktop handoff", () => {
       pid: 4321,
       stamp: {
         app: APP_KEYS.DESKTOP,
-        ipc: "/tmp/open-design/ipc/release-beta/desktop.sock",
+        ipc: "/tmp/sankiwork/ipc/release-beta/desktop.sock",
         mode: "runtime",
         namespace,
         source: SIDECAR_SOURCES.PACKAGED,
@@ -447,8 +447,8 @@ describe("legacy payload desktop handoff", () => {
       // "already-armed".
       const retry = await prepareLegacyPayloadDesktopHandoff({
         env: {
-          OD_APP_VERSION: "1.2.3-beta.5",
-          OD_INSTALLATION_DIR: root,
+          SW_APP_VERSION: "1.2.3-beta.5",
+          SW_INSTALLATION_DIR: root,
         },
         namespace: prepared.descriptor.namespace,
         parentPid: 4321,
@@ -467,7 +467,7 @@ describe("legacy payload desktop handoff", () => {
       env: {},
       namespace: "default",
       platform: "darwin",
-      runtimeRoot: "/tmp/open-design/runtime",
+      runtimeRoot: "/tmp/sankiwork/runtime",
       source: SIDECAR_SOURCES.TOOLS_DEV,
     })).resolves.toEqual({ kind: "none", reason: "not-packaged" });
   });
@@ -485,8 +485,8 @@ describe("legacy payload desktop handoff", () => {
         root,
         version,
       });
-      const outerExecutablePath = join(root, "installed", "Open Design Beta.exe");
-      const payloadExecutablePath = join(versionPaths.payloadRoot, "Open Design Beta.exe");
+      const outerExecutablePath = join(root, "installed", "SankiWork Beta.exe");
+      const payloadExecutablePath = join(versionPaths.payloadRoot, "SankiWork Beta.exe");
       await mkdir(join(root, "installed"), { recursive: true });
       await mkdir(versionPaths.payloadRoot, { recursive: true });
       await mkdir(runtimeRoot, { recursive: true });
@@ -497,7 +497,7 @@ describe("legacy payload desktop handoff", () => {
         channel: "beta",
         entry: {
           cwd: "payload",
-          executable: "payload/Open Design Beta.exe",
+          executable: "payload/SankiWork Beta.exe",
         },
         namespace,
         payloadRoot: "payload",
@@ -528,8 +528,8 @@ describe("legacy payload desktop handoff", () => {
 
       const prepared = await prepareLegacyPayloadDesktopHandoff({
         env: {
-          OD_APP_VERSION: version,
-          OD_INSTALLATION_DIR: root,
+          SW_APP_VERSION: version,
+          SW_INSTALLATION_DIR: root,
         },
         namespace,
         parentPid: 9876,
@@ -559,8 +559,8 @@ describe("legacy payload desktop handoff", () => {
     try {
       await expect(prepareLegacyPayloadDesktopHandoff({
         env: {
-          OD_APP_VERSION: "1.2.3",
-          OD_INSTALLATION_DIR: root,
+          SW_APP_VERSION: "1.2.3",
+          SW_INSTALLATION_DIR: root,
         },
         namespace: "custom-stable-namespace",
         parentPid: 4321,

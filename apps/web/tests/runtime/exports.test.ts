@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import { installMockSankiWorkHost } from '@sankiwork/host/testing';
 import {
   archiveFilenameFrom,
   archiveRootFromFilePath,
@@ -189,7 +189,7 @@ describe('injected print-ready parent cache script — runtime behavior (#4458)'
   // is rejected so it cannot blank the page (viewport fallback) or poison it.
   async function extractCacheScript(): Promise<{ body: string; nonce: string }> {
     const printPdfMock = vi.fn().mockResolvedValue({ ok: true });
-    const restoreHost = installMockOpenDesignHost({ host: { pdf: { print: printPdfMock } } });
+    const restoreHost = installMockSankiWorkHost({ host: { pdf: { print: printPdfMock } } });
     try {
       await exportAsPdf('<div style="height:4000px">tall artifact</div>', 'Cache Eval');
     } finally {
@@ -235,7 +235,7 @@ describe('injected print-ready parent cache script — runtime behavior (#4458)'
     height: unknown,
     source: unknown,
   ): { data: unknown; source: unknown } {
-    return { data: { type: 'OD_PRINT_READY', nonce, width, height }, source };
+    return { data: { type: 'SW_PRINT_READY', nonce, width, height }, source };
   }
 
   it('caches a usable content size so the desktop bridge sizes the page to the artifact', async () => {
@@ -363,7 +363,7 @@ describe('buildDesignHandoffContent', () => {
       files: ['index.html', 'src/app.css', 'src/app.js'],
     }));
 
-    expect(manifest.schema).toBe('open-design.design-manifest.v1');
+    expect(manifest.schema).toBe('sankiwork.design-manifest.v1');
     expect(manifest.entryFile).toBe('index.html');
     expect(manifest.sourceFiles.css).toEqual(['src/app.css']);
     expect(manifest.sourceFiles.scriptsAndComponents).toEqual(['src/app.js']);
@@ -1124,8 +1124,8 @@ describe('sandboxed preview Blob exports', () => {
     });
     vi.stubGlobal('window', {
       location: {
-        href: 'https://open-design.test/plugins/example',
-        origin: 'https://open-design.test',
+        href: 'https://sankiwork.test/plugins/example',
+        origin: 'https://sankiwork.test',
       },
       open: (_url: string, _target: string, features?: string) => {
         openCalls.push([_url, _target]);
@@ -1158,7 +1158,7 @@ describe('sandboxed preview Blob exports', () => {
 
     expect(capturedBlob).toBeDefined();
     const wrapper = await capturedBlob!.text();
-    expect(wrapper).toContain('&lt;base href=&quot;https://open-design.test/&quot;&gt;');
+    expect(wrapper).toContain('&lt;base href=&quot;https://sankiwork.test/&quot;&gt;');
   });
 
   it('passes srcdoc options through the sandboxed new-tab wrapper', async () => {
@@ -1222,8 +1222,8 @@ describe('sandboxed preview Blob exports', () => {
     expect(wrapper).toContain('__odPrintReadyStarted');
     expect(wrapper).toContain("window.__odPrintReady===true");
     expect(wrapper).toContain("window.__odPrintReadyStarted===false");
-    expect(wrapper).toContain("e.data.type==='OD_PRINT_READY'");
-    expect(wrapper).toContain("e.data.type==='OD_PRINT_READY_STARTED'");
+    expect(wrapper).toContain("e.data.type==='SW_PRINT_READY'");
+    expect(wrapper).toContain("e.data.type==='SW_PRINT_READY_STARTED'");
     expect(wrapper).toContain('window.addEventListener(\'message\'');
     expect(wrapper).toContain('document.fonts');
     expect(wrapper).toContain('waitForCssBackgroundImages');
@@ -1264,7 +1264,7 @@ describe('sandboxed preview Blob exports', () => {
 
   it('uses the desktop native print bridge when the host PDF bridge is available', async () => {
     const printPdfMock = vi.fn().mockResolvedValue({ ok: true });
-    const restoreHost = installMockOpenDesignHost({
+    const restoreHost = installMockSankiWorkHost({
       host: { pdf: { print: printPdfMock } },
     });
 
@@ -1283,10 +1283,10 @@ describe('sandboxed preview Blob exports', () => {
     expect(htmlArg).toContain('&lt;script&gt;window.parent.document.body.innerHTML=&quot;owned&quot;&lt;/script&gt;');
     expect(htmlArg).not.toContain('<script>window.parent.document.body.innerHTML="owned"</script>');
     // Verify the readiness handshake is present — the sandboxed iframe posts
-    // 'OD_PRINT_READY' to the parent once fonts and images are loaded.
-    expect(htmlArg).toContain('OD_PRINT_READY');
+    // 'SW_PRINT_READY' to the parent once fonts and images are loaded.
+    expect(htmlArg).toContain('SW_PRINT_READY');
     // Verify the parent-wrapper cache script is present so the handshake is
-    // never missed even if 'OD_PRINT_READY' fires before the listener attaches.
+    // never missed even if 'SW_PRINT_READY' fires before the listener attaches.
     expect(htmlArg).toContain('__odPrintReady');
     // Verify the print script is NOT injected — Electron renders via the
     // native printToPDF path, so a self-printing document would trigger a
@@ -1296,7 +1296,7 @@ describe('sandboxed preview Blob exports', () => {
 
   it('passes deck intent through the desktop native print bridge', async () => {
     const printPdfMock = vi.fn().mockResolvedValue({ ok: true });
-    const restoreHost = installMockOpenDesignHost({
+    const restoreHost = installMockSankiWorkHost({
       host: { pdf: { print: printPdfMock } },
     });
 
@@ -1313,7 +1313,7 @@ describe('sandboxed preview Blob exports', () => {
 
   it('injects image-waiting logic into the print-ready handshake for the desktop bridge', async () => {
     const printPdfMock = vi.fn().mockResolvedValue({ ok: true });
-    const restoreHost = installMockOpenDesignHost({
+    const restoreHost = installMockSankiWorkHost({
       host: { pdf: { print: printPdfMock } },
     });
 
@@ -1344,13 +1344,13 @@ describe('sandboxed preview Blob exports', () => {
     expect(htmlArg).toContain('requestAnimationFrame');
     // The original font- and load-waiting logic must still be present.
     expect(htmlArg).toContain('document.fonts');
-    expect(htmlArg).toContain('OD_PRINT_READY');
+    expect(htmlArg).toContain('SW_PRINT_READY');
     // The handshake posts an object with a per-export nonce to prevent
     // spoofing by untrusted artifact code.
-    expect(htmlArg).toContain("type:'OD_PRINT_READY'");
+    expect(htmlArg).toContain("type:'SW_PRINT_READY'");
     expect(htmlArg).toContain("nonce:'");
     // The cache script also validates the nonce and event source.
-    expect(htmlArg).toContain("e.data.type==='OD_PRINT_READY'");
+    expect(htmlArg).toContain("e.data.type==='SW_PRINT_READY'");
     expect(htmlArg).toContain("e.data.nonce===");
     expect(htmlArg).toContain('e.source===');
     // The parent cache should still be injected.
@@ -1361,7 +1361,7 @@ describe('sandboxed preview Blob exports', () => {
 
   it('reports the artifact content size through the handshake so the desktop page is sized to the content, not the wrapper viewport (issue #4067)', async () => {
     const printPdfMock = vi.fn().mockResolvedValue({ ok: true });
-    const restoreHost = installMockOpenDesignHost({
+    const restoreHost = installMockSankiWorkHost({
       host: { pdf: { print: printPdfMock } },
     });
 
@@ -1402,7 +1402,7 @@ describe('sandboxed preview Blob exports', () => {
 
   it('injects the readiness cache for non-sandboxed desktop exports too', async () => {
     const printPdfMock = vi.fn().mockResolvedValue({ ok: true });
-    const restoreHost = installMockOpenDesignHost({
+    const restoreHost = installMockSankiWorkHost({
       host: { pdf: { print: printPdfMock } },
     });
 
@@ -1420,7 +1420,7 @@ describe('sandboxed preview Blob exports', () => {
     expect(htmlArg).not.toContain('sandbox="allow-scripts"');
     expect(htmlArg).toContain('<main>Trusted local document</main>');
     // The readiness handshake must still be injected.
-    expect(htmlArg).toContain('OD_PRINT_READY');
+    expect(htmlArg).toContain('SW_PRINT_READY');
     // The cache must be present so waitForPrintReadyHandshake never hangs.
     expect(htmlArg).toContain('__odPrintReady');
     // No window.print() since the desktop bridge handles printing natively.

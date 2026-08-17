@@ -1,5 +1,5 @@
 export const PROTOCOL_VERSION = 1 as const;
-export const RUNTIME_NAME = 'open-design' as const;
+export const RUNTIME_NAME = 'sankiwork' as const;
 export const CAPABILITIES = {
   session_resume: true,
   session_cancel: true,

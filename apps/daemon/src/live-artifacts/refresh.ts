@@ -684,7 +684,7 @@ async function executePublicGithubRepositoryMetric(options: ExecuteLocalDaemonRe
   const fetchInit: RequestInit = {
     headers: {
       Accept: 'application/vnd.github+json',
-      'User-Agent': 'open-design-live-artifact-refresh',
+      'User-Agent': 'sankiwork-live-artifact-refresh',
     },
   };
   if (options.signal !== undefined) fetchInit.signal = options.signal;

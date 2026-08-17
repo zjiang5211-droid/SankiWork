@@ -60,7 +60,7 @@ import { classifyAmrAccountFailure } from '../integrations/vela-errors.js';
 const AMR_API_PROXY_PREFIX = '/api/integrations/vela/api-proxy';
 const VELA_MESSAGE_CENTER_PREFIX = '/api/integrations/vela/message-center';
 const VELA_PUBLIC_MESSAGE_CENTER_PREFIX = '/api/integrations/vela/message-center-public';
-const AMR_API_UPSTREAM_ORIGIN = 'https://amr-api.open-design.ai';
+const AMR_API_UPSTREAM_ORIGIN = 'https://amr-api.sanki-ai.cloud';
 const PROXY_HOP_BY_HOP_HEADERS = new Set([
   'connection',
   'keep-alive',
@@ -188,12 +188,12 @@ function pluginLoginCorrelationEnv(input: {
     });
     const pluginWorkflowId = validatePluginWorkflowId(body.pluginWorkflowId);
     return {
-      OD_INSTALLATION_ID: analyticsContext.deviceId,
-      OPEN_DESIGN_PLUGIN_WORKFLOW_ID: pluginWorkflowId,
-      OPEN_DESIGN_EXTERNAL_PLUGIN_ID: context.id,
-      OPEN_DESIGN_EXTERNAL_PLUGIN_VERSION: context.version,
-      OPEN_DESIGN_DISTRIBUTION_MECHANISM: context.distributionMechanism,
-      OPEN_DESIGN_PUBLISHER_CLASS: context.publisherClass,
+      SW_INSTALLATION_ID: analyticsContext.deviceId,
+      SANKIWORK_PLUGIN_WORKFLOW_ID: pluginWorkflowId,
+      SANKIWORK_EXTERNAL_PLUGIN_ID: context.id,
+      SANKIWORK_EXTERNAL_PLUGIN_VERSION: context.version,
+      SANKIWORK_DISTRIBUTION_MECHANISM: context.distributionMechanism,
+      SANKIWORK_PUBLISHER_CLASS: context.publisherClass,
     };
   } catch {
     // Login must remain functional when analytics metadata is absent or
@@ -686,9 +686,9 @@ export function registerVelaRoutes(app: Express, deps: RegisterVelaRoutesDeps): 
       }
       // Start device authorization over a direct connection first. The
       // daemon-local IPv4 proxy (added in #4210 for hosts whose direct
-      // amr-api.open-design.ai edge path is broken, #3726) re-originates the
+      // amr-api.sanki-ai.cloud edge path is broken, #3726) re-originates the
       // request through the daemon. Behind a corporate transparent proxy that
-      // hijacks amr-api.open-design.ai onto an internal gateway (e.g.
+      // hijacks amr-api.sanki-ai.cloud onto an internal gateway (e.g.
       // 飞连/CorpLink → 30.x), that extra hop makes the upstream lose the
       // client IP and reject device authorization with
       // "502: Invalid IP address: undefined", even though the direct path

@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import type { PersistedAgentEvent } from '@open-design/contracts';
+import type { PersistedAgentEvent } from '@sankiwork/contracts';
 import {
   appendMessageAgentEvents,
   upsertMessage,

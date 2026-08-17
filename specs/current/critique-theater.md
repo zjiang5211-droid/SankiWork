@@ -2,14 +2,14 @@
 
 ## Naming
 
-- **Internal codename (engineering, code, prompts, env vars, modules, SSE event prefix, telemetry):** `Critique Theater`. Used in `apps/daemon/src/critique/`, `apps/web/src/components/Theater/`, `OD_CRITIQUE_*`, `critique.*` SSE events.
+- **Internal codename (engineering, code, prompts, env vars, modules, SSE event prefix, telemetry):** `Critique Theater`. Used in `apps/daemon/src/critique/`, `apps/web/src/components/Theater/`, `SW_CRITIQUE_*`, `critique.*` SSE events.
 - **User-facing label (UI, settings, docs, README, marketing copy):** `Design Jury`. The string is sourced from a single i18n key `critiqueTheater.userFacingName` so the label can be swapped without touching code.
 
 The split is deliberate. Engineers reason about the system; users hire a jury.
 
 ## Purpose
 
-Critique Theater turns Open Design's single-pass artifact generation into a panel-tempered, scored, replayable process. Every artifact is born through a visible five-person Design Jury (Designer, Critic, Brand, A11y, Copy) running inside one CLI session, with auto-converging rounds bounded by a configurable score threshold. By default, no artifact ships under 8.0/10.
+Critique Theater turns SankiWork's single-pass artifact generation into a panel-tempered, scored, replayable process. Every artifact is born through a visible five-person Design Jury (Designer, Critic, Brand, A11y, Copy) running inside one CLI session, with auto-converging rounds bounded by a configurable score threshold. By default, no artifact ships under 8.0/10.
 
 This spec is normative for the v1 implementation and protocol. It is the source of truth that the prompt template, the daemon parser, the SSE event schema, the SQLite columns, the Theater UI components, and the adapter conformance suite all derive from.
 
@@ -26,7 +26,7 @@ This spec is normative for the v1 implementation and protocol. It is the source 
 The non-goals above are intentional, not arbitrary. Future readers should know the tradeoff that led to each.
 
 - **No parallel processes.** A single CLI session keeps the agent's full context coherent: the Designer's draft and every later panelist's notes share one model context, so the Critic can see the actual hierarchy values the Designer chose, the Brand panelist can read the same DESIGN.md the Designer was passed, and the Copy panelist can pick at the verbs the Designer wrote. Splitting this across processes would require a cross-process artifact handoff and a way to replay prior-panelist notes into each one's context, which adds an estimated two to three weeks to the v1 timeline and turns a debugging session into a multi-process trace correlation problem.
-- **No new agent runtime.** The same on-PATH CLI Open Design already detects (Claude Code, Codex, Cursor Agent, OpenCode, and the other registered definitions) is how this feature reaches users. Building a runtime would replicate work that the existing daemon already does well, would force users onto a model we picked rather than the one they signed up for, and would lose BYOK at every layer.
+- **No new agent runtime.** The same on-PATH CLI SankiWork already detects (Claude Code, Codex, Cursor Agent, OpenCode, and the other registered definitions) is how this feature reaches users. Building a runtime would replicate work that the existing daemon already does well, would force users onto a model we picked rather than the one they signed up for, and would lose BYOK at every layer.
 - **No new SSE transport.** SSE is already plumbed through the daemon, the web app, the Electron shell, and the desktop sidecar IPC. A second transport would force every consumer to learn a second connection lifecycle, which is exactly the kind of accidental complexity that takes a feature out of v1.
 - **No configurable cast in v1.** A fixed five-panelist roster lets the composite formula and weight defaults stay constant across every artifact. A configurable cast adds UX surface (per-skill picker, override storage, settings sync) and requires the score formula to redistribute weight on the fly. We commit to v2 once we have data on which roles users actually drop or add.
 - **No new skill protocol.** Critique Theater layers on top of the skill loader; it does not change what a skill is. Existing skills, bundled design systems, and future contributions inherit the panel without per-skill migration work.
@@ -102,15 +102,15 @@ export interface CritiqueConfig {
 
 | Env var | Default | Notes |
 | --- | --- | --- |
-| `OD_CRITIQUE_ENABLED` | `false` at M0, `true` from M3 | Master switch. False = legacy generation. |
-| `OD_CRITIQUE_MAX_ROUNDS` | `3` | Hard upper bound on rounds. |
-| `OD_CRITIQUE_SCORE_THRESHOLD` | `8.0` | Ship gate. Composite below this continues. |
-| `OD_CRITIQUE_SCORE_SCALE` | `10` | Score range upper bound. Lower bound is always 0. |
-| `OD_CRITIQUE_PER_ROUND_TIMEOUT_MS` | `90000` | Per-round wall clock cap. |
-| `OD_CRITIQUE_TOTAL_TIMEOUT_MS` | `240000` | Total run wall clock cap. |
-| `OD_CRITIQUE_PARSER_MAX_BLOCK_BYTES` | `262144` | Hard cap on bytes between matched tags. Prevents unbounded buffering. |
-| `OD_CRITIQUE_FALLBACK_POLICY` | `ship_best` | When threshold never met, which round to keep. |
-| `OD_CRITIQUE_MAX_CONCURRENT_RUNS` | `os.cpus().length` | Daemon-wide cap. Excess requests queue per project FIFO. |
+| `SW_CRITIQUE_ENABLED` | `false` at M0, `true` from M3 | Master switch. False = legacy generation. |
+| `SW_CRITIQUE_MAX_ROUNDS` | `3` | Hard upper bound on rounds. |
+| `SW_CRITIQUE_SCORE_THRESHOLD` | `8.0` | Ship gate. Composite below this continues. |
+| `SW_CRITIQUE_SCORE_SCALE` | `10` | Score range upper bound. Lower bound is always 0. |
+| `SW_CRITIQUE_PER_ROUND_TIMEOUT_MS` | `90000` | Per-round wall clock cap. |
+| `SW_CRITIQUE_TOTAL_TIMEOUT_MS` | `240000` | Total run wall clock cap. |
+| `SW_CRITIQUE_PARSER_MAX_BLOCK_BYTES` | `262144` | Hard cap on bytes between matched tags. Prevents unbounded buffering. |
+| `SW_CRITIQUE_FALLBACK_POLICY` | `ship_best` | When threshold never met, which round to keep. |
+| `SW_CRITIQUE_MAX_CONCURRENT_RUNS` | `os.cpus().length` | Daemon-wide cap. Excess requests queue per project FIFO. |
 
 The default weights for composite score are `{ designer: 0, critic: 0.40, brand: 0.20, a11y: 0.20, copy: 0.20 }`. Designer is omitted from the composite because Designer drafts; Designer does not score. If a panelist's score is missing in a round, weight redistributes proportionally across present panelists. The weights object is a single source of truth; the formula lives only in `scoreboard.ts`.
 
@@ -446,16 +446,16 @@ Each failure mode above has an empirical rate target, a deterministic recovery p
 
 | Failure | Target rate | Recovery | Prometheus signal | Alert threshold |
 | --- | --- | --- | --- | --- |
-| `malformed_block` | < 0.5% of runs per adapter | emit `critique.degraded`, fall through to legacy single-pass generation. No retry. | `open_design_critique_degraded_total{reason="malformed_block",adapter="..."}` | sustained > 2% over 1h on any single adapter |
-| `oversize_block` | < 0.1% of runs | same as `malformed_block` plus the parser's position is logged for postmortem | `open_design_critique_degraded_total{reason="oversize_block"}` | any non-zero sustained rate is treated as a model regression and pages |
-| `missing_artifact` | < 0.2% of runs | degraded fallback, prompt template flagged for review (it should make this impossible) | `open_design_critique_degraded_total{reason="missing_artifact"}` | > 1% over 24h |
-| Score never crosses threshold | < 5% of runs at M3 default | apply `fallbackPolicy` (default `ship_best`); badge tagged `below_threshold`; user can re-run | `open_design_critique_runs_total{status="below_threshold"}` | > 15% sustained over 24h is a quality regression |
-| Per-round timeout | < 1% of runs | abort current round, ship best-so-far, badge tagged `timed_out` | `open_design_critique_runs_total{status="timed_out"}` | > 3% over 1h on any adapter |
+| `malformed_block` | < 0.5% of runs per adapter | emit `critique.degraded`, fall through to legacy single-pass generation. No retry. | `sankiwork_critique_degraded_total{reason="malformed_block",adapter="..."}` | sustained > 2% over 1h on any single adapter |
+| `oversize_block` | < 0.1% of runs | same as `malformed_block` plus the parser's position is logged for postmortem | `sankiwork_critique_degraded_total{reason="oversize_block"}` | any non-zero sustained rate is treated as a model regression and pages |
+| `missing_artifact` | < 0.2% of runs | degraded fallback, prompt template flagged for review (it should make this impossible) | `sankiwork_critique_degraded_total{reason="missing_artifact"}` | > 1% over 24h |
+| Score never crosses threshold | < 5% of runs at M3 default | apply `fallbackPolicy` (default `ship_best`); badge tagged `below_threshold`; user can re-run | `sankiwork_critique_runs_total{status="below_threshold"}` | > 15% sustained over 24h is a quality regression |
+| Per-round timeout | < 1% of runs | abort current round, ship best-so-far, badge tagged `timed_out` | `sankiwork_critique_runs_total{status="timed_out"}` | > 3% over 1h on any adapter |
 | Total timeout | < 0.5% of runs | `SIGTERM` CLI, ship best-so-far, transcript marked partial | same series, distinguished by lifecycle attribute | shares the per-round timeout alert |
-| User Interrupt | not an error; signal of latency or unwanted direction | preserve transcript, ship best-so-far if any round closed | `open_design_critique_interrupted_total{adapter="..."}` | > 10% over 24h is a UX problem worth investigating |
-| CLI process crash | < 0.05% of runs | fail loud with `critique.failed`, no silent retry, daemon process surfaces the cause | `open_design_critique_runs_total{status="failed",cause="cli_exit_nonzero"}` | any non-zero sustained rate pages |
-| Daemon restart mid-run | unbounded (depends on operator action) | persist `interrupted` with `recoveryReason="daemon_restart"`, never auto-resume | `open_design_critique_runs_total{status="interrupted",cause="daemon_restart"}` | informational, no alert |
-| Adapter unsupported | adapter-specific; surfaces during conformance | adapter marked `critique:degraded` in registry with 24h TTL; degraded banner once per session | `open_design_critique_degraded_total{reason="adapter_unsupported",adapter="..."}` | one alert per adapter on first hit, suppressed during TTL |
+| User Interrupt | not an error; signal of latency or unwanted direction | preserve transcript, ship best-so-far if any round closed | `sankiwork_critique_interrupted_total{adapter="..."}` | > 10% over 24h is a UX problem worth investigating |
+| CLI process crash | < 0.05% of runs | fail loud with `critique.failed`, no silent retry, daemon process surfaces the cause | `sankiwork_critique_runs_total{status="failed",cause="cli_exit_nonzero"}` | any non-zero sustained rate pages |
+| Daemon restart mid-run | unbounded (depends on operator action) | persist `interrupted` with `recoveryReason="daemon_restart"`, never auto-resume | `sankiwork_critique_runs_total{status="interrupted",cause="daemon_restart"}` | informational, no alert |
+| Adapter unsupported | adapter-specific; surfaces during conformance | adapter marked `critique:degraded` in registry with 24h TTL; degraded banner once per session | `sankiwork_critique_degraded_total{reason="adapter_unsupported",adapter="..."}` | one alert per adapter on first hit, suppressed during TTL |
 
 A run can satisfy multiple labels (a `timed_out` run that also `below_threshold`s, for instance). The `status` label is a single canonical value derived by the orchestrator at run end; downstream histograms attach `cause` and `decision` as separate labels.
 
@@ -463,7 +463,7 @@ The Phase 11 e2e suite synthesizes each row above against a stub adapter and ass
 
 ## Concurrency and scalability
 
-- Orchestrator instances are per-project. Daemon-wide concurrency cap via `OD_CRITIQUE_MAX_CONCURRENT_RUNS`. Excess requests queue with project-level FIFO.
+- Orchestrator instances are per-project. Daemon-wide concurrency cap via `SW_CRITIQUE_MAX_CONCURRENT_RUNS`. Excess requests queue with project-level FIFO.
 - Streaming backpressure: parser is `AsyncIterable`-based. When the SSE consumer is slow, daemon's bounded mailbox (256 events) applies backpressure to the parser, which applies it to CLI stdout via the existing sidecar transport. No unbounded buffers anywhere.
 - Transcripts larger than 1 MiB stream to disk only; the SQLite row stores a path, never a blob.
 - Cross-skill reuse: every existing skill receives the panel for free; no per-skill code change is required.
@@ -479,7 +479,7 @@ od:
     policy: always | on-demand | off
 ```
 
-Default is `always` once `OD_CRITIQUE_ENABLED` flips global at M3. Per-skill overrides ship in the same PR as M2.
+Default is `always` once `SW_CRITIQUE_ENABLED` flips global at M3. Per-skill overrides ship in the same PR as M2.
 
 ## Adapter conformance
 
@@ -496,15 +496,15 @@ Adapters that fail are marked `critique:degraded` in the adapter registry. The d
 
 | Metric | Type | Labels | Purpose |
 | --- | --- | --- | --- |
-| `open_design_critique_runs_total` | counter | `status`, `adapter`, `skill` | Run volume by terminal state. |
-| `open_design_critique_rounds_total` | counter | `adapter`, `skill` | Average rounds per artifact. |
-| `open_design_critique_round_duration_ms` | histogram | `quantile`, `adapter`, `skill`, `round` | Round latency distribution. |
-| `open_design_critique_composite_score` | histogram | `quantile`, `adapter`, `skill` | Output quality distribution. |
-| `open_design_critique_must_fix_total` | counter | `panelist`, `dim`, `adapter`, `skill` | Where the panel finds problems most often. |
-| `open_design_critique_degraded_total` | counter | `reason`, `adapter` | Adapter health proxy. |
-| `open_design_critique_interrupted_total` | counter | `adapter` | User abandonment signal. |
-| `open_design_critique_parser_errors_total` | counter | `kind`, `adapter` | Parser robustness. |
-| `open_design_critique_protocol_version` | gauge | `version` | Active protocol versions in use. |
+| `sankiwork_critique_runs_total` | counter | `status`, `adapter`, `skill` | Run volume by terminal state. |
+| `sankiwork_critique_rounds_total` | counter | `adapter`, `skill` | Average rounds per artifact. |
+| `sankiwork_critique_round_duration_ms` | histogram | `quantile`, `adapter`, `skill`, `round` | Round latency distribution. |
+| `sankiwork_critique_composite_score` | histogram | `quantile`, `adapter`, `skill` | Output quality distribution. |
+| `sankiwork_critique_must_fix_total` | counter | `panelist`, `dim`, `adapter`, `skill` | Where the panel finds problems most often. |
+| `sankiwork_critique_degraded_total` | counter | `reason`, `adapter` | Adapter health proxy. |
+| `sankiwork_critique_interrupted_total` | counter | `adapter` | User abandonment signal. |
+| `sankiwork_critique_parser_errors_total` | counter | `kind`, `adapter` | Parser robustness. |
+| `sankiwork_critique_protocol_version` | gauge | `version` | Active protocol versions in use. |
 
 Structured logs use the existing daemon logger with namespace `critique`. Required events: `run_started`, `round_closed`, `run_shipped`, `degraded`, `parser_recover`, `run_failed`. OpenTelemetry traces wrap each run with spans `critique.run`, `critique.round.<n>`, `critique.parse_chunk`, `critique.scoreboard_eval`, `critique.persist_round`, `critique.ship.persist`.
 
@@ -544,7 +544,7 @@ A separate security review pass runs through the `code-reviewer` agent before me
 
 | Milestone | Scope | Default | Reversibility |
 | --- | --- | --- | --- |
-| M0 | Code lands behind `OD_CRITIQUE_ENABLED=false`. All tests run. No user-visible change. | off | flip env var |
+| M0 | Code lands behind `SW_CRITIQUE_ENABLED=false`. All tests run. No user-visible change. | off | flip env var |
 | M1 | Settings UI toggle "Critique Theater (beta)". Adapter conformance grades published in README. 24h TTL on degraded markings. | off | flip toggle |
 | M2 | Default-on for skills that benefit most: `magazine-poster`, `saas-landing`, `dashboard`, `finance-report`, `hr-onboarding`, `kanban-board`. Lightweight skills (`weekly-update`, `simple-deck`) remain opt-in. Per-skill `od.critique.policy` introduced in `SKILL.md`. | per-skill | per-skill flag |
 | M3 | After 14 consecutive days at ≥ 90% adapter conformance across the fleet, flip the global default to true. Opt-out remains per-run and per-skill. | on | env var or per-skill |

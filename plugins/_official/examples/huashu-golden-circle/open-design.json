@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://sanki-ai.cloud/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-huashu-golden-circle",
   "title": "Present a Brand-Repositioning Strategy like a Top Consulting Principal",

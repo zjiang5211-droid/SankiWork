@@ -5,8 +5,8 @@ import {
   SIDECAR_ENV,
   SIDECAR_MESSAGES,
   type DaemonStatusSnapshot,
-} from "@open-design/sidecar-proto";
-import { requestJsonIpc } from "@open-design/sidecar";
+} from "@sankiwork/sidecar-proto";
+import { requestJsonIpc } from "@sankiwork/sidecar";
 
 export const DEFAULT_DAEMON_URL = "http://127.0.0.1:7456";
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -21,13 +21,13 @@ export interface ResolveDaemonUrlOptions {
 }
 
 /**
- * Resolve the daemon HTTP base URL for `od` client commands.
+ * Resolve the daemon HTTP base URL for `sw` client commands.
  *
- * Spawn order: explicit `--daemon-url` flag, `OD_DAEMON_URL` env, then
+ * Spawn order: explicit `--daemon-url` flag, `SW_DAEMON_URL` env, then
  * a STATUS roundtrip to the concrete sidecar IPC endpoint supplied by
- * the lifecycle owner in `OD_SIDECAR_IPC_PATH`, then the default
+ * the lifecycle owner in `SW_SIDECAR_IPC_PATH`, then the default
  * `tools-dev status --json` runtime. Falls back to the legacy default
- * for direct `od` launches that do not run as a sidecar.
+ * for direct `sw` launches that do not run as a sidecar.
  */
 export async function resolveDaemonUrl(
   options: ResolveDaemonUrlOptions = {},
@@ -35,7 +35,7 @@ export async function resolveDaemonUrl(
   const env = options.env ?? process.env;
   const flagUrl = options.flagUrl ?? null;
   if (flagUrl != null && flagUrl.length > 0) return flagUrl;
-  const envUrl = env.OD_DAEMON_URL;
+  const envUrl = env.SW_DAEMON_URL;
   if (envUrl != null && envUrl.length > 0) return envUrl;
   const discovered = await discoverDaemonUrlFromIpc(env, options.timeoutMs ?? 800);
   if (discovered != null) return discovered;

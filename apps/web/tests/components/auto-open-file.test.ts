@@ -26,7 +26,7 @@ describe('decideAutoOpenAfterWrite', () => {
     // we must NOT open a placeholder tab for it. filePath has a slash, so
     // the basename fallback is intentionally skipped.
     const result = decideAutoOpenAfterWrite(
-      '/home/bryan/projects/open-design/apps/daemon/src/project-watchers.ts',
+      '/home/bryan/projects/sankiwork/apps/daemon/src/project-watchers.ts',
       [
         { name: 'index.html', path: 'index.html' },
         { name: 'App.jsx', path: 'App.jsx' },
@@ -50,7 +50,7 @@ describe('decideAutoOpenAfterWrite', () => {
     // file lives at "prototype/App.jsx". The decision must still resolve
     // unambiguously, returning the project-relative file name.
     const result = decideAutoOpenAfterWrite(
-      '/home/bryan/projects/open-design/.od/projects/abc/prototype/App.jsx',
+      '/home/bryan/projects/sankiwork/.sankiwork/projects/abc/prototype/App.jsx',
       [
         { name: 'index.html', path: 'index.html' },
         { name: 'prototype/App.jsx', path: 'prototype/App.jsx' },

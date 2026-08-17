@@ -70,13 +70,13 @@ describe('POST /api/import/folder', () => {
   }
 
   async function withSandboxMode<T>(run: () => Promise<T>): Promise<T> {
-    const previous = process.env.OD_SANDBOX_MODE;
-    process.env.OD_SANDBOX_MODE = '1';
+    const previous = process.env.SW_SANDBOX_MODE;
+    process.env.SW_SANDBOX_MODE = '1';
     try {
       return await run();
     } finally {
-      if (previous == null) delete process.env.OD_SANDBOX_MODE;
-      else process.env.OD_SANDBOX_MODE = previous;
+      if (previous == null) delete process.env.SW_SANDBOX_MODE;
+      else process.env.SW_SANDBOX_MODE = previous;
     }
   }
 
@@ -84,13 +84,13 @@ describe('POST /api/import/folder', () => {
     roots: string[],
     run: () => Promise<T>,
   ): Promise<T> {
-    const previous = process.env.OD_SANDBOX_IMPORT_ALLOWED_ROOTS;
-    process.env.OD_SANDBOX_IMPORT_ALLOWED_ROOTS = roots.join(path.delimiter);
+    const previous = process.env.SW_SANDBOX_IMPORT_ALLOWED_ROOTS;
+    process.env.SW_SANDBOX_IMPORT_ALLOWED_ROOTS = roots.join(path.delimiter);
     try {
       return await run();
     } finally {
-      if (previous == null) delete process.env.OD_SANDBOX_IMPORT_ALLOWED_ROOTS;
-      else process.env.OD_SANDBOX_IMPORT_ALLOWED_ROOTS = previous;
+      if (previous == null) delete process.env.SW_SANDBOX_IMPORT_ALLOWED_ROOTS;
+      else process.env.SW_SANDBOX_IMPORT_ALLOWED_ROOTS = previous;
     }
   }
 
@@ -237,7 +237,7 @@ describe('POST /api/import/folder', () => {
       const resp = await importFolder({ baseDir: folder });
       expect(resp.status).toBe(400);
       const body = (await resp.json()) as { error?: { message?: string } };
-      expect(body.error?.message).toMatch(/OD_SANDBOX_MODE/i);
+      expect(body.error?.message).toMatch(/SW_SANDBOX_MODE/i);
     });
   });
 
@@ -277,7 +277,7 @@ describe('POST /api/import/folder', () => {
         const resp = await importFolder({ baseDir: folder });
         expect(resp.status).toBe(400);
         const body = (await resp.json()) as { error?: { message?: string } };
-        expect(body.error?.message).toMatch(/OD_SANDBOX_IMPORT_ALLOWED_ROOTS/i);
+        expect(body.error?.message).toMatch(/SW_SANDBOX_IMPORT_ALLOWED_ROOTS/i);
       });
     });
   });
@@ -291,7 +291,7 @@ describe('POST /api/import/folder', () => {
         const resp = await importFolder({ baseDir: folder });
         expect(resp.status).toBe(400);
         const body = (await resp.json()) as { error?: { message?: string } };
-        expect(body.error?.message).toMatch(/OD_SANDBOX_IMPORT_ALLOWED_ROOTS.*absolute/i);
+        expect(body.error?.message).toMatch(/SW_SANDBOX_IMPORT_ALLOWED_ROOTS.*absolute/i);
       });
     });
   });
@@ -313,7 +313,7 @@ describe('POST /api/import/folder', () => {
       });
       expect(importResp.status).toBe(400);
       const body = (await importResp.json()) as { error?: { message?: string } };
-      expect(body.error?.message).toMatch(/OD_SANDBOX_IMPORT_ALLOWED_ROOTS/i);
+      expect(body.error?.message).toMatch(/SW_SANDBOX_IMPORT_ALLOWED_ROOTS/i);
     });
   });
 
@@ -422,7 +422,7 @@ describe('POST /api/import/folder', () => {
             manifest?: { metadata?: { inferred?: boolean } };
           }>;
         };
-        expect(resultPackage.schema).toBe('open-design.run-result-package.v1');
+        expect(resultPackage.schema).toBe('sankiwork.run-result-package.v1');
         expect(resultPackage.run).toMatchObject({ id: runBody.runId, projectId: project.id });
         expect(resultPackage.workspace).toMatchObject({
           storage: {
@@ -738,7 +738,7 @@ describe('POST /api/import/folder', () => {
       });
       expect(runResp.status).toBe(400);
       const body = (await runResp.json()) as { error?: { message?: string } };
-      expect(body.error?.message).toMatch(/imported-folder projects.*OD_SANDBOX_MODE/i);
+      expect(body.error?.message).toMatch(/imported-folder projects.*SW_SANDBOX_MODE/i);
     });
   });
 
@@ -762,7 +762,7 @@ describe('POST /api/import/folder', () => {
       });
       expect(chatResp.status).toBe(400);
       const body = (await chatResp.json()) as { error?: { message?: string } };
-      expect(body.error?.message).toMatch(/imported-folder projects.*OD_SANDBOX_MODE/i);
+      expect(body.error?.message).toMatch(/imported-folder projects.*SW_SANDBOX_MODE/i);
 
       const runsResp = await fetch(`${baseUrl}/api/runs?projectId=${encodeURIComponent(project.id)}`);
       expect(runsResp.status).toBe(200);
@@ -839,7 +839,7 @@ describe('POST /api/import/folder', () => {
       const resp = await fetch(`${baseUrl}/api/projects/${project.id}/files`);
       expect(resp.status).toBe(400);
       const body = (await resp.json()) as { error?: { message?: string } };
-      expect(body.error?.message).toMatch(/imported-folder projects.*OD_SANDBOX_MODE/i);
+      expect(body.error?.message).toMatch(/imported-folder projects.*SW_SANDBOX_MODE/i);
     });
   });
 
@@ -1063,8 +1063,8 @@ describe('POST /api/import/folder', () => {
       await readFile(path.join(project.metadata.baseDir, 'generated.html.artifact.json'), 'utf8'),
     ).toContain('"entry": "generated.html"');
 
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     await expect(stat(path.join(dataDir, 'projects', project.id, 'generated.html'))).rejects.toMatchObject({
       code: 'ENOENT',
     });
@@ -1094,7 +1094,7 @@ describe('POST /api/import/folder', () => {
     // Create a symlink that points into the test's RUNTIME_DATA_DIR (the
     // tmpdir-based path the daemon is using). Without realpath, this would
     // bypass the RUNTIME_DATA_DIR-reentry check.
-    const dataDir = process.env.OD_DATA_DIR;
+    const dataDir = process.env.SW_DATA_DIR;
     if (!dataDir) {
       // Test setup didn't pin a data dir — skip this case rather than guess.
       return;

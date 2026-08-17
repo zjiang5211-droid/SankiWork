@@ -49,8 +49,8 @@
  *   6. The stream ended without a `ship` event → failed (`no_ship`).
  */
 
-import type { CritiqueConfig, DegradedReason, PanelEvent, PanelistRole } from '@open-design/contracts/critique';
-import { CRITIQUE_PROTOCOL_VERSION, defaultCritiqueConfig } from '@open-design/contracts/critique';
+import type { CritiqueConfig, DegradedReason, PanelEvent, PanelistRole } from '@sankiwork/contracts/critique';
+import { CRITIQUE_PROTOCOL_VERSION, defaultCritiqueConfig } from '@sankiwork/contracts/critique';
 
 import { parseCritiqueStream, type ShipArtifactPayload } from './parser.js';
 import {

@@ -31,14 +31,14 @@ function Test-NodeVersion([string]$Version) {
 if (-not $HOME) { Fail 'HOME is not set.' }
 
 $LocalData = if ($env:LOCALAPPDATA) { $env:LOCALAPPDATA } else { Join-Path $HOME 'AppData\Local' }
-$InstallRoot = if ($env:OD_DSH_INSTALL_ROOT) { $env:OD_DSH_INSTALL_ROOT } else { Join-Path $LocalData 'OpenDesign\toolchains\dsh' }
-$BinDir = if ($env:OD_DSH_INSTALL_BIN_DIR) { $env:OD_DSH_INSTALL_BIN_DIR } else { Join-Path $HOME '.local\bin' }
+$InstallRoot = if ($env:SW_DSH_INSTALL_ROOT) { $env:SW_DSH_INSTALL_ROOT } else { Join-Path $LocalData 'SankiWork\toolchains\dsh' }
+$BinDir = if ($env:SW_DSH_INSTALL_BIN_DIR) { $env:SW_DSH_INSTALL_BIN_DIR } else { Join-Path $HOME '.local\bin' }
 $Launcher = Join-Path $BinDir 'dsh.cmd'
-$DistBase = if ($env:OD_DSH_INSTALL_DIST_BASE) { $env:OD_DSH_INSTALL_DIST_BASE.TrimEnd('/') } else { "https://nodejs.org/dist/v$NodeVersion" }
+$DistBase = if ($env:SW_DSH_INSTALL_DIST_BASE) { $env:SW_DSH_INSTALL_DIST_BASE.TrimEnd('/') } else { "https://nodejs.org/dist/v$NodeVersion" }
 $RuntimeTarget = Join-Path $InstallRoot "runtime-dsh-$DshVersion"
 
-$Architecture = if ($env:OD_DSH_INSTALL_PLATFORM) {
-  $env:OD_DSH_INSTALL_PLATFORM
+$Architecture = if ($env:SW_DSH_INSTALL_PLATFORM) {
+  $env:SW_DSH_INSTALL_PLATFORM
 } elseif ($env:PROCESSOR_ARCHITECTURE -match 'ARM64') {
   'win-arm64'
 } elseif ($env:PROCESSOR_ARCHITECTURE -match 'AMD64|x86_64') {
@@ -79,7 +79,7 @@ exit /b %ERRORLEVEL%
 function Finish([string]$Label) {
   Write-Host "DeepSeek Harness $DshVersion is ready ($Label)."
   Write-Host "Command: $Launcher"
-  Write-Host 'Open Design can discover this command without editing your PATH.'
+  Write-Host 'SankiWork can discover this command without editing your PATH.'
   if (-not $NoLaunch) {
     Write-Host 'Starting dsh web. Configure your API key in Settings -> Models; press Ctrl+C to stop.'
     & $Launcher web
@@ -150,7 +150,7 @@ try {
 
   $runtimeStaging = Join-Path $InstallRoot ".runtime-dsh-$DshVersion.$PID"
   New-Item -ItemType Directory -Force -Path $runtimeStaging | Out-Null
-  Write-Host "Installing dsh $DshVersion and pnpm $PnpmVersion in Open Design's user toolchain..."
+  Write-Host "Installing dsh $DshVersion and pnpm $PnpmVersion in SankiWork's user toolchain..."
   & (Join-Path $NodeTarget 'npm.cmd') install --prefix $runtimeStaging --no-save --no-package-lock --omit=dev "@deepseek-ai/dsh@$DshVersion" "pnpm@$PnpmVersion"
   if ($LASTEXITCODE -ne 0) { Fail "npm install exited with code $LASTEXITCODE." }
 

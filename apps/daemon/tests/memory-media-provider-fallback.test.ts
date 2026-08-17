@@ -10,16 +10,16 @@ import { memoryDir, writeMemoryConfig } from '../src/memory.js';
 const ENV_KEYS = [
   'ANTHROPIC_API_KEY',
   'OPENAI_API_KEY',
-  'OD_OPENAI_API_KEY',
+  'SW_OPENAI_API_KEY',
   'GOOGLE_API_KEY',
   'GEMINI_API_KEY',
-  'OD_MINIMAX_API_KEY',
+  'SW_MINIMAX_API_KEY',
   'MINIMAX_API_KEY',
-  'OD_AIHUBMIX_API_KEY',
+  'SW_AIHUBMIX_API_KEY',
   'AIHUBMIX_API_KEY',
-  'OD_SENSEAUDIO_API_KEY',
+  'SW_SENSEAUDIO_API_KEY',
   'SENSEAUDIO_API_KEY',
-  'OD_MEDIA_CONFIG_DIR',
+  'SW_MEDIA_CONFIG_DIR',
 ] as const;
 
 describe('memory extraction media-provider fallback', () => {
@@ -41,7 +41,7 @@ describe('memory extraction media-provider fallback', () => {
       originalEnv.set(key, process.env[key]);
       delete process.env[key];
     }
-    process.env.OD_MEDIA_CONFIG_DIR = path.join(projectRoot, '.od');
+    process.env.SW_MEDIA_CONFIG_DIR = path.join(projectRoot, '.sankiwork');
   });
 
   afterEach(async () => {
@@ -57,7 +57,7 @@ describe('memory extraction media-provider fallback', () => {
   });
 
   async function writeMediaConfig(config: unknown) {
-    const file = path.join(projectRoot, '.od', 'media-config.json');
+    const file = path.join(projectRoot, '.sankiwork', 'media-config.json');
     await mkdir(path.dirname(file), { recursive: true });
     await writeFile(file, JSON.stringify(config), 'utf8');
   }

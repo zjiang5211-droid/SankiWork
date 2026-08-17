@@ -21,7 +21,7 @@ import {
   extractComponentsManifest,
   summarizeComponentsManifestForPrompt,
   type DesignSystemRuntimePaths,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import { parseFrontmatter } from './frontmatter.js';
 import type { FrontmatterObject, FrontmatterValue } from './frontmatter.js';
@@ -803,7 +803,7 @@ export async function readDesignSystemStaticFile(
 export function isDesignTokenChannelEnabled(
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
-  return env.OD_DESIGN_TOKEN_CHANNEL !== '0';
+  return env.SW_DESIGN_TOKEN_CHANNEL !== '0';
 }
 
 export function digestDesignSystemContext(input: {
@@ -877,7 +877,7 @@ export async function resolveDesignSystemAssets(
     designSystemId,
     builtInRoot,
     userInstalledRoot,
-    env.OD_DESIGN_TOKEN_CHANNEL ?? '',
+    env.SW_DESIGN_TOKEN_CHANNEL ?? '',
     fingerprint,
   ].join('\0');
   const cached = designSystemAssetsCache.get(cacheKey);
@@ -951,7 +951,7 @@ async function designSystemAssetsCacheFingerprint(
         designSystemAssetsRootFingerprint(userInstalledRoot, designSystemId),
       ];
   const payload = {
-    tokenChannel: env.OD_DESIGN_TOKEN_CHANNEL ?? null,
+    tokenChannel: env.SW_DESIGN_TOKEN_CHANNEL ?? null,
     roots: await Promise.all(roots),
   };
   return createHash('sha256').update(JSON.stringify(payload), 'utf8').digest('hex');
@@ -2006,7 +2006,7 @@ const DESIGN_SYSTEM_SURFACE_GUIDE: Record<
 // Build the SKILLS.md usage guide bundled into every downloaded design system.
 // Pure (no I/O) so it can be unit tested against fixed inputs. The guide teaches
 // a recipient how to feed the system to an AI coding tool for on-brand results
-// and attributes it to the Open Design open-source project for shareability.
+// and attributes it to the SankiWork open-source project for shareability.
 export function buildDesignSystemSkillsMarkdown(input: {
   title: string;
   summary: string;
@@ -2093,7 +2093,7 @@ export function buildDesignSystemSkillsMarkdown(input: {
   lines.push('---');
   lines.push('');
   lines.push(
-    'Generated with **Open Design** — the open-source, local-first Claude Design alternative. ' +
+    'Generated with **SankiWork** — the open-source, local-first Claude Design alternative. ' +
       'Generate decks, landing pages, dashboards, and brand systems with your favourite AI ' +
       'coding agent.',
   );
@@ -2146,7 +2146,7 @@ async function migrateLegacyDesignSystemPackage(
     return;
   }
   const title = normalizeTitle(metadata.title ?? firstHeading(body) ?? id);
-  const summary = summarize(body) || 'A reusable Open Design design system.';
+  const summary = summarize(body) || 'A reusable SankiWork design system.';
   const palette = normalizeSwatches(body);
   const copyIfMissing = async (from: string, to: string): Promise<boolean> => {
     const fromPath = path.join(dir, ...from.split('/'));
@@ -2213,7 +2213,7 @@ async function migrateLegacyDesignSystemPackage(
     appKitExists
       ? writeIfMissing(
           'ui_kits/app/README.md',
-          `# ${title} UI Kit\n\nThis package was migrated from an earlier Open Design design-system workspace. Use \`index.html\` as the applied interface example and replace it with source-backed modular components when new repository evidence is available.\n`,
+          `# ${title} UI Kit\n\nThis package was migrated from an earlier SankiWork design-system workspace. Use \`index.html\` as the applied interface example and replace it with source-backed modular components when new repository evidence is available.\n`,
         )
       : Promise.resolve(false),
     appKitExists
@@ -2597,7 +2597,7 @@ function generatedDesignSystemFileWrites(
   },
 ): AtomicTextFileWrite[] {
   const palette = normalizeSwatches(input.body);
-  const summary = input.summary || 'A user-created Open Design design system.';
+  const summary = input.summary || 'A user-created SankiWork design system.';
   const sections = extractMarkdownSections(input.body);
   const provenance = input.provenance ?? normalizeProvenance(undefined, {
     ...(input.sourceNotes ? { sourceNotes: input.sourceNotes } : {}),
@@ -3573,7 +3573,7 @@ function upsertBlockquoteMeta(body: string, key: string, value: string): string 
 function buildDraftDesignSystemBody(input: UserDesignSystemInput & { title: string }): string {
   const category = cleanText(input.category) || 'Custom';
   const surface = input.surface ?? 'web';
-  const summary = cleanText(input.summary) || 'A user-authored design system for future Open Design projects.';
+  const summary = cleanText(input.summary) || 'A user-authored design system for future SankiWork projects.';
   const sourceNotes = cleanText(input.sourceNotes);
   return `# ${input.title}
 
@@ -3676,7 +3676,7 @@ function renderReadme(input: {
     .join('\n');
   return `# ${input.title}
 
-A reusable Open Design package for ${input.title}.
+A reusable SankiWork package for ${input.title}.
 
 ## Product Overview
 
@@ -3745,7 +3745,7 @@ function renderSkill(input: {
   const skillName = slugify(input.title);
   return `---
 name: ${skillName}
-description: Use this skill when generating Open Design artifacts that should follow ${input.title}.
+description: Use this skill when generating SankiWork artifacts that should follow ${input.title}.
 user-invocable: true
 ---
 
@@ -3902,7 +3902,7 @@ function renderOverviewHtml(
   return renderHtmlDocument(
     title,
     `<main class="overview">
-      <p class="eyebrow">Open Design system</p>
+      <p class="eyebrow">SankiWork system</p>
       <h1>${escapeHtml(title)}</h1>
       <p class="lead">${escapeHtml(summary)}</p>
       <div class="palette">

@@ -13,24 +13,24 @@ import {
 } from '../src/projects.js';
 
 function withSandboxMode<T>(run: () => T): T {
-  const previous = process.env.OD_SANDBOX_MODE;
-  process.env.OD_SANDBOX_MODE = '1';
+  const previous = process.env.SW_SANDBOX_MODE;
+  process.env.SW_SANDBOX_MODE = '1';
   try {
     return run();
   } finally {
-    if (previous == null) delete process.env.OD_SANDBOX_MODE;
-    else process.env.OD_SANDBOX_MODE = previous;
+    if (previous == null) delete process.env.SW_SANDBOX_MODE;
+    else process.env.SW_SANDBOX_MODE = previous;
   }
 }
 
 function withSandboxImportAllowedRoots<T>(roots: string[], run: () => T): T {
-  const previous = process.env.OD_SANDBOX_IMPORT_ALLOWED_ROOTS;
-  process.env.OD_SANDBOX_IMPORT_ALLOWED_ROOTS = roots.join(path.delimiter);
+  const previous = process.env.SW_SANDBOX_IMPORT_ALLOWED_ROOTS;
+  process.env.SW_SANDBOX_IMPORT_ALLOWED_ROOTS = roots.join(path.delimiter);
   try {
     return run();
   } finally {
-    if (previous == null) delete process.env.OD_SANDBOX_IMPORT_ALLOWED_ROOTS;
-    else process.env.OD_SANDBOX_IMPORT_ALLOWED_ROOTS = previous;
+    if (previous == null) delete process.env.SW_SANDBOX_IMPORT_ALLOWED_ROOTS;
+    else process.env.SW_SANDBOX_IMPORT_ALLOWED_ROOTS = previous;
   }
 }
 
@@ -115,7 +115,7 @@ describe('resolveProjectDir', () => {
       withSandboxImportAllowedRoots(['tmp'], () => {
         expect(() =>
           assertSandboxProjectRootAvailable({ kind: 'prototype', baseDir }),
-        ).toThrowError(/OD_SANDBOX_IMPORT_ALLOWED_ROOTS.*absolute/i);
+        ).toThrowError(/SW_SANDBOX_IMPORT_ALLOWED_ROOTS.*absolute/i);
       });
     });
   });
@@ -200,7 +200,7 @@ describe('listFiles with metadata.baseDir', () => {
 
   // Regression: callers that pass the metadata object directly as opts
   // (instead of wrapping it in `{ metadata }`) were silently scanning the
-  // standard .od/projects/<id>/ instead of the imported folder. Codex
+  // standard .sankiwork/projects/<id>/ instead of the imported folder. Codex
   // review of #624 caught one in chat-route. Lock the contract: when a
   // bare metadata object is passed at the top level, listFiles must
   // ignore it and fall back to the standard project dir — no false

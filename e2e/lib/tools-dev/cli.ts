@@ -5,7 +5,7 @@ import { promisify } from 'node:util';
 import type { ToolsDevSuiteSpec } from './types.ts';
 
 const execFileAsync = promisify(execFile);
-const pnpmCommand = process.env.OD_E2E_PNPM_COMMAND ?? 'pnpm';
+const pnpmCommand = process.env.SW_E2E_PNPM_COMMAND ?? 'pnpm';
 const pnpmExecPath = process.env.npm_execpath;
 const nodeLoadablePackageManagerExtensions = new Set(['.js', '.cjs', '.mjs']);
 
@@ -20,12 +20,12 @@ export async function runToolsDevJson<T>(
   extraEnv: Record<string, string | undefined> = {},
   options: RunToolsDevJsonOptions = {},
 ): Promise<T> {
-  const useNpmExecPathWithNode = process.env.OD_E2E_PNPM_COMMAND == null
+  const useNpmExecPathWithNode = process.env.SW_E2E_PNPM_COMMAND == null
     && pnpmExecPath != null
     && nodeLoadablePackageManagerExtensions.has(extname(pnpmExecPath).toLowerCase());
   const command = useNpmExecPathWithNode
     ? process.execPath
-    : (process.env.OD_E2E_PNPM_COMMAND == null && pnpmExecPath ? pnpmExecPath : pnpmCommand);
+    : (process.env.SW_E2E_PNPM_COMMAND == null && pnpmExecPath ? pnpmExecPath : pnpmCommand);
   const commandArgs = useNpmExecPathWithNode
     ? [pnpmExecPath, 'tools-dev', ...args]
     : ['tools-dev', ...args];
@@ -35,8 +35,8 @@ export async function runToolsDevJson<T>(
       ...process.env,
       ...extraEnv,
       CODEX_HOME: suite.codexHomeDir,
-      OD_DATA_DIR: suite.dataDir,
-      OD_MEDIA_CONFIG_DIR: suite.dataDir,
+      SW_DATA_DIR: suite.dataDir,
+      SW_MEDIA_CONFIG_DIR: suite.dataDir,
     },
     maxBuffer: 20 * 1024 * 1024,
     shell: process.platform === 'win32' && command !== process.execPath,

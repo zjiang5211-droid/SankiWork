@@ -1,6 +1,6 @@
 import { Icon, type IconName } from './Icon';
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import type { InstalledPluginRecord, ProjectKind } from '@open-design/contracts';
+import type { InstalledPluginRecord, ProjectKind } from '@sankiwork/contracts';
 import { useI18n } from '../i18n';
 import { listPlugins } from '../state/projects';
 import {

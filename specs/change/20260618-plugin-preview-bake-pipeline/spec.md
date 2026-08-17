@@ -78,10 +78,10 @@ PRs.
       (lines 478–484).
   - `apps/daemon/src/plugin-preview-bakes.ts` — the consumer.
     - `resolvePluginPreviewsDir` reads the **checked-in** manifest dir
-      (`OD_PLUGIN_PREVIEWS_DIR` override), i.e. the manifest is **bundled into
+      (`SW_PLUGIN_PREVIEWS_DIR` override), i.e. the manifest is **bundled into
       the build** (line 38 onward; comment lines 11, 22, 42).
     - `bakedPreviewBlock` returns `null` when the entry is missing (line 71);
-      remote base from `OD_PLUGIN_PREVIEWS_BASE_URL` (comment line 22).
+      remote base from `SW_PLUGIN_PREVIEWS_BASE_URL` (comment line 22).
   - `apps/web/src/components/plugins-home/cards/MediaSurface.tsx` — the renderer
     of the card.
     - `posterLoadFailed` state (line 40) → swaps in a typographic glyph fallback
@@ -93,7 +93,7 @@ PRs.
     hash } } }`. 125 entries at base.
 - **How to pull:**
   ```
-  gh repo clone nexu-io/open-design && cd open-design
+  gh repo clone nexu-io/open-design && cd sankiwork
   git checkout spec/plugin-preview-bake-pipeline   # this spec
   # the described code is on main:
   git show origin/main:.github/workflows/bake-plugin-previews.yml
@@ -145,7 +145,7 @@ PRs.
 
 A single R2 prefix, three bake entry points differentiated by *when* they run,
 and a tag-union GC. The manifest stores **relative object keys**; the URL is
-`OD_PLUGIN_PREVIEWS_BASE_URL + key`, identical for every client — so there is no
+`SW_PLUGIN_PREVIEWS_BASE_URL + key`, identical for every client — so there is no
 per-channel routing to reason about.
 
 ### 0. Preview artifact identity contract (added per PerishCode's review)
@@ -165,12 +165,12 @@ contract everything else (coupling, GC safety, rollback) rests on.
   `plugin-previews/`:
   ```
   base URL (daemon default, unchanged):
-    OD_PLUGIN_PREVIEWS_BASE_URL = https://repo-assets.open-design.ai/plugin-previews
+    SW_PLUGIN_PREVIEWS_BASE_URL = https://repo-assets.sanki-ai.cloud/plugin-previews
   manifest stores (prefix-relative key):
     <pluginKey>/<fingerprint>/preview.mp4
     <pluginKey>/<fingerprint>/poster.jpg
   resolved URL = base + "/" + key:
-    https://repo-assets.open-design.ai/plugin-previews/<pluginKey>/<fingerprint>/preview.mp4
+    https://repo-assets.sanki-ai.cloud/plugin-previews/<pluginKey>/<fingerprint>/preview.mp4
   bucket object path (what aws s3 cp writes):
     plugin-previews/<pluginKey>/<fingerprint>/preview.mp4
   ```
@@ -239,7 +239,7 @@ github.repository`** (same-repo branches have secrets; forks do not):
     explicit `git fetch origin ${{ github.event.pull_request.head.sha }}` before
     the check, then `test "$(git log -1 --format='%ae' ${{
     github.event.pull_request.head.sha }})" != "$BAKE_BOT_EMAIL"` (the bake push
-    already sets `git config user.email "bot@open-design.ai"`). `github.actor` is
+    already sets `git config user.email "bot@sanki-ai.cloud"`). `github.actor` is
     an alternative only if the bake push token carries a stable bot identity.
   - **compute the manifest diff and only commit when a `previews` entry actually
     changed** (no-op-diff guard — same helper as the `generatedAt` fix), so a
@@ -354,7 +354,7 @@ comfortably).
 ## Alternatives considered
 
 - **Two physical R2 prefixes (A = release/append-only, B = dev/GC'd) + a
-  per-channel `OD_PLUGIN_PREVIEWS_BASE_URL`.** Rejected. A `main` build's
+  per-channel `SW_PLUGIN_PREVIEWS_BASE_URL`.** Rejected. A `main` build's
   manifest references a *mix*: plugins unchanged since the last release (clips
   baked then) plus plugins changed since (new clips). Because the filename does
   not encode the prefix and there is one base URL per build, "read A for some
@@ -432,7 +432,7 @@ comfortably).
   single no-op and stops (no second manifest commit, no run storm). Assert the
   guard reads the **head commit author** (`git log -1 --format='%ae'` of
   `head.sha`), not `pull_request.head.user.login`: a synchronize whose head
-  commit author is `bot@open-design.ai` → `shouldCommit === false`, while one
+  commit author is `bot@sanki-ai.cloud` → `shouldCommit === false`, while one
   authored by a human contributor with a real `previews` delta → `true`.
 - **No noise:** a nightly run where no plugin content changed opens **no** PR
   (red test today: #4261 was a timestamp-only PR). Encode as a unit test over

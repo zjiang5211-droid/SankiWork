@@ -64,7 +64,7 @@ describe('POST /api/plugins/:id/doctor', () => {
     await writeFile(
       path.join(folder, 'open-design.json'),
       JSON.stringify({
-        $schema: 'https://open-design.ai/schemas/plugin.v1.json',
+        $schema: 'https://sanki-ai.cloud/schemas/plugin.v1.json',
         name: pluginId,
         title: 'Missing Connector Fixture',
         version: '1.0.0',

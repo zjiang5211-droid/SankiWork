@@ -118,7 +118,7 @@ async function runCli(args: string[]): Promise<{ stdout: string; stderr: string;
   }
 }
 
-describe('od figma import CLI', () => {
+describe('sw figma import CLI', () => {
   it('emits JSON-only stdout when --build and --json are combined', async () => {
     stub = await startFigmaStubServer();
     tempRoot = mkdtempSync(join(tmpdir(), 'od-figma-cli-'));

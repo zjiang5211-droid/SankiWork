@@ -7,18 +7,18 @@ describe('packaged PTY smoke command', () => {
     const command = packagedPtySmokeCommand('win32');
 
     expect(command.split('\r\n')).toEqual([
-      'set "OD_PTY_VALUE=PTY_OK"',
-      'echo OD_PACKAGED_%OD_PTY_VALUE%',
+      'set "SW_PTY_VALUE=PTY_OK"',
+      'echo SW_PACKAGED_%SW_PTY_VALUE%',
       'exit /b 0',
       '',
     ]);
-    expect(command).not.toContain('OD_PACKAGED_PTY_OK');
+    expect(command).not.toContain('SW_PACKAGED_PTY_OK');
   });
 
   it('keeps the macOS marker out of echoed command input', () => {
     const command = packagedPtySmokeCommand('darwin');
 
-    expect(command).toBe(`printf 'OD_PACKAGED_%s\\n' 'PTY_OK'; exit 0\n`);
-    expect(command).not.toContain('OD_PACKAGED_PTY_OK');
+    expect(command).toBe(`printf 'SW_PACKAGED_%s\\n' 'PTY_OK'; exit 0\n`);
+    expect(command).not.toContain('SW_PACKAGED_PTY_OK');
   });
 });

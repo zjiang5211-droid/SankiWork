@@ -1,9 +1,9 @@
-name: open-design
+name: sankiwork
 
 services:
-  open-design:
-    container_name: open-design
-    image: ${OPEN_DESIGN_IMAGE:-ghcr.io/nexu-io/od:latest}
+  sankiwork:
+    container_name: sankiwork
+    image: ${SANKIWORK_IMAGE:-ghcr.io/nexu-io/od:latest}
     build:
       context: ..
       dockerfile: deploy/Dockerfile
@@ -11,23 +11,23 @@ services:
     environment:
       NODE_ENV: production
       NODE_OPTIONS: ${NODE_OPTIONS:---max-old-space-size=192}
-      OD_BIND_HOST: 0.0.0.0
-      OD_ALLOWED_ORIGINS: ${OPEN_DESIGN_ALLOWED_ORIGINS:-}
-      OD_PORT: 7456
-      OD_WEB_PORT: ${OPEN_DESIGN_PORT:-7456}
-      OD_API_TOKEN: ${OD_API_TOKEN:-}
-      OD_DISABLE_API_AUTH: ${OPEN_DESIGN_DISABLE_API_AUTH:-}
-      OD_CODEX_SANDBOX: ${OD_CODEX_SANDBOX:-}
+      SW_BIND_HOST: 0.0.0.0
+      SW_ALLOWED_ORIGINS: ${SANKIWORK_ALLOWED_ORIGINS:-}
+      SW_PORT: 7456
+      SW_WEB_PORT: ${SANKIWORK_PORT:-7456}
+      SW_API_TOKEN: ${SW_API_TOKEN:-}
+      SW_DISABLE_API_AUTH: ${SANKIWORK_DISABLE_API_AUTH:-}
+      SW_CODEX_SANDBOX: ${SW_CODEX_SANDBOX:-}
     ports:
-      - "127.0.0.1:${OPEN_DESIGN_PORT:-7456}:7456"
+      - "127.0.0.1:${SANKIWORK_PORT:-7456}:7456"
     volumes:
-      - open_design_data:/app/.od
+      - sankiwork_data:/app/.sankiwork
     read_only: true
     tmpfs:
       - /tmp
     security_opt:
       - no-new-privileges:true
-    mem_limit: ${OPEN_DESIGN_MEM_LIMIT:-384m}
+    mem_limit: ${SANKIWORK_MEM_LIMIT:-384m}
     pids_limit: 256
     healthcheck:
       test:
@@ -43,4 +43,4 @@ services:
       start_period: 20s
 
 volumes:
-  open_design_data:
+  sankiwork_data:

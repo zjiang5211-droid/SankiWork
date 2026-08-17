@@ -1,11 +1,11 @@
-// Open Design web clipper popup. Thin UI over the service worker message API.
+// SankiWork web clipper popup. Thin UI over the service worker message API.
 //
-// Zero-config: no pairing. The popup just probes whether Open Design is running
+// Zero-config: no pairing. The popup just probes whether SankiWork is running
 // and lets you capture. The daemon URL lives under "Advanced" for the rare case
 // you ran the daemon on a non-default port.
 
 const $ = (id) => document.getElementById(id);
-const I18N = globalThis.OD_CLIPPER_I18N;
+const I18N = globalThis.SW_CLIPPER_I18N;
 const locale = I18N?.currentLocale ? I18N.currentLocale() : 'en';
 const t = (key, vars) => (I18N?.t ? I18N.t(key, vars, locale) : key);
 
@@ -136,7 +136,7 @@ function render(connected) {
   status.dataset.paired = connected ? 'true' : 'false';
   $('hint').hidden = connected;
   // Capture stays available even when disconnected; the buttons surface a clear
-  // "Open Design not running" message instead of being hidden, so it never feels broken.
+  // "SankiWork not running" message instead of being hidden, so it never feels broken.
 }
 
 function renderToolbar(visible) {
@@ -172,7 +172,7 @@ function reportCapture(res, okText) {
     return;
   }
   if (res.error === 'not running') {
-    setMsg(t('openDesignNotRunning'), 'err');
+    setMsg(t('sankiWorkNotRunning'), 'err');
     void refresh();
   } else {
     setMsg(t('failed', { error: res.error || t('unknown') }), 'err');

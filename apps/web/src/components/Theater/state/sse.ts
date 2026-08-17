@@ -4,8 +4,8 @@ import {
   type CritiqueSseEvent,
   type CritiqueSseEventName,
   type PanelEvent,
-} from '@open-design/contracts/critique';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+} from '@sankiwork/contracts/critique';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 import type { CritiqueAction } from './reducer';
 import { workspaceResourceUrl } from '../../../collab/workspace-identity';

@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type {
   CollabMemberRole,
   WorkspaceBillingState,
@@ -14,7 +14,7 @@ import type {
   WorkspaceProviderMode,
   WorkspaceSeatSummary,
   WorkspaceType,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   markVelaAuthorizationExpired,
   readVelaControlApiContext,
@@ -1007,7 +1007,7 @@ export async function listVelaWorkspaceDirectory(
 }
 
 /**
- * Select the workspace-context provider for this run. `OD_WORKSPACE_CONTEXT_SOURCE
+ * Select the workspace-context provider for this run. `SW_WORKSPACE_CONTEXT_SOURCE
  * =vela` opts into the real B-backed provider (production / e2e against a live
  * vela); every other value keeps the dev stub, so demo and tools-dev runs — which
  * have no B and drive the context via the dev PUT — are unaffected.
@@ -1019,7 +1019,7 @@ export function createWorkspaceContextProviderFromEnv(
     'getActiveWorkspaceId' | 'setLocalSelection' | 'clearLocalSelection'
   > = {},
 ): WorkspaceContextProvider {
-  if (env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') {
+  if (env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') {
     return createVelaWorkspaceContextProvider(options);
   }
   return createDevWorkspaceContextProvider();

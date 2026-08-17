@@ -1,4 +1,4 @@
-# Open Design — Historical Product Spec
+# SankiWork — Historical Product Spec
 
 **Status:** Archived Draft v0.1 · 2026-04-24
 **Scope:** Product definition, scenarios, non-goals, high-level modules, and positioning against both [Anthropic's Claude Design][cd] and the existing open-source alternative ([Open CoDesign][ocod]).
@@ -82,7 +82,7 @@ The fifth is the cross-product loop described in [`automation-self-evolution.md`
 └────────────┬─────────────────────────────────┬───────────────────┘
              │ HTTP + SSE (/api/chat)          │ HTTPS (BYOK direct)
 ┌────────────▼──────────────────┐     ┌────────▼─────────────────┐
-│   Local Daemon (od daemon)   │     │   Anthropic Messages API │
+│   Local Daemon (sw daemon)   │     │   Anthropic Messages API │
 │   · agent detection           │     │   (fallback when no CLI) │
 │   · skill registry            │     └──────────────────────────┘
 │   · artifact store            │
@@ -103,8 +103,8 @@ Module responsibilities:
 - **Skill registry** — scans `~/.claude/skills/`, `./skills/`, and `./.claude/skills/`; merges and exposes a typed catalog.
 - **Artifact store** — daemon-managed storage for generated files, version snapshots, and per-artifact metadata. Current data-path rules are not specified in this draft; contributors must read root `AGENTS.md` → **Daemon data directory contract** before documenting or changing storage paths.
 - **Design-system resolver** — loads the active `DESIGN.md`, injects it as skill context.
-- **Automations** — templates that orchestrate schedules, connectors, ingestion, memory updates, skill crystallization, design-system extraction, token compression, and review gates; source packets enter through the Automations page, `/api/automation-ingestions`, and `od automation source`, while evolution proposals are reviewable through `/api/automation-proposals` and `od automation proposal`.
-- **Memory / evolution store** — editable Markdown-backed memory tree exposed through Settings, `/api/memory/tree`, and `od memory tree`; accepted tree nodes feed future daemon and BYOK/API-mode agent prompts, and accepted proposals can write reviewed memory, skill, and design-system drafts into user-owned runtime roots.
+- **Automations** — templates that orchestrate schedules, connectors, ingestion, memory updates, skill crystallization, design-system extraction, token compression, and review gates; source packets enter through the Automations page, `/api/automation-ingestions`, and `sw automation source`, while evolution proposals are reviewable through `/api/automation-proposals` and `sw automation proposal`.
+- **Memory / evolution store** — editable Markdown-backed memory tree exposed through Settings, `/api/memory/tree`, and `sw memory tree`; accepted tree nodes feed future daemon and BYOK/API-mode agent prompts, and accepted proposals can write reviewed memory, skill, and design-system drafts into user-owned runtime roots.
 - **Preview renderer** — sandboxed iframe with vendored React + Babel for JSX artifacts; plain iframe for HTML; PDF via the daemon's headless Chrome.
 - **Export pipeline** — HTML (inlined), PDF, PPTX, ZIP, Markdown.
 

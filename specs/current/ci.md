@@ -122,7 +122,7 @@ Current evidence and exceptions:
   distinguishable from repository-root reads.
 - Allowlisted true consumer:
   `tools/release/src/release-note/prepare.ts` reads `docs/CHANGELOG`, which
-  executes only in release workflows; `@open-design/tools-release` tests run
+  executes only in release workflows; `@sankiwork/tools-release` tests run
   in no `ci.yml` lane.
 
 ## Certain packaged-leaf boundary
@@ -253,7 +253,7 @@ The certain-exempt consumption guard executes in preflight, and `pnpm guard`
 sees every changed path (including a misleading executable such as
 `docs/example.js`). The workspace-unit job does not own landing-page
 validation, and the broad workspace typecheck excludes
-`@open-design/landing-page`.
+`@sankiwork/landing-page`.
 
 The 398-merge replay ending at `b99a9fdc3` contains 46 qualifying queue plans
 (11.6%). A sample of 12 successful merge-group runs measures broad prebuild

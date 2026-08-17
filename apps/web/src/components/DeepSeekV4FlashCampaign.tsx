@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Button, Dialog } from '@open-design/components';
+import { Button, Dialog } from '@sankiwork/components';
 import {
   DEEPSEEK_V4_FLASH_CAMPAIGN as campaign,
   formatDeepSeekV4FlashCampaignCountdown,
@@ -26,7 +26,7 @@ import { useT } from '../i18n';
 import { Icon } from './Icon';
 import styles from './DeepSeekV4FlashCampaign.module.css';
 
-const SEEN_KEY = `open-design:campaign-seen:${campaign.id}`;
+const SEEN_KEY = `sankiwork:campaign-seen:${campaign.id}`;
 
 interface Props {
   /**

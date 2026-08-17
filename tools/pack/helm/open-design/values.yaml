@@ -1,4 +1,4 @@
-# Open Design daemon — Helm chart values. Spec §15.5.
+# SankiWork daemon — Helm chart values. Spec §15.5.
 #
 # Override the image / persistence / secret pattern per cloud:
 #   AWS:    persistence.backend=efs    secrets.backend=secrets-manager
@@ -36,18 +36,18 @@ persistence:
     storageClass: ""
 
 env:
-  OD_BIND_HOST: 0.0.0.0
-  OD_PORT: "7456"
-  OD_DATA_DIR: /data/od
-  OD_MEDIA_CONFIG_DIR: /data/config
-  OD_SNAPSHOT_UNREFERENCED_TTL_DAYS: "30"
-  OD_SNAPSHOT_GC_INTERVAL_MS: "21600000"
+  SW_BIND_HOST: 0.0.0.0
+  SW_PORT: "7456"
+  SW_DATA_DIR: /data/od
+  SW_MEDIA_CONFIG_DIR: /data/config
+  SW_SNAPSHOT_UNREFERENCED_TTL_DAYS: "30"
+  SW_SNAPSHOT_GC_INTERVAL_MS: "21600000"
 
 # Secrets are NOT inlined in values.yaml — operators inject them
 # through their cloud's secret manager. This block is the schema the
 # templates will consume.
 secrets:
-  apiToken: ""           # OD_API_TOKEN
+  apiToken: ""           # SW_API_TOKEN
   anthropicApiKey: ""    # ANTHROPIC_API_KEY
   tavilyApiKey: ""       # TAVILY_API_KEY
 

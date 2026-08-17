@@ -1,6 +1,6 @@
 // SQLite-backed persistence for projects, conversations, messages, and the
 // per-project set of open workspace tabs. The on-disk project folder under
-// .od/projects/<id>/ is still the single owner of the user's actual files
+// .sankiwork/projects/<id>/ is still the single owner of the user's actual files
 // (HTML artifacts, sketches, uploads); this database tracks the metadata
 // that used to live in localStorage.
 
@@ -12,8 +12,8 @@ import type {
   CollabCloudComment,
   ProjectBrowserWorkspaceTab,
   ProjectTabsState,
-} from '@open-design/contracts';
-import { eventsEndedWithUnfinishedWork } from '@open-design/contracts';
+} from '@sankiwork/contracts';
+import { eventsEndedWithUnfinishedWork } from '@sankiwork/contracts';
 import { migrateCollabSyncSnapshots } from './collab/sync-snapshot-store.js';
 import { migrateCommentRelayOutbox } from './collab/comment-relay-outbox.js';
 import {
@@ -42,7 +42,7 @@ function rows(value: unknown[]): DbRow[] {
 }
 
 export function openDatabase(projectRoot: string, { dataDir }: { dataDir?: string } = {}): SqliteDb {
-  const dir = dataDir ? path.resolve(dataDir) : path.join(projectRoot, '.od');
+  const dir = dataDir ? path.resolve(dataDir) : path.join(projectRoot, '.sankiwork');
   const file = path.join(dir, 'app.sqlite');
   if (dbInstance && dbFile === file) return dbInstance;
   if (dbInstance) closeDatabase();

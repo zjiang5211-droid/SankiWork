@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import { SIDECAR_SOURCES } from "@open-design/sidecar-proto";
+import { SIDECAR_SOURCES } from "@sankiwork/sidecar-proto";
 import { describe, expect, it } from "vitest";
 
 import { resolveDesktopUpdaterConfig } from "../../../src/main/updater/config.js";
@@ -17,9 +17,9 @@ describe("desktop updater feed", () => {
   it("resolves the installed outer version from the platform bundle layout", async () => {
     const root = makeRoot();
     try {
-      const appRoot = join(root, "Open Design.app");
+      const appRoot = join(root, "SankiWork.app");
       await mkdir(join(appRoot, "Contents", "Resources"), { recursive: true });
-      await writeFile(join(appRoot, "Contents", "Resources", "open-design-config.json"), '{"appVersion":"0.7.0"}\n');
+      await writeFile(join(appRoot, "Contents", "Resources", "sankiwork-config.json"), '{"appVersion":"0.7.0"}\n');
       const macConfig = resolveDesktopUpdaterConfig({
         env: {},
         launcherLaunchPath: appRoot,
@@ -28,10 +28,10 @@ describe("desktop updater feed", () => {
       });
       expect(await resolveInstalledOuterVersion(macConfig)).toBe("0.7.0");
 
-      const winExe = join(root, "win-install", "Open Design Beta.exe");
+      const winExe = join(root, "win-install", "SankiWork Beta.exe");
       await mkdir(join(root, "win-install", "resources"), { recursive: true });
       await writeFile(winExe, "");
-      await writeFile(join(root, "win-install", "resources", "open-design-config.json"), '{"appVersion":"0.8.0-beta.2"}\n');
+      await writeFile(join(root, "win-install", "resources", "sankiwork-config.json"), '{"appVersion":"0.8.0-beta.2"}\n');
       const winConfig = resolveDesktopUpdaterConfig({
         env: {},
         launcherLaunchPath: winExe,
@@ -40,10 +40,10 @@ describe("desktop updater feed", () => {
       });
       expect(await resolveInstalledOuterVersion(winConfig)).toBe("0.8.0-beta.2");
 
-      const malformedExe = join(root, "broken-install", "Open Design.exe");
+      const malformedExe = join(root, "broken-install", "SankiWork.exe");
       await mkdir(join(root, "broken-install", "resources"), { recursive: true });
       await writeFile(malformedExe, "");
-      await writeFile(join(root, "broken-install", "resources", "open-design-config.json"), "not json\n");
+      await writeFile(join(root, "broken-install", "resources", "sankiwork-config.json"), "not json\n");
       const malformedConfig = resolveDesktopUpdaterConfig({
         env: {},
         launcherLaunchPath: malformedExe,

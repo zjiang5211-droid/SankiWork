@@ -7,7 +7,7 @@ import type {
   DesktopUpdateErrorSnapshot,
   DesktopUpdateReleaseLifecycleState,
   DesktopUpdateStatusSnapshot,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 
 import type { DesktopUpdaterConfig } from "./config.js";
 import {
@@ -75,12 +75,12 @@ export async function cleanupBackDirectory(root: string, logger: DesktopUpdaterL
   const entry = await lstat(backDir).catch(() => null);
   if (entry == null) return;
   if (!entry.isDirectory() || entry.isSymbolicLink()) {
-    logger.warn("[open-design updater] skipped invalid update backup directory", backDir);
+    logger.warn("[sankiwork updater] skipped invalid update backup directory", backDir);
     return;
   }
   const realBackDir = await realpath(backDir).catch(() => null);
   if (realBackDir == null || !containsPath(root, realBackDir)) {
-    logger.warn("[open-design updater] skipped escaped update backup directory", backDir);
+    logger.warn("[sankiwork updater] skipped escaped update backup directory", backDir);
     return;
   }
   const entries = await readdir(backDir);
@@ -95,14 +95,14 @@ export async function cleanupBackDirectory(root: string, logger: DesktopUpdaterL
       if (real == null || !containsPath(root, real)) return;
     }
     await rm(resolved, { force: true, recursive: true }).catch((error: unknown) => {
-      logger.warn("[open-design updater] failed to clean update backup entry", error);
+      logger.warn("[sankiwork updater] failed to clean update backup entry", error);
     });
   }));
 }
 
 export function scheduleBackCleanup(root: string, logger: DesktopUpdaterLogger): void {
   void cleanupBackDirectory(root, logger).catch((error: unknown) => {
-    logger.warn("[open-design updater] failed to clean update backup directory", error);
+    logger.warn("[sankiwork updater] failed to clean update backup directory", error);
   });
 }
 
@@ -224,7 +224,7 @@ export async function withUpdaterLifecycleLock<T>(
   let acquired = await acquire();
   if (!acquired && options.reclaimStale === true) {
     const owner = await readJson<unknown>(join(layout.lockRoot, LOCK_OWNER_FILE));
-    const ownerPid = isRecord(owner) && owner.owner === "open-design-updater-lifecycle"
+    const ownerPid = isRecord(owner) && owner.owner === "sankiwork-updater-lifecycle"
       && owner.version === RELEASE_CLEANUP_DESCRIPTOR_VERSION
       && typeof owner.pid === "number" && Number.isSafeInteger(owner.pid) && owner.pid > 0
       ? owner.pid
@@ -244,18 +244,18 @@ export async function withUpdaterLifecycleLock<T>(
         await rm(staleLockRoot, { force: true, recursive: true });
         acquired = await acquire();
         if (acquired) {
-          logger.warn("[open-design updater] reclaimed stale updater lifecycle lock", {
+          logger.warn("[sankiwork updater] reclaimed stale updater lifecycle lock", {
             lockRoot: layout.lockRoot,
             ownerPid,
           });
         }
       } catch (error) {
-        logger.warn("[open-design updater] failed to reclaim stale updater lifecycle lock", error);
+        logger.warn("[sankiwork updater] failed to reclaim stale updater lifecycle lock", error);
       }
     }
   }
   if (!acquired) {
-    logger.warn("[open-design updater] skipped release lifecycle because updater lifecycle lock is held", {
+    logger.warn("[sankiwork updater] skipped release lifecycle because updater lifecycle lock is held", {
       lockRoot: layout.lockRoot,
     });
     return null;
@@ -263,14 +263,14 @@ export async function withUpdaterLifecycleLock<T>(
   try {
     await writeJson(join(layout.lockRoot, LOCK_OWNER_FILE), {
       createdAt: new Date().toISOString(),
-      owner: "open-design-updater-lifecycle",
+      owner: "sankiwork-updater-lifecycle",
       pid: process.pid,
       version: RELEASE_CLEANUP_DESCRIPTOR_VERSION,
     });
     return await task();
   } finally {
     await rm(layout.lockRoot, { force: true, recursive: true }).catch((error: unknown) => {
-      logger.warn("[open-design updater] failed to release updater lifecycle lock", error);
+      logger.warn("[sankiwork updater] failed to release updater lifecycle lock", error);
     });
   }
 }
@@ -453,7 +453,7 @@ export async function cleanupDeprecatedReleaseEntries(input: {
         updatedAt: nowIso,
       });
     } catch (error) {
-      logger.warn("[open-design updater] failed to clean deprecated release", {
+      logger.warn("[sankiwork updater] failed to clean deprecated release", {
         error: error instanceof Error ? error.message : String(error),
         key: entry.key,
         path: releaseDir,

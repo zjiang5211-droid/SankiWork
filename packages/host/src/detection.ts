@@ -1,17 +1,17 @@
 import {
-  OPEN_DESIGN_HOST_GLOBAL,
-  OPEN_DESIGN_HOST_VERSION,
-  OPEN_DESIGN_HOST_CLIENT_TYPES,
-  type OpenDesignHostBridge,
-  type OpenDesignHostClientType,
-  type OpenDesignHostGlobalScope,
+  SANKIWORK_HOST_GLOBAL,
+  SANKIWORK_HOST_VERSION,
+  SANKIWORK_HOST_CLIENT_TYPES,
+  type SankiWorkHostBridge,
+  type SankiWorkHostClientType,
+  type SankiWorkHostGlobalScope,
 } from "./protocol.js";
 
 /**
  * @module detection
  *
  * Locates the host bridge on a global scope and structurally validates it.
- * Owns the {@link isOpenDesignHostBridge} type guard plus the scope-lookup
+ * Owns the {@link isSankiWorkHostBridge} type guard plus the scope-lookup
  * helpers used by every renderer-facing accessor.
  */
 
@@ -26,14 +26,14 @@ function hasFunction(record: Record<string, unknown>, key: string): boolean {
 }
 
 /**
- * Structural type guard for a fully-formed {@link OpenDesignHostBridge}: checks
+ * Structural type guard for a fully-formed {@link SankiWorkHostBridge}: checks
  * version, client type, and the presence of every required capability method.
  */
-export function isOpenDesignHostBridge(value: unknown): value is OpenDesignHostBridge {
+export function isSankiWorkHostBridge(value: unknown): value is SankiWorkHostBridge {
   if (!isRecord(value)) return false;
-  if (value.version !== OPEN_DESIGN_HOST_VERSION) return false;
+  if (value.version !== SANKIWORK_HOST_VERSION) return false;
   const client = value.client;
-  if (!isRecord(client) || client.type !== OPEN_DESIGN_HOST_CLIENT_TYPES.DESKTOP) return false;
+  if (!isRecord(client) || client.type !== SANKIWORK_HOST_CLIENT_TYPES.DESKTOP) return false;
   if (client.platform != null && typeof client.platform !== "string") return false;
   if (client.osLocale != null && typeof client.osLocale !== "string") return false;
 
@@ -81,11 +81,11 @@ export function isOpenDesignHostBridge(value: unknown): value is OpenDesignHostB
 }
 
 /** @internal Read the host-bridge candidate from a scope (or its `window`). */
-function candidateFromScope(scope: OpenDesignHostGlobalScope): unknown {
-  if (OPEN_DESIGN_HOST_GLOBAL in scope) return scope[OPEN_DESIGN_HOST_GLOBAL];
+function candidateFromScope(scope: SankiWorkHostGlobalScope): unknown {
+  if (SANKIWORK_HOST_GLOBAL in scope) return scope[SANKIWORK_HOST_GLOBAL];
   const windowValue = scope.window;
-  if (isRecord(windowValue) && OPEN_DESIGN_HOST_GLOBAL in windowValue) {
-    return windowValue[OPEN_DESIGN_HOST_GLOBAL];
+  if (isRecord(windowValue) && SANKIWORK_HOST_GLOBAL in windowValue) {
+    return windowValue[SANKIWORK_HOST_GLOBAL];
   }
   return undefined;
 }
@@ -94,17 +94,17 @@ function candidateFromScope(scope: OpenDesignHostGlobalScope): unknown {
  * Resolve the validated host bridge from `scope`, or `null` when absent or
  * malformed.
  */
-export function getOpenDesignHost(scope: OpenDesignHostGlobalScope = globalThis): OpenDesignHostBridge | null {
+export function getSankiWorkHost(scope: SankiWorkHostGlobalScope = globalThis): SankiWorkHostBridge | null {
   const candidate = candidateFromScope(scope);
-  return isOpenDesignHostBridge(candidate) ? candidate : null;
+  return isSankiWorkHostBridge(candidate) ? candidate : null;
 }
 
-/** True when a valid Open Design host bridge is present on `scope`. */
-export function isOpenDesignHostAvailable(scope: OpenDesignHostGlobalScope = globalThis): boolean {
-  return getOpenDesignHost(scope) != null;
+/** True when a valid SankiWork host bridge is present on `scope`. */
+export function isSankiWorkHostAvailable(scope: SankiWorkHostGlobalScope = globalThis): boolean {
+  return getSankiWorkHost(scope) != null;
 }
 
 /** Detect the host client type on `scope`, falling back to web. */
-export function detectOpenDesignHostClientType(scope: OpenDesignHostGlobalScope = globalThis): OpenDesignHostClientType | "web" {
-  return getOpenDesignHost(scope)?.client.type ?? "web";
+export function detectSankiWorkHostClientType(scope: SankiWorkHostGlobalScope = globalThis): SankiWorkHostClientType | "web" {
+  return getSankiWorkHost(scope)?.client.type ?? "web";
 }

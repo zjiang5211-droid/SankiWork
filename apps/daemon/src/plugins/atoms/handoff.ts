@@ -3,7 +3,7 @@
 // SKILL.md fragment lives at plugins/_official/atoms/handoff/. The
 // daemon-side helper updates an ArtifactManifest's provenance +
 // distribution metadata so subsequent runs (and the CLI's
-// `od plugin export`) can reverse-resolve the artifact's lineage
+// `sw plugin export`) can reverse-resolve the artifact's lineage
 // without mutating any prior fields. The contract is append-only:
 //
 //   - sourcePluginSnapshotId NEVER changes after first write.
@@ -18,7 +18,7 @@ import type {
   ArtifactExportTarget,
   ArtifactManifest,
   ArtifactProvenanceHandoffKind,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export interface RecordHandoffInput {
   manifest: ArtifactManifest;
@@ -120,7 +120,7 @@ export function isDeployableAppEligible(args: {
 // handoffKind / exportTargets[] / signals attached. The function is
 // pure relative to its inputs (it reads files, never writes back). The
 // caller decides where to persist the updated manifest (typically
-// `<cwd>/<manifest-path>` or `.od/artifacts/<id>/manifest.json`).
+// `<cwd>/<manifest-path>` or `.sankiwork/artifacts/<id>/manifest.json`).
 //
 // Promotion ladder (spec §11.5.1):
 //   1. decision='reject'                              → handoffKind='design-only'
@@ -136,7 +136,7 @@ export interface RunHandoffAtomInput {
   cwd: string;
   manifest: ArtifactManifest;
   // Optional explicit export target the caller is recording (e.g.
-  // 'cli' when od plugin export wrote to disk; 'docker' when the
+  // 'cli' when sw plugin export wrote to disk; 'docker' when the
   // tools-pack image build completes; 'figma' when Figma export
   // wrote a frame back).
   exportTarget?: ArtifactExportTarget;

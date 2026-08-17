@@ -1,6 +1,6 @@
 # Blog indexing automation
 
-The Open Design landing page automates the parts of search-engine
+The SankiWork landing page automates the parts of search-engine
 indexing that are tied to a production promotion. It does not request
 indexing through unsupported Google APIs or browser automation.
 
@@ -84,7 +84,7 @@ Console UI bug where newly-created service account emails sometimes
 fail with `email not found`.
 
 1. Go to <https://console.cloud.google.com/projectcreate> and create a
-   project named `open-design-blog-indexing` or reuse an existing
+   project named `sankiwork-blog-indexing` or reuse an existing
    project the team owns.
 2. Enable the Search Console API under
    <https://console.cloud.google.com/apis/library/searchconsole.googleapis.com>.
@@ -97,13 +97,13 @@ fail with `email not found`.
    ```bash
    GSC_OAUTH_CLIENT_ID='<client-id>' \
    GSC_OAUTH_CLIENT_SECRET='<client-secret>' \
-   pnpm --filter @open-design/landing-page exec tsx \
+   pnpm --filter @sankiwork/landing-page exec tsx \
      scripts/blog-indexing/authorize-gsc-oauth.ts \
-     --out /tmp/open-design-gsc-refresh-token.txt
+     --out /tmp/sankiwork-gsc-refresh-token.txt
    ```
 
 6. Open the printed Google URL and authorize with an account that is an
-   Owner of the `open-design.ai` Search Console property.
+   Owner of the `sanki-ai.cloud` Search Console property.
 
 Fallback path: service account. Create `gsc-indexing-bot`, download a
 JSON key, then try adding the `client_email` as an Owner in Search

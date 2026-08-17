@@ -1,9 +1,9 @@
 {
-  "name": "@open-design/host",
-  "version": "0.19.2",
+  "name": "@sankiwork/host",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Open Design renderer host bridge protocol.",
+  "description": "SankiWork renderer host bridge protocol.",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
@@ -29,7 +29,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json --noEmit"
   },
   "dependencies": {
-    "@open-design/release": "workspace:*"
+    "@sankiwork/release": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "24.12.2",

@@ -9,7 +9,7 @@
 // The detail route is single-segment — `/plugins/<slug>/` — where the slug is
 // the slugified LAST segment of the plugin id. Plugin ids are globally unique
 // on their last segment across the whole registry (verified), so a single
-// segment keeps the route collision-free and lets `open-design/foo` (registry
+// segment keeps the route collision-free and lets `sankiwork/foo` (registry
 // catalog id) and `foo` (bundled manifest id) resolve to the same page.
 //
 // Keep this module pure (no env, no fs, no browser globals): a self-hosted
@@ -17,7 +17,7 @@
 // this file never reads env.
 
 // Canonical public site origin for shareable plugin links.
-export const OPEN_DESIGN_SITE_ORIGIN = 'https://open-design.ai';
+export const SANKIWORK_SITE_ORIGIN = 'https://sanki-ai.cloud';
 
 // Slugify one path segment: lower-cased, non-url-safe runs collapsed to `-`,
 // leading/trailing `-` trimmed. Must match the landing site byte-for-byte.
@@ -31,7 +31,7 @@ export function pluginSlugSegment(value: string): string {
 }
 
 // Single-segment detail slug = slugified last `/`-segment of the id, e.g.
-// `open-design/Hero Deck` -> `hero-deck`, `live-dashboard` -> `live-dashboard`.
+// `sankiwork/Hero Deck` -> `hero-deck`, `live-dashboard` -> `live-dashboard`.
 // This is what the `/plugins/[slug]/` route uses.
 export function pluginDetailSlug(id: string): string {
   const last = id.split('/').filter(Boolean).at(-1) ?? id;
@@ -39,7 +39,7 @@ export function pluginDetailSlug(id: string): string {
 }
 
 // Multi-segment slug preserving the namespace as a path separator, e.g.
-// `open-design/Hero Deck` -> `open-design/hero-deck`. Used for the namespaced
+// `sankiwork/Hero Deck` -> `sankiwork/hero-deck`. Used for the namespaced
 // preview route and any list data attributes that want full provenance.
 export function pluginSlug(id: string): string {
   return id
@@ -55,7 +55,7 @@ export function pluginDetailPath(id: string): string {
 }
 
 // Site-relative namespaced live-HTML preview path, e.g.
-// `/plugins/previews/open-design/hero-deck/`.
+// `/plugins/previews/sankiwork/hero-deck/`.
 export function pluginPreviewPath(id: string): string {
   return `/plugins/previews/${pluginSlug(id)}/`;
 }
@@ -66,7 +66,7 @@ export function pluginPreviewPath(id: string): string {
 // we never emit `//plugins/...`.
 export function pluginShareUrl(
   id: string,
-  origin: string = OPEN_DESIGN_SITE_ORIGIN,
+  origin: string = SANKIWORK_SITE_ORIGIN,
 ): string {
   return `${origin.replace(/\/+$/, '')}${pluginDetailPath(id)}`;
 }

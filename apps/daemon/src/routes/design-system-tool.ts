@@ -7,7 +7,7 @@ import {
   DesignSystemAdherenceRequestSchema,
   DesignSystemIntentIdSchema,
   resolveDesignSystemIntentForGeneration,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type {
   ResolveDesignSystemIntentErrorCode,
   ResolveDesignSystemIntentErrorDetails,
@@ -15,7 +15,7 @@ import type {
   ResolveDesignSystemIntentResponse,
   ValidateDesignSystemAdherenceRequest,
   ValidateDesignSystemAdherenceResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import type { ToolTokenGrant } from '../tool-tokens.js';
 import type { PinnedRunDesignSystemScope } from '../design-systems/run-scope.js';

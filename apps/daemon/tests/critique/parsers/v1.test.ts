@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { PanelEvent } from '@open-design/contracts/critique';
+import type { PanelEvent } from '@sankiwork/contracts/critique';
 import {
   parseV1,
   extractArtifactBlock,

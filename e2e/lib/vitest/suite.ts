@@ -187,10 +187,10 @@ export function resolvePackagedSmokeNamespace(
   platform: PackagedSmokePlatform,
   env: Record<string, string | undefined> = process.env,
 ): string {
-  if (env.OD_PACKAGED_E2E_NAMESPACE != null && env.OD_PACKAGED_E2E_NAMESPACE.trim() !== '') {
-    return env.OD_PACKAGED_E2E_NAMESPACE;
+  if (env.SW_PACKAGED_E2E_NAMESPACE != null && env.SW_PACKAGED_E2E_NAMESPACE.trim() !== '') {
+    return env.SW_PACKAGED_E2E_NAMESPACE;
   }
-  const channel = env.OD_PACKAGED_E2E_RELEASE_CHANNEL;
+  const channel = env.SW_PACKAGED_E2E_RELEASE_CHANNEL;
   if (channel === 'prerelease' || channel === 'preview') {
     switch (platform) {
       case 'linux':

@@ -33,7 +33,7 @@ import type {
   McpServerConfig,
   WorkspaceCollabContext,
   WorkspaceContextItem,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { DesignSystemPicker } from './DesignSystemPicker';
 import type { SkillSummary } from '../types';
 import { Icon, type IconName } from './Icon';
@@ -45,7 +45,7 @@ import {
   trackHomeChatComposerClick,
   trackProjectReferenceModalSurfaceView,
 } from '../analytics/events';
-import { sessionModeToTracking } from '@open-design/contracts/analytics';
+import { sessionModeToTracking } from '@sankiwork/contracts/analytics';
 import {
   chipsForGroup,
   HOME_APPLY_TEMPLATE_EVENT,
@@ -100,7 +100,7 @@ import { LibraryPicker } from './LibraryPicker';
 import { ComposerModePicker } from './ComposerModePicker';
 import { assetTitle } from './LibraryAssetMeta';
 import { libraryAssetRawUrl } from '../providers/registry';
-import type { LibraryAsset } from '@open-design/contracts';
+import type { LibraryAsset } from '@sankiwork/contracts';
 import { WorkingDirPicker } from './WorkingDirPicker';
 import {
   ProjectReferenceModal,
@@ -1056,7 +1056,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
     });
   }
 
-  function openDesignSystemPicker() {
+  function sankiWorkSystemPicker() {
     const trigger = homeHeroRef.current?.querySelector<HTMLButtonElement>(
       '[data-testid="home-hero-design-system-trigger"]',
     );
@@ -1253,7 +1253,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
 
   return (
     <section ref={homeHeroRef} className="home-hero" data-testid="home-hero">
-      {/* #5517 hero header: the OpenDesign logotype replaces the small
+      {/* #5517 hero header: the SankiWork logotype replaces the small
           brand-mark + name pair, and the tagline subtitle is dropped. The
           static wordmark is now a WebGL pixel-scan effect (round 7) — the
           title heading below it is dropped too, since the animated wordmark
@@ -1927,13 +1927,13 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
                 });
                 setFigmaHelpOpen(true);
               }}
-              onOpenDesignSystems={onDesignSystemChange ? () => {
+              onSankiWorkSystems={onDesignSystemChange ? () => {
                 trackHomeChatComposerClick(analytics.track, {
                   page_name: 'home',
                   area: 'chat_composer',
                   element: 'design_system_open',
                 });
-                openDesignSystemPicker();
+                sankiWorkSystemPicker();
               } : undefined}
             />
             {libraryPickerOpen ? (
@@ -2254,14 +2254,14 @@ function PluginPromptPresets({
 }
 
 const FIRST_PARTY_WEB_CLONE_SITE_ICONS: Record<string, string> = {
-  'open-design.ai': '/logo.svg',
+  'sanki-ai.cloud': '/logo.svg',
 };
 
 function webCloneFaviconUrl(domain: string): string {
   return `https://www.google.com/s2/favicons?sz=128&domain=${encodeURIComponent(domain)}`;
 }
 
-// A Website-clone text example ("Website URL to clone: https://open-design.ai") —
+// A Website-clone text example ("Website URL to clone: https://sanki-ai.cloud") —
 // pull the site out so the card can show the site's own mark + bare domain
 // instead of the raw prompt line. First-party bundled examples use local assets
 // so the first screen is stable without waiting on a remote favicon service.
@@ -4177,7 +4177,7 @@ function fallbackPluginPresetPrompt(
 const HOME_PROMPT_EXAMPLES: Record<Locale, Record<string, string[]>> = {
   "en": {
     "web-clone": [
-      "Website URL to clone: https://open-design.ai",
+      "Website URL to clone: https://sanki-ai.cloud",
     ],
     prototype: [
       "Design a high-converting website for an AI CRM with a clear hero, feature story, proof points, and trial CTA",
@@ -4312,7 +4312,7 @@ const HOME_PROMPT_EXAMPLES: Record<Locale, Record<string, string[]>> = {
   },
   "zh-CN": {
     "web-clone": [
-      "想要复刻的网站链接：https://open-design.ai",
+      "想要复刻的网站链接：https://sanki-ai.cloud",
     ],
     prototype: [
       "为 AI CRM 设计一个高转化官网，包含首屏、功能卖点、客户案例和清晰的试用入口",

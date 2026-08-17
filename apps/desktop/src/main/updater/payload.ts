@@ -15,8 +15,8 @@ import {
   type LauncherCleanupDescriptor,
   type LauncherCleanupEntry,
   type LauncherRuntimeDescriptor,
-} from "@open-design/launcher-proto";
-import type { DesktopUpdateChannel } from "@open-design/sidecar-proto";
+} from "@sankiwork/launcher-proto";
+import type { DesktopUpdateChannel } from "@sankiwork/sidecar-proto";
 
 import type { DesktopUpdaterConfig } from "./config.js";
 import {
@@ -121,7 +121,7 @@ export async function assertLauncherPayloadBootConfig(input: {
   if (!resourcesEntry.isDirectory() || resourcesEntry.isSymbolicLink()) {
     throw new Error("launcher payload resources must be a plain directory");
   }
-  const packagedConfigPath = join(resourcesPath, "open-design-config.json");
+  const packagedConfigPath = join(resourcesPath, "sankiwork-config.json");
   if (!containsPath(input.stagingRoot, packagedConfigPath)) {
     throw new Error("launcher payload config path escaped extracted payload");
   }
@@ -129,7 +129,7 @@ export async function assertLauncherPayloadBootConfig(input: {
   if (!isRecord(rawConfig)) throw new Error("launcher payload config must be a JSON object");
   const resourceRoot = typeof rawConfig.resourceRoot === "string" && rawConfig.resourceRoot.length > 0
     ? rawConfig.resourceRoot
-    : join(resourcesPath, "open-design");
+    : join(resourcesPath, "sankiwork");
   const resourceRootEntry = await lstat(resourceRoot);
   if (!resourceRootEntry.isDirectory() || resourceRootEntry.isSymbolicLink()) {
     throw new Error("launcher payload resource root must be a plain directory");
@@ -463,7 +463,7 @@ export async function cleanupLauncherPayloadRoots(input: {
   const { config, currentRuntime, keepVersions, logger, now, removeLauncherPayloadRoot, trigger, versionPaths } = input;
   await rm(versionPaths.stagingRoot, { force: true, recursive: true }).catch((error: unknown) => {
     const cleanupError = launcherCleanupErrorFrom(error);
-    logger.warn("[open-design updater] failed post-commit launcher staging cleanup", {
+    logger.warn("[sankiwork updater] failed post-commit launcher staging cleanup", {
       error: cleanupError.message,
       errorCode: cleanupError.code,
       event: "launcher-payload-cleanup",
@@ -477,7 +477,7 @@ export async function cleanupLauncherPayloadRoots(input: {
     cleanup = await readLauncherCleanupDescriptor(config, versionPaths.cleanupPath);
   } catch (error) {
     const cleanupError = launcherCleanupErrorFrom(error);
-    logger.warn("[open-design updater] skipped post-commit launcher cleanup because cleanup state is invalid", {
+    logger.warn("[sankiwork updater] skipped post-commit launcher cleanup because cleanup state is invalid", {
       error: cleanupError.message,
       errorCode: cleanupError.code,
       event: "launcher-payload-cleanup",
@@ -496,7 +496,7 @@ export async function cleanupLauncherPayloadRoots(input: {
     entries = await readdir(versionPaths.versionsRoot, { withFileTypes: true });
   } catch (error) {
     const cleanupError = launcherCleanupErrorFrom(error);
-    logger.warn("[open-design updater] failed to scan launcher payload versions after commit", {
+    logger.warn("[sankiwork updater] failed to scan launcher payload versions after commit", {
       error: cleanupError.message,
       errorCode: cleanupError.code,
       event: "launcher-payload-cleanup",
@@ -515,7 +515,7 @@ export async function cleanupLauncherPayloadRoots(input: {
     } catch (error) {
       const cleanupError = launcherCleanupErrorFrom(error);
       failures.push({ error: cleanupError, version: entry.name });
-      logger.warn("[open-design updater] deferred launcher payload cleanup", {
+      logger.warn("[sankiwork updater] deferred launcher payload cleanup", {
         error: cleanupError.message,
         errorCode: cleanupError.code,
         event: "launcher-payload-cleanup",
@@ -538,7 +538,7 @@ export async function cleanupLauncherPayloadRoots(input: {
     });
   } catch (error) {
     const cleanupError = launcherCleanupErrorFrom(error);
-    logger.warn("[open-design updater] failed to persist deferred launcher payload cleanup", {
+    logger.warn("[sankiwork updater] failed to persist deferred launcher payload cleanup", {
       error: cleanupError.message,
       errorCode: cleanupError.code,
       event: "launcher-payload-cleanup",
@@ -598,7 +598,7 @@ export async function clearLauncherStateForManualClear(input: {
   // next cold start retries the active pointer instead of rolling back — the
   // deliberate trade of a manual reset.
   await rm(launcherPaths.attemptsPath, { force: true }).catch((error: unknown) => {
-    logger.warn("[open-design updater] failed to clear stale launcher attempt", {
+    logger.warn("[sankiwork updater] failed to clear stale launcher attempt", {
       error: error instanceof Error ? error.message : String(error),
       path: launcherPaths.attemptsPath,
     });
@@ -615,7 +615,7 @@ export async function clearLauncherStateForManualClear(input: {
     }
     if (!confirmed) {
       await rm(launcherPaths.handoffPath, { force: true }).catch((error: unknown) => {
-        logger.warn("[open-design updater] failed to clear stale desktop handoff journal", {
+        logger.warn("[sankiwork updater] failed to clear stale desktop handoff journal", {
           error: error instanceof Error ? error.message : String(error),
           path: launcherPaths.handoffPath,
         });
@@ -630,7 +630,7 @@ export async function clearLauncherStateForManualClear(input: {
       { channel: config.channel, namespace: config.namespace },
     );
   } catch (error) {
-    logger.warn("[open-design updater] skipped manual launcher version cleanup because runtime state is unreadable", {
+    logger.warn("[sankiwork updater] skipped manual launcher version cleanup because runtime state is unreadable", {
       error: error instanceof Error ? error.message : String(error),
       runtimePath: config.launcherRuntimePath,
     });
@@ -686,7 +686,7 @@ export async function runLauncherCleanupLifecycle(input: {
       { channel: config.channel, namespace: config.namespace },
     );
   } catch (error) {
-    logger.warn("[open-design updater] failed to read launcher cleanup lifecycle inputs", {
+    logger.warn("[sankiwork updater] failed to read launcher cleanup lifecycle inputs", {
       error: error instanceof Error ? error.message : String(error),
       cleanupPath: launcherPaths.cleanupPath,
       runtimePath: config.launcherRuntimePath,
@@ -745,7 +745,7 @@ export async function runLauncherCleanupLifecycle(input: {
         updatedAt: nowIso,
       });
     } catch (error) {
-      logger.warn("[open-design updater] failed to clean deprecated launcher payload", {
+      logger.warn("[sankiwork updater] failed to clean deprecated launcher payload", {
         error: error instanceof Error ? error.message : String(error),
         path: versionPaths.versionRoot,
         version: entry.version,

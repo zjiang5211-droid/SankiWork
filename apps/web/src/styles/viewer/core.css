@@ -472,7 +472,7 @@
 .viewer-toggle.active .switch { background: var(--text); border-color: var(--text); }
 .viewer-toggle.on .switch::after,
 .viewer-toggle.active .switch::after { transform: translateX(12px); }
-/* Switch-style segmented control (opendesign spec): a recessed neutral
+/* Switch-style segmented control (sankiwork spec): a recessed neutral
    track holding pill segments; the active segment reads as a raised light
    thumb — 极浅背景 fill + thin default border on the 次级浅背景 track. */
 .viewer-tabs {

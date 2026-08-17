@@ -58,7 +58,7 @@ describe('parseMarketplace', () => {
   it('accepts a tiny catalog', () => {
     const result = parseMarketplace(JSON.stringify({
       specVersion: '1.0.0',
-      name: 'open-design-official',
+      name: 'sankiwork-official',
       version: '1.0.0',
       plugins: [{ name: 'make-a-deck', source: 'github:open-design/plugins/make-a-deck', version: '0.1.0' }],
     }));

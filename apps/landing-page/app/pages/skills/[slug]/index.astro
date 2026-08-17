@@ -131,7 +131,7 @@ const description = skill.description.length > 0
   ? skill.description
   : ui.catalog.skills.detailFallbackDescription(skill.name);
 
-const skillUrl = `https://open-design.ai/skills/${skill.slug}/`;
+const skillUrl = `https://sanki-ai.cloud/skills/${skill.slug}/`;
 const shareCopy = (SHARE_COPY[locale] ?? SHARE_COPY.en)({
   name: skill.name,
   description,
@@ -172,7 +172,7 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Open Design', item: Astro.site?.toString() },
+      { '@type': 'ListItem', position: 1, name: 'SankiWork', item: Astro.site?.toString() },
       { '@type': 'ListItem', position: 2, name: ui.catalog.skills.detailLabel, item: new URL('/skills/', Astro.site).toString() },
       { '@type': 'ListItem', position: 3, name: skill.name, item: new URL(`/skills/${skill.slug}/`, Astro.site).toString() },
     ],
@@ -192,7 +192,7 @@ const jsonLd = [
 
 <Layout title={title} description={description} active="skills" jsonLd={jsonLd}>
   <nav class="breadcrumb" aria-label={ui.catalog.breadcrumbLabel}>
-    <a href={href('/')}>Open Design</a>
+    <a href={href('/')}>SankiWork</a>
     <span>/</span>
     <a href={href('/skills/')}>{ui.catalog.skills.detailLabel}</a>
     <span>/</span>
@@ -217,7 +217,7 @@ const jsonLd = [
           flow concrete (download a binary now) instead of asking
           users to read an install doc. Once the desktop client
           exposes a registered URL scheme, this anchor flips to a
-          JS-driven `od://skill/<slug>` try + fallback without
+          JS-driven `sankiwork://skill/<slug>` try + fallback without
           changing the page surface.
         */}
         <a

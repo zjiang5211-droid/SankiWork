@@ -13,7 +13,7 @@ import {
   releaseNamespace,
 } from "../src/index.js";
 
-describe("@open-design/release", () => {
+describe("@sankiwork/release", () => {
   it("formats and parses counted release versions", () => {
     expect(formatReleaseVersion("prerelease", "1.2.3", 4)).toBe("1.2.3-prerelease.4");
     expect(parseReleaseVersion("1.2.3-prerelease.4", "prerelease")).toEqual({
@@ -51,12 +51,12 @@ describe("@open-design/release", () => {
   });
 
   it("centralizes release identity and namespace derivation", () => {
-    expect(releaseChannelDescriptor("prerelease").productName).toBe("Open Design Prerelease");
-    expect(releaseChannelDescriptor("betas").productName).toBe("Open Design Betas");
+    expect(releaseChannelDescriptor("prerelease").productName).toBe("SankiWork Prerelease");
+    expect(releaseChannelDescriptor("betas").productName).toBe("SankiWork Betas");
     expect(releaseInstallIdentity("prerelease")).toEqual({
       appId: "io.open-design.desktop.prerelease",
-      executableName: "Open Design Prerelease",
-      productName: "Open Design Prerelease",
+      executableName: "SankiWork Prerelease",
+      productName: "SankiWork Prerelease",
     });
     expect(releaseNamespace("prerelease")).toBe("release-prerelease");
     expect(releaseNamespace("prerelease", "win")).toBe("release-prerelease-win");
@@ -70,7 +70,7 @@ describe("@open-design/release", () => {
     expect(releaseChannelFromVersion("1.2.3-prerelease.1")).toBe("prerelease");
     expect(releaseChannelFromNamespace("release-preview-linux")).toBe("preview");
     expect(releaseChannelFromNamespace("release-betas-win")).toBe("betas");
-    expect(releaseChannelFromNamespace("open-design")).toBe("stable");
+    expect(releaseChannelFromNamespace("sankiwork")).toBe("stable");
     expect(releaseChannelFromNamespace("beta-local-flow")).toBeNull();
   });
 });

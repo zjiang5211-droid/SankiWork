@@ -18,7 +18,7 @@ cli
       return;
     }
     if (channel === "prerelease" || channel === "stable") {
-      process.env.OPEN_DESIGN_RELEASE_CHANNEL = channel;
+      process.env.SANKIWORK_RELEASE_CHANNEL = channel;
       await import("./metadata/prepare-stable.ts");
       return;
     }

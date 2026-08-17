@@ -218,7 +218,7 @@ describe('resolveDesignSystemWorkspaceScope — stale local pins are never data-
     // A stale local pin exactly like a real leftover from a previous identity
     // — `velaLogout` never clears this file (only a CONFIRMED member-removal
     // does; see `resolvePinnedWorkspace` in vela-workspace-context.ts).
-    const dataDir = process.env.OD_DATA_DIR!;
+    const dataDir = process.env.SW_DATA_DIR!;
     writeFileSync(
       path.join(dataDir, 'workspace-selection.json'),
       `${JSON.stringify({ workspaceId: 'ws-stale-pin' }, null, 2)}\n`,

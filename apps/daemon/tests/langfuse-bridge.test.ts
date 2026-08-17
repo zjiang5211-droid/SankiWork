@@ -113,18 +113,18 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
   let objectRelayUrl: string | undefined;
 
   beforeEach(async () => {
-    telemetryRelayUrl = process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
-    objectRelayUrl = process.env.OPEN_DESIGN_OBJECT_RELAY_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
-    delete process.env.OPEN_DESIGN_OBJECT_RELAY_URL;
+    telemetryRelayUrl = process.env.SANKIWORK_TELEMETRY_RELAY_URL;
+    objectRelayUrl = process.env.SANKIWORK_OBJECT_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_OBJECT_RELAY_URL;
     dataDir = await mkdtemp(path.join(tmpdir(), 'od-bridge-'));
   });
 
   afterEach(async () => {
-    if (telemetryRelayUrl === undefined) delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
-    else process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL = telemetryRelayUrl;
-    if (objectRelayUrl === undefined) delete process.env.OPEN_DESIGN_OBJECT_RELAY_URL;
-    else process.env.OPEN_DESIGN_OBJECT_RELAY_URL = objectRelayUrl;
+    if (telemetryRelayUrl === undefined) delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
+    else process.env.SANKIWORK_TELEMETRY_RELAY_URL = telemetryRelayUrl;
+    if (objectRelayUrl === undefined) delete process.env.SANKIWORK_OBJECT_RELAY_URL;
+    else process.env.SANKIWORK_OBJECT_RELAY_URL = objectRelayUrl;
     await rm(dataDir, { recursive: true, force: true });
     vi.restoreAllMocks();
   });
@@ -323,7 +323,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
         extension: 'pdf',
         redacted: false,
         truncated: false,
-        stored_in_open_design: true,
+        stored_in_sankiwork: true,
         retention_policy: 'project_lifetime',
         access_scope: 'project',
         sensitivity: 'private',
@@ -353,7 +353,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
         export_status: 'available',
         redacted: false,
         truncated: false,
-        stored_in_open_design: true,
+        stored_in_sankiwork: true,
         retention_policy: 'project_lifetime',
         access_scope: 'project',
         sensitivity: 'private',
@@ -377,7 +377,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     // useful telemetry but varies between dev / CI environments — assert
     // its presence by prefix rather than pinning a value.
     expect(trace.tags).toEqual(
-      expect.arrayContaining(['open-design', 'project:proj-1', 'agent:qoder']),
+      expect.arrayContaining(['sankiwork', 'project:proj-1', 'agent:qoder']),
     );
     expect((trace.tags as string[]).some((t) => t.startsWith('os:'))).toBe(true);
     expect(trace.metadata.eventsSummary.toolCalls).toBe(2);
@@ -648,7 +648,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     });
     const priorNodeEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'production';
-    process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL = 'https://telemetry.open-design.ai/api/langfuse';
+    process.env.SANKIWORK_TELEMETRY_RELAY_URL = 'https://telemetry.sanki-ai.cloud/api/langfuse';
     process.env.LANGFUSE_PUBLIC_KEY = 'pk';
     process.env.LANGFUSE_SECRET_KEY = 'sk';
     try {
@@ -688,15 +688,15 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
       } else {
         process.env.NODE_ENV = priorNodeEnv;
       }
-      delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+      delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
       delete process.env.LANGFUSE_PUBLIC_KEY;
       delete process.env.LANGFUSE_SECRET_KEY;
     }
 
     expect(fetchSpy).toHaveBeenCalledTimes(4);
     expect(fetchSpy.mock.calls[0]![0]).toContain('/api/langfuse');
-    expect(fetchSpy.mock.calls[1]![0]).toBe('https://telemetry.open-design.ai/api/objects/authorize');
-    expect(fetchSpy.mock.calls[2]![0]).toBe('https://telemetry.open-design.ai/api/objects/batch');
+    expect(fetchSpy.mock.calls[1]![0]).toBe('https://telemetry.sanki-ai.cloud/api/objects/authorize');
+    expect(fetchSpy.mock.calls[2]![0]).toBe('https://telemetry.sanki-ai.cloud/api/objects/batch');
     expect(fetchSpy.mock.calls[3]![0]).toContain('/api/langfuse');
     const init = fetchSpy.mock.calls[3]![1] as RequestInit;
     const langfuseBody = init.body as string;
@@ -708,13 +708,13 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     expect(trace.metadata.attachment_manifest[0]).toMatchObject({
       object_class: 'attachment',
       status: 'ok',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
       size_bytes: 'private attachment body'.length,
     });
     expect(trace.metadata.artifact_manifest[0]).toMatchObject({
       object_class: 'artifact',
       status: 'ok',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
       size_bytes: '<!doctype html><h1>private artifact</h1>'.length,
     });
   });
@@ -773,7 +773,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
       return new Response('{}', { status: 207 });
     });
 
-    process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL = 'https://telemetry.open-design.ai/api/langfuse';
+    process.env.SANKIWORK_TELEMETRY_RELAY_URL = 'https://telemetry.sanki-ai.cloud/api/langfuse';
     process.env.LANGFUSE_PUBLIC_KEY = 'pk';
     process.env.LANGFUSE_SECRET_KEY = 'sk';
     try {
@@ -808,7 +808,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
         fetchImpl: fetchSpy as any,
       });
     } finally {
-      delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+      delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
       delete process.env.LANGFUSE_PUBLIC_KEY;
       delete process.env.LANGFUSE_SECRET_KEY;
     }
@@ -840,7 +840,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     expect(trace.metadata.attachment_manifest[0]).toMatchObject({
       object_class: 'attachment',
       status: 'ok',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
       source: 'user_upload',
       retention_policy: 'observability_90d',
       access_scope: 'project',
@@ -850,7 +850,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     expect(trace.metadata.artifact_manifest[0]).toMatchObject({
       object_class: 'artifact',
       status: 'ok',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
       source: 'agent_generated',
       retention_policy: 'observability_90d',
     });
@@ -858,12 +858,12 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     expect(trace.metadata.input_text_snapshot_manifest[0]).toMatchObject({
       object_class: 'input_text_snapshot',
       status: 'ok',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
       source: 'user_prompt',
     });
     expect(trace.metadata.input_text_snapshot_manifest[0]).not.toHaveProperty('reason');
     expect(JSON.stringify(trace.metadata)).toContain(
-      'od://objects/workspaces/unknown/projects/proj-1/runs/run-id-1',
+      'sankiwork://objects/workspaces/unknown/projects/proj-1/runs/run-id-1',
     );
   });
 
@@ -903,7 +903,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
       return new Response('{}', { status: 207 });
     });
 
-    process.env.OPEN_DESIGN_OBJECT_RELAY_URL = 'https://telemetry.open-design.ai/api/objects/batch';
+    process.env.SANKIWORK_OBJECT_RELAY_URL = 'https://telemetry.sanki-ai.cloud/api/objects/batch';
     process.env.LANGFUSE_PUBLIC_KEY = 'pk';
     process.env.LANGFUSE_SECRET_KEY = 'sk';
     try {
@@ -924,28 +924,28 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
         fetchImpl: fetchSpy as any,
       });
     } finally {
-      delete process.env.OPEN_DESIGN_OBJECT_RELAY_URL;
+      delete process.env.SANKIWORK_OBJECT_RELAY_URL;
       delete process.env.LANGFUSE_PUBLIC_KEY;
       delete process.env.LANGFUSE_SECRET_KEY;
     }
 
     expect(fetchSpy).toHaveBeenCalledTimes(4);
-    expect(fetchSpy.mock.calls[0]![0]).toBe('https://telemetry.open-design.ai/api/langfuse');
-    expect(fetchSpy.mock.calls[1]![0]).toBe('https://telemetry.open-design.ai/api/objects/authorize');
-    expect(fetchSpy.mock.calls[2]![0]).toBe('https://telemetry.open-design.ai/api/objects/batch');
+    expect(fetchSpy.mock.calls[0]![0]).toBe('https://telemetry.sanki-ai.cloud/api/langfuse');
+    expect(fetchSpy.mock.calls[1]![0]).toBe('https://telemetry.sanki-ai.cloud/api/objects/authorize');
+    expect(fetchSpy.mock.calls[2]![0]).toBe('https://telemetry.sanki-ai.cloud/api/objects/batch');
     expect(fetchSpy.mock.calls[3]![0]).toBe('https://us.cloud.langfuse.com/api/public/ingestion');
     const registrationBatch = JSON.parse(fetchSpy.mock.calls[0]![1]!.body as string).batch as any[];
     const finalBatch = JSON.parse(fetchSpy.mock.calls[3]![1]!.body as string).batch as any[];
     expect(registrationBatch[0].body.metadata.artifact_manifest[0]).toMatchObject({
       object_class: 'artifact',
       storage_ref: expect.stringContaining(
-        'od://objects/workspaces/unknown/projects/proj-1/runs/run-id-1/artifact/',
+        'sankiwork://objects/workspaces/unknown/projects/proj-1/runs/run-id-1/artifact/',
       ),
     });
     expect(finalBatch[0].body.metadata.artifact_manifest[0]).toMatchObject({
       object_class: 'artifact',
       status: 'ok',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
     });
   });
 
@@ -982,7 +982,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
       return new Response('{}', { status: 207 });
     });
 
-    process.env.OPEN_DESIGN_OBJECT_RELAY_URL = 'https://telemetry.open-design.ai/api/objects/batch';
+    process.env.SANKIWORK_OBJECT_RELAY_URL = 'https://telemetry.sanki-ai.cloud/api/objects/batch';
     process.env.LANGFUSE_PUBLIC_KEY = 'pk';
     process.env.LANGFUSE_SECRET_KEY = 'sk';
     try {
@@ -1011,7 +1011,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
         fetchImpl: fetchSpy as any,
       });
     } finally {
-      delete process.env.OPEN_DESIGN_OBJECT_RELAY_URL;
+      delete process.env.SANKIWORK_OBJECT_RELAY_URL;
       delete process.env.LANGFUSE_PUBLIC_KEY;
       delete process.env.LANGFUSE_SECRET_KEY;
     }
@@ -1068,8 +1068,8 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
       return new Response('{}', { status: 207 });
     });
 
-    process.env.OPEN_DESIGN_OBJECT_RELAY_URL = 'https://telemetry.open-design.ai/api/objects/batch';
-    process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL = 'https://telemetry.open-design.ai/api/langfuse';
+    process.env.SANKIWORK_OBJECT_RELAY_URL = 'https://telemetry.sanki-ai.cloud/api/objects/batch';
+    process.env.SANKIWORK_TELEMETRY_RELAY_URL = 'https://telemetry.sanki-ai.cloud/api/langfuse';
     process.env.LANGFUSE_PUBLIC_KEY = 'pk';
     process.env.LANGFUSE_SECRET_KEY = 'sk';
     try {
@@ -1095,8 +1095,8 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
         fetchImpl: fetchSpy as any,
       });
     } finally {
-      delete process.env.OPEN_DESIGN_OBJECT_RELAY_URL;
-      delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+      delete process.env.SANKIWORK_OBJECT_RELAY_URL;
+      delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
       delete process.env.LANGFUSE_PUBLIC_KEY;
       delete process.env.LANGFUSE_SECRET_KEY;
     }
@@ -1117,7 +1117,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     expect(trace.metadata.artifact_manifest[0]).toMatchObject({
       object_class: 'artifact',
       status: 'ok',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
     });
   });
 
@@ -1178,7 +1178,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     expect(trace.metadata.artifact_manifest[0]).toMatchObject({
       object_class: 'artifact',
       status: 'ok',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
       extension: 'html',
     });
   });
@@ -1751,7 +1751,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     const generation = bodyOf(batch, 'generation-create', 'llm');
     expect(trace.input).toBe('design a coffee landing page');
     expect(generation.input).toMatchObject({
-      type: 'open-design.prompt-stack',
+      type: 'sankiwork.prompt-stack',
       sections: [
         expect.objectContaining({
           kind: 'daemonSystemPrompt',

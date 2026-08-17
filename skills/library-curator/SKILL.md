@@ -30,7 +30,7 @@ material — without asking the user to re-upload them.
 
 ## Tools (tool-token track)
 
-Both endpoints authenticate with the run's tool token (`OD_TOOL_TOKEN`, injected
+Both endpoints authenticate with the run's tool token (`SW_TOOL_TOKEN`, injected
 by the daemon) and operate on the project the run belongs to.
 
 ### Search

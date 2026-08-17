@@ -46,7 +46,7 @@ describe('buildTraceObjectManifests', () => {
         return new Response(JSON.stringify({ upload_token: 'upload-token' }), { status: 200 });
       }
       expect(init.headers).toMatchObject({
-        'X-Open-Design-Telemetry': 'object-ingestion-v1',
+        'X-SankiWork-Telemetry': 'object-ingestion-v1',
       });
       expect(Buffer.byteLength(body, 'utf8')).toBeLessThanOrEqual(2300);
       const parsed = JSON.parse(body) as {
@@ -82,9 +82,9 @@ describe('buildTraceObjectManifests', () => {
       fetchImpl: fetchSpy as any,
       env: {
         NODE_ENV: 'test',
-        OPEN_DESIGN_OBJECT_RELAY_URL: 'https://telemetry.open-design.ai/api/objects/batch',
-        OPEN_DESIGN_OBJECT_MAX_BYTES: '1024',
-        OPEN_DESIGN_OBJECT_BATCH_MAX_BYTES: '2300',
+        SANKIWORK_OBJECT_RELAY_URL: 'https://telemetry.sanki-ai.cloud/api/objects/batch',
+        SANKIWORK_OBJECT_MAX_BYTES: '1024',
+        SANKIWORK_OBJECT_BATCH_MAX_BYTES: '2300',
       },
       now: () => new Date('2026-06-08T00:00:00.000Z'),
     });
@@ -93,7 +93,7 @@ describe('buildTraceObjectManifests', () => {
     expect(manifests?.completeness).toBe('complete');
     expect(manifests?.artifactManifest).toHaveLength(2);
     expect(manifests?.artifactManifest?.map((entry) => entry.status)).toEqual(['ok', 'ok']);
-    expect(manifests?.artifactManifest?.map((entry) => entry.stored_in_open_design))
+    expect(manifests?.artifactManifest?.map((entry) => entry.stored_in_sankiwork))
       .toEqual([true, true]);
   });
 
@@ -162,7 +162,7 @@ describe('buildTraceObjectManifests', () => {
       fetchImpl: fetchSpy as any,
       env: {
         NODE_ENV: 'test',
-        OPEN_DESIGN_OBJECT_RELAY_URL: 'https://telemetry.open-design.ai/api/objects/batch',
+        SANKIWORK_OBJECT_RELAY_URL: 'https://telemetry.sanki-ai.cloud/api/objects/batch',
       },
       now: () => new Date('2026-06-08T00:00:00.000Z'),
     });
@@ -172,12 +172,12 @@ describe('buildTraceObjectManifests', () => {
     expect(manifests?.attachmentManifest?.[0]).toMatchObject({
       status: 'ok',
       extension: 'txt',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
     });
     expect(manifests?.artifactManifest?.[0]).toMatchObject({
       status: 'ok',
       extension: 'html',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
     });
     expect(manifests?.attachmentManifest?.[0]).not.toHaveProperty('reason');
     expect(manifests?.artifactManifest?.[0]).not.toHaveProperty('reason');
@@ -202,7 +202,7 @@ describe('buildTraceObjectManifests', () => {
       fetchImpl: vi.fn() as any,
       env: {
         NODE_ENV: 'test',
-        OPEN_DESIGN_OBJECT_RELAY_URL: 'https://telemetry.open-design.ai/api/objects/batch',
+        SANKIWORK_OBJECT_RELAY_URL: 'https://telemetry.sanki-ai.cloud/api/objects/batch',
       },
       uploadMode: 'manifest-only',
       now: () => new Date('2026-06-08T00:00:00.000Z'),
@@ -211,7 +211,7 @@ describe('buildTraceObjectManifests', () => {
     expect(manifests?.completeness).toBe('partial');
     expect(manifests?.artifactManifest?.[0]).toMatchObject({
       status: 'unavailable',
-      stored_in_open_design: false,
+      stored_in_sankiwork: false,
       size_bytes: 'release artifact'.length,
       sha256: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
     });
@@ -262,7 +262,7 @@ describe('buildTraceObjectManifests', () => {
       fetchImpl: fetchSpy as any,
       env: {
         NODE_ENV: 'test',
-        OPEN_DESIGN_OBJECT_RELAY_URL: 'https://telemetry.open-design.ai/api/objects/batch',
+        SANKIWORK_OBJECT_RELAY_URL: 'https://telemetry.sanki-ai.cloud/api/objects/batch',
       },
       now: () => new Date('2026-06-08T00:00:00.000Z'),
     });
@@ -285,7 +285,7 @@ describe('buildTraceObjectManifests', () => {
         expect(parsed.objects).toHaveLength(1);
         return new Response(JSON.stringify({ upload_token: 'upload-token' }), { status: 200 });
       }
-      expect(url).toBe('https://telemetry.open-design.ai/api/objects/batch');
+      expect(url).toBe('https://telemetry.sanki-ai.cloud/api/objects/batch');
       expect((parsed as unknown as { upload_token: string }).upload_token).toBe('upload-token');
       expect(parsed.objects).toHaveLength(1);
       return new Response(
@@ -313,19 +313,19 @@ describe('buildTraceObjectManifests', () => {
       fetchImpl: fetchSpy as any,
       env: {
         NODE_ENV: 'production',
-        OPEN_DESIGN_TELEMETRY_RELAY_URL: 'https://telemetry.open-design.ai/api/langfuse//',
+        SANKIWORK_TELEMETRY_RELAY_URL: 'https://telemetry.sanki-ai.cloud/api/langfuse//',
       },
       now: () => new Date('2026-06-08T00:00:00.000Z'),
     });
 
     expect(fetchSpy).toHaveBeenCalledTimes(2);
-    expect(fetchSpy.mock.calls[0]![0]).toBe('https://telemetry.open-design.ai/api/objects/authorize');
-    expect(fetchSpy.mock.calls[1]![0]).toBe('https://telemetry.open-design.ai/api/objects/batch');
+    expect(fetchSpy.mock.calls[0]![0]).toBe('https://telemetry.sanki-ai.cloud/api/objects/authorize');
+    expect(fetchSpy.mock.calls[1]![0]).toBe('https://telemetry.sanki-ai.cloud/api/objects/batch');
     expect(projectFileReadTracker.calls).toBe(1);
     expect(manifests?.completeness).toBe('complete');
     expect(manifests?.artifactManifest?.[0]).toMatchObject({
       status: 'ok',
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
       size_bytes: 'release artifact'.length,
     });
   });
@@ -350,8 +350,8 @@ describe('buildTraceObjectManifests', () => {
       fetchImpl: fetchSpy as any,
       env: {
         NODE_ENV: 'test',
-        OPEN_DESIGN_OBJECT_RELAY_URL: 'https://telemetry.open-design.ai/api/objects/batch',
-        OPEN_DESIGN_OBJECT_MAX_BYTES: '8',
+        SANKIWORK_OBJECT_RELAY_URL: 'https://telemetry.sanki-ai.cloud/api/objects/batch',
+        SANKIWORK_OBJECT_MAX_BYTES: '8',
       },
       now: () => new Date('2026-06-08T00:00:00.000Z'),
     });

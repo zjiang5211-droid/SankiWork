@@ -88,7 +88,7 @@ const allowedConsumers = new Map<string, string>([
   ],
   [
     "tools/release/src/release-note/prepare.ts",
-    "docs/CHANGELOG feeds release-note preparation, which runs only in release workflows; @open-design/tools-release tests run in no ci.yml lane",
+    "docs/CHANGELOG feeds release-note preparation, which runs only in release workflows; @sankiwork/tools-release tests run in no ci.yml lane",
   ],
   [
     "e2e/tests/packaged-smoke-workflow.test.ts",

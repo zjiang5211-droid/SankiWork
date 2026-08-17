@@ -16,7 +16,7 @@
 
 import { act, cleanup, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { CollabCloudMemberDirectoryEntry } from '@open-design/contracts';
+import type { CollabCloudMemberDirectoryEntry } from '@sankiwork/contracts';
 
 const workspaceInvalidationHarness = vi.hoisted(() => ({
   handlers: null as Record<string, () => void> | null,

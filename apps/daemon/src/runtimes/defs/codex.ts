@@ -116,15 +116,15 @@ const GPT_5_5_SERVICE_TIER_OPTIONS: RuntimeModelOption[] = [
 // Codex applies `shell_environment_policy` again when its shell tool starts a
 // command. That second boundary is independent from the environment the daemon
 // passes to the Codex process itself. In particular, the supported
-// `inherit = "core"` policy removes every Open Design wrapper variable, so a
-// prompt can see the documented `$OD_NODE_BIN` / `$OD_BIN` invocation yet the
+// `inherit = "core"` policy removes every SankiWork wrapper variable, so a
+// prompt can see the documented `$SW_NODE_BIN` / `$SW_BIN` invocation yet the
 // actual command expands both paths to empty strings.
 //
 // Start from the daemon-built process environment, then use Codex's
 // `include_only` policy to retain only the small cross-platform shell baseline
 // plus the run-scoped wrapper contract. Credentials inherited by the daemon
-// remain unavailable unless they are one of the explicit Open Design
-// capabilities below. `OD_TOOL_TOKEN` stays in the environment channel rather
+// remain unavailable unless they are one of the explicit SankiWork
+// capabilities below. `SW_TOOL_TOKEN` stays in the environment channel rather
 // than being copied into argv, process listings, or Codex config files.
 const CODEX_SHELL_ENVIRONMENT_INCLUDE_KEYS = [
   'PATH',
@@ -147,16 +147,16 @@ const CODEX_SHELL_ENVIRONMENT_INCLUDE_KEYS = [
   'LOCALAPPDATA',
   'HOMEDRIVE',
   'HOMEPATH',
-  'OD_BIN',
-  'OD_NODE_BIN',
-  'OD_DAEMON_URL',
-  'OD_TOOL_TOKEN',
-  'OD_DATA_DIR',
-  'OD_PROJECT_ID',
-  'OD_PROJECT_DIR',
+  'SW_BIN',
+  'SW_NODE_BIN',
+  'SW_DAEMON_URL',
+  'SW_TOOL_TOKEN',
+  'SW_DATA_DIR',
+  'SW_PROJECT_ID',
+  'SW_PROJECT_DIR',
 ] as const;
 
-export function codexOpenDesignShellEnvironmentArgs(): string[] {
+export function codexSankiWorkShellEnvironmentArgs(): string[] {
   const includeOnly = CODEX_SHELL_ENVIRONMENT_INCLUDE_KEYS
     .map((key) => `"${key}"`)
     .join(',');
@@ -183,7 +183,7 @@ export function codexNeedsDangerFullAccessSandbox(
   // Operator override for deployments where Codex cannot create its
   // workspace-write sandbox, for example unprivileged Linux containers.
   // Only danger-full-access is accepted; unknown values keep the default path.
-  if (env.OD_CODEX_SANDBOX?.trim() === 'danger-full-access') return true;
+  if (env.SW_CODEX_SANDBOX?.trim() === 'danger-full-access') return true;
   if (platform === 'win32') return true;
   // WSL reports `linux` but Codex still hits the Windows read-only
   // workspace-write sandbox path when launched from there (#2834).
@@ -293,11 +293,11 @@ export const codexAgentDef = {
         : ['exec', '--json', '--skip-git-repo-check', ...sandboxArgs];
       if (
         runtimeContext.disablePlugins === true
-        || process.env.OD_CODEX_DISABLE_PLUGINS === '1'
+        || process.env.SW_CODEX_DISABLE_PLUGINS === '1'
       ) {
         args.push('--disable', 'plugins');
       }
-      args.push(...codexOpenDesignShellEnvironmentArgs());
+      args.push(...codexSankiWorkShellEnvironmentArgs());
       // `-C <cwd>` and `--add-dir <dir>` are CREATE-only flags: `codex exec
       // resume` rejects both (`error: unexpected argument '-C' found`), so
       // appending them on a resume turn would make the follow-up turn die

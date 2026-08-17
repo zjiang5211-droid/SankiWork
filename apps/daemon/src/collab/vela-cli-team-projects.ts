@@ -1,4 +1,4 @@
-import type { ProjectMetadata, TeamProject } from '@open-design/contracts';
+import type { ProjectMetadata, TeamProject } from '@sankiwork/contracts';
 import type {
   UpsertVelaTeamProjectInput,
   VelaTeamProjectCatalogClient,
@@ -354,10 +354,10 @@ export function createVelaCliTeamProjectCatalogFromEnv(
 }
 
 export function shouldUseVelaCliTeamProjectCatalog(env: NodeJS.ProcessEnv = process.env): boolean {
-  if (env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') return true;
-  const explicitTransport = env.OD_TEAM_PROJECTS_TRANSPORT?.trim();
+  if (env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') return true;
+  const explicitTransport = env.SW_TEAM_PROJECTS_TRANSPORT?.trim();
   if (explicitTransport) return explicitTransport === 'vela-cli';
-  return env.OD_RESOURCE_TRANSPORT?.trim() === 'vela-cli';
+  return env.SW_RESOURCE_TRANSPORT?.trim() === 'vela-cli';
 }
 
 function toTeamProject(input: unknown): TeamProject | null {

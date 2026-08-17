@@ -26,7 +26,7 @@ const EXPECTED_PUSH_EXCLUDED_ENTRIES = [
   // Secret-bearing entries that must never reach a member mirror.
   '.file-versions',
   '.live-artifacts',
-  '.od-skills',
+  '.sankiwork-skills',
   '.git',
   'node_modules',
   '.npmrc',
@@ -50,7 +50,7 @@ const EXPECTED_PUSH_EXCLUDED_ENTRIES = [
   // as directories, so a bare name would also swallow a regular file of the
   // same name (a project file literally called `target` or `out`).
   'vendor/',
-  '.od/',
+  '.sankiwork/',
   'debug/',
   'dist/',
   'build/',
@@ -434,15 +434,15 @@ describe('createVelaCliResourceAdapter', () => {
 
 describe('transport selection', () => {
   it('opts into the CLI transport for explicit or Vela-backed team modes', () => {
-    expect(shouldUseVelaCliResourceTransport({ OD_RESOURCE_TRANSPORT: 'vela-cli' })).toBe(true);
-    expect(shouldUseVelaCliResourceTransport({ OD_RESOURCE_TRANSPORT: 'sdk' })).toBe(false);
-    expect(shouldUseVelaCliResourceTransport({ OD_WORKSPACE_CONTEXT_SOURCE: 'vela' })).toBe(true);
+    expect(shouldUseVelaCliResourceTransport({ SW_RESOURCE_TRANSPORT: 'vela-cli' })).toBe(true);
+    expect(shouldUseVelaCliResourceTransport({ SW_RESOURCE_TRANSPORT: 'sdk' })).toBe(false);
+    expect(shouldUseVelaCliResourceTransport({ SW_WORKSPACE_CONTEXT_SOURCE: 'vela' })).toBe(true);
     expect(shouldUseVelaCliResourceTransport({
-      OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-      OD_RESOURCE_TRANSPORT: 'sdk',
+      SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+      SW_RESOURCE_TRANSPORT: 'sdk',
     })).toBe(true);
-    expect(shouldUseVelaCliResourceTransport({ OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli' })).toBe(true);
-    expect(shouldUseVelaCliResourceTransport({ OD_COLLAB_TRANSPORT: 'vela-cli' })).toBe(true);
+    expect(shouldUseVelaCliResourceTransport({ SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli' })).toBe(true);
+    expect(shouldUseVelaCliResourceTransport({ SW_COLLAB_TRANSPORT: 'vela-cli' })).toBe(true);
     expect(shouldUseVelaCliResourceTransport({})).toBe(false);
   });
 

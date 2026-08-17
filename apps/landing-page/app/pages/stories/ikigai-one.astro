@@ -2,7 +2,7 @@
 /*
  * Customer story — Ikigai One  (`/stories/ikigai-one/`)
  *
- * Open Design's first customer story. Unlike the blog, this is a bespoke,
+ * SankiWork's first customer story. Unlike the blog, this is a bespoke,
  * full-bleed landing-style page (alternating bands, painterly hero/CTA), so
  * it does NOT use `sub-page-layout` (whose `.container` main would box the
  * full-bleed bands and nest a second <main>). Instead it hand-wires the same
@@ -49,21 +49,21 @@ const category = 'Customer stories';
 // Publish date for the Article schema. Adjust to the actual go-live date.
 const datePublished = new Date('2026-06-25');
 
-const fallbackSite = 'https://open-design.ai/';
+const fallbackSite = 'https://sanki-ai.cloud/';
 const origin = Astro.site?.toString() ?? fallbackSite;
 const pageUrl = new URL(Astro.url.pathname, Astro.site ?? fallbackSite).toString();
 // Dedicated social share card (X/OG/Twitter). Intentionally separate from the
 // in-article figures — swapping this does not change any image in the story body.
 const ogImage = new URL('/stories/ikigai-one-og.jpg', Astro.site ?? fallbackSite).toString();
 
-// Breadcrumb trail (Open Design → Ikigai One). SeoHead emits the Article
+// Breadcrumb trail (SankiWork → Ikigai One). SeoHead emits the Article
 // JSON-LD; this adds the SERP breadcrumb. There is no Stories index yet, so
 // the trail stops at the home origin.
 const breadcrumbJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Open Design', item: origin },
+    { '@type': 'ListItem', position: 1, name: 'SankiWork', item: origin },
     { '@type': 'ListItem', position: 2, name: 'Ikigai One', item: pageUrl },
   ],
 };

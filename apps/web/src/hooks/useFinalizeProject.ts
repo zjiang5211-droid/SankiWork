@@ -19,7 +19,7 @@ import type {
   FinalizeAnthropicResponse,
   FinalizeProviderProtocol,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { workspaceProjectHeaders } from '../collab/workspace-identity';
 
 // 130 000 ms = daemon timeout (120 s) + 10 s buffer so the daemon's

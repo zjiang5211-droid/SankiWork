@@ -131,7 +131,7 @@ async function runCli(args: string[]): Promise<{ stdout: string; stderr: string;
   }
 }
 
-describe('od collab CLI', () => {
+describe('sw collab CLI', () => {
   it('reads Personal billing through an explicit Workspace id', async () => {
     stub = await startCollabStubServer();
     const result = await runCli([

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { DESKTOP_UPDATE_CHANNELS, DESKTOP_UPDATE_STATES } from "@open-design/sidecar-proto";
+import { DESKTOP_UPDATE_CHANNELS, DESKTOP_UPDATE_STATES } from "@sankiwork/sidecar-proto";
 
 import { createDesktopUpdaterScheduler } from "../../../src/main/updater/scheduler.js";
 
@@ -12,7 +12,7 @@ describe("desktop updater scheduler", () => {
     const payloadStatus = {
       arch: "arm64",
       artifact: {
-        name: "open-design-1.0.1-mac-arm64-payload.zip",
+        name: "sankiwork-1.0.1-mac-arm64-payload.zip",
         platformKey: "mac",
         size: 1024,
         type: "payload",
@@ -26,7 +26,7 @@ describe("desktop updater scheduler", () => {
       },
       channel: DESKTOP_UPDATE_CHANNELS.BETA,
       currentVersion: "1.0.0",
-      downloadPath: "/tmp/open-design-updates/payload.zip",
+      downloadPath: "/tmp/sankiwork-updates/payload.zip",
       enabled: true,
       mode: "package-launcher" as const,
       platform: "darwin",
@@ -39,7 +39,7 @@ describe("desktop updater scheduler", () => {
         activeVersion: "1.0.1",
         dryRun: false,
         openedAt: "2026-05-19T00:00:00.000Z",
-        path: "/tmp/open-design-updates/payload.zip",
+        path: "/tmp/sankiwork-updates/payload.zip",
       },
     };
     const updater = {
@@ -102,7 +102,7 @@ describe("desktop updater scheduler", () => {
     const payloadStatus = {
       ...idleStatus,
       artifact: {
-        name: "open-design-1.0.1-mac-arm64-payload.zip",
+        name: "sankiwork-1.0.1-mac-arm64-payload.zip",
         platformKey: "mac",
         size: 1024,
         type: "payload",
@@ -114,7 +114,7 @@ describe("desktop updater scheduler", () => {
         canOpenInstaller: false,
         requiresManualInstall: false,
       },
-      downloadPath: "/tmp/open-design-updates/payload.zip",
+      downloadPath: "/tmp/sankiwork-updates/payload.zip",
       state: DESKTOP_UPDATE_STATES.DOWNLOADED,
     };
     const updater = {
@@ -177,7 +177,7 @@ describe("desktop updater scheduler", () => {
     const payloadStatus = {
       ...baseStatus,
       artifact: {
-        name: "open-design-1.0.1-mac-arm64-payload.zip",
+        name: "sankiwork-1.0.1-mac-arm64-payload.zip",
         platformKey: "mac",
         size: 1024,
         type: "payload",
@@ -189,7 +189,7 @@ describe("desktop updater scheduler", () => {
         canOpenInstaller: false,
         requiresManualInstall: false,
       },
-      downloadPath: "/tmp/open-design-updates/payload.zip",
+      downloadPath: "/tmp/sankiwork-updates/payload.zip",
       state: DESKTOP_UPDATE_STATES.DOWNLOADED,
     };
     const updater = {
@@ -262,7 +262,7 @@ describe("desktop updater scheduler", () => {
         checkInitialDelayMs: 5_000,
         checkIntervalMs: 15 * 60 * 1000,
         currentVersion: "1.0.0",
-        downloadRoot: "/tmp/open-design-updates",
+        downloadRoot: "/tmp/sankiwork-updates",
         enabled: true,
         metadataUrl: "https://example.invalid/metadata.json",
         mode: "package-launcher" as const,

@@ -1,5 +1,5 @@
 /*
- * lint-blog-seo — source + rendered SEO checks for Open Design blog posts.
+ * lint-blog-seo — source + rendered SEO checks for SankiWork blog posts.
  *
  * Usage:
  *   tsx lint-blog-seo.ts [--base <sha> --head <sha>] [--files file1,file2]
@@ -82,7 +82,7 @@ function markdownLinks(body: string): Array<{ text: string; href: string }> {
   }));
 }
 
-// Staging / PR-preview builds set `OD_LANDING_NOINDEX=1`, which makes
+// Staging / PR-preview builds set `SW_LANDING_NOINDEX=1`, which makes
 // `SeoHead` stamp `<meta name="robots" content="noindex, nofollow">` on every
 // page so the staging mirror stays out of the search index. The landing-page
 // CI builds with that flag set and then runs this linter against the same
@@ -90,7 +90,7 @@ function markdownLinks(body: string): Array<{ text: string; href: string }> {
 // an indexability blocker. The production build leaves the flag unset, where
 // the noindex check below is meaningful. Detect the staging build from the same
 // env var the build reads so the two stay in lock-step.
-const STAGING_NOINDEX_BUILD = process.env.OD_LANDING_NOINDEX === '1';
+const STAGING_NOINDEX_BUILD = process.env.SW_LANDING_NOINDEX === '1';
 
 function checkRendered(
   slug: string,

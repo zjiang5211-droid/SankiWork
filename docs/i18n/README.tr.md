@@ -1,19 +1,19 @@
-<h1 align="center">Open Design: Açık kaynaklı Claude Design alternatifi</h1>
+<h1 align="center">SankiWork: Açık kaynaklı Claude Design alternatifi</h1>
 
-> ⚡ **[Open Design Cloud — resmî model servisi.](https://open-design.ai/zh/pricing/)** Tek bir yüklemeyle Open Design içinde hem agent hem de görsel modelleri kullanın: agent'lar için GPT, Claude ve DeepSeek; görseller için GPT Image 2.0, Seedream 5.0 Pro ve Nano Banana 2.0.
+> ⚡ **[SankiWork Cloud — resmî model servisi.](https://sanki-ai.cloud/zh/pricing/)** Tek bir yüklemeyle SankiWork içinde hem agent hem de görsel modelleri kullanın: agent'lar için GPT, Claude ve DeepSeek; görseller için GPT Image 2.0, Seedream 5.0 Pro ve Nano Banana 2.0.
 >
-> 🚀 **[DeepSeek V4 Flash ve V4 Pro artık kullanılabilir.](https://open-design.ai/zh/pricing/)** Prototipler, sunumlar, tasarım sistemleri ve günlük agent görevlerinde üst düzey zekâyı kullanın. Open Design üyeleri her iki modeli de uygulama içinde iki hafta boyunca sınırsız kullanabilir.
+> 🚀 **[DeepSeek V4 Flash ve V4 Pro artık kullanılabilir.](https://sanki-ai.cloud/zh/pricing/)** Prototipler, sunumlar, tasarım sistemleri ve günlük agent görevlerinde üst düzey zekâyı kullanın. SankiWork üyeleri her iki modeli de uygulama içinde iki hafta boyunca sınırsız kullanabilir.
 >
-> 🧩 **[DeepSeek Harness artık destekleniyor.](https://open-design.ai/zh/agents/deepseek-harness-design/)** DeepSeek'in resmî `dsh` Agent Harness'ini yapılandırılmış düşünme, araç çağrıları, model keşfi, iptal ve oturum devam ettirme özellikleriyle Open Design'a yerel bir runtime olarak bağlayın. Üretilen dosyalar canlı önizleme ve teslimat için Open Design iş akışında kalır.
+> 🧩 **[DeepSeek Harness artık destekleniyor.](https://sanki-ai.cloud/zh/agents/deepseek-harness-design/)** DeepSeek'in resmî `dsh` Agent Harness'ini yapılandırılmış düşünme, araç çağrıları, model keşfi, iptal ve oturum devam ettirme özellikleriyle SankiWork'a yerel bir runtime olarak bağlayın. Üretilen dosyalar canlı önizleme ve teslimat için SankiWork iş akışında kalır.
 
 <p align="center">
-  <img src="https://repo-assets.open-design.ai/resources/images/hero.png" alt="Open Design hero banner" width="100%" />
+  <img src="https://repo-assets.sanki-ai.cloud/resources/images/hero.png" alt="SankiWork hero banner" width="100%" />
 </p>
 
 <p align="center">
-  <a href="https://open-design.ai/">Web Sitesi</a> ·
-  <a href="https://open-design.ai/">İndir</a> ·
-  <a href="https://open-design.ai/cloud/">Open Design Cloud</a> ·
+  <a href="https://sanki-ai.cloud/">Web Sitesi</a> ·
+  <a href="https://sanki-ai.cloud/">İndir</a> ·
+  <a href="https://sanki-ai.cloud/cloud/">SankiWork Cloud</a> ·
   <a href="https://discord.gg/mHAjSMV6gz">Discord</a> ·
   <a href="https://x.com/OpenDesignHQ">@OpenDesignHQ'yu takip et</a>
 </p>
@@ -29,11 +29,11 @@
 
 ---
 
-## Open Design nedir
+## SankiWork nedir
 
 🎨 **Yerel öncelikli, açık kaynaklı Claude Design alternatifi.** &nbsp;🖥️ **macOS ve Windows için yerel masaüstü uygulaması.** &nbsp;⚡ **100+ işlevsel beceri + ayrı render şablonu kataloğu** · ✨ **151 tasarım sistemi paketi** · 📦 **277 kullanıma hazır eklenti.** &nbsp;🖼️ **web · masaüstü · mobil prototipler**, **canlı panolar / artifact'ler**, **sunum desteleri**, **görseller**, **video** ve ayrıca **HyperFrames** hareket grafikleri üretir. 🔒 Yalıtılmış iframe önizlemesi · HTML / PDF / PPTX / MP4 dışa aktarımı. &nbsp;🤖 **Claude Code · OpenClaw · Codex · Cursor · OpenCode · Qwen · Copilot · Hermes · Kimi · Antigravity ve 25 ayrı yerel CLI yürütülebilir dosyası üzerinde** veya BYOK ile herhangi bir OpenAI uyumlu uç noktada çalışır.
 
-Open Design bu döngüyü ajanların okuyup yazabildiği bir **işlevsel beceriler, render tasarım şablonları, tasarım sistemleri ve eklentiler dosya sistemine** dönüştürür.
+SankiWork bu döngüyü ajanların okuyup yazabildiği bir **işlevsel beceriler, render tasarım şablonları, tasarım sistemleri ve eklentiler dosya sistemine** dönüştürür.
 
 Aynı zamanda **ajan çağı için Figma alternatifidir** — bir tuval üzerinde piksel itmek yerine, gerçek CSS, gerçek yazı tipleri, gerçek bileşenlerle tek sayfalık artifact'ler sunar, doğrudan HTML / PDF / PPTX / MP4 olarak dışa aktarılır — tasarım sisteminiz tarafından zaten şekillendirilmiş, her gün kullandığınız ajanın içinde zaten çalıştırılabilir halde.
 
@@ -42,7 +42,7 @@ Aynı zamanda **ajan çağı için Figma alternatifidir** — bir tuval üzerind
 
 ## Ürün turu
 
-Open Design'ın temel iş akışına hızlı bir bakış. **Home** üzerinde bir brief ile başlayın, **Plugins** içinde yeniden kullanılabilir becerileri keşfedin ve marka referanslarını bir **Design System** haline getirin. Ardından prototipleri, sunumları, mobil uygulamaları, görselleri, belgeleri ve HyperFrame'leri tek yerde oluşturmak ve geliştirmek için bir projenin **Studio** alanına girin.
+SankiWork'ın temel iş akışına hızlı bir bakış. **Home** üzerinde bir brief ile başlayın, **Plugins** içinde yeniden kullanılabilir becerileri keşfedin ve marka referanslarını bir **Design System** haline getirin. Ardından prototipleri, sunumları, mobil uygulamaları, görselleri, belgeleri ve HyperFrame'leri tek yerde oluşturmak ve geliştirmek için bir projenin **Studio** alanına girin.
 
 ### Temel sayfalar
 
@@ -108,32 +108,32 @@ Bir projenin Studio alanında konuşma, üretilen dosyalar ve canlı önizleme a
 
 ## Platform Uyumluluğu
 
-> Open Design, ana akım kodlama ajanlarının yerel olarak tükettiği **beceriler, bir CLI ve bir MCP sunucusu** olarak sunulur. OD kurulduktan sonra, tek bir `od mcp install <agent>` komutu MCP sunucusunu o ajanın yapılandırmasına bağlar ve aynı araçları herhangi bir ajanın içinden çağırırsınız.
+> SankiWork, ana akım kodlama ajanlarının yerel olarak tükettiği **beceriler, bir CLI ve bir MCP sunucusu** olarak sunulur. OD kurulduktan sonra, tek bir `sw mcp install <agent>` komutu MCP sunucusunu o ajanın yapılandırmasına bağlar ve aynı araçları herhangi bir ajanın içinden çağırırsınız.
 
 | Kodlama ajanı / platform &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Durum &nbsp;&nbsp; | Tek satırlık MCP sunucusu kurulumu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
 |---|:---:|---|
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | ✅ Destekleniyor | `od mcp install claude` |
-| [Codex CLI](https://github.com/openai/codex) | ✅ Destekleniyor | `od mcp install codex` |
-| [DeepSeek Reasonix](https://github.com/esengine/DeepSeek-Reasonix) | ✅ Destekleniyor | `od mcp install reasonix` |
-| [Raven](https://github.com/EverMind-AI/Raven) | ✅ Destekleniyor | `od mcp install raven` |
-| [Cursor](https://www.cursor.com/cli) | ✅ Destekleniyor | `od mcp install cursor` |
-| [VS Code + GitHub Copilot](https://github.com/features/copilot) | ✅ Destekleniyor | `od mcp install copilot` |
-| [GitHub Copilot CLI](https://github.com/features/copilot/cli) | ✅ Destekleniyor | `od mcp install copilot` |
-| [OpenCode](https://opencode.ai/) | ✅ Destekleniyor | `od mcp install opencode` |
-| [OpenClaw](https://github.com/openclaw/openclaw) | ✅ Destekleniyor | `od mcp install openclaw` |
-| [Antigravity](https://antigravity.google) | ✅ Destekleniyor | `od mcp install antigravity` |
-| [Cline](https://github.com/cline/cline) | ✅ Destekleniyor | `od mcp install cline` |
-| [Trae](https://www.trae.ai/) | ✅ Destekleniyor | `od mcp install trae` |
-| [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) | ✅ Destekleniyor | `od mcp install kimi` |
-| [Kiro](https://kiro.dev) | ✅ Destekleniyor | `od mcp install kiro` |
-| [Pi Agent](https://github.com/badlogic/pi-mono) | ✅ Destekleniyor | `od mcp install pi` |
-| [Mistral Vibe CLI](https://github.com/mistralai/mistral-vibe) | ✅ Destekleniyor | `od mcp install vibe` |
-| [Hermes Agent](https://github.com/nousresearch/hermes-agent) | ✅ Destekleniyor | `od mcp install hermes` |
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | ✅ Destekleniyor | `sw mcp install claude` |
+| [Codex CLI](https://github.com/openai/codex) | ✅ Destekleniyor | `sw mcp install codex` |
+| [DeepSeek Reasonix](https://github.com/esengine/DeepSeek-Reasonix) | ✅ Destekleniyor | `sw mcp install reasonix` |
+| [Raven](https://github.com/EverMind-AI/Raven) | ✅ Destekleniyor | `sw mcp install raven` |
+| [Cursor](https://www.cursor.com/cli) | ✅ Destekleniyor | `sw mcp install cursor` |
+| [VS Code + GitHub Copilot](https://github.com/features/copilot) | ✅ Destekleniyor | `sw mcp install copilot` |
+| [GitHub Copilot CLI](https://github.com/features/copilot/cli) | ✅ Destekleniyor | `sw mcp install copilot` |
+| [OpenCode](https://opencode.ai/) | ✅ Destekleniyor | `sw mcp install opencode` |
+| [OpenClaw](https://github.com/openclaw/openclaw) | ✅ Destekleniyor | `sw mcp install openclaw` |
+| [Antigravity](https://antigravity.google) | ✅ Destekleniyor | `sw mcp install antigravity` |
+| [Cline](https://github.com/cline/cline) | ✅ Destekleniyor | `sw mcp install cline` |
+| [Trae](https://www.trae.ai/) | ✅ Destekleniyor | `sw mcp install trae` |
+| [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) | ✅ Destekleniyor | `sw mcp install kimi` |
+| [Kiro](https://kiro.dev) | ✅ Destekleniyor | `sw mcp install kiro` |
+| [Pi Agent](https://github.com/badlogic/pi-mono) | ✅ Destekleniyor | `sw mcp install pi` |
+| [Mistral Vibe CLI](https://github.com/mistralai/mistral-vibe) | ✅ Destekleniyor | `sw mcp install vibe` |
+| [Hermes Agent](https://github.com/nousresearch/hermes-agent) | ✅ Destekleniyor | `sw mcp install hermes` |
 
-Kuru çalıştırma önizlemesi için `od mcp install <agent> --print` · kaldırmak için `--uninstall` · tam liste için `od mcp install --help`.
+Kuru çalıştırma önizlemesi için `sw mcp install <agent> --print` · kaldırmak için `--uninstall` · tam liste için `sw mcp install --help`.
 
 <p align="center">
-  <img src="https://repo-assets.open-design.ai/resources/images/coding-agents.png" alt="The 25 coding-agent CLIs Open Design supports — Claude Code · Codex · OpenCode · Hermes · Antigravity · Vela · Grok Build · Kimi · Cursor Agent · Qwen · Qoder · GitHub Copilot · Pi · Kiro · Kilo · Mistral Vibe · DeepSeek · Reasonix · Aider · Amp · CodeBuddy · Mimo · AtomCode · Devin · Trae" width="100%" />
+  <img src="https://repo-assets.sanki-ai.cloud/resources/images/coding-agents.png" alt="The 25 coding-agent CLIs SankiWork supports — Claude Code · Codex · OpenCode · Hermes · Antigravity · Vela · Grok Build · Kimi · Cursor Agent · Qwen · Qoder · GitHub Copilot · Pi · Kiro · Kilo · Mistral Vibe · DeepSeek · Reasonix · Aider · Amp · CodeBuddy · Mimo · AtomCode · Devin · Trae" width="100%" />
 </p>
 
 **Kurulu CLI yok mu?** `POST /api/proxy/{anthropic,openai,azure,google,ollama,senseaudio}/stream` adresindeki BYOK proxy size aynı döngüyü verir (süreç başlatma yok) — `baseUrl` + `apiKey` + `model` yapıştırın; OpenAI, Anthropic, Azure OpenAI, Google Gemini, Ollama, LM Studio, vLLM veya herhangi bir OpenAI uyumlu uç nokta desteğiyle. Hedef bazlı SSRF koruması, daemon kenarında dahili IP'leri / link-local / CGNAT adreslerini engeller.
@@ -223,7 +223,7 @@ Her deste **HTML** (tek dosya, gömülü varlıklar), **PDF** (tarayıcı yazdı
 
 ### 5 · Video ve HyperFrames — ajan-yerel hareket grafikleri
 
-**[HyperFrames][hyperframes]**, HeyGen'in açık kaynaklı, ajan-yerel video çerçevesidir ve Open Design'da birinci sınıf bir vatandaş olarak entegre edilmiştir. Ajan HTML + CSS + GSAP yazar ve HyperFrames bunu başsız Chrome + FFmpeg aracılığıyla deterministik bir MP4'e işler. Sinematik t2v / i2v için **Seedance 2.0**, yönlendirilen model varyantları için **Veo 3 / Sora 2 / Kling 2** ve ses katmanı için **Suno v5 / Lyria 2** ile eşleştirin.
+**[HyperFrames][hyperframes]**, HeyGen'in açık kaynaklı, ajan-yerel video çerçevesidir ve SankiWork'da birinci sınıf bir vatandaş olarak entegre edilmiştir. Ajan HTML + CSS + GSAP yazar ve HyperFrames bunu başsız Chrome + FFmpeg aracılığıyla deterministik bir MP4'e işler. Sinematik t2v / i2v için **Seedance 2.0**, yönlendirilen model varyantları için **Veo 3 / Sora 2 / Kling 2** ve ses katmanı için **Suno v5 / Lyria 2** ile eşleştirin.
 
 <table>
 <tr>
@@ -246,11 +246,11 @@ Her deste **HTML** (tek dosya, gömülü varlıklar), **PDF** (tarayıcı yazdı
 
 ---
 
-## Neden Open Design
+## Neden SankiWork
 
 > **Nisan 2026'da Anthropic Claude Design'ı yayınladı — bir LLM'in ilk kez düz metin yazmayı bırakıp doğrudan tasarım artifact'leri sunduğu an.** Viral oldu. Ama kapalı kaynaklı, yalnızca ücretli, yalnızca bulut tabanlı kaldı; Anthropic'in modeline, Anthropic'in becerilerine, Anthropic'in yüzeyine kilitliydi. Ödeme yok, kendi sunucunda barındırma yok, Vercel dağıtımı yok, kendi ajanını takma yok.
 
-Open Design (OD) açık kaynaklı alternatiftir. Aynı döngü, aynı artifact öncelikli zihinsel model, hiçbir bağımlılık kilidi olmadan:
+SankiWork (OD) açık kaynaklı alternatiftir. Aynı döngü, aynı artifact öncelikli zihinsel model, hiçbir bağımlılık kilidi olmadan:
 
 - 🤖 **Ajan-yerel, modelden bağımsız.** Bir ajan sunmuyoruz. `PATH`'inizde zaten bulunan `claude` / `codex` / `cursor-agent` / `copilot` / `hermes` / `kimi` tasarım motorudur. Tek tıkla değiştirin.
 - 🧠 **Varsayılan olarak marka düzeyinde.** Her render etkin paketin `DESIGN.md` dosyasını temel marka sözleşmesi olarak okur. Depoda 151 tasarım sistemi paketi bulunur; eski paketler yalnızca `DESIGN.md` içerebilir, yenileri `manifest.json`, `tokens.css`, bileşenler, varlıklar ve provenance ekleyebilir. Bir klasör bırakın, seçici onu bulur.
@@ -261,7 +261,7 @@ Open Design (OD) açık kaynaklı alternatiftir. Aynı döngü, aynı artifact �
 
 ### Karşılaştırma
 
-| | Claude Design | Figma | Lovable / v0 / Bolt | **Open Design** |
+| | Claude Design | Figma | Lovable / v0 / Bolt | **SankiWork** |
 |---|---|---|---|---|
 | Açık kaynak | ❌ | ❌ | ❌ | **✅ Apache-2.0** |
 | Kendi sunucunda barındırma / masaüstü | ❌ | ❌ | ❌ | **✅ macOS + Windows + Docker** |
@@ -278,21 +278,21 @@ Open Design (OD) açık kaynaklı alternatiftir. Aynı döngü, aynı artifact �
 
 ### 🖥️ Masaüstü uygulamasını indirin (önerilir — sıfır yapılandırma)
 
-Open Design'ı kullanmanın en hızlı yolu. Node yok, pnpm yok, klonlama yok.
+SankiWork'ı kullanmanın en hızlı yolu. Node yok, pnpm yok, klonlama yok.
 
-- **macOS** (Apple Silicon · Intel x64) → [**open-design.ai**](https://open-design.ai/) veya [GitHub Releases](https://github.com/nexu-io/open-design/releases)
-- **Windows** (x64) → [**open-design.ai**](https://open-design.ai/) veya [GitHub Releases](https://github.com/nexu-io/open-design/releases)
+- **macOS** (Apple Silicon · Intel x64) → [**sanki-ai.cloud**](https://sanki-ai.cloud/) veya [GitHub Releases](https://github.com/nexu-io/open-design/releases)
+- **Windows** (x64) → [**sanki-ai.cloud**](https://sanki-ai.cloud/) veya [GitHub Releases](https://github.com/nexu-io/open-design/releases)
 - **Linux** (AppImage, isteğe bağlı hat) → [GitHub Releases](https://github.com/nexu-io/open-design/releases)
 
 Kurulumdan sonra: uygulama `PATH`'inizdeki her kodlama ajanı CLI'sini otomatik algılar, 100+ işlevsel beceriyi, ayrı render şablonu kataloğunu ve 151 tasarım sistemi paketini yükler ve giriş görünümünde bir özet yazmanıza olanak tanır.
 
 ### 🤖 Kodlama ajanınıza kurun (UI yok)
 
-Open Design'ı GUI'yi hiç açmadan kullanabilirsiniz — Claude Code, Codex, Cursor, Copilot, OpenClaw, Antigravity, Hermes, Kimi ve daha fazlasının içinde bir beceri, eklenti veya MCP sunucusu olarak çağırın.
+SankiWork'ı GUI'yi hiç açmadan kullanabilirsiniz — Claude Code, Codex, Cursor, Copilot, OpenClaw, Antigravity, Hermes, Kimi ve daha fazlasının içinde bir beceri, eklenti veya MCP sunucusu olarak çağırın.
 
 ```bash
 # One-line install into the agent you're using:
-od mcp install <agent>
+sw mcp install <agent>
 # <agent> = claude | codex | reasonix | raven | cursor | copilot | openclaw | antigravity
 #         | pi | vibe | hermes | cline | kimi | kiro | trae | opencode
 ```
@@ -300,18 +300,18 @@ od mcp install <agent>
 Ardından, ajanın içinde:
 
 ```
-> Use open-design to generate a landing page with the Linear design system
+> Use sankiwork to generate a landing page with the Linear design system
 ```
 
-Filesystem destekli yerel CLI çalıştırmasında ajan seçilen işlevsel beceri veya tasarım şablonunu `DESIGN.md` ile birleştirir, kanonik proje dosyalarını yazar ve Open Design bunları önizler. Dosya araçları olmayan BYOK/API çalıştırması bunun yerine tek bir eksiksiz `<artifact>` bloğu döndürür.
+Filesystem destekli yerel CLI çalıştırmasında ajan seçilen işlevsel beceri veya tasarım şablonunu `DESIGN.md` ile birleştirir, kanonik proje dosyalarını yazar ve SankiWork bunları önizler. Dosya araçları olmayan BYOK/API çalıştırması bunun yerine tek bir eksiksiz `<artifact>` bloğu döndürür.
 
 ### 🐳 Docker ile çalıştırın
 
 ```bash
 git clone https://github.com/nexu-io/open-design.git
-cd open-design/deploy
+cd sankiwork/deploy
 cp .env.example .env
-echo "OD_API_TOKEN=$(openssl rand -hex 32)" >> .env
+echo "SW_API_TOKEN=$(openssl rand -hex 32)" >> .env
 docker compose up -d
 # open http://localhost:7456
 ```
@@ -320,13 +320,13 @@ docker compose up -d
 
 [![Deploy on Sealos](https://sealos.io/Deploy-on-Sealos.svg)](https://sealos.io/products/app-store/open-design/)
 
-Sealos App Store şablonu, yayımlanmış Open Design Docker imajını kalıcı çalışma alanı depolaması ve herkese açık proxy üzerinde Basic Auth ile çalıştırır. Özel herkese açık veya paylaşılan Docker dağıtımları için [`deploy/README.md`](../../deploy/README.md#local-compose) içindeki ters proxy ve `OPEN_DESIGN_ALLOWED_ORIGINS` rehberini izleyin.
+Sealos App Store şablonu, yayımlanmış SankiWork Docker imajını kalıcı çalışma alanı depolaması ve herkese açık proxy üzerinde Basic Auth ile çalıştırır. Özel herkese açık veya paylaşılan Docker dağıtımları için [`deploy/README.md`](../../deploy/README.md#local-compose) içindeki ters proxy ve `SANKIWORK_ALLOWED_ORIGINS` rehberini izleyin.
 
 ### 🧑‍💻 Kaynaktan çalıştırın
 
 ```bash
 git clone https://github.com/nexu-io/open-design.git
-cd open-design
+cd sankiwork
 corepack enable && pnpm install
 pnpm tools-dev run web
 ```
@@ -343,31 +343,31 @@ Node `~24`, pnpm `10.33.x`. Windows kullanıcıları, bkz. [`docs/windows-troubl
 2. **Bir tasarımcı (veya ajan) yönü kilitler.** Marka yok mu? 5 seçilmiş yönden birini seçin. Markanız var mı? Bir ekran görüntüsü / URL bırakın → ajan GitHub'a bağlanır, Figma'yı içe aktarır ve yeniden kullanılabilir bir `DESIGN.md` dosyasına kodlar.
 3. **Ajan ilk teslimatı oluşturur.** Filesystem destekli CLI çalıştırmaları kanonik dosyaları yazar; dosya araçsız BYOK/API çalıştırmaları eksiksiz bir `<artifact>` bloğu döndürür.
 4. **Mühendisliğe devredin.** Artifact gerçek HTML/CSS'tir — kod olarak inşa etmeye devam etmek için Cursor, Codex veya Claude Code'a bırakın. Veya doğrudan pazarlamaya PPTX / PDF / MP4 olarak dışa aktarın.
-5. **Open Design kullandıkça akıllanır.** Ekran görüntüleriniz, yazı tipleriniz, paletleriniz ve onaylanmış artifact'leriniz bir sonraki oturum için varsayılan olarak birikir. Daha az yeniden çalışma, daha az sapma.
+5. **SankiWork kullandıkça akıllanır.** Ekran görüntüleriniz, yazı tipleriniz, paletleriniz ve onaylanmış artifact'leriniz bir sonraki oturum için varsayılan olarak birikir. Daha az yeniden çalışma, daha az sapma.
 
 ---
 
-## Open Design'ı kodlama ajanınızdan kullanın
+## SankiWork'ı kodlama ajanınızdan kullanın
 
-Open Design bir **stdio MCP sunucusu** ve ajan başına **kurulum betikleri** sunar. Başka bir depodaki herhangi bir MCP uyumlu ajan, yerel Open Design projelerinizdeki dosyaları doğrudan okuyabilir — token CSS'i, JSX bileşenleri, giriş HTML'i — ada göre sorgulanabilir yapılandırılmış bir API olarak. Ajan her zaman bayatlamış bir dışa aktarımı değil, canlı dosyayı görür.
+SankiWork bir **stdio MCP sunucusu** ve ajan başına **kurulum betikleri** sunar. Başka bir depodaki herhangi bir MCP uyumlu ajan, yerel SankiWork projelerinizdeki dosyaları doğrudan okuyabilir — token CSS'i, JSX bileşenleri, giriş HTML'i — ada göre sorgulanabilir yapılandırılmış bir API olarak. Ajan her zaman bayatlamış bir dışa aktarımı değil, canlı dosyayı görür.
 
 ```bash
 # One-line install (16+ CLIs supported):
-od mcp install <agent>
+sw mcp install <agent>
 
 # Then the agent can:
-od project list --json
-od files list <project-id> --json
-od files read <project-id> <relative-path>
-od plugin list --json
-od skills list --json
+sw project list --json
+sw files list <project-id> --json
+sw files read <project-id> <relative-path>
+sw plugin list --json
+sw skills list --json
 ```
 
 **Neden MCP?** Her yinelemede bir zip dosyasını dışa aktarıp yeniden eklemek akışı bozar. MCP, tasarım kaynağını doğrudan ortaya çıkarır — ajan her zaman canlı dosyayı görür.
 
 **Sıfırdan başlayan bir ajan için,** yükleyici `~/.config/<agent>/open-design.json` dosyasını (veya platform eşdeğerini) artı kopyala-yapıştır bir MCP parçacığını yerleştirir. Cursor tek tıklık bir deeplink alır; Claude Code bir `claude mcp add-json` tek satırlık komut alır; diğer her ajan, yapılandırmasının beklediği şemada JSON alır. Ajan başına tam akış → masaüstü uygulamasında **Settings → MCP server** veya [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
 
-**Güvenlik modeli.** Varsayılan olarak salt okunur, daemon `127.0.0.1` adresine bağlanır ve SSRF, proxy kenarında engellenir. LAN erişimi açık bir `OD_BIND_HOST` artı `OD_ALLOWED_ORIGINS` gerektirir. Bağlayıcı kimlik bilgileri ve canlı artifact önizleme rotaları ne olursa olsun yalnızca loopback'te kalır.
+**Güvenlik modeli.** Varsayılan olarak salt okunur, daemon `127.0.0.1` adresine bağlanır ve SSRF, proxy kenarında engellenir. LAN erişimi açık bir `SW_BIND_HOST` artı `SW_ALLOWED_ORIGINS` gerektirir. Bağlayıcı kimlik bilgileri ve canlı artifact önizleme rotaları ne olursa olsun yalnızca loopback'te kalır.
 
 ---
 
@@ -461,27 +461,27 @@ Ayrıca topluluk eklentileri için [`plugins/community/`](../../plugins/communit
 
 ### Eklentileri kullanma
 
-Eklentiler **web UI** ve **`od` CLI** arasında tam eşitliktedir — aynı `/api/plugins` uç noktaları, hangisi uygunsa onu seçin.
+Eklentiler **web UI** ve **`sw` CLI** arasında tam eşitliktedir — aynı `/api/plugins` uç noktaları, hangisi uygunsa onu seçin.
 
 **Masaüstü / web uygulamasında:** pazar yerine göz atmak için **Plugin** sayfasını açın ve **Install**'a tıklayın; bir projenin Studio'su içinde, eklentiler tıklayarak uyguladığınız composer çipleri olarak görünür (bildirdikleri girdilerle birlikte).
 
 **Komut satırında** (UI olmadan çalışır — bu, harici ajanların kullandığı yoldur):
 
 ```bash
-od plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
-od plugin search "landing page"      # search by keyword
-od plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-od plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-od plugin apply od-default --input brief="a one-page pitch for our seed round"
-od plugin upgrade od-default         # upgrade
-od plugin uninstall od-default       # uninstall
+sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
+sw plugin search "landing page"      # search by keyword
+sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply od-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade od-default         # upgrade
+sw plugin uninstall od-default       # uninstall
 ```
 
 Her komut `--json` destekler, böylece onu `jq` / `xargs` aracılığıyla otomasyona aktarabilirsiniz.
 
 ### Bir eklenti oluşturma
 
-Bir Open Design eklentisi `open-design.json` ve türünün payload'unu gerektirir. Beceriler ve senaryolar ayrıca `SKILL.md` içerir; diğer türler kendi payload'unu kullanır:
+Bir SankiWork eklentisi `open-design.json` ve türünün payload'unu gerektirir. Beceriler ve senaryolar ayrıca `SKILL.md` içerir; diğer türler kendi payload'unu kullanır:
 
 ```
 my-plugin/
@@ -497,17 +497,17 @@ Temel alanlar `specVersion`, `name`, `version`, yalnızca Agent Skill sunulduğu
 Yerel olarak iskeletle + doğrula:
 
 ```bash
-od plugin scaffold --id my-plugin --title "My Plugin"   # generate the skeleton
-od plugin validate ./my-plugin                          # check manifest / file layout
-pnpm guard && pnpm --filter @open-design/plugin-runtime typecheck
+sw plugin scaffold --id my-plugin --title "My Plugin"   # generate the skeleton
+sw plugin validate ./my-plugin                          # check manifest / file layout
+pnpm guard && pnpm --filter @sankiwork/plugin-runtime typecheck
 ```
 
 Tam alan kümesi ve çalışma zamanı sözleşmesi → [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md); bir kodlama ajanıyla eklenti geliştirme → [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md); kopyala-yapıştır minimal şablonlar → [`plugins/spec/examples/`](../../plugins/spec/examples/).
 
 ### Bir eklentiye katkıda bulunma
 
-1. Eklenti klasörünü [`plugins/community/`](../../plugins/community/) içine (üçüncü taraf eklentiler) veya — onu Open Design ile birlikte paketlenmiş olarak sunmak için — [`plugins/_official/`](../../plugins/_official/) içindeki eşleşen katmana bırakın.
-2. Doğrulamayı geçin: `od plugin validate`, `pnpm guard`, `pnpm --filter @open-design/plugin-runtime typecheck`.
+1. Eklenti klasörünü [`plugins/community/`](../../plugins/community/) içine (üçüncü taraf eklentiler) veya — onu SankiWork ile birlikte paketlenmiş olarak sunmak için — [`plugins/_official/`](../../plugins/_official/) içindeki eşleşen katmana bırakın.
+2. Doğrulamayı geçin: `sw plugin validate`, `pnpm guard`, `pnpm --filter @sankiwork/plugin-runtime typecheck`.
 3. PR'ı [`plugins/spec/CONTRIBUTING.md`](../../plugins/spec/CONTRIBUTING.md) içindeki şablonu kullanarak doldurun (kimlik, sürüm, hat, mod, yetenekler, tetikleme örnekleri; görsel eklentiler için bir ekran görüntüsü / önizleme ekleyin).
 4. Harici bir kayda yayınlamak için (skills.sh / ClawHub / bağımsız GitHub) → [`plugins/spec/PUBLISHING-REGISTRIES.md`](../../plugins/spec/PUBLISHING-REGISTRIES.md).
 
@@ -569,12 +569,12 @@ Tam mimari → [`docs/architecture.md`](../../docs/architecture.md). Beceri prot
 - [x] Sidecar protokolü + Electron masaüstü + IPC otomasyonu
 - [x] Artifact lint API'si + 5 boyutlu öz-eleştiri ön-yayın kapısı
 - [x] **0.8.0** — eklenti pazar yeri altyapısı (261 resmî eklenti, manifest spesifikasyonu, ajan başına kurulum betikleri)
-- [x] **0.9.0** — Open Design Cloud (uygulamaya gömülü resmî Model Router: sıfır yapılandırma, tek tıkla oturum açma)
+- [x] **0.9.0** — SankiWork Cloud (uygulamaya gömülü resmî Model Router: sıfır yapılandırma, tek tıkla oturum açma)
 - [x] Paketlenmiş Electron derlemeleri — macOS (Apple Silicon + Intel) + Windows (x64) + Linux AppImage (isteğe bağlı hat)
 - [ ] Yorum modu cerrahi düzenlemeler — kısmen sunuldu; güvenilir hedefli yamalama devam ediyor
 - [ ] AI tarafından yayılan ayar paneli UX'i — henüz uygulanmadı
-- [ ] `DESIGN.md` ile bir projeyi iskeletlemek için `npx od init`
-- [ ] Plugin SDK + `od plugin {add,list,remove,test,publish}` CLI
+- [ ] `DESIGN.md` ile bir projeyi iskeletlemek için `npx sw init`
+- [ ] Plugin SDK + `sw plugin {add,list,remove,test,publish}` CLI
 - [ ] Figma / Pencil → React / Next / Vue taşıma eklentileri (alpha)
 - [ ] Mevcut kod tabanını yenileme eklentisi (bir git deposu + `DESIGN.md` dosyasına yönlendirin)
 
@@ -597,7 +597,7 @@ Her kanalın arkasında gerçek insanlar var.
 
 ## Katkıda bulunma
 
-Open Design, katkıda bulunanlar — tasarımcılar, mühendisler, komut yazarları — gelmeye devam ettiği için hareket etmeye devam ediyor. En çok kullanılan becerilerin, tasarım sistemlerinin ve eklentilerin çoğu çekirdek ekip dışındaki kişiler tarafından yazılmıştır.
+SankiWork, katkıda bulunanlar — tasarımcılar, mühendisler, komut yazarları — gelmeye devam ettiği için hareket etmeye devam ediyor. En çok kullanılan becerilerin, tasarım sistemlerinin ve eklentilerin çoğu çekirdek ekip dışındaki kişiler tarafından yazılmıştır.
 
 ### 🎯 Nereden başlamalı (maksimum kaldıraç, minimum değişiklik)
 
@@ -617,7 +617,7 @@ Open Design, katkıda bulunanlar — tasarımcılar, mühendisler, komut yazarla
 ```bash
 # 1. Boot locally
 git clone https://github.com/nexu-io/open-design.git
-cd open-design && corepack enable && pnpm install
+cd sankiwork && corepack enable && pnpm install
 pnpm tools-dev run web
 
 # 2. Find a good-first-issue and assign yourself
@@ -626,7 +626,7 @@ gh issue develop <number>   # create a branch and worktree
 
 # 3. Make the change, run the checks
 pnpm guard && pnpm typecheck
-pnpm --filter @open-design/<package> test
+pnpm --filter @sankiwork/<package> test
 
 # 4. Open the PR
 gh pr create --fill
@@ -634,9 +634,9 @@ gh pr create --fill
 
 Tam ajan dostu katkı akışı, kod stili ve PR çıtası → [`CONTRIBUTING.md`](../../CONTRIBUTING.md) ([Deutsch](CONTRIBUTING.de.md) · [Français](CONTRIBUTING.fr.md) · [简体中文](CONTRIBUTING.zh-CN.md) · [日本語](CONTRIBUTING.ja-JP.md) · [Português](CONTRIBUTING.pt-BR.md)).
 
-### 🏅 Open Design Fellow programı
+### 🏅 SankiWork Fellow programı
 
-Dünya çapında **Open Design Fellow'ları** alıyoruz — Fellow'lar ürünü çekirdek ekiple birlikte şekillendirir, kendi bölgelerinde Open Design'ı resmî olarak temsil eder ve topluluğu yerel olarak büyütür; fonlu destek ($1,000 / MR), ücretsiz LLM kredileri ve doğrudan inceleme hattıyla desteklenir. Ayrıntılar → [`MAINTAINERS.md`](../../MAINTAINERS.md) ve [Discord](https://discord.gg/mHAjSMV6gz) üzerindeki duyuru.
+Dünya çapında **SankiWork Fellow'ları** alıyoruz — Fellow'lar ürünü çekirdek ekiple birlikte şekillendirir, kendi bölgelerinde SankiWork'ı resmî olarak temsil eder ve topluluğu yerel olarak büyütür; fonlu destek ($1,000 / MR), ücretsiz LLM kredileri ve doğrudan inceleme hattıyla desteklenir. Ayrıntılar → [`MAINTAINERS.md`](../../MAINTAINERS.md) ve [Discord](https://discord.gg/mHAjSMV6gz) üzerindeki duyuru.
 
 ---
 
@@ -670,7 +670,7 @@ Bakımcı kuralları, terfi kriterleri ve çıkış protokolü → [`MAINTAINERS
 Katılan herkese teşekkürler — kod, belge, geri bildirim, keskin bir issue, yeni bir beceri, yeni bir tasarım sistemi.
 
 <a href="https://github.com/nexu-io/open-design/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=nexu-io/open-design&max=500&columns=20&anon=1&cache_bust=2026-08-04" alt="Open Design contributors" />
+  <img src="https://contrib.rocks/image?repo=nexu-io/open-design&max=500&columns=20&anon=1&cache_bust=2026-08-04" alt="SankiWork contributors" />
 </a>
 
 ---
@@ -678,7 +678,7 @@ Katılan herkese teşekkürler — kod, belge, geri bildirim, keskin bir issue, 
 ## Depo etkinliği
 
 <picture>
-  <img alt="Open Design — repository metrics" src="https://repo-assets.open-design.ai/resources/images/github-metrics.svg" />
+  <img alt="SankiWork — repository metrics" src="https://repo-assets.sanki-ai.cloud/resources/images/github-metrics.svg" />
 </picture>
 
 Yukarıdaki SVG, [`lowlighter/metrics`](https://github.com/lowlighter/metrics) kullanılarak [`.github/workflows/metrics.yml`](../../.github/workflows/metrics.yml) tarafından günlük olarak yeniden oluşturulur.
@@ -688,7 +688,7 @@ Yukarıdaki SVG, [`lowlighter/metrics`](https://github.com/lowlighter/metrics) k
 ## Bize yıldız verin
 
 <p align="center">
-  <a href="https://github.com/nexu-io/open-design"><img src="https://repo-assets.open-design.ai/resources/images/star-us.png" alt="Star Open Design on GitHub — github.com/nexu-io/open-design" width="100%" /></a>
+  <a href="https://github.com/nexu-io/open-design"><img src="https://repo-assets.sanki-ai.cloud/resources/images/star-us.png" alt="Star SankiWork on GitHub — github.com/nexu-io/open-design" width="100%" /></a>
 </p>
 
 Bu size otuz dakika kazandırdıysa, bir ★ verin. Yıldızlar kira ödemez — ama bir sonraki tasarımcıya, ajana ve katkıda bulunana bu deneyin dikkatlerine değer olduğunu söyler. Tek tıkla, üç saniyede, gerçek bir sinyal.
@@ -697,7 +697,7 @@ Bu size otuz dakika kazandırdıysa, bir ★ verin. Yıldızlar kira ödemez —
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&theme=dark&cache_bust=2026-08-04" />
     <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-08-04" />
-    <img alt="Open Design star history" src="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-08-04" />
+    <img alt="SankiWork star history" src="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-08-04" />
   </picture>
 </a>
 
@@ -715,7 +715,7 @@ Bu size otuz dakika kazandırdıysa, bir ★ verin. Yıldızlar kira ödemez —
 | [`multica-ai/multica`](https://github.com/multica-ai/multica) | Daemon + adaptör mimarisi — PATH-tarama ajan algılama, tek ayrıcalıklı süreç olarak yerel daemon. |
 | [`VoltAgent/awesome-design-md`](https://github.com/VoltAgent/awesome-design-md) | İlk 9 bölümlük `DESIGN.md` şemasının ve upstream'den türetilen 70 sistemin tarihsel kaynağı; güncel paketler bu temeli genişletebilir. |
 | [`bergside/awesome-design-skills`](https://github.com/bergside/awesome-design-skills) | `design-systems/` altına eklenen 57 tasarım becerisinin kaynağı. |
-| [`heygen-com/hyperframes`](https://github.com/heygen-com/hyperframes) | HTML→MP4 hareket grafikleri çerçevesi, Open Design'da birinci sınıf `hyperframes-html` olarak entegre edilmiştir. |
+| [`heygen-com/hyperframes`](https://github.com/heygen-com/hyperframes) | HTML→MP4 hareket grafikleri çerçevesi, SankiWork'da birinci sınıf `hyperframes-html` olarak entegre edilmiştir. |
 | [Claude Code skills][skill] | Birebir benimsediğimiz `SKILL.md` kuralı. |
 
 Ayrıntılı köken → [`docs/references.md`](../../docs/references.md).

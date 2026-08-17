@@ -1,5 +1,5 @@
 import { optional, required, writeText } from "./common.ts";
-import { releaseChannelDescriptor } from "@open-design/release";
+import { releaseChannelDescriptor } from "@sankiwork/release";
 import { readFile } from "node:fs/promises";
 
 const releaseDescriptor = releaseChannelDescriptor(required("RELEASE_CHANNEL"));

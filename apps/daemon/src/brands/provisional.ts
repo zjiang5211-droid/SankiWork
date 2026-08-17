@@ -8,7 +8,7 @@
 // downloaded logo candidates, and hands the assembled object to
 // `validateBrand` so the result is normalized and guaranteed valid.
 
-import type { Brand, BrandColor } from '@open-design/contracts';
+import type { Brand, BrandColor } from '@sankiwork/contracts';
 
 import type { LogoCandidate, PrefetchResult } from './prefetch.js';
 import { seedFromMaterial } from './seed.js';

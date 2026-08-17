@@ -61,7 +61,7 @@ async function runCli(images: string[]): Promise<{ code: number; stderr: string 
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, args, {
       cwd: daemonRoot,
-      env: { ...process.env, OD_PROJECT_ID: 'project-1' },
+      env: { ...process.env, SW_PROJECT_ID: 'project-1' },
       stdio: ['ignore', 'ignore', 'pipe'],
     });
     let stderr = '';
@@ -72,7 +72,7 @@ async function runCli(images: string[]): Promise<{ code: number; stderr: string 
   });
 }
 
-describe('od media generate repeated --image', () => {
+describe('sw media generate repeated --image', () => {
   it('posts all five images and preserves the legacy primary image field', async () => {
     const images = ['one.png', 'two.png', 'three.png', 'four.png', 'five.png'];
     const result = await runCli(images);

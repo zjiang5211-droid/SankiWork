@@ -11,7 +11,7 @@
 // real running server" pattern as tests/plugins-uninstall-traversal.test.ts,
 // plus directly seeding the `workspace_resources` binding via db.ts — the
 // same SQLite instance the running server already opened (db.ts caches one
-// instance per resolved data dir; RUNTIME_DATA_DIR / OD_DATA_DIR agree within
+// instance per resolved data dir; RUNTIME_DATA_DIR / SW_DATA_DIR agree within
 // one vitest file, so this reuses the server's own connection instead of
 // racing a second one).
 
@@ -71,13 +71,13 @@ async function seedPluginFolder(pluginId: string): Promise<string> {
     source: folder,
   });
   if (!resolved.ok) throw new Error(resolved.errors.join('; '));
-  const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+  const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
   upsertInstalledPlugin(db, resolved.record);
   return folder;
 }
 
 function bindPluginToWorkspace(pluginId: string, workspaceId: string, createdByWorkspaceMemberId: string) {
-  const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+  const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
   return ensureWorkspaceResource(db, 'plugin', workspaceId, pluginId, {
     visibility: 'personal',
     resourceState: 'active',
@@ -117,7 +117,7 @@ describe('POST /api/plugins/:id/uninstall — workspace ownership gate', () => {
     const pluginId = `wsgate-team-read-${Date.now()}`;
     await seedPluginFolder(pluginId);
     bindPluginToWorkspace(pluginId, 'ws-gate-team-read', 'member-owner');
-    const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+    const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
     updateWorkspaceResource(db, 'plugin', 'ws-gate-team-read', pluginId, {
       visibility: 'team',
     });
@@ -200,7 +200,7 @@ describe('POST /api/plugins/:id/uninstall — workspace ownership gate', () => {
     const pluginId = `wsgate-team-${Date.now()}`;
     const folder = await seedPluginFolder(pluginId);
     bindPluginToWorkspace(pluginId, 'ws-gate-5', 'member-owner');
-    const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+    const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
     updateWorkspaceResource(db, 'plugin', 'ws-gate-5', pluginId, { visibility: 'team' });
 
     const resp = await fetch(`${baseUrl}/api/plugins/${pluginId}/uninstall`, { method: 'POST' });

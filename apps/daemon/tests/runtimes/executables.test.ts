@@ -40,17 +40,17 @@ test('deepseek entry declares codewhale as a fallback bin (issue #2983)', () => 
   );
 });
 
-test('resolveAgentExecutable finds Grok Build in OD_AGENT_HOME on Windows', () => {
+test('resolveAgentExecutable finds Grok Build in SW_AGENT_HOME on Windows', () => {
   const home = mkdtempSync(join(tmpdir(), 'od-grok-build-home-'));
   try {
-    return withEnvSnapshot(['PATH', 'PATHEXT', 'OD_AGENT_HOME'], () =>
+    return withEnvSnapshot(['PATH', 'PATHEXT', 'SW_AGENT_HOME'], () =>
       withPlatform('win32', () => {
         const grok = join(home, '.grok', 'bin', 'grok.EXE');
         mkdirSync(join(home, '.grok', 'bin'), { recursive: true });
         writeFileSync(grok, '');
         process.env.PATH = '';
         process.env.PATHEXT = '.EXE';
-        process.env.OD_AGENT_HOME = home;
+        process.env.SW_AGENT_HOME = home;
 
         assert.equal(
           resolveAgentExecutable(minimalAgentDef({ id: 'grok-build', bin: 'grok' })),
@@ -73,8 +73,8 @@ fsTest(
   () => {
     const root = mkdtempSync(join(tmpdir(), 'od-amr-built-in-'));
     try {
-      return withEnvSnapshot(['PATH', 'OD_AGENT_HOME', 'OD_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], () => {
-        const resourceRoot = join(root, 'resources', 'open-design');
+      return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], () => {
+        const resourceRoot = join(root, 'resources', 'sankiwork');
         const builtInVela = join(resourceRoot, 'bin', 'vela');
         const companionTree = join(resourceRoot, 'bin', 'libexec', 'opencode');
         mkdirSync(join(resourceRoot, 'bin'), { recursive: true });
@@ -89,8 +89,8 @@ fsTest(
         writeFileSync(companionExe, '#!/bin/sh\nexit 0\n');
         chmodSync(companionExe, 0o755);
         process.env.PATH = '';
-        process.env.OD_AGENT_HOME = join(root, 'empty-home');
-        process.env.OD_RESOURCE_ROOT = resourceRoot;
+        process.env.SW_AGENT_HOME = join(root, 'empty-home');
+        process.env.SW_RESOURCE_ROOT = resourceRoot;
         delete process.env.VELA_OPENCODE_BIN;
 
         const resolved = resolveAgentExecutable(minimalAgentDef({ id: 'amr', bin: 'vela' }));
@@ -108,15 +108,15 @@ fsTest(
   () => {
     const root = mkdtempSync(join(tmpdir(), 'od-amr-built-in-no-opencode-'));
     try {
-      return withEnvSnapshot(['PATH', 'OD_AGENT_HOME', 'OD_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], () => {
-        const resourceRoot = join(root, 'resources', 'open-design');
+      return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], () => {
+        const resourceRoot = join(root, 'resources', 'sankiwork');
         const builtInVela = join(resourceRoot, 'bin', 'vela');
         mkdirSync(join(resourceRoot, 'bin'), { recursive: true });
         writeFileSync(builtInVela, '#!/bin/sh\nexit 0\n');
         chmodSync(builtInVela, 0o755);
         process.env.PATH = '';
-        process.env.OD_AGENT_HOME = join(root, 'empty-home');
-        process.env.OD_RESOURCE_ROOT = resourceRoot;
+        process.env.SW_AGENT_HOME = join(root, 'empty-home');
+        process.env.SW_RESOURCE_ROOT = resourceRoot;
         delete process.env.VELA_OPENCODE_BIN;
 
         const resolved = resolveAgentExecutable(minimalAgentDef({ id: 'amr', bin: 'vela' }));
@@ -135,7 +135,7 @@ fsTest(
     const root = mkdtempSync(join(tmpdir(), 'od-amr-selected-vela-companion-'));
     try {
       return withEnvSnapshot(
-        ['PATH', 'OD_AGENT_HOME', 'OD_RESOURCE_ROOT', 'VELA_BIN', 'VELA_OPENCODE_BIN'],
+        ['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_BIN', 'VELA_OPENCODE_BIN'],
         () => {
           const selectedBinDir = join(root, 'selected', 'bin');
           const selectedVela = join(selectedBinDir, 'vela');
@@ -158,8 +158,8 @@ fsTest(
           chmodSync(selectedCompanion, 0o755);
           chmodSync(pathWrapper, 0o755);
           process.env.PATH = pathBin;
-          process.env.OD_AGENT_HOME = join(root, 'empty-home');
-          process.env.OD_RESOURCE_ROOT = '';
+          process.env.SW_AGENT_HOME = join(root, 'empty-home');
+          process.env.SW_RESOURCE_ROOT = '';
           process.env.VELA_BIN = selectedVela;
           delete process.env.VELA_OPENCODE_BIN;
 
@@ -180,8 +180,8 @@ fsTest(
   () => {
     const root = mkdtempSync(join(tmpdir(), 'od-amr-built-in-precedence-'));
     try {
-      return withEnvSnapshot(['PATH', 'OD_AGENT_HOME', 'OD_RESOURCE_ROOT'], () => {
-        const resourceRoot = join(root, 'resources', 'open-design');
+      return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT'], () => {
+        const resourceRoot = join(root, 'resources', 'sankiwork');
         const builtInVela = join(resourceRoot, 'bin', 'vela');
         const configuredVela = join(root, 'configured', 'vela');
         mkdirSync(join(resourceRoot, 'bin'), { recursive: true });
@@ -191,8 +191,8 @@ fsTest(
         chmodSync(builtInVela, 0o755);
         chmodSync(configuredVela, 0o755);
         process.env.PATH = '';
-        process.env.OD_AGENT_HOME = join(root, 'empty-home');
-        process.env.OD_RESOURCE_ROOT = resourceRoot;
+        process.env.SW_AGENT_HOME = join(root, 'empty-home');
+        process.env.SW_RESOURCE_ROOT = resourceRoot;
 
         const resolved = resolveAgentExecutable(
           minimalAgentDef({ id: 'amr', bin: 'vela' }),
@@ -212,7 +212,7 @@ fsTest(
   () => {
     const root = mkdtempSync(join(tmpdir(), 'od-amr-env-bin-precedence-'));
     try {
-      return withEnvSnapshot(['PATH', 'OD_AGENT_HOME', 'OD_RESOURCE_ROOT', 'VELA_BIN'], () => {
+      return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_BIN'], () => {
         const pathBin = join(root, 'path-bin');
         const pathVela = join(pathBin, 'vela');
         const envVela = join(root, 'env', 'vela');
@@ -223,8 +223,8 @@ fsTest(
         chmodSync(pathVela, 0o755);
         chmodSync(envVela, 0o755);
         process.env.PATH = pathBin;
-        process.env.OD_AGENT_HOME = join(root, 'empty-home');
-        process.env.OD_RESOURCE_ROOT = '';
+        process.env.SW_AGENT_HOME = join(root, 'empty-home');
+        process.env.SW_RESOURCE_ROOT = '';
         process.env.VELA_BIN = envVela;
 
         const resolved = resolveAgentExecutable(minimalAgentDef({ id: 'amr', bin: 'vela' }));
@@ -242,15 +242,15 @@ fsTest(
   () => {
     const root = mkdtempSync(join(tmpdir(), 'od-amr-path-fallback-'));
     try {
-      return withEnvSnapshot(['PATH', 'OD_AGENT_HOME', 'OD_RESOURCE_ROOT'], () => {
+      return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT'], () => {
         const pathBin = join(root, 'path-bin');
         const pathVela = join(pathBin, 'vela');
         mkdirSync(pathBin, { recursive: true });
         writeFileSync(pathVela, '#!/bin/sh\nexit 0\n');
         chmodSync(pathVela, 0o755);
         process.env.PATH = pathBin;
-        process.env.OD_AGENT_HOME = join(root, 'empty-home');
-        process.env.OD_RESOURCE_ROOT = join(root, 'resources', 'open-design');
+        process.env.SW_AGENT_HOME = join(root, 'empty-home');
+        process.env.SW_RESOURCE_ROOT = join(root, 'resources', 'sankiwork');
 
         const resolved = resolveAgentExecutable(minimalAgentDef({ id: 'amr', bin: 'vela' }));
 
@@ -271,7 +271,7 @@ fsTest(
       writeFileSync(join(dir, 'openclaude'), '');
       chmodSync(join(dir, 'claude'), 0o755);
       chmodSync(join(dir, 'openclaude'), 0o755);
-      process.env.OD_AGENT_HOME = dir;
+      process.env.SW_AGENT_HOME = dir;
       process.env.PATH = dir;
 
       const resolved = resolveAgentExecutable(minimalAgentDef({
@@ -293,7 +293,7 @@ fsTest(
       // Only `openclaude` is installed (Claude Code fork-only setup).
       writeFileSync(join(dir, 'openclaude'), '');
       chmodSync(join(dir, 'openclaude'), 0o755);
-      process.env.OD_AGENT_HOME = dir;
+      process.env.SW_AGENT_HOME = dir;
       process.env.PATH = dir;
 
       const resolved = resolveAgentExecutable(minimalAgentDef({
@@ -312,7 +312,7 @@ fsTest(
   () => {
     const dir = mkdtempSync(join(tmpdir(), 'od-agents-resolve-'));
     try {
-      process.env.OD_AGENT_HOME = dir;
+      process.env.SW_AGENT_HOME = dir;
       process.env.PATH = dir;
 
       const resolved = resolveAgentExecutable(minimalAgentDef({
@@ -346,7 +346,7 @@ fsTest(
       mkdirSync(pathBin, { recursive: true });
       writeFileSync(join(dir, 'codex'), '');
       chmodSync(join(dir, 'codex'), 0o755);
-      process.env.OD_AGENT_HOME = home;
+      process.env.SW_AGENT_HOME = home;
       process.env.PATH = pathBin;
 
       const resolved = resolveAgentExecutable(minimalAgentDef({
@@ -394,7 +394,7 @@ fsTest(
       mkdirSync(dir, { recursive: true });
       writeFileSync(join(dir, 'gemini'), '');
       chmodSync(join(dir, 'gemini'), 0o755);
-      process.env.OD_AGENT_HOME = home;
+      process.env.SW_AGENT_HOME = home;
       // Mirror the launchd default a `.app` actually inherits — no
       // `~/.npm-global/bin`, no `/opt/homebrew/bin`, nothing user-side.
       process.env.PATH = '/usr/bin:/bin';
@@ -418,7 +418,7 @@ fsTest(
       mkdirSync(dir, { recursive: true });
       writeFileSync(join(dir, 'gemini'), '');
       chmodSync(join(dir, 'gemini'), 0o755);
-      process.env.OD_AGENT_HOME = home;
+      process.env.SW_AGENT_HOME = home;
       process.env.PATH = '/usr/bin:/bin';
 
       const resolved = resolveAgentExecutable(minimalAgentDef({ bin: 'gemini' }));
@@ -438,7 +438,7 @@ fsTest(
       mkdirSync(dir, { recursive: true });
       writeFileSync(join(dir, 'vp-cli-probe'), '');
       chmodSync(join(dir, 'vp-cli-probe'), 0o755);
-      process.env.OD_AGENT_HOME = home;
+      process.env.SW_AGENT_HOME = home;
       process.env.PATH = '/usr/bin:/bin';
 
       const resolved = resolveAgentExecutable(minimalAgentDef({ bin: 'vp-cli-probe' }));
@@ -469,7 +469,7 @@ fsTest(
   },
 );
 
-// Test isolation: when OD_AGENT_HOME points at a sandbox, an exported
+// Test isolation: when SW_AGENT_HOME points at a sandbox, an exported
 // $NPM_CONFIG_PREFIX / $npm_config_prefix on the developer's or CI
 // runner's environment must not leak a real <prefix>/bin into the
 // sandboxed search list. Otherwise an agent installed by the host
@@ -477,20 +477,20 @@ fsTest(
 // make detection tests environment-dependent. Raised in PR review on
 // #442 (review comment by @mrcfps on apps/daemon/src/agents.ts:742).
 fsTest(
-  'OD_AGENT_HOME isolates resolution from $NPM_CONFIG_PREFIX leakage',
+  'SW_AGENT_HOME isolates resolution from $NPM_CONFIG_PREFIX leakage',
   () => {
     const sandbox = mkdtempSync(join(tmpdir(), 'od-agents-sandbox-'));
     const realPrefix = mkdtempSync(join(tmpdir(), 'od-agents-real-prefix-'));
     const realPrefixBin = join(realPrefix, 'bin');
     try {
-      // Sandbox is empty — gemini does not exist under OD_AGENT_HOME.
+      // Sandbox is empty — gemini does not exist under SW_AGENT_HOME.
       // Real prefix has a gemini, simulating the developer's /opt/...
       // or ~/.npm-global install. NPM_CONFIG_PREFIX points at it.
       mkdirSync(realPrefixBin, { recursive: true });
       writeFileSync(join(realPrefixBin, 'gemini'), '');
       chmodSync(join(realPrefixBin, 'gemini'), 0o755);
 
-      process.env.OD_AGENT_HOME = sandbox;
+      process.env.SW_AGENT_HOME = sandbox;
       process.env.PATH = '/usr/bin:/bin';
       process.env.NPM_CONFIG_PREFIX = realPrefix;
 
@@ -498,7 +498,7 @@ fsTest(
       assert.equal(
         resolved,
         null,
-        `OD_AGENT_HOME sandbox must not see the real $NPM_CONFIG_PREFIX bin; ` +
+        `SW_AGENT_HOME sandbox must not see the real $NPM_CONFIG_PREFIX bin; ` +
           `got ${resolved}`,
       );
     } finally {
@@ -514,7 +514,7 @@ fsTest(
 );
 
 fsTest(
-  'OD_SANDBOX_MODE scopes fallback toolchain discovery to OD_DATA_DIR',
+  'SW_SANDBOX_MODE scopes fallback toolchain discovery to SW_DATA_DIR',
   () => {
     const dataDir = mkdtempSync(join(tmpdir(), 'od-agents-sandbox-data-'));
     const emptyPath = mkdtempSync(join(tmpdir(), 'od-agents-empty-path-'));
@@ -522,15 +522,15 @@ fsTest(
     const realPrefixBin = join(realPrefix, 'bin');
     try {
       return withEnvSnapshot(
-        ['PATH', 'OD_AGENT_HOME', 'OD_DATA_DIR', 'OD_SANDBOX_MODE', 'NPM_CONFIG_PREFIX'],
+        ['PATH', 'SW_AGENT_HOME', 'SW_DATA_DIR', 'SW_SANDBOX_MODE', 'NPM_CONFIG_PREFIX'],
         () => {
           mkdirSync(realPrefixBin, { recursive: true });
           writeFileSync(join(realPrefixBin, 'gemini'), '');
           chmodSync(join(realPrefixBin, 'gemini'), 0o755);
 
-          delete process.env.OD_AGENT_HOME;
-          process.env.OD_DATA_DIR = dataDir;
-          process.env.OD_SANDBOX_MODE = '1';
+          delete process.env.SW_AGENT_HOME;
+          process.env.SW_DATA_DIR = dataDir;
+          process.env.SW_SANDBOX_MODE = '1';
           process.env.PATH = emptyPath;
           process.env.NPM_CONFIG_PREFIX = realPrefix;
 
@@ -551,7 +551,7 @@ fsTest(
 );
 
 fsTest(
-  'OD_SANDBOX_MODE resolves relative OD_DATA_DIR before fallback toolchain discovery',
+  'SW_SANDBOX_MODE resolves relative SW_DATA_DIR before fallback toolchain discovery',
   () => {
     const projectRoot = resolve(process.cwd(), '../..');
     const parent = mkdtempSync(join(tmpdir(), 'od-agents-relative-data-parent-'));
@@ -560,17 +560,17 @@ fsTest(
     const emptyPath = mkdtempSync(join(tmpdir(), 'od-agents-empty-path-'));
     try {
       return withEnvSnapshot(
-        ['PATH', 'OD_AGENT_HOME', 'OD_DATA_DIR', 'OD_SANDBOX_MODE', 'NPM_CONFIG_PREFIX'],
+        ['PATH', 'SW_AGENT_HOME', 'SW_DATA_DIR', 'SW_SANDBOX_MODE', 'NPM_CONFIG_PREFIX'],
         () => {
           mkdirSync(sandboxBin, { recursive: true });
           const geminiPath = join(sandboxBin, 'gemini');
           writeFileSync(geminiPath, '');
           chmodSync(geminiPath, 0o755);
 
-          delete process.env.OD_AGENT_HOME;
+          delete process.env.SW_AGENT_HOME;
           delete process.env.NPM_CONFIG_PREFIX;
-          process.env.OD_DATA_DIR = relative(projectRoot, dataDir);
-          process.env.OD_SANDBOX_MODE = '1';
+          process.env.SW_DATA_DIR = relative(projectRoot, dataDir);
+          process.env.SW_SANDBOX_MODE = '1';
           process.env.PATH = emptyPath;
 
           const resolved = resolveAgentExecutable(minimalAgentDef({ bin: 'gemini' }));
@@ -585,7 +585,7 @@ fsTest(
 );
 
 fsTest(
-  'OD_AGENT_HOME isolates resolution from $VP_HOME leakage',
+  'SW_AGENT_HOME isolates resolution from $VP_HOME leakage',
   () => {
     const sandbox = mkdtempSync(join(tmpdir(), 'od-agents-vp-sandbox-'));
     const realVpHome = mkdtempSync(join(tmpdir(), 'od-agents-vp-real-home-'));
@@ -595,7 +595,7 @@ fsTest(
       writeFileSync(join(realVpBin, 'vp-cli-probe'), '');
       chmodSync(join(realVpBin, 'vp-cli-probe'), 0o755);
 
-      process.env.OD_AGENT_HOME = sandbox;
+      process.env.SW_AGENT_HOME = sandbox;
       process.env.PATH = '/usr/bin:/bin';
       process.env.VP_HOME = realVpHome;
 
@@ -603,7 +603,7 @@ fsTest(
       assert.equal(
         resolved,
         null,
-        `OD_AGENT_HOME sandbox must not see the real $VP_HOME bin; got ${resolved}`,
+        `SW_AGENT_HOME sandbox must not see the real $VP_HOME bin; got ${resolved}`,
       );
     } finally {
       rmSync(sandbox, { recursive: true, force: true });
@@ -617,13 +617,13 @@ fsTest(
 // it to PATH unless the user runs the app's "Install command line tool"
 // action. App-only installs must still be detected so the agent picker doesn't
 // show Codex as "not installed" while a healthy native binary sits in the
-// bundle. `~/Applications` honors OD_AGENT_HOME so the case stays deterministic.
+// bundle. `~/Applications` honors SW_AGENT_HOME so the case stays deterministic.
 fsTest(
   'resolveAgentExecutable finds codex inside ~/Applications/Codex.app when PATH is empty',
   () => {
     const home = mkdtempSync(join(tmpdir(), 'od-codex-app-bundle-'));
     try {
-      return withEnvSnapshot(['PATH', 'OD_AGENT_HOME', 'OD_SANDBOX_MODE', 'OD_DATA_DIR'], () =>
+      return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'], () =>
         withPlatform('darwin', () => {
           const bundleDir = join(
             home,
@@ -636,12 +636,12 @@ fsTest(
           mkdirSync(bundleDir, { recursive: true });
           writeFileSync(codexBin, '');
           chmodSync(codexBin, 0o755);
-          // resolveDetectionHome() consults OD_SANDBOX_MODE / OD_DATA_DIR
-          // before OD_AGENT_HOME, so clear them or an ambient sandbox env
-          // (dev/CI) would override `home` or throw on OD_DATA_DIR.
-          delete process.env.OD_SANDBOX_MODE;
-          delete process.env.OD_DATA_DIR;
-          process.env.OD_AGENT_HOME = home;
+          // resolveDetectionHome() consults SW_SANDBOX_MODE / SW_DATA_DIR
+          // before SW_AGENT_HOME, so clear them or an ambient sandbox env
+          // (dev/CI) would override `home` or throw on SW_DATA_DIR.
+          delete process.env.SW_SANDBOX_MODE;
+          delete process.env.SW_DATA_DIR;
+          process.env.SW_AGENT_HOME = home;
           process.env.PATH = '/usr/bin:/bin';
 
           const resolved = resolveAgentExecutable(codex);
@@ -661,7 +661,7 @@ fsTest(
   () => {
     const home = mkdtempSync(join(tmpdir(), 'od-codex-app-bundle-precedence-'));
     try {
-      return withEnvSnapshot(['PATH', 'OD_AGENT_HOME', 'OD_SANDBOX_MODE', 'OD_DATA_DIR'], () =>
+      return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'], () =>
         withPlatform('darwin', () => {
           const bundleDir = join(
             home,
@@ -682,10 +682,10 @@ fsTest(
           chmodSync(pathCodex, 0o755);
 
           // See note above: clear sandbox env so resolveDetectionHome()
-          // honors this fixture's OD_AGENT_HOME deterministically.
-          delete process.env.OD_SANDBOX_MODE;
-          delete process.env.OD_DATA_DIR;
-          process.env.OD_AGENT_HOME = home;
+          // honors this fixture's SW_AGENT_HOME deterministically.
+          delete process.env.SW_SANDBOX_MODE;
+          delete process.env.SW_DATA_DIR;
+          process.env.SW_AGENT_HOME = home;
           process.env.PATH = pathBin;
 
           const resolved = resolveAgentExecutable(codex);
@@ -705,7 +705,7 @@ fsTest(
   () => {
     const home = mkdtempSync(join(tmpdir(), 'od-codex-app-bundle-linux-'));
     try {
-      return withEnvSnapshot(['PATH', 'OD_AGENT_HOME', 'OD_SANDBOX_MODE', 'OD_DATA_DIR'], () =>
+      return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'], () =>
         withPlatform('linux', () => {
           const bundleDir = join(
             home,
@@ -718,12 +718,12 @@ fsTest(
           mkdirSync(bundleDir, { recursive: true });
           writeFileSync(codexBin, '');
           chmodSync(codexBin, 0o755);
-          // resolveDetectionHome() consults OD_SANDBOX_MODE / OD_DATA_DIR
-          // before OD_AGENT_HOME, so clear them or an ambient sandbox env
-          // (dev/CI) would override `home` or throw on OD_DATA_DIR.
-          delete process.env.OD_SANDBOX_MODE;
-          delete process.env.OD_DATA_DIR;
-          process.env.OD_AGENT_HOME = home;
+          // resolveDetectionHome() consults SW_SANDBOX_MODE / SW_DATA_DIR
+          // before SW_AGENT_HOME, so clear them or an ambient sandbox env
+          // (dev/CI) would override `home` or throw on SW_DATA_DIR.
+          delete process.env.SW_SANDBOX_MODE;
+          delete process.env.SW_DATA_DIR;
+          process.env.SW_AGENT_HOME = home;
           process.env.PATH = '/usr/bin:/bin';
 
           const resolved = resolveAgentExecutable(codex);
@@ -743,7 +743,7 @@ fsTest(
   () => {
     const home = mkdtempSync(join(tmpdir(), 'od-codex-app-bundle-id-'));
     try {
-      return withEnvSnapshot(['PATH', 'OD_AGENT_HOME', 'OD_SANDBOX_MODE', 'OD_DATA_DIR'], () =>
+      return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'], () =>
         withPlatform('darwin', () => {
           const bundleDir = join(
             home,
@@ -756,12 +756,12 @@ fsTest(
           mkdirSync(bundleDir, { recursive: true });
           writeFileSync(codexBin, '');
           chmodSync(codexBin, 0o755);
-          // resolveDetectionHome() consults OD_SANDBOX_MODE / OD_DATA_DIR
-          // before OD_AGENT_HOME, so clear them or an ambient sandbox env
-          // (dev/CI) would override `home` or throw on OD_DATA_DIR.
-          delete process.env.OD_SANDBOX_MODE;
-          delete process.env.OD_DATA_DIR;
-          process.env.OD_AGENT_HOME = home;
+          // resolveDetectionHome() consults SW_SANDBOX_MODE / SW_DATA_DIR
+          // before SW_AGENT_HOME, so clear them or an ambient sandbox env
+          // (dev/CI) would override `home` or throw on SW_DATA_DIR.
+          delete process.env.SW_SANDBOX_MODE;
+          delete process.env.SW_DATA_DIR;
+          process.env.SW_AGENT_HOME = home;
           process.env.PATH = '/usr/bin:/bin';
 
           const resolved = resolveAgentExecutable(
@@ -776,22 +776,22 @@ fsTest(
   },
 );
 
-// The fixtures above all set OD_AGENT_HOME, which scopes the probe to the
+// The fixtures above all set SW_AGENT_HOME, which scopes the probe to the
 // override home and skips the system `/Applications` path. The PR's main
 // real-world case is the no-override `/Applications/Codex.app` install, so
 // assert the candidate list directly: `/Applications/...` must be present and
 // ranked first (a path typo or ordering regression here would silently miss
-// the common case while every OD_AGENT_HOME-scoped test still passes).
+// the common case while every SW_AGENT_HOME-scoped test still passes).
 fsTest(
   'codexAppBundleCandidates probes /Applications first when no home override is set',
   () => {
     return withEnvSnapshot(
-      ['OD_AGENT_HOME', 'OD_SANDBOX_MODE', 'OD_DATA_DIR'],
+      ['SW_AGENT_HOME', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'],
       () =>
         withPlatform('darwin', () => {
-          delete process.env.OD_AGENT_HOME;
-          delete process.env.OD_SANDBOX_MODE;
-          delete process.env.OD_DATA_DIR;
+          delete process.env.SW_AGENT_HOME;
+          delete process.env.SW_SANDBOX_MODE;
+          delete process.env.SW_DATA_DIR;
 
           const candidates = codexAppBundleCandidates();
           const bundleSuffix = join(

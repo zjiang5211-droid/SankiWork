@@ -17,7 +17,7 @@
 // distinct cache partition — never an exception.
 
 import { describe, expect, it } from 'vitest';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 import {
   beginWorkspaceScopedRead,

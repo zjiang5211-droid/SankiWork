@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 
-import { releaseChannelDescriptor } from "@open-design/release";
+import { releaseChannelDescriptor } from "@sankiwork/release";
 
 import { optional, required, storageConfigFromEnv } from "../storage/common.ts";
 import { getStorageObject } from "../storage/s3-upload.ts";

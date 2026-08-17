@@ -163,15 +163,15 @@ describe('readLangfuseConfig', () => {
 });
 
 describe('readTelemetrySinkConfig', () => {
-  it('prefers the Open Design telemetry relay when configured', () => {
+  it('prefers the SankiWork telemetry relay when configured', () => {
     const cfg = readTelemetrySinkConfig({
-      OPEN_DESIGN_TELEMETRY_RELAY_URL: 'https://telemetry.open-design.ai/api/langfuse//',
+      SANKIWORK_TELEMETRY_RELAY_URL: 'https://telemetry.sanki-ai.cloud/api/langfuse//',
       LANGFUSE_PUBLIC_KEY: 'pk',
       LANGFUSE_SECRET_KEY: 'sk',
     });
     expect(cfg).toEqual({
       kind: 'relay',
-      relayUrl: 'https://telemetry.open-design.ai/api/langfuse',
+      relayUrl: 'https://telemetry.sanki-ai.cloud/api/langfuse',
       timeoutMs: 20_000,
       retries: 1,
     });
@@ -179,9 +179,9 @@ describe('readTelemetrySinkConfig', () => {
 
   it('uses relay-specific timeout and retry tuning when present', () => {
     const cfg = readTelemetrySinkConfig({
-      OPEN_DESIGN_TELEMETRY_RELAY_URL: 'https://telemetry.open-design.ai/api/langfuse',
-      OPEN_DESIGN_TELEMETRY_TIMEOUT_MS: '30000',
-      OPEN_DESIGN_TELEMETRY_RETRIES: '3',
+      SANKIWORK_TELEMETRY_RELAY_URL: 'https://telemetry.sanki-ai.cloud/api/langfuse',
+      SANKIWORK_TELEMETRY_TIMEOUT_MS: '30000',
+      SANKIWORK_TELEMETRY_RETRIES: '3',
       LANGFUSE_TIMEOUT_MS: '1',
       LANGFUSE_RETRIES: '0',
     });
@@ -194,12 +194,12 @@ describe('readTelemetrySinkConfig', () => {
 
   it('migrates the legacy self-host test relay hostname', () => {
     const cfg = readTelemetrySinkConfig({
-      OPEN_DESIGN_TELEMETRY_RELAY_URL:
-        'https://telemetry-selfhost.open-design.ai/api/langfuse',
+      SANKIWORK_TELEMETRY_RELAY_URL:
+        'https://telemetry-selfhost.sanki-ai.cloud/api/langfuse',
     });
     expect(cfg).toMatchObject({
       kind: 'relay',
-      relayUrl: 'https://telemetry-test.open-design.ai/api/langfuse',
+      relayUrl: 'https://telemetry-test.sanki-ai.cloud/api/langfuse',
     });
   });
 
@@ -219,8 +219,8 @@ describe('readRunTelemetrySinkConfig', () => {
   it('uses Vela only for completed-run telemetry when a Control Key exists', () => {
     const cfg = readRunTelemetrySinkConfig(
       {
-        OPEN_DESIGN_TELEMETRY_RELAY_URL:
-          'https://telemetry.open-design.ai/api/langfuse',
+        SANKIWORK_TELEMETRY_RELAY_URL:
+          'https://telemetry.sanki-ai.cloud/api/langfuse',
       },
       {
         VELA_CONTROL_KEY: 'ck_test',
@@ -240,16 +240,16 @@ describe('readRunTelemetrySinkConfig', () => {
   it('falls back to the anonymous resolver when Vela telemetry is disabled', () => {
     const cfg = readRunTelemetrySinkConfig(
       {
-        OPEN_DESIGN_VELA_TELEMETRY: 'off',
-        OPEN_DESIGN_TELEMETRY_RELAY_URL:
-          'https://telemetry.open-design.ai/api/langfuse',
+        SANKIWORK_VELA_TELEMETRY: 'off',
+        SANKIWORK_TELEMETRY_RELAY_URL:
+          'https://telemetry.sanki-ai.cloud/api/langfuse',
       },
       { VELA_CONTROL_KEY: 'ck_test' },
     );
 
     expect(cfg).toMatchObject({
       kind: 'relay',
-      relayUrl: 'https://telemetry.open-design.ai/api/langfuse',
+      relayUrl: 'https://telemetry.sanki-ai.cloud/api/langfuse',
     });
   });
 });
@@ -535,7 +535,7 @@ describe('buildTracePayload', () => {
     const generation = bodyOf(batch, 'generation-create', 'llm');
     expect(trace.input).toBe('Make a landing page for a coffee shop.');
     expect(generation.input).toMatchObject({
-      type: 'open-design.prompt-stack',
+      type: 'sankiwork.prompt-stack',
       redactionVersion: 'prompt-stack-redaction-v1',
       sectionCount: 3,
       sections: [
@@ -672,7 +672,7 @@ describe('buildTracePayload', () => {
       expect(trace.metadata.promptStack).toBeUndefined();
       expect(trace.metadata.promptStack_redactedContentBytes).toBe(0);
       expect(generation.input).toMatchObject({
-        type: 'open-design.prompt-stack',
+        type: 'sankiwork.prompt-stack',
         redactedContentBytes: 0,
         sections: [expect.not.objectContaining({ redactedContent: expect.any(String) })],
       });
@@ -732,7 +732,7 @@ describe('buildTracePayload', () => {
           {
             attachment_id: 'att-1',
             object_class: 'attachment',
-            storage_ref: 'od://objects/workspaces/unknown/projects/proj-1/runs/run-1/attachment/att-1',
+            storage_ref: 'sankiwork://objects/workspaces/unknown/projects/proj-1/runs/run-1/attachment/att-1',
             status: 'ok',
             project_id: 'proj-1',
             run_id: 'run-1',
@@ -740,7 +740,7 @@ describe('buildTracePayload', () => {
             size_bytes: 100,
             redacted: false,
             truncated: false,
-            stored_in_open_design: true,
+            stored_in_sankiwork: true,
             retention_policy: 'project_lifetime',
             access_scope: 'project',
             sensitivity: 'private',
@@ -754,7 +754,7 @@ describe('buildTracePayload', () => {
             artifact_id: 'art-1',
             object_class: 'artifact',
             type: 'html',
-            storage_ref: 'od://objects/workspaces/unknown/projects/proj-1/runs/run-1/artifact/art-1',
+            storage_ref: 'sankiwork://objects/workspaces/unknown/projects/proj-1/runs/run-1/artifact/art-1',
             status: 'ok',
             project_id: 'proj-1',
             run_id: 'run-1',
@@ -762,7 +762,7 @@ describe('buildTracePayload', () => {
             size_bytes: 200,
             redacted: false,
             truncated: false,
-            stored_in_open_design: true,
+            stored_in_sankiwork: true,
             retention_policy: 'project_lifetime',
             access_scope: 'project',
             sensitivity: 'private',
@@ -790,7 +790,7 @@ describe('buildTracePayload', () => {
           {
             attachment_id: 'att-1',
             object_class: 'attachment',
-            storage_ref: 'od://objects/workspaces/unknown/projects/proj-1/runs/run-1/attachment/att-1',
+            storage_ref: 'sankiwork://objects/workspaces/unknown/projects/proj-1/runs/run-1/attachment/att-1',
             status: 'ok',
             project_id: 'proj-1',
             run_id: 'run-1',
@@ -801,7 +801,7 @@ describe('buildTracePayload', () => {
             extension: 'pdf',
             redacted: false,
             truncated: false,
-            stored_in_open_design: true,
+            stored_in_sankiwork: true,
             retention_policy: 'project_lifetime',
             access_scope: 'project',
             sensitivity: 'private',
@@ -815,7 +815,7 @@ describe('buildTracePayload', () => {
             artifact_id: 'art-1',
             object_class: 'artifact',
             type: 'html',
-            storage_ref: 'od://objects/workspaces/unknown/projects/proj-1/runs/run-1/artifact/art-1',
+            storage_ref: 'sankiwork://objects/workspaces/unknown/projects/proj-1/runs/run-1/artifact/art-1',
             status: 'partial',
             reason: 'size_unavailable',
             project_id: 'proj-1',
@@ -826,7 +826,7 @@ describe('buildTracePayload', () => {
             export_status: 'available',
             redacted: false,
             truncated: false,
-            stored_in_open_design: true,
+            stored_in_sankiwork: true,
             retention_policy: 'project_lifetime',
             access_scope: 'project',
             sensitivity: 'private',
@@ -890,7 +890,7 @@ describe('buildTracePayload', () => {
       artifact_id: `art-${i}`,
       object_class: 'artifact' as const,
       type: 'html',
-      storage_ref: `od://objects/workspaces/unknown/projects/proj-1/runs/run-1/artifact/art-${i}`,
+      storage_ref: `sankiwork://objects/workspaces/unknown/projects/proj-1/runs/run-1/artifact/art-${i}`,
       status: 'ok' as const,
       project_id: 'proj-1',
       run_id: 'run-1',
@@ -898,7 +898,7 @@ describe('buildTracePayload', () => {
       size_bytes: 1,
       redacted: false,
       truncated: false,
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
       retention_policy: 'project_lifetime' as const,
       access_scope: 'project' as const,
       sensitivity: 'private' as const,
@@ -922,7 +922,7 @@ describe('buildTracePayload', () => {
     const many = Array.from({ length: 75 }, (_, i) => ({
       attachment_id: `att-${i}`,
       object_class: 'attachment' as const,
-      storage_ref: `od://objects/workspaces/unknown/projects/proj-1/runs/run-1/attachment/att-${i}`,
+      storage_ref: `sankiwork://objects/workspaces/unknown/projects/proj-1/runs/run-1/attachment/att-${i}`,
       status: 'ok' as const,
       project_id: 'proj-1',
       run_id: 'run-1',
@@ -933,7 +933,7 @@ describe('buildTracePayload', () => {
       extension: 'pdf',
       redacted: false,
       truncated: false,
-      stored_in_open_design: true,
+      stored_in_sankiwork: true,
       retention_policy: 'project_lifetime' as const,
       access_scope: 'project' as const,
       sensitivity: 'private' as const,
@@ -1063,7 +1063,7 @@ describe('buildTracePayload', () => {
       makeCtx({ extraTags: ['legacy:tag'] }),
     );
     expect((batch[0] as any).body.tags).toEqual([
-      'open-design',
+      'sankiwork',
       'project:proj-1',
       'agent:claude',
       'legacy:tag',
@@ -1089,7 +1089,7 @@ describe('buildTracePayload', () => {
       }),
     );
     expect((batch[0] as any).body.tags).toEqual([
-      'open-design',
+      'sankiwork',
       'project:proj-1',
       'agent:claude',
       'model:gpt-4o',
@@ -1382,7 +1382,7 @@ describe('buildTracePayload', () => {
           {
             attachment_id: 'att-1',
             object_class: 'attachment',
-            storage_ref: 'od://objects/workspaces/unknown/projects/proj-1/runs/run-spans/attachment/att-1',
+            storage_ref: 'sankiwork://objects/workspaces/unknown/projects/proj-1/runs/run-spans/attachment/att-1',
             status: 'ok',
             project_id: 'proj-1',
             run_id: 'run-spans',
@@ -1393,7 +1393,7 @@ describe('buildTracePayload', () => {
             extension: 'pdf',
             redacted: false,
             truncated: false,
-            stored_in_open_design: true,
+            stored_in_sankiwork: true,
             retention_policy: 'project_lifetime',
             access_scope: 'project',
             sensitivity: 'private',
@@ -1886,7 +1886,7 @@ describe('reportRunCompleted', () => {
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [url, init] = fetchSpy.mock.calls[0]!;
-    expect(url).toBe('https://vela.example.test/api/v1/open-design/telemetry');
+    expect(url).toBe('https://vela.example.test/api/v1/sankiwork/telemetry');
     expect(init.headers.Authorization).toBe('Bearer ck_secret');
     expect(init.headers['Idempotency-Key']).toMatch(/^[a-f0-9]{64}$/);
     const envelope = JSON.parse(init.body);
@@ -1960,8 +1960,8 @@ describe('reportRunCompleted', () => {
 
   it('falls back anonymously on an explicit Vela auth rejection', async () => {
     vi.stubEnv(
-      'OPEN_DESIGN_TELEMETRY_RELAY_URL',
-      'https://telemetry.open-design.ai/api/langfuse',
+      'SANKIWORK_TELEMETRY_RELAY_URL',
+      'https://telemetry.sanki-ai.cloud/api/langfuse',
     );
     const fetchSpy = vi
       .fn()
@@ -1985,16 +1985,16 @@ describe('reportRunCompleted', () => {
     );
 
     expect(fetchSpy.mock.calls.map((call) => call[0])).toEqual([
-      'https://vela.example.test/api/v1/open-design/telemetry',
-      'https://telemetry.open-design.ai/api/langfuse',
+      'https://vela.example.test/api/v1/sankiwork/telemetry',
+      'https://telemetry.sanki-ai.cloud/api/langfuse',
     ]);
     expect(result.langfuse_delivery_status).toBe('accepted');
   });
 
   it('does not anonymously overwrite a throttled Vela delivery', async () => {
     vi.stubEnv(
-      'OPEN_DESIGN_TELEMETRY_RELAY_URL',
-      'https://telemetry.open-design.ai/api/langfuse',
+      'SANKIWORK_TELEMETRY_RELAY_URL',
+      'https://telemetry.sanki-ai.cloud/api/langfuse',
     );
     const fetchSpy = vi.fn().mockResolvedValue(new Response('', { status: 429 }));
 
@@ -2183,10 +2183,10 @@ describe('reportRunCompleted', () => {
     expect(JSON.stringify(batch)).not.toContain('sk-raw');
   });
 
-  it('POSTs serialized ingestion batches to the Open Design telemetry relay', async () => {
+  it('POSTs serialized ingestion batches to the SankiWork telemetry relay', async () => {
     const relayConfig: TelemetrySinkConfig = {
       kind: 'relay',
-      relayUrl: 'https://telemetry.open-design.ai/api/langfuse',
+      relayUrl: 'https://telemetry.sanki-ai.cloud/api/langfuse',
       timeoutMs: 20_000,
       retries: 0,
     };
@@ -2206,11 +2206,11 @@ describe('reportRunCompleted', () => {
     const call = fetchSpy.mock.calls[0]!;
     const url = call[0] as string;
     const init = call[1] as RequestInit & { headers: Record<string, string> };
-    expect(url).toBe('https://telemetry.open-design.ai/api/langfuse');
+    expect(url).toBe('https://telemetry.sanki-ai.cloud/api/langfuse');
     expect(init.method).toBe('POST');
     expect(init.headers.Authorization).toBeUndefined();
     expect(init.headers['Content-Type']).toBe('application/json');
-    expect(init.headers['X-Open-Design-Telemetry']).toBe('langfuse-ingestion-v1');
+    expect(init.headers['X-SankiWork-Telemetry']).toBe('langfuse-ingestion-v1');
     const body = JSON.parse(init.body as string);
     expect(Array.isArray(body.batch)).toBe(true);
     expect(result).toEqual({
@@ -2222,7 +2222,7 @@ describe('reportRunCompleted', () => {
   it('warns when the relay returns per-event errors', async () => {
     const relayConfig: TelemetrySinkConfig = {
       kind: 'relay',
-      relayUrl: 'https://telemetry.open-design.ai/api/langfuse',
+      relayUrl: 'https://telemetry.sanki-ai.cloud/api/langfuse',
       timeoutMs: 20_000,
       retries: 0,
     };
@@ -2255,7 +2255,7 @@ describe('reportRunCompleted', () => {
   it('classifies relay 413 responses as relay_413', async () => {
     const relayConfig: TelemetrySinkConfig = {
       kind: 'relay',
-      relayUrl: 'https://telemetry.open-design.ai/api/langfuse',
+      relayUrl: 'https://telemetry.sanki-ai.cloud/api/langfuse',
       timeoutMs: 20_000,
       retries: 0,
     };
@@ -2281,7 +2281,7 @@ describe('reportRunCompleted', () => {
   it('classifies relay 5xx responses as relay_5xx', async () => {
     const relayConfig: TelemetrySinkConfig = {
       kind: 'relay',
-      relayUrl: 'https://telemetry.open-design.ai/api/langfuse',
+      relayUrl: 'https://telemetry.sanki-ai.cloud/api/langfuse',
       timeoutMs: 20_000,
       retries: 0,
     };
@@ -2327,7 +2327,7 @@ describe('reportRunCompleted', () => {
   it('classifies relay per-event 429s separately from generic 4xx', async () => {
     const relayConfig: TelemetrySinkConfig = {
       kind: 'relay',
-      relayUrl: 'https://telemetry.open-design.ai/api/langfuse',
+      relayUrl: 'https://telemetry.sanki-ai.cloud/api/langfuse',
       timeoutMs: 20_000,
       retries: 0,
     };
@@ -2614,15 +2614,15 @@ describe('reportRunFeedback', () => {
   });
 
   it('posts feedback scores to Vela when completed-run telemetry uses Vela', async () => {
-    // tests/setup.ts defaults OPEN_DESIGN_VELA_TELEMETRY to 'off' so unit
+    // tests/setup.ts defaults SANKIWORK_VELA_TELEMETRY to 'off' so unit
     // tests never route through a developer's real Vela profile; this test
     // exercises exactly that sink, so opt back in explicitly.
-    vi.stubEnv('OPEN_DESIGN_VELA_TELEMETRY', 'on');
+    vi.stubEnv('SANKIWORK_VELA_TELEMETRY', 'on');
     vi.stubEnv('VELA_CONTROL_KEY', 'ck_secret');
     vi.stubEnv('VELA_API_URL', 'https://vela.example.test');
     vi.stubEnv(
-      'OPEN_DESIGN_TELEMETRY_RELAY_URL',
-      'https://telemetry.open-design.ai/api/langfuse',
+      'SANKIWORK_TELEMETRY_RELAY_URL',
+      'https://telemetry.sanki-ai.cloud/api/langfuse',
     );
     const fetchSpy = vi.fn().mockResolvedValue(new Response(
       JSON.stringify({
@@ -2643,7 +2643,7 @@ describe('reportRunFeedback', () => {
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [url, init] = fetchSpy.mock.calls[0]!;
-    expect(url).toBe('https://vela.example.test/api/v1/open-design/telemetry');
+    expect(url).toBe('https://vela.example.test/api/v1/sankiwork/telemetry');
     expect(init.headers.Authorization).toBe('Bearer ck_secret');
     const envelope = JSON.parse(init.body);
     expect(envelope.installationId).toBe('install-uuid-1');
@@ -2667,12 +2667,12 @@ describe('reportRunFeedback', () => {
 
   it('does not fall back anonymously when Vela rejects feedback auth', async () => {
     // Same opt-in as above: the setup default keeps the Vela sink off.
-    vi.stubEnv('OPEN_DESIGN_VELA_TELEMETRY', 'on');
+    vi.stubEnv('SANKIWORK_VELA_TELEMETRY', 'on');
     vi.stubEnv('VELA_CONTROL_KEY', 'ck_expired');
     vi.stubEnv('VELA_API_URL', 'https://vela.example.test');
     vi.stubEnv(
-      'OPEN_DESIGN_TELEMETRY_RELAY_URL',
-      'https://telemetry.open-design.ai/api/langfuse',
+      'SANKIWORK_TELEMETRY_RELAY_URL',
+      'https://telemetry.sanki-ai.cloud/api/langfuse',
     );
     const fetchSpy = vi.fn().mockResolvedValue(new Response('', { status: 401 }));
 
@@ -2683,7 +2683,7 @@ describe('reportRunFeedback', () => {
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     expect(fetchSpy.mock.calls[0]![0]).toBe(
-      'https://vela.example.test/api/v1/open-design/telemetry',
+      'https://vela.example.test/api/v1/sankiwork/telemetry',
     );
   });
 

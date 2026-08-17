@@ -1,4 +1,4 @@
-import type { AmrWalletSnapshot } from '@open-design/contracts';
+import type { AmrWalletSnapshot } from '@sankiwork/contracts';
 import { fetchVelaLoginStatus } from '../providers/daemon';
 
 const PAID_AMR_PLANS = new Set(['plus', 'pro', 'max']);

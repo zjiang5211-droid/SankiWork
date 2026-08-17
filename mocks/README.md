@@ -7,10 +7,10 @@ the AMR `vela` CLI) that replays pre-recorded sessions in each CLI's
 native protocol — stdout streaming for most, JSON-RPC over stdio for
 ACP and AMR. **Zero LLM tokens.**
 
-Some wrappers cover registered Open Design runtimes; others are retained
+Some wrappers cover registered SankiWork runtimes; others are retained
 legacy protocol fixtures, and this set is not an exhaustive mirror of
 `apps/daemon/src/runtimes/registry.ts`. In particular, `gemini` is retained as
-a parser/replay fixture and is not a registered Open Design runtime.
+a parser/replay fixture and is not a registered SankiWork runtime.
 
 Used by:
 
@@ -24,7 +24,7 @@ Used by:
 - **Regression harness** — replay the same trace before and after a
   charter / parser change; diff the events the daemon surfaces.
 
-The recordings are anonymized exports from open-design's Langfuse
+The recordings are anonymized exports from sankiwork's Langfuse
 project (179 traces across 9 agents and 5+ skills as of this commit).
 
 ---
@@ -40,10 +40,10 @@ bash mocks/scripts/fetch-recordings.sh
 export PATH="$PWD/mocks/bin:$PATH"
 
 # Pick any recording to play back (8-char prefix OK):
-export OD_MOCKS_TRACE=04097377
+export SW_MOCKS_TRACE=04097377
 
 # Speed up replay (skip inter-event sleeps):
-export OD_MOCKS_NO_DELAY=1
+export SW_MOCKS_NO_DELAY=1
 
 # Now anything that spawns opencode/claude/codex gets the recording:
 echo "any prompt body" | opencode run
@@ -59,7 +59,7 @@ mode below).
 ## Recordings live on R2, not in this repo
 
 The 179-recording corpus (~4.5 MB) is hosted on Cloudflare R2 at
-`open-design-mocks` and fetched **on demand** — `pnpm install` does NOT
+`sankiwork-mocks` and fetched **on demand** — `pnpm install` does NOT
 pull them, and the repo stays small. Recordings only land in
 `mocks/recordings/` when:
 
@@ -84,7 +84,7 @@ bash mocks/scripts/fetch-recordings.sh --outcome failed     # 35 failed-path tra
 bash mocks/scripts/fetch-recordings.sh --skill agent-browser
 
 # Override cache location (e.g. share across multiple OD checkouts):
-OD_MOCKS_CACHE_DIR=~/.cache/od-mocks bash mocks/scripts/fetch-recordings.sh
+SW_MOCKS_CACHE_DIR=~/.cache/od-mocks bash mocks/scripts/fetch-recordings.sh
 ```
 
 Manifest at `mocks/manifest.json` is the committed source of truth —
@@ -115,7 +115,7 @@ re-harvest.
 
 `mocks/golden/<trace>.events.json` holds the exact event sequence the
 OD daemon emits when fed each (mock CLI → handler) pipeline. Diffed
-on every `pnpm --filter @open-design/daemon test` run by
+on every `pnpm --filter @sankiwork/daemon test` run by
 `apps/daemon/tests/mocks-golden.test.ts`.
 
 A parser refactor that semantically changes events (drops a field,
@@ -123,7 +123,7 @@ renames `sessionId`, stops emitting `turn_end`) fails the diff loudly.
 After an intentional parser change, regenerate:
 
 ```bash
-MOCKS_GOLDEN_UPDATE=1 pnpm --filter @open-design/daemon test mocks-golden
+MOCKS_GOLDEN_UPDATE=1 pnpm --filter @sankiwork/daemon test mocks-golden
 git diff mocks/golden/    # eyeball the new shapes
 git add mocks/golden/ && git commit -m "mocks: refresh goldens for <parser change>"
 ```
@@ -181,7 +181,7 @@ replay gaps:
 > current generic ACP mock emits only message-chunk text, so it does not cover
 > that part of the live contract.
 
-> **Note on `kimi`**: Open Design's registered runtime now launches `kimi acp`
+> **Note on `kimi`**: SankiWork's registered runtime now launches `kimi acp`
 > and uses ACP JSON-RPC. The current `mocks/bin/kimi` replay wrapper still
 > models the retired prompt-mode stream-json contract; do not treat it as live
 > Kimi contract coverage until the wrapper and its smoke test are migrated.
@@ -219,12 +219,12 @@ Driven by env vars, in priority order:
 
 | Env | Behavior |
 |---|---|
-| `OD_MOCKS_TRACE=<id>` | Always play this trace. 8-char prefix OK. |
-| `OD_MOCKS_BY_PROMPT_HASH=1` + stdin prompt | Deterministic by `sha256(prompt) % len(all)`. Same prompt → same trace. Useful for "stable answer per question" tests. |
-| `OD_MOCKS_POOL=<tag>` | Random within the tag pool. Examples: `agent:claude`, `skill:agent-browser`, `outcome:failed`. |
-| `OD_MOCKS_SEED=<str>` | Makes "random" picks reproducible across runs. |
-| `OD_MOCKS_NO_DELAY=1` | Skip inter-event waits. |
-| `OD_MOCKS_RECORDINGS_DIR=<path>` | Override the recordings dir. |
+| `SW_MOCKS_TRACE=<id>` | Always play this trace. 8-char prefix OK. |
+| `SW_MOCKS_BY_PROMPT_HASH=1` + stdin prompt | Deterministic by `sha256(prompt) % len(all)`. Same prompt → same trace. Useful for "stable answer per question" tests. |
+| `SW_MOCKS_POOL=<tag>` | Random within the tag pool. Examples: `agent:claude`, `skill:agent-browser`, `outcome:failed`. |
+| `SW_MOCKS_SEED=<str>` | Makes "random" picks reproducible across runs. |
+| `SW_MOCKS_NO_DELAY=1` | Skip inter-event waits. |
+| `SW_MOCKS_RECORDINGS_DIR=<path>` | Override the recordings dir. |
 
 If none are set, a uniformly random recording is played each invocation.
 
@@ -255,7 +255,7 @@ The recordings live as one JSONL file per Langfuse trace under
   "tool_call_count": 17,
   "error_count": 0,
   "total_tokens": 12345,
-  "tags": ["agent:claude", "skill:agent-browser", "open-design", ...],
+  "tags": ["agent:claude", "skill:agent-browser", "sankiwork", ...],
   "user_input": "...",
   "session_id": "..."
 }
@@ -368,17 +368,17 @@ etc. The .jsonl itself stays in R2.
 ```bash
 # 1. delete from R2
 export CLOUDFLARE_ACCOUNT_ID=64ad4569ffd912432d6b86d5656484c4
-wrangler r2 object delete open-design-mocks/recordings/v1/<trace-id>.jsonl --remote
+wrangler r2 object delete sankiwork-mocks/recordings/v1/<trace-id>.jsonl --remote
 # 2. drop the entry from manifest.json (edit by hand, or use `jq`)
 # 3. re-upload manifest
-wrangler r2 object put open-design-mocks/recordings/v1/manifest.json \
+wrangler r2 object put sankiwork-mocks/recordings/v1/manifest.json \
   --file mocks/manifest.json --remote
 # 4. git add mocks/manifest.json && git commit && git push
 ```
 
 There's no automation for delete because (a) it's rare and (b) you
 want a human to think about whether removing a recording would
-invalidate any test fixtures that pin it via `OD_MOCKS_TRACE=<id>`.
+invalidate any test fixtures that pin it via `SW_MOCKS_TRACE=<id>`.
 
 ---
 
@@ -397,8 +397,8 @@ it('parses an opencode session with 4 tool calls into 4 UI events', async () => 
     env: {
       ...process.env,
       PATH: `${MOCK_BIN}:${process.env.PATH}`,
-      OD_MOCKS_TRACE: '06a9324a',   // 4-tool claude session
-      OD_MOCKS_NO_DELAY: '1',
+      SW_MOCKS_TRACE: '06a9324a',   // 4-tool claude session
+      SW_MOCKS_NO_DELAY: '1',
     },
     stdio: ['pipe', 'pipe', 'pipe'],
   });
@@ -413,8 +413,8 @@ it('parses an opencode session with 4 tool calls into 4 UI events', async () => 
 ```bash
 # See what claude's 17-tool "delete v2" session emits to OD:
 export PATH=$(git rev-parse --show-toplevel)/mocks/bin:$PATH
-export OD_MOCKS_TRACE=04097377
-export OD_MOCKS_NO_DELAY=1
+export SW_MOCKS_TRACE=04097377
+export SW_MOCKS_NO_DELAY=1
 echo "anything" | claude -p --output-format=stream-json | jq .type | uniq -c
 ```
 
@@ -481,8 +481,8 @@ under any Node ≥18.
 
 ## Provenance / safety
 
-All recordings come from open-design's own Langfuse project (the
-`open-design` project under the `powerformer` org). Users opted into
+All recordings come from sankiwork's own Langfuse project (the
+`sankiwork` project under the `powerformer` org). Users opted into
 telemetry when they installed the desktop client. The anonymizer
 removed user-identifying paths and project UUIDs before checking in.
 

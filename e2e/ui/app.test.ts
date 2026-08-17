@@ -15,7 +15,7 @@ import { T } from '@/timeouts';
 import { automatedUiScenarios } from '@/playwright/resources';
 import type { UiScenario } from '@/playwright/resources';
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'sankiwork:config';
 const ACTIVE_ARTIFACT_PREVIEW_SELECTOR = '[data-testid="artifact-preview-frame"]:visible, [data-testid="artifact-preview-frame-url-load"]:visible, [data-testid="artifact-preview-frame-srcdoc"]:visible, [data-testid="live-artifact-preview-frame"]:visible';
 const APP_OWNED_SCENARIO_FLOWS = new Set([
   'design-files-upload',
@@ -488,7 +488,7 @@ async function seedHtmlArtifact(
   expect(resp.ok()).toBeTruthy();
 }
 
-async function openDesignFile(page: Page, fileName: string) {
+async function sankiWorkFile(page: Page, fileName: string) {
   const tab = tabBySuffix(page, fileName);
   if (await tab.isVisible().catch(() => false)) {
     if ((await tab.getAttribute('aria-selected')) !== 'true') await tab.click();
@@ -1139,7 +1139,7 @@ async function clickVisible(locator: Locator) {
 async function gotoEntryHome(page: Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await waitForLoadingToClear(page);
-  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve Open Design' });
+  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve SankiWork' });
   if (await privacyDialog.isVisible()) {
     await privacyDialog.getByRole('button', { name: /I get it|not now|got it|don't share/i }).click();
     await expect(privacyDialog).toHaveCount(0);
@@ -1153,7 +1153,7 @@ async function openNewProjectModal(page: Page) {
 }
 
 async function waitForLoadingToClear(page: Page) {
-  await page.getByText('Loading Open Design…').waitFor({ state: 'hidden', timeout: T.long });
+  await page.getByText('Loading SankiWork…').waitFor({ state: 'hidden', timeout: T.long });
 }
 
 async function getCurrentProjectContext(

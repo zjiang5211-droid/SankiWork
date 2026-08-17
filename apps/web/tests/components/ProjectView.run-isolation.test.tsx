@@ -12,7 +12,7 @@ import {
 import { ProjectConversationsHttpError } from '../../src/state/projects';
 import type { SettingsSection } from '../../src/components/SettingsDialog';
 import type { ProjectWorkspaceScopeState } from '../../src/collab/useProjectWorkspaceScope';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import type { AmrAuthRetryContinuation } from '../../src/runtime/amr-auth-retry-continuation';
 import type {
   AgentInfo,
@@ -1036,7 +1036,7 @@ describe('ProjectView conversation run isolation', () => {
     },
   );
 
-  // An Open Design Cloud run is billed to the CALLER's own wallet. The gate must
+  // An SankiWork Cloud run is billed to the CALLER's own wallet. The gate must
   // therefore ask about the caller's identity, not about this project's
   // workspace scope — a project whose scope is unresolved says nothing about
   // whether the signed-in user can pay, and holding the send closed there just
@@ -3082,13 +3082,13 @@ describe('ProjectView conversation run isolation', () => {
         if (streamViaDaemon.mock.calls.length > 1) return;
         options.onRunCreated?.('run-amr-balance');
         const error = new Error(
-          'AMR Cloud reported insufficient balance for this model. Top up your AMR balance at https://open-design.ai/amr/dashboard, then retry this run.',
+          'AMR Cloud reported insufficient balance for this model. Top up your AMR balance at https://sanki-ai.cloud/amr/dashboard, then retry this run.',
         ) as Error & { code: string; details: unknown };
         error.code = 'AMR_INSUFFICIENT_BALANCE';
         error.details = {
           kind: 'amr_account',
           action: 'recharge',
-          actionUrl: 'https://open-design.ai/amr/dashboard',
+          actionUrl: 'https://sanki-ai.cloud/amr/dashboard',
         };
         options.handlers.onError(error);
       },

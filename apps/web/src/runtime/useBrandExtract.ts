@@ -9,7 +9,7 @@
 // coarse status the New Brand modal / onboarding step render.
 
 import { useCallback, useRef, useState } from 'react';
-import type { BrandExtractStartResponse, BrandStatus, WorkspaceCollabContext } from '@open-design/contracts';
+import type { BrandExtractStartResponse, BrandStatus, WorkspaceCollabContext } from '@sankiwork/contracts';
 import { useI18n } from '../i18n';
 import { workspaceProjectHeaders } from '../state/projects';
 

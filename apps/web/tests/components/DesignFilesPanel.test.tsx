@@ -470,7 +470,7 @@ describe("DesignFilesPanel selection", () => {
       const { container } = renderPanel([
         file({
           name: "alpha.html",
-          localPath: "/tmp/open-design/projects/test-project/alpha.html",
+          localPath: "/tmp/sankiwork/projects/test-project/alpha.html",
         }),
       ]);
 
@@ -481,7 +481,7 @@ describe("DesignFilesPanel selection", () => {
 
       await waitFor(() => {
         expect(writeText).toHaveBeenCalledWith(
-          "/tmp/open-design/projects/test-project/alpha.html",
+          "/tmp/sankiwork/projects/test-project/alpha.html",
         );
       });
       // The panel has no detail pane — copying a path never opens one.

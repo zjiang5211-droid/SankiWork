@@ -14,7 +14,7 @@ Status: proposed · Parent: #3408 · Related: #3380, #3535 · Spec format: `spec
 - **Repo**: `nexu-io/open-design`. This spec is on branch `spec/agent-startup-latency` (PR #4504); the **code to verify is in `origin/main`**.
 - **Checkout**:
   ```
-  gh repo clone nexu-io/open-design && cd open-design && git checkout main
+  gh repo clone nexu-io/open-design && cd sankiwork && git checkout main
   # To view this spec: gh pr checkout 4504
   ```
 - **Key code locations** (reviewers can jump directly):
@@ -29,7 +29,7 @@ Status: proposed · Parent: #3408 · Related: #3380, #3535 · Spec format: `spec
     - `apps/web/src/providers/daemon.ts:222-235` — `buildDaemonTranscript` renders each message only as `## role\n{m.content}`, **dropping `m.events`** (thinking/tool_use/tool_result); conditionally inserts `buildPriorRunContextWarning` at the beginning (:87). `MAX_TRANSCRIPT_MESSAGE_CHARS=12000` (:56).
     - vela-side `loadSession:false` / single ACP session is in the **vela repo** (not verifiable in this repo; see Open questions).
 - **Related material**: #3408 (umbrella), #3380 (Claude creates a new session for every message instead of resuming), PR #3535 (reuse ACP sessions per conversation, by another author), PR #4502 (classification sibling on the same thread).
-- **Data source**: PostHog project **OpenDesign = 420348**, timing fields on the `run_finished` event. The two tables in this spec come from the following queries (rolling 7d, `result='success'`):
+- **Data source**: PostHog project **SankiWork = 420348**, timing fields on the `run_finished` event. The two tables in this spec come from the following queries (rolling 7d, `result='success'`):
   - segment p50/p90: `quantile(...)(toFloat(properties.<seg>_ms))` group by `agent_provider_id`.
   - turn ordinal: `row_number() OVER (PARTITION BY conversation_id ORDER BY timestamp)`, bucketed by turn=1 vs 2+ and comparing `time_to_first_token_ms`.
 - **Access prerequisites**: Rerunning queries requires a PostHog personal API key (`phx_…`); inspecting real errors on individual traces can optionally use Langfuse `us.cloud.langfuse.com` (trace_id == run.id).
@@ -70,7 +70,7 @@ Why are cache hit rate low and follow-up turns not faster? Three structural prob
 The only thing that might survive is the flattened transcript text (append-only), but a hit requires: ① the daemon freezes the volatile system blocks ahead of it (problem 1) so the prefix is byte-stable across turns, and ② the request still falls within TTL (problem 3). The gateway side is **already handled** — the AMR spec ground-checked that Vela Link injects `cache_control` itself (`bifrostengine/prompt_cache.go`), so there is **no ACP passthrough condition to satisfy**; the only gateway-side gap is TTL/provider coverage, which folds into ②. Today ① is not done and ② defaults to 5min, so the transcript prefix does not hit cross-turn.
 
 ### Experiment source (honest labels)
-- ✅ **Real production client**: cache hit/miss TTFT and cross-turn hit rate above come from PostHog `run_finished` (real Open Design client telemetry).
+- ✅ **Real production client**: cache hit/miss TTFT and cross-turn hit rate above come from PostHog `run_finished` (real SankiWork client telemetry).
 - ✅ **Latest origin/main code verification**: all three Root cause points were checked against real code.
 - ❌ **Invalidated**: an early local bare `claude -p` setup/model breakdown **did not go through the daemon** and does not represent the real path; discarded. Real subsegment breakdown must be measured inside the daemon by Phase 1 instrumentation.
 
@@ -124,7 +124,7 @@ Three phases, **observe first, then use data to decide what to fix**:
 
 ## Reproduction · Reproduce experimental data (where the numbers came from)
 
-All table numbers are reproducible. PostHog project **OpenDesign = 420348**, personal API key required (`phx_…`), `POST https://us.posthog.com/api/projects/420348/query/`, body `{"query":{"kind":"HogQLQuery","query":"<SQL>"}}`. HogQL pitfalls: numeric fields use `toFloat(properties.x)` (not `toFloat64OrNull`); null filtering uses `isNull(...)` (`empty()` fails on JSON null); P90 uses `quantile(0.9)(...)`; cross-turn uses `row_number() OVER (PARTITION BY properties.conversation_id ORDER BY timestamp)`. Window is always `result='success' AND timestamp >= now()-INTERVAL 7 DAY`.
+All table numbers are reproducible. PostHog project **SankiWork = 420348**, personal API key required (`phx_…`), `POST https://us.posthog.com/api/projects/420348/query/`, body `{"query":{"kind":"HogQLQuery","query":"<SQL>"}}`. HogQL pitfalls: numeric fields use `toFloat(properties.x)` (not `toFloat64OrNull`); null filtering uses `isNull(...)` (`empty()` fails on JSON null); P90 uses `quantile(0.9)(...)`; cross-turn uses `row_number() OVER (PARTITION BY properties.conversation_id ORDER BY timestamp)`. Window is always `result='success' AND timestamp >= now()-INTERVAL 7 DAY`.
 
 - **Startup timing segment table**: `SELECT properties.agent_provider_id AS prov, round(quantile(0.5)(toFloat(properties.queue_duration_ms))) AS queue, ...(pre_spawn_duration_ms / process_spawn_duration_ms / spawn_to_first_token_ms / time_to_first_token_ms)..., round(quantile(0.9)(toFloat(properties.time_to_first_token_ms))) AS ttft_p90 FROM events WHERE event='run_finished' AND properties.result='success' AND properties.agent_provider_id IN ('amr','claude_code') AND timestamp >= now()-INTERVAL 7 DAY GROUP BY prov`
 - **Cross-turn TTFT per provider (reproduces the turn-1 vs turn-2+ table above)** — note the `prov` group-by, so each provider gets its own row (without it the result collapses to one combined bucket and the per-provider numbers cannot be verified): `WITH o AS (SELECT properties.agent_provider_id AS prov, toFloat(properties.time_to_first_token_ms) AS ttft, row_number() OVER (PARTITION BY properties.conversation_id ORDER BY timestamp) AS turn FROM events WHERE event='run_finished' AND properties.result='success' AND properties.agent_provider_id IN ('claude_code','amr') AND isNotNull(properties.conversation_id) AND toFloat(properties.time_to_first_token_ms)>0 AND timestamp >= now()-INTERVAL 7 DAY) SELECT prov, if(turn=1,'turn_1','turn_2plus') AS bucket, round(quantile(0.5)(ttft)) AS ttft_p50 FROM o GROUP BY prov, bucket ORDER BY prov, bucket`

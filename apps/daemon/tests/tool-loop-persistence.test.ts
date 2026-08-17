@@ -8,7 +8,7 @@ import {
 // Regression for PR #3375 review: the `tool_loop` event was handled by the live
 // web translator but dropped by the daemon's persisted-event path, so the
 // warning was transient-only and vanished on reload/history replay. This is
-// worst in OD_TOOL_LOOP_GUARD=warn, where there is no terminal
+// worst in SW_TOOL_LOOP_GUARD=warn, where there is no terminal
 // TOOL_LOOP_DETECTED error to fall back on. The persist mapper must turn the
 // event into a stored status entry, mirroring the live mapping.
 

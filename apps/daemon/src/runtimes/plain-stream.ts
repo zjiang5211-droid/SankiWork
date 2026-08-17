@@ -1,4 +1,4 @@
-import type { ProjectFile } from '@open-design/contracts';
+import type { ProjectFile } from '@sankiwork/contracts';
 import { createProjectArtifactFile } from '../artifacts/create.js';
 import {
   listFiles as defaultListFiles,

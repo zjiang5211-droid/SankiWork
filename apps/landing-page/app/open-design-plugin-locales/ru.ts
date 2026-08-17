@@ -1,30 +1,30 @@
-import type { OpenDesignPluginCopy } from '../open-design-plugin-i18n';
+import type { SankiWorkPluginCopy } from '../open-design-plugin-i18n';
 
-const ru: OpenDesignPluginCopy = {
+const ru: SankiWorkPluginCopy = {
   metadata: {
-    title: 'Open Design для Codex/ChatGPT | Установка плагина Open Design Cloud',
+    title: 'SankiWork для Codex/ChatGPT | Установка плагина SankiWork Cloud',
     description:
-      'Установите Open Design Cloud в Codex/ChatGPT и создавайте сайты, презентации, прототипы и дизайн-системы, не выходя из текущей задачи.',
+      'Установите SankiWork Cloud в Codex/ChatGPT и создавайте сайты, презентации, прототипы и дизайн-системы, не выходя из текущей задачи.',
     keywords:
-      'плагин Open Design для Codex, плагин для приложения ChatGPT, установка плагина Codex, Open Design Cloud, плагин для дизайна в Codex, Codex MCP',
+      'плагин SankiWork для Codex, плагин для приложения ChatGPT, установка плагина Codex, SankiWork Cloud, плагин для дизайна в Codex, Codex MCP',
   },
   hero: {
-    title: 'Плагин Open Design для Codex/ChatGPT',
+    title: 'Плагин SankiWork для Codex/ChatGPT',
     leadBefore: 'Введите инструкцию ниже в любую задачу в приложении',
     chatgptLabel: 'ChatGPT для компьютера',
-    installAria: 'Установить Open Design Cloud в Codex/ChatGPT',
+    installAria: 'Установить SankiWork Cloud в Codex/ChatGPT',
     copy: 'Копировать',
     github: 'Открыть руководство по установке на GitHub ↗',
   },
   demo: {
     title: 'Одна установка — и можно создавать прямо из Codex/ChatGPT.',
     lead:
-      'Сначала посмотрите, как вместе работают Codex и Open Design, а затем пройдите реальный путь от установки до готового результата.',
+      'Сначала посмотрите, как вместе работают Codex и SankiWork, а затем пройдите реальный путь от установки до готового результата.',
     overviewAlt:
-      'Реальная задача в Codex с плагином Open Design и готовым сайтом кафе Goodfield',
+      'Реальная задача в Codex с плагином SankiWork и готовым сайтом кафе Goodfield',
     overviewLabel: 'Реальная задача в Codex',
     overviewCaption:
-      'Запрос, передача задачи в Open Design, созданные файлы и готовый сайт остаются видны в одном рабочем пространстве.',
+      'Запрос, передача задачи в SankiWork, созданные файлы и готовый сайт остаются видны в одном рабочем пространстве.',
     stepListAria: 'Пять этапов реальной работы с плагином в Codex',
     installPhase: 'Установка',
     installTitle: 'Поручите установку Codex',
@@ -36,46 +36,46 @@ const ru: OpenDesignPluginCopy = {
         phase: 'Работа',
         title: 'Начните новую задачу в Codex',
         body:
-          'Когда Codex завершит установку, откройте установленный плагин Open Design в новой задаче и нажмите «Try now», чтобы начать.',
-        alt: 'Настоящий экран плагина Open Design в Codex с кнопкой Try now',
+          'Когда Codex завершит установку, откройте установленный плагин SankiWork в новой задаче и нажмите «Try now», чтобы начать.',
+        alt: 'Настоящий экран плагина SankiWork в Codex с кнопкой Try now',
       },
       {
         phase: 'Создание',
         title: 'Опишите задачу для дизайна',
         body:
-          'Упомяните Open Design, затем укажите, что нужно создать, какое содержание использовать, какое визуальное направление выбрать и как результат должен адаптироваться к разным экранам.',
-        alt: 'Реальный запрос в Codex к Open Design на создание уютного сайта районного кафе',
+          'Упомяните SankiWork, затем укажите, что нужно создать, какое содержание использовать, какое визуальное направление выбрать и как результат должен адаптироваться к разным экранам.',
+        alt: 'Реальный запрос в Codex к SankiWork на создание уютного сайта районного кафе',
       },
       {
         phase: 'Создание',
         title: 'Следите за передачей задачи в реальном времени',
         body:
-          'Codex подтверждает выбранное направление, создаёт проект и передаёт работу в Open Design, а новые файлы появляются прямо на экране.',
-        alt: 'Настоящее рабочее пространство Codex и Open Design во время создания сайта районного кафе',
+          'Codex подтверждает выбранное направление, создаёт проект и передаёт работу в SankiWork, а новые файлы появляются прямо на экране.',
+        alt: 'Настоящее рабочее пространство Codex и SankiWork во время создания сайта районного кафе',
       },
       {
         phase: 'Создание',
         title: 'Проверьте результат',
         body:
           'В той же задаче появятся адаптивный лендинг кафе Goodfield, созданные изображения и редактируемые файлы.',
-        alt: 'Готовый лендинг районного кафе Goodfield, созданный через плагин Open Design в Codex',
+        alt: 'Готовый лендинг районного кафе Goodfield, созданный через плагин SankiWork в Codex',
       },
     ],
   },
   use: {
     title: 'Начните с готового запроса.',
     lead:
-      'Выберите Open Design в меню плагинов Codex, опишите нужный результат и продолжайте дорабатывать его в той же задаче. Упоминание плагина отображается в Codex как метка Open Design.',
+      'Выберите SankiWork в меню плагинов Codex, опишите нужный результат и продолжайте дорабатывать его в той же задаче. Упоминание плагина отображается в Codex как метка SankiWork.',
     promptLabel: 'Запрос из записанной задачи Codex',
     copyPrompt: 'Копировать запрос для Codex',
-    galleryAria: 'Примеры, созданные с помощью Open Design',
+    galleryAria: 'Примеры, созданные с помощью SankiWork',
     templates: [
       {
         alt: 'Продуктовый лендинг Oryzo с фактурным макетным ковриком и объектом из пробки',
         label: 'Запуск продукта',
       },
       {
-        alt: 'Лендинг мероприятия Open Design Osaka с типографической картой',
+        alt: 'Лендинг мероприятия SankiWork Osaka с типографической картой',
         label: 'Страница мероприятия',
       },
       {
@@ -83,11 +83,11 @@ const ru: OpenDesignPluginCopy = {
         label: 'Редакционный сайт',
       },
       {
-        alt: 'Интерактивная временная шкала моделей Open Design на светлом холсте',
+        alt: 'Интерактивная временная шкала моделей SankiWork на светлом холсте',
         label: 'Интерактивная история',
       },
     ],
-    promptListAria: 'Примеры запросов для Open Design Cloud',
+    promptListAria: 'Примеры запросов для SankiWork Cloud',
     prompts: [
       { title: 'Сайт' },
       { title: 'Презентация' },
@@ -97,12 +97,12 @@ const ru: OpenDesignPluginCopy = {
   },
   faq: {
     title: 'Что стоит знать перед установкой',
-    lead: 'Codex управляет задачей, а Open Design отвечает за визуальный процесс.',
+    lead: 'Codex управляет задачей, а SankiWork отвечает за визуальный процесс.',
     items: [
       {
         q: 'Что плагин добавляет в Codex?',
         a:
-          'Он добавляет в Codex рабочий процесс Open Design для создания сайтов, презентаций, прототипов и дизайн-систем. Плагин подключается к локальному Open Design MCP, который помогает собирать требования, создавать проекты и генерировать материалы.',
+          'Он добавляет в Codex рабочий процесс SankiWork для создания сайтов, презентаций, прототипов и дизайн-систем. Плагин подключается к локальному SankiWork MCP, который помогает собирать требования, создавать проекты и генерировать материалы.',
       },
       {
         q: 'Какие продукты Codex поддерживаются?',
@@ -112,27 +112,27 @@ const ru: OpenDesignPluginCopy = {
       {
         q: 'Что понадобится перед установкой?',
         a:
-          'Используйте Codex CLI 0.144.6 или новее и Open Design 0.17.0 или новее. Сначала установите Open Design, а затем зарегистрируйте его локальный MCP.',
+          'Используйте Codex CLI 0.144.6 или новее и SankiWork 0.17.0 или новее. Сначала установите SankiWork, а затем зарегистрируйте его локальный MCP.',
       },
       {
         q: 'Почему нужно начать новую задачу в Codex?',
         a:
-          'Codex загружает возможности плагинов и MCP при запуске задачи. Новая задача увидит только что установленный плагин Open Design Cloud.',
+          'Codex загружает возможности плагинов и MCP при запуске задачи. Новая задача увидит только что установленный плагин SankiWork Cloud.',
       },
       {
-        q: 'Нужно ли держать окно Open Design открытым?',
+        q: 'Нужно ли держать окно SankiWork открытым?',
         a:
-          'Нет. Зарегистрированный локальный MCP при необходимости может запустить подписанную среду Open Design в фоновом режиме без интерфейса.',
+          'Нет. Зарегистрированный локальный MCP при необходимости может запустить подписанную среду SankiWork в фоновом режиме без интерфейса.',
       },
     ],
   },
   final: {
-    aria: 'Установить Open Design Cloud в Codex/ChatGPT',
-    title: 'Добавьте Open Design в свою следующую задачу Codex/ChatGPT.',
+    aria: 'Установить SankiWork Cloud в Codex/ChatGPT',
+    title: 'Добавьте SankiWork в свою следующую задачу Codex/ChatGPT.',
     bodyBeforeMention: 'Установите плагин, подключите локальный MCP и введите',
     bodyAfterMention: '.',
     copy: 'Копировать',
-    download: 'Скачать Open Design',
+    download: 'Скачать SankiWork',
     source: 'Посмотреть исходный код',
   },
   clipboard: {
@@ -141,8 +141,8 @@ const ru: OpenDesignPluginCopy = {
     failed: 'Выделите и скопируйте',
   },
   schema: {
-    pageName: 'Плагин Open Design Cloud для Codex/ChatGPT',
-    applicationName: 'Плагин Open Design Cloud для Codex/ChatGPT',
+    pageName: 'Плагин SankiWork Cloud для Codex/ChatGPT',
+    applicationName: 'Плагин SankiWork Cloud для Codex/ChatGPT',
   },
 };
 

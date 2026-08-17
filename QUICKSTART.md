@@ -9,11 +9,11 @@ Run the full product locally.
 - **Node.js:** `~24` (Node 24.x). The repo enforces this through `package.json#engines`.
 - **pnpm:** `10.33.x`. The repo pins `pnpm@10.33.2` through `packageManager`; use Corepack so the pinned version is selected automatically.
 - **OS:** macOS, Linux, and WSL2 are the primary paths. If your agent CLIs run inside WSL2, use the [`WSL2 setup guide`](docs/wsl-setup.md). Windows native is supported; see [`docs/windows-troubleshooting.md`](docs/windows-troubleshooting.md) for common PowerShell setup gotchas.
-- **Optional local agent CLI:** Open Design supports a registry of local runtimes, including Claude Code, Codex, Devin for Terminal, OpenCode, Cursor Agent, Qwen, Qoder CLI, GitHub Copilot CLI, and others. The current list lives in [`apps/daemon/src/runtimes/registry.ts`](apps/daemon/src/runtimes/registry.ts). If none are installed, use a BYOK runtime configured in Settings.
+- **Optional local agent CLI:** SankiWork supports a registry of local runtimes, including Claude Code, Codex, Devin for Terminal, OpenCode, Cursor Agent, Qwen, Qoder CLI, GitHub Copilot CLI, and others. The current list lives in [`apps/daemon/src/runtimes/registry.ts`](apps/daemon/src/runtimes/registry.ts). If none are installed, use a BYOK runtime configured in Settings.
 
 ### Local agent CLI and PATH
 
-The daemon scans your **`PATH`** (plus common user toolchain directories). If you install a CLI with **`npm install -g`** or **Homebrew** and Open Design still shows it as *not installed*, the GUI may be starting with a minimal `PATH` that does not include your global npm or Homebrew `bin` directory (common on macOS when the app is not launched from a full login shell). Ensure the executable’s directory is on `PATH` for the process that runs the daemon, then use **Rescan** in **Settings → Execution mode**.
+The daemon scans your **`PATH`** (plus common user toolchain directories). If you install a CLI with **`npm install -g`** or **Homebrew** and SankiWork still shows it as *not installed*, the GUI may be starting with a minimal `PATH` that does not include your global npm or Homebrew `bin` directory (common on macOS when the app is not launched from a full login shell). Ensure the executable’s directory is on `PATH` for the process that runs the daemon, then use **Rescan** in **Settings → Execution mode**.
 
 [`nvm`](https://github.com/nvm-sh/nvm) / [`fnm`](https://github.com/Schniz/fnm) are optional convenience tools, not required project setup. If you use one, install/select Node 24 before running pnpm:
 
@@ -36,7 +36,7 @@ corepack pnpm --version   # should print 10.33.2
 
 ## Docker Setup
 
-Run Open Design in a fully containerised environment without installing Node.js or pnpm locally.
+Run SankiWork in a fully containerised environment without installing Node.js or pnpm locally.
 
 ### Requirements
 
@@ -51,7 +51,7 @@ docker compose version
 
 ---
 
-## Start Open Design
+## Start SankiWork
 
 From the repository root:
 
@@ -68,7 +68,7 @@ From the repository root:
    openssl rand -hex 32
    ```
 
-3. Open `.env` in your editor, find `OD_API_TOKEN=`, and paste the generated token there.
+3. Open `.env` in your editor, find `SW_API_TOKEN=`, and paste the generated token there.
 
 Then start the service:
 
@@ -133,20 +133,20 @@ Edit `deploy/.env` to set your own token and adjust other values as needed:
 
 ```env
 # Port exposed on the host
-OPEN_DESIGN_PORT=7456
+SANKIWORK_PORT=7456
 
 # Container memory limit
-OPEN_DESIGN_MEM_LIMIT=384m
+SANKIWORK_MEM_LIMIT=384m
 
 # Allowed CORS origins
-OPEN_DESIGN_ALLOWED_ORIGINS=https://yourdomain.com
+SANKIWORK_ALLOWED_ORIGINS=https://yourdomain.com
 
 # Docker image tag
-OPEN_DESIGN_IMAGE=ghcr.io/nexu-io/od:latest
+SANKIWORK_IMAGE=ghcr.io/nexu-io/od:latest
 
 # Required API token for daemon security
 # Generate one with: openssl rand -hex 32
-OD_API_TOKEN=
+SW_API_TOKEN=
 ```
 
 ---
@@ -200,8 +200,8 @@ pnpm tools-dev status          # inspect managed runtimes
 pnpm tools-dev logs            # show daemon/web/desktop logs
 pnpm tools-dev check           # status + recent logs + common diagnostics
 pnpm tools-dev stop            # stop managed runtimes
-pnpm --filter @open-design/daemon build  # build apps/daemon/dist/cli.js for `od`
-pnpm --filter @open-design/web build     # build the web package when needed
+pnpm --filter @sankiwork/daemon build  # build apps/daemon/dist/cli.js for `sw`
+pnpm --filter @sankiwork/web build     # build the web package when needed
 pnpm typecheck                 # workspace typecheck
 ```
 
@@ -213,33 +213,33 @@ During local development, `tools-dev` starts the daemon first, passes its port i
 
 ## Media generation / agent dispatcher checks
 
-Image, video, audio, and HyperFrames skills call the local `od` CLI through environment variables injected by the daemon when it spawns an agent:
+Image, video, audio, and HyperFrames skills call the local `sw` CLI through environment variables injected by the daemon when it spawns an agent:
 
-- `OD_BIN` — absolute path to `apps/daemon/dist/cli.js`.
-- `OD_DAEMON_URL` — the running daemon URL.
-- `OD_PROJECT_ID` — the active project id.
-- `OD_PROJECT_DIR` — the active project's file directory.
+- `SW_BIN` — absolute path to `apps/daemon/dist/cli.js`.
+- `SW_DAEMON_URL` — the running daemon URL.
+- `SW_PROJECT_ID` — the active project id.
+- `SW_PROJECT_DIR` — the active project's file directory.
 
-If media generation fails with `OD_BIN: parameter not set`, `apps/daemon/dist/cli.js` missing, or `failed to reach daemon at http://127.0.0.1:0`, rebuild the daemon CLI and restart the managed runtime:
+If media generation fails with `SW_BIN: parameter not set`, `apps/daemon/dist/cli.js` missing, or `failed to reach daemon at http://127.0.0.1:0`, rebuild the daemon CLI and restart the managed runtime:
 
 ```bash
-pnpm --filter @open-design/daemon build
+pnpm --filter @sankiwork/daemon build
 pnpm tools-dev restart --daemon-port 7457 --web-port 5175
 ls -la apps/daemon/dist/cli.js
 curl -s http://127.0.0.1:7457/api/health
 ```
 
-Then open the project from the Open Design app again instead of resuming an old terminal agent session. A daemon-spawned agent should see values like:
+Then open the project from the SankiWork app again instead of resuming an old terminal agent session. A daemon-spawned agent should see values like:
 
 ```bash
-echo "OD_BIN=$OD_BIN"
-echo "OD_PROJECT_ID=$OD_PROJECT_ID"
-echo "OD_PROJECT_DIR=$OD_PROJECT_DIR"
-echo "OD_DAEMON_URL=$OD_DAEMON_URL"
-ls -la "$OD_BIN"
+echo "SW_BIN=$SW_BIN"
+echo "SW_PROJECT_ID=$SW_PROJECT_ID"
+echo "SW_PROJECT_DIR=$SW_PROJECT_DIR"
+echo "SW_DAEMON_URL=$SW_DAEMON_URL"
+ls -la "$SW_BIN"
 ```
 
-`OD_DAEMON_URL` must be a real daemon port such as `http://127.0.0.1:7457`, not `http://127.0.0.1:0`. The `:0` value is only an internal "pick a free port" launch hint and should not leak into agent sessions.
+`SW_DAEMON_URL` must be a real daemon port such as `http://127.0.0.1:7457`, not `http://127.0.0.1:0`. The `:0` value is only an internal "pick a free port" launch hint and should not leak into agent sessions.
 
 For the daemon-only production mode, the daemon serves the static Next.js export itself at `http://localhost:7456`, so no reverse proxy is involved.
 
@@ -288,11 +288,11 @@ Swap the skill or the design system in the top bar and the next send uses the ne
 ## File map
 
 ```
-open-design/
+sankiwork/
 ├── apps/
 │   ├── daemon/                # Node/Express — spawns local agents + serves APIs
 │   │   └── src/
-│   │       ├── cli.ts             # `od` bin entry
+│   │       ├── cli.ts             # `sw` bin entry
 │   │       ├── server.ts          # /api/* + static serving
 │   │       ├── agents.ts          # compatibility exports for the runtime modules
 │   │       ├── runtimes/
@@ -316,7 +316,7 @@ open-design/
 │   └── desktop/               # Electron runtime, launched/inspected by tools-dev
 ├── packages/
 │   ├── contracts/             # shared web/daemon app contracts
-│   ├── sidecar-proto/         # Open Design sidecar protocol contract
+│   ├── sidecar-proto/         # SankiWork sidecar protocol contract
 │   ├── sidecar/               # generic sidecar runtime primitives
 │   └── platform/              # generic process/platform primitives
 ├── tools/dev/                 # `pnpm tools-dev` lifecycle and inspect CLI
@@ -327,25 +327,25 @@ open-design/
 ├── scripts/sync-design-systems.ts    # re-import from upstream getdesign tarball
 ├── docs/                      # product vision + spec
 ├── pnpm-workspace.yaml        # apps/* + packages/* + tools/* + e2e
-└── package.json               # root quality scripts + `od` bin
+└── package.json               # root quality scripts + `sw` bin
 ```
 
 ## Troubleshooting
 
-- **`better-sqlite3` fails to load / ABI mismatch after a Node.js version change** — `pnpm install` re-runs `postinstall` automatically and rebuilds the native addon for the current Node.js. To rebuild manually or verify the fix: `pnpm --filter @open-design/daemon rebuild better-sqlite3` then `pnpm --filter @open-design/daemon exec node -e "require('better-sqlite3')"`. Requires build tools: `python3`, `make`, `g++` (or `clang++`). If you use `ignore-scripts=true` in your `.npmrc` (common for AUR packages), run `pnpm bootstrap` after `pnpm install`.
+- **`better-sqlite3` fails to load / ABI mismatch after a Node.js version change** — `pnpm install` re-runs `postinstall` automatically and rebuilds the native addon for the current Node.js. To rebuild manually or verify the fix: `pnpm --filter @sankiwork/daemon rebuild better-sqlite3` then `pnpm --filter @sankiwork/daemon exec node -e "require('better-sqlite3')"`. Requires build tools: `python3`, `make`, `g++` (or `clang++`). If you use `ignore-scripts=true` in your `.npmrc` (common for AUR packages), run `pnpm bootstrap` after `pnpm install`.
 - **"no agents found on PATH"** — install one of the local runtimes registered in [`apps/daemon/src/runtimes/registry.ts`](apps/daemon/src/runtimes/registry.ts), make sure its executable is visible to the daemon, then use **Rescan** in **Settings → Execution mode**. Or configure a BYOK runtime in Settings.
-- **Claude Code exits with code 1** — Open Design was able to start `claude`, but the spawned non-interactive run failed before producing a response. From the same shell or app environment that starts Open Design, check:
+- **Claude Code exits with code 1** — SankiWork was able to start `claude`, but the spawned non-interactive run failed before producing a response. From the same shell or app environment that starts SankiWork, check:
   ```bash
   claude --version
   claude auth status --text
   printf 'hello' | claude -p --output-format stream-json --verbose --permission-mode bypassPermissions
   ```
-  If the smoke test reports `401`, `apiKeySource: "none"`, or another auth error without a custom endpoint, run `claude`, use `/login`, exit Claude, and retry Open Design. If you use multiple Claude profiles, set **Settings -> Execution mode -> Claude Code config directory** to the profile path such as `~/.claude-2`. If `ANTHROPIC_BASE_URL` or a proxy is set, check the endpoint URL, proxy credentials, endpoint auth environment, and model access; remove the custom endpoint only if you want to retry with standard Claude Code auth. On Windows, native PowerShell and WSL use separate Claude installs and credential stores; re-authenticate in the same environment Open Design uses, and check Windows Credential Manager if `/login` does not repair native Windows credentials.
+  If the smoke test reports `401`, `apiKeySource: "none"`, or another auth error without a custom endpoint, run `claude`, use `/login`, exit Claude, and retry SankiWork. If you use multiple Claude profiles, set **Settings -> Execution mode -> Claude Code config directory** to the profile path such as `~/.claude-2`. If `ANTHROPIC_BASE_URL` or a proxy is set, check the endpoint URL, proxy credentials, endpoint auth environment, and model access; remove the custom endpoint only if you want to retry with standard Claude Code auth. On Windows, native PowerShell and WSL use separate Claude installs and credential stores; re-authenticate in the same environment SankiWork uses, and check Windows Credential Manager if `/login` does not repair native Windows credentials.
 - **daemon 500 on /api/chat** — check the daemon terminal for the stderr tail; usually the CLI rejected its args. Different CLIs take different argv shapes; inspect the matching definition in `apps/daemon/src/runtimes/defs/` if you need to adjust one.
-- **media generation says `OD_BIN` is missing or daemon URL is `:0`** — run the media dispatcher checks above. Do not resume the old CLI session; reopen the project from the Open Design app so the daemon can inject fresh `OD_*` variables.
-- **Codex loads too much plugin context** — start Open Design with `OD_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` to make daemon-spawned Codex processes run with `--disable plugins`.
+- **media generation says `SW_BIN` is missing or daemon URL is `:0`** — run the media dispatcher checks above. Do not resume the old CLI session; reopen the project from the SankiWork app so the daemon can inject fresh `SW_*` variables.
+- **Codex loads too much plugin context** — start SankiWork with `SW_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` to make daemon-spawned Codex processes run with `--disable plugins`.
 - **artifact never renders** — first identify the run's handoff profile. For a filesystem-capable local runtime, confirm the agent created a previewable project file and that file-write events reached the daemon; it should not emit source in `<artifact>`. For a plain/text-only or BYOK run, confirm the response contains one complete `<artifact>` block. Check daemon logs for the first failed boundary instead of asking a filesystem runtime to fall back to inline source.
-- **`Authorization: Bearer <OD_API_TOKEN>` required on macOS** — Docker Desktop bridge networking makes the daemon see requests as non-loopback. Enable host networking in Docker Desktop and use `network_mode: host`. See [`deploy/README.md` — Docker Desktop on macOS](deploy/README.md#docker-desktop-on-macos).
+- **`Authorization: Bearer <SW_API_TOKEN>` required on macOS** — Docker Desktop bridge networking makes the daemon see requests as non-loopback. Enable host networking in Docker Desktop and use `network_mode: host`. See [`deploy/README.md` — Docker Desktop on macOS](deploy/README.md#docker-desktop-on-macos).
 
 ## Mapping back to the vision
 

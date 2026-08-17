@@ -1,7 +1,7 @@
 // media-adapters — pure, isomorphic model-capability + request-mapping layer.
 //
-// This module is package-shaped (Phase 1 lives in open-design; later extracted
-// to a public, generic npm package consumed by both open-design and
+// This module is package-shaped (Phase 1 lives in sankiwork; later extracted
+// to a public, generic npm package consumed by both sankiwork and
 // aihubmix-video). It contains NO transport (fetch/auth/poll/storage) and NO
 // proprietary model data baked into the interpreter — the model capability data
 // is INJECTED (seeded now from a const, later fetched from AIHubMix's

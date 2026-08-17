@@ -1,6 +1,6 @@
 // Plan §3.F2 / spec §11.7 — daemon lifecycle endpoints.
 //
-// `od daemon status` and `od daemon stop` (both Phase 1.5) talk to the
+// `sw daemon status` and `sw daemon stop` (both Phase 1.5) talk to the
 // new /api/daemon/status + /api/daemon/shutdown routes. This suite spins
 // the real Express app via `startServer` and asserts the public shape so
 // the CLI can rely on it without re-checking each release.

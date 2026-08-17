@@ -9,7 +9,7 @@ import {
   isReleaseChannel,
   releaseMetadataVersionFields,
   type ReleaseChannel,
-} from "@open-design/release";
+} from "@sankiwork/release";
 
 type UpdaterFixtureChannel = ReleaseChannel;
 
@@ -218,8 +218,8 @@ export async function startUpdaterFixtureServer(options: UpdaterFixtureOptions =
   const artifactName = options.artifactPath != null
     ? basename(options.artifactPath)
     : platform === "win"
-    ? `open-design-${version}-win-x64-setup.exe`
-    : `open-design-${version}-mac-arm64.dmg`;
+    ? `sankiwork-${version}-win-x64-setup.exe`
+    : `sankiwork-${version}-mac-arm64.dmg`;
   const contentType = platform === "win"
     ? "application/vnd.microsoft.portable-executable"
     : "application/x-apple-diskimage";
@@ -229,22 +229,22 @@ export async function startUpdaterFixtureServer(options: UpdaterFixtureOptions =
   }
   const artifactBody = Buffer.isBuffer(options.artifactBody)
     ? options.artifactBody
-    : Buffer.from(options.artifactBody ?? `Open Design updater fixture ${version}\n`, "utf8");
+    : Buffer.from(options.artifactBody ?? `SankiWork updater fixture ${version}\n`, "utf8");
   const artifactSize = artifactFileStat?.size ?? artifactBody.byteLength;
   const sha256 = options.artifactPath == null
     ? createHash("sha256").update(artifactBody).digest("hex")
     : await sha256File(options.artifactPath);
   const payloadName = options.payloadPath == null
     ? platform === "win"
-      ? `open-design-${version}-win-x64-payload.7z`
-      : `open-design-${version}-mac-arm64-payload.zip`
+      ? `sankiwork-${version}-win-x64-payload.7z`
+      : `sankiwork-${version}-mac-arm64-payload.zip`
     : basename(options.payloadPath);
   const artifactPathSegment = encodeURIComponent(artifactName);
   const payloadPathSegment = encodeURIComponent(payloadName);
   const includePayload = options.includePayload === true || options.payloadPath != null;
   const payloadBody = Buffer.isBuffer(options.payloadBody)
     ? options.payloadBody
-    : Buffer.from(options.payloadBody ?? `Open Design launcher payload fixture ${version}\n`, "utf8");
+    : Buffer.from(options.payloadBody ?? `SankiWork launcher payload fixture ${version}\n`, "utf8");
   const payloadFileStat = options.payloadPath == null ? null : await stat(options.payloadPath);
   if (payloadFileStat != null && (!payloadFileStat.isFile() || payloadFileStat.size <= 0)) {
     throw new Error(`updater fixture payload path must be a non-empty file: ${options.payloadPath}`);

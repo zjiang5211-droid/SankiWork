@@ -1,7 +1,7 @@
 import { timingSafeEqual } from 'node:crypto';
 
-export const API_TOKEN_BASIC_USERNAME = 'open-design';
-export const API_TOKEN_BASIC_CHALLENGE = 'Basic realm="Open Design", charset="UTF-8"';
+export const API_TOKEN_BASIC_USERNAME = 'sankiwork';
+export const API_TOKEN_BASIC_CHALLENGE = 'Basic realm="SankiWork", charset="UTF-8"';
 
 export function isTruthyEnvFlag(value: unknown): boolean {
   const normalized = String(value || '').trim().toLowerCase();
@@ -9,11 +9,11 @@ export function isTruthyEnvFlag(value: unknown): boolean {
 }
 
 export function isApiAuthDisabled(env: NodeJS.ProcessEnv = process.env): boolean {
-  return isTruthyEnvFlag(env.OD_DISABLE_API_AUTH);
+  return isTruthyEnvFlag(env.SW_DISABLE_API_AUTH);
 }
 
 export function apiTokenFromEnv(env: NodeJS.ProcessEnv = process.env): string {
-  return (env.OD_API_TOKEN ?? '').trim();
+  return (env.SW_API_TOKEN ?? '').trim();
 }
 
 export function isApiTokenMiddlewareEnabled(env: NodeJS.ProcessEnv = process.env): boolean {

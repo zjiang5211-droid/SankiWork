@@ -67,7 +67,7 @@ describe("buildDiagnosticsZip — crashDumps", () => {
   it("includes the minidump bytes intact in the zip", async () => {
     await writeFile(join(tempDir, "renderer.dmp"), RAW_DUMP_BYTES);
     const result = await buildDiagnosticsZip({
-      context: { app: { name: "open-design", packaged: true }, source: "test" },
+      context: { app: { name: "sankiwork", packaged: true }, source: "test" },
       sources: [],
       crashDumps: { dir: tempDir },
     });

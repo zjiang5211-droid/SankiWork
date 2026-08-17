@@ -272,7 +272,7 @@
 - **第一期（地基 + 两个盲区）**：§1 接通 `project_kind` → U3/U4 修 daemon 来源&官方/自建 → C7-C9 预设品牌选择器 → C13-C15 AI 优化事件+状态字段 → `ds_source_origins` 改多值 → **§3.1 `entry_from` 三类入口透传（补 `project_canvas`/`library` 枚举值 + 改掉二元写死）**。直接支撑留存/复购/AI 转化分析。
 - **第二期（编辑生命周期）**：E1-E3 + §3.6 全部面板/模块按钮。
 - **第三期（补全）**：C2 Onboarding 分叉、C10 多网站计数、其余次级动作。
-- 每期：契约（contracts）改完先 `pnpm --filter @open-design/contracts build` 再 web typecheck；新 interface 记得加进 events.ts 末尾总 union；落地后同步飞书「埋点文档2.0」表 `MUu2Au`（对外写，动手前确认）。
+- 每期：契约（contracts）改完先 `pnpm --filter @sankiwork/contracts build` 再 web typecheck；新 interface 记得加进 events.ts 末尾总 union；落地后同步飞书「埋点文档2.0」表 `MUu2Au`（对外写，动手前确认）。
 
 ## 6. 分析口径（落地后怎么用）
 

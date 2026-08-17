@@ -3,7 +3,7 @@
  *
  * The structural contract for every brand's `tokens.css`.
  *
- * Each token in the open-design ecosystem belongs to exactly one of
+ * Each token in the sankiwork ecosystem belongs to exactly one of
  * four layers, distinguished by who decides the value and what
  * happens when a brand omits the token.
  *

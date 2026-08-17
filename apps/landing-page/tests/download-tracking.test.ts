@@ -45,7 +45,7 @@ function runPosthogTracker(pageName?: string) {
   const handlers: Record<string, (ev: any) => void> = {};
   const win: any = {
     location: {
-      href: 'https://open-design.dev/?utm_source=twitter&utm_content=readme_download',
+      href: 'https://sankiwork.dev/?utm_source=twitter&utm_content=readme_download',
     },
     posthog: {
       capture: (name: string, props: any) => captures.push({ name, props }),
@@ -61,7 +61,7 @@ function runPosthogTracker(pageName?: string) {
   };
   const nav: any = { userAgent: 'mozilla mac os x', platform: 'MacIntel' };
   const fetchStub = async () => new Response(JSON.stringify({
-    downloadUrl: 'https://download.open-design.ai/mac/arm64/odtoken_123456/Open.dmg',
+    downloadUrl: 'https://download.sanki-ai.cloud/mac/arm64/odtoken_123456/Open.dmg',
   }), { status: 200 });
 
   // eslint-disable-next-line no-new-func
@@ -172,7 +172,7 @@ test('posthog: engagement prompt CTA → direct installer + placement=engagement
 
 test('posthog: bare /download/ link (no attr) still matched by path', () => {
   const { captures, click } = runPosthogTracker();
-  click(makeLink({ href: 'https://open-design.dev/download/', pathname: '/download/', text: 'Download desktop' }));
+  click(makeLink({ href: 'https://sankiwork.dev/download/', pathname: '/download/', text: 'Download desktop' }));
   const dl = captures.find((c) => c.name === 'ui_click' && c.props.element === 'download_desktop');
   assert.ok(dl, 'expected a download_desktop click event for a bare /download/ link');
   assert.equal(dl!.props.download_target, 'download_page');
@@ -180,7 +180,7 @@ test('posthog: bare /download/ link (no attr) still matched by path', () => {
 
 test('posthog: unrelated /downloads-guide/ is NOT a download event', () => {
   const { captures, click } = runPosthogTracker();
-  click(makeLink({ href: 'https://open-design.dev/downloads-guide/', pathname: '/downloads-guide/', text: 'guide' }));
+  click(makeLink({ href: 'https://sankiwork.dev/downloads-guide/', pathname: '/downloads-guide/', text: 'guide' }));
   const dl = captures.find((c) => c.name === 'ui_click' && c.props.element === 'download_desktop');
   assert.equal(dl, undefined, '/downloads-guide/ must not be treated as a download');
 });
@@ -189,7 +189,7 @@ test('posthog: page_name is parameterized per page (not hardcoded landing_home)'
   const { captures, click } = runPosthogTracker('download');
   const pv = captures.find((c) => c.name === 'page_view');
   assert.equal(pv!.props.page_name, 'download', 'page_view must report the real page');
-  click(makeLink({ href: 'https://open-design.dev/download/', pathname: '/download/', text: 'Download' }));
+  click(makeLink({ href: 'https://sankiwork.dev/download/', pathname: '/download/', text: 'Download' }));
   const ev = captures.find((c) => c.name === 'ui_click');
   assert.equal(ev!.props.page_name, 'download', 'ui_click must report the real page');
 });

@@ -40,7 +40,7 @@ let markerPath: string;
 let orphanFolder: string;
 
 beforeAll(async () => {
-  // A directory entirely outside OD_DATA_DIR, standing in for any victim
+  // A directory entirely outside SW_DATA_DIR, standing in for any victim
   // folder on the daemon host (a user workspace, PROJECTS_DIR, $HOME, …).
   scratchRoot = await mkdtemp(path.join(os.tmpdir(), 'od-uninstall-traversal-'));
   outsideDir = path.join(scratchRoot, 'outside-root');
@@ -74,7 +74,7 @@ beforeAll(async () => {
     source: orphanFolder,
   });
   if (!resolved.ok) throw new Error(resolved.errors.join('; '));
-  const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+  const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
   upsertInstalledPlugin(db, resolved.record);
 });
 

@@ -1,4 +1,4 @@
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 
 interface PreviewLike {
   entry?: unknown;

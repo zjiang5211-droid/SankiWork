@@ -2,7 +2,7 @@
 
 import { act, cleanup, renderHook } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 vi.mock('../src/i18n', () => ({
   useI18n: () => ({ locale: 'en', setLocale: () => undefined, t: (key: string) => key }),

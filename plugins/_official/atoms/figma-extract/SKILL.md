@@ -17,7 +17,7 @@ authoritative on-disk record subsequent stages (`token-map`,
 
 | Source | Required | Notes |
 | --- | --- | --- |
-| Figma file URL or `node-id` | yes | Provide via the `figma-oauth` GenUI surface or `od plugin apply --input fileUrl=…` |
+| Figma file URL or `node-id` | yes | Provide via the `figma-oauth` GenUI surface or `sw plugin apply --input fileUrl=…` |
 | Figma OAuth token | yes | Routed through `oauth-prompt` with `oauth.route='connector'` and `connectorId='figma'`; the daemon never stores the token in SQLite |
 
 ## Output

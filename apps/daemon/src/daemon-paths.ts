@@ -7,8 +7,8 @@ import { resolveProjectRelativePath } from './home-expansion.js';
 
 const require = createRequire(import.meta.url);
 
-export const DAEMON_CLI_PATH_ENV = 'OD_DAEMON_CLI_PATH';
-export const RESOURCE_ROOT_ENV = 'OD_RESOURCE_ROOT';
+export const DAEMON_CLI_PATH_ENV = 'SW_DAEMON_CLI_PATH';
+export const RESOURCE_ROOT_ENV = 'SW_RESOURCE_ROOT';
 
 function cleanOptionalPath(value: string | undefined): string | null {
   return typeof value === 'string' && value.trim().length > 0
@@ -17,10 +17,10 @@ function cleanOptionalPath(value: string | undefined): string | null {
 }
 
 export function resolveDaemonCliPath(env: NodeJS.ProcessEnv = process.env): string {
-  const configured = cleanOptionalPath(env[DAEMON_CLI_PATH_ENV]) ?? cleanOptionalPath(env.OD_BIN);
+  const configured = cleanOptionalPath(env[DAEMON_CLI_PATH_ENV]) ?? cleanOptionalPath(env.SW_BIN);
   if (configured) return configured;
 
-  const packageJsonPath = require.resolve('@open-design/daemon/package.json');
+  const packageJsonPath = require.resolve('@sankiwork/daemon/package.json');
   return path.join(path.dirname(packageJsonPath), 'dist', 'cli.js');
 }
 
@@ -51,7 +51,7 @@ export function resolveProcessResourcesPath(): string | null {
 
   const normalizedExecPath = process.execPath.toLowerCase();
   const windowsResourceBinMarker =
-    `${path.sep}resources${path.sep}open-design${path.sep}bin${path.sep}`.toLowerCase();
+    `${path.sep}resources${path.sep}sankiwork${path.sep}bin${path.sep}`.toLowerCase();
   const windowsMarkerIndex = normalizedExecPath.indexOf(windowsResourceBinMarker);
   if (windowsMarkerIndex !== -1) {
     return process.execPath.slice(
@@ -107,7 +107,7 @@ export function resolveDaemonPluginPreviewsDir({
   resourceRoot,
   projectRoot,
 }: ResolveDaemonPluginPreviewsDirOptions): string {
-  const override = env.OD_PLUGIN_PREVIEWS_DIR;
+  const override = env.SW_PLUGIN_PREVIEWS_DIR;
   if (override) {
     return path.isAbsolute(override) ? override : path.resolve(projectRoot, override);
   }
@@ -130,9 +130,9 @@ export function resolveDataDir(
   const value = raw?.trim();
   if (!value) {
     if (options.requireExplicit) {
-      throw new Error('OD_DATA_DIR is required when OD_SANDBOX_MODE is enabled');
+      throw new Error('SW_DATA_DIR is required when SW_SANDBOX_MODE is enabled');
     }
-    return path.join(projectRoot, '.od');
+    return path.join(projectRoot, '.sankiwork');
   }
 
   const resolved = resolveProjectRelativePath(value, projectRoot);
@@ -151,7 +151,7 @@ export function resolveDataDir(
     const parentDir = path.dirname(resolved);
     throw new Error(
       [
-        `OD_DATA_DIR "${resolved}" is not writable: ${e.message}`,
+        `SW_DATA_DIR "${resolved}" is not writable: ${e.message}`,
         `Current user: ${currentUser}`,
         'Check whether the folder or one of its parents is owned by another user, is a symlink to a protected location, or was previously created with sudo.',
         `Try: ls -ld "${parentDir}" "${resolved}"`,

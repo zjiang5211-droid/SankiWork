@@ -5,7 +5,7 @@ import { homedir, tmpdir } from "node:os";
 import { basename, dirname, join } from "node:path";
 import { promisify } from "node:util";
 
-import { ATTRIBUTION_CLAIM_PATH, type AttributionClaimResponse } from "@open-design/contracts";
+import { ATTRIBUTION_CLAIM_PATH, type AttributionClaimResponse } from "@sankiwork/contracts";
 
 import type { PackagedDesktopLogger } from "./logging.js";
 import type { PackagedNamespacePaths } from "./paths.js";

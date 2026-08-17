@@ -1,5 +1,5 @@
 /**
- * @module @open-design/download
+ * @module @sankiwork/download
  *
  * Public barrel for the managed-download package. Re-exports the exact prior
  * public surface: the error taxonomy, the data-transfer types, and the five

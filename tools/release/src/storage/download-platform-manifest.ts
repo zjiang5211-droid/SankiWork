@@ -2,7 +2,7 @@ import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { optional, required, requiredTarget, storageConfigFromEnv, writeText } from "./common.ts";
 import { getStorageObjectText } from "./s3-upload.ts";
-import { releaseChannelDescriptor } from "@open-design/release";
+import { releaseChannelDescriptor } from "@sankiwork/release";
 
 const storage = storageConfigFromEnv();
 const releaseChannel = releaseChannelDescriptor(required("RELEASE_CHANNEL")).channel;

@@ -23,22 +23,22 @@ importers:
 
   .:
     devDependencies:
-      '@open-design/components':
+      '@sankiwork/components':
         specifier: workspace:*
         version: link:packages/components
-      '@open-design/daemon':
+      '@sankiwork/daemon':
         specifier: workspace:*
         version: link:apps/daemon
-      '@open-design/tools-dev':
+      '@sankiwork/tools-dev':
         specifier: workspace:*
         version: link:tools/dev
-      '@open-design/tools-pack':
+      '@sankiwork/tools-pack':
         specifier: workspace:*
         version: link:tools/pack
-      '@open-design/tools-release':
+      '@sankiwork/tools-release':
         specifier: workspace:*
         version: link:tools/release
-      '@open-design/tools-serve':
+      '@sankiwork/tools-serve':
         specifier: workspace:*
         version: link:tools/serve
       '@types/node':
@@ -59,39 +59,39 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: 1.29.0
         version: 1.29.0(zod@4.4.2)
-      '@open-design/agui-adapter':
-        specifier: workspace:*
-        version: link:../../packages/agui-adapter
-      '@open-design/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
-      '@open-design/diagnostics':
-        specifier: workspace:*
-        version: link:../../packages/diagnostics
-      '@open-design/launcher-proto':
-        specifier: workspace:*
-        version: link:../../packages/launcher-proto
-      '@open-design/platform':
-        specifier: workspace:*
-        version: link:../../packages/platform
-      '@open-design/plugin-runtime':
-        specifier: workspace:*
-        version: link:../../packages/plugin-runtime
-      '@open-design/registry-protocol':
-        specifier: workspace:*
-        version: link:../../packages/registry-protocol
-      '@open-design/release':
-        specifier: workspace:*
-        version: link:../../packages/release
-      '@open-design/sidecar':
-        specifier: workspace:*
-        version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
-        specifier: workspace:*
-        version: link:../../packages/sidecar-proto
       '@opentelemetry/api':
         specifier: 1.9.1
         version: 1.9.1
+      '@sankiwork/agui-adapter':
+        specifier: workspace:*
+        version: link:../../packages/agui-adapter
+      '@sankiwork/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@sankiwork/diagnostics':
+        specifier: workspace:*
+        version: link:../../packages/diagnostics
+      '@sankiwork/launcher-proto':
+        specifier: workspace:*
+        version: link:../../packages/launcher-proto
+      '@sankiwork/platform':
+        specifier: workspace:*
+        version: link:../../packages/platform
+      '@sankiwork/plugin-runtime':
+        specifier: workspace:*
+        version: link:../../packages/plugin-runtime
+      '@sankiwork/registry-protocol':
+        specifier: workspace:*
+        version: link:../../packages/registry-protocol
+      '@sankiwork/release':
+        specifier: workspace:*
+        version: link:../../packages/release
+      '@sankiwork/sidecar':
+        specifier: workspace:*
+        version: link:../../packages/sidecar
+      '@sankiwork/sidecar-proto':
+        specifier: workspace:*
+        version: link:../../packages/sidecar-proto
       better-sqlite3:
         specifier: 12.10.0
         version: 12.10.0
@@ -168,28 +168,28 @@ importers:
 
   apps/desktop:
     dependencies:
-      '@open-design/diagnostics':
+      '@sankiwork/diagnostics':
         specifier: workspace:*
         version: link:../../packages/diagnostics
-      '@open-design/download':
+      '@sankiwork/download':
         specifier: workspace:*
         version: link:../../packages/download
-      '@open-design/host':
+      '@sankiwork/host':
         specifier: workspace:*
         version: link:../../packages/host
-      '@open-design/launcher-proto':
+      '@sankiwork/launcher-proto':
         specifier: workspace:*
         version: link:../../packages/launcher-proto
-      '@open-design/platform':
+      '@sankiwork/platform':
         specifier: workspace:*
         version: link:../../packages/platform
-      '@open-design/release':
+      '@sankiwork/release':
         specifier: workspace:*
         version: link:../../packages/release
-      '@open-design/sidecar':
+      '@sankiwork/sidecar':
         specifier: workspace:*
         version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
+      '@sankiwork/sidecar-proto':
         specifier: workspace:*
         version: link:../../packages/sidecar-proto
     devDependencies:
@@ -269,31 +269,31 @@ importers:
 
   apps/packaged:
     dependencies:
-      '@open-design/contracts':
+      '@sankiwork/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
-      '@open-design/daemon':
+      '@sankiwork/daemon':
         specifier: workspace:*
         version: link:../daemon
-      '@open-design/desktop':
+      '@sankiwork/desktop':
         specifier: workspace:*
         version: link:../desktop
-      '@open-design/launcher-proto':
+      '@sankiwork/launcher-proto':
         specifier: workspace:*
         version: link:../../packages/launcher-proto
-      '@open-design/platform':
+      '@sankiwork/platform':
         specifier: workspace:*
         version: link:../../packages/platform
-      '@open-design/release':
+      '@sankiwork/release':
         specifier: workspace:*
         version: link:../../packages/release
-      '@open-design/sidecar':
+      '@sankiwork/sidecar':
         specifier: workspace:*
         version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
+      '@sankiwork/sidecar-proto':
         specifier: workspace:*
         version: link:../../packages/sidecar-proto
-      '@open-design/web':
+      '@sankiwork/web':
         specifier: workspace:*
         version: link:../web
     devDependencies:
@@ -330,22 +330,22 @@ importers:
       '@lexical/utils':
         specifier: 0.36.2
         version: 0.36.2
-      '@open-design/components':
+      '@sankiwork/components':
         specifier: workspace:*
         version: link:../../packages/components
-      '@open-design/contracts':
+      '@sankiwork/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
-      '@open-design/host':
+      '@sankiwork/host':
         specifier: workspace:*
         version: link:../../packages/host
-      '@open-design/platform':
+      '@sankiwork/platform':
         specifier: workspace:*
         version: link:../../packages/platform
-      '@open-design/sidecar':
+      '@sankiwork/sidecar':
         specifier: workspace:*
         version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
+      '@sankiwork/sidecar-proto':
         specifier: workspace:*
         version: link:../../packages/sidecar-proto
       '@xterm/addon-fit':
@@ -442,15 +442,15 @@ importers:
       '@aws-sdk/client-s3':
         specifier: 3.1050.0
         version: 3.1050.0
-      '@open-design/contracts':
-        specifier: workspace:*
-        version: link:../packages/contracts
-      '@open-design/release':
-        specifier: workspace:*
-        version: link:../packages/release
       '@playwright/test':
         specifier: 1.60.0
         version: 1.60.0
+      '@sankiwork/contracts':
+        specifier: workspace:*
+        version: link:../packages/contracts
+      '@sankiwork/release':
+        specifier: workspace:*
+        version: link:../packages/release
       '@types/node':
         specifier: 20.19.39
         version: 20.19.39
@@ -475,7 +475,7 @@ importers:
 
   packages/agui-adapter:
     dependencies:
-      '@open-design/contracts':
+      '@sankiwork/contracts':
         specifier: workspace:*
         version: link:../contracts
     devDependencies:
@@ -524,7 +524,7 @@ importers:
 
   packages/contracts:
     dependencies:
-      '@open-design/release':
+      '@sankiwork/release':
         specifier: workspace:*
         version: link:../release
       zod:
@@ -562,7 +562,7 @@ importers:
 
   packages/download:
     dependencies:
-      '@open-design/platform':
+      '@sankiwork/platform':
         specifier: workspace:*
         version: link:../platform
     devDependencies:
@@ -627,7 +627,7 @@ importers:
 
   packages/host:
     dependencies:
-      '@open-design/release':
+      '@sankiwork/release':
         specifier: workspace:*
         version: link:../release
     devDependencies:
@@ -646,10 +646,10 @@ importers:
 
   packages/launcher-proto:
     dependencies:
-      '@open-design/release':
+      '@sankiwork/release':
         specifier: workspace:*
         version: link:../release
-      '@open-design/sidecar-proto':
+      '@sankiwork/sidecar-proto':
         specifier: workspace:*
         version: link:../sidecar-proto
     devDependencies:
@@ -702,7 +702,7 @@ importers:
 
   packages/plugin-runtime:
     dependencies:
-      '@open-design/contracts':
+      '@sankiwork/contracts':
         specifier: workspace:*
         version: link:../contracts
       zod:
@@ -773,7 +773,7 @@ importers:
 
   packages/sidecar-proto:
     dependencies:
-      '@open-design/release':
+      '@sankiwork/release':
         specifier: workspace:*
         version: link:../release
     devDependencies:
@@ -792,13 +792,13 @@ importers:
 
   tools/dev:
     dependencies:
-      '@open-design/platform':
+      '@sankiwork/platform':
         specifier: workspace:*
         version: link:../../packages/platform
-      '@open-design/sidecar':
+      '@sankiwork/sidecar':
         specifier: workspace:*
         version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
+      '@sankiwork/sidecar-proto':
         specifier: workspace:*
         version: link:../../packages/sidecar-proto
       cac:
@@ -826,19 +826,19 @@ importers:
       '@electron/rebuild':
         specifier: 4.0.4
         version: 4.0.4
-      '@open-design/launcher-proto':
+      '@sankiwork/launcher-proto':
         specifier: workspace:*
         version: link:../../packages/launcher-proto
-      '@open-design/platform':
+      '@sankiwork/platform':
         specifier: workspace:*
         version: link:../../packages/platform
-      '@open-design/release':
+      '@sankiwork/release':
         specifier: workspace:*
         version: link:../../packages/release
-      '@open-design/sidecar':
+      '@sankiwork/sidecar':
         specifier: workspace:*
         version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
+      '@sankiwork/sidecar-proto':
         specifier: workspace:*
         version: link:../../packages/sidecar-proto
       cac:
@@ -873,10 +873,10 @@ importers:
 
   tools/release:
     dependencies:
-      '@open-design/launcher-proto':
+      '@sankiwork/launcher-proto':
         specifier: workspace:*
         version: link:../../packages/launcher-proto
-      '@open-design/release':
+      '@sankiwork/release':
         specifier: workspace:*
         version: link:../../packages/release
       cac:
@@ -904,7 +904,7 @@ importers:
 
   tools/serve:
     dependencies:
-      '@open-design/release':
+      '@sankiwork/release':
         specifier: workspace:*
         version: link:../../packages/release
       cac:

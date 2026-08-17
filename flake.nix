@@ -1,5 +1,5 @@
 {
-  description = "Open Design — local-first design product. Daemon (`od` CLI) + Next.js static web frontend.";
+  description = "SankiWork — local-first design product. Daemon (`sw` CLI) + Next.js static web frontend.";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -140,20 +140,20 @@
         default = daemon;
       };
 
-      # Wrap `od` with `--no-open` for `nix run`: the daemon package
+      # Wrap `sw` with `--no-open` for `nix run`: the daemon package
       # builds the daemon workspace only, not `apps/web/out/`, so the
       # browser would otherwise auto-open onto an empty static dir.
       #
-      # Set OD_DATA_DIR to a writable location when unset. The Nix store
+      # Set SW_DATA_DIR to a writable location when unset. The Nix store
       # is read-only at runtime, so the daemon cannot write to its default
-      # `<projectRoot>/.od` location under `nix run`.
+      # `<projectRoot>/.sankiwork` location under `nix run`.
       apps.default = {
         type = "app";
         program = "${pkgs.writeShellScript "od-nix-run" ''
-          export OD_DATA_DIR="''${OD_DATA_DIR:-$HOME/.od}"
-          exec ${daemon}/bin/od --no-open "$@"
+          export SW_DATA_DIR="''${SW_DATA_DIR:-$HOME/.sankiwork}"
+          exec ${daemon}/bin/sw --no-open "$@"
         ''}";
-        meta.description = "Open Design local daemon (`od`)";
+        meta.description = "SankiWork local daemon (`sw`)";
       };
 
       devShells.default = pkgs.mkShell {
@@ -162,7 +162,7 @@
           pnpm_10
         ];
         shellHook = ''
-          echo "🎨 Open Design dev shell loaded!"
+          echo "🎨 SankiWork dev shell loaded!"
           echo ""
           echo "Language runtimes:"
           echo "  - 🐢 Node.js: $(node --version 2>/dev/null || echo 'not found')"
@@ -188,19 +188,19 @@
     perSystem
     // {
       homeManagerModules = rec {
-        open-design = import ./nix/home-manager.nix {
+        sankiwork = import ./nix/home-manager.nix {
           inherit moduleCommon;
           flake = self;
         };
-        default = open-design;
+        default = sankiwork;
       };
 
       nixosModules = rec {
-        open-design = import ./nix/nixos.nix {
+        sankiwork = import ./nix/nixos.nix {
           inherit moduleCommon;
           flake = self;
         };
-        default = open-design;
+        default = sankiwork;
       };
     };
 }

@@ -1,13 +1,13 @@
 # First-party atom catalog
 
-> The atomic capabilities Open Design exposes to plugins.
+> The atomic capabilities SankiWork exposes to plugins.
 > Spec: [`docs/plugins-spec.md`](plugins-spec.md) §10.
 > Source of truth: [`apps/daemon/src/plugins/atoms.ts`](../apps/daemon/src/plugins/atoms.ts).
-> Live discovery: `GET /api/atoms`, `od atoms list --json`, and
-> `od atoms info <id>` for the bundled `SKILL.md` body.
+> Live discovery: `GET /api/atoms`, `sw atoms list --json`, and
+> `sw atoms info <id>` for the bundled `SKILL.md` body.
 
 A **plugin** assembles atoms into ordered stages (`od.pipeline.stages[].atoms[]`).
-The Open Design daemon is responsible for resolving each atom into a system-prompt
+The SankiWork daemon is responsible for resolving each atom into a system-prompt
 fragment, tool gating, and (when applicable) GenUI surface declarations. Plugins
 never own the atom implementations; they only reference them by id.
 
@@ -66,7 +66,7 @@ never own the atom implementations; they only reference them by id.
 Atoms whose work happens inside the selected agent CLI may use the registry's
 permissive compatibility signals because the daemon has no independent
 observation for that tool action. This is distinct from the old global stub;
-`OD_PIPELINE_RUNNER=stub` exists only as a diagnostic/replay escape hatch.
+`SW_PIPELINE_RUNNER=stub` exists only as a diagnostic/replay escape hatch.
 
 ## Atom signals + the `until` vocabulary
 
@@ -80,7 +80,7 @@ The current `until` vocabulary is:
 - `tests.passing` — emitted by the build-test flow for the test gate.
 
 The evaluator is deliberately closed and is not arbitrary JavaScript. Unknown
-signals fail parsing and `od plugin doctor` reports them.
+signals fail parsing and `sw plugin doctor` reports them.
 
 ## Adding a new atom
 
@@ -93,5 +93,5 @@ signals fail parsing and `od plugin doctor` reports them.
 4. The atom is now reachable via:
    - `od.pipeline.stages[*].atoms[]` references in any plugin,
    - `GET /api/atoms` discovery,
-   - `od atoms list/show/info`,
-   - `od plugin doctor` validation.
+   - `sw atoms list/show/info`,
+   - `sw plugin doctor` validation.

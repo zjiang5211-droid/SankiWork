@@ -3,9 +3,9 @@ import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_DEFAULTS,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 
 import {
   PACKAGED_NAMESPACE_ENV,
@@ -20,7 +20,7 @@ import {
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 function resolveHeadlessNamespaceBaseRoot(): string {
-  const odDataDir = process.env.OD_DATA_DIR;
+  const odDataDir = process.env.SW_DATA_DIR;
   if (odDataDir != null && odDataDir.length > 0) {
     return join(resolve(odDataDir.replace(/^~/, homedir())), "namespaces");
   }
@@ -29,25 +29,25 @@ function resolveHeadlessNamespaceBaseRoot(): string {
     xdgDataHome != null && xdgDataHome.length > 0
       ? xdgDataHome
       : join(homedir(), ".local", "share");
-  return join(dataBase, "open-design", "namespaces");
+  return join(dataBase, "sankiwork", "namespaces");
 }
 
 function resolveHeadlessAmrProfile(): PackagedConfig["amrProfile"] {
-  return resolvePackagedAmrProfile(process.env.OPEN_DESIGN_AMR_PROFILE);
+  return resolvePackagedAmrProfile(process.env.SANKIWORK_AMR_PROFILE);
 }
 
 function resolveHeadlessConfig(): PackagedConfig {
-  const namespace = OPEN_DESIGN_SIDECAR_CONTRACT.normalizeNamespace(
+  const namespace = SANKIWORK_SIDECAR_CONTRACT.normalizeNamespace(
     process.env[PACKAGED_NAMESPACE_ENV] ?? SIDECAR_DEFAULTS.namespace,
   );
   const namespaceBaseRoot = resolveHeadlessNamespaceBaseRoot();
 
-  // OD_RESOURCE_ROOT may be set by a launcher script; otherwise default to a
-  // sibling open-design/ directory relative to the node_modules that contain
+  // SW_RESOURCE_ROOT may be set by a launcher script; otherwise default to a
+  // sibling sankiwork/ directory relative to the node_modules that contain
   // this file — the layout written by tools-pack linux headless-install.
   const resourceRoot =
-    process.env.OD_RESOURCE_ROOT
-    ?? join(__dirname, "..", "..", "..", "open-design");
+    process.env.SW_RESOURCE_ROOT
+    ?? join(__dirname, "..", "..", "..", "sankiwork");
 
   return {
     amrProfile: resolveHeadlessAmrProfile(),
@@ -59,11 +59,11 @@ function resolveHeadlessConfig(): PackagedConfig {
     nodeCommand: null,
     resourceRoot,
     telemetryRelayUrl:
-      process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL?.trim() || null,
-    updateMetadataUrl: process.env.OD_UPDATE_METADATA_URL?.trim() || null,
+      process.env.SANKIWORK_TELEMETRY_RELAY_URL?.trim() || null,
+    updateMetadataUrl: process.env.SW_UPDATE_METADATA_URL?.trim() || null,
     posthogKey: process.env.POSTHOG_KEY?.trim() || null,
     posthogHost: process.env.POSTHOG_HOST?.trim() || null,
-    velaWebUrl: process.env.OD_VELA_WEB_URL?.trim() || null,
+    velaWebUrl: process.env.SW_VELA_WEB_URL?.trim() || null,
     webSidecarEntry: null,
     webStandaloneRoot: null,
     webOutputMode: "server",
@@ -86,7 +86,7 @@ void runPackagedHeadless(
   },
 ).catch((error: unknown) => {
   process.stderr.write(
-    `open-design headless failed: ${
+    `sankiwork headless failed: ${
       error instanceof Error ? error.message : String(error)
     }\n`,
   );

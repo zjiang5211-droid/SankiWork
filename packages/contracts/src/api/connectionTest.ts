@@ -123,7 +123,7 @@ function internalHostMatchForms(hostname: string): string[] {
 
 // Issue #3225 — explicit, operator-declared escape hatch from the
 // default-deny internal-IP guard. Returns true only when `hostname` matches
-// a host the operator deliberately trusted (see `OD_ALLOWED_INTERNAL_HOSTS`
+// a host the operator deliberately trusted (see `SW_ALLOWED_INTERNAL_HOSTS`
 // on the daemon). An empty/absent allowlist always returns false, so the
 // strict default is preserved unless an operator opts in. This is consulted
 // ONLY for user-configured provider endpoints, never for the

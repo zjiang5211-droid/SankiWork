@@ -1,12 +1,12 @@
 ---
 name: OD Library and Clipper
-overview: 为 Open Design 新增一个全局资源库（OD Library，全系统统一资产登记中心）与 Chrome MV3 浏览器采集插件（OD Clipper）。资源库记录所有来源的资产（插件采集 / 手动上传 / Agent 任务上传或生成 / 设计系统提取），每条资产带来源标识与回链（可跳回对应 Agent 任务或设计系统），打通「采集/入库 → 可视化标记 → 语义检索 → 一键应用到设计稿 → 沉淀设计系统 → 一键产出 PPT/落地页/海报等材料」的持续积累闭环，遵循 HTTP + CLI + Web UI 三轨闭环与 daemon 数据目录契约。
+overview: 为 SankiWork 新增一个全局资源库（OD Library，全系统统一资产登记中心）与 Chrome MV3 浏览器采集插件（OD Clipper）。资源库记录所有来源的资产（插件采集 / 手动上传 / Agent 任务上传或生成 / 设计系统提取），每条资产带来源标识与回链（可跳回对应 Agent 任务或设计系统），打通「采集/入库 → 可视化标记 → 语义检索 → 一键应用到设计稿 → 沉淀设计系统 → 一键产出 PPT/落地页/海报等材料」的持续积累闭环，遵循 HTTP + CLI + Web UI 三轨闭环与 daemon 数据目录契约。
 todos:
   - id: phase0
     content: Phase 0 地基：在 packages/contracts/src/api/library.ts 定义 DTO（含 storage/sources/LibrarySourceKind）；在 apps/daemon/src/db.ts 新增 library_assets/library_asset_sources/library_embeddings/library_tasks/library_tokens/library_digests 表；新增 LIBRARY_DIR 解析（派生自 RUNTIME_DATA_DIR）与内容寻址存储 helper；实现集中索引函数 registerLibraryAsset（按 content_hash 幂等合并 + 追加来源）；搭建富化任务骨架（仿 media-tasks.ts）。
     status: pending
   - id: phase1
-    content: Phase 1 采集→入库→语义搜索 + 统一登记中心：实现 registerLibraryRoutes 的 ingest/assets(含 sources 回链与 source/project/designSystem 过滤)/search/raw/tasks-wait + SSE；把 registerLibraryAsset 接入现有入库点（project upload/files、media generateMedia 完成、设计系统 staging），落来源标识与回链；富化管线（调色板/caption/OCR/embedding via BYOK media-config provider，缺失则降级）；od library list/get/import/search/apply CLI；apps/web 新增 Library tab（网格+过滤+语义搜索+来源徽标+跳回深链）。
+    content: Phase 1 采集→入库→语义搜索 + 统一登记中心：实现 registerLibraryRoutes 的 ingest/assets(含 sources 回链与 source/project/designSystem 过滤)/search/raw/tasks-wait + SSE；把 registerLibraryAsset 接入现有入库点（project upload/files、media generateMedia 完成、设计系统 staging），落来源标识与回链；富化管线（调色板/caption/OCR/embedding via BYOK media-config provider，缺失则降级）；sw library list/get/import/search/apply CLI；apps/web 新增 Library tab（网格+过滤+语义搜索+来源徽标+跳回深链）。
     status: pending
   - id: phase2
     content: Phase 2 OD Clipper（Chrome MV3）：新建 clipper/ 子项目（background/content/popup）；浮动工具条三模式（Capture page 整页 / Select element 选元素 / 批量篮 Copy all + 打标签）；两个高价值出口——POST /api/library/capture/page（整页/区块→新建可编辑 HTML artifact project 并 open）与 /capture/compose（批量元素→合成 OD 网页 project），资源同步 registerLibraryAsset 带回链；实现配对流（/api/library/pair + confirm）与 od_library_token；扩展 origin-validation 支持持久化 extension origin allowlist；Settings → Browser Extension 配对 UI。
@@ -15,7 +15,7 @@ todos:
     content: Phase 3 原型增强：FileViewer srcDoc bridge 新增 Insert from Library 图片插入桥；POST /api/library/assets/:id/apply 拷贝进 project 并更新 <img src>；新增 /api/tools/library/search 与 apply（tool-token）供 chat agent 调用；skills/library-curator 技能。
     status: pending
   - id: phase4
-    content: Phase 4 Brand Kit 抽取 + 设计系统：新增 brand_kits 表/profile_json + POST /api/library/brand-kits（程序化抽取 palette/typography/logo/layout/identity/images，AI 增强可选，手动采用选择）+ od brand-kit extract CLI + Brand Kit tab（对齐截图分区）；从 Brand Kit/资源库选材，扩展 DesignSystemFlow.tsx 的 SetupState 增加 From Library 选择器，选中资源经 stageAssetFiles 入 project context/，复用现有 DS 创建链由 agent 提炼 DESIGN.md/tokens。
+    content: Phase 4 Brand Kit 抽取 + 设计系统：新增 brand_kits 表/profile_json + POST /api/library/brand-kits（程序化抽取 palette/typography/logo/layout/identity/images，AI 增强可选，手动采用选择）+ sw brand-kit extract CLI + Brand Kit tab（对齐截图分区）；从 Brand Kit/资源库选材，扩展 DesignSystemFlow.tsx 的 SetupState 增加 From Library 选择器，选中资源经 stageAssetFiles 入 project context/，复用现有 DS 创建链由 agent 提炼 DESIGN.md/tokens。
     status: pending
   - id: phase5
     content: Phase 5 每日归档流：archived_date 归档 feed 视图 + GET /api/library/archive；新增 Daily Library Digest routine（仿 Orbit）生成日报 Live Artifact；对某天资源做语义检索拼上下文的 Q&A（复用 chat run）。
@@ -43,7 +43,7 @@ isProject: false
 
 - **统一资产登记中心**：资源库是所有资产的索引层。任何现有入库点（project 上传、project 文件写入、media 生成完成、设计系统素材 staging、clipper）都通过一个集中函数 `registerLibraryAsset(...)` 登记到 `library_assets`。这是「记录所有内容」的核心机制。
 - **双存储模型**：
-  - **owned（自有副本）**：clipper 采集、`od library import` 等独立来源 → 存进 `LIBRARY_DIR`，内容寻址（按 hash）。
+  - **owned（自有副本）**：clipper 采集、`sw library import` 等独立来源 → 存进 `LIBRARY_DIR`，内容寻址（按 hash）。
   - **referenced（索引引用）**：已存在于某 project / 设计系统目录内的文件（agent 上传/生成、DS 素材）→ 资源库只存指针（`origin_project_id` + 相对路径）+ 元信息 + embedding，不复制字节，避免重复占用。
 - **去重与多来源**：按 `content_hash` 去重为一条逻辑资产；同一资产可有多条来源记录（`library_asset_sources`），所以「一张图在两个任务里都用过」会合并为一条资产 + 两条来源回链。
 - **全局资源库目录**：`LIBRARY_DIR = path.join(RUNTIME_DATA_DIR, 'library')`，符合 `AGENTS.md` 数据目录契约（派生自 `RUNTIME_DATA_DIR`）。
@@ -53,8 +53,8 @@ isProject: false
   - **AI 增强层（配了模型才启用）**：vision caption、OCR、embedding 语义向量。
 - **AI 模型配置**：复用 `media-config.json` 的 BYOK provider（OpenAI/AIHubMix），在 Settings 暴露 library 专用的 caption/OCR/embedding 模型选择（缺省继承 media providers）。未配置时这三项自动跳过，不报错。
 - **语义检索**：embedding 走上面 BYOK provider 的 `/embeddings`，向量存 SQLite BLOB（float32）。MVP 用暴力余弦 topK；规模大再切 `sqlite-vec`。**无 embedding 时降级为关键词/标签/元信息检索**，UI 提示去 Settings 配置可解锁语义搜索。
-- **插件鉴权**：配对码换长期 `od_library_token`；把 `chrome-extension://<id>` 注入持久化 origin allowlist（扩展 `origin-validation.ts` 的 `extraAllowedOrigins` 来源为「app-config 持久化 + OD_ALLOWED_ORIGINS」）；采集端点用新的 library-token authorizer（仿 `authorizeToolRequest`）。
-- **三轨闭环**：每个能力同时落 HTTP（`apps/daemon/src/routes/library.ts`）+ CLI（`od library …`）+ Web UI（新 Library tab），DTO 先进 `packages/contracts/src/api/library.ts`。
+- **插件鉴权**：配对码换长期 `od_library_token`；把 `chrome-extension://<id>` 注入持久化 origin allowlist（扩展 `origin-validation.ts` 的 `extraAllowedOrigins` 来源为「app-config 持久化 + SW_ALLOWED_ORIGINS」）；采集端点用新的 library-token authorizer（仿 `authorizeToolRequest`）。
+- **三轨闭环**：每个能力同时落 HTTP（`apps/daemon/src/routes/library.ts`）+ CLI（`sw library …`）+ Web UI（新 Library tab），DTO 先进 `packages/contracts/src/api/library.ts`。
 
 ## 3. 数据模型（`apps/daemon/src/db.ts`）
 
@@ -72,7 +72,7 @@ isProject: false
 - `project-routes.ts` 的 `POST /api/projects/:id/upload` 与 `POST /api/projects/:id/files`（手动/agent 上传）→ source `manual-upload` 或 `agent-task`（按是否带 run/conversation 上下文判定），`storage: referenced`。
 - `media.ts` `generateMedia()` 完成回调 → source `generated`，`storage: referenced`。
 - 设计系统创建 staging（`stageAssetFiles` / `prepareCreatedDesignSystemProject`）→ source `design-system`，带 `design_system_id`，`storage: referenced`。
-- `POST /api/library/ingest`（clipper / `od library import`）→ source `clipper`/`manual-upload`，`storage: owned`。
+- `POST /api/library/ingest`（clipper / `sw library import`）→ source `clipper`/`manual-upload`，`storage: owned`。
 
 钩子失败不得阻断主流程（best-effort 索引 + 日志）；富化任务异步补齐元信息与 embedding。
 
@@ -108,10 +108,10 @@ Agent 工具轨（tool-token，供 chat 内 agent 调用，实现「平台连通
 
 ## 6. CLI（`apps/daemon/src/cli.ts`，注册进 `SUBCOMMAND_MAP`）
 
-- `od library list|get|rm`、`od library import <file|url>`、`od library ingest --json --prompt-file -`
-- `od library search "<query>" [--json]`、`od library apply <assetId> --project <id>`
-- `od library archive [--date]`、`od library pair`（打印配对状态/码）、`od library reindex [--assetId|--all]`（AI 模型配齐后补跑 caption/OCR/embedding）
-- `od brand-kit extract <url>`、`od brand-kit list|get|rm`、`od brand-kit asset <id> --template <landing|deck|poster|email|newsletter|form>`（一键产出 brand asset）
+- `sw library list|get|rm`、`sw library import <file|url>`、`sw library ingest --json --prompt-file -`
+- `sw library search "<query>" [--json]`、`sw library apply <assetId> --project <id>`
+- `sw library archive [--date]`、`sw library pair`（打印配对状态/码）、`sw library reindex [--assetId|--all]`（AI 模型配齐后补跑 caption/OCR/embedding）
+- `sw brand-kit extract <url>`、`sw brand-kit list|get|rm`、`sw brand-kit asset <id> --template <landing|deck|poster|email|newsletter|form>`（一键产出 brand asset）
 - 全部支持 `--json` / `--daemon-url`，长文走 `--prompt-file`（复用 `readPromptFromFlags`）。
 
 ## 7. Web UI（`apps/web/src/`）
@@ -177,7 +177,7 @@ Brand Kit 是资源库 + 设计系统 + 生成材料的**统一聚合实体与 U
 
 ### 10.3 入口与产出
 
-- **抽取入口**：`POST /api/library/brand-kits`（body：`{ url }` 或 capture 快照引用）→ 跑程序化抽取（+ 可选 AI）→ 生成 brand profile + 关联资产 + 草稿设计系统。对应 CLI `od brand-kit extract <url>`、Web「New Brand Kit」。
+- **抽取入口**：`POST /api/library/brand-kits`（body：`{ url }` 或 capture 快照引用）→ 跑程序化抽取（+ 可选 AI）→ 生成 brand profile + 关联资产 + 草稿设计系统。对应 CLI `sw brand-kit extract <url>`、Web「New Brand Kit」。
 - **管理**：`GET /api/library/brand-kits`、`GET/PATCH/DELETE /api/library/brand-kits/:id`（PATCH 用于手动增删采用项）。
 - **产出 brand assets**：Brand Kit 详情页「BRAND ASSETS」区的 Landing/Pitch deck/Poster/Email/Newsletter/Form 按钮 = 用该 Brand Kit 的设计系统 + 现有 `design-templates/` 一键创建 project（即 §8 的一键产材料，归到 Brand Kit 出口）。
 - **Web UI**：新增 Brand Kit tab（左栏品牌列表 + New Brand Kit；右栏分区：IDENTITY/LOGO/TYPOGRAPHY/PALETTE/VOICE & TONE/IMAGERY/IMAGES/DESIGN SYSTEM 预览/BRAND ASSETS），对齐截图。
@@ -186,7 +186,7 @@ Brand Kit 是资源库 + 设计系统 + 生成材料的**统一聚合实体与 U
 
 - **跨域**：必须把 extension origin 纳入 allowlist；否则被 `/api` Origin 中间件 403。配对流程负责登记。
 - **数据契约**：所有路径派生自 `RUNTIME_DATA_DIR`，新增表/目录不得引入 cwd 相对回退。
-- **AI 缺失降级**：程序化入库与基础检索不依赖任何 AI；未配置 caption/OCR/embedding 模型时这些阶段标记 skipped，语义搜索降级为标签/文本/元信息检索，UI 提示去 Settings 配置可解锁。配置补齐后可对历史资产重跑 AI 富化（`od library reindex` / 后台补齐）。
+- **AI 缺失降级**：程序化入库与基础检索不依赖任何 AI；未配置 caption/OCR/embedding 模型时这些阶段标记 skipped，语义搜索降级为标签/文本/元信息检索，UI 提示去 Settings 配置可解锁。配置补齐后可对历史资产重跑 AI 富化（`sw library reindex` / 后台补齐）。
 - **测试位置**：daemon 测试入 `apps/daemon/tests/`，web 入 `apps/web/tests/`，跨边界一致性入 `e2e/tests/`，不放 `src/`。
 
 ## 12. 分阶段路线（每阶段三轨闭环 + 测试）
@@ -195,6 +195,6 @@ Brand Kit 是资源库 + 设计系统 + 生成材料的**统一聚合实体与 U
 - Phase 1 采集→入库→语义搜索 + **统一入库钩子接入所有现有入库点**（project 上传/文件写入、media 生成、DS staging），来源标识与回链落库（HTTP+CLI+Library tab，先用本地 import/CLI/已有上传验证，不依赖插件）。
 - Phase 2 OD Clipper（Chrome MV3）+ 配对鉴权 + origin allowlist；含工具条三模式（Capture page / Select element / 批量篮+标签）与两个高价值出口（整页→可编辑 OD 页面、批量元素→合成 OD 网页）。
 - Phase 3 原型增强（Insert from Library）+ apply-to-design + agent tool 端点。
-- Phase 4 Brand Kit 抽取 + 设计系统：程序化抽取（palette/typography/logo/layout/identity/images）+ 可选 AI 增强 + 手动采用选择；从 Brand Kit/资源库选材生成设计系统。`POST /api/library/brand-kits` + `od brand-kit extract` + Brand Kit tab。
+- Phase 4 Brand Kit 抽取 + 设计系统：程序化抽取（palette/typography/logo/layout/identity/images）+ 可选 AI 增强 + 手动采用选择；从 Brand Kit/资源库选材生成设计系统。`POST /api/library/brand-kits` + `sw brand-kit extract` + Brand Kit tab。
 - Phase 5 每日归档流 + 日报 digest routine + 问答。
 - Phase 6 Brand Kit → 一键产出 brand assets（Landing/Pitch deck/Poster/Email/Newsletter/Form）按钮接线（用 Brand Kit 设计系统 + 现有 design-templates）。

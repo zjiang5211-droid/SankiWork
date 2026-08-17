@@ -5,7 +5,7 @@
 Capture the integration-boundary decisions the product/pipeline team needs to
 make before any creative-memory implementation can land in the live generation
 loop. What this doc covers is **not** the memory engine itself. It is the
-contract between memory and the rest of Open Design: where signals come from,
+contract between memory and the rest of SankiWork: where signals come from,
 where the prompt block goes (and how it relates to the existing `## Personal
 memory` slot the daemon composer already populates), how users control it,
 and how the raw-events / content-addressed-derivations contract (background
@@ -75,7 +75,7 @@ The prototype stores plain JSON per user at
 
 `<storage_root>` defaults to a package-local directory and is overridable
 via `MEMORY_STORAGE_ROOT`. §3 of this doc proposes aligning that with
-`OD_DATA_DIR` precedence per [`AGENTS.md`](../../AGENTS.md) FAQ "Where is
+`SW_DATA_DIR` precedence per [`AGENTS.md`](../../AGENTS.md) FAQ "Where is
 data written?".
 
 ### Raw-events / content-addressed-derivations contract
@@ -153,8 +153,8 @@ space.
   memory subsystem.
 - **Headless / CLI parity.** Per the dual-track rule, every signal capture
   surface in the UI must have a CLI equivalent that emits the same event
-  shape. `od memory ingest` (or similar) is the contract; without it,
-  external agents driving Open Design through `od` cannot contribute to the
+  shape. `sw memory ingest` (or similar) is the contract; without it,
+  external agents driving SankiWork through `sw` cannot contribute to the
   user's preference memory and the memory becomes UI-only.
 
 ## 2. Retrieval insertion into generation / critique
@@ -339,12 +339,12 @@ no other user surface. Everything else needs to be designed.
 
 | Surface | UI | CLI | Why required |
 |---|---|---|---|
-| Master enable/disable | Settings → Memory toggle | `od memory disable` / `od memory enable` | Trust posture; users must be able to turn it off. |
-| Per-project override | Project settings → "this project ignores global memory" | `od memory project-disable <project>` | Sensitive projects (client work, NDAs) should not leak general preference memory. |
-| "What's in my memory right now" inspector | Settings → Memory → Inspect | `od memory inspect --json` | Trust requires legibility. The engine emits diagnostics; this surface reads them. |
-| Forget a specific pattern | Inspector row → Forget | `od memory forget <type> <pattern>` | GDPR-shaped escape hatch and recovery from ingestion errors. |
-| Wipe all memory | Settings → Memory → Reset | `od memory reset --confirm` | Recovery from corruption, account handover, fresh start. |
-| Pause without forgetting | Settings → Memory → Pause | `od memory pause [--until <date>]` | Useful when the user knows they're working in an atypical mode (client work, exploration) without wanting to lose the existing model. |
+| Master enable/disable | Settings → Memory toggle | `sw memory disable` / `sw memory enable` | Trust posture; users must be able to turn it off. |
+| Per-project override | Project settings → "this project ignores global memory" | `sw memory project-disable <project>` | Sensitive projects (client work, NDAs) should not leak general preference memory. |
+| "What's in my memory right now" inspector | Settings → Memory → Inspect | `sw memory inspect --json` | Trust requires legibility. The engine emits diagnostics; this surface reads them. |
+| Forget a specific pattern | Inspector row → Forget | `sw memory forget <type> <pattern>` | GDPR-shaped escape hatch and recovery from ingestion errors. |
+| Wipe all memory | Settings → Memory → Reset | `sw memory reset --confirm` | Recovery from corruption, account handover, fresh start. |
+| Pause without forgetting | Settings → Memory → Pause | `sw memory pause [--until <date>]` | Useful when the user knows they're working in an atypical mode (client work, exploration) without wanting to lose the existing model. |
 
 ### Surfaces to consider
 
@@ -361,15 +361,15 @@ no other user surface. Everything else needs to be designed.
 ### Storage location and portability
 
 The engine defaults to `<package install dir>/memory/<userId>/preferences.json`
-overridable via `MEMORY_STORAGE_ROOT`. For Open Design integration, two
+overridable via `MEMORY_STORAGE_ROOT`. For SankiWork integration, two
 decisions:
 
 - **Default ownership.** Memory is daemon-managed state. The integration must
   receive an explicit storage root derived from the daemon's already-resolved
-  `RUNTIME_DATA_DIR`; it must not independently reinterpret `OD_DATA_DIR` or
+  `RUNTIME_DATA_DIR`; it must not independently reinterpret `SW_DATA_DIR` or
   choose a cwd-relative fallback. The exact daemon path is intentionally left
   to root [`AGENTS.md`](../../AGENTS.md) → **Daemon data directory contract**.
-- **Portability.** `od memory export --to <path>` and `od memory import <path>`
+- **Portability.** `sw memory export --to <path>` and `sw memory import <path>`
   for moving memory across machines without a cloud sync layer. The engine's
   storage is already plain JSON; this is just CLI plumbing.
 
@@ -417,7 +417,7 @@ that axis matches the existing daemon ↔ package boundary in the repo.
 The content-addressed key is `hash(raw_event_set, derivation_fn_version)`. The
 version tag has to live somewhere both the writer and reader agree on.
 
-Lean: as an exported constant in `@open-design/creative-memory-system`,
+Lean: as an exported constant in `@sankiwork/creative-memory-system`,
 imported by the daemon when computing the cache key. Bumping the version is a
 package release. This matches how the package already exports
 `schema_version: "1.0"` in `preferences.json`.
@@ -496,7 +496,7 @@ For maintainer review, the explicit calls this doc surfaces:
 5. **Memory block insertion point** in the live composer order. (§2; lean B1, after `## Personal memory`)
 6. **Precedence wording** for the new block. (§2; lean: mirror the existing `brand wins / skill wins` clause)
 7. **Critique-side memory format.** (§2)
-8. **Default storage path** under `OD_DATA_DIR`. (§3; lean yes)
+8. **Default storage path** under `SW_DATA_DIR`. (§3; lean yes)
 9. **Diagnostic feed surface** in chat. (§3; lean off by default)
 10. **Raw-events ownership** between daemon and engine package. (§4; lean C)
 11. **Derivation-version exporter.** (§4)
@@ -512,21 +512,21 @@ than starting from a blank page.
 - A specific pairwise event shape. The lean is `{ chose, over, dimensions? }`,
   but UX details (does the user pick one, or pick + dimension annotation?)
   belong to the surface that actually ships pairwise first (critique theater).
-- A specific CLI subcommand layout for `od memory`. The dual-track rule says
+- A specific CLI subcommand layout for `sw memory`. The dual-track rule says
   every UI control needs a CLI peer; the names in §3 are illustrative, the
   actual subcommand grammar follows whatever pattern the existing
-  `od automation`, `od plugin`, `od ui` family establishes.
+  `sw automation`, `sw plugin`, `sw ui` family establishes.
 - A rollout schedule. The decisions above are independent and can land in
   any order behind a `memory_enabled: false` default.
 
 ## Open follow-ups
 
-- Confirm that `OD_DATA_DIR` precedence applies to the memory storage root
+- Confirm that `SW_DATA_DIR` precedence applies to the memory storage root
   (it should, per AGENTS.md FAQ, but the integration code has not been
   written yet).
-- Decide whether memory state is part of `od project export` /
+- Decide whether memory state is part of `sw project export` /
   per-project portability flows, or strictly user-scoped.
-- Sketch the `od memory inspect --json` output shape — likely just a passthrough
+- Sketch the `sw memory inspect --json` output shape — likely just a passthrough
   of the engine's diagnostic events plus the current preference list.
 
 These are tractable doc edits once the §5 decisions land; flagged here so

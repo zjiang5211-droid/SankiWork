@@ -1,9 +1,9 @@
 /**
- * Refresh the commercial metadata for Open Design's slide-deck templates.
+ * Refresh the commercial metadata for SankiWork's slide-deck templates.
  *
  * Source of truth for WHICH template becomes WHICH commercial use-case is
  * `assignment.json` (default: `<repo>/.tmp/assignment.json`, override with
- * `OD_SLIDE_ASSIGNMENT`). Each entry pins a template id to a category, a
+ * `SW_SLIDE_ASSIGNMENT`). Each entry pins a template id to a category, a
  * unique title (EN/ZH), a concrete subject, and buyer-facing descriptions.
  *
  * This script ONLY rewrites metadata (`SKILL.md` frontmatter +
@@ -74,7 +74,7 @@ const repoRoot = path.resolve(scriptDir, '..');
 const designTemplatesRoot = path.join(repoRoot, 'design-templates');
 const officialExamplesRoot = path.join(repoRoot, 'plugins', '_official', 'examples');
 const assignmentPath =
-  process.env.OD_SLIDE_ASSIGNMENT ?? path.join(repoRoot, '.tmp', 'assignment.json');
+  process.env.SW_SLIDE_ASSIGNMENT ?? path.join(repoRoot, '.tmp', 'assignment.json');
 
 const commercialCategories: CommercialCategory[] = [
   { id: 'student-coursework', enLabel: 'Student coursework', zhLabel: '课业/课程作业', coreQuery: 'senior-capstone-defense-deck', scenario: 'education', criticRubric: 'can a reviewer find the contribution, evidence, and limitation in under 90 seconds', tags: ['coursework', 'defense', 'academic'] },
@@ -99,7 +99,7 @@ const categoryById = new Map(commercialCategories.map((c) => [c.id, c]));
 function loadAssignments(): Map<string, Assignment> {
   if (!existsSync(assignmentPath)) {
     throw new Error(
-      `Assignment file not found: ${assignmentPath}. Generate it first (planning stage) or set OD_SLIDE_ASSIGNMENT.`,
+      `Assignment file not found: ${assignmentPath}. Generate it first (planning stage) or set SW_SLIDE_ASSIGNMENT.`,
     );
   }
   const raw = JSON.parse(readFileSync(assignmentPath, 'utf8')) as Assignment[];
@@ -248,7 +248,7 @@ function stringListFromUnknown(value: unknown): string[] {
   return value.filter((item): item is string => typeof item === 'string').map((s) => s.trim()).filter(Boolean);
 }
 
-function updateOpenDesignJson(raw: string, copy: RefreshCopy): string {
+function updateSankiWorkJson(raw: string, copy: RefreshCopy): string {
   let manifest: Record<string, unknown>;
   try { manifest = JSON.parse(raw) as Record<string, unknown>; } catch { return raw; }
 
@@ -335,7 +335,7 @@ function refreshTemplate(root: string, dir: string, copy: RefreshCopy, isOfficia
       const nextSkill = updateSkillMarkdown(rawSkill, copy);
       if (nextSkill !== rawSkill) { writeFileSync(skillPath, nextSkill, 'utf8'); counts.skill += 1; touched.push(path.relative(repoRoot, skillPath)); }
       if (isOfficial && rawManifest !== null) {
-        const nextManifest = updateOpenDesignJson(rawManifest, copy);
+        const nextManifest = updateSankiWorkJson(rawManifest, copy);
         if (nextManifest !== rawManifest) { writeFileSync(manifestPath, nextManifest, 'utf8'); counts.manifest += 1; touched.push(path.relative(repoRoot, manifestPath)); }
       }
     }

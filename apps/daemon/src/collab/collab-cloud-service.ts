@@ -5,7 +5,7 @@
 //
 // Everything degrades to a no-op off-team: when the workspace context has no
 // team identity, registration/push/poll all short-circuit. The client itself is
-// only constructed when OD_COLLAB_CLOUD_URL is set (see createCollabCloudClientFromEnv),
+// only constructed when SW_COLLAB_CLOUD_URL is set (see createCollabCloudClientFromEnv),
 // so an unconfigured daemon never even reaches here.
 
 import type {
@@ -13,7 +13,7 @@ import type {
   CollabCloudMemberDirectoryEntry,
   PreviewComment,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { CollabCloudClient } from '../integrations/collab-cloud.js';
 import type { WorkspaceContextProvider } from './workspace-context.js';
 import type {

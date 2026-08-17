@@ -1,10 +1,10 @@
 // Plan §3.K1 / spec §15.7 — bound-API-token guard.
 //
 // Two halves:
-//   1. The daemon refuses to start with OD_BIND_HOST=0.0.0.0 when no
-//      OD_API_TOKEN is set.
-//   2. When OD_API_TOKEN is set, every /api/* request from a non-loopback
-//      peer must carry `Authorization: Bearer <OD_API_TOKEN>`. The
+//   1. The daemon refuses to start with SW_BIND_HOST=0.0.0.0 when no
+//      SW_API_TOKEN is set.
+//   2. When SW_API_TOKEN is set, every /api/* request from a non-loopback
+//      peer must carry `Authorization: Bearer <SW_API_TOKEN>`. The
 //      health/readiness/version probes stay open for monitoring.
 //
 // Tests force the bearer-required code path by stamping the env vars
@@ -20,9 +20,9 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { isApiAuthDisabled, isApiTokenMiddlewareEnabled } from '../src/api-token-auth.js';
 import { startServer } from '../src/server.js';
 
-const PREVIOUS_TOKEN = process.env.OD_API_TOKEN;
-const PREVIOUS_HOST  = process.env.OD_BIND_HOST;
-const PREVIOUS_DISABLE_API_AUTH = process.env.OD_DISABLE_API_AUTH;
+const PREVIOUS_TOKEN = process.env.SW_API_TOKEN;
+const PREVIOUS_HOST  = process.env.SW_BIND_HOST;
+const PREVIOUS_DISABLE_API_AUTH = process.env.SW_DISABLE_API_AUTH;
 
 let server: Server | undefined;
 let baseUrl = '';
@@ -75,23 +75,23 @@ afterEach(async () => {
   shutdown = undefined;
   if (staticDir) rmSync(staticDir, { force: true, recursive: true });
   staticDir = undefined;
-  if (PREVIOUS_TOKEN === undefined) delete process.env.OD_API_TOKEN;
-  else process.env.OD_API_TOKEN = PREVIOUS_TOKEN;
-  if (PREVIOUS_HOST === undefined) delete process.env.OD_BIND_HOST;
-  else process.env.OD_BIND_HOST = PREVIOUS_HOST;
-  if (PREVIOUS_DISABLE_API_AUTH === undefined) delete process.env.OD_DISABLE_API_AUTH;
-  else process.env.OD_DISABLE_API_AUTH = PREVIOUS_DISABLE_API_AUTH;
+  if (PREVIOUS_TOKEN === undefined) delete process.env.SW_API_TOKEN;
+  else process.env.SW_API_TOKEN = PREVIOUS_TOKEN;
+  if (PREVIOUS_HOST === undefined) delete process.env.SW_BIND_HOST;
+  else process.env.SW_BIND_HOST = PREVIOUS_HOST;
+  if (PREVIOUS_DISABLE_API_AUTH === undefined) delete process.env.SW_DISABLE_API_AUTH;
+  else process.env.SW_DISABLE_API_AUTH = PREVIOUS_DISABLE_API_AUTH;
 });
 
 describe('bound-API-token guard', () => {
-  it('refuses to start with OD_BIND_HOST=0.0.0.0 when OD_API_TOKEN is unset', async () => {
-    delete process.env.OD_API_TOKEN;
+  it('refuses to start with SW_BIND_HOST=0.0.0.0 when SW_API_TOKEN is unset', async () => {
+    delete process.env.SW_API_TOKEN;
     await expect(startServer({ port: 0, host: '0.0.0.0', returnServer: true }))
-      .rejects.toThrow(/OD_API_TOKEN/);
+      .rejects.toThrow(/SW_API_TOKEN/);
   });
 
-  it('starts on a public host when OD_API_TOKEN is set', async () => {
-    process.env.OD_API_TOKEN = 'test-token-abc';
+  it('starts on a public host when SW_API_TOKEN is set', async () => {
+    process.env.SW_API_TOKEN = 'test-token-abc';
     // Bind to 127.0.0.1 (loopback) but pretend we crossed the guard
     // by setting the env var; the assertion is that startup succeeds.
     const started = (await startServer({ port: 0, host: '127.0.0.1', returnServer: true })) as {
@@ -105,9 +105,9 @@ describe('bound-API-token guard', () => {
     expect(baseUrl).toMatch(/^http:\/\/127\.0\.0\.1:/);
   });
 
-  it('starts on a public host without OD_API_TOKEN when OD_DISABLE_API_AUTH=1', async () => {
-    delete process.env.OD_API_TOKEN;
-    process.env.OD_DISABLE_API_AUTH = '1';
+  it('starts on a public host without SW_API_TOKEN when SW_DISABLE_API_AUTH=1', async () => {
+    delete process.env.SW_API_TOKEN;
+    process.env.SW_DISABLE_API_AUTH = '1';
     const started = (await startServer({ port: 0, host: '0.0.0.0', returnServer: true })) as {
       server: Server;
       shutdown?: () => Promise<void> | void;
@@ -119,7 +119,7 @@ describe('bound-API-token guard', () => {
 
 describe('bearer middleware', () => {
   beforeEach(async () => {
-    process.env.OD_API_TOKEN = 'secret-test-token';
+    process.env.SW_API_TOKEN = 'secret-test-token';
     const started = (await startServer({ port: 0, host: '127.0.0.1', returnServer: true })) as {
       url: string;
       server: Server;
@@ -144,18 +144,18 @@ describe('bearer middleware', () => {
     }
   });
 
-  it('disables bearer middleware when OD_DISABLE_API_AUTH=1 even if OD_API_TOKEN is set', () => {
+  it('disables bearer middleware when SW_DISABLE_API_AUTH=1 even if SW_API_TOKEN is set', () => {
     expect(
       isApiTokenMiddlewareEnabled({
         ...process.env,
-        OD_API_TOKEN: 'secret-test-token',
-        OD_DISABLE_API_AUTH: '1',
+        SW_API_TOKEN: 'secret-test-token',
+        SW_DISABLE_API_AUTH: '1',
       }),
     ).toBe(false);
     expect(
       isApiAuthDisabled({
         ...process.env,
-        OD_DISABLE_API_AUTH: '1',
+        SW_DISABLE_API_AUTH: '1',
       }),
     ).toBe(true);
   });
@@ -163,7 +163,7 @@ describe('bearer middleware', () => {
 
 describe('browser authentication for non-loopback Docker peers', () => {
   beforeEach(async () => {
-    process.env.OD_API_TOKEN = 'secret-test-token';
+    process.env.SW_API_TOKEN = 'secret-test-token';
     staticDir = mkdtempSync(path.join(os.tmpdir(), 'od-api-token-static-'));
     writeFileSync(path.join(staticDir, 'index.html'), '<!doctype html><div>docker shell</div>');
 
@@ -187,12 +187,12 @@ describe('browser authentication for non-loopback Docker peers', () => {
     const unauthenticatedShell = await fetch(`${baseUrl}/`);
     expect(unauthenticatedShell.status).toBe(401);
     expect(unauthenticatedShell.headers.get('www-authenticate')).toBe(
-      'Basic realm="Open Design", charset="UTF-8"',
+      'Basic realm="SankiWork", charset="UTF-8"',
     );
     expect(unauthenticatedShell.headers.get('set-cookie')).toBeNull();
     expect(await unauthenticatedShell.text()).not.toContain('docker shell');
 
-    const credentials = Buffer.from('open-design:secret-test-token').toString('base64');
+    const credentials = Buffer.from('sankiwork:secret-test-token').toString('base64');
     const basicApiResp = await fetch(`${baseUrl}/api/plugins`, {
       headers: { authorization: `Basic ${credentials}` },
     });
@@ -216,7 +216,7 @@ describe('browser authentication for non-loopback Docker peers', () => {
 
     const invalidCredentials = [
       undefined,
-      `Basic ${Buffer.from('open-design:wrong-token').toString('base64')}`,
+      `Basic ${Buffer.from('sankiwork:wrong-token').toString('base64')}`,
       `Basic ${Buffer.from('admin:secret-test-token').toString('base64')}`,
       'Basic not-base64!',
       'Bearer wrong-token',
@@ -229,7 +229,7 @@ describe('browser authentication for non-loopback Docker peers', () => {
 
       expect(resp.status).toBe(401);
       expect(resp.headers.get('www-authenticate')).toBe(
-        'Basic realm="Open Design", charset="UTF-8"',
+        'Basic realm="SankiWork", charset="UTF-8"',
       );
     }
   });
@@ -257,7 +257,7 @@ describe('browser authentication for non-loopback Docker peers', () => {
     makeConnectionsAppearNonLoopback(server);
 
     const port = new URL(baseUrl).port;
-    const credentials = Buffer.from('open-design:secret-test-token').toString('base64');
+    const credentials = Buffer.from('sankiwork:secret-test-token').toString('base64');
     const browserHeaders = {
       authorization: `Basic ${credentials}`,
       'sec-fetch-dest': 'empty',

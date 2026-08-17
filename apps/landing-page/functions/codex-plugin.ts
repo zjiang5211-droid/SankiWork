@@ -76,7 +76,7 @@ export async function handleCodexPluginRequest(
 
   const unavailableResponse = () =>
     new Response(
-      `Open Design plugin installation guide is temporarily unavailable.\n\nRead ${AGENT_INSTALL_GUIDE_URL} and follow the Install into Codex lane. Do not change unrelated configuration.\n`,
+      `SankiWork plugin installation guide is temporarily unavailable.\n\nRead ${AGENT_INSTALL_GUIDE_URL} and follow the Install into Codex lane. Do not change unrelated configuration.\n`,
       { status: 502, headers },
     );
 
@@ -85,7 +85,7 @@ export async function handleCodexPluginRequest(
     const upstream = await fetcher(AGENT_INSTALL_GUIDE_URL, {
       headers: {
         Accept: 'text/plain, text/markdown;q=0.9, */*;q=0.1',
-        'User-Agent': 'open-design.ai/codex-plugin agent entrypoint',
+        'User-Agent': 'sanki-ai.cloud/codex-plugin agent entrypoint',
       },
     });
     if (!upstream.ok) return unavailableResponse();
@@ -94,9 +94,9 @@ export async function handleCodexPluginRequest(
     return unavailableResponse();
   }
   const body = [
-    '# Open Design for Codex — agent installation entrypoint',
+    '# SankiWork for Codex — agent installation entrypoint',
     '',
-    'The user asked you to install Open Design for Codex. Read this entire response, follow the Install into Codex lane, verify the plugin and local MCP, then complete the handoff exactly as instructed.',
+    'The user asked you to install SankiWork for Codex. Read this entire response, follow the Install into Codex lane, verify the plugin and local MCP, then complete the handoff exactly as instructed.',
     '',
     `Canonical guide: ${AGENT_INSTALL_GUIDE_URL}`,
     '',

@@ -34,7 +34,7 @@ The v1 manifest uses fixed canonical file names:
   "description": "A concise English catalog summary.",
   "source": {
     "type": "bundled",
-    "origin": "Open Design curated bundled fixture"
+    "origin": "SankiWork curated bundled fixture"
   },
   "files": {
     "design": "DESIGN.md",
@@ -120,7 +120,7 @@ The prompt receives only a compact list of canonical intent ids. For a listed
 intent, a filesystem agent resolves the full selection on demand:
 
 ```bash
-"$OD_NODE_BIN" "$OD_BIN" tools design-systems resolve \
+"$SW_NODE_BIN" "$SW_BIN" tools design-systems resolve \
   --intent account.settings.save
 ```
 
@@ -141,7 +141,7 @@ After generation, the filesystem agent validates the files that implement the
 intent. Pass every related source file when markup and styles are split:
 
 ```bash
-"$OD_NODE_BIN" "$OD_BIN" tools design-systems validate \
+"$SW_NODE_BIN" "$SW_BIN" tools design-systems validate \
   --intent account.settings.save \
   --artifact account-settings.html \
   --artifact styles/account-settings.css

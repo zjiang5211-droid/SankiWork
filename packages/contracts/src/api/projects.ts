@@ -153,7 +153,7 @@ export interface ProjectMetadata {
   entryFile?: string;
   sourceFileName?: string;
   // Folder-import (#597): when set, the project's files live under this
-  // absolute path instead of .od/projects/<id>/. OD reads and writes
+  // absolute path instead of .sankiwork/projects/<id>/. OD reads and writes
   // directly inside the user's folder. Stored as the realpath() result so
   // symlinks can't redirect writes after import time.
   baseDir?: string;
@@ -332,7 +332,7 @@ export interface Conversation {
 
 export interface CreateProjectRequest {
   name: string;
-  /** Optional project library location id. Omit or use `default` for .od/projects. */
+  /** Optional project library location id. Omit or use `default` for .sankiwork/projects. */
   projectLocationId?: string;
   skillId?: string | null;
   /** Local lookup provenance captured when the Skill was selected. */
@@ -468,7 +468,7 @@ export interface ProjectWorkspaceScopeResponse {
 }
 
 // Local D-lane placeholder until the B-owned CurrentWorkspaceContext is
-// imported into open-design. The route adapter keeps this replaceable.
+// imported into sankiwork. The route adapter keeps this replaceable.
 export type WorkspaceProjectRole = 'owner' | 'admin' | 'member';
 
 // C owns project sync orchestration. D exposes this on its read model and emits

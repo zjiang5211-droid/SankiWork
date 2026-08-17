@@ -14,7 +14,7 @@ import type {
   DesktopExportArtifactResult,
   DesktopRenderSlidesInput,
   DesktopRenderSlidesResult,
-} from '@open-design/sidecar-proto';
+} from '@sankiwork/sidecar-proto';
 import {
   closeDatabase,
   ensureWorkspaceProject,
@@ -40,7 +40,7 @@ const legacyBaseHref = 'https://external.invalid/legacy/';
 const rendererStylesheetPath = 'styles/export.css';
 const rendererImagePath = 'assets/hero.png';
 
-describe('od export run-scoped project authority', () => {
+describe('sw export run-scoped project authority', () => {
   let authorityServer: http.Server;
   let daemonShutdown: () => Promise<void> | void;
   let daemonUrl = '';
@@ -60,8 +60,8 @@ describe('od export run-scoped project authority', () => {
 
   beforeAll(async () => {
     outputDir = await mkdtemp(path.join(os.tmpdir(), 'od-export-tool-token-'));
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required by the daemon test harness');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required by the daemon test harness');
     const db = openDatabase(process.cwd(), { dataDir });
     const now = Date.now();
     insertProject(db, {
@@ -141,10 +141,10 @@ describe('od export run-scoped project authority', () => {
     if (!authorityAddress || typeof authorityAddress === 'string') {
       throw new Error('authority server did not bind');
     }
-    vi.stubEnv('OD_WORKSPACE_CONTEXT_SOURCE', 'vela');
+    vi.stubEnv('SW_WORKSPACE_CONTEXT_SOURCE', 'vela');
     vi.stubEnv('VELA_CONTROL_KEY', 'test-control-key');
     vi.stubEnv('VELA_API_URL', `http://127.0.0.1:${authorityAddress.port}`);
-    vi.stubEnv('OD_API_TOKEN', daemonApiToken);
+    vi.stubEnv('SW_API_TOKEN', daemonApiToken);
 
     const renderer = (input: DesktopRenderSlidesInput): Promise<DesktopRenderSlidesResult> => {
       const pending = pendingRenderer;
@@ -185,7 +185,7 @@ describe('od export run-scoped project authority', () => {
     }) as { url: string; shutdown: () => Promise<void> | void };
     daemonUrl = started.url;
     daemonShutdown = started.shutdown;
-    vi.stubEnv('OD_API_TOKEN', 'changed-after-server-start');
+    vi.stubEnv('SW_API_TOKEN', 'changed-after-server-start');
   });
 
   afterAll(async () => {
@@ -499,11 +499,11 @@ describe('od export run-scoped project authority', () => {
     const env: NodeJS.ProcessEnv = {
       ...process.env,
       NODE_OPTIONS: '',
-      OD_DAEMON_URL: daemonUrl,
-      OD_PROJECT_ID: requestedProjectId,
+      SW_DAEMON_URL: daemonUrl,
+      SW_PROJECT_ID: requestedProjectId,
     };
-    if (token) env.OD_TOOL_TOKEN = token;
-    else delete env.OD_TOOL_TOKEN;
+    if (token) env.SW_TOOL_TOKEN = token;
+    else delete env.SW_TOOL_TOKEN;
     try {
       const { stdout, stderr } = await execFileP(
         process.execPath,

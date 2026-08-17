@@ -133,11 +133,11 @@ describe("renderer crash-loop breaker wiring", () => {
     // Reuse the preload's existing bridges (no new surface): openExternal for a
     // prefilled GitHub issue / support mailto, exportDiagnostics for the bundle.
     expect(runtimeSource).toContain("issues/new");
-    expect(runtimeSource).toContain("window.__od__");
+    expect(runtimeSource).toContain("window.__sankiwork__");
     expect(runtimeSource).toContain("openExternal");
-    expect(runtimeSource).toContain("window.openDesignDesktop");
+    expect(runtimeSource).toContain("window.sankiWorkDesktop");
     expect(runtimeSource).toContain("exportDiagnostics");
-    expect(runtimeSource).toContain("support@open-design.ai");
+    expect(runtimeSource).toContain("support@sanki-ai.cloud");
     expect(runtimeSource).toContain("buildCrashMailtoUrl");
     // Report body prefilled with the version/OS/exit code a triager needs.
     expect(runtimeSource).toContain("buildCrashReportUrl");
@@ -147,16 +147,16 @@ describe("renderer crash-loop breaker wiring", () => {
 
 describe("isSupportMailtoUrl", () => {
   test("allows a mailto to the support address carrying only subject/body", () => {
-    expect(isSupportMailtoUrl("mailto:support@open-design.ai")).toBe(true);
-    expect(isSupportMailtoUrl("mailto:support@open-design.ai?subject=Crash&body=hi")).toBe(true);
+    expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud")).toBe(true);
+    expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud?subject=Crash&body=hi")).toBe(true);
     // Address comparison is case-insensitive.
-    expect(isSupportMailtoUrl("mailto:Support@Open-Design.AI")).toBe(true);
+    expect(isSupportMailtoUrl("mailto:Support@SankiWork.AI")).toBe(true);
   });
 
   test("rejects any other address or scheme so widening open-external can't be abused", () => {
     expect(isSupportMailtoUrl("mailto:attacker@evil.com")).toBe(false);
     expect(isSupportMailtoUrl("mailto:support@evil.com")).toBe(false);
-    expect(isSupportMailtoUrl("https://open-design.ai")).toBe(false);
+    expect(isSupportMailtoUrl("https://sanki-ai.cloud")).toBe(false);
     expect(isSupportMailtoUrl("javascript:alert(1)")).toBe(false);
     expect(isSupportMailtoUrl("file:///etc/passwd")).toBe(false);
     expect(isSupportMailtoUrl("not a url")).toBe(false);
@@ -165,19 +165,19 @@ describe("isSupportMailtoUrl", () => {
   test("rejects extra recipients/headers smuggled through the query (to/cc/bcc/unknown)", () => {
     // The address alone passes pathname, so the query must be validated too or a
     // compromised renderer could add recipients through the open-external bridge.
-    expect(isSupportMailtoUrl("mailto:support@open-design.ai?bcc=attacker@example.com")).toBe(false);
-    expect(isSupportMailtoUrl("mailto:support@open-design.ai?cc=attacker@example.com")).toBe(false);
-    expect(isSupportMailtoUrl("mailto:support@open-design.ai?to=attacker@example.com")).toBe(false);
-    expect(isSupportMailtoUrl("mailto:support@open-design.ai?subject=x&bcc=attacker@example.com")).toBe(false);
-    expect(isSupportMailtoUrl("mailto:support@open-design.ai?whatever=1")).toBe(false);
+    expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud?bcc=attacker@example.com")).toBe(false);
+    expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud?cc=attacker@example.com")).toBe(false);
+    expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud?to=attacker@example.com")).toBe(false);
+    expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud?subject=x&bcc=attacker@example.com")).toBe(false);
+    expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud?whatever=1")).toBe(false);
   });
 
   test("rejects a CR/LF-injected subject/body that could smuggle a mail header", () => {
     // %0D%0A decodes to CRLF; a "Bcc:" line after it would add a recipient.
     expect(
-      isSupportMailtoUrl("mailto:support@open-design.ai?subject=ok%0D%0ABcc:attacker@example.com"),
+      isSupportMailtoUrl("mailto:support@sanki-ai.cloud?subject=ok%0D%0ABcc:attacker@example.com"),
     ).toBe(false);
-    expect(isSupportMailtoUrl("mailto:support@open-design.ai?body=line1%0Aline2")).toBe(false);
+    expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud?body=line1%0Aline2")).toBe(false);
   });
 });
 
@@ -190,7 +190,7 @@ describe("isFirstPartyMailtoUrl", () => {
     expect(isFirstPartyMailtoUrl("mailto:contact@open.design?subject=Hi&body=there")).toBe(true);
     expect(isFirstPartyMailtoUrl("mailto:Contact@Open.Design")).toBe(true);
     // The crash screen's support address stays covered.
-    expect(isFirstPartyMailtoUrl("mailto:support@open-design.ai")).toBe(true);
+    expect(isFirstPartyMailtoUrl("mailto:support@sanki-ai.cloud")).toBe(true);
   });
 
   test("keeps the support predicate narrow so the open-external bridge does not widen", () => {
@@ -207,7 +207,7 @@ describe("isFirstPartyMailtoUrl", () => {
     expect(
       isFirstPartyMailtoUrl("mailto:contact@open.design?subject=ok%0D%0ABcc:attacker@example.com"),
     ).toBe(false);
-    expect(isFirstPartyMailtoUrl("https://open-design.ai")).toBe(false);
+    expect(isFirstPartyMailtoUrl("https://sanki-ai.cloud")).toBe(false);
     expect(isFirstPartyMailtoUrl("javascript:alert(1)")).toBe(false);
     expect(isFirstPartyMailtoUrl("not a url")).toBe(false);
   });

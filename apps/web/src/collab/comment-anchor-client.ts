@@ -1,5 +1,5 @@
 import type { AnchorWriteBack } from '../comments';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { workspaceProjectHeaders } from './workspace-identity';
 
 export interface PersistCommentAnchorArgs {

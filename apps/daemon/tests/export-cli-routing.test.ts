@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { EXPORT_FORMATS } from '@open-design/contracts';
+import { EXPORT_FORMATS } from '@sankiwork/contracts';
 
 import {
   buildExportCliResultEnvelope,

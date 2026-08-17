@@ -1,5 +1,5 @@
 /**
- * Per-tool renderer registry — the open-design analogue of CopilotKit's
+ * Per-tool renderer registry — the sankiwork analogue of CopilotKit's
  * `useCopilotAction({ render })` and AG-UI's tool render-prop contract.
  *
  * Built-in tools (Read/Write/Edit/Bash/...) keep their hand-tuned cards in

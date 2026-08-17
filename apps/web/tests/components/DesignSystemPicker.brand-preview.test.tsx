@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import type { ComponentProps } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { BrandSummary, DesignSystemSummary } from '@open-design/contracts';
+import type { BrandSummary, DesignSystemSummary } from '@sankiwork/contracts';
 
 vi.mock('../../src/providers/registry', () => ({
   designSystemStaticUrl: (id: string, filePath: string) => `/design-systems/${id}/${filePath}`,

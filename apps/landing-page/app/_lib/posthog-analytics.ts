@@ -17,7 +17,7 @@
 // var. `PUBLIC_POSTHOG_KEY` / `PUBLIC_POSTHOG_HOST` override these.
 const DEFAULT_KEY = 'phc_u5dHWkwdqN626opkbbjDKk7xNzxR2UsJbdQqx3DncbjU';
 const DEFAULT_HOST = 'https://us.i.posthog.com';
-const DEFAULT_DOWNLOAD_ATTRIBUTION_URL = 'https://download.open-design.ai/api/attribution/mint';
+const DEFAULT_DOWNLOAD_ATTRIBUTION_URL = 'https://download.sanki-ai.cloud/api/attribution/mint';
 
 /**
  * The delegated tracker installed after `posthog.init`. Plain DOM, no bundler
@@ -59,7 +59,7 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
       } catch (e) { random = Math.random().toString(36).slice(2) + Date.now().toString(36); }
       return {
         entry_id: inboundEntryId || ('od-campaign-' + random),
-        source_product: 'open_design',
+        source_product: 'sankiwork',
         source_detail: inboundEntrySource || String(sourceDetail || 'unknown'),
         entry_occurred_at: inboundEntryAt || new Date().toISOString(),
         conversion_source: String(sourceDetail || 'unknown'),
@@ -74,7 +74,7 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
       try {
         var target = new URL(href, window.location.href);
         if (attribution) {
-          target.searchParams.set('od_origin', attribution.source_product || 'open_design');
+          target.searchParams.set('od_origin', attribution.source_product || 'sankiwork');
           target.searchParams.set('od_entry_id', attribution.entry_id || '');
           target.searchParams.set('od_entry_source', attribution.source_detail || 'unknown');
           target.searchParams.set('od_entry_at', attribution.entry_occurred_at || new Date().toISOString());
@@ -118,7 +118,7 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
     window.__odPrepareDownloadLink = function (link, href) {
       if (!DOWNLOAD_ATTRIBUTION_URL || !link || link.__odAttributionInFlight) return false;
       var lower = String(href || '').toLowerCase();
-      if (lower.indexOf(REPO + '/releases') === -1 && lower.indexOf('download.open-design.ai/') === -1) return false;
+      if (lower.indexOf(REPO + '/releases') === -1 && lower.indexOf('download.sanki-ai.cloud/') === -1) return false;
       link.__odAttributionInFlight = true;
       var fallback = function () {
         try { window.location.href = href; } catch (e) {}

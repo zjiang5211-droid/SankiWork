@@ -2,15 +2,15 @@ import { mkdir } from "node:fs/promises";
 
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_MESSAGES,
   SIDECAR_MODES,
   SIDECAR_SOURCES,
   normalizeDesktopSidecarMessage,
   type SidecarStamp,
-} from "@open-design/sidecar-proto";
-import { bootstrapSidecarRuntime, createJsonIpcServer, resolveAppIpcPath } from "@open-design/sidecar";
-import type { JsonIpcServerHandle } from "@open-design/sidecar";
+} from "@sankiwork/sidecar-proto";
+import { bootstrapSidecarRuntime, createJsonIpcServer, resolveAppIpcPath } from "@sankiwork/sidecar";
+import type { JsonIpcServerHandle } from "@sankiwork/sidecar";
 
 import type { PackagedConfig } from "./config.js";
 import type { PackagedDesktopIdentityHandle } from "./identity.js";
@@ -25,7 +25,7 @@ function createHeadlessStamp(namespace: string): SidecarStamp {
     app: APP_KEYS.DESKTOP,
     ipc: resolveAppIpcPath({
       app: APP_KEYS.DESKTOP,
-      contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+      contract: SANKIWORK_SIDECAR_CONTRACT,
       namespace,
     }),
     mode: SIDECAR_MODES.RUNTIME,
@@ -186,7 +186,7 @@ export async function runPackagedHeadless(
   const runtime = bootstrapSidecarRuntime(stamp, process.env, {
     app: APP_KEYS.DESKTOP,
     base: paths.runtimeRoot,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
   });
 
   const { shutdown, webUrl } = await acquirePackagedHeadlessStartup({
@@ -236,7 +236,7 @@ export async function runPackagedHeadless(
         // PR #974 round-5 (lefarcen P2): headless packaged mode uses the signed
         // Electron entry as a lifecycle owner, but creates no BrowserWindow and
         // exposes no privileged shell.openPath surface.
-        // Pinning OD_REQUIRE_DESKTOP_AUTH here would arm a gate no client
+        // Pinning SW_REQUIRE_DESKTOP_AUTH here would arm a gate no client
         // can ever satisfy (no desktop window/main bridge to register a secret),
         // so folder import would permanently return DESKTOP_AUTH_PENDING.
         // The Electron entry counterpart in `apps/packaged/src/index.ts`
@@ -263,16 +263,16 @@ export async function runPackagedHeadless(
       }),
   });
 
-  process.stdout.write(`\n Open Design is running\n\n`);
+  process.stdout.write(`\n SankiWork is running\n\n`);
   process.stdout.write(` ➜ ${colorize(webUrl)}\n\n`);
   process.stdout.write(` Press Ctrl+C to stop\n\n`);
 
   process.on("SIGINT", () => {
-    process.stdout.write("\n Shutting down Open Design...\n");
+    process.stdout.write("\n Shutting down SankiWork...\n");
     void shutdown();
   });
   process.on("SIGTERM", () => {
-    process.stdout.write("\n Shutting down Open Design...\n");
+    process.stdout.write("\n Shutting down SankiWork...\n");
     void shutdown();
   });
 }
@@ -289,5 +289,5 @@ async function installCodexMcp(daemonUrl: string | null): Promise<void> {
       `Codex MCP install failed (${response.status}): ${detail}`,
     );
   }
-  process.stdout.write(" Open Design MCP installed for Codex\n");
+  process.stdout.write(" SankiWork MCP installed for Codex\n");
 }

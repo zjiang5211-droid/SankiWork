@@ -21,7 +21,7 @@ Make plugins 1:1 drive a complete run, give bare query input a deterministic fal
 
 | # | Status | Where | Current state |
 |---|---|---|---|
-| G1 | partial | `apps/daemon/src/server.ts#firePipelineForRun` and `apps/daemon/src/plugins/atoms/{registry,built-ins}.ts` | The registry runner is the default and `OD_PIPELINE_RUNNER=stub` is only a diagnostic fallback. `critique-theater` has the sole daemon-observable worker; other first-party atoms still return permissive signals. |
+| G1 | partial | `apps/daemon/src/server.ts#firePipelineForRun` and `apps/daemon/src/plugins/atoms/{registry,built-ins}.ts` | The registry runner is the default and `SW_PIPELINE_RUNNER=stub` is only a diagnostic fallback. `critique-theater` has the sole daemon-observable worker; other first-party atoms still return permissive signals. |
 | G2 | resolved | `apps/daemon/src/plugins/apply.ts` | Local `./SKILL.md` bindings are read into the applied snapshot and reach `composeDaemonSystemPrompt`. |
 | G3 | resolved | `apps/daemon/src/routes/project/index.ts`, `apps/daemon/src/routes/runs.ts`, and `apps/web/src/components/HomeView.tsx` | A submission without an explicit plugin resolves and applies the shared default scenario instead of taking a zero-plugin path. |
 | G4 | resolved | `packages/contracts/src/plugins/scenario-defaults.ts` | Web and daemon share one kind/task-kind/intent resolver, including specialised prototype, deck, media, migration, live-artifact, and web-clone defaults. |
@@ -61,7 +61,7 @@ plugin manifest (od.pipeline.stages[])
 | A | shipped | Plugin-local SKILL.md reaches `## Active skill`; Home query auto-binds default scenario per kind. |
 | B | shipped (MVP) | Chip rail mirrors the creation taxonomy and adds Figma / template / plugin-authoring shortcuts. Folder linking subsequently moved to composer Tools → Import. Dedicated secondary rail rows and an inline `figmaUrl` input remain deferred. |
 | C | shipped (MVP) | Bundled `od-media-generation` scenario for image/video/audio; uses existing `media-image` / `media-video` / `media-audio` atoms rather than a new wrapper atom. |
-| D | shipped (MVP) | `apps/daemon/src/plugins/atoms/registry.ts` + `built-ins.ts` introduce an atom worker registry; `firePipelineForRun` now drives stages through `runStageWithRegistry`. Set `OD_PIPELINE_RUNNER=stub` to fall back to the v1 canned-signal runner. Real workers only ship for `critique-theater` today (reads `run_devloop_iterations.critique_summary` for the latest parseable score); every other FIRST_PARTY_ATOM registers a permissive worker so happy-path convergence matches v1. |
+| D | shipped (MVP) | `apps/daemon/src/plugins/atoms/registry.ts` + `built-ins.ts` introduce an atom worker registry; `firePipelineForRun` now drives stages through `runStageWithRegistry`. Set `SW_PIPELINE_RUNNER=stub` to fall back to the v1 canned-signal runner. Real workers only ship for `critique-theater` today (reads `run_devloop_iterations.critique_summary` for the latest parseable score); every other FIRST_PARTY_ATOM registers a permissive worker so happy-path convergence matches v1. |
 | E | shipped (MVP) | The original package gates landed. The repository now has tools-dev-backed Playwright coverage for the Home rail and a real-daemon authoring run; focused event-level assertions for every fallback/chip path remain a follow-up rather than a limitation of the harness. |
 
 ### Stage A — Plugin actually injects, Home never runs naked
@@ -103,7 +103,7 @@ As shipped (MVP):
 
 - `apps/daemon/src/plugins/atoms/registry.ts` owns the atom worker registry: `registerAtomWorker`, `runStageWithRegistry`, and the frozen `PERMISSIVE_DEFAULT_SIGNALS` table. Real-worker outputs replace permissive defaults wholesale so a real score of 5 never gets clipped to 4; cross-worker conflicts inside a single stage still pessimistically merge (false-wins / lowest-number-wins).
 - `apps/daemon/src/plugins/atoms/built-ins.ts` registers a worker for every `FIRST_PARTY_ATOMS` entry on first use. Only `critique-theater` ships a real watcher today — it reads `run_devloop_iterations.critique_summary` for the latest parseable `score=N` token. Every other atom registers a permissive worker that returns no signals (so the defaults flow through) — that keeps backwards-compat with the v1 stub while documenting the worker surface for future migrations.
-- `apps/daemon/src/server.ts#firePipelineForRun` now branches on `OD_PIPELINE_RUNNER`: default (`registry`) drives stages through `runStageWithRegistry`; `OD_PIPELINE_RUNNER=stub` falls back to the canned signal pump for diagnostic bisection.
+- `apps/daemon/src/server.ts#firePipelineForRun` now branches on `SW_PIPELINE_RUNNER`: default (`registry`) drives stages through `runStageWithRegistry`; `SW_PIPELINE_RUNNER=stub` falls back to the canned signal pump for diagnostic bisection.
 
 Deferred to a follow-up:
 
@@ -145,7 +145,7 @@ Deferred to a follow-up:
 
 - R1 — Plugin SKILL.md may conflict with a project-pinned skill. Resolution order: plugin > project skill > kind default.
 - R2 — Media surface already drives prompts through the `media generate` CLI; `od-media-generation` must not double-inject.
-- R3 — Stage D changes runtime behaviour. Retain `OD_BUNDLED_ATOM_PROMPTS=0` and `OD_PIPELINE_RUNNER=stub` as explicit diagnostic escape hatches while the remaining workers gain observable contracts.
+- R3 — Stage D changes runtime behaviour. Retain `SW_BUNDLED_ATOM_PROMPTS=0` and `SW_PIPELINE_RUNNER=stub` as explicit diagnostic escape hatches while the remaining workers gain observable contracts.
 
 ## Open questions
 
@@ -157,6 +157,6 @@ Deferred to a follow-up:
 ```bash
 pnpm guard
 pnpm typecheck
-pnpm --filter @open-design/daemon test
-pnpm --filter @open-design/web test
+pnpm --filter @sankiwork/daemon test
+pnpm --filter @sankiwork/web test
 ```

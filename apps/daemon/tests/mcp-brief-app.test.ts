@@ -9,7 +9,7 @@ import {
   localMcpResourceDefinitions,
   localMcpToolDefinitions,
 } from '../src/mcp.js';
-import { OPEN_DESIGN_BRIEF_APP_HTML } from '../src/mcp-apps/brief-resource.js';
+import { SANKIWORK_BRIEF_APP_HTML } from '../src/mcp-apps/brief-resource.js';
 
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom') as {
@@ -166,7 +166,7 @@ function createBriefAppHarness(options: {
     } as JsonRpcMessage);
   }
 
-  const dom = new JSDOM(OPEN_DESIGN_BRIEF_APP_HTML, {
+  const dom = new JSDOM(SANKIWORK_BRIEF_APP_HTML, {
     beforeParse(window) {
       widgetWindow = window;
       if (options.legacyFollowUp || options.nativeToolOutput) {
@@ -245,7 +245,7 @@ function createBriefAppHarness(options: {
   };
 }
 
-describe('local Open Design MCP brief app', () => {
+describe('local SankiWork MCP brief app', () => {
   it('exposes collect_brief through the canonical MCP Apps resource', () => {
     const collectBrief = localMcpToolDefinitions().find(
       (tool) => tool.name === 'collect_brief',
@@ -255,15 +255,15 @@ describe('local Open Design MCP brief app', () => {
       name: 'collect_brief',
       _meta: {
         ui: {
-          resourceUri: 'ui://open-design/artifact-card-v8.html',
+          resourceUri: 'ui://sankiwork/artifact-card-v8.html',
         },
-        'ui/resourceUri': 'ui://open-design/artifact-card-v8.html',
-        'openai/outputTemplate': 'ui://open-design/artifact-card-v8.html',
+        'ui/resourceUri': 'ui://sankiwork/artifact-card-v8.html',
+        'openai/outputTemplate': 'ui://sankiwork/artifact-card-v8.html',
       },
     });
     expect(localMcpResourceDefinitions()).toContainEqual(
       expect.objectContaining({
-        uri: 'ui://open-design/artifact-card-v8.html',
+        uri: 'ui://sankiwork/artifact-card-v8.html',
         mimeType: 'text/html;profile=mcp-app',
       }),
     );
@@ -275,42 +275,42 @@ describe('local Open Design MCP brief app', () => {
   });
 
   it('keeps one brief card without a self-triggering resize observer', () => {
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).not.toContain('ResizeObserver');
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).not.toContain('ResizeObserver');
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain(
       'ui/notifications/size-changed',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain('{ width, height }');
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain('document.body.scrollHeight');
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain('{ width, height }');
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain('document.body.scrollHeight');
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain(
       'width: Math.ceil(window.innerWidth)',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain(
       'width === lastWidth && height === lastHeight',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain('notifyIntrinsicHeight');
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain('requestAnimationFrame');
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain('notifyIntrinsicHeight');
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain('requestAnimationFrame');
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain(
       'ui/notifications/host-context-changed',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain(
       'updateHostLocale(result && result.hostContext)',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain(
       'draft.localeSource === "fallback"',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain(
       'payload.questionFormsByLocale',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain(
       'draft.briefDraftId === payload.briefDraftId',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).toContain(
       'candidate.value === (previousValue || item.defaultValue)',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).not.toContain(
+    expect(SANKIWORK_BRIEF_APP_HTML).not.toContain(
       'error instanceof Error ? error.message',
     );
-    expect(OPEN_DESIGN_BRIEF_APP_HTML).not.toContain('setWidgetState');
+    expect(SANKIWORK_BRIEF_APP_HTML).not.toContain('setWidgetState');
   });
 
   it('keeps a confirmed brief locked and retries only Host publication', async () => {
@@ -844,7 +844,7 @@ describe('local Open Design MCP brief app', () => {
     });
   });
 
-  it('keeps user-facing MCP copy on public Open Design product terms', () => {
+  it('keeps user-facing MCP copy on public SankiWork product terms', () => {
     const visibleToolCopy = localMcpToolDefinitions()
       .flatMap((tool) => [
         tool.description,
@@ -868,7 +868,7 @@ describe('local Open Design MCP brief app', () => {
       MCP_SERVER_INSTRUCTIONS,
     ].join('\n');
 
-    expect(userFacingCopy).toContain('Open Design Cloud');
+    expect(userFacingCopy).toContain('SankiWork Cloud');
     expect(userFacingCopy).toContain('Local Codex');
     expect(userFacingCopy).not.toContain('Secure BYOK');
     expect(userFacingCopy).not.toMatch(/\b(?:Vela|AMR)\b/u);

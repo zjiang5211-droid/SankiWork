@@ -10,10 +10,10 @@ describe('project skill critique label', () => {
   let baseUrl: string;
   let fakeBinDir: string;
   const originalPath = process.env.PATH;
-  const originalCritiqueEnabled = process.env.OD_CRITIQUE_ENABLED;
+  const originalCritiqueEnabled = process.env.SW_CRITIQUE_ENABLED;
 
   beforeAll(async () => {
-    process.env.OD_CRITIQUE_ENABLED = '1';
+    process.env.SW_CRITIQUE_ENABLED = '1';
     fakeBinDir = await mkdtemp(join(tmpdir(), 'od-project-skill-critique-'));
     const fakeQwenPath = join(fakeBinDir, 'qwen');
     await writeFile(
@@ -62,8 +62,8 @@ setTimeout(() => process.exit(0), 250);
     await rm(fakeBinDir, { recursive: true, force: true });
     if (originalPath == null) delete process.env.PATH;
     else process.env.PATH = originalPath;
-    if (originalCritiqueEnabled == null) delete process.env.OD_CRITIQUE_ENABLED;
-    else process.env.OD_CRITIQUE_ENABLED = originalCritiqueEnabled;
+    if (originalCritiqueEnabled == null) delete process.env.SW_CRITIQUE_ENABLED;
+    else process.env.SW_CRITIQUE_ENABLED = originalCritiqueEnabled;
   });
 
   it('labels critique with the canonical project skill when the request omits skillId', async () => {
@@ -83,8 +83,8 @@ setTimeout(() => process.exit(0), 250);
 
     // Simulate a legacy project row that predates skill-id canonicalization.
     // The chat request intentionally carries no request-level skillId.
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for this fixture');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for this fixture');
     const { openDatabase } = await import('../src/db.js');
     const db = openDatabase(process.cwd(), { dataDir });
     db.prepare('UPDATE projects SET skill_id = ? WHERE id = ?')
@@ -110,7 +110,7 @@ setTimeout(() => process.exit(0), 250);
     const metricsResponse = await fetch(`${baseUrl}/api/metrics`);
     const metrics = await metricsResponse.text();
     expect(metrics).toContain(
-      'open_design_critique_runs_total{status="shipped",adapter="qwen",skill="open-design-landing-deck"} 1',
+      'sankiwork_critique_runs_total{status="shipped",adapter="qwen",skill="open-design-landing-deck"} 1',
     );
     expect(metrics).not.toContain('skill="unknown"');
     expect(metrics).not.toContain('skill="editorial-collage-deck"');

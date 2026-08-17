@@ -14,7 +14,7 @@ import {
   CollabProvider,
   type CollabContextValue,
 } from '../../src/collab/collab-context';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 vi.mock('../../src/providers/registry', async () => {
   const actual = await vi.importActual<typeof import('../../src/providers/registry')>(

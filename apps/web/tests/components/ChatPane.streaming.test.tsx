@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-li
 import { forwardRef, useImperativeHandle } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { SkillSummary } from '@open-design/contracts';
+import type { SkillSummary } from '@sankiwork/contracts';
 import { ChatPane, buildRunErrorDiagnosticText, retryableAssistantMessage } from '../../src/components/ChatPane';
 import { DESIGN_SYSTEM_WORKSPACE_PROMPT_PREFIX } from '../../src/design-system-auto-prompt';
 import { readExpandedIndexCss } from '../helpers/read-expanded-css';
@@ -73,8 +73,8 @@ vi.mock('../../src/components/AssistantMessage', () => ({
     streaming,
     message,
     isLast,
-    onShareToOpenDesign,
-    shareToOpenDesignBusy,
+    onShareToSankiWork,
+    shareToSankiWorkBusy,
     showConversationTodoCard,
     conversationTodoInput,
     showRole,
@@ -82,8 +82,8 @@ vi.mock('../../src/components/AssistantMessage', () => ({
     streaming: boolean;
     message: ChatMessage;
     isLast?: boolean;
-    onShareToOpenDesign?: () => void;
-    shareToOpenDesignBusy?: boolean;
+    onShareToSankiWork?: () => void;
+    shareToSankiWorkBusy?: boolean;
     showConversationTodoCard?: boolean;
     conversationTodoInput?: {
       todos?: Array<{ content: string; status?: string }>;
@@ -107,14 +107,14 @@ vi.mock('../../src/components/AssistantMessage', () => ({
           })}
         </div>
       ) : null}
-      {onShareToOpenDesign ? (
+      {onShareToSankiWork ? (
         <button
           type="button"
           data-testid={`share-to-od-${message.id}`}
-          disabled={shareToOpenDesignBusy}
-          onClick={onShareToOpenDesign}
+          disabled={shareToSankiWorkBusy}
+          onClick={onShareToSankiWork}
         >
-          {shareToOpenDesignBusy ? 'Preparing package…' : 'Share to Open Design'}
+          {shareToSankiWorkBusy ? 'Preparing package…' : 'Share to SankiWork'}
         </button>
       ) : null}
     </>
@@ -604,7 +604,7 @@ describe('ChatPane streaming state', () => {
     expect(copied).toContain('error_code: AGENT_EXECUTION_FAILED');
     expect(copied).toContain('project_id: project-1');
     expect(copied).toContain('conversation_id: conv-1');
-    expect(copied).toMatch(/^json-rpc id 4: Connection reset by server\n\nOpen Design run error diagnostics/);
+    expect(copied).toMatch(/^json-rpc id 4: Connection reset by server\n\nSankiWork run error diagnostics/);
     expect(copied).not.toContain('raw_error:');
     expect(copied).not.toContain('\nerror:\n');
   });
@@ -621,7 +621,7 @@ describe('ChatPane streaming state', () => {
       agentId: 'amr',
     });
 
-    expect(text).toMatch(/^json-rpc id 4: Connection reset by server\n\nOpen Design run error diagnostics/);
+    expect(text).toMatch(/^json-rpc id 4: Connection reset by server\n\nSankiWork run error diagnostics/);
     expect(text).not.toContain('raw_error:');
     expect(text).toContain('error_code: UPSTREAM_UNAVAILABLE');
     expect(text).not.toContain('\nerror:\n');
@@ -639,7 +639,7 @@ describe('ChatPane streaming state', () => {
       agentId: 'amr',
     });
 
-    expect(text).toMatch(/^Connection dropped\. Try again\.\n\nOpen Design run error diagnostics/);
+    expect(text).toMatch(/^Connection dropped\. Try again\.\n\nSankiWork run error diagnostics/);
     expect(text).not.toContain('raw_error:');
     expect(text).toContain('error_code: AGENT_CONNECTION_DROPPED');
     expect(text).not.toContain('\nerror:\n');
@@ -1038,8 +1038,8 @@ Expected output:
     expect(screen.getByTestId('assistant-streaming-assistant-1').textContent).toBe('streaming');
   });
 
-  it('keeps Share to Open Design busy on the assistant turn that started packaging', () => {
-    const onShareToOpenDesign = vi.fn();
+  it('keeps Share to SankiWork busy on the assistant turn that started packaging', () => {
+    const onShareToSankiWork = vi.fn();
     const completedAssistant: ChatMessage = {
       id: 'assistant-1',
       role: 'assistant',
@@ -1067,26 +1067,26 @@ Expected output:
       onSelectConversation: vi.fn(),
       onDeleteConversation: vi.fn(),
       projectMetadata,
-      onShareToOpenDesign,
+      onShareToSankiWork,
     };
 
     const { rerender } = render(
       <ChatPane
         {...commonProps}
         messages={initialMessages}
-        shareToOpenDesignBusyMessageId={null}
+        shareToSankiWorkBusyMessageId={null}
       />,
     );
 
     fireEvent.click(screen.getByTestId('share-to-od-assistant-1'));
-    expect(onShareToOpenDesign).toHaveBeenCalledWith('assistant-1');
+    expect(onShareToSankiWork).toHaveBeenCalledWith('assistant-1');
 
     rerender(
       <ChatPane
         {...commonProps}
         messages={[
           ...initialMessages,
-          { id: 'user-2', role: 'user', content: 'Share to Open Design', createdAt: 4 },
+          { id: 'user-2', role: 'user', content: 'Share to SankiWork', createdAt: 4 },
           {
             id: 'assistant-2',
             role: 'assistant',
@@ -1096,7 +1096,7 @@ Expected output:
             runStatus: 'running',
           },
         ]}
-        shareToOpenDesignBusyMessageId="assistant-1"
+        shareToSankiWorkBusyMessageId="assistant-1"
       />,
     );
 

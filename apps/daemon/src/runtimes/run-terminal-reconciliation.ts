@@ -8,7 +8,7 @@ import {
   type TrackingRunCancelOrigin,
   type TrackingRunTerminalTrigger,
   type RunTaskLineageProps,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 
 import { appendMessageStatusEvent } from '../db.js';
 import { classifyRunFailure } from '../run-failure-classification.js';

@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type ClipboardEvent as ReactClipboardEvent, type CSSProperties, type DragEvent as ReactDragEvent, type MouseEvent as ReactMouseEvent, type ReactNode } from 'react';
 import { createPortal, flushSync } from 'react-dom';
-import { Button, Input, Select } from '@open-design/components';
+import { Button, Input, Select } from '@sankiwork/components';
 import { CenteredLoader } from './Loading';
 import { APP_CHROME_FILE_ACTIONS_ID, APP_CHROME_FILE_ACTIONS_SELECTOR } from './AppChromeHeader';
 import {
@@ -10,7 +10,7 @@ import {
 } from './comment-send-result';
 import {
   buildSocialSharePayload,
-  OPEN_DESIGN_GITHUB_REPO_URL,
+  SANKIWORK_GITHUB_REPO_URL,
   workspaceContextHasTeamIdentity,
   type CollabCloudMemberDirectoryEntry,
   type CollabMemberRole,
@@ -19,7 +19,7 @@ import {
   type SocialShareRequest,
   type SocialShareResponse,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   appendResourceQuery,
   workspaceIdentityCacheKey,
@@ -33,7 +33,7 @@ import {
   type TrackingArtifactKind,
   type TrackingProjectKind,
   type TrackingDeployProvider,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import { useAnalytics } from '../analytics/provider';
 import { exportErrorCode } from '../analytics/export-error-code';
 import { deployErrorCode } from '../analytics/deploy-error-code';
@@ -148,7 +148,7 @@ import {
   exportReactComponentAsZip,
   captureHostIframeSnapshot,
   imageDataUrlToBlob,
-  isOpenDesignHostAvailable,
+  isSankiWorkHostAvailable,
   openSandboxedPreviewInNewTab,
   prepareImageExportTarget,
   planDeckImageCapture,
@@ -250,7 +250,7 @@ import { currentUserDirectoryEntry, useTeamMembers } from '../collab/useTeamMemb
 import { applyPodMemberRemoval } from '../lib/pod-members';
 import { AnnotationHoverPopover, BoardComposerPopover } from './BoardComposerPopover';
 import {
-  OD_PREVIEW_KEEP_ALIVE,
+  SW_PREVIEW_KEEP_ALIVE,
   PooledIframe,
   previewIframeKeepAliveKey,
   useIframeKeepAlivePool,
@@ -540,7 +540,7 @@ function previewViewportIcon(viewport: PreviewViewportId): string {
   return 'computer-line';
 }
 
-const EXPORT_READY_NUDGE_STORAGE_PREFIX = 'open-design:export-ready-nudge:';
+const EXPORT_READY_NUDGE_STORAGE_PREFIX = 'sankiwork:export-ready-nudge:';
 const COMMENT_SIDE_DOCK_WIDTH = 320;
 const COMMENT_SIDE_DOCK_RAIL_WIDTH = 42;
 const COMMENT_SIDE_DOCK_GAP = 12;
@@ -2160,7 +2160,7 @@ export function LiveArtifactViewer({
   const previewScale = zoom / 100;
 
   // Instrument the live-artifact iframe so failed loads — usually a
-  // missing artifact file or a stuck `od://` resolver — surface in
+  // missing artifact file or a stuck `sankiwork://` resolver — surface in
   // PostHog. iframe load errors don't propagate to window.error, so
   // observability/install.ts cannot catch them globally.
   useEffect(() => {
@@ -4843,7 +4843,7 @@ export function CommentSidePanel({
   );
 }
 
-const COMMENT_SIDE_DRAG_MIME = 'application/x-open-design-preview-comment';
+const COMMENT_SIDE_DRAG_MIME = 'application/x-sankiwork-preview-comment';
 
 type CommentSideDropEdge = 'before' | 'after';
 
@@ -7441,7 +7441,7 @@ function HtmlViewer({
   const unknownExportOrigin = (
     status: ArtifactExportOriginProps['artifact_origin_status'] = 'missing_version',
   ): ArtifactExportOriginProps => ({
-    entry_surface: 'open_design_ui',
+    entry_surface: 'sankiwork_ui',
     artifact_origin_status: status,
     origin_entry_surface: 'unknown',
   });
@@ -13587,7 +13587,7 @@ function HtmlViewer({
     const pdfTitle = context?.title ?? exportTitle;
     const pdfSource = context?.content ?? source ?? '';
     const pdfDeck = deckExportSignalForContext(context);
-    if (isOpenDesignHostAvailable()) {
+    if (isSankiWorkHostAvailable()) {
       const res = await exportProjectScreenshotPdf({
         projectId,
         fileName: file.name,
@@ -13746,14 +13746,14 @@ function HtmlViewer({
     await waitForAnimationFrame();
     // Prefer the daemon's off-screen render (desktop only): isolated from the
     // preview pane and, rendering the artifact alone in a hidden window, it can
-    // never capture Open Design's own UI. Page exports use the selected preview
+    // never capture SankiWork's own UI. Page exports use the selected preview
     // preset; desktop pages and decks retain the renderer defaults. `wholeDeck`
     // (Export as image) stitches every slide
     // top-to-bottom into one long image — matching the slide count the viewer
     // reports; otherwise (Copy screenshot, Mark/Draw capture) it grabs the
     // CURRENT slide, mirroring what's on screen. An ordinary page is its
     // full-page capture either way.
-    if (isOpenDesignHostAvailable() && projectId && file.name) {
+    if (isSankiWorkHostAvailable() && projectId && file.name) {
       // Deck-vs-page uses the same signal as PDF export — broader than the viewer's nav
       // signal — so runtime-managed decks (`<deck-stage>` / `data-screen-label`,
       // no literal `.slide`) export as a deck instead of a single page-mode shot
@@ -14202,7 +14202,7 @@ function HtmlViewer({
     const title = t('socialShare.projectTitle', { title: exportTitle });
     const text = t('socialShare.projectText', {
       title: exportTitle,
-      repo: OPEN_DESIGN_GITHUB_REPO_URL,
+      repo: SANKIWORK_GITHUB_REPO_URL,
     });
     return {
       kind: 'project-html',
@@ -14213,7 +14213,7 @@ function HtmlViewer({
       copyText: t('socialShare.projectCopyText', {
         title: exportTitle,
         url: socialShareDisplayUrl,
-        repo: OPEN_DESIGN_GITHUB_REPO_URL,
+        repo: SANKIWORK_GITHUB_REPO_URL,
       }),
     };
   }, [exportTitle, locale, socialShareDisplayUrl, t]);
@@ -15623,7 +15623,7 @@ function HtmlViewer({
                       // Chinese-first product. Falls back to the vector/browser
                       // print path on web or on failure.
                       fireShareExport('pdf', async () => {
-                        if (isOpenDesignHostAvailable()) {
+                        if (isSankiWorkHostAvailable()) {
                           const res = await exportProjectScreenshotPdf({
                             projectId,
                             fileName: file.name,
@@ -15830,7 +15830,7 @@ function HtmlViewer({
                     toolbarHost={manualEditMode ? null : commentComposerHost}
                   >
                     <div className="artifact-preview-transport-stack">
-                      {OD_PREVIEW_KEEP_ALIVE ? (
+                      {SW_PREVIEW_KEEP_ALIVE ? (
                         <PooledIframe
                           ref={urlPreviewIframeRef}
                           cacheKey={urlPreviewKeepAliveKey}

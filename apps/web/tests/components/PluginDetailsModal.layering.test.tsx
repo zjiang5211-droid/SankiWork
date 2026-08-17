@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { cleanup, render } from '@testing-library/react';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { PluginDetailsModal } from '../../src/components/PluginDetailsModal';

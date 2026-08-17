@@ -81,7 +81,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
   const userAgent = request.headers.get("user-agent") || "";
   const ip = request.headers.get("cf-connecting-ip") || "";
-  const salt = context.env.SHARE_CLICK_SALT || "open-design-share";
+  const salt = context.env.SHARE_CLICK_SALT || "sankiwork-share";
   const clickedAt = new Date().toISOString();
   const userAgentHash = await sha256Hex(`${salt}:${ip}:${userAgent}`);
   const cf = request.cf || {};

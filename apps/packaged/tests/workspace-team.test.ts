@@ -7,21 +7,21 @@ describe('workspaceTeamTransportEnv', () => {
     expect(
       workspaceTeamTransportEnv('feature-test', 'https://feature-test.vela.example/'),
     ).toEqual({
-      OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-      OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-      OD_COLLAB_TRANSPORT: 'vela-cli',
-      OD_RESOURCE_TRANSPORT: 'vela-cli',
-      OD_VELA_WEB_URL: 'https://feature-test.vela.example',
+      SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+      SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+      SW_COLLAB_TRANSPORT: 'vela-cli',
+      SW_RESOURCE_TRANSPORT: 'vela-cli',
+      SW_VELA_WEB_URL: 'https://feature-test.vela.example',
     });
   });
 
   it('enables the transports on production now that its Vela backend serves them', () => {
-    expect(workspaceTeamTransportEnv('prod', 'https://open-design.ai/cloud')).toEqual({
-      OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-      OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-      OD_COLLAB_TRANSPORT: 'vela-cli',
-      OD_RESOURCE_TRANSPORT: 'vela-cli',
-      OD_VELA_WEB_URL: 'https://open-design.ai/cloud',
+    expect(workspaceTeamTransportEnv('prod', 'https://sanki-ai.cloud/cloud')).toEqual({
+      SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+      SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+      SW_COLLAB_TRANSPORT: 'vela-cli',
+      SW_RESOURCE_TRANSPORT: 'vela-cli',
+      SW_VELA_WEB_URL: 'https://sanki-ai.cloud/cloud',
     });
   });
 

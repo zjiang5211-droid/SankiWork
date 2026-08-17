@@ -117,9 +117,9 @@ interface Props {
   identityScopeKey?: string | null;
 }
 
-const STORAGE_KEY = 'open-design:workspace-tabs:v1';
-const OPEN_WORKSPACE_TAB_EVENT = 'open-design:workspace-tabs:open';
-const REMOVE_WORKSPACE_PROJECT_TABS_EVENT = 'open-design:workspace-tabs:remove-project';
+const STORAGE_KEY = 'sankiwork:workspace-tabs:v1';
+const OPEN_WORKSPACE_TAB_EVENT = 'sankiwork:workspace-tabs:open';
+const REMOVE_WORKSPACE_PROJECT_TABS_EVENT = 'sankiwork:workspace-tabs:remove-project';
 const MAX_PERSISTED_TAB_SCOPES = 12;
 const TAB_DRAG_HAPTIC_MS = 8;
 const TAB_DROP_HAPTIC_MS = 12;

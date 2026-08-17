@@ -1,5 +1,5 @@
 import type { Express } from 'express';
-import { MEMORY_TYPES } from '@open-design/contracts';
+import { MEMORY_TYPES } from '@sankiwork/contracts';
 import type { RouteDeps } from '../server-context.js';
 
 import {

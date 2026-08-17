@@ -1,4 +1,4 @@
-import type { ConnectorDetail, ConnectorStatusResponse } from '@open-design/contracts';
+import type { ConnectorDetail, ConnectorStatusResponse } from '@sankiwork/contracts';
 import {
   fetchConnectorDiscovery,
   fetchConnectors,

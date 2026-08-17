@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
-import type { DesignSystemSummary, WorkspaceCollabContext } from '@open-design/contracts';
+import type { DesignSystemSummary, WorkspaceCollabContext } from '@sankiwork/contracts';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from '../../src/App';

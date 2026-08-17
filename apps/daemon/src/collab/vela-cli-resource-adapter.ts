@@ -1,7 +1,7 @@
 import {
   workspaceContextHasTeamIdentity,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   runVelaCommand,
   velaWorkspaceCommandOptions,
@@ -57,7 +57,7 @@ const RESOURCE_COMMAND_TIMEOUTS_MS: Readonly<Record<string, number>> = {
 const MEMBER_MIRROR_EXCLUDED_ENTRIES = [
   '.file-versions',
   '.live-artifacts',
-  '.od-skills',
+  '.sankiwork-skills',
   '.git',
   'node_modules',
   '.npmrc',
@@ -100,7 +100,7 @@ const MEMBER_MIRROR_EXCLUDED_PREFIXES = ['.env', 'deriveddata-/'] as const;
  * one flat list:
  *
  * - {@link MEMBER_MIRROR_EXCLUDED_ENTRIES} — secret-bearing entries
- *   (credentials, tool state, Open Design private bookkeeping). These must
+ *   (credentials, tool state, SankiWork private bookkeeping). These must
  *   never leave the author's machine whether they are a file, a directory, or
  *   a symlink, so they are sent bare and match any entry of that name.
  * - {@link IGNORED_PROJECT_DIR_NAMES} — generated/installed/cache trees the
@@ -116,7 +116,7 @@ const MEMBER_MIRROR_EXCLUDED_PREFIXES = ['.env', 'deriveddata-/'] as const;
  * contain a slash, so the rule matches nothing and the tree is published in
  * full — the pre-optimization payload, never a missing file. Once the CLI
  * understands the form, the same push starts skipping those directories with
- * no further Open Design change. A new `--exclude-dir` flag could NOT degrade
+ * no further SankiWork change. A new `--exclude-dir` flag could NOT degrade
  * this way: older CLIs reject unknown flags, which would fail every publish.
  */
 export const MEMBER_MIRROR_PUSH_EXCLUDED_ENTRIES: readonly string[] = (() => {
@@ -404,17 +404,17 @@ const defaultRunVelaResource: RunVelaResource = runVelaResourceCommand;
 
 /**
  * Whether this run should drive resource sharing through the `vela resource` CLI
- * transport instead of the in-process SDK. An explicit `OD_RESOURCE_TRANSPORT`
+ * transport instead of the in-process SDK. An explicit `SW_RESOURCE_TRANSPORT`
  * wins; otherwise the Vela-backed team/collab modes imply the same CLI identity
  * for bytes so the daemon does not publish catalog rows through Vela while
  * leaving project content on the local stub.
  */
 export function shouldUseVelaCliResourceTransport(env: NodeJS.ProcessEnv = process.env): boolean {
-  if (env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') return true;
-  const explicitTransport = env.OD_RESOURCE_TRANSPORT?.trim();
+  if (env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() === 'vela') return true;
+  const explicitTransport = env.SW_RESOURCE_TRANSPORT?.trim();
   if (explicitTransport) return explicitTransport === 'vela-cli';
-  return env.OD_TEAM_PROJECTS_TRANSPORT?.trim() === 'vela-cli' ||
-    env.OD_COLLAB_TRANSPORT?.trim() === 'vela-cli';
+  return env.SW_TEAM_PROJECTS_TRANSPORT?.trim() === 'vela-cli' ||
+    env.SW_COLLAB_TRANSPORT?.trim() === 'vela-cli';
 }
 
 /**

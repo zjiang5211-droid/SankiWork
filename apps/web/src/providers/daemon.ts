@@ -17,7 +17,7 @@ import type {
   AmrAuthStage,
   AmrAuthStageResult,
   AmrAuthStageSource,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import type {
   ApiErrorResponse,
   ChatAnalyticsHints,
@@ -38,7 +38,7 @@ import type {
   RunContextSelection,
   SseErrorPayload,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { StreamHandlers } from './anthropic';
 import { workspaceProjectHeaders } from '../state/projects';
 import { setRuntimeAmrConsoleOrigin } from '../runtime/amr-guidance';
@@ -93,7 +93,7 @@ export function latestUserPromptFromHistory(history: ChatMessage[]): string {
 function truncateForTranscript(content: string): string {
   if (content.length <= MAX_TRANSCRIPT_MESSAGE_CHARS) return content;
   const omitted = content.length - MAX_TRANSCRIPT_MESSAGE_CHARS;
-  return `${content.slice(0, MAX_TRANSCRIPT_MESSAGE_CHARS)}\n\n[Open Design truncated ${omitted} chars from this prior message before sending it to the agent. Full content remains in persisted history.]`;
+  return `${content.slice(0, MAX_TRANSCRIPT_MESSAGE_CHARS)}\n\n[SankiWork truncated ${omitted} chars from this prior message before sending it to the agent. Full content remains in persisted history.]`;
 }
 
 function escapeTranscriptRoleDelimiters(content: string): string {
@@ -152,7 +152,7 @@ function buildPriorRunContextWarning(history: ChatMessage[]): string | null {
 
   return [
     '## context warning',
-    `Open Design detected ${notes.join(', ')}.`,
+    `SankiWork detected ${notes.join(', ')}.`,
     'Keep this turn compact: summarize prior tool output, read large references from temp files, and quote only task-relevant lines.',
   ].join('\n');
 }
@@ -367,8 +367,8 @@ export interface DaemonReattachOptions {
   publishRunFinishedEvent?: boolean;
 }
 
-export const RUNS_CHANGED_EVENT = 'open-design:runs-changed';
-export const DAEMON_RUN_FINISHED_EVENT = 'open-design:daemon-run-finished';
+export const RUNS_CHANGED_EVENT = 'sankiwork:runs-changed';
+export const DAEMON_RUN_FINISHED_EVENT = 'sankiwork:daemon-run-finished';
 
 export interface DaemonRunFinishedEventDetail {
   agentId: string;
@@ -460,7 +460,7 @@ function shouldSuppressLifecycleExitFallback(
 }
 
 const AMR_OPENCODE_INCOMPLETE_MESSAGE =
-  'Open Design started, but the run did not complete. Please retry or check the run details for the session stream error.';
+  'SankiWork started, but the run did not complete. Please retry or check the run details for the session stream error.';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -492,7 +492,7 @@ function daemonCreateRunError(response: Response, responseText: string): Error {
   if (!apiError || typeof apiError !== 'object') {
     return new Error(`daemon ${response.status}: ${responseText || 'no body'}`);
   }
-  const error = new Error(apiError.message || `Open Design service returned ${response.status}`) as Error & {
+  const error = new Error(apiError.message || `SankiWork service returned ${response.status}`) as Error & {
     code?: string;
     requestId?: string;
     retryable?: boolean;
@@ -568,10 +568,10 @@ function formatOpenCodeSessionError(value: unknown): string | null {
     return message;
   }
   if (statusCode === 404) {
-    return 'The model service returned 404 Not Found for the configured runtime endpoint. Check the Open Design link URL or model route.';
+    return 'The model service returned 404 Not Found for the configured runtime endpoint. Check the SankiWork link URL or model route.';
   }
   if (statusCode === 401 || statusCode === 403) {
-    return 'Open Design authentication failed. Please sign in again or refresh the runtime key.';
+    return 'SankiWork authentication failed. Please sign in again or refresh the runtime key.';
   }
   if (statusCode === 429) {
     return 'The model service rejected the request due to quota or rate limits. Retry later or check quota and rate limits.';
@@ -955,7 +955,7 @@ export interface VelaLiveAccount {
 
 export interface VelaLoginStatus {
   loggedIn: boolean;
-  sessionState?: import('@open-design/contracts').AmrSessionState;
+  sessionState?: import('@sankiwork/contracts').AmrSessionState;
   credentialRevision?: string;
   loginInFlight?: boolean;
   profile: string;
@@ -969,7 +969,7 @@ export interface VelaLoginStatus {
   userCode?: string;
   browserOpenFailed?: boolean;
   // Origin of the vela web console this runtime talks to, when the daemon was
-  // given one (OD_VELA_WEB_URL, baked into packaged builds from a CI secret).
+  // given one (SW_VELA_WEB_URL, baked into packaged builds from a CI secret).
   // The client builds wallet / plans / upgrade links from it; internal AMR
   // environments therefore need no hostname literal in this public bundle.
   // Absent for prod and fork builds.

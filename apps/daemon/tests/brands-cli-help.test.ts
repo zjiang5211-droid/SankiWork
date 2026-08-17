@@ -5,7 +5,7 @@ import {
   isBrandHelpArg,
 } from '../src/cli-help/index.js';
 
-describe('od brand help surface', () => {
+describe('sw brand help surface', () => {
   it('routes help, --help, and -h to the usage text', () => {
     expect(isBrandHelpArg('help')).toBe(true);
     expect(isBrandHelpArg('--help')).toBe(true);
@@ -19,10 +19,10 @@ describe('od brand help surface', () => {
   });
 
   it('advertises deterministic retry alongside the other brand commands', () => {
-    expect(BRAND_USAGE).toContain('od brand list');
-    expect(BRAND_USAGE).toContain('od brand create');
-    expect(BRAND_USAGE).toContain('od brand continue');
-    expect(BRAND_USAGE).toContain('od brand extract-from-html');
-    expect(BRAND_USAGE).toContain('od brand finalize');
+    expect(BRAND_USAGE).toContain('sw brand list');
+    expect(BRAND_USAGE).toContain('sw brand create');
+    expect(BRAND_USAGE).toContain('sw brand continue');
+    expect(BRAND_USAGE).toContain('sw brand extract-from-html');
+    expect(BRAND_USAGE).toContain('sw brand finalize');
   });
 });

@@ -59,7 +59,7 @@ function createConfig(root: string, webOutputMode: ToolPackConfig["webOutputMode
 
 describe("createWorkspaceTarballsCacheKey", () => {
   it("invalidates when any packed package source changes", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-app-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-app-"));
 
     try {
       await writeWorkspace(root);
@@ -78,7 +78,7 @@ describe("createWorkspaceTarballsCacheKey", () => {
   });
 
   it("invalidates when package manager or lockfile inputs change", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-app-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-app-"));
 
     try {
       await writeWorkspace(root);
@@ -105,7 +105,7 @@ describe("createWorkspaceTarballsCacheKey", () => {
   });
 
   it("invalidates when the upstream workspace build key changes", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-app-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-app-"));
 
     try {
       await writeWorkspace(root);
@@ -120,7 +120,7 @@ describe("createWorkspaceTarballsCacheKey", () => {
   });
 
   it("invalidates when the web output mode changes", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-app-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-app-"));
 
     try {
       await writeWorkspace(root);
@@ -134,7 +134,7 @@ describe("createWorkspaceTarballsCacheKey", () => {
   });
 
   it("ignores packed package build outputs because the upstream key carries their identity", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-app-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-app-"));
 
     try {
       await writeWorkspace(root);

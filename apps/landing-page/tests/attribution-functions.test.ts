@@ -43,13 +43,13 @@ function consumptionDb() {
   };
 }
 
-test('download attribution mint only accepts Open Design GitHub release assets', async () => {
+test('download attribution mint only accepts SankiWork GitHub release assets', async () => {
   const records = new Map<string, string>();
-  const request = new Request('https://download.open-design.ai/api/attribution/mint', {
+  const request = new Request('https://download.sanki-ai.cloud/api/attribution/mint', {
     method: 'POST',
     body: JSON.stringify({
       webDistinctId: 'web-anon-1',
-      assetUrl: 'https://github.com/nexu-io/open-design/releases/download/v1/Open-Design.dmg',
+      assetUrl: 'https://github.com/nexu-io/open-design/releases/download/v1/SankiWork.dmg',
       platform: 'macos',
     }),
   });
@@ -62,13 +62,13 @@ test('download attribution mint only accepts Open Design GitHub release assets',
 
   assert.equal(response.status, 200);
   const payload = await response.json() as { downloadUrl?: string };
-  assert.match(payload.downloadUrl ?? '', /^https:\/\/download\.open-design\.ai\/macos\/auto\/oddl_/);
+  assert.match(payload.downloadUrl ?? '', /^https:\/\/download\.sanki-ai\.cloud\/macos\/auto\/oddl_/);
   assert.equal(records.size, 1);
 });
 
 test('download attribution mint rejects arbitrary proxy targets', async () => {
   const response = await onRequest({
-    request: new Request('https://download.open-design.ai/api/attribution/mint', {
+    request: new Request('https://download.sanki-ai.cloud/api/attribution/mint', {
       method: 'POST',
       body: JSON.stringify({ webDistinctId: 'web-anon-1', assetUrl: 'https://example.com/private.zip' }),
     }),
@@ -91,16 +91,16 @@ test('first-party bridge is short-lived, single-use, and origin scoped', async (
     ATTRIBUTION_DB: consumptionDb(),
   };
   const minted = await mintBridge({
-    request: new Request('https://open-design.ai/api/attribution/bridge/mint', {
+    request: new Request('https://sanki-ai.cloud/api/attribution/bridge/mint', {
       method: 'POST', headers: { Authorization: 'Bearer secret' },
-      body: JSON.stringify({ installationId: 'install-123', url: 'https://open-design.ai/clipper' }),
+      body: JSON.stringify({ installationId: 'install-123', url: 'https://sanki-ai.cloud/clipper' }),
     }), env, params: {},
   });
   const url = (await minted.json() as { url: string }).url;
   const token = new URL(url).searchParams.get('od_bridge');
   assert.ok(token);
   const consume = () => consumeBridge({
-    request: new Request('https://open-design.ai/api/attribution/bridge/consume', {
+    request: new Request('https://sanki-ai.cloud/api/attribution/bridge/consume', {
       method: 'POST', body: JSON.stringify({ token }),
     }), env, params: {},
   });
@@ -114,7 +114,7 @@ test('download attribution consumption has exactly one concurrent winner', async
   records.set(`download-attribution:${token}`, JSON.stringify({
     token,
     webDistinctId: 'web-anon-1',
-    assetUrl: 'https://github.com/nexu-io/open-design/releases/download/v1/Open-Design.dmg',
+    assetUrl: 'https://github.com/nexu-io/open-design/releases/download/v1/SankiWork.dmg',
     createdAt: new Date().toISOString(),
     landingUrl: null,
     referrer: null,
@@ -128,7 +128,7 @@ test('download attribution consumption has exactly one concurrent winner', async
     ATTRIBUTION_DB: consumptionDb(),
   };
   const claim = (installationId: string) => consumeDownload({
-    request: new Request('https://download.open-design.ai/api/attribution/consume', {
+    request: new Request('https://download.sanki-ai.cloud/api/attribution/consume', {
       method: 'POST', body: JSON.stringify({ token, installationId }),
     }),
     env,
@@ -145,7 +145,7 @@ test('download attribution retry returns its payload after the first response is
   records.set(`download-attribution:${token}`, JSON.stringify({
     token,
     webDistinctId: 'web-anon-retry',
-    assetUrl: 'https://github.com/nexu-io/open-design/releases/download/v1/Open-Design.dmg',
+    assetUrl: 'https://github.com/nexu-io/open-design/releases/download/v1/SankiWork.dmg',
     createdAt: new Date().toISOString(), landingUrl: null, referrer: null,
     properties: { od_utm_source: 'release' },
   }));
@@ -157,7 +157,7 @@ test('download attribution retry returns its payload after the first response is
     ATTRIBUTION_DB: consumptionDb(),
   };
   const claim = () => consumeDownload({
-    request: new Request('https://download.open-design.ai/api/attribution/consume', {
+    request: new Request('https://download.sanki-ai.cloud/api/attribution/consume', {
       method: 'POST', body: JSON.stringify({ token, installationId: 'install-retry' }),
     }), env, params: {},
   });
@@ -178,19 +178,19 @@ test('download proxy preserves successful HEAD responses without a body', async 
   });
   try {
     const response = await downloadAsset({
-      request: new Request(`https://download.open-design.ai/macos/auto/${token}/Open-Design.dmg`, { method: 'HEAD' }),
+      request: new Request(`https://download.sanki-ai.cloud/macos/auto/${token}/SankiWork.dmg`, { method: 'HEAD' }),
       env: {
         ATTRIBUTION_KV: {
           get: async () => JSON.stringify({
             token,
             webDistinctId: 'web-anon-1',
-            assetUrl: 'https://github.com/nexu-io/open-design/releases/download/v1/Open-Design.dmg',
+            assetUrl: 'https://github.com/nexu-io/open-design/releases/download/v1/SankiWork.dmg',
             createdAt: new Date().toISOString(), landingUrl: null, referrer: null, properties: {},
           }),
           put: async () => undefined,
         },
       },
-      params: { os: 'macos', arch: 'auto', token, asset: 'Open-Design.dmg' },
+      params: { os: 'macos', arch: 'auto', token, asset: 'SankiWork.dmg' },
     });
     assert.equal(response.status, 200);
     assert.equal(response.body, null);

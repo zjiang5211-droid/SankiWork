@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 
-import { releaseChannelDescriptor } from "@open-design/release";
+import { releaseChannelDescriptor } from "@sankiwork/release";
 
 import { optional, required, writeJson } from "../storage/common.ts";
 import { assertReleaseNotePlanPolicy } from "./policy.ts";

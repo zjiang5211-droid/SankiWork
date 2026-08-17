@@ -5,7 +5,7 @@ import type {
   InstalledPluginRecord,
   SkillSummary,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PluginsView } from '../../src/components/PluginsView';
@@ -358,7 +358,7 @@ describe('PluginsView Team panel workspace scope', () => {
 
     renderPluginsView();
     await waitFor(() => expect(vi.mocked(listPlugins)).toHaveBeenCalledTimes(2));
-    act(() => window.dispatchEvent(new CustomEvent('open-design:plugins-changed')));
+    act(() => window.dispatchEvent(new CustomEvent('sankiwork:plugins-changed')));
     await waitFor(() => expect(vi.mocked(listPlugins)).toHaveBeenCalledTimes(4));
 
     await act(async () => {

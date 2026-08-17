@@ -5,7 +5,7 @@ import {
   createCommandInvocation,
   listProcessSnapshots,
   stopProcesses,
-} from '@open-design/platform';
+} from '@sankiwork/platform';
 
 import {
   agentCliEnvForAgent,
@@ -103,7 +103,7 @@ export function velaWorkspaceCommandOptions(
   const requestedWorkspaceId = workspaceId?.trim();
   return {
     configuredEnv: {
-      VELA_INVOCATION_SOURCE: 'open-design',
+      VELA_INVOCATION_SOURCE: 'sankiwork',
       ...(requestedWorkspaceId
         ? { VELA_WORKSPACE_ID: requestedWorkspaceId }
         : {}),
@@ -116,7 +116,7 @@ function configuredAmrEnv(
   explicit: Record<string, string> = {},
 ): Record<string, string> {
   let stored: Record<string, string> = {};
-  const dataDir = env.OD_DATA_DIR?.trim();
+  const dataDir = env.SW_DATA_DIR?.trim();
   if (dataDir) {
     try {
       stored = agentCliEnvForAgent(readAppConfigSync(dataDir).agentCliEnv, 'amr');
@@ -136,7 +136,7 @@ function configuredAmrEnv(
 }
 
 /**
- * Run the same resolved Vela binary and environment used by Open Design login
+ * Run the same resolved Vela binary and environment used by SankiWork login
  * and AMR agent launches. Resource/team/collab adapters must use this instead
  * of spawning a PATH-only `vela` process, otherwise a packaged login can
  * succeed while the collaboration command uses a different or missing CLI.

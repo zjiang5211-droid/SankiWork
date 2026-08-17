@@ -31,7 +31,7 @@ afterEach(() => {
 function createDb(): Database.Database {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-project-status-'));
   tempDirs.push(dir);
-  return openDatabase(dir, { dataDir: path.join(dir, '.od') });
+  return openDatabase(dir, { dataDir: path.join(dir, '.sankiwork') });
 }
 
 function seedProject(db: Database.Database, projectId: string, runStatus = 'succeeded') {

@@ -12,20 +12,20 @@
   pnpmDepsSrc ? src,
   workspacePaths,
 }:
-# Builds the @open-design/web Next.js static export.
+# Builds the @sankiwork/web Next.js static export.
 #
 # Output layout: $out/ contains the contents of `apps/web/out/` (an
 # index.html plus _next/ and asset subdirectories). Drop $out into any
 # static file server.
 #
-# OD_DAEMON_URL is set to "" at build time so the bundled JS issues
+# SW_DAEMON_URL is set to "" at build time so the bundled JS issues
 # relative requests (`/api/*`, `/artifacts/*`, `/frames/*`) instead of
 # baking a build-time daemon URL into the export. The serving
 # environment is therefore expected to be same-origin with the daemon —
 # the bundled caddy in the modules reverse-proxies those paths to
 # `127.0.0.1:<cfg.port>`, and a custom nginx/caddy must do the same.
 let
-  pname = "open-design-web";
+  pname = "sankiwork-web";
   version = (lib.importJSON ../package.json).version;
 
   pnpmDepsHash = (import ./pnpm-deps.nix).webHash;
@@ -57,7 +57,7 @@ in
 
     env = {
       NODE_ENV = "production";
-      OD_DAEMON_URL = "";
+      SW_DAEMON_URL = "";
     };
 
     buildPhase = ''
@@ -68,7 +68,7 @@ in
 
       # next.config.ts gates static-export emission on NODE_ENV=production
       # and writes to apps/web/out/.
-      pnpm --filter @open-design/web run build
+      pnpm --filter @sankiwork/web run build
       runHook postBuild
     '';
 
@@ -85,7 +85,7 @@ in
     };
 
     meta = with lib; {
-      description = "Open Design — Next.js static SPA (apps/web)";
+      description = "SankiWork — Next.js static SPA (apps/web)";
       homepage = "https://github.com/nexu-io/open-design";
       license = licenses.asl20;
       platforms = platforms.linux ++ platforms.darwin;

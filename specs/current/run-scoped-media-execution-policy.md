@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define the smallest Open Design patch that lets an upstream orchestrator call
+Define the smallest SankiWork patch that lets an upstream orchestrator call
 OD as a creative runtime adapter while the upstream orchestrator keeps authority
 over media provider use.
 
@@ -43,7 +43,7 @@ first code patch small, and do not make OD a provider router or account owner.
 
 ## Background
 
-Open Design already has a media dispatcher. It is local-first and daemon-owned:
+SankiWork already has a media dispatcher. It is local-first and daemon-owned:
 
 - `apps/daemon/src/routes/media.ts` exposes the project media endpoints,
   including `POST /api/projects/:id/media/generate`.
@@ -52,27 +52,27 @@ Open Design already has a media dispatcher. It is local-first and daemon-owned:
 - `apps/daemon/src/media/config.ts` owns local provider credentials and config.
 - `apps/daemon/src/media/tasks.ts` owns task snapshots, progress, waits, and
   persistence.
-- `apps/daemon/src/cli.ts` exposes `od media generate` and `od media wait` as
+- `apps/daemon/src/cli.ts` exposes `sw media generate` and `sw media wait` as
   the shell-callable surface used by agents.
 - `apps/daemon/src/prompts/media-contract.ts` instructs media-surface agents to
-  call `"$OD_NODE_BIN" "$OD_BIN" media generate ...`.
+  call `"$SW_NODE_BIN" "$SW_BIN" media generate ...`.
 - `apps/daemon/src/prompts/system.ts` adds the media contract and also contains
   a Codex imagegen override for selected image models.
 
 The run layer already has a scoped tool-token primitive:
 
-- `apps/daemon/src/tool-tokens.ts` mints `OD_TOOL_TOKEN` grants tied to
+- `apps/daemon/src/tool-tokens.ts` mints `SW_TOOL_TOKEN` grants tied to
   `runId`, `projectId`, endpoint allowlists, operation allowlists, TTL, and
   plugin trust/capabilities.
-- `apps/daemon/src/server.ts` injects `OD_TOOL_TOKEN`, `OD_BIN`,
-  `OD_NODE_BIN`, `OD_DAEMON_URL`, `OD_PROJECT_ID`, and `OD_PROJECT_DIR` into
+- `apps/daemon/src/server.ts` injects `SW_TOOL_TOKEN`, `SW_BIN`,
+  `SW_NODE_BIN`, `SW_DAEMON_URL`, `SW_PROJECT_ID`, and `SW_PROJECT_DIR` into
   agent runtimes.
 - Existing `/api/tools/*` endpoints are the precedent for run-scoped, token
   gated wrapper commands.
 
 The current media path is correct for normal OD use. It is too permissive for
 an externally orchestrated creative execution path because an agent inside a
-run can shell out to `od media generate`, causing OD to spend provider budget
+run can shell out to `sw media generate`, causing OD to spend provider budget
 and use OD-held credentials. For this integration shape, OD should contribute
 creative context, skills, design systems, previews, artifacts, and
 design-aware workflow, while the external orchestrator owns caller auth,
@@ -116,7 +116,7 @@ in the linked issues and PRs.
 4. Treat `external` as a generic executor contract and either document it in
    the first PR or ship it as a second patch after request-only is reviewed.
 5. Move agent-driven media generation behind a run-scoped `/api/tools/media/*`
-   endpoint guarded by `OD_TOOL_TOKEN`.
+   endpoint guarded by `SW_TOOL_TOKEN`.
 6. Keep the existing `/api/projects/:id/media/generate` endpoint for UI/legacy
    CLI use, but do not let an in-run agent bypass the run policy through it.
 7. Add first-class media requests. Do not model request-only output as only a
@@ -165,7 +165,7 @@ and task execution work as they do today.
 
 `disabled` means this run must not generate media bytes or create media
 requests. Attempts fail with a structured policy error. The prompt should not
-tell the agent to call `od media generate`.
+tell the agent to call `sw media generate`.
 
 `request-only` means the agent may create structured media requests. OD stores
 the request and emits events, but does not call providers or write media bytes.
@@ -216,7 +216,7 @@ Add a token-gated endpoint for agent wrapper commands:
 
 ```text
 POST /api/tools/media/generate
-Authorization: Bearer <OD_TOOL_TOKEN>
+Authorization: Bearer <SW_TOOL_TOKEN>
 ```
 
 The request body should be the existing media generation body plus optional
@@ -241,7 +241,7 @@ Behavior by mode:
 | `request-only` | Create a `MediaRequest`, emit an event, return request metadata. |
 | `external` | Create a `MediaRequest`, submit it to the external executor, and update status from executor response. |
 
-`od media generate` should prefer this endpoint when `OD_TOOL_TOKEN` is present.
+`sw media generate` should prefer this endpoint when `SW_TOOL_TOKEN` is present.
 Outside a run, it can continue using the existing project endpoint so normal OD
 and current UI flows remain compatible.
 
@@ -264,12 +264,12 @@ layer.
 
 ### CLI
 
-The CLI already has `od media generate` and `od media wait`. The first patch
+The CLI already has `sw media generate` and `sw media wait`. The first patch
 should add:
 
 ```text
-od media requests list --run <runId> --json
-od media requests fulfill <requestId> --file <project-relative-path> --json
+sw media requests list --run <runId> --json
+sw media requests fulfill <requestId> --file <project-relative-path> --json
 ```
 
 If maintainers prefer a smaller first patch, list/fulfill can be hidden behind
@@ -418,9 +418,9 @@ provider work.
 Keep `/api/projects/:id/media/generate` for existing UI and outside-run CLI
 use. Add a stricter path for in-run calls:
 
-- If `OD_TOOL_TOKEN` is present, `od media generate` posts to
+- If `SW_TOOL_TOKEN` is present, `sw media generate` posts to
   `/api/tools/media/generate`.
-- If no token is present, `od media generate` keeps posting to the legacy
+- If no token is present, `sw media generate` keeps posting to the legacy
   project endpoint.
 - If a token is present but invalid or disallowed, fail closed instead of
   falling back to the legacy endpoint.
@@ -437,7 +437,7 @@ mode:
 | Mode | Prompt guidance |
 |---|---|
 | `enabled` | Current media generation contract. |
-| `disabled` | State that media generation is disabled for this run and the agent must not call `od media generate` or external media tools. |
+| `disabled` | State that media generation is disabled for this run and the agent must not call `sw media generate` or external media tools. |
 | `request-only` | Instruct the agent to create media requests through the OD wrapper. State that OD will not execute provider calls. |
 | `external` | Instruct the agent to create/delegate media requests through OD wrapper only. Do not name provider credentials or direct provider APIs. |
 
@@ -535,8 +535,8 @@ bytes are safer because OD previews remain stable.
 - Existing media config and provider credentials continue to work for normal
   OD media projects.
 - Existing UI calls to `/api/projects/:id/media/generate` keep working.
-- `od media generate` outside a run keeps working.
-- In-run `od media generate` becomes stricter only when `OD_TOOL_TOKEN` exists.
+- `sw media generate` outside a run keeps working.
+- In-run `sw media generate` becomes stricter only when `SW_TOOL_TOKEN` exists.
   This is intentional because the run has an explicit policy.
 - `request-only` and `disabled` are opt-in. An external orchestrator must ask
   for them.
@@ -568,11 +568,11 @@ bytes are safer because OD previews remain stable.
 
 ### CLI tests
 
-- `od media generate` uses `/api/tools/media/generate` when `OD_TOOL_TOKEN` is
+- `sw media generate` uses `/api/tools/media/generate` when `SW_TOOL_TOKEN` is
   set.
-- `od media generate` fails closed on a bad token rather than falling back.
-- `od media requests list --run ... --json` returns machine-readable output.
-- `od media requests fulfill ... --json` writes or records the fulfilled file
+- `sw media generate` fails closed on a bad token rather than falling back.
+- `sw media requests list --run ... --json` returns machine-readable output.
+- `sw media requests fulfill ... --json` writes or records the fulfilled file
   through the API, not by directly mutating daemon state.
 
 ### E2E tests
@@ -580,7 +580,7 @@ bytes are safer because OD previews remain stable.
 Use the existing fake-agent harness:
 
 - Extend `e2e/lib/fake-agents.ts` with a fake agent that calls
-  `"$OD_NODE_BIN" "$OD_BIN" media generate`.
+  `"$SW_NODE_BIN" "$SW_BIN" media generate`.
 - Add run tests using `e2e/lib/vitest/runs.ts` to start request-only and
   disabled runs.
 - Assert request-only emits a structured media request event and no media task
@@ -603,13 +603,13 @@ Use the existing fake-agent harness:
    `shouldRenderMediaContract`.
 5. Extend `apps/daemon/src/tool-tokens.ts` with media endpoint/operation grants.
 6. Add `/api/tools/media/generate` and media request CRUD/fulfill routes.
-7. Update `apps/daemon/src/cli.ts` so in-run `od media generate` uses the
+7. Update `apps/daemon/src/cli.ts` so in-run `sw media generate` uses the
    token-gated endpoint and fails closed on token errors.
 8. Update prompt rendering to distinguish enabled, disabled, request-only, and
    external modes.
 9. Add request persistence under daemon-owned runtime data, backed by SQLite if
    the adjacent media task tables already make that easiest. Do not use
-   `OD_MEDIA_CONFIG_DIR`.
+   `SW_MEDIA_CONFIG_DIR`.
 10. Add focused daemon and CLI tests.
 11. Add e2e fake-agent tests for disabled and request-only.
 12. Ship external executor support as a second PR unless maintainers explicitly
@@ -665,7 +665,7 @@ Docs:
 
 ### Risk: policy bypass through legacy endpoint
 
-If in-run `od media generate` falls back to `/api/projects/:id/media/generate`
+If in-run `sw media generate` falls back to `/api/projects/:id/media/generate`
 after token failure, the policy is ineffective. The CLI must fail closed when a
 token is present.
 
@@ -683,7 +683,7 @@ rotate credentials, manage budgets, or retry provider-specific failures.
 
 ### Alternative: env var only
 
-An `OD_MEDIA_EXECUTION=request-only` env var is too weak. It does not survive
+An `SW_MEDIA_EXECUTION=request-only` env var is too weak. It does not survive
 HTTP run creation, cannot be shown in run status, cannot be validated by
 contracts, and does not give external orchestrators a stable API.
 
@@ -727,12 +727,12 @@ daemon must still enforce at the tool/media endpoint.
 ```bash
 pnpm guard
 pnpm typecheck
-pnpm --filter @open-design/daemon test
-pnpm --filter @open-design/web test
+pnpm --filter @sankiwork/daemon test
+pnpm --filter @sankiwork/web test
 ```
 
 Add e2e validation for the first PR that changes run behavior:
 
 ```bash
-pnpm --filter @open-design/e2e test -- <new-media-policy-spec>
+pnpm --filter @sankiwork/e2e test -- <new-media-policy-spec>
 ```

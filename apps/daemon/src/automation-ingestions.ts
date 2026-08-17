@@ -14,7 +14,7 @@ import type {
   CreateAutomationSourceIngestionRequest,
   JsonValue,
   MemoryType,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import { createAutomationProposal } from './automation-proposals.js';
 import { getAnyAutomationTemplate } from './automation-templates.js';

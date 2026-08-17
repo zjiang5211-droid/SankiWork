@@ -7,7 +7,7 @@ import { automatedUiScenarios } from '@/playwright/resources';
 import type { UiScenario } from '@/playwright/resources';
 import { T } from '@/timeouts';
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'sankiwork:config';
 const TINY_PNG_B64 =
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO5W6McAAAAASUVORK5CYII=';
 
@@ -105,7 +105,7 @@ async function createProjectNameOnly(page: Page, entry: UiScenario) {
 async function gotoEntryHome(page: Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await waitForLoadingToClear(page);
-  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve Open Design' });
+  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve SankiWork' });
   if (await privacyDialog.isVisible()) {
     await privacyDialog.getByRole('button', { name: /I get it|not now|got it|don't share/i }).click();
     await expect(privacyDialog).toHaveCount(0);
@@ -299,7 +299,7 @@ async function selectComposerSessionMode(page: Page, modeTitle: 'Ask mode' | 'Pl
   await expect(trigger).toHaveAttribute('aria-label', `Mode: ${modeName}`);
 }
 
-async function openDesignFile(page: Page, fileName: string) {
+async function sankiWorkFile(page: Page, fileName: string) {
   const preview = page.getByTestId('artifact-preview-frame');
   if (await preview.isVisible()) return;
 
@@ -341,7 +341,7 @@ async function revealDesignFileRow(page: Page, fileName: string): Promise<Locato
 }
 
 async function waitForLoadingToClear(page: Page) {
-  await page.getByText('Loading Open Design…').waitFor({ state: 'hidden', timeout: T.long });
+  await page.getByText('Loading SankiWork…').waitFor({ state: 'hidden', timeout: T.long });
 }
 
 async function expectVisibleAcrossAnimationFrames(locator: Locator) {
@@ -430,13 +430,13 @@ async function runUploadedImageRendersInPreviewFlow(page: Page, entry: UiScenari
     projectId,
     'image-preview.html',
     // Generated pages commonly use site-root paths. Before the preview asset
-    // normalization fix, this resolved against the Open Design app origin and
+    // normalization fix, this resolved against the SankiWork app origin and
     // left the uploaded image broken even though its project raw URL was valid.
     '<!doctype html><html><body><main><h1>Image Preview</h1><img alt="Brand logo" src="/brand.png"></main></body></html>',
   );
   await page.reload();
   await expectWorkspaceReady(page);
-  await openDesignFile(page, 'image-preview.html');
+  await sankiWorkFile(page, 'image-preview.html');
 
   const image = page.frameLocator('[data-testid="artifact-preview-frame"]').getByRole('img', { name: 'Brand logo' });
   await expect(image).toBeVisible();
@@ -450,7 +450,7 @@ async function runPythonSourcePreviewFlow(page: Page, entry: UiScenario) {
   const { projectId } = await getCurrentProjectContext(page);
   await seedProjectFile(page, projectId, 'app.py', 'def greet():\n    return "hello from python"\n');
   await page.reload();
-  await openDesignFile(page, 'app.py');
+  await sankiWorkFile(page, 'app.py');
 
   await expect(page.locator('.code-viewer')).toContainText('def greet');
   await expect(page.locator('.code-viewer')).toContainText('hello from python');
@@ -682,12 +682,12 @@ test('[P1] plan mode selection and new Excalidraw sketch emit analytics dimensio
         enabled: true,
         env: 'e2e',
         key: 'phc_e2e',
-        host: 'https://analytics.open-design.test',
+        host: 'https://analytics.sankiwork.test',
         installationId: 'e2e-installation',
       },
     });
   });
-  await page.route('https://analytics.open-design.test/**', async (route) => {
+  await page.route('https://analytics.sankiwork.test/**', async (route) => {
     analyticsBodies.push(route.request().postData() ?? '');
     await route.fulfill({ status: 200, json: { status: 1 } });
   });
@@ -908,7 +908,7 @@ test('[P0] @critical file workspace restores HTML preview after switching throug
   await page.reload();
   await expectWorkspaceReady(page);
 
-  await openDesignFile(page, 'dashboard.html');
+  await sankiWorkFile(page, 'dashboard.html');
   await expect(page.getByRole('tab', { name: /dashboard\.html/i })).toHaveAttribute('aria-selected', 'true');
   await expect(page.frameLocator('[data-testid="artifact-preview-frame"]').getByRole('heading', {
     name: 'Risk Dashboard',

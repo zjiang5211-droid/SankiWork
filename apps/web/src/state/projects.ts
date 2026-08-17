@@ -8,7 +8,7 @@
 import { coalescedGet, evictCoalescedGet } from '../lib/coalesced-get';
 import { BackoffController, type BackoffOptions } from '../lib/backoff';
 import { markProjectCreatedByViewer } from '../collab/useProjectCollab';
-import { API_ERROR_CODES, type ApiErrorCode } from '@open-design/contracts';
+import { API_ERROR_CODES, type ApiErrorCode } from '@sankiwork/contracts';
 import type {
   AppliedPluginSnapshot,
   ApplyResult,
@@ -32,7 +32,7 @@ import type {
   WorkspaceCollabContext,
   WorkspaceProjectSummary,
   WorkspaceProjectsResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { randomUUID } from '../utils/uuid';
 import { markProjectDisplaySnapshotsDirty } from './project-display-cache';
 import {
@@ -56,8 +56,8 @@ import type {
 import { removeDesignBrowserProjectCache } from '../components/design-browser-storage';
 import { boundedRequestErrorCode } from '../analytics/workspace';
 
-export type { PluginInstallOutcome } from '@open-design/contracts';
-export type { PluginShareAction } from '@open-design/contracts';
+export type { PluginInstallOutcome } from '@sankiwork/contracts';
+export type { PluginShareAction } from '@sankiwork/contracts';
 export { workspaceProjectHeaders } from '../collab/workspace-identity';
 
 export type WorkspaceProjectListView = 'all' | 'recent' | 'drafts' | 'team';
@@ -669,7 +669,7 @@ export async function createProject(
   );
   try {
     // `randomUUID` falls back to `crypto.getRandomValues` / `Math.random`
-    // when `crypto.randomUUID` is unavailable. Open Design served over
+    // when `crypto.randomUUID` is unavailable. SankiWork served over
     // plain HTTP on a LAN IP (Docker / unRAID self-hosting) is a
     // non-secure context, where `crypto.randomUUID` is undefined and
     // calling it directly throws — the surrounding try/catch then turns
@@ -703,7 +703,7 @@ export async function createProject(
       }
       if (await isLocalDaemonProxyFailure(resp)) {
         throw new ProjectCreateError(
-          'Could not reach the local Open Design service',
+          'Could not reach the local SankiWork service',
           null,
           null,
           true,
@@ -1434,7 +1434,7 @@ export async function killTerminal(
 
 // ---------- tabs ----------
 
-const PROJECT_TABS_CACHE_PREFIX = 'open-design:project-tabs:v1:';
+const PROJECT_TABS_CACHE_PREFIX = 'sankiwork:project-tabs:v1:';
 
 function tabsCacheKey(
   projectId: string,
@@ -1938,7 +1938,7 @@ export async function installGeneratedPluginFolder(
         accountGeneration,
       });
       if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('open-design:plugins-changed'));
+        window.dispatchEvent(new CustomEvent('sankiwork:plugins-changed'));
       }
     }
     return outcome;
@@ -1962,7 +1962,7 @@ export interface PluginShareOutcome {
 
 export interface PluginShareTaskStart {
   taskId: string;
-  action: 'publish-github' | 'contribute-open-design';
+  action: 'publish-github' | 'contribute-sankiwork';
   path: string;
   status: 'queued' | 'running' | 'done' | 'failed';
   startedAt: number;
@@ -1982,7 +1982,7 @@ export interface PluginShareTaskError {
 
 export interface PluginShareTaskSnapshot {
   taskId: string;
-  action: 'publish-github' | 'contribute-open-design';
+  action: 'publish-github' | 'contribute-sankiwork';
   path: string;
   status: 'queued' | 'running' | 'done' | 'failed';
   startedAt: number;
@@ -2006,7 +2006,7 @@ export async function publishGeneratedPluginToGitHub(
   );
 }
 
-export async function contributeGeneratedPluginToOpenDesign(
+export async function contributeGeneratedPluginToSankiWork(
   projectId: string,
   relativePath: string,
   workspaceContext?: WorkspaceCollabContext | null,
@@ -2014,7 +2014,7 @@ export async function contributeGeneratedPluginToOpenDesign(
   return postGeneratedPluginShareAction(
     projectId,
     relativePath,
-    'contribute-open-design',
+    'contribute-sankiwork',
     workspaceContext,
   );
 }
@@ -2022,7 +2022,7 @@ export async function contributeGeneratedPluginToOpenDesign(
 export async function startGeneratedPluginShareTask(
   projectId: string,
   relativePath: string,
-  action: 'publish-github' | 'contribute-open-design',
+  action: 'publish-github' | 'contribute-sankiwork',
   workspaceContext?: WorkspaceCollabContext | null,
 ): Promise<PluginShareTaskStart> {
   const resp = await fetch(
@@ -2155,7 +2155,7 @@ export async function createPluginShareProject(
 async function postGeneratedPluginShareAction(
   projectId: string,
   relativePath: string,
-  action: 'publish-github' | 'contribute-open-design',
+  action: 'publish-github' | 'contribute-sankiwork',
   workspaceContext?: WorkspaceCollabContext | null,
 ): Promise<PluginShareOutcome> {
   try {

@@ -13,15 +13,15 @@
 ## 试用
 
 ```bash
-od plugin validate .
-od plugin install .
-od plugin apply plugin-id --input artifact=prototype --input audience=founders --input topic=onboarding
+sw plugin validate .
+sw plugin install .
+sw plugin apply plugin-id --input artifact=prototype --input audience=founders --input topic=onboarding
 ```
 
 ## 文件
 
 - `SKILL.md` - 可移植 agent 指令。
-- `open-design.json` - 带版本的 Open Design marketplace 与 apply 元数据。
+- `open-design.json` - 带版本的 SankiWork marketplace 与 apply 元数据。
 - `examples/` - 示例输出或 fixture prompts。
 - `evals/` - 可重复质量检查。
 

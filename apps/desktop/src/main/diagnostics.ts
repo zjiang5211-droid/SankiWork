@@ -2,7 +2,7 @@ import { writeFile } from "node:fs/promises";
 
 import { BrowserWindow, dialog, ipcMain, shell } from "electron";
 
-import { DIAGNOSTICS_FILENAME_PREFIX, diagnosticsFileName } from "@open-design/diagnostics";
+import { DIAGNOSTICS_FILENAME_PREFIX, diagnosticsFileName } from "@sankiwork/diagnostics";
 
 import { fetchDiagnosticsBundle } from "./diagnostics-fetch.js";
 
@@ -39,7 +39,7 @@ export async function exportDiagnosticsToFile(
   // same slow folder. ponytail: mitigates the trigger; a fully wedged OneDrive
   // shell is an OS-side stall no app option can unblock.
   const dialogOptions = {
-    title: "Export Open Design diagnostics",
+    title: "Export SankiWork diagnostics",
     defaultPath: filename,
     filters: [{ name: "Zip archive", extensions: ["zip"] }],
     properties: ["dontAddToRecent" as const],
@@ -57,7 +57,7 @@ export async function exportDiagnosticsToFile(
     // rebuilding it here with a guessed data dir. The daemon owns its real
     // RUNTIME_DATA_DIR, so the bundle's run-event logs (`runs/<id>/events.jsonl`)
     // and AMR/agent CLI logs resolve correctly in dev, packaged, and
-    // OD_DATA_DIR-override setups alike. See diagnostics-fetch.ts.
+    // SW_DATA_DIR-override setups alike. See diagnostics-fetch.ts.
     const baseUrl = await deps.discoverDaemonBaseUrl();
     const zip = await fetchDiagnosticsBundle(baseUrl);
     await writeFile(choice.filePath, zip);

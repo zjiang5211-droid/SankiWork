@@ -1619,7 +1619,7 @@ button.agent-group-rescan-btn:hover:not(:disabled) {
   overflow: hidden;
 }
 
-/* Failed-run AMR nudge: when the chat error card's "Try Open Design AMR" link
+/* Failed-run AMR nudge: when the chat error card's "Try SankiWork AMR" link
    opens Settings, the AMR card scrolls into view and pulses a couple of times.
    The card's own box-shadow is not clipped by `overflow: hidden`, so the glow
    reads fully even though inner content is clipped. */
@@ -2196,7 +2196,7 @@ button.agent-group-rescan-btn:hover:not(:disabled) {
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
   background: var(--accent);
-  /* 品牌主色 #00ff04 (opendesign spec), not the theme --green: the label and
+  /* 品牌主色 #00ff04 (sankiwork spec), not the theme --green: the label and
      its sparkle icon share currentColor on the ink fill. */
   color: #00ff04;
   font-size: 12px;
@@ -4196,7 +4196,7 @@ button.agent-group-rescan-btn:hover:not(:disabled) {
    knob stays visible against the (now lighter) track. On-state already
    used --text (#e8e4dc) which is high-contrast, so it is left alone.
 
-   Two selector paths needed because Open Design supports both explicit
+   Two selector paths needed because SankiWork supports both explicit
    [data-theme='dark'] AND system dark via @media prefers-color-scheme
    (the default "system" theme removes data-theme and falls back on the
    media query in tokens.css). */

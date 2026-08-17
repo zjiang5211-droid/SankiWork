@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 
 import type Database from 'better-sqlite3';
-import type { AgentSessionInvalidationReason } from '@open-design/contracts';
+import type { AgentSessionInvalidationReason } from '@sankiwork/contracts';
 
 import {
   clearAgentSession,

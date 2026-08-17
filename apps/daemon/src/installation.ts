@@ -23,12 +23,12 @@
 //
 // Locations:
 //
-//   packaged (mac):    ~/Library/Application Support/Open Design Prerelease/installation.json
-//   packaged (win):    %APPDATA%/Open Design Prerelease/installation.json
-//   packaged (linux):  $XDG_CONFIG_HOME/Open Design Prerelease/installation.json
+//   packaged (mac):    ~/Library/Application Support/SankiWork Prerelease/installation.json
+//   packaged (win):    %APPDATA%/SankiWork Prerelease/installation.json
+//   packaged (linux):  $XDG_CONFIG_HOME/SankiWork Prerelease/installation.json
 //   tools-dev / OSS:   <dataDir>/installation.json  (no namespace concept; fall back to dataDir)
 //
-// `OD_INSTALLATION_DIR` is the env override. Packaged sidecars.ts sets it
+// `SW_INSTALLATION_DIR` is the env override. Packaged sidecars.ts sets it
 // to the channel root explicitly; everything else falls back to dataDir
 // (where it sits next to app-config.json and behaves like the legacy
 // path — fine for dev because dev doesn't have namespace churn).
@@ -58,7 +58,7 @@ export interface PendingAttribution {
 }
 
 export function resolveInstallationDir(dataDir: string): string {
-  const env = process.env.OD_INSTALLATION_DIR;
+  const env = process.env.SW_INSTALLATION_DIR;
   if (env && env.length > 0) return env;
   return dataDir;
 }

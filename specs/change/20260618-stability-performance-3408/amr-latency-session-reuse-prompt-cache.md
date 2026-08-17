@@ -19,12 +19,12 @@ Status: proposed · Parent: #3408 · Sibling: agent-startup-latency-profiling.md
   - `:248` `"loadSession": false` — vela reports that loading/resuming sessions is unsupported.
   - In `newSession`, `if runtime.sessionID != "" { return ... "only one ACP session is supported" }` — only one session per process.
   - `handleRequest` switch only handles `initialize / session/new / session/set_model / session/prompt` — **no `session/load`**, default→"Method not found".
-- **open-design daemon side (verified)**:
+- **sankiwork daemon side (verified)**:
   - `apps/daemon/src/server.ts:7670` — `composed` = `# Instructions{volatile system block}` + `# User request{flattened transcript}`; `prompts/system.ts:632` BASE_SYSTEM_PROMPT comes first, while `:637` memoryBody and other volatile blocks come later.
   - `apps/web/src/providers/daemon.ts:222` — `buildDaemonTranscript` flattens history into a content-only markdown blob every turn, dropping thinking/tool_use/tool_result.
   - `apps/daemon/src/runtimes/defs/amr.ts` (`acp-json-rpc`, no `resumesSessionViaCli`) → `server.ts:7578` `agentSupportsSessionResume=false` → `skipTranscript:false` → **AMR resends flattened history every turn**. (Contrast with claude.ts `resumesSessionViaCli:true` → already resumes.)
   - `apps/daemon/src/runtimes/mcp.ts:13-22` — MCP injected by the daemon: AMR(mature-acp)+1 live-artifacts; claude uses user external MCP.
-- **Data sources**: PostHog project **OpenDesign=420348** (`run_finished`, requires `phx_` key); Langfuse `us.cloud.langfuse.com` (trace_id==run.id). Queries are in the Reproduction section.
+- **Data sources**: PostHog project **SankiWork=420348** (`run_finished`, requires `phx_` key); Langfuse `us.cloud.langfuse.com` (trace_id==run.id). Queries are in the Reproduction section.
 - **Access prerequisites**: PostHog personal key to rerun; vela changes require the local vela repo (already available).
 
 ## Measured data baseline (real production client + local daemon)
@@ -79,7 +79,7 @@ A counter-intuitive fact to pre-empt: AMR's per-turn cache rate can look healthy
 
 ### Production measurement (vela `link.usage_events`, the proof)
 
-vela's Link gateway persists **one row per upstream model call** to Postgres `link.usage_events` (`input_tokens`, `cache_read_tokens`, `cache_write_tokens`, `latency_ms`, `created_at`, and `metadata` carrying `openDesignSessionId` / `openDesignRunId`). `uncached = input − cache_read − cache_write` (`pricing.go:89`). Querying DeepSeek calls (the AMR lead model; note `provider='openai'`, filter on `model ILIKE '%deepseek%'`), taking the **first upstream call of each run** and bucketing by run ordinal within the session:
+vela's Link gateway persists **one row per upstream model call** to Postgres `link.usage_events` (`input_tokens`, `cache_read_tokens`, `cache_write_tokens`, `latency_ms`, `created_at`, and `metadata` carrying `sankiWorkSessionId` / `sankiWorkRunId`). `uncached = input − cache_read − cache_write` (`pricing.go:89`). Querying DeepSeek calls (the AMR lead model; note `provider='openai'`, filter on `model ILIKE '%deepseek%'`), taking the **first upstream call of each run** and bucketing by run ordinal within the session:
 
 | First call of… | n | cache hit | input | uncached | latency |
 |---|---|---|---|---|---|
@@ -90,7 +90,7 @@ For contrast, the **within-turn agentic-loop calls** hit **~79%** (this is what 
 
 **Reading**: the prior turn's conversation history is **not** reused on the next turn's first call — the ~21% that does hit is the static `[system + tools]` prefix (and possibly cross-user shared static), while the history re-pays uncached. This is the data behind the headline: turn-2+ first call ≈ 21% hit, ~24.5k uncached, ~12s, and it is the TTFT-critical call.
 
-*(Method note: measured read-only against production `link.usage_events` via an ephemeral in-cluster psql pod, statement-timeout + read-only transaction guarded. Turn ordinal uses `openDesignSessionId`/`openDesignRunId` from `metadata`; sessions straddling the query window's start can mislabel a mid-conversation run as turn-1, adding minor noise that does not change the picture.)*
+*(Method note: measured read-only against production `link.usage_events` via an ephemeral in-cluster psql pod, statement-timeout + read-only transaction guarded. Turn ordinal uses `sankiWorkSessionId`/`sankiWorkRunId` from `metadata`; sessions straddling the query window's start can mislabel a mid-conversation run as turn-1, adding minor noise that does not change the picture.)*
 
 ## Proposed design
 
@@ -153,7 +153,7 @@ All figures are the **first upstream call of the turn** (the TTFT-critical, cros
 
 ## Risks & mitigations
 
-- **Cross-repo vela**: session/load + persistence are vela changes; user owns vela, non-blocking; requires vela tests + open-design daemon integration.
+- **Cross-repo vela**: session/load + persistence are vela changes; user owns vela, non-blocking; requires vela tests + sankiwork daemon integration.
 - **Correctness**: session reuse must not repeat #3380 and lose edit state; model/cwd/agent/cancel changes need session invalidation and fallback.
 - **Slow conversations vs TTL**: 1h extended TTL + keepalive mitigates; very slow conversations may still miss (acceptable).
 - **Instrumentation status (updated)**: vela now forwards usage on the ACP `session/prompt` result (vela #277 `c424931` + #288 `d176c010`, landed ~2026-06-10), so `cachedReadTokens` flows through to `token_count_source=provider_usage` (`acp_runtime.go:607-613` → daemon `acp.ts:154`). `cache_creation` is still likely empty (Vertex may not report write). **Caveat that changes interpretation — see "within-turn vs cross-turn" below**: the reported cache read is a per-turn aggregate, so a healthy AMR cache rate does NOT imply cross-turn reuse.
@@ -201,7 +201,7 @@ This feasibility was checked premise by premise by codex, with material correcti
 
 ## Reproduction · Reproduce
 
-PostHog OpenDesign=420348, `POST /api/projects/420348/query/`. HogQL: use `toFloat()` for numbers, `isNull()` for null, `quantile(0.9)` for P90, and `row_number() OVER (PARTITION BY conversation_id ORDER BY timestamp)` for turn ordinal.
+PostHog SankiWork=420348, `POST /api/projects/420348/query/`. HogQL: use `toFloat()` for numbers, `isNull()` for null, `quantile(0.9)` for P90, and `row_number() OVER (PARTITION BY conversation_id ORDER BY timestamp)` for turn ordinal.
 - Input composition (turn-1 vs turn-2+): `avg(toFloat(properties.uncached_input_tokens))` / `cache_read_input_tokens` / `cache_creation_input_tokens`, bucketed by `if(turn=1,...)`.
 - Hit vs miss TTFT: group by `if(toFloat(properties.cache_read_input_tokens)>0,'HIT','MISS')`.
 - **Cross-agent recompose proof (turn-2+ `input_tokens` p50 by provider)** — shows the resent-history balloon across recompose agents vs the native-resume collapse: `WITH o AS (SELECT properties.agent_provider_id AS prov, toFloat(properties.input_tokens) AS inp, row_number() OVER (PARTITION BY properties.conversation_id ORDER BY timestamp) AS turn FROM events WHERE event='run_finished' AND properties.result='success' AND isNotNull(properties.conversation_id) AND isNotNull(properties.input_tokens) AND timestamp >= now()-INTERVAL 7 DAY) SELECT prov, round(quantileIf(0.5)(inp,turn=1)) AS t1, round(quantileIf(0.5)(inp,turn>=2)) AS t2plus, round(quantileIf(0.5)(inp,turn>=5)) AS t5plus FROM o GROUP BY prov ORDER BY t2plus DESC`. Caveat: opencode/pi report usage per upstream call, so their tiny turn-2+ value is a reporting artifact, not native resume; copilot/kimi/qwen report no usage.

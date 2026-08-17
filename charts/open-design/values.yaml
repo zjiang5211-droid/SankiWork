@@ -40,15 +40,15 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
   hosts:
-    - host: open-design.local
+    - host: sankiwork.local
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls: []
   ## example for tls configuration:
-  #  - secretName: open-design-tls
+  #  - secretName: sankiwork-tls
   #    hosts:
-  #      - open-design.local
+  #      - sankiwork.local
 
 resources:
   limits:

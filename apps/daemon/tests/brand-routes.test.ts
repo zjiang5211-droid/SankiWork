@@ -43,7 +43,7 @@ describe('brand routes', () => {
 
   beforeEach(() => {
     tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-brand-routes-'));
-    dataDir = path.join(tempDir, '.od');
+    dataDir = path.join(tempDir, '.sankiwork');
     brandsRoot = path.join(dataDir, 'brands');
     projectsRoot = path.join(dataDir, 'projects');
     userDesignSystemsRoot = path.join(dataDir, 'design-systems');

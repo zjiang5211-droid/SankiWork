@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 import {
   lockEntryFromInstalled,
   readPluginLockfile,
@@ -49,10 +49,10 @@ describe('plugin lockfile', () => {
     });
   });
 
-  it('writes stable .od/od-plugin-lock.json content', async () => {
+  it('writes stable .sankiwork/od-plugin-lock.json content', async () => {
     const dir = await mkdtemp(path.join(os.tmpdir(), 'od-lock-'));
     try {
-      const filePath = path.join(dir, '.od', 'od-plugin-lock.json');
+      const filePath = path.join(dir, '.sankiwork', 'od-plugin-lock.json');
       await upsertPluginLockfileEntry(filePath, plugin, 123);
       expect(await readPluginLockfile(filePath)).toMatchObject({
         schemaVersion: 1,
@@ -72,7 +72,7 @@ describe('plugin lockfile', () => {
   it('drops no entry when concurrent installs race the same lockfile (#109)', async () => {
     const dir = await mkdtemp(path.join(os.tmpdir(), 'od-lock-race-'));
     try {
-      const filePath = path.join(dir, '.od', 'od-plugin-lock.json');
+      const filePath = path.join(dir, '.sankiwork', 'od-plugin-lock.json');
       const names = Array.from({ length: 12 }, (_, i) => `community/plugin-${i}`);
       // All twelve read-modify-write cycles start from the same on-disk state
       // and race to write back — the exact shape a burst of concurrent

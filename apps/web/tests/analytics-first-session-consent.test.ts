@@ -10,7 +10,7 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const FIRST_SESSION_KEY = 'open-design:analytics.first_session_id';
+const FIRST_SESSION_KEY = 'sankiwork:analytics.first_session_id';
 
 const posthogState = vi.hoisted(() => ({ initShouldThrow: false }));
 

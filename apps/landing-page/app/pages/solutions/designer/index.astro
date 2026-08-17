@@ -1,6 +1,6 @@
 ---
 /*
- * /roles/designer/ — Solution → Role page: Open Design for designers.
+ * /roles/designer/ — Solution → Role page: SankiWork for designers.
  *
  * Same layout as the Solution use-case pages. The feature grid mixes real
  * plugins across categories (roles span scenarios), rendered via
@@ -17,7 +17,7 @@ import { pickSolutionPlugins } from '../../../_lib/solution-featured';
 import { imageAsset, imageAssetSrcset } from '../../../image-assets';
 import { localeFromPath, localizedHref, localePath, stripLocaleFromPath } from '../../../i18n';
 
-const SITE = Astro.site?.toString() ?? 'https://open-design.ai/';
+const SITE = Astro.site?.toString() ?? 'https://sanki-ai.cloud/';
 const REPO = 'https://github.com/nexu-io/open-design';
 const REPO_RELEASES = `${REPO}/releases`;
 const locale = localeFromPath(Astro.url.pathname);
@@ -57,7 +57,7 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Open Design', item: SITE },
+      { '@type': 'ListItem', position: 1, name: 'SankiWork', item: SITE },
       { '@type': 'ListItem', position: 2, name: page.breadcrumb, item: pageUrl },
     ],
   },
@@ -83,7 +83,7 @@ const jsonLd = [
 
 <Layout title={title} description={description} active="solution" jsonLd={jsonLd}>
   <nav class="breadcrumb" aria-label={common.breadcrumbAria}>
-    <a href={href('/')}>Open Design</a>
+    <a href={href('/')}>SankiWork</a>
     <span>/</span>
     <span aria-current="page">{page.breadcrumb}</span>
   </nav>
@@ -190,7 +190,7 @@ const jsonLd = [
       </ol>
     </section>
 
-    <section class="info-cta" aria-label="Open Design call to action">
+    <section class="info-cta" aria-label="SankiWork call to action">
       <div>
         <h2>{page.ctaTitle}</h2>
         <p>{page.ctaBody}</p>

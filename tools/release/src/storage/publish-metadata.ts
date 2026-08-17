@@ -21,7 +21,7 @@ import {
   releaseChannelDescriptor,
   releaseMetadataVersionFields,
   type CountedReleaseChannel,
-} from "@open-design/release";
+} from "@sankiwork/release";
 import {
   parseReleaseNotePublication,
   releaseNoteMetadataFromPublication,

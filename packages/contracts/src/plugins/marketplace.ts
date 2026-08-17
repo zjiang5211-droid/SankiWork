@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import {
   LocalizedTextSchema,
-  OPEN_DESIGN_PLUGIN_SPEC_VERSION,
-  OpenDesignSpecVersionSchema,
+  SANKIWORK_PLUGIN_SPEC_VERSION,
+  SankiWorkSpecVersionSchema,
 } from './manifest.js';
 
 const MarketplaceEntryDistSchema = z.object({
@@ -65,7 +65,7 @@ export type MarketplacePluginEntry = z.infer<typeof MarketplacePluginEntrySchema
 
 export const MarketplaceManifestSchema = z.object({
   $schema:     z.string().optional(),
-  specVersion: OpenDesignSpecVersionSchema.default(OPEN_DESIGN_PLUGIN_SPEC_VERSION),
+  specVersion: SankiWorkSpecVersionSchema.default(SANKIWORK_PLUGIN_SPEC_VERSION),
   name:        z.string().min(1),
   version:     z.string().min(1),
   owner: z.object({

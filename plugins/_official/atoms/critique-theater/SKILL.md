@@ -35,11 +35,11 @@ inside the same CLI session.
 The default review uses a 0–10 scale, an 8.0 ship threshold, and at most three
 rounds. A round ships only when its daemon-computed composite reaches the
 configured threshold **and** no open must-fix items remain. The active values
-come from `OD_CRITIQUE_*` configuration, including
-`OD_CRITIQUE_MAX_ROUNDS`, `OD_CRITIQUE_SCORE_THRESHOLD`, and the fallback
+come from `SW_CRITIQUE_*` configuration, including
+`SW_CRITIQUE_MAX_ROUNDS`, `SW_CRITIQUE_SCORE_THRESHOLD`, and the fallback
 policy.
 
-`OD_MAX_DEVLOOP_ITERATIONS` still caps an outer plugin pipeline stage; it is
+`SW_MAX_DEVLOOP_ITERATIONS` still caps an outer plugin pipeline stage; it is
 not the Design Jury round limit or ship rule. Likewise, a pipeline's
 `critique.score` signal is a scheduler-facing projection, not the wire output
 the agent should manufacture.
@@ -55,5 +55,5 @@ The web Design Jury surface exposes **Interrupt** and an Esc shortcut. After
 the user triggers either, the web app posts to
 `/api/projects/:projectId/critique/:runId/interrupt`; the daemon aborts the
 registered run, persists the partial best-so-far state, and emits
-`critique.interrupted`. `od ui respond` handles GenUI surfaces and does not
+`critique.interrupted`. `sw ui respond` handles GenUI surfaces and does not
 provide a `break-loop` action for Critique Theater.

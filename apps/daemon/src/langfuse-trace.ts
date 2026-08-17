@@ -2,8 +2,8 @@
 //
 // This module is intentionally dependency-free (no `langfuse` SDK). It builds
 // Langfuse ingestion batches for completed runs and sends them either to the
-// official Open Design telemetry relay or, for local smoke tests, directly to
-// Langfuse. Without OPEN_DESIGN_TELEMETRY_RELAY_URL or LANGFUSE_PUBLIC_KEY /
+// official SankiWork telemetry relay or, for local smoke tests, directly to
+// Langfuse. Without SANKIWORK_TELEMETRY_RELAY_URL or LANGFUSE_PUBLIC_KEY /
 // LANGFUSE_SECRET_KEY in the env, every entry point becomes a no-op so that
 // dev runs and forks of this open-source repo do not accidentally report.
 //
@@ -19,7 +19,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 
 import type { TelemetryPrefs } from './app-config.js';
-import { normalizeOpenDesignTelemetryRelayUrl } from './integrations/telemetry-relay.js';
+import { normalizeSankiWorkTelemetryRelayUrl } from './integrations/telemetry-relay.js';
 import { readVelaControlApiContext } from './integrations/vela.js';
 import {
   buildPromptStackFlatMetadata,
@@ -199,16 +199,16 @@ export interface TraceSafeObjectManifestBase {
   extension?: string;
   redacted: boolean;
   truncated: boolean;
-  stored_in_open_design: boolean;
+  stored_in_sankiwork: boolean;
   retention_policy: ObjectManifestRetentionPolicy;
   access_scope: ObjectManifestAccessScope;
   sensitivity: ObjectManifestSensitivity;
   source: 'user_upload' | 'agent_generated' | 'user_prompt';
   expires_at: string | null;
   approved_by: string | null;
-  open_in_open_design_url?: null;
+  open_in_sankiwork_url?: null;
   preview_status?: string;
-  access_policy?: 'open_design_auth_required';
+  access_policy?: 'sankiwork_auth_required';
 }
 
 export interface AttachmentManifestEntry extends TraceSafeObjectManifestBase {
@@ -278,7 +278,7 @@ export interface RuntimeInfo {
   osRelease?: string;
   /** CPU architecture (`os.arch()`, e.g. 'arm64' | 'x64'). */
   arch?: string;
-  /** Open Design app version reported by the daemon. */
+  /** SankiWork app version reported by the daemon. */
   appVersion?: string;
   /** Build channel (development / prerelease / beta / stable). */
   appChannel?: string;
@@ -411,17 +411,17 @@ export function readLangfuseConfig(
 export function readTelemetrySinkConfig(
   env: NodeJS.ProcessEnv = process.env,
 ): TelemetrySinkConfig | null {
-  const relayUrl = env.OPEN_DESIGN_TELEMETRY_RELAY_URL?.trim();
+  const relayUrl = env.SANKIWORK_TELEMETRY_RELAY_URL?.trim();
   if (relayUrl) {
     return {
       kind: 'relay',
-      relayUrl: normalizeOpenDesignTelemetryRelayUrl(relayUrl),
+      relayUrl: normalizeSankiWorkTelemetryRelayUrl(relayUrl),
       timeoutMs: parsePositiveInt(
-        env.OPEN_DESIGN_TELEMETRY_TIMEOUT_MS ?? env.LANGFUSE_TIMEOUT_MS,
+        env.SANKIWORK_TELEMETRY_TIMEOUT_MS ?? env.LANGFUSE_TIMEOUT_MS,
         DEFAULT_FETCH_TIMEOUT_MS,
       ),
       retries: parseNonNegativeInt(
-        env.OPEN_DESIGN_TELEMETRY_RETRIES ?? env.LANGFUSE_RETRIES,
+        env.SANKIWORK_TELEMETRY_RETRIES ?? env.LANGFUSE_RETRIES,
         DEFAULT_FETCH_RETRIES,
       ),
     };
@@ -432,7 +432,7 @@ export function readTelemetrySinkConfig(
 }
 
 function isVelaTelemetryEnabled(env: NodeJS.ProcessEnv): boolean {
-  const raw = env.OPEN_DESIGN_VELA_TELEMETRY?.trim().toLowerCase();
+  const raw = env.SANKIWORK_VELA_TELEMETRY?.trim().toLowerCase();
   return raw !== '0' && raw !== 'false' && raw !== 'off' && raw !== 'no';
 }
 
@@ -452,17 +452,17 @@ export function readRunTelemetrySinkConfig(
     if (context && controlKey) {
       return {
         kind: 'vela',
-        apiUrl: (context.apiUrl.trim() || 'https://amr-api.open-design.ai').replace(
+        apiUrl: (context.apiUrl.trim() || 'https://amr-api.sanki-ai.cloud').replace(
           /\/+$/,
           '',
         ),
         controlKey,
         timeoutMs: parsePositiveInt(
-          env.OPEN_DESIGN_TELEMETRY_TIMEOUT_MS ?? env.LANGFUSE_TIMEOUT_MS,
+          env.SANKIWORK_TELEMETRY_TIMEOUT_MS ?? env.LANGFUSE_TIMEOUT_MS,
           DEFAULT_FETCH_TIMEOUT_MS,
         ),
         retries: parseNonNegativeInt(
-          env.OPEN_DESIGN_TELEMETRY_RETRIES ?? env.LANGFUSE_RETRIES,
+          env.SANKIWORK_TELEMETRY_RETRIES ?? env.LANGFUSE_RETRIES,
           DEFAULT_FETCH_RETRIES,
         ),
       };
@@ -543,7 +543,7 @@ function truncate(value: string | undefined, maxBytes: number): string | undefin
 }
 
 function buildTagList(ctx: ReportContext): string[] {
-  const tags = ['open-design', `project:${ctx.projectId}`];
+  const tags = ['sankiwork', `project:${ctx.projectId}`];
   if (ctx.agentId) tags.push(`agent:${ctx.agentId}`);
   if (ctx.turn?.model) tags.push(`model:${ctx.turn.model}`);
   if (ctx.turn?.skillId) tags.push(`skill:${ctx.turn.skillId}`);
@@ -1666,7 +1666,7 @@ export function buildTracePayload(ctx: ReportContext): unknown[] {
       timestamp: nowIso,
       body: {
         id: traceId,
-        name: 'open-design-turn',
+        name: 'sankiwork-turn',
         sessionId,
         userId: ctx.installationId ?? undefined,
         tags: buildTagList(ctx),
@@ -2001,7 +2001,7 @@ async function postRelayBatch(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Open-Design-Telemetry': 'langfuse-ingestion-v1',
+          'X-SankiWork-Telemetry': 'langfuse-ingestion-v1',
         },
         signal: AbortSignal.timeout(config.timeoutMs),
         body,
@@ -2166,7 +2166,7 @@ async function postVelaBatch(
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
       const response = await fetchImpl(
-        `${config.apiUrl}/api/v1/open-design/telemetry`,
+        `${config.apiUrl}/api/v1/sankiwork/telemetry`,
         {
           method: 'POST',
           headers: {

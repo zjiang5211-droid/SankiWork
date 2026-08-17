@@ -40,14 +40,14 @@ test.beforeEach(async ({ page }) => {
       },
       channel: 'prerelease',
       currentVersion: '0.14.1-prerelease.1',
-      downloadPath: '/tmp/open-design-update.dmg',
+      downloadPath: '/tmp/sankiwork-update.dmg',
       enabled: true,
       mode: 'package-launcher',
       platform: 'darwin',
       state: 'downloaded',
       supported: true,
     };
-    (window as unknown as { __od__?: unknown }).__od__ = {
+    (window as unknown as { __sankiwork__?: unknown }).__sankiwork__ = {
       version: 2,
       client: { type: 'desktop', platform: 'darwin', osLocale: 'en-US' },
       browser: { clearData: async () => ({ ok: true }) },
@@ -86,7 +86,7 @@ test('[P1] update ready prompt paints above the composer and its agent picker', 
   // desktop window puts it across the centered composer and model popover.
   await page.setViewportSize({ width: 700, height: 600 });
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await page.getByText('Loading Open Design…').waitFor({ state: 'hidden', timeout: T.long });
+  await page.getByText('Loading SankiWork…').waitFor({ state: 'hidden', timeout: T.long });
   await expect(page.getByTestId('home-hero')).toBeVisible();
 
   // The updater host moved into the nav rail footer with the entry topbar's

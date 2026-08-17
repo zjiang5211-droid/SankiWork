@@ -9,7 +9,7 @@
 // SPA navigation. A reload before consumption simply falls back to the
 // onboarding/`unknown` heuristic — acceptable for an analytics hint.
 
-import type { TrackingDesignSystemCreateEntryFrom } from '@open-design/contracts/analytics';
+import type { TrackingDesignSystemCreateEntryFrom } from '@sankiwork/contracts/analytics';
 
 let pendingEntry: TrackingDesignSystemCreateEntryFrom | null = null;
 

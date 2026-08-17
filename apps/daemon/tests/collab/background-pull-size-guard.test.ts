@@ -183,20 +183,20 @@ describe('backgroundPullMaxEntriesFromEnv', () => {
 
   it('honors a positive integer override', () => {
     expect(backgroundPullMaxEntriesFromEnv({
-      OD_COLLAB_BACKGROUND_PULL_MAX_ENTRIES: '500',
+      SW_COLLAB_BACKGROUND_PULL_MAX_ENTRIES: '500',
     })).toBe(500);
   });
 
   it('treats 0 as guard-disabled', () => {
     expect(backgroundPullMaxEntriesFromEnv({
-      OD_COLLAB_BACKGROUND_PULL_MAX_ENTRIES: '0',
+      SW_COLLAB_BACKGROUND_PULL_MAX_ENTRIES: '0',
     })).toBe(0);
   });
 
   it('falls back to the default for invalid values', () => {
     for (const value of ['', 'many', '-5', '2.5', 'NaN']) {
       expect(backgroundPullMaxEntriesFromEnv({
-        OD_COLLAB_BACKGROUND_PULL_MAX_ENTRIES: value,
+        SW_COLLAB_BACKGROUND_PULL_MAX_ENTRIES: value,
       })).toBe(2000);
     }
   });

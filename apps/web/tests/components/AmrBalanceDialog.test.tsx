@@ -77,7 +77,7 @@ describe('AmrBalanceDialog', () => {
             planId: null,
             billingState: 'free',
             permissions: { canManageBilling: true },
-            workspaceSettingsUrl: 'https://open-design.ai/console/settings?workspaceId=ws-1',
+            workspaceSettingsUrl: 'https://sanki-ai.cloud/console/settings?workspaceId=ws-1',
           },
         }), { status: 200, headers: { 'content-type': 'application/json' } }));
       }
@@ -135,7 +135,7 @@ describe('AmrBalanceDialog', () => {
             planId: 'team_pro',
             billingState: 'active',
             permissions: { canManageBilling: true },
-            workspaceSettingsUrl: 'https://open-design.ai/console/settings?workspaceId=ws-1',
+            workspaceSettingsUrl: 'https://sanki-ai.cloud/console/settings?workspaceId=ws-1',
           },
         }), { status: 200, headers: { 'content-type': 'application/json' } }));
       }
@@ -195,7 +195,7 @@ describe('AmrBalanceDialog', () => {
             planId: null,
             billingState: 'free',
             permissions: { canManageBilling: true },
-            workspaceSettingsUrl: 'https://open-design.ai/console/settings?workspaceId=ws-p',
+            workspaceSettingsUrl: 'https://sanki-ai.cloud/console/settings?workspaceId=ws-p',
           },
         }), { status: 200, headers: { 'content-type': 'application/json' } }));
       }
@@ -251,7 +251,7 @@ describe('AmrBalanceDialog', () => {
               planId: 'team_pro',
               billingState: 'active',
               permissions: { canManageBilling: false },
-              workspaceSettingsUrl: 'https://open-design.ai/console/settings?workspaceId=ws-1',
+              workspaceSettingsUrl: 'https://sanki-ai.cloud/console/settings?workspaceId=ws-1',
             },
           }), { status: 200, headers: { 'content-type': 'application/json' } }));
         }

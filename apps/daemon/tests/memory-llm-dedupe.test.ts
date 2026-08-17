@@ -20,7 +20,7 @@ import { createClaudeStreamHandler } from '../src/runtimes/claude-stream.js';
 // permanently skip the turn, and the de-dup must be scoped per conversation.
 
 const dataDir = path.join(
-  process.env.OD_DATA_DIR ?? process.cwd(),
+  process.env.SW_DATA_DIR ?? process.cwd(),
   'memory-llm-dedupe-test',
 );
 const originalFetch = globalThis.fetch;

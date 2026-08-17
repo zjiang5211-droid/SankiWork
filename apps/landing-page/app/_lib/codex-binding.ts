@@ -6,7 +6,7 @@ import {
   AWESOME_REPO_URL,
   CODEX_COLLECTION,
   CODEX_SKILLS,
-  OD_DOWNLOAD_URL,
+  SW_DOWNLOAD_URL,
   type CodexSkillCategory,
 } from './codex-design';
 import { categoryLabel, getCodexCopy, skillCopy, type CodexCopy } from './codex-i18n';
@@ -16,7 +16,7 @@ export const CODEX_BINDING: CuratedBinding = {
   collectionName: CODEX_COLLECTION.eyebrow,
   hubPath: '/plugins/codex-design/',
   listUrl: AWESOME_REPO_URL,
-  downloadUrl: OD_DOWNLOAD_URL,
+  downloadUrl: SW_DOWNLOAD_URL,
   collection: CODEX_COLLECTION,
   skills: CODEX_SKILLS,
   getCopy: getCodexCopy,

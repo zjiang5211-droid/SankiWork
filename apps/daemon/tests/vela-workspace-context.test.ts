@@ -2,7 +2,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { WorkspaceDirectoryItem } from '@open-design/contracts';
+import type { WorkspaceDirectoryItem } from '@sankiwork/contracts';
 import {
   createCachedWorkspaceDirectoryFetcher,
   createFreshWorkspaceDirectoryFetcher,
@@ -1018,7 +1018,7 @@ describe('createVelaWorkspaceContextProvider explicit local scope', () => {
   }
 
   it('picks a LOCAL default (personal first) with no server write when B has no current', async () => {
-    vi.stubEnv('OD_VELA_WEB_URL', 'https://web.example.com/console');
+    vi.stubEnv('SW_VELA_WEB_URL', 'https://web.example.com/console');
     const { fetchImpl, calls } = scriptedFetch({
       current: () => jsonResponse(403, { error: 'missing_principal' }),
       directory: () => jsonResponse(200, DIRECTORY),
@@ -1035,7 +1035,7 @@ describe('createVelaWorkspaceContextProvider explicit local scope', () => {
     expect(context?.workspaceType).toBe('personal');
     expect(context?.workspaceMemberId).toBe('wm-p1');
     expect(context?.workspaceSettingsUrl).toBe(
-      'https://web.example.com/console/settings?workspaceId=ws-personal-1&source=open_design',
+      'https://web.example.com/console/settings?workspaceId=ws-personal-1&source=sankiwork',
     );
     // Resource semantics from the handoff: a plain read NEVER writes the
     // account-level Active Workspace.
@@ -1043,7 +1043,7 @@ describe('createVelaWorkspaceContextProvider explicit local scope', () => {
   });
 
   it('keeps Personal workspace actions stable from a synthesized context to a rich refresh', async () => {
-    vi.stubEnv('OD_VELA_WEB_URL', 'https://web.example.com/console');
+    vi.stubEnv('SW_VELA_WEB_URL', 'https://web.example.com/console');
     let currentRead = 0;
     const { fetchImpl } = scriptedFetch({
       // First read disagrees with OD's Personal pin and forces directory
@@ -1063,7 +1063,7 @@ describe('createVelaWorkspaceContextProvider explicit local scope', () => {
 
     expect(initial?.workspaceType).toBe('personal');
     expect(initial?.workspaceSettingsUrl).toBe(
-      'https://web.example.com/console/settings?workspaceId=ws-personal-1&source=open_design',
+      'https://web.example.com/console/settings?workspaceId=ws-personal-1&source=sankiwork',
     );
     expect(refreshed?.workspaceSettingsUrl).toBe(initial?.workspaceSettingsUrl);
   });

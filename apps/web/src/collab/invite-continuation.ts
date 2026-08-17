@@ -8,7 +8,7 @@
 //     invited email)
 //   - re-export the contract-owned deeplink parse/build helpers
 //
-// The DTO shapes live in `@open-design/contracts` (workspace-invites.ts); this
+// The DTO shapes live in `@sankiwork/contracts` (workspace-invites.ts); this
 // module owns only the client-side behavior so the component stays thin and the
 // logic stays unit-testable. The raw invite token is NEVER persisted here — the
 // pending continuation carries a single-use nonce, not the token.
@@ -19,8 +19,8 @@ import type {
   LocalWorkspaceActivation,
   WorkspaceCollabContext,
   WorkspaceInviteAcceptResponse,
-} from '@open-design/contracts';
-import { buildInviteDeeplink, parseInviteDeeplink } from '@open-design/contracts';
+} from '@sankiwork/contracts';
+import { buildInviteDeeplink, parseInviteDeeplink } from '@sankiwork/contracts';
 
 export { buildInviteDeeplink, parseInviteDeeplink };
 export type {
@@ -28,7 +28,7 @@ export type {
   LocalPendingInviteContinuation,
   LocalPendingInviteContinuationStatus,
   LocalWorkspaceActivation,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 /** The minimal storage surface the continuation store needs (localStorage-compatible). */
 export interface KeyValueStorage {

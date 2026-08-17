@@ -11,7 +11,7 @@ import {
 import type {
   WorkspaceCollabContext,
   WorkspaceDirectoryItem,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { ResourceHubPrincipal } from '../src/collab/resource-principal.js';
 
 const unreachableRun = async (): Promise<string> => {
@@ -87,7 +87,7 @@ describe('team resource share permission gate', () => {
         calls.push({ args, workspaceId });
         return JSON.stringify({ version: 1 });
       },
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
 
     await service.share('skill-a', { principal: requestPrincipal, canShare: true });
@@ -103,7 +103,7 @@ describe('team resource share permission gate', () => {
       idPrefix: 'ds',
       resolveDir: () => '/tmp/ds',
       run: unreachableRun,
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
     await expect(service.share('ds-1', readOnlyScope)).rejects.toBeInstanceOf(
       TeamResourceShareForbiddenError,
@@ -139,7 +139,7 @@ describe('team resource share permission gate', () => {
       idPrefix: 'skill',
       resolveDir: () => '/tmp/skill',
       run,
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
 
     expect(await service.share('mock-team-expert-kit', scope)).toEqual({ version: 1 });
@@ -170,7 +170,7 @@ describe('team resource share permission gate', () => {
         if (args[0] === 'push') return JSON.stringify({ version: 1 });
         throw new Error('hub listing temporarily unavailable');
       },
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
 
     await service.share('skill-a', workspaceA);
@@ -197,7 +197,7 @@ describe('team resource share permission gate', () => {
             : [],
         });
       },
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
 
     await service.share('skill-a', scope);
@@ -243,7 +243,7 @@ describe('team resource share permission gate', () => {
       idPrefix: 'skill',
       resolveDir: () => '/tmp/skill',
       run,
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
 
     expect(await service.sharedIds(readOnlyScope)).toEqual(['mock-team-expert-kit']);
@@ -275,7 +275,7 @@ describe('team resource share permission gate', () => {
           },
         ],
       }),
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
 
     const [resource] = await service.sharedResources(readOnlyScope);
@@ -311,7 +311,7 @@ describe('team resource share permission gate', () => {
       idPrefix: 'skill',
       resolveDir: () => '/tmp/skill',
       run,
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
 
     expect(await service.share('mock-team-expert-kit', scope)).toEqual({ version: 1 });
@@ -340,7 +340,7 @@ describe('team resource share permission gate', () => {
       idPrefix: 'plugin',
       resolveDir: () => '/tmp/plugin',
       run,
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
 
     await expect(service.sharedResources(scope)).resolves.toEqual([

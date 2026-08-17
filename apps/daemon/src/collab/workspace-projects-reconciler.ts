@@ -40,7 +40,7 @@
 //     reaches — an ALREADY-bound row the remote catalog no longer confirms —
 //     and runs proactively instead of waiting for the next list request.
 
-import type { WorkspaceInvalidationSsePayload } from '@open-design/contracts';
+import type { WorkspaceInvalidationSsePayload } from '@sankiwork/contracts';
 import type { ResourceHubPrincipal } from './resource-principal.js';
 
 /** This daemon's one local `workspace_projects` row for a project, as far as

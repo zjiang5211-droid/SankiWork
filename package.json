@@ -1,13 +1,13 @@
 {
-  "name": "open-design",
-  "version": "0.19.2",
+  "name": "sankiwork",
+  "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@10.33.2",
   "type": "module",
   "description": "Local-first design product: detects your installed code-agent CLI, runs design skills + design systems, streams artifacts into a sandboxed preview.",
   "license": "Apache-2.0",
   "bin": {
-    "od": "./apps/daemon/bin/od.mjs"
+    "sw": "./apps/daemon/bin/sw.mjs"
   },
   "scripts": {
     "postinstall": "node ./scripts/postinstall.mjs",
@@ -29,12 +29,12 @@
     "typecheck": "pnpm -r --workspace-concurrency=4 --if-present run typecheck && tsc -p scripts/tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "@open-design/components": "workspace:*",
-    "@open-design/daemon": "workspace:*",
-    "@open-design/tools-dev": "workspace:*",
-    "@open-design/tools-pack": "workspace:*",
-    "@open-design/tools-release": "workspace:*",
-    "@open-design/tools-serve": "workspace:*",
+    "@sankiwork/components": "workspace:*",
+    "@sankiwork/daemon": "workspace:*",
+    "@sankiwork/tools-dev": "workspace:*",
+    "@sankiwork/tools-pack": "workspace:*",
+    "@sankiwork/tools-release": "workspace:*",
+    "@sankiwork/tools-serve": "workspace:*",
     "@types/node": "20.19.39",
     "tsx": "4.22.3",
     "typescript": "5.9.3"

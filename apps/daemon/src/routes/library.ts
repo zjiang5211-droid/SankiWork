@@ -23,8 +23,8 @@ import type {
   LibraryAssetKind,
   LibraryEditAsPageResponse,
   LibrarySourceKind,
-} from '@open-design/contracts';
-import { LIBRARY_UPLOAD_MAX_BYTES, isLibraryUploadMimeAllowed } from '@open-design/contracts';
+} from '@sankiwork/contracts';
+import { LIBRARY_UPLOAD_MAX_BYTES, isLibraryUploadMimeAllowed } from '@sankiwork/contracts';
 import type { RouteDeps } from '../server-context.js';
 import {
   addLibraryAssetSource,
@@ -247,7 +247,7 @@ export function registerLibraryRoutes(app: Express, ctx: RegisterLibraryRoutesDe
   // referenced rows. Throttled so opening the Library (which lists assets) keeps
   // it current without re-scanning on every keystroke-driven re-fetch; a single
   // in-flight pass is shared by concurrent callers. `force` (the Sync button /
-  // `od library sync`) bypasses the throttle.
+  // `sw library sync`) bypasses the throttle.
   const RECONCILE_THROTTLE_MS = 10_000;
   let lastReconcileAt = 0;
   let reconcileInFlight: Promise<ReconcileLibraryResult> | null = null;
@@ -401,7 +401,7 @@ export function registerLibraryRoutes(app: Express, ctx: RegisterLibraryRoutesDe
       return sendApiError(res, 502, 'INGEST_FETCH_FAILED', err instanceof Error ? err.message : String(err));
     }
 
-    // Manual uploads (local web UI / `od library import`) are restricted to a
+    // Manual uploads (local web UI / `sw library import`) are restricted to a
     // safe inline size and design-relevant formats — images, fonts, text/HTML,
     // and JSON/design data. Audio, video, and other binaries are turned away.
     // Clipper captures are exempt: the extension curates its own payloads
@@ -504,7 +504,7 @@ export function registerLibraryRoutes(app: Express, ctx: RegisterLibraryRoutesDe
     res.json({ assets });
   });
 
-  // Force a full reconcile pass (the web "Sync" button + `od library sync`).
+  // Force a full reconcile pass (the web "Sync" button + `sw library sync`).
   // Backfills design systems and agent deliverables that predate this feature,
   // and is the explicit "pull in everything now" entry point. Loopback-only.
   app.post('/api/library/sync', requireLocalDaemonRequest, async (_req, res) => {

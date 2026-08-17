@@ -6,7 +6,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_ENV,
   SIDECAR_MESSAGES,
   SIDECAR_MODES,
@@ -15,13 +15,13 @@ import {
   type RegisterWebUrlResult,
   type SidecarStamp,
   type WebStatusSnapshot,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import {
   createSidecarLaunchEnv,
   requestJsonIpc,
   resolveAppIpcPath,
   type SidecarRuntimeContext,
-} from "@open-design/sidecar";
+} from "@sankiwork/sidecar";
 import {
   createProcessStampArgs,
   isProcessAlive,
@@ -30,7 +30,7 @@ import {
   stopProcesses,
   waitForProcessExit,
   wellKnownUserToolchainBins,
-} from "@open-design/platform";
+} from "@sankiwork/platform";
 
 import type { PackagedWebOutputMode } from "./config.js";
 import type { PackagedNamespacePaths } from "./paths.js";
@@ -60,7 +60,7 @@ const PACKAGED_CHILD_ENV_ALLOWLIST = [
   "http_proxy",
   "https_proxy",
   "no_proxy",
-  "OD_ALLOWED_INTERNAL_HOSTS",
+  "SW_ALLOWED_INTERNAL_HOSTS",
 ] as const;
 
 // The daemon owns the historical-outer compatibility handoff. Preserve the
@@ -68,23 +68,23 @@ const PACKAGED_CHILD_ENV_ALLOWLIST = [
 // same feed/test policy as the outer process, without broadening the packaged
 // child environment allowlist.
 const PACKAGED_DESKTOP_HANDOFF_ENV_KEYS = [
-  "OD_UPDATE_ARCH",
-  "OD_UPDATE_AUTO_CHECK",
-  "OD_UPDATE_AUTO_DOWNLOAD",
-  "OD_UPDATE_AUTO_OPEN",
-  "OD_UPDATE_CHANNEL",
-  "OD_UPDATE_CHECK_BACKOFF_INITIAL_MS",
-  "OD_UPDATE_CHECK_BACKOFF_MAX_MS",
-  "OD_UPDATE_CHECK_INITIAL_DELAY_MS",
-  "OD_UPDATE_CHECK_INTERVAL_MS",
-  "OD_UPDATE_CURRENT_VERSION",
-  "OD_UPDATE_DOWNLOAD_ROOT",
-  "OD_UPDATE_ENABLED",
-  "OD_UPDATE_INSTALLED_VERSION",
-  "OD_UPDATE_METADATA_URL",
-  "OD_UPDATE_MODE",
-  "OD_UPDATE_OPEN_DRY_RUN",
-  "OD_UPDATE_PLATFORM",
+  "SW_UPDATE_ARCH",
+  "SW_UPDATE_AUTO_CHECK",
+  "SW_UPDATE_AUTO_DOWNLOAD",
+  "SW_UPDATE_AUTO_OPEN",
+  "SW_UPDATE_CHANNEL",
+  "SW_UPDATE_CHECK_BACKOFF_INITIAL_MS",
+  "SW_UPDATE_CHECK_BACKOFF_MAX_MS",
+  "SW_UPDATE_CHECK_INITIAL_DELAY_MS",
+  "SW_UPDATE_CHECK_INTERVAL_MS",
+  "SW_UPDATE_CURRENT_VERSION",
+  "SW_UPDATE_DOWNLOAD_ROOT",
+  "SW_UPDATE_ENABLED",
+  "SW_UPDATE_INSTALLED_VERSION",
+  "SW_UPDATE_METADATA_URL",
+  "SW_UPDATE_MODE",
+  "SW_UPDATE_OPEN_DRY_RUN",
+  "SW_UPDATE_PLATFORM",
 ] as const;
 
 function shouldForwardPackagedChildEnv(key: string, includeProviderSecrets = false): boolean {
@@ -118,8 +118,8 @@ type ManagedSidecarChild = {
 };
 
 type PackagedDaemonManagedPathEnv = {
-  OD_DATA_DIR: string;
-  OD_RESOURCE_ROOT: string;
+  SW_DATA_DIR: string;
+  SW_RESOURCE_ROOT: string;
   /**
    * Channel-root path. Lives one level above the namespaces directory so
    * the daemon can persist installationId (and any future fields that
@@ -130,7 +130,7 @@ type PackagedDaemonManagedPathEnv = {
    * channel even when the baked namespace token changes or per-namespace
    * data is cleared. See `apps/daemon/src/installation.ts`.
    */
-  OD_INSTALLATION_DIR: string;
+  SW_INSTALLATION_DIR: string;
 };
 
 function resolveSidecarEntry(packageName: string, exportName: string): string {
@@ -281,7 +281,7 @@ function baseStatusTimeoutMs(platform: NodeJS.Platform = process.platform): numb
  * Daemon status wait budget. The platform baseline (35s, or 90s on win32 for
  * AV-scan headroom, on linux for AppImage FUSE cold starts, and on darwin for
  * packaged 0.18.1+ Apple Silicon cold starts) is fine for normal cold boots,
- * but the OD_LEGACY_DATA_DIR
+ * but the SW_LEGACY_DATA_DIR
  * one-shot recovery flow can synch-copy a multi-GB legacy `.od/` payload before
  * SQLite even opens, and killing the child mid-migration can leave dataDir
  * half-promoted. When the env var is set, use a 30-minute budget so the parent
@@ -469,7 +469,7 @@ export function resolveDaemonStatusTimeoutMs(
   env: NodeJS.ProcessEnv = process.env,
   platform: NodeJS.Platform = process.platform,
 ): number {
-  const raw = env.OD_LEGACY_DATA_DIR;
+  const raw = env.SW_LEGACY_DATA_DIR;
   if (raw != null && raw.length > 0) return DAEMON_MIGRATION_STATUS_TIMEOUT_MS;
   return baseStatusTimeoutMs(platform);
 }
@@ -479,7 +479,7 @@ export function resolveDaemonStatusTimeoutMs(
  *
  * When `watch` is provided, the polling loop also races the spawned
  * child's `exit` event so a daemon that throws at startup (e.g. the
- * #710 migrator's LegacyMigrationError on invalid OD_LEGACY_DATA_DIR,
+ * #710 migrator's LegacyMigrationError on invalid SW_LEGACY_DATA_DIR,
  * existing target payload, symlink in payload, or marker write
  * failure) surfaces immediately instead of leaving the packaged app
  * waiting the full DAEMON_MIGRATION_STATUS_TIMEOUT_MS for a process
@@ -576,14 +576,14 @@ async function retireExistingSidecarEndpoint(ipcPath: string, logPath: string): 
   const pid = typeof status.pid === "number" ? status.pid : null;
   await appendSidecarLifecycleLog(
     logPath,
-    `[open-design packaged] existing sidecar endpoint detected ipc=${ipcPath} pid=${pid ?? "unknown"}; requesting shutdown before relaunch`,
+    `[sankiwork packaged] existing sidecar endpoint detected ipc=${ipcPath} pid=${pid ?? "unknown"}; requesting shutdown before relaunch`,
   );
   try {
     await requestJsonIpc(ipcPath, { type: SIDECAR_MESSAGES.SHUTDOWN }, { timeoutMs: 800 });
   } catch (error) {
     await appendSidecarLifecycleLog(
       logPath,
-      `[open-design packaged] existing sidecar shutdown request failed ipc=${ipcPath} error=${error instanceof Error ? error.message : String(error)}`,
+      `[sankiwork packaged] existing sidecar shutdown request failed ipc=${ipcPath} error=${error instanceof Error ? error.message : String(error)}`,
     );
   }
 
@@ -591,7 +591,7 @@ async function retireExistingSidecarEndpoint(ipcPath: string, logPath: string): 
     const exited = await waitForProcessExit(pid, 2500);
     await appendSidecarLifecycleLog(
       logPath,
-      `[open-design packaged] existing sidecar endpoint ${exited ? "exited" : "still-running"} ipc=${ipcPath} pid=${pid}`,
+      `[sankiwork packaged] existing sidecar endpoint ${exited ? "exited" : "still-running"} ipc=${ipcPath} pid=${pid}`,
     );
   }
 }
@@ -605,7 +605,7 @@ function extractPort(url: string): string {
 // reach even when the inherited PATH from launchd / a desktop launcher is
 // stripped down to nothing. The user-toolchain portion of the search list
 // (Homebrew, npm globals, nvm/fnm/mise, cargo, ...) lives in
-// @open-design/platform's wellKnownUserToolchainBins so the daemon
+// @sankiwork/platform's wellKnownUserToolchainBins so the daemon
 // resolver and this PATH builder cannot drift again. See issue #442.
 const PACKAGED_POSIX_SYSTEM_BINS = ["/usr/bin", "/bin", "/usr/sbin", "/sbin"] as const;
 
@@ -639,9 +639,9 @@ function createPackagedDaemonManagedPathEnv(
   paths: PackagedNamespacePaths,
 ): PackagedDaemonManagedPathEnv {
   return {
-    OD_DATA_DIR: paths.dataRoot,
-    OD_RESOURCE_ROOT: paths.resourceRoot,
-    OD_INSTALLATION_DIR: paths.installationRoot,
+    SW_DATA_DIR: paths.dataRoot,
+    SW_RESOURCE_ROOT: paths.resourceRoot,
+    SW_INSTALLATION_DIR: paths.installationRoot,
   };
 }
 
@@ -694,7 +694,7 @@ export function buildPackagedDaemonSpawnEnv(
     // bypass that a runtime-only handshake left open. Headless skips
     // it because there is no privileged shell.openPath surface and
     // no client to register a secret.
-    ...(options.requireDesktopAuth ? { OD_REQUIRE_DESKTOP_AUTH: "1" } : {}),
+    ...(options.requireDesktopAuth ? { SW_REQUIRE_DESKTOP_AUTH: "1" } : {}),
     // Packaged daemon managed paths are deliberately delivered through
     // the sidecar launch environment. The daemon may keep its own default
     // fallback, but packaged runtime must not rely on path inference from
@@ -702,32 +702,32 @@ export function buildPackagedDaemonSpawnEnv(
     ...createPackagedDaemonManagedPathEnv(paths),
     ...(options.nodeCommand == null || options.nodeCommand.length === 0
       ? {}
-      : { OD_NODE_BIN: options.nodeCommand }),
+      : { SW_NODE_BIN: options.nodeCommand }),
     ...(options.amrProfile == null || options.amrProfile.length === 0
       ? {}
-      : { OPEN_DESIGN_AMR_PROFILE: options.amrProfile }),
+      : { SANKIWORK_AMR_PROFILE: options.amrProfile }),
     ...workspaceTeamTransportEnv(options.amrProfile, options.velaWebUrl),
-    ...(options.appVersion == null ? {} : { OD_APP_VERSION: options.appVersion }),
+    ...(options.appVersion == null ? {} : { SW_APP_VERSION: options.appVersion }),
     ...(options.mcpBootstrapCommand == null
       || options.mcpBootstrapCommand.length === 0
       ? {}
-      : { OD_MCP_BOOTSTRAP_COMMAND: options.mcpBootstrapCommand }),
+      : { SW_MCP_BOOTSTRAP_COMMAND: options.mcpBootstrapCommand }),
     ...(options.mcpBootstrapArgs == null
       ? {}
-      : { OD_MCP_BOOTSTRAP_ARGS: JSON.stringify(options.mcpBootstrapArgs) }),
+      : { SW_MCP_BOOTSTRAP_ARGS: JSON.stringify(options.mcpBootstrapArgs) }),
     ...pickPackagedDesktopHandoffEnv(options.desktopHandoffEnv ?? {}),
     ...(options.telemetryRelayUrl == null || options.telemetryRelayUrl.length === 0
       ? {}
-      : { OPEN_DESIGN_TELEMETRY_RELAY_URL: options.telemetryRelayUrl }),
-    // OD_LEGACY_DATA_DIR is the one-shot recovery handle for users
-    // upgrading from 0.3.x .od/ layouts. The daemon's startup
+      : { SANKIWORK_TELEMETRY_RELAY_URL: options.telemetryRelayUrl }),
+    // SW_LEGACY_DATA_DIR is the one-shot recovery handle for users
+    // upgrading from 0.3.x .sankiwork/ layouts. The daemon's startup
     // migrator (legacy-data-migrator.ts) reads it; the env-allowlist
     // for packaged children would otherwise drop it. Forward only
     // when set so we do not invent an empty string and trigger the
     // daemon's "env set but path invalid" error path.
     ...(options.legacyDataDir == null || options.legacyDataDir.length === 0
       ? {}
-      : { OD_LEGACY_DATA_DIR: options.legacyDataDir }),
+      : { SW_LEGACY_DATA_DIR: options.legacyDataDir }),
     // PostHog analytics ingest key, baked into the bundle at packaging time
     // by tools/pack. Daemon reads this as POSTHOG_KEY at startup. Absent
     // for fork builds without the CI secret — the daemon's analytics
@@ -762,7 +762,7 @@ async function spawnSidecarChild(options: {
 }): Promise<ManagedSidecarChild> {
   const ipcPath = resolveAppIpcPath({
     app: options.app,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     namespace: options.runtime.namespace,
   });
   const stamp = {
@@ -781,7 +781,7 @@ async function spawnSidecarChild(options: {
     ?? await resolvePackagedElectronNodeCommand();
   const childEnv = createSidecarLaunchEnv({
     base: options.paths.runtimeRoot,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     extraEnv: {
       ...resolvePackagedChildBaseEnv(
         process.env,
@@ -798,7 +798,7 @@ async function spawnSidecarChild(options: {
   });
   const child = spawn(
     command,
-    [options.entryPath, ...createProcessStampArgs(stamp, OPEN_DESIGN_SIDECAR_CONTRACT)],
+    [options.entryPath, ...createProcessStampArgs(stamp, SANKIWORK_SIDECAR_CONTRACT)],
     createPackagedSidecarSpawnOptions({
       env: childEnv,
       logFd: logHandle.fd,
@@ -834,7 +834,7 @@ export function createPackagedSidecarSpawnOptions(input: {
 
 async function closeManagedChild(child: ManagedSidecarChild): Promise<void> {
   const appendLifecycleLog = async (message: string): Promise<void> => appendSidecarLifecycleLog(child.logPath, message);
-  await appendLifecycleLog(`[open-design packaged] shutdown requested app=${child.app} pid=${child.child.pid ?? "unknown"}`);
+  await appendLifecycleLog(`[sankiwork packaged] shutdown requested app=${child.app} pid=${child.child.pid ?? "unknown"}`);
   try {
     await requestJsonIpc(child.ipcPath, { type: SIDECAR_MESSAGES.SHUTDOWN }, { timeoutMs: 1200 });
   } catch {
@@ -842,11 +842,11 @@ async function closeManagedChild(child: ManagedSidecarChild): Promise<void> {
   }
 
   if (!(await waitForProcessExit(child.child.pid, 5000))) {
-    await appendLifecycleLog(`[open-design packaged] shutdown timeout app=${child.app} pid=${child.child.pid ?? "unknown"}; forcing stop`);
+    await appendLifecycleLog(`[sankiwork packaged] shutdown timeout app=${child.app} pid=${child.child.pid ?? "unknown"}; forcing stop`);
     await stopProcesses([child.child.pid]);
   }
 
-  await appendLifecycleLog(`[open-design packaged] exited app=${child.app} pid=${child.child.pid ?? "unknown"} code=${child.child.exitCode ?? "unknown"} signal=${child.child.signalCode ?? "none"}`);
+  await appendLifecycleLog(`[sankiwork packaged] exited app=${child.app} pid=${child.child.pid ?? "unknown"} code=${child.child.exitCode ?? "unknown"} signal=${child.child.signalCode ?? "none"}`);
   await child.logHandle.close().catch(() => undefined);
 }
 
@@ -921,9 +921,9 @@ export async function startPackagedSidecars(
   let webSupervisor: { close(): Promise<void> } | null = null;
 
   const daemonSidecarEntry =
-    options.daemonSidecarEntry ?? resolveSidecarEntry("@open-design/daemon", "sidecar");
+    options.daemonSidecarEntry ?? resolveSidecarEntry("@sankiwork/daemon", "sidecar");
   const webSidecarEntry =
-    options.webSidecarEntry ?? resolveSidecarEntry("@open-design/web", "sidecar");
+    options.webSidecarEntry ?? resolveSidecarEntry("@sankiwork/web", "sidecar");
   const prewarmLog = (message: string): void => {
     void appendSidecarLifecycleLog(join(paths.logsRoot, "launcher", "latest.log"), message);
   };
@@ -953,7 +953,7 @@ export async function startPackagedSidecars(
         amrProfile: options.amrProfile,
         daemonCliEntry: options.daemonCliEntry,
         desktopHandoffEnv: process.env,
-        legacyDataDir: process.env.OD_LEGACY_DATA_DIR ?? null,
+        legacyDataDir: process.env.SW_LEGACY_DATA_DIR ?? null,
         mcpBootstrapArgs: options.mcpBootstrapArgs,
         mcpBootstrapCommand: options.mcpBootstrapCommand,
         nodeCommand: options.nodeCommand,
@@ -986,7 +986,7 @@ export async function startPackagedSidecars(
       resolveDaemonStatusTimeoutMs(),
       // Race the IPC polling against the daemon child's exit. Without
       // this, a daemon that throws at startup (LegacyMigrationError on
-      // invalid OD_LEGACY_DATA_DIR, existing target payload, symlink,
+      // invalid SW_LEGACY_DATA_DIR, existing target payload, symlink,
       // marker write failure) leaves the packaged app waiting the full
       // 30-minute migration budget for a process that already died.
       { child: daemon.child, logPath: logPathFor(paths, APP_KEYS.DAEMON) },
@@ -1014,8 +1014,8 @@ export async function startPackagedSidecars(
         env: {
           [SIDECAR_ENV.DAEMON_PORT]: daemonPort,
           [SIDECAR_ENV.WEB_PORT]: "0",
-          ...(options.webStandaloneRoot == null ? {} : { OD_WEB_STANDALONE_ROOT: options.webStandaloneRoot }),
-          OD_WEB_OUTPUT_MODE: options.webOutputMode,
+          ...(options.webStandaloneRoot == null ? {} : { SW_WEB_STANDALONE_ROOT: options.webStandaloneRoot }),
+          SW_WEB_OUTPUT_MODE: options.webOutputMode,
           PORT: "0",
         },
         electronNodeCommand: options.electronNodeCommand,

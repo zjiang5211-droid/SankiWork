@@ -13,7 +13,7 @@ import {
 import { __resetExtractionsForTests } from '../src/memory-extractions.js';
 
 const dataDir = path.join(
-  process.env.OD_DATA_DIR ?? process.cwd(),
+  process.env.SW_DATA_DIR ?? process.cwd(),
   'memory-annotations-test',
 );
 const originalFetch = globalThis.fetch;

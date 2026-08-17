@@ -74,7 +74,7 @@ export class DeployError extends Error {
 }
 
 export function deployConfigPath(providerId: DeployProviderId = VERCEL_PROVIDER_ID) {
-  const base = process.env.OD_USER_STATE_DIR || path.join(os.homedir(), '.open-design');
+  const base = process.env.SW_USER_STATE_DIR || path.join(os.homedir(), '.sankiwork');
   return path.join(base, providerId === CLOUDFLARE_PAGES_PROVIDER_ID ? 'cloudflare-pages.json' : 'vercel.json');
 }
 
@@ -249,7 +249,7 @@ export async function buildDeployFilePlan(projectsRoot: string, projectId: strin
   const entryBase = path.posix.dirname(entryPath);
   const deployHtml = injectDeployHookScript(
     rewriteEntryHtmlReferences(html, entryBase),
-    options.hookScriptUrl ?? process.env.OD_DEPLOY_HOOK_SCRIPT_URL,
+    options.hookScriptUrl ?? process.env.SW_DEPLOY_HOOK_SCRIPT_URL,
   );
   const files = new Map<string, DeployFile>();
   files.set('index.html', {
@@ -1492,7 +1492,7 @@ export function injectDeployHookScript(html: string, scriptUrl: unknown) {
 
   const tag =
     `<script src="${escapeHtmlAttribute(normalized)}" defer ` +
-    'data-open-design-deploy-hook="true" data-closeable="true"></script>';
+    'data-sankiwork-deploy-hook="true" data-closeable="true"></script>';
   if (/<\/body\s*>/i.test(html)) {
     return html.replace(/<\/body\s*>/i, `${tag}</body>`);
   }

@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
 
-import { LAUNCHER_SCHEMA_VERSION } from "@open-design/launcher-proto";
+import { LAUNCHER_SCHEMA_VERSION } from "@sankiwork/launcher-proto";
 import { describe, expect, it } from "vitest";
 
 import type { ToolPackConfig, ToolPackPlatform } from "../src/config.js";
@@ -73,24 +73,24 @@ async function writeFakeMacApp(config: ToolPackConfig): Promise<ReturnType<typeo
   const resourcesRoot = join(paths.appPath, "Contents", "Resources");
   const executablePath = join(paths.appPath, "Contents", "MacOS", identity.executableName);
   await mkdir(join(paths.appPath, "Contents", "MacOS"), { recursive: true });
-  await mkdir(join(resourcesRoot, "open-design", "bin"), { recursive: true });
-  await mkdir(join(resourcesRoot, "open-design", "prebundled", "daemon"), { recursive: true });
-  await mkdir(join(resourcesRoot, "open-design", "prebundled", "web"), { recursive: true });
-  await mkdir(join(resourcesRoot, "open-design-web-standalone"), { recursive: true });
+  await mkdir(join(resourcesRoot, "sankiwork", "bin"), { recursive: true });
+  await mkdir(join(resourcesRoot, "sankiwork", "prebundled", "daemon"), { recursive: true });
+  await mkdir(join(resourcesRoot, "sankiwork", "prebundled", "web"), { recursive: true });
+  await mkdir(join(resourcesRoot, "sankiwork-web-standalone"), { recursive: true });
   await writeFile(executablePath, "#!/bin/sh\nexit 0\n", "utf8");
   await chmod(executablePath, 0o755);
-  await writeFile(join(resourcesRoot, "open-design", "bin", "node"), "#!/bin/sh\nexit 0\n", "utf8");
-  await writeFile(join(resourcesRoot, "open-design", "prebundled", "daemon", "daemon-sidecar.mjs"), "export {};\n", "utf8");
-  await writeFile(join(resourcesRoot, "open-design", "prebundled", "web", "web-sidecar.mjs"), "export {};\n", "utf8");
+  await writeFile(join(resourcesRoot, "sankiwork", "bin", "node"), "#!/bin/sh\nexit 0\n", "utf8");
+  await writeFile(join(resourcesRoot, "sankiwork", "prebundled", "daemon", "daemon-sidecar.mjs"), "export {};\n", "utf8");
+  await writeFile(join(resourcesRoot, "sankiwork", "prebundled", "web", "web-sidecar.mjs"), "export {};\n", "utf8");
   await writeFile(
-    join(resourcesRoot, "open-design-config.json"),
+    join(resourcesRoot, "sankiwork-config.json"),
     `${JSON.stringify({
       appVersion: config.appVersion,
-      daemonSidecarEntryRelative: "open-design/prebundled/daemon/daemon-sidecar.mjs",
+      daemonSidecarEntryRelative: "sankiwork/prebundled/daemon/daemon-sidecar.mjs",
       namespace: config.namespace,
-      nodeCommandRelative: "open-design/bin/node",
+      nodeCommandRelative: "sankiwork/bin/node",
       webOutputMode: "standalone",
-      webSidecarEntryRelative: "open-design/prebundled/web/web-sidecar.mjs",
+      webSidecarEntryRelative: "sankiwork/prebundled/web/web-sidecar.mjs",
     }, null, 2)}\n`,
     "utf8",
   );
@@ -106,7 +106,7 @@ function createWinPaths(root: string, namespace: string): WinPaths {
     assembledMainEntryPath: join(namespaceRoot, "assembled", "app", "main.cjs"),
     assembledPackageJsonPath: join(namespaceRoot, "assembled", "app", "package.json"),
     assembledPrebundledRoot: join(namespaceRoot, "assembled", "app", "prebundled"),
-    blockmapPath: join(namespaceRoot, "builder", "Open Design-release-beta-win-setup.exe.blockmap"),
+    blockmapPath: join(namespaceRoot, "builder", "SankiWork-release-beta-win-setup.exe.blockmap"),
     builtManifestPath: join(namespaceRoot, "built-app.json"),
     daemonCliPrebundleEntrypointPath: join(namespaceRoot, "prebundle-entrypoints", "daemon-cli.js"),
     daemonCliPrebundlePath: join(namespaceRoot, "assembled", "app", "prebundled", "daemon", "daemon-cli.mjs"),
@@ -114,37 +114,37 @@ function createWinPaths(root: string, namespace: string): WinPaths {
     daemonPrebundleRoot: join(namespaceRoot, "assembled", "app", "prebundled", "daemon"),
     daemonSidecarPrebundleEntrypointPath: join(namespaceRoot, "prebundle-entrypoints", "daemon-sidecar.js"),
     daemonSidecarPrebundlePath: join(namespaceRoot, "assembled", "app", "prebundled", "daemon", "daemon-sidecar.mjs"),
-    exePath: join(namespaceRoot, "builder", "Open Design-release-beta-win.exe"),
-    installDir: join(namespaceRoot, "runtime", "install", "Open Design Beta"),
-    installedExePath: join(namespaceRoot, "runtime", "install", "Open Design Beta", "Open Design.exe"),
+    exePath: join(namespaceRoot, "builder", "SankiWork-release-beta-win.exe"),
+    installDir: join(namespaceRoot, "runtime", "install", "SankiWork Beta"),
+    installedExePath: join(namespaceRoot, "runtime", "install", "SankiWork Beta", "SankiWork.exe"),
     installerBasePayloadPath: join(namespaceRoot, "installer", "payload-base.7z"),
     installerOverlayPayloadPath: join(namespaceRoot, "installer", "payload-overlay.7z"),
     installerScriptPath: join(namespaceRoot, "installer", "installer.nsi"),
-    launcherPayloadPath: join(namespaceRoot, "payload", "Open Design-release-beta-win-payload.7z"),
+    launcherPayloadPath: join(namespaceRoot, "payload", "SankiWork-release-beta-win-payload.7z"),
     publicDesktopShortcutPath: join(namespaceRoot, "desktop", "public.lnk"),
     latestYmlPath: join(namespaceRoot, "builder", "latest.yml"),
     installMarkerPath: join(namespaceRoot, "logs", "install.marker.json"),
     installTimingPath: join(namespaceRoot, "logs", "install.timing.json"),
     nsisLogPath: join(namespaceRoot, "logs", "nsis.log"),
     nsisIncludePath: join(namespaceRoot, "nsis", "installer.nsh"),
-    packagedConfigPath: join(namespaceRoot, "open-design-config.json"),
+    packagedConfigPath: join(namespaceRoot, "sankiwork-config.json"),
     packagedMainPrebundleMetaPath: join(namespaceRoot, "prebundle-meta", "packaged-main.meta.json"),
     packagedMainPrebundlePath: join(namespaceRoot, "assembled", "app", "prebundled", "packaged-main.mjs"),
-    resourceRoot: join(namespaceRoot, "resources", "open-design"),
-    setupPath: join(namespaceRoot, "builder", "Open Design-release-beta-win-setup.exe"),
-    setupZipPath: join(namespaceRoot, "builder", "Open Design-release-beta-win-portable.zip"),
+    resourceRoot: join(namespaceRoot, "resources", "sankiwork"),
+    setupPath: join(namespaceRoot, "builder", "SankiWork-release-beta-win-setup.exe"),
+    setupZipPath: join(namespaceRoot, "builder", "SankiWork-release-beta-win-portable.zip"),
     startMenuShortcutPath: join(namespaceRoot, "start-menu.lnk"),
     tarballsRoot: join(namespaceRoot, "tarballs"),
     userDesktopShortcutPath: join(namespaceRoot, "desktop", "user.lnk"),
     uninstallMarkerPath: join(namespaceRoot, "logs", "uninstall.marker.json"),
     uninstallTimingPath: join(namespaceRoot, "logs", "uninstall.timing.json"),
-    uninstallerPath: join(namespaceRoot, "runtime", "install", "Open Design Beta", "Uninstall.exe"),
+    uninstallerPath: join(namespaceRoot, "runtime", "install", "SankiWork Beta", "Uninstall.exe"),
     webStandaloneHookAuditPath: join(namespaceRoot, "web-standalone-after-pack-audit.json"),
     webStandaloneHookConfigPath: join(namespaceRoot, "web-standalone-after-pack-config.json"),
     webSidecarPrebundleMetaPath: join(namespaceRoot, "prebundle-meta", "web-sidecar.meta.json"),
     webSidecarPrebundlePath: join(namespaceRoot, "assembled", "app", "prebundled", "web-sidecar.mjs"),
     winIconPath: join(namespaceRoot, "resources", "win", "icon.ico"),
-    unpackedExePath: join(namespaceRoot, "builder", "win-unpacked", "Open Design.exe"),
+    unpackedExePath: join(namespaceRoot, "builder", "win-unpacked", "SankiWork.exe"),
     unpackedRoot: join(namespaceRoot, "builder", "win-unpacked"),
   };
 }
@@ -155,23 +155,23 @@ async function writeFakeWinUnpackedApp(root: string, namespace: string, version:
 }> {
   const paths = createWinPaths(root, namespace);
   await mkdir(join(paths.unpackedRoot, "resources"), { recursive: true });
-  await writeFile(join(paths.unpackedRoot, "Open Design.exe"), "fake executable\n", "utf8");
+  await writeFile(join(paths.unpackedRoot, "SankiWork.exe"), "fake executable\n", "utf8");
   await writeFile(
-    join(paths.unpackedRoot, "resources", "open-design-config.json"),
+    join(paths.unpackedRoot, "resources", "sankiwork-config.json"),
     `${JSON.stringify({
       appVersion: version,
-      daemonSidecarEntryRelative: "open-design/prebundled/daemon/daemon-sidecar.mjs",
+      daemonSidecarEntryRelative: "sankiwork/prebundled/daemon/daemon-sidecar.mjs",
       namespace,
-      nodeCommandRelative: "open-design/bin/node",
+      nodeCommandRelative: "sankiwork/bin/node",
       webOutputMode: "standalone",
-      webSidecarEntryRelative: "open-design/prebundled/web/web-sidecar.mjs",
+      webSidecarEntryRelative: "sankiwork/prebundled/web/web-sidecar.mjs",
     }, null, 2)}\n`,
     "utf8",
   );
   await mkdir(join(paths.unpackedRoot, "resources", "app"), { recursive: true });
   await writeFile(
     join(paths.unpackedRoot, "resources", "app", "package.json"),
-    `${JSON.stringify({ name: "open-design-packaged-app", version })}\n`,
+    `${JSON.stringify({ name: "sankiwork-packaged-app", version })}\n`,
     "utf8",
   );
   await mkdir(join(paths.packagedConfigPath, ".."), { recursive: true });
@@ -179,11 +179,11 @@ async function writeFakeWinUnpackedApp(root: string, namespace: string, version:
     paths.packagedConfigPath,
     `${JSON.stringify({
       appVersion: version,
-      daemonSidecarEntryRelative: "open-design/prebundled/daemon/daemon-sidecar.mjs",
+      daemonSidecarEntryRelative: "sankiwork/prebundled/daemon/daemon-sidecar.mjs",
       namespace,
-      nodeCommandRelative: "open-design/bin/node",
+      nodeCommandRelative: "sankiwork/bin/node",
       webOutputMode: "standalone",
-      webSidecarEntryRelative: "open-design/prebundled/web/web-sidecar.mjs",
+      webSidecarEntryRelative: "sankiwork/prebundled/web/web-sidecar.mjs",
     }, null, 2)}\n`,
     "utf8",
   );
@@ -192,7 +192,7 @@ async function writeFakeWinUnpackedApp(root: string, namespace: string, version:
       appBuilderOutputRoot: paths.appBuilderOutputRoot,
       cacheEntryPath: null,
       configPath: paths.packagedConfigPath,
-      executablePath: join(paths.unpackedRoot, "Open Design.exe"),
+      executablePath: join(paths.unpackedRoot, "SankiWork.exe"),
       source: "namespace",
       unpackedRoot: paths.unpackedRoot,
       version: 1,
@@ -213,11 +213,11 @@ describe("tools-pack launcher payload archives", () => {
       publicAppBundleName: macIdentity.publicAppBundleName,
       version: "0.9.0-beta.2",
     })).toEqual({
-      appBundleName: "Open Design Beta.app",
+      appBundleName: "SankiWork Beta.app",
       channel: "beta",
       entry: {
-        cwd: "payload/Open Design Beta.app",
-        executable: "payload/Open Design Beta.app/Contents/MacOS/Open Design Beta",
+        cwd: "payload/SankiWork Beta.app",
+        executable: "payload/SankiWork Beta.app/Contents/MacOS/SankiWork Beta",
       },
       namespace: "release-beta",
       payloadRoot: "payload",
@@ -234,7 +234,7 @@ describe("tools-pack launcher payload archives", () => {
       channel: "beta",
       entry: {
         cwd: "payload",
-        executable: "payload/Open Design.exe",
+        executable: "payload/SankiWork.exe",
       },
       namespace: "release-beta-win",
       payloadRoot: "payload",
@@ -259,17 +259,17 @@ describe("tools-pack launcher payload archives", () => {
         entry: { executable: string };
         version: string;
       };
-      expect(manifest.appBundleName).toBe("Open Design Beta.app");
-      expect(manifest.entry.executable).toBe("payload/Open Design Beta.app/Contents/MacOS/Open Design Beta");
+      expect(manifest.appBundleName).toBe("SankiWork Beta.app");
+      expect(manifest.entry.executable).toBe("payload/SankiWork Beta.app/Contents/MacOS/SankiWork Beta");
       expect(manifest.version).toBe("0.9.0-beta.2");
       await expectPathExists(join(extractRoot, manifest.entry.executable));
       await expectPathExists(join(
         extractRoot,
         "payload",
-        "Open Design Beta.app",
+        "SankiWork Beta.app",
         "Contents",
         "Resources",
-        "open-design-config.json",
+        "sankiwork-config.json",
       ));
     } finally {
       await rm(root, { force: true, recursive: true });
@@ -297,10 +297,10 @@ describe("tools-pack launcher payload archives", () => {
       };
       expect(manifest.namespace).toBe(namespace);
       expect(manifest.platform).toBe("win32");
-      expect(manifest.entry.executable).toBe("payload/Open Design.exe");
+      expect(manifest.entry.executable).toBe("payload/SankiWork.exe");
       expect(manifest.version).toBe(version);
-      await expectPathExists(join(extractRoot, "payload", "Open Design.exe"));
-      await expectPathExists(join(extractRoot, "payload", "resources", "open-design-config.json"));
+      await expectPathExists(join(extractRoot, "payload", "SankiWork.exe"));
+      await expectPathExists(join(extractRoot, "payload", "resources", "sankiwork-config.json"));
     } finally {
       await rm(root, { force: true, recursive: true });
     }
@@ -352,11 +352,11 @@ describe("tools-pack launcher payload archives", () => {
           paths.packagedConfigPath,
           `${JSON.stringify({
             appVersion: version,
-            daemonSidecarEntryRelative: "open-design/prebundled/daemon/daemon-sidecar.mjs",
+            daemonSidecarEntryRelative: "sankiwork/prebundled/daemon/daemon-sidecar.mjs",
             namespace,
-            nodeCommandRelative: "open-design/bin/node",
+            nodeCommandRelative: "sankiwork/bin/node",
             webOutputMode: "standalone",
-            webSidecarEntryRelative: "open-design/prebundled/web/web-sidecar.mjs",
+            webSidecarEntryRelative: "sankiwork/prebundled/web/web-sidecar.mjs",
           }, null, 2)}\n`,
           "utf8",
         );
@@ -377,7 +377,7 @@ describe("tools-pack launcher payload archives", () => {
 
       const manifest = JSON.parse(await readFile(join(extractRoot, "manifest.json"), "utf8")) as { version: string };
       const config = JSON.parse(
-        await readFile(join(extractRoot, "payload", "resources", "open-design-config.json"), "utf8"),
+        await readFile(join(extractRoot, "payload", "resources", "sankiwork-config.json"), "utf8"),
       ) as { appVersion: string };
       const packageJson = JSON.parse(
         await readFile(join(extractRoot, "payload", "resources", "app", "package.json"), "utf8"),
@@ -418,11 +418,11 @@ describe("tools-pack launcher payload archives", () => {
 
       const manifest = JSON.parse(await readFile(join(extractRoot, "manifest.json"), "utf8")) as { version: string };
       const configJson = JSON.parse(
-        await readFile(join(extractRoot, "payload", "resources", "open-design-config.json"), "utf8"),
+        await readFile(join(extractRoot, "payload", "resources", "sankiwork-config.json"), "utf8"),
       ) as { appVersion: string };
       expect(manifest.version).toBe(version);
       expect(configJson.appVersion).toBe(version);
-      await expectPathExists(join(extractRoot, "payload", "Open Design.exe"));
+      await expectPathExists(join(extractRoot, "payload", "SankiWork.exe"));
       await expectPathExists(join(extractRoot, "payload", "resources"));
     } finally {
       await rm(root, { force: true, recursive: true });

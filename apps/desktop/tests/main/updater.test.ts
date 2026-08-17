@@ -13,13 +13,13 @@ import {
   LAUNCHER_AFTER_QUIT_TIMEOUT_MS_ARG,
   LAUNCHER_SCHEMA_VERSION,
   resolveLauncherPaths,
-} from "@open-design/launcher-proto";
+} from "@sankiwork/launcher-proto";
 import {
   DESKTOP_UPDATE_CHANNELS,
   DESKTOP_UPDATE_STATES,
   SIDECAR_SOURCES,
-} from "@open-design/sidecar-proto";
-import type { ReleaseChannel } from "@open-design/release";
+} from "@sankiwork/sidecar-proto";
+import type { ReleaseChannel } from "@sankiwork/release";
 
 import {
   compareVersions,
@@ -105,16 +105,16 @@ async function createUpdaterFixture(options: {
   const artifactExt = platform === "win" ? "exe" : "dmg";
   const arch = platform === "win" ? "x64" : "arm64";
   const artifactName = platform === "win"
-    ? `open-design-${version}-win-x64-setup.exe`
-    : `open-design-${version}-mac-arm64.dmg`;
+    ? `sankiwork-${version}-win-x64-setup.exe`
+    : `sankiwork-${version}-mac-arm64.dmg`;
   const artifactPath = `/artifact.${artifactExt}`;
-  const artifactBody = Buffer.from(options.artifactBody ?? "open design updater fixture");
+  const artifactBody = Buffer.from(options.artifactBody ?? "sankiwork updater fixture");
   const digest = createHash("sha256").update(artifactBody).digest("hex");
   const payloadName = platform === "win"
-    ? `open-design-${version}-win-x64-payload.7z`
-    : `open-design-${version}-mac-arm64-payload.zip`;
+    ? `sankiwork-${version}-win-x64-payload.7z`
+    : `sankiwork-${version}-mac-arm64-payload.zip`;
   const payloadPath = platform === "win" ? "/payload.7z" : "/payload.zip";
-  const payloadBody = Buffer.from(options.payloadBody ?? "open design updater payload fixture");
+  const payloadBody = Buffer.from(options.payloadBody ?? "sankiwork updater payload fixture");
   const payloadDigest = createHash("sha256").update(payloadBody).digest("hex");
   let artifactRequests = 0;
   let metadataRequests = 0;
@@ -272,10 +272,10 @@ function metadataResponse(version: string): Response {
         enabled: true,
         artifacts: {
           dmg: {
-            name: `open-design-${version}-mac-arm64.dmg`,
+            name: `sankiwork-${version}-mac-arm64.dmg`,
             sha256: "0".repeat(64),
             size: 1,
-            url: `https://example.invalid/open-design-${version}-mac-arm64.dmg`,
+            url: `https://example.invalid/sankiwork-${version}-mac-arm64.dmg`,
           },
         },
       },
@@ -299,14 +299,14 @@ async function writeReleaseFixture(root: string, key: string, channel: FixtureCh
 }
 
 async function writeLauncherPayloadFixture(destinationRoot: string, version: string): Promise<void> {
-  await mkdir(join(destinationRoot, "payload", "resources", "open-design"), { recursive: true });
-  await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
-  await writeFile(join(destinationRoot, "payload", "resources", "open-design-config.json"), "{}\n");
+  await mkdir(join(destinationRoot, "payload", "resources", "sankiwork"), { recursive: true });
+  await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
+  await writeFile(join(destinationRoot, "payload", "resources", "sankiwork-config.json"), "{}\n");
   await writeFile(join(destinationRoot, "manifest.json"), `${JSON.stringify({
     channel: "beta",
     entry: {
       cwd: "payload",
-      executable: "payload/Open Design.exe",
+      executable: "payload/SankiWork.exe",
     },
     namespace: "release-beta-win",
     payloadRoot: "payload",
@@ -362,7 +362,7 @@ describe("desktop updater", () => {
 
       await updater.checkForUpdates({ autoDownload: false });
 
-      expect(logger.info).toHaveBeenCalledWith("[open-design updater] lifecycle", expect.objectContaining({
+      expect(logger.info).toHaveBeenCalledWith("[sankiwork updater] lifecycle", expect.objectContaining({
         enabled: true,
         event: "session-start",
         metadataUrl: fixture.metadataUrl,
@@ -370,7 +370,7 @@ describe("desktop updater", () => {
         sessionId: "2026-06-09T07:50:51.000Z-12345",
         source: SIDECAR_SOURCES.PACKAGED,
       }));
-      expect(logger.info).toHaveBeenCalledWith("[open-design updater] lifecycle", expect.objectContaining({
+      expect(logger.info).toHaveBeenCalledWith("[sankiwork updater] lifecycle", expect.objectContaining({
         event: "check-start",
         metadataUrl: fixture.metadataUrl,
         namespace: "release-beta",
@@ -403,7 +403,7 @@ describe("desktop updater", () => {
       expect(checked.paths?.manifestPath).toBe(join(root, "metadata.json"));
       expect(checked.active?.path).toBe(checked.downloadPath);
       expect(relative(await realpath(root), checked.downloadPath ?? "")).not.toMatch(/^\.\./);
-      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("open design updater fixture");
+      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("sankiwork updater fixture");
 
       const restored = await updater.status();
       expect(restored.state).toBe(DESKTOP_UPDATE_STATES.DOWNLOADED);
@@ -438,7 +438,7 @@ describe("desktop updater", () => {
       expect(checked.artifact?.platformKey).toBe("win");
       expect(checked.artifact?.type).toBe("installer");
       expect(checked.downloadPath).toEqual(expect.stringMatching(/\.exe$/));
-      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("open design updater fixture");
+      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("sankiwork updater fixture");
 
       const installed = await updater.installUpdate();
       expect(installed.state).toBe(DESKTOP_UPDATE_STATES.DOWNLOADED);
@@ -454,7 +454,7 @@ describe("desktop updater", () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
       includePayload: true,
-      payloadBody: "open design windows payload fixture",
+      payloadBody: "sankiwork windows payload fixture",
       platform: "win",
     });
     try {
@@ -469,7 +469,7 @@ describe("desktop updater", () => {
 
       expect(checked.state).toBe(DESKTOP_UPDATE_STATES.DOWNLOADED);
       expect(checked.artifact?.type).toBe("installer");
-      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("open design updater fixture");
+      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("sankiwork updater fixture");
     } finally {
       await fixture.close();
       rmSync(root, { force: true, recursive: true });
@@ -479,13 +479,13 @@ describe("desktop updater", () => {
   it("falls back to the installer when launcher context is valid but metadata has no payload artifact", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design windows installer fixture",
+      artifactBody: "sankiwork windows installer fixture",
       channel: "beta",
       platform: "win",
       version: "1.0.0-beta.3",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
     try {
       await mkdir(join(root, "installed"), { recursive: true });
       await writeFile(launcherLaunchPath, "");
@@ -522,7 +522,7 @@ describe("desktop updater", () => {
 
       expect(checked.state).toBe(DESKTOP_UPDATE_STATES.DOWNLOADED);
       expect(checked.artifact?.type).toBe("installer");
-      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("open design windows installer fixture");
+      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("sankiwork windows installer fixture");
     } finally {
       await fixture.close();
       rmSync(root, { force: true, recursive: true });
@@ -532,17 +532,17 @@ describe("desktop updater", () => {
   it("downloads and applies launcher payload only when launcher runtime context validates", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design windows installer fixture",
+      artifactBody: "sankiwork windows installer fixture",
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design windows payload fixture",
+      payloadBody: "sankiwork windows payload fixture",
       platform: "win",
       version: "1.0.0-beta.2",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
     const launcherRoot = root;
     const versionRoot = join(root, "launcher", "channels", "beta", "namespaces", "release-beta-win", "versions");
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
     const launches: Array<{ appPid: number; launchPath: string; root: string }> = [];
     let extractCount = 0;
     try {
@@ -578,15 +578,15 @@ describe("desktop updater", () => {
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
           extractCount += 1;
-          await mkdir(join(destinationRoot, "payload", "resources", "open-design"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
+          await mkdir(join(destinationRoot, "payload", "resources", "sankiwork"), { recursive: true });
+          await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "beta",
               entry: {
                 cwd: "payload",
-                executable: "payload/Open Design.exe",
+                executable: "payload/SankiWork.exe",
               },
               namespace: "release-beta-win",
               payloadRoot: "payload",
@@ -595,7 +595,7 @@ describe("desktop updater", () => {
               version: "1.0.0-beta.2",
             })}\n`,
           );
-          await writeFile(join(destinationRoot, "payload", "resources", "open-design-config.json"), "{}\n");
+          await writeFile(join(destinationRoot, "payload", "resources", "sankiwork-config.json"), "{}\n");
         },
         launchAppAfterQuit: async (input) => {
           launches.push({
@@ -605,7 +605,7 @@ describe("desktop updater", () => {
           });
           return { helperLogPath: join(root, "updates", "helpers", "open-app-after-quit-test.log") };
         },
-        processExecPath: "C:\\Program Files\\Open Design Beta\\Open Design Beta.exe",
+        processExecPath: "C:\\Program Files\\SankiWork Beta\\SankiWork Beta.exe",
         processPid: 4242,
       });
 
@@ -613,11 +613,11 @@ describe("desktop updater", () => {
 
       expect(checked.state).toBe(DESKTOP_UPDATE_STATES.DOWNLOADED);
       expect(checked.artifact?.type).toBe("payload");
-      expect(checked.artifact?.name).toBe("open-design-1.0.0-beta.2-win-x64-payload.7z");
+      expect(checked.artifact?.name).toBe("sankiwork-1.0.0-beta.2-win-x64-payload.7z");
       expect(checked.capabilities.canApplyInPlace).toBe(true);
       expect(checked.capabilities.canOpenInstaller).toBe(false);
       expect(checked.capabilities.requiresManualInstall).toBe(false);
-      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("open design windows payload fixture");
+      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("sankiwork windows payload fixture");
       expect(extractCount).toBe(1);
       expect(await readFile(join(root, "launcher", "channels", "beta", "namespaces", "release-beta-win", "versions", "1.0.0-beta.2", "manifest.json"), "utf8")).toContain("1.0.0-beta.2");
       expect(JSON.parse(await readFile(launcherRuntimePath, "utf8"))).toMatchObject({
@@ -640,7 +640,7 @@ describe("desktop updater", () => {
         "versions",
         "1.0.0-beta.2",
         "payload",
-        "Open Design.exe",
+        "SankiWork.exe",
       );
       expect(installed.installResult?.launchPath).toBe(payloadLaunchPath);
       expect(installed.installResult?.launcherRuntimePath).toBe(launcherRuntimePath);
@@ -674,7 +674,7 @@ describe("desktop updater", () => {
     const fixture = await createUpdaterFixture({
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design locked cleanup payload fixture",
+      payloadBody: "sankiwork locked cleanup payload fixture",
       platform: "win",
       version: "1.0.0-beta.2",
     });
@@ -683,7 +683,7 @@ describe("desktop updater", () => {
       namespace: "release-beta-win",
       root,
     });
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
     const logger = { error: vi.fn(), info: vi.fn(), warn: vi.fn() };
     let extractCount = 0;
     const createUpdater = (removeLauncherPayloadRoot?: (path: string) => Promise<void>) => createDesktopUpdater({
@@ -805,7 +805,7 @@ describe("desktop updater", () => {
     const fixture = await createUpdaterFixture({
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design activation cleanup payload fixture",
+      payloadBody: "sankiwork activation cleanup payload fixture",
       platform: "win",
       version: "1.0.0-beta.2",
     });
@@ -814,7 +814,7 @@ describe("desktop updater", () => {
       namespace: "release-beta-win",
       root,
     });
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
     const logger = { error: vi.fn(), info: vi.fn(), warn: vi.fn() };
     let extractCount = 0;
     const relaunchInputs: Array<{ delegated?: { generation: number; version: string } }> = [];
@@ -918,7 +918,7 @@ describe("desktop updater", () => {
       ...fixtureOptions,
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
     await mkdir(join(root, "installed"), { recursive: true });
     await writeFile(launcherLaunchPath, "");
     // The physically installed outer bundle's config, read by the updater to
@@ -930,7 +930,7 @@ describe("desktop updater", () => {
     if (installedOuterVersion != null) {
       await mkdir(join(root, "installed", "resources"), { recursive: true });
       await writeFile(
-        join(root, "installed", "resources", "open-design-config.json"),
+        join(root, "installed", "resources", "sankiwork-config.json"),
         `${JSON.stringify({ appVersion: installedOuterVersion })}\n`,
       );
     }
@@ -963,13 +963,13 @@ describe("desktop updater", () => {
     } as const;
     const updaterDeps: NonNullable<Parameters<typeof createDesktopUpdater>[1]> = {
       extractLauncherPayloadArchive: async ({ destinationRoot }) => {
-        await mkdir(join(destinationRoot, "payload", "resources", "open-design"), { recursive: true });
-        await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
+        await mkdir(join(destinationRoot, "payload", "resources", "sankiwork"), { recursive: true });
+        await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
         await writeFile(
           join(destinationRoot, "manifest.json"),
           `${JSON.stringify({
             channel: "beta",
-            entry: { cwd: "payload", executable: "payload/Open Design.exe" },
+            entry: { cwd: "payload", executable: "payload/SankiWork.exe" },
             namespace: "release-beta-win",
             payloadRoot: "payload",
             platform: "win32",
@@ -977,10 +977,10 @@ describe("desktop updater", () => {
             version: "1.0.0-beta.2",
           })}\n`,
         );
-        await writeFile(join(destinationRoot, "payload", "resources", "open-design-config.json"), "{}\n");
+        await writeFile(join(destinationRoot, "payload", "resources", "sankiwork-config.json"), "{}\n");
       },
       launchAppAfterQuit: async () => ({ helperLogPath: join(root, "updates", "helpers", "test.log") }),
-      processExecPath: "C:\\Program Files\\Open Design Beta\\Open Design Beta.exe",
+      processExecPath: "C:\\Program Files\\SankiWork Beta\\SankiWork Beta.exe",
       processPid: 4242,
     };
     const updater = createDesktopUpdater(updaterInput, updaterDeps);
@@ -1134,7 +1134,7 @@ describe("desktop updater", () => {
     }
   });
 
-  it("honors OD_UPDATE_INSTALLED_VERSION over the on-disk outer config", async () => {
+  it("honors SW_UPDATE_INSTALLED_VERSION over the on-disk outer config", async () => {
     // On-disk outer config satisfies min; the env override forces an older
     // outer identity for tests and harnesses.
     const { snapshot, close } = await runLauncherReseedCheck(
@@ -1226,7 +1226,7 @@ describe("desktop updater", () => {
       await mkdir(join(root, "state", "lock"), { recursive: true });
       await writeFile(join(root, "state", "lock", "owner.json"), JSON.stringify({
         createdAt: "2026-01-01T00:00:00.000Z",
-        owner: "open-design-updater-lifecycle",
+        owner: "sankiwork-updater-lifecycle",
         pid: 2_147_483_647,
         version: 1,
       }));
@@ -1250,7 +1250,7 @@ describe("desktop updater", () => {
         namespace: "release-beta-win",
         root,
       });
-      const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+      const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
       await mkdir(join(root, "installed"), { recursive: true });
       await writeFile(launcherLaunchPath, "");
       await mkdir(launcherPaths.stateRoot, { recursive: true });
@@ -1318,9 +1318,9 @@ describe("desktop updater", () => {
   it("rebuilds an owned update store with corrupt metadata through clear-cache", async () => {
     const root = makeRoot();
     try {
-      await writeFile(join(root, ".open-design-updater-root.json"), JSON.stringify({
+      await writeFile(join(root, ".sankiwork-updater-root.json"), JSON.stringify({
         createdAt: "2026-01-01T00:00:00.000Z",
-        owner: "open-design-updater",
+        owner: "sankiwork-updater",
         source: "tools-pack",
         version: 1,
       }));
@@ -1349,9 +1349,9 @@ describe("desktop updater", () => {
   it("rebuilds an owned update store with unexpected root entries through clear-cache", async () => {
     const root = makeRoot();
     try {
-      await writeFile(join(root, ".open-design-updater-root.json"), JSON.stringify({
+      await writeFile(join(root, ".sankiwork-updater-root.json"), JSON.stringify({
         createdAt: "2026-01-01T00:00:00.000Z",
-        owner: "open-design-updater",
+        owner: "sankiwork-updater",
         source: "tools-pack",
         version: 1,
       }));
@@ -1369,7 +1369,7 @@ describe("desktop updater", () => {
 
       expect(cleared.state).toBe(DESKTOP_UPDATE_STATES.IDLE);
       expect(existsSync(join(root, "stray-file.bin"))).toBe(false);
-      expect(existsSync(join(root, ".open-design-updater-root.json"))).toBe(true);
+      expect(existsSync(join(root, ".sankiwork-updater-root.json"))).toBe(true);
     } finally {
       rmSync(root, { force: true, recursive: true });
     }
@@ -1400,8 +1400,8 @@ describe("desktop updater", () => {
   it("refuses to clear a root whose ownership marker belongs to another updater generation", async () => {
     const root = makeRoot();
     try {
-      await writeFile(join(root, ".open-design-updater-root.json"), JSON.stringify({
-        owner: "open-design-updater",
+      await writeFile(join(root, ".sankiwork-updater-root.json"), JSON.stringify({
+        owner: "sankiwork-updater",
         version: 999,
       }));
       await writeFile(join(root, "metadata.json"), "{ not json");
@@ -1431,7 +1431,7 @@ describe("desktop updater", () => {
         namespace: "release-beta-win",
         root,
       });
-      const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+      const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
       await mkdir(join(root, "installed"), { recursive: true });
       await writeFile(launcherLaunchPath, "");
       await mkdir(launcherPaths.stateRoot, { recursive: true });
@@ -1477,17 +1477,17 @@ describe("desktop updater", () => {
   it("rejects launcher payloads that change before activation", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design windows installer fixture",
+      artifactBody: "sankiwork windows installer fixture",
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design windows payload fixture",
+      payloadBody: "sankiwork windows payload fixture",
       platform: "win",
       version: "1.0.0-beta.2",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
     const launcherRoot = root;
     const versionRoot = join(root, "launcher", "channels", "beta", "namespaces", "release-beta-win", "versions");
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
     const launches: Array<{ appPid: number; launchPath: string; root: string }> = [];
     let extractCount = 0;
     try {
@@ -1522,15 +1522,15 @@ describe("desktop updater", () => {
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
           extractCount += 1;
-          await mkdir(join(destinationRoot, "payload", "resources", "open-design"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
+          await mkdir(join(destinationRoot, "payload", "resources", "sankiwork"), { recursive: true });
+          await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "beta",
               entry: {
                 cwd: "payload",
-                executable: "payload/Open Design.exe",
+                executable: "payload/SankiWork.exe",
               },
               namespace: "release-beta-win",
               payloadRoot: "payload",
@@ -1539,7 +1539,7 @@ describe("desktop updater", () => {
               version: "1.0.0-beta.2",
             })}\n`,
           );
-          await writeFile(join(destinationRoot, "payload", "resources", "open-design-config.json"), "{}\n");
+          await writeFile(join(destinationRoot, "payload", "resources", "sankiwork-config.json"), "{}\n");
         },
         launchAppAfterQuit: async (input) => {
           launches.push({
@@ -1549,7 +1549,7 @@ describe("desktop updater", () => {
           });
           return { helperLogPath: join(root, "updates", "helpers", "open-app-after-quit-test.log") };
         },
-        processExecPath: "C:\\Program Files\\Open Design Beta\\Open Design Beta.exe",
+        processExecPath: "C:\\Program Files\\SankiWork Beta\\SankiWork Beta.exe",
         processPid: 4242,
       });
 
@@ -1580,13 +1580,13 @@ describe("desktop updater", () => {
     const fixture = await createUpdaterFixture({
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design payload without packaged config",
+      payloadBody: "sankiwork payload without packaged config",
       platform: "win",
       version: "1.0.0-beta.2",
     });
     const namespaceRoot = join(root, "launcher", "channels", "beta", "namespaces", "release-beta-win");
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
     try {
       await mkdir(join(root, "installed"), { recursive: true });
       await writeFile(launcherLaunchPath, "");
@@ -1618,14 +1618,14 @@ describe("desktop updater", () => {
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
           await mkdir(join(destinationRoot, "payload", "resources"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
+          await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "beta",
               entry: {
                 cwd: "payload",
-                executable: "payload/Open Design.exe",
+                executable: "payload/SankiWork.exe",
               },
               namespace: "release-beta-win",
               payloadRoot: "payload",
@@ -1641,7 +1641,7 @@ describe("desktop updater", () => {
 
       expect(checked.state).toBe(DESKTOP_UPDATE_STATES.ERROR);
       expect(checked.error?.code).toBe("launcher-payload-prepare-failed");
-      expect(checked.error?.message).toContain("open-design-config.json");
+      expect(checked.error?.message).toContain("sankiwork-config.json");
       expect(existsSync(join(namespaceRoot, "versions", "1.0.0-beta.2"))).toBe(false);
       expect(JSON.parse(await readFile(launcherRuntimePath, "utf8"))).toMatchObject({
         active: { generation: 0, version: "1.0.0-beta.1" },
@@ -1656,15 +1656,15 @@ describe("desktop updater", () => {
   it("keeps using the installer when launcher context has a missing installed launch path", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design windows installer fixture",
+      artifactBody: "sankiwork windows installer fixture",
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design windows payload fixture",
+      payloadBody: "sankiwork windows payload fixture",
       platform: "win",
       version: "1.0.0-beta.2",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
-    const launcherLaunchPath = join(root, "missing", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "missing", "SankiWork Beta.exe");
     try {
       await mkdir(join(root, "launcher"), { recursive: true });
       await mkdir(join(root, "launcher", "channels", "beta", "namespaces", "release-beta-win", "versions", "1.0.0-beta.1"), { recursive: true });
@@ -1692,14 +1692,14 @@ describe("desktop updater", () => {
         namespace: "release-beta-win",
         source: SIDECAR_SOURCES.PACKAGED,
       }, {
-        processExecPath: "C:\\Users\\runneradmin\\AppData\\Roaming\\Open Design Beta\\launcher\\channels\\beta\\namespaces\\release-beta-win\\versions\\1.0.0-beta.1\\payload\\Open Design.exe",
+        processExecPath: "C:\\Users\\runneradmin\\AppData\\Roaming\\SankiWork Beta\\launcher\\channels\\beta\\namespaces\\release-beta-win\\versions\\1.0.0-beta.1\\payload\\SankiWork.exe",
       });
 
       const checked = await updater.checkForUpdates();
 
       expect(checked.state).toBe(DESKTOP_UPDATE_STATES.DOWNLOADED);
       expect(checked.artifact?.type).toBe("installer");
-      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("open design windows installer fixture");
+      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("sankiwork windows installer fixture");
     } finally {
       await fixture.close();
       rmSync(root, { force: true, recursive: true });
@@ -1710,16 +1710,16 @@ describe("desktop updater", () => {
     const root = makeRoot();
     const observationRoot = join(root, "observations", "installer");
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design mac dmg fixture",
+      artifactBody: "sankiwork mac dmg fixture",
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design mac payload fixture",
+      payloadBody: "sankiwork mac payload fixture",
       platform: "mac",
       version: "1.0.0-beta.3",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
     const launcherRoot = root;
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.app");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.app");
     const launches: Array<{ appPid: number; launchPath: string; root: string }> = [];
     try {
       await mkdir(launcherLaunchPath, { recursive: true });
@@ -1752,17 +1752,17 @@ describe("desktop updater", () => {
         source: SIDECAR_SOURCES.PACKAGED,
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
-          await mkdir(join(destinationRoot, "payload", "Open Design Beta.app", "Contents", "MacOS"), { recursive: true });
-          await mkdir(join(destinationRoot, "payload", "Open Design Beta.app", "Contents", "Resources", "open-design"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design Beta.app", "Contents", "MacOS", "Open Design Beta"), "");
-          await writeFile(join(destinationRoot, "payload", "Open Design Beta.app", "Contents", "Resources", "open-design-config.json"), "{}\n");
+          await mkdir(join(destinationRoot, "payload", "SankiWork Beta.app", "Contents", "MacOS"), { recursive: true });
+          await mkdir(join(destinationRoot, "payload", "SankiWork Beta.app", "Contents", "Resources", "sankiwork"), { recursive: true });
+          await writeFile(join(destinationRoot, "payload", "SankiWork Beta.app", "Contents", "MacOS", "SankiWork Beta"), "");
+          await writeFile(join(destinationRoot, "payload", "SankiWork Beta.app", "Contents", "Resources", "sankiwork-config.json"), "{}\n");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "beta",
               entry: {
-                cwd: "payload/Open Design Beta.app",
-                executable: "payload/Open Design Beta.app/Contents/MacOS/Open Design Beta",
+                cwd: "payload/SankiWork Beta.app",
+                executable: "payload/SankiWork Beta.app/Contents/MacOS/SankiWork Beta",
               },
               namespace: "release-beta",
               payloadRoot: "payload",
@@ -1780,7 +1780,7 @@ describe("desktop updater", () => {
           });
           return {};
         },
-        processExecPath: join(root, "launcher", "channels", "beta", "namespaces", "release-beta", "versions", "1.0.0-beta.2", "payload", "Open Design Beta.app", "Contents", "MacOS", "Open Design Beta"),
+        processExecPath: join(root, "launcher", "channels", "beta", "namespaces", "release-beta", "versions", "1.0.0-beta.2", "payload", "SankiWork Beta.app", "Contents", "MacOS", "SankiWork Beta"),
         processPid: 4243,
       });
 
@@ -1808,10 +1808,10 @@ describe("desktop updater", () => {
             "versions",
             "1.0.0-beta.3",
             "payload",
-            "Open Design Beta.app",
+            "SankiWork Beta.app",
             "Contents",
             "MacOS",
-            "Open Design Beta",
+            "SankiWork Beta",
           ),
           root: await realpath(join(root, "updates")),
         },
@@ -1835,16 +1835,16 @@ describe("desktop updater", () => {
   it("relaunches prerelease mac launcher payloads through the prerelease app bundle", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design prerelease mac dmg fixture",
+      artifactBody: "sankiwork prerelease mac dmg fixture",
       channel: "prerelease",
       includePayload: true,
-      payloadBody: "open design prerelease mac payload fixture",
+      payloadBody: "sankiwork prerelease mac payload fixture",
       platform: "mac",
       version: "1.0.0-prerelease.3",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
     const launcherRoot = root;
-    const launcherLaunchPath = join(root, "installed", "Open Design Prerelease.app");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Prerelease.app");
     const launches: Array<{ appPid: number; launchPath: string; root: string }> = [];
     try {
       await mkdir(launcherLaunchPath, { recursive: true });
@@ -1879,17 +1879,17 @@ describe("desktop updater", () => {
         source: SIDECAR_SOURCES.PACKAGED,
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
-          await mkdir(join(destinationRoot, "payload", "Open Design Prerelease.app", "Contents", "MacOS"), { recursive: true });
-          await mkdir(join(destinationRoot, "payload", "Open Design Prerelease.app", "Contents", "Resources", "open-design"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design Prerelease.app", "Contents", "MacOS", "Open Design Prerelease"), "");
-          await writeFile(join(destinationRoot, "payload", "Open Design Prerelease.app", "Contents", "Resources", "open-design-config.json"), "{}\n");
+          await mkdir(join(destinationRoot, "payload", "SankiWork Prerelease.app", "Contents", "MacOS"), { recursive: true });
+          await mkdir(join(destinationRoot, "payload", "SankiWork Prerelease.app", "Contents", "Resources", "sankiwork"), { recursive: true });
+          await writeFile(join(destinationRoot, "payload", "SankiWork Prerelease.app", "Contents", "MacOS", "SankiWork Prerelease"), "");
+          await writeFile(join(destinationRoot, "payload", "SankiWork Prerelease.app", "Contents", "Resources", "sankiwork-config.json"), "{}\n");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "prerelease",
               entry: {
-                cwd: "payload/Open Design Prerelease.app",
-                executable: "payload/Open Design Prerelease.app/Contents/MacOS/Open Design Prerelease",
+                cwd: "payload/SankiWork Prerelease.app",
+                executable: "payload/SankiWork Prerelease.app/Contents/MacOS/SankiWork Prerelease",
               },
               namespace: "release-prerelease",
               payloadRoot: "payload",
@@ -1907,7 +1907,7 @@ describe("desktop updater", () => {
           });
           return {};
         },
-        processExecPath: join(root, "launcher", "channels", "prerelease", "namespaces", "release-prerelease", "versions", "1.0.0-prerelease.2", "payload", "Open Design Prerelease.app", "Contents", "MacOS", "Open Design Prerelease"),
+        processExecPath: join(root, "launcher", "channels", "prerelease", "namespaces", "release-prerelease", "versions", "1.0.0-prerelease.2", "payload", "SankiWork Prerelease.app", "Contents", "MacOS", "SankiWork Prerelease"),
         processPid: 4244,
       });
 
@@ -1915,8 +1915,8 @@ describe("desktop updater", () => {
       expect(checked.state).toBe(DESKTOP_UPDATE_STATES.DOWNLOADED);
       expect(checked.channel).toBe(DESKTOP_UPDATE_CHANNELS.PRERELEASE);
       expect(checked.artifact?.type).toBe("payload");
-      expect(checked.artifact?.name).toBe("open-design-1.0.0-prerelease.3-mac-arm64-payload.zip");
-      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("open design prerelease mac payload fixture");
+      expect(checked.artifact?.name).toBe("sankiwork-1.0.0-prerelease.3-mac-arm64-payload.zip");
+      expect(await readFile(checked.downloadPath ?? "", "utf8")).toBe("sankiwork prerelease mac payload fixture");
 
       const installed = await updater.installUpdate();
       const payloadLaunchPath = join(
@@ -1929,10 +1929,10 @@ describe("desktop updater", () => {
         "versions",
         "1.0.0-prerelease.3",
         "payload",
-        "Open Design Prerelease.app",
+        "SankiWork Prerelease.app",
         "Contents",
         "MacOS",
-        "Open Design Prerelease",
+        "SankiWork Prerelease",
       );
       expect(installed.installResult?.activeVersion).toBe("1.0.0-prerelease.3");
       expect(installed.installResult?.launchPath).toBe(payloadLaunchPath);
@@ -1958,16 +1958,16 @@ describe("desktop updater", () => {
   it("relaunches Windows launcher payloads through the prepared payload executable", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design windows installer fixture",
+      artifactBody: "sankiwork windows installer fixture",
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design windows payload fixture",
+      payloadBody: "sankiwork windows payload fixture",
       platform: "win",
       version: "1.0.0-beta.3",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
     const launcherRoot = root;
-    const launcherLaunchPath = join(root, "installed", "Open Design.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork.exe");
     const launches: Array<{ appPid: number; launchPath: string; root: string }> = [];
     try {
       await mkdir(join(root, "installed"), { recursive: true });
@@ -2000,16 +2000,16 @@ describe("desktop updater", () => {
         source: SIDECAR_SOURCES.PACKAGED,
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
-          await mkdir(join(destinationRoot, "payload", "resources", "open-design"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
-          await writeFile(join(destinationRoot, "payload", "resources", "open-design-config.json"), "{}\n");
+          await mkdir(join(destinationRoot, "payload", "resources", "sankiwork"), { recursive: true });
+          await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
+          await writeFile(join(destinationRoot, "payload", "resources", "sankiwork-config.json"), "{}\n");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "beta",
               entry: {
                 cwd: "payload",
-                executable: "payload/Open Design.exe",
+                executable: "payload/SankiWork.exe",
               },
               namespace: "release-beta-win",
               payloadRoot: "payload",
@@ -2027,7 +2027,7 @@ describe("desktop updater", () => {
           });
           return {};
         },
-        processExecPath: "C:\\Users\\runneradmin\\AppData\\Roaming\\Open Design Beta\\launcher\\channels\\beta\\namespaces\\release-beta-win\\versions\\1.0.0-beta.2\\payload\\Open Design.exe",
+        processExecPath: "C:\\Users\\runneradmin\\AppData\\Roaming\\SankiWork Beta\\launcher\\channels\\beta\\namespaces\\release-beta-win\\versions\\1.0.0-beta.2\\payload\\SankiWork.exe",
         processPid: 4244,
       });
 
@@ -2055,7 +2055,7 @@ describe("desktop updater", () => {
             "versions",
             "1.0.0-beta.3",
             "payload",
-            "Open Design.exe",
+            "SankiWork.exe",
           ),
           root: await realpath(join(root, "updates")),
         },
@@ -2069,16 +2069,16 @@ describe("desktop updater", () => {
   it("relaunches the prepared payload even when the stable outer entry disappears", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design windows installer fixture",
+      artifactBody: "sankiwork windows installer fixture",
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design windows payload fixture",
+      payloadBody: "sankiwork windows payload fixture",
       platform: "win",
       version: "1.0.0-beta.3",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
     const launcherRoot = root;
-    const launcherLaunchPath = join(root, "installed", "Open Design.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork.exe");
     const launches: Array<{ appPid: number; launchPath: string; root: string }> = [];
     try {
       await mkdir(join(root, "installed"), { recursive: true });
@@ -2111,16 +2111,16 @@ describe("desktop updater", () => {
         source: SIDECAR_SOURCES.PACKAGED,
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
-          await mkdir(join(destinationRoot, "payload", "resources", "open-design"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
-          await writeFile(join(destinationRoot, "payload", "resources", "open-design-config.json"), "{}\n");
+          await mkdir(join(destinationRoot, "payload", "resources", "sankiwork"), { recursive: true });
+          await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
+          await writeFile(join(destinationRoot, "payload", "resources", "sankiwork-config.json"), "{}\n");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "beta",
               entry: {
                 cwd: "payload",
-                executable: "payload/Open Design.exe",
+                executable: "payload/SankiWork.exe",
               },
               namespace: "release-beta-win",
               payloadRoot: "payload",
@@ -2162,7 +2162,7 @@ describe("desktop updater", () => {
             "versions",
             "1.0.0-beta.3",
             "payload",
-            "Open Design.exe",
+            "SankiWork.exe",
           ),
         }),
       ]);
@@ -2175,16 +2175,16 @@ describe("desktop updater", () => {
   it("starts the Windows payload executable in after-quit mode for payload installs", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design windows installer fixture",
+      artifactBody: "sankiwork windows installer fixture",
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design windows payload fixture",
+      payloadBody: "sankiwork windows payload fixture",
       platform: "win",
       version: "1.0.0-beta.3",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
     const launcherRoot = root;
-    const launcherLaunchPath = join(root, "installed", "Open Design.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork.exe");
     const runtimeBase = join(root, "runtime");
     const spawned: Array<{ args: string[]; command: string; options: unknown }> = [];
     const unref = vi.fn();
@@ -2227,16 +2227,16 @@ describe("desktop updater", () => {
         source: SIDECAR_SOURCES.PACKAGED,
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
-          await mkdir(join(destinationRoot, "payload", "resources", "open-design"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
-          await writeFile(join(destinationRoot, "payload", "resources", "open-design-config.json"), "{}\n");
+          await mkdir(join(destinationRoot, "payload", "resources", "sankiwork"), { recursive: true });
+          await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
+          await writeFile(join(destinationRoot, "payload", "resources", "sankiwork-config.json"), "{}\n");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "beta",
               entry: {
                 cwd: "payload",
-                executable: "payload/Open Design.exe",
+                executable: "payload/SankiWork.exe",
               },
               namespace: "release-beta-win",
               payloadRoot: "payload",
@@ -2268,7 +2268,7 @@ describe("desktop updater", () => {
         "versions",
         "1.0.0-beta.3",
         "payload",
-        "Open Design.exe",
+        "SankiWork.exe",
       );
       expect(installed.installResult?.launchPath).toBe(payloadLaunchPath);
       expect(installed.installResult?.helperLogPath).toBeUndefined();
@@ -2293,16 +2293,16 @@ describe("desktop updater", () => {
   it("reports an asynchronous payload spawn error instead of freezing a successful install", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design windows installer fixture",
+      artifactBody: "sankiwork windows installer fixture",
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design windows payload fixture",
+      payloadBody: "sankiwork windows payload fixture",
       platform: "win",
       version: "1.0.0-beta.3",
     });
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
     const launcherRoot = root;
-    const launcherLaunchPath = join(root, "installed", "Open Design.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork.exe");
     const unref = vi.fn();
     try {
       await mkdir(join(root, "installed"), { recursive: true });
@@ -2351,16 +2351,16 @@ describe("desktop updater", () => {
         source: SIDECAR_SOURCES.PACKAGED,
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
-          await mkdir(join(destinationRoot, "payload", "resources", "open-design"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
-          await writeFile(join(destinationRoot, "payload", "resources", "open-design-config.json"), "{}\n");
+          await mkdir(join(destinationRoot, "payload", "resources", "sankiwork"), { recursive: true });
+          await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
+          await writeFile(join(destinationRoot, "payload", "resources", "sankiwork-config.json"), "{}\n");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "beta",
               entry: {
                 cwd: "payload",
-                executable: "payload/Open Design.exe",
+                executable: "payload/SankiWork.exe",
               },
               namespace: "release-beta-win",
               payloadRoot: "payload",
@@ -2395,14 +2395,14 @@ describe("desktop updater", () => {
     const fixture = await createUpdaterFixture({
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design bad windows payload fixture",
+      payloadBody: "sankiwork bad windows payload fixture",
       platform: "win",
       version: "1.0.0-beta.2",
     });
     const namespaceRoot = join(root, "launcher", "channels", "beta", "namespaces", "release-beta-win");
     const launcherRuntimePath = join(root, "launcher", "runtime.json");
     const existingVersionRoot = join(namespaceRoot, "versions", "1.0.0-beta.2");
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
     try {
       await mkdir(join(root, "installed"), { recursive: true });
       await writeFile(launcherLaunchPath, "");
@@ -2435,12 +2435,12 @@ describe("desktop updater", () => {
       }, {
         extractLauncherPayloadArchive: async ({ destinationRoot }) => {
           await mkdir(join(destinationRoot, "payload"), { recursive: true });
-          await writeFile(join(destinationRoot, "payload", "Open Design.exe"), "");
+          await writeFile(join(destinationRoot, "payload", "SankiWork.exe"), "");
           await writeFile(
             join(destinationRoot, "manifest.json"),
             `${JSON.stringify({
               channel: "beta",
-              entry: { cwd: "payload", executable: "payload/Open Design.exe" },
+              entry: { cwd: "payload", executable: "payload/SankiWork.exe" },
               namespace: "release-beta-win",
               payloadRoot: "payload",
               platform: "win32",
@@ -2471,7 +2471,7 @@ describe("desktop updater", () => {
   it("recovers from an interrupted artifact download without surfacing an error", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design updater fixture with retry",
+      artifactBody: "sankiwork updater fixture with retry",
       failFirstArtifactWithTerminated: true,
       platform: "win",
     });
@@ -2492,7 +2492,7 @@ describe("desktop updater", () => {
       expect(checked.state).toBe(DESKTOP_UPDATE_STATES.DOWNLOADED);
       expect(checked.error).toBeUndefined();
       expect(fixture.artifactRequests()).toBe(2);
-      // Byte-range resumption is covered by @open-design/download. At this
+      // Byte-range resumption is covered by @sankiwork/download. At this
       // integration boundary, a full retry is also valid when the interrupted
       // response did not persist any partial bytes before the stream failed.
       expect(logger.warn).not.toHaveBeenCalled();
@@ -2505,7 +2505,7 @@ describe("desktop updater", () => {
   it("does not expose raw terminated transport errors when update download retries are exhausted", async () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture({
-      artifactBody: "open design updater fixture that keeps failing",
+      artifactBody: "sankiwork updater fixture that keeps failing",
       failArtifactAttempts: 3,
       platform: "win",
     });
@@ -2880,10 +2880,10 @@ describe("desktop updater", () => {
               enabled: true,
               artifacts: {
                 dmg: {
-                  name: `open-design-${version}-mac-arm64.dmg`,
+                  name: `sankiwork-${version}-mac-arm64.dmg`,
                   sha256: digest,
                   size: artifactBody.byteLength,
-                  url: `https://fixture.test/open-design-${version}-mac-arm64.dmg`,
+                  url: `https://fixture.test/sankiwork-${version}-mac-arm64.dmg`,
                 },
               },
             },
@@ -2929,8 +2929,8 @@ describe("desktop updater", () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture();
     try {
-      await writeFile(join(root, ".open-design-updater-root.json"), JSON.stringify({
-        owner: "open-design-updater",
+      await writeFile(join(root, ".sankiwork-updater-root.json"), JSON.stringify({
+        owner: "sankiwork-updater",
         version: 1,
       }));
       await writeFile(join(root, "state.json"), "{}");
@@ -3437,7 +3437,7 @@ describe("desktop updater", () => {
     const fixture = await createUpdaterFixture({
       channel: "beta",
       includePayload: true,
-      payloadBody: "open design rollback freeze payload fixture",
+      payloadBody: "sankiwork rollback freeze payload fixture",
       platform: "win",
       version: "1.0.0-beta.2",
     });
@@ -3446,7 +3446,7 @@ describe("desktop updater", () => {
       namespace: "release-beta-win",
       root,
     });
-    const launcherLaunchPath = join(root, "installed", "Open Design Beta.exe");
+    const launcherLaunchPath = join(root, "installed", "SankiWork Beta.exe");
     try {
       await mkdir(join(root, "installed"), { recursive: true });
       await writeFile(launcherLaunchPath, "");
@@ -3531,10 +3531,10 @@ describe("desktop updater", () => {
         incoming: {
           arch: "x64",
           artifact: {
-            name: "open-design-1.0.1-win-x64-setup.exe",
+            name: "sankiwork-1.0.1-win-x64-setup.exe",
             platformKey: "win",
             type: "installer",
-            url: "https://fixture.test/open-design-1.0.1-win-x64-setup.exe",
+            url: "https://fixture.test/sankiwork-1.0.1-win-x64-setup.exe",
           },
           channel: "stable",
           cycleId,
@@ -3773,7 +3773,7 @@ describe("desktop updater", () => {
         removedAt: "2026-06-09T07:50:51.000Z",
         state: "cleanup-removed",
       });
-      expect(logger.info).toHaveBeenCalledWith("[open-design updater] lifecycle", expect.objectContaining({
+      expect(logger.info).toHaveBeenCalledWith("[sankiwork updater] lifecycle", expect.objectContaining({
         event: "launcher-lifecycle",
         removed: 1,
         retained: 1,
@@ -3881,7 +3881,7 @@ describe("desktop updater", () => {
       const checked = await updater.checkForUpdates();
       expect(checked.state).toBe(DESKTOP_UPDATE_STATES.ERROR);
       expect(checked.error?.code).toBe("update-root-not-owned");
-      expect(existsSync(join(realRoot, ".open-design-updater-root.json"))).toBe(false);
+      expect(existsSync(join(realRoot, ".sankiwork-updater-root.json"))).toBe(false);
     } finally {
       await fixture.close();
       rmSync(linkParent, { force: true, recursive: true });

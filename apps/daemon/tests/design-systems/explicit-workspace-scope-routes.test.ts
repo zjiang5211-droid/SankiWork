@@ -95,7 +95,7 @@ function commonPaths(root: string) {
     DESIGN_SYSTEMS_DIR: path.join(root, 'design-systems'),
     DESIGN_TEMPLATES_DIR: path.join(root, 'design-templates'),
     LIBRARY_DIR: path.join(root, 'library'),
-    OD_BIN: path.join(root, 'od'),
+    SW_BIN: path.join(root, 'od'),
     PROJECT_ROOT: root,
     PROJECTS_DIR: path.join(root, 'projects'),
     PROMPT_TEMPLATES_DIR: path.join(root, 'prompt-templates'),

@@ -21,16 +21,16 @@ import {
   normalizeWebSidecarMessage,
   type SidecarStamp,
   type WebStatusSnapshot,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import {
   createJsonIpcServer,
   type JsonIpcServerHandle,
   type SidecarRuntimeContext,
-} from "@open-design/sidecar";
+} from "@sankiwork/sidecar";
 
-const HOST = process.env.OD_HOST || "127.0.0.1";
-if (process.env.OD_HOST != null && !/^[a-zA-Z0-9._\-:[\]@]+$/.test(process.env.OD_HOST)) {
-  throw new Error(`OD_HOST contains invalid characters: ${process.env.OD_HOST}`);
+const HOST = process.env.SW_HOST || "127.0.0.1";
+if (process.env.SW_HOST != null && !/^[a-zA-Z0-9._\-:[\]@]+$/.test(process.env.SW_HOST)) {
+  throw new Error(`SW_HOST contains invalid characters: ${process.env.SW_HOST}`);
 }
 const DAEMON_HOST = "127.0.0.1";
 const STANDALONE_BACKEND_HOST = "127.0.0.1";
@@ -38,10 +38,10 @@ const DAEMON_PORT_ENV = SIDECAR_ENV.DAEMON_PORT;
 const WEB_DIST_DIR_ENV = SIDECAR_ENV.WEB_DIST_DIR;
 const WEB_PORT_ENV = SIDECAR_ENV.WEB_PORT;
 const TOOLS_DEV_PARENT_PID_ENV = SIDECAR_ENV.TOOLS_DEV_PARENT_PID;
-const WEB_OUTPUT_MODE_ENV = "OD_WEB_OUTPUT_MODE";
-const WEB_STANDALONE_ROOT_ENV = "OD_WEB_STANDALONE_ROOT";
-const STANDALONE_PARENT_PID_ENV = "OD_STANDALONE_PARENT_PID";
-const STANDALONE_STARTUP_TIMEOUT_ENV = "OD_STANDALONE_STARTUP_TIMEOUT_MS";
+const WEB_OUTPUT_MODE_ENV = "SW_WEB_OUTPUT_MODE";
+const WEB_STANDALONE_ROOT_ENV = "SW_WEB_STANDALONE_ROOT";
+const STANDALONE_PARENT_PID_ENV = "SW_STANDALONE_PARENT_PID";
+const STANDALONE_STARTUP_TIMEOUT_ENV = "SW_STANDALONE_STARTUP_TIMEOUT_MS";
 const SHUTDOWN_TIMEOUT_MS = 3000;
 const STANDALONE_READINESS_POLL_MS = 150;
 const STANDALONE_TCP_READINESS_GRACE_MS = STANDALONE_READINESS_POLL_MS;
@@ -72,7 +72,7 @@ function createNextApp(options: { dev: boolean; dir: string } & NextBundlerOptio
 
 export function resolveNextBundlerOptions(isDev: boolean): NextBundlerOptions {
   if (!isDev) return {};
-  const configured = (process.env.OD_WEB_DEV_BUNDLER ?? "webpack").trim().toLowerCase();
+  const configured = (process.env.SW_WEB_DEV_BUNDLER ?? "webpack").trim().toLowerCase();
   if (configured === "turbopack" || configured === "turbo") return { turbopack: true };
   return { webpack: true };
 }
@@ -89,7 +89,7 @@ function resolveWebRoot(): string {
   for (let depth = 0; depth < 8; depth += 1) {
     try {
       const packageJson = JSON.parse(readFileSync(join(current, "package.json"), "utf8")) as { name?: unknown };
-      if (packageJson.name === "@open-design/web") return current;
+      if (packageJson.name === "@sankiwork/web") return current;
     } catch {
       // Keep walking until the package root is found. This must work from both
       // sidecar/*.ts under tsx and dist/sidecar/*.js in packaged installs.
@@ -100,7 +100,7 @@ function resolveWebRoot(): string {
     current = parent;
   }
 
-  throw new Error("failed to resolve @open-design/web package root");
+  throw new Error("failed to resolve @sankiwork/web package root");
 }
 
 function parsePort(value: string | undefined): number {
@@ -324,7 +324,7 @@ function parseAllowedDevHost(value: string): string | null {
 
 function configuredAllowedDevHosts(): Set<string> {
   return new Set(
-    (process.env.OD_ALLOWED_DEV_ORIGINS ?? "")
+    (process.env.SW_ALLOWED_DEV_ORIGINS ?? "")
       .split(",")
       .map(parseAllowedDevHost)
       .filter((host): host is string => host != null),
@@ -775,7 +775,7 @@ function shouldStartStandaloneBackendInProcess(): boolean {
 
 async function startStandaloneBackendInProcess(entryPath: string, port: number, origin: string): Promise<StandaloneBackend> {
   Object.assign(process.env, createStandaloneBackendEnv({ port }));
-  console.log(`[open-design web] starting in-process standalone Next.js server from ${entryPath}`);
+  console.log(`[sankiwork web] starting in-process standalone Next.js server from ${entryPath}`);
   const restoreChdir = await installInProcessStandaloneChdirAlias(dirname(entryPath));
   try {
     await import(pathToFileURL(entryPath).href);
@@ -832,7 +832,7 @@ async function startStandaloneBackend(webRoot: string | null): Promise<Standalon
   if (entryPath == null) {
     throw new Error(
       webRoot == null
-        ? `missing Next.js standalone server under ${WEB_STANDALONE_ROOT_ENV}; configure ${WEB_STANDALONE_ROOT_ENV} or install @open-design/web`
+        ? `missing Next.js standalone server under ${WEB_STANDALONE_ROOT_ENV}; configure ${WEB_STANDALONE_ROOT_ENV} or install @sankiwork/web`
         : `missing Next.js standalone server under ${resolveWebDistDir(webRoot)}; rebuild with ${WEB_OUTPUT_MODE_ENV}=standalone`,
     );
   }
@@ -843,7 +843,7 @@ async function startStandaloneBackend(webRoot: string | null): Promise<Standalon
     return await startStandaloneBackendInProcess(entryPath, port, origin);
   }
 
-  console.log(`[open-design web] starting standalone Next.js server from ${entryPath}`);
+  console.log(`[sankiwork web] starting standalone Next.js server from ${entryPath}`);
   const child = spawn(process.execPath, createStandaloneServerArgs(entryPath), {
     cwd: dirname(entryPath),
     env: createStandaloneBackendEnv({ port }),
@@ -859,7 +859,7 @@ async function startStandaloneBackend(webRoot: string | null): Promise<Standalon
   child.once("exit", (code, signal) => {
     standaloneRunning = false;
     standaloneExitReason = `code=${code ?? "null"} signal=${signal ?? "null"}`;
-    console.error(`[open-design web] standalone Next.js server exited ${standaloneExitReason}`);
+    console.error(`[sankiwork web] standalone Next.js server exited ${standaloneExitReason}`);
   });
 
   try {
@@ -1032,7 +1032,7 @@ async function startRegularNextSidecar(
   runtime: SidecarRuntimeContext<SidecarStamp>,
   webRoot: string,
 ): Promise<WebSidecarHandle> {
-  const dev = process.env.OD_WEB_PROD !== "1" && runtime.mode === "dev";
+  const dev = process.env.SW_WEB_PROD !== "1" && runtime.mode === "dev";
   const app = createNextApp({ dev, dir: webRoot, ...resolveNextBundlerOptions(dev) });
   await prepareNextApp(app, webRoot);
 

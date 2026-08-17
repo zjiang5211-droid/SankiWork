@@ -24,15 +24,15 @@ const PERSONAL = {
 
 const MANAGED_ENV = [
   'AMR_HOME',
-  'OD_COLLAB_TRANSPORT',
-  'OD_DATA_DIR',
-  'OD_RESOURCE_TRANSPORT',
-  'OD_TEAM_PROJECTS_TRANSPORT',
-  'OD_WORKSPACE_CONTEXT_SOURCE',
+  'SW_COLLAB_TRANSPORT',
+  'SW_DATA_DIR',
+  'SW_RESOURCE_TRANSPORT',
+  'SW_TEAM_PROJECTS_TRANSPORT',
+  'SW_WORKSPACE_CONTEXT_SOURCE',
   'VELA_API_URL',
   'VELA_BIN',
   'VELA_CONTROL_KEY',
-  'OD_TEST_VELA_LOG',
+  'SW_TEST_VELA_LOG',
 ] as const;
 
 let authority: Server | null = null;
@@ -77,15 +77,15 @@ describe('server workspace billing runtime wiring', () => {
     const velaBin = await writeVelaStub(scratch);
     setEnv({
       AMR_HOME: join(scratch, 'empty-amr-home'),
-      OD_COLLAB_TRANSPORT: 'off',
-      OD_DATA_DIR: join(scratch, 'data'),
-      OD_RESOURCE_TRANSPORT: 'off',
-      OD_TEAM_PROJECTS_TRANSPORT: 'off',
-      OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+      SW_COLLAB_TRANSPORT: 'off',
+      SW_DATA_DIR: join(scratch, 'data'),
+      SW_RESOURCE_TRANSPORT: 'off',
+      SW_TEAM_PROJECTS_TRANSPORT: 'off',
+      SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
       VELA_API_URL: authorityUrl,
       VELA_BIN: velaBin,
       VELA_CONTROL_KEY: 'billing-wiring-control-key',
-      OD_TEST_VELA_LOG: join(scratch, 'vela-calls.log'),
+      SW_TEST_VELA_LOG: join(scratch, 'vela-calls.log'),
     });
 
     vi.resetModules();
@@ -123,7 +123,7 @@ describe('server workspace billing runtime wiring', () => {
       .toEqual(body.workspaceBalance);
     const warmResponse = await fetch(billingUrl, { headers: workspaceHeaders() });
     expect(warmResponse.status).toBe(200);
-    const commandLog = await readFile(process.env.OD_TEST_VELA_LOG!, 'utf8');
+    const commandLog = await readFile(process.env.SW_TEST_VELA_LOG!, 'utf8');
     expect(commandLog).toContain(
       `billing workspace-snapshot --workspace-id ${PERSONAL.workspaceId}`,
     );
@@ -176,7 +176,7 @@ async function writeVelaStub(root: string): Promise<string> {
     script,
     `import { appendFileSync } from 'node:fs';
 const args = process.argv.slice(2);
-appendFileSync(process.env.OD_TEST_VELA_LOG, args.join(' ') + '\\n');
+appendFileSync(process.env.SW_TEST_VELA_LOG, args.join(' ') + '\\n');
 if (args[0] !== 'billing') process.exit(1);
 if (args[1] === 'summary') {
   process.stdout.write(JSON.stringify({

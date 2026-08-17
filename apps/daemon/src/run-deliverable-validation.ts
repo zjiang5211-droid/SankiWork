@@ -6,7 +6,7 @@ import type {
   ProjectFile,
   ProjectFileKind,
   ProjectMetadata,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import { listFiles, resolveProjectDir } from './projects.js';
 

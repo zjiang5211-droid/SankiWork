@@ -15,7 +15,7 @@ This keeps screenshots, the picker preview, and offline use working.
 > [`design-templates/live-artifact/SKILL.md`](../../live-artifact/SKILL.md): it is
 > *file-shaped* (`artifact.json` + `template.html` + `data.json` +
 > `provenance.json`) and *CLI-shaped* on the agent side (the agent calls
-> `"$OD_NODE_BIN" "$OD_BIN" tools live-artifacts {create,update}` and
+> `"$SW_NODE_BIN" "$SW_BIN" tools live-artifacts {create,update}` and
 > `tools connectors {list,execute}` rather than HTTP). The renderer is
 > scalar-only `html_template_v1` (`apps/daemon/src/live-artifacts/render.ts`).
 >
@@ -101,7 +101,7 @@ same shape with provider-specific `endpoint` strings.
 1. Read `connectors.json` from the artifact dir.
 2. Look up `bindings[primary].provider` in the Composio catalog.
 3. Resolve `auth_ref` against the daemon-owned media configuration. The narrow
-   `OD_MEDIA_CONFIG_DIR` override applies to `media-config.json` only;
+   `SW_MEDIA_CONFIG_DIR` override applies to `media-config.json` only;
    otherwise the daemon must derive the file from its already-resolved
    `RUNTIME_DATA_DIR`. Do not infer a path from the project cwd or restate one
    here. Before changing this lookup, read root `AGENTS.md` → **Daemon data

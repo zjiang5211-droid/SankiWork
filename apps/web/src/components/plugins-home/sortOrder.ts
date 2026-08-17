@@ -7,13 +7,13 @@
 // per browser (same localStorage strategy as `savedPlugins.ts`) so a
 // returning user keeps their preferred scan order.
 
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 
 export type PluginSortOrder = 'hot' | 'newest';
 
 export const DEFAULT_PLUGIN_SORT_ORDER: PluginSortOrder = 'hot';
 
-const SORT_ORDER_KEY = 'open-design:plugins-sort-order';
+const SORT_ORDER_KEY = 'sankiwork:plugins-sort-order';
 
 function isBrowserStorageAvailable(): boolean {
   try {

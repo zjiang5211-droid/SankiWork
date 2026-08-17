@@ -79,7 +79,7 @@ Existing links: `win.workspace-tarballs` carries `workspaceBuildKey`;
 `sourceKey`.
 
 **R3 — Build outputs are never direct key inputs.** `hashPackageSourcePath`
-excludes `dist`, `.next`, `out`, `node_modules`, and `.od`. A node that
+excludes `dist`, `.next`, `out`, `node_modules`, and `.sankiwork`. A node that
 consumes another node's build output must obtain that output's identity
 through R2, not by hashing the output tree.
 
@@ -102,10 +102,10 @@ Current materialization-time parameters:
   electron-builder `extraMetadata.version`, then rewritten on materialization
   by `rewriteUnpackedAppPackageVersion` and `rewriteWinExecutableVersion`, then
   verified by `assertMaterializedUnpackedVersionConsistency` — a fail-closed
-  check over the app `package.json` version, the `open-design-config.json`
+  check over the app `package.json` version, the `sankiwork-config.json`
   `appVersion`, and the Windows executable fixed file version.
 - **Namespace / channel and runtime endpoints.**
-  `win.electron-builder-dir` omits them. `open-design-config.json` — which
+  `win.electron-builder-dir` omits them. `sankiwork-config.json` — which
   carries `namespace`, `amrProfile`, `telemetryRelayUrl`, `updateMetadataUrl`,
   `posthogKey`/`posthogHost`, `webOutputMode`, and `namespaceBaseRoot` — is
   regenerated on the materialization path by `writePackagedConfig`.
@@ -114,8 +114,8 @@ The downstream `win.nsis-payload-overlay`, `win.nsis-installer`,
 `win.portable-zip`, and `win.launcher-payload` nodes carry `namespace` and the
 full `packagedVersion` in their keys, because their content includes the
 already-stamped payload. `win.nsis-payload-base` instead carries only
-`versionCore`: its content excludes `Open Design.exe`,
-`resources/app/package.json`, and `resources/open-design-config.json`, which
+`versionCore`: its content excludes `SankiWork.exe`,
+`resources/app/package.json`, and `resources/sankiwork-config.json`, which
 are assigned to the version-bearing overlay.
 `win.launcher-payload-base` is the exception: its key carries `namespace`, but
 version identity reaches it only indirectly through the upstream `sourceKey`;

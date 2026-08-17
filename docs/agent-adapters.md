@@ -166,7 +166,7 @@ For each run the daemon:
    preamble tells the agent where the staged skill lives and identifies side
    files referenced by the body so the agent can read them when needed.
 3. Attempts to copy each selected skill directory into
-   `<project-cwd>/.od-skills/<basename>-<source-path-hash>/`. These are real,
+   `<project-cwd>/.sankiwork-skills/<basename>-<source-path-hash>/`. These are real,
    dereferenced project-private copies—not symlinks or junctions—so a tool that
    edits the staged tree cannot mutate the source skill. The copy path includes
    a recursive stream-copy fallback for recoverable cross-filesystem failures.
@@ -255,11 +255,11 @@ the active-run staging implementation is in
 - Cursor's JSONL is parsed by the shared `json-event-stream` dispatcher with
   the `cursor-agent` parser. Detection uses `cursor-agent status` for auth and
   `cursor-agent models` for live model discovery.
-- Selected skills use §4's prompt composition and `.od-skills` copies. The
+- Selected skills use §4's prompt composition and `.sankiwork-skills` copies. The
   daemon does not generate a `.cursorrules` file.
 - `--workspace` chooses the starting workspace; `--force` and optional
   `--trust` are part of the non-interactive authority posture described in
-  §10, not a filesystem sandbox supplied by Open Design.
+  §10, not a filesystem sandbox supplied by SankiWork.
 
 ### 5.6 OpenCode
 
@@ -321,7 +321,7 @@ the active-run staging implementation is in
 - Streaming: `pi-rpc` JSON-RPC over stdio. Events include `agent_start`, `turn_start/end`, `message_update` (text deltas, thinking deltas, tool calls), `tool_execution_start/end`, `compaction_start`, `auto_retry_start/end`, and `extension_error`. `apps/daemon/src/agent-protocol/pi-rpc/session.ts` maps them into the shared UI event stream. Errors from `extension_error` and exhausted `auto_retry_end` go through the daemon's normal stream-error and empty-output handling.
 - Models: dynamic — `pi --list-models` prints a TSV table to stdout that the daemon parses into provider/model picker entries. Fallback hints for the most common providers/models are shipped for when the list command times out.
 - Images: pi's RPC `prompt` command supports an `images` field (base64-encoded `ImageContent` objects). The daemon reads validated `imagePaths` at session attach time and includes them in the prompt command. Unreadable images are skipped rather than failing the run.
-- Skills use §4's composed prompt and staged `.od-skills` copies. Absolute
+- Skills use §4's composed prompt and staged `.sankiwork-skills` copies. Absolute
   external roots in `extraAllowedDirs` are also forwarded through repeated
   `--append-system-prompt`; this is a path hint, not a filesystem grant or
   sandbox flag.
@@ -353,45 +353,45 @@ the active-run staging implementation is in
 
 ### 5.12 DeepSeek Harness
 
-- Open Design launches the user's official `dsh` installation; it does not
+- SankiWork launches the user's official `dsh` installation; it does not
   bundle Harness or Node. Install the tested DSH release first and use
   `DSH_BIN` only when its executable is outside the daemon's PATH.
-  Open Design publishes checksum-verifying bootstrap installers for users who
+  SankiWork publishes checksum-verifying bootstrap installers for users who
   do not already have the compatible Node, DSH, and pnpm toolchain. They place
   an OD-discoverable launcher in the user's local bin directory and open the
   Harness Web UI for provider setup after installation:
 
   ```sh
-  curl -fsSL 'https://open-design.ai/install-dsh.sh?version=1' | sh
+  curl -fsSL 'https://sanki-ai.cloud/install-dsh.sh?version=1' | sh
   ```
 
   ```powershell
-  & ([scriptblock]::Create((irm 'https://open-design.ai/install-dsh.ps1?version=1')))
+  & ([scriptblock]::Create((irm 'https://sanki-ai.cloud/install-dsh.ps1?version=1')))
   ```
 
   From Windows Command Prompt, the equivalent bootstrap is:
 
   ```bat
-  curl -fsSL "https://open-design.ai/install-dsh.cmd?version=1" -o "%TEMP%\install-dsh.cmd" && call "%TEMP%\install-dsh.cmd"
+  curl -fsSL "https://sanki-ai.cloud/install-dsh.cmd?version=1" -o "%TEMP%\install-dsh.cmd" && call "%TEMP%\install-dsh.cmd"
   ```
 
   Pass `--no-launch` to the downloaded POSIX script or `-NoLaunch` to the
   downloaded PowerShell script for unattended installation. The installers
   pin the exact versions in the adapter's compatibility policy and do not use
   a global npm install.
-- The adapter also requires an Open Design-owned Harness profile named
-  `open-design`. The package source lives at
+- The adapter also requires an SankiWork-owned Harness profile named
+  `sankiwork`. The package source lives at
   [`packages/dsh-runtime`](../packages/dsh-runtime). Packaged OD builds embed
   an exact tarball and SHA-256 manifest for this thin component; they do not
   depend on a public npm release at setup time. Repository developers may pack
   and install the same source manually:
 
   ```sh
-  pnpm --filter @open-design/dsh-runtime build
+  pnpm --filter @sankiwork/dsh-runtime build
   pnpm -C packages/dsh-runtime pack --pack-destination <temporary-directory>
-  dsh plugin --profile open-design add <temporary-directory>/open-design-dsh-runtime-0.1.0.tgz
-  dsh --profile open-design --probe
-  dsh --profile open-design --models
+  dsh plugin --profile sankiwork add <temporary-directory>/sankiwork-dsh-runtime-0.1.0.tgz
+  dsh --profile sankiwork --probe
+  dsh --profile sankiwork --models
   ```
 
 - Detection first checks `dsh --version`, then requires the profile's strict
@@ -401,7 +401,7 @@ the active-run staging implementation is in
   confirmation installs the embedded component through the user's `dsh`,
   rescans, selects, and connection-tests it. Cancelling changes nothing. Only a
   missing `dsh` executable belongs in the installable-agent group.
-- Each OD run starts a fresh `dsh --profile open-design --stdio` process. The
+- Each OD run starts a fresh `dsh --profile sankiwork --stdio` process. The
   JSONL profile protocol creates a Harness session on the first turn and cold
   resumes that exact session on later turns. This is profile-stdio resume, not
   a CLI resume flag and not ACP.
@@ -409,8 +409,8 @@ the active-run staging implementation is in
   are structured. Harness writes ordinary files in the OD project cwd, so the
   existing watcher and artifact preview own delivery.
 - Phase one uses credentials already configured for Harness or inherited as
-  `DEEPSEEK_API_KEY`; Open Design neither stores nor reads back the secret.
-- Model detection comes from `dsh --profile open-design --models`. Each model
+  `DEEPSEEK_API_KEY`; SankiWork neither stores nor reads back the secret.
+- Model detection comes from `dsh --profile sankiwork --models`. Each model
   may expose its own reasoning-effort choices; OD validates and forwards only
   one of the choices advertised for that selected model.
 
@@ -472,7 +472,7 @@ Cancel the existing run separately if it should stop. There is no
 
 ## 8. Selection and failure recovery
 
-Open Design does not implement an ordered cross-agent fallback chain. A chat
+SankiWork does not implement an ordered cross-agent fallback chain. A chat
 request explicitly names its agent, and a crash, auth failure, timeout, or
 invalid invocation remains a failure for that run. The user can select another
 agent and send the request again, but the daemon does not silently—or through a
@@ -507,7 +507,7 @@ path.
 
 The daemon delegates policy enforcement to each CLI, but its headless arg
 builders intentionally choose non-interactive permission modes. The effective
-project cwd is an execution root, not a uniform Open Design sandbox, and
+project cwd is an execution root, not a uniform SankiWork sandbox, and
 external-directory flags can widen a CLI's reach.
 
 - Claude runs with `--permission-mode bypassPermissions`; Cursor runs with
@@ -521,7 +521,7 @@ external-directory flags can widen a CLI's reach.
   option.
 - Codex defaults to `workspace-write` with network access on supported macOS
   and Linux hosts. Windows, WSL, or an explicit
-  `OD_CODEX_SANDBOX=danger-full-access` operator override uses
+  `SW_CODEX_SANDBOX=danger-full-access` operator override uses
   `danger-full-access` because the workspace-write path cannot support the
   required shell execution there.
 
@@ -587,7 +587,7 @@ The engine is agent-agnostic: it iterates `AGENT_DEFS` and reads fields. A commu
 - **Usage and cost coverage.** Parsers preserve `usage` and reported cost when
   a CLI exposes them (for example Claude, Codex, OpenCode, and Qoder), and
   those events feed persisted run messages and lifecycle analytics. Coverage
-  is runtime-dependent; Open Design does not invent token or billing data when
+  is runtime-dependent; SankiWork does not invent token or billing data when
   a CLI omits it.
 - **Windows support.** PATH scanning and `spawn` semantics differ on Windows. Definitions
   that accept stdin should set `promptViaStdin`; argv-only definitions must declare and

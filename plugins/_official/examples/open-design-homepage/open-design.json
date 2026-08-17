@@ -1,38 +1,38 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://sanki-ai.cloud/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-open-design-homepage",
-  "title": "Open Design Homepage",
+  "title": "SankiWork Homepage",
   "title_i18n": {
-    "en": "Open Design Homepage",
-    "zh-CN": "Open Design 主页",
-    "zh-TW": "Open Design 主頁",
-    "ja": "Open Design ホームページ",
-    "ko": "Open Design 홈페이지",
-    "de": "Open Design Startseite",
-    "fr": "Page d'accueil Open Design",
-    "ru": "Главная страница Open Design",
-    "es": "Página principal de Open Design",
-    "pt-BR": "Página inicial Open Design",
-    "it": "Homepage Open Design",
-    "vi": "Trang chủ Open Design",
-    "pl": "Strona główna Open Design",
-    "id": "Beranda Open Design",
-    "nl": "Open Design startpagina",
-    "ar": "الصفحة الرئيسية Open Design",
-    "tr": "Open Design Ana Sayfası",
-    "uk": "Головна сторінка Open Design"
+    "en": "SankiWork Homepage",
+    "zh-CN": "SankiWork 主页",
+    "zh-TW": "SankiWork 主頁",
+    "ja": "SankiWork ホームページ",
+    "ko": "SankiWork 홈페이지",
+    "de": "SankiWork Startseite",
+    "fr": "Page d'accueil SankiWork",
+    "ru": "Главная страница SankiWork",
+    "es": "Página principal de SankiWork",
+    "pt-BR": "Página inicial SankiWork",
+    "it": "Homepage SankiWork",
+    "vi": "Trang chủ SankiWork",
+    "pl": "Strona główna SankiWork",
+    "id": "Beranda SankiWork",
+    "nl": "SankiWork startpagina",
+    "ar": "الصفحة الرئيسية SankiWork",
+    "tr": "SankiWork Ana Sayfası",
+    "uk": "Головна сторінка SankiWork"
   },
   "version": "1.0.0",
   "publishedAt": "2026-07-09T12:42:32Z",
-  "description": "A pixel-faithful mirror of the live open-design.ai homepage — an interactive WebGL/Three.js (React Three Fiber) hero built on Next.js. Features a real-time 3D \"Open Design\" wordmark (Draco-compressed geometry), a scattered sticker collage, custom variable fonts, cursor-reactive parallax, and scroll-driven motion. This is a first-party showcase of the visual ceiling Open Design targets for interactive marketing surfaces on the web — with all assets bundled locally (only the Draco decoder loads from a CDN, like the other WebGL examples), rendering in the sandboxed preview. Use as a reference for high-craft 3D landing pages, agent-native product sites, and motion-rich hero sections.",
+  "description": "A pixel-faithful mirror of the live sanki-ai.cloud homepage — an interactive WebGL/Three.js (React Three Fiber) hero built on Next.js. Features a real-time 3D \"SankiWork\" wordmark (Draco-compressed geometry), a scattered sticker collage, custom variable fonts, cursor-reactive parallax, and scroll-driven motion. This is a first-party showcase of the visual ceiling SankiWork targets for interactive marketing surfaces on the web — with all assets bundled locally (only the Draco decoder loads from a CDN, like the other WebGL examples), rendering in the sandboxed preview. Use as a reference for high-craft 3D landing pages, agent-native product sites, and motion-rich hero sections.",
   "description_i18n": {
-    "en": "A pixel-faithful mirror of the live open-design.ai homepage — an interactive WebGL/Three.js (React Three Fiber) hero built on Next.js. Features a real-time 3D \"Open Design\" wordmark (Draco-compressed geometry), a scattered sticker collage, custom variable fonts, cursor-reactive parallax, and scroll-driven motion. This is a first-party showcase of the visual ceiling Open Design targets for interactive marketing surfaces on the web — with all assets bundled locally (only the Draco decoder loads from a CDN, like the other WebGL examples), rendering in the sandboxed preview. Use as a reference for high-craft 3D landing pages, agent-native product sites, and motion-rich hero sections.",
-    "zh-CN": "open-design.ai 官网主页的像素级镜像——基于 Next.js 的交互式 WebGL/Three.js(React Three Fiber)首屏。含实时 3D「Open Design」立体字(Draco 压缩几何)、散落贴纸拼贴、可变字体、光标视差和滚动驱动动效。这是 Open Design 面向 Web 交互营销页所追求的视觉天花板的官方范例——资产全部本地打包(仅 Draco 解码器走 CDN，同其他 WebGL 示例），可在沙箱预览中渲染。适合作为高工艺 3D 落地页、agent 原生产品站、动效丰富首屏的参考。"
+    "en": "A pixel-faithful mirror of the live sanki-ai.cloud homepage — an interactive WebGL/Three.js (React Three Fiber) hero built on Next.js. Features a real-time 3D \"SankiWork\" wordmark (Draco-compressed geometry), a scattered sticker collage, custom variable fonts, cursor-reactive parallax, and scroll-driven motion. This is a first-party showcase of the visual ceiling SankiWork targets for interactive marketing surfaces on the web — with all assets bundled locally (only the Draco decoder loads from a CDN, like the other WebGL examples), rendering in the sandboxed preview. Use as a reference for high-craft 3D landing pages, agent-native product sites, and motion-rich hero sections.",
+    "zh-CN": "sanki-ai.cloud 官网主页的像素级镜像——基于 Next.js 的交互式 WebGL/Three.js(React Three Fiber)首屏。含实时 3D「SankiWork」立体字(Draco 压缩几何)、散落贴纸拼贴、可变字体、光标视差和滚动驱动动效。这是 SankiWork 面向 Web 交互营销页所追求的视觉天花板的官方范例——资产全部本地打包(仅 Draco 解码器走 CDN，同其他 WebGL 示例），可在沙箱预览中渲染。适合作为高工艺 3D 落地页、agent 原生产品站、动效丰富首屏的参考。"
   },
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "SankiWork",
     "url": "https://github.com/nexu-io"
   },
   "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/open-design-homepage",
@@ -70,13 +70,13 @@
     },
     "useCase": {
       "query": {
-        "en": "Mirror the live open-design.ai homepage: an interactive React Three Fiber / Next.js hero with a real-time 3D wordmark, sticker collage, variable fonts, cursor parallax, and scroll-driven motion. Fully self-contained and renders in the sandboxed preview.",
-        "zh-CN": "复刻 open-design.ai 官网主页：基于 React Three Fiber / Next.js 的交互式首屏，含实时 3D 立体字、贴纸拼贴、可变字体、光标视差和滚动驱动动效。完全自包含，可在沙箱预览中渲染。"
+        "en": "Mirror the live sanki-ai.cloud homepage: an interactive React Three Fiber / Next.js hero with a real-time 3D wordmark, sticker collage, variable fonts, cursor parallax, and scroll-driven motion. Fully self-contained and renders in the sandboxed preview.",
+        "zh-CN": "复刻 sanki-ai.cloud 官网主页：基于 React Three Fiber / Next.js 的交互式首屏，含实时 3D 立体字、贴纸拼贴、可变字体、光标视差和滚动驱动动效。完全自包含，可在沙箱预览中渲染。"
       },
       "exampleOutputs": [
         {
           "path": "./example.html",
-          "title": "Open Design Homepage"
+          "title": "SankiWork Homepage"
         }
       ]
     },

@@ -10,7 +10,7 @@ import type {
   DesktopExportArtifactResult,
   DesktopRenderSlidesInput,
   DesktopRenderSlidesResult,
-} from '@open-design/sidecar-proto';
+} from '@sankiwork/sidecar-proto';
 import { createProjectFileVersion } from '../src/project-file-versions.js';
 import { startServer } from '../src/server.js';
 
@@ -86,9 +86,9 @@ describe('screenshot export desktop renderer file handoff', () => {
     baseUrl = started.url;
     server = started.server;
 
-    const dataDir = process.env.OD_DATA_DIR!;
+    const dataDir = process.env.SW_DATA_DIR!;
     // The daemon derives the scratch dir from the realpath-resolved data root
-    // (RUNTIME_DATA_DIR_CANONICAL); on macOS OD_DATA_DIR may contain a symlink
+    // (RUNTIME_DATA_DIR_CANONICAL); on macOS SW_DATA_DIR may contain a symlink
     // (/var -> /private/var), so resolve it the same way for the prefix check.
     exportRenderRoot = path.join(realpathSync(dataDir), 'export-render');
     const dir = path.join(dataDir, 'projects', projectId);
@@ -440,7 +440,7 @@ describe('screenshot export desktop renderer file handoff', () => {
   it('rejects a renderer slide path outside the scratch dir (no path-traversal read)', async () => {
     // A malicious/buggy renderer points slideFiles at a secret outside the
     // scratch dir; the daemon must refuse rather than read & stream it back.
-    const dataDir = process.env.OD_DATA_DIR!;
+    const dataDir = process.env.SW_DATA_DIR!;
     const secret = path.join(dataDir, 'SECRET-out-of-tree.txt');
     await writeFile(secret, 'TOP SECRET');
     const evilRenderer = async (input: DesktopRenderSlidesInput): Promise<DesktopRenderSlidesResult> => {

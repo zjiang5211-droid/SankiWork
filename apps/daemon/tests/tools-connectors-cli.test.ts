@@ -44,7 +44,7 @@ Avoid generic marketing pages, oversized cards, invented palettes, missing sourc
 
 const AUDIT_README = `# Cherry Studio Design System
 
-This package captures a source-backed Open Design design system for a desktop AI chat workspace. It includes reusable rules, token CSS, focused review previews, preserved assets, preserved fonts, and an applied UI kit.
+This package captures a source-backed SankiWork design system for a desktop AI chat workspace. It includes reusable rules, token CSS, focused review previews, preserved assets, preserved fonts, and an applied UI kit.
 
 ## Product Overview
 
@@ -52,7 +52,7 @@ Cherry Studio is a desktop AI chat workspace for multi-model assistant workflows
 
 ## Package Contents
 
-- DESIGN.md is the canonical Open Design rules document.
+- DESIGN.md is the canonical SankiWork rules document.
 - colors_and_type.css contains reusable variables for color, type, spacing, radius, and states.
 - preview/ contains focused HTML cards for color, typography, spacing, components, and brand assets.
 - ui_kits/app/ contains an applied interface example for future project reuse.
@@ -118,7 +118,7 @@ The system uses compact app-shell layouts, source-backed green accents, neutral 
 
 const MARKDOWN_ONLY_AUDIT_SKILL = `# Cherry Studio Design System
 
-Use this skill when creating Open Design artifacts that should match the Cherry Studio desktop AI chat workspace.
+Use this skill when creating SankiWork artifacts that should match the Cherry Studio desktop AI chat workspace.
 
 ## Workflow
 
@@ -135,7 +135,7 @@ Keep layouts compact, app-like, and productivity-focused. Use real component sta
 
 const AUDIT_SKILL = `---
 name: cherry-studio-design
-description: Use this skill when creating Open Design artifacts that should match the Cherry Studio desktop AI chat workspace.
+description: Use this skill when creating SankiWork artifacts that should match the Cherry Studio desktop AI chat workspace.
 user-invocable: true
 ---
 
@@ -174,13 +174,13 @@ const SKILL_WITH_WARNING_WORDED_SECTIONS = AUDIT_SKILL
 
 const SKILL_WITHOUT_REUSE_SECTIONS = `---
 name: cherry-studio-design
-description: Use this skill when creating Open Design artifacts that should match the Cherry Studio desktop AI chat workspace.
+description: Use this skill when creating SankiWork artifacts that should match the Cherry Studio desktop AI chat workspace.
 user-invocable: true
 ---
 
 Read README.md, DESIGN.md, colors_and_type.css, the preview cards, preserved assets, fonts, and the modular UI kit before generating any new interface.
 
-This package is intended for reusable Open Design work, so future agents should keep the output grounded in captured evidence, use preserved assets instead of redrawing brand marks, keep app surfaces compact, and inspect preview cards before introducing any new component pattern. Treat it as a focused product design kit, not a generic style summary.
+This package is intended for reusable SankiWork work, so future agents should keep the output grounded in captured evidence, use preserved assets instead of redrawing brand marks, keep app surfaces compact, and inspect preview cards before introducing any new component pattern. Treat it as a focused product design kit, not a generic style summary.
 
 **How to use:**
 Load colors_and_type.css and inspect preview/ before creating new artifacts. Reuse ui_kits/app when composing product-like screens and check README.md plus DESIGN.md before making visual decisions.
@@ -388,7 +388,7 @@ function auditComponent(componentName: string): string {
   return `const ${componentName}Items = [
   { id: 'primary', label: '${componentName} primary state', detail: 'Source-backed density, spacing, and active state.' },
   { id: 'secondary', label: '${componentName} secondary state', detail: 'Muted state with compact metadata and clear affordance.' },
-  { id: 'review', label: '${componentName} review state', detail: 'Reusable review surface for future Open Design projects.' },
+  { id: 'review', label: '${componentName} review state', detail: 'Reusable review surface for future SankiWork projects.' },
 ];
 
 const ${componentName}Styles = {
@@ -518,8 +518,8 @@ exit 128
   }
 
   it('appends curated useCase query params for connector listing', async () => {
-    process.env.OD_DAEMON_URL = 'http://127.0.0.1:7456/base/';
-    process.env.OD_TOOL_TOKEN = 'agent-run-token';
+    process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456/base/';
+    process.env.SW_TOOL_TOKEN = 'agent-run-token';
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ connectors: [] }), { headers: { 'Content-Type': 'application/json' }, status: 200 }));
 
     const result = await runConnectorsToolCli(['list', '--use-case', 'personal_daily_digest']);
@@ -535,8 +535,8 @@ exit 128
   });
 
   it('includes curation in compact connector output', async () => {
-    process.env.OD_DAEMON_URL = 'http://127.0.0.1:7456';
-    process.env.OD_TOOL_TOKEN = 'agent-run-token';
+    process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
+    process.env.SW_TOOL_TOKEN = 'agent-run-token';
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({
       connectors: [{
         id: 'slack',
@@ -580,8 +580,8 @@ exit 128
   it('writes GitHub design evidence through connected connector tools', async () => {
     const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
     process.chdir(tmpDir);
-    process.env.OD_DAEMON_URL = 'http://127.0.0.1:7456';
-    process.env.OD_TOOL_TOKEN = 'agent-run-token';
+    process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
+    process.env.SW_TOOL_TOKEN = 'agent-run-token';
     await installFailingLocalGithubTools(tmpDir);
 
     const encode = (value: string) => Buffer.from(value, 'utf8').toString('base64');
@@ -2378,7 +2378,7 @@ exit 128
       ok: true,
       errors: [],
       warnings: expect.arrayContaining([
-        expect.objectContaining({ code: 'missing_open_design_rules', path: 'DESIGN.md' }),
+        expect.objectContaining({ code: 'missing_sankiwork_rules', path: 'DESIGN.md' }),
       ]),
     });
 
@@ -2388,8 +2388,8 @@ exit 128
   it('falls back to bounded connector directory browsing when the repository tree is too large', async () => {
     const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
     process.chdir(tmpDir);
-    process.env.OD_DAEMON_URL = 'http://127.0.0.1:7456';
-    process.env.OD_TOOL_TOKEN = 'agent-run-token';
+    process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
+    process.env.SW_TOOL_TOKEN = 'agent-run-token';
     await installFailingLocalGithubTools(tmpDir);
 
     const encode = (value: string) => Buffer.from(value, 'utf8').toString('base64');
@@ -2474,8 +2474,8 @@ exit 128
   it('continues bounded GitHub intake when repository metadata is too large', async () => {
     const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
     process.chdir(tmpDir);
-    process.env.OD_DAEMON_URL = 'http://127.0.0.1:7456';
-    process.env.OD_TOOL_TOKEN = 'agent-run-token';
+    process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
+    process.env.SW_TOOL_TOKEN = 'agent-run-token';
     await installFailingLocalGithubTools(tmpDir);
 
     const encode = (value: string) => Buffer.from(value, 'utf8').toString('base64');
@@ -2543,8 +2543,8 @@ exit 128
   it('uses shallow local git clone before connector-backed intake', async () => {
     const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
     process.chdir(tmpDir);
-    process.env.OD_DAEMON_URL = 'http://127.0.0.1:7456';
-    process.env.OD_TOOL_TOKEN = 'agent-run-token';
+    process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
+    process.env.SW_TOOL_TOKEN = 'agent-run-token';
 
     const fakeBinDir = path.join(tmpDir, 'bin');
     await mkdir(fakeBinDir, { recursive: true });
@@ -2666,8 +2666,8 @@ printf 'font-data' > "$last/fonts/ubuntu/Ubuntu-Regular.ttf"
   it('uses GitHub CLI authenticated clone before connector fallback', async () => {
     const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
     process.chdir(tmpDir);
-    process.env.OD_DAEMON_URL = 'http://127.0.0.1:7456';
-    process.env.OD_TOOL_TOKEN = 'agent-run-token';
+    process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
+    process.env.SW_TOOL_TOKEN = 'agent-run-token';
 
     const fakeBinDir = path.join(tmpDir, 'bin');
     await mkdir(fakeBinDir, { recursive: true });
@@ -2762,8 +2762,8 @@ exit 1
   it('reports GitHub CLI login when connector and local clone cannot read a repository', async () => {
     const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
     process.chdir(tmpDir);
-    process.env.OD_DAEMON_URL = 'http://127.0.0.1:7456';
-    process.env.OD_TOOL_TOKEN = 'agent-run-token';
+    process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
+    process.env.SW_TOOL_TOKEN = 'agent-run-token';
 
     const fakeBinDir = path.join(tmpDir, 'bin');
     await mkdir(fakeBinDir, { recursive: true });

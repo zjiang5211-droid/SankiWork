@@ -39,7 +39,7 @@
 // Pure module — no fs / SQLite / network — so the daemon's apply path
 // stays pure.
 
-import type { PluginPipeline, PipelineStage } from '@open-design/contracts';
+import type { PluginPipeline, PipelineStage } from '@sankiwork/contracts';
 
 // Atoms whose presence in a `generate` stage mark the output as a
 // code/document artifact that benefits from plan + critique.

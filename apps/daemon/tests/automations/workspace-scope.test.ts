@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import type { WorkspaceDirectoryItem } from '@open-design/contracts';
+import type { WorkspaceDirectoryItem } from '@sankiwork/contracts';
 import {
   authorizePersistedAutomationWorkspaceScope,
   authorizePersistedProjectWorkspace,

@@ -9,7 +9,7 @@
 - **Node.js:** `~24`（Node 24.x）。リポジトリは `package.json#engines` を通じてこれを強制しています。
 - **pnpm:** `10.33.x`。リポジトリは `packageManager` を通じて `pnpm@10.33.2` をピン留めしています。Corepack を使用すれば、ピン留めされたバージョンが自動的に選択されます。
 - **OS:** macOS、Linux、WSL2 が主要なパスです。Windows ネイティブはほとんどのフローで動作するはずですが、WSL2 のほうが安全なベースラインです。
-- **オプションのローカルエージェント CLI:** Open Design は、Claude Code、Codex、Devin for Terminal、OpenCode、Cursor Agent、Qwen、Qoder CLI、GitHub Copilot CLI などのローカルランタイムをレジストリで管理しています。現在の一覧は [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts) にあります。何もインストールされていない場合は、Settings で設定した BYOK ランタイムを使用してください。
+- **オプションのローカルエージェント CLI:** SankiWork は、Claude Code、Codex、Devin for Terminal、OpenCode、Cursor Agent、Qwen、Qoder CLI、GitHub Copilot CLI などのローカルランタイムをレジストリで管理しています。現在の一覧は [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts) にあります。何もインストールされていない場合は、Settings で設定した BYOK ランタイムを使用してください。
 
 `nvm` / `fnm` はオプションの便利なツールであり、必須のプロジェクトセットアップではありません。使用する場合は、pnpm を実行する前に Node 24 をインストール／選択してください。
 
@@ -63,8 +63,8 @@ pnpm tools-dev status          # 管理対象ランタイムを検査
 pnpm tools-dev logs            # daemon/web/desktop のログを表示
 pnpm tools-dev check           # status + 最近のログ + 一般的な診断
 pnpm tools-dev stop            # 管理対象ランタイムを停止
-pnpm --filter @open-design/daemon build  # `od` 用に apps/daemon/dist/cli.js をビルド
-pnpm --filter @open-design/web build     # 必要に応じて web パッケージをビルド
+pnpm --filter @sankiwork/daemon build  # `sw` 用に apps/daemon/dist/cli.js をビルド
+pnpm --filter @sankiwork/web build     # 必要に応じて web パッケージをビルド
 pnpm typecheck                 # workspace の typecheck
 ```
 
@@ -74,7 +74,7 @@ pnpm typecheck                 # workspace の typecheck
 
 ## Docker セットアップ
 
-Node.js や pnpm をローカルにインストールせずに、完全にコンテナ化された環境で Open Design を実行できます。
+Node.js や pnpm をローカルにインストールせずに、完全にコンテナ化された環境で SankiWork を実行できます。
 
 ### 必要条件
 
@@ -89,7 +89,7 @@ docker compose version
 
 ---
 
-## Open Design を起動
+## SankiWork を起動
 
 リポジトリルートから：
 
@@ -106,7 +106,7 @@ docker compose version
    openssl rand -hex 32
    ```
 
-3. エディタで `.env` を開き、`OD_API_TOKEN=` を見つけて、生成したトークンを貼り付けます。
+3. エディタで `.env` を開き、`SW_API_TOKEN=` を見つけて、生成したトークンを貼り付けます。
 
 サービスを起動します：
 
@@ -171,20 +171,20 @@ cp deploy/.env.example deploy/.env
 
 ```env
 # ホストで公開するポート
-OPEN_DESIGN_PORT=7456
+SANKIWORK_PORT=7456
 
 # コンテナのメモリ制限
-OPEN_DESIGN_MEM_LIMIT=384m
+SANKIWORK_MEM_LIMIT=384m
 
 # 許可する CORS オリジン
-OPEN_DESIGN_ALLOWED_ORIGINS=https://yourdomain.com
+SANKIWORK_ALLOWED_ORIGINS=https://yourdomain.com
 
 # Docker イメージタグ
-OPEN_DESIGN_IMAGE=ghcr.io/nexu-io/od:latest
+SANKIWORK_IMAGE=ghcr.io/nexu-io/od:latest
 
 # Daemon セキュリティに必要な API トークン
 # 次のコマンドで生成：openssl rand -hex 32
-OD_API_TOKEN=
+SW_API_TOKEN=
 ```
 
 ---
@@ -207,33 +207,33 @@ OD_API_TOKEN=
 
 ## メディア生成 / エージェントディスパッチャーチェック
 
-Image、Video、Audio、HyperFrames スキルは、daemon がエージェントを起動する際に注入する環境変数を通じてローカル `od` CLI を呼び出します：
+Image、Video、Audio、HyperFrames スキルは、daemon がエージェントを起動する際に注入する環境変数を通じてローカル `sw` CLI を呼び出します：
 
-- `OD_BIN` — `apps/daemon/dist/cli.js` への絶対パス。
-- `OD_DAEMON_URL` — 実行中の daemon URL。
-- `OD_PROJECT_ID` — アクティブなプロジェクト ID。
-- `OD_PROJECT_DIR` — アクティブなプロジェクトのファイルディレクトリ。
+- `SW_BIN` — `apps/daemon/dist/cli.js` への絶対パス。
+- `SW_DAEMON_URL` — 実行中の daemon URL。
+- `SW_PROJECT_ID` — アクティブなプロジェクト ID。
+- `SW_PROJECT_DIR` — アクティブなプロジェクトのファイルディレクトリ。
 
-メディア生成が `OD_BIN: parameter not set`、`apps/daemon/dist/cli.js` の欠落、または `failed to reach daemon at http://127.0.0.1:0` で失敗する場合は、daemon CLI を再ビルドして管理対象ランタイムを再起動してください：
+メディア生成が `SW_BIN: parameter not set`、`apps/daemon/dist/cli.js` の欠落、または `failed to reach daemon at http://127.0.0.1:0` で失敗する場合は、daemon CLI を再ビルドして管理対象ランタイムを再起動してください：
 
 ```bash
-pnpm --filter @open-design/daemon build
+pnpm --filter @sankiwork/daemon build
 pnpm tools-dev restart --daemon-port 7457 --web-port 5175
 ls -la apps/daemon/dist/cli.js
 curl -s http://127.0.0.1:7457/api/health
 ```
 
-その後、古いターミナルエージェントセッションを再開する代わりに、Open Design アプリからプロジェクトを再度開いてください。daemon から起動されたエージェントは、次のような値を確認できるはずです：
+その後、古いターミナルエージェントセッションを再開する代わりに、SankiWork アプリからプロジェクトを再度開いてください。daemon から起動されたエージェントは、次のような値を確認できるはずです：
 
 ```bash
-echo "OD_BIN=$OD_BIN"
-echo "OD_PROJECT_ID=$OD_PROJECT_ID"
-echo "OD_PROJECT_DIR=$OD_PROJECT_DIR"
-echo "OD_DAEMON_URL=$OD_DAEMON_URL"
-ls -la "$OD_BIN"
+echo "SW_BIN=$SW_BIN"
+echo "SW_PROJECT_ID=$SW_PROJECT_ID"
+echo "SW_PROJECT_DIR=$SW_PROJECT_DIR"
+echo "SW_DAEMON_URL=$SW_DAEMON_URL"
+ls -la "$SW_BIN"
 ```
 
-`OD_DAEMON_URL` は `http://127.0.0.1:0` ではなく、`http://127.0.0.1:7457` のような実際の daemon ポートでなければなりません。`:0` という値は内部的な「空きポートを選択する」起動ヒントにすぎず、エージェントセッションに漏れてはなりません。
+`SW_DAEMON_URL` は `http://127.0.0.1:0` ではなく、`http://127.0.0.1:7457` のような実際の daemon ポートでなければなりません。`:0` という値は内部的な「空きポートを選択する」起動ヒントにすぎず、エージェントセッションに漏れてはなりません。
 
 daemon のみの本番モードでは、daemon 自身が `http://localhost:7456` で静的な Next.js エクスポートを提供するため、リバースプロキシは関与しません。
 
@@ -282,11 +282,11 @@ BASE_SYSTEM_PROMPT   （実行プロファイル別のファイルまたは <art
 ## ファイルマップ
 
 ```
-open-design/
+sankiwork/
 ├── apps/
 │   ├── daemon/                # Node/Express — ローカルエージェントを起動 + API を提供
 │   │   └── src/
-│   │       ├── cli.ts             # `od` bin エントリ
+│   │       ├── cli.ts             # `sw` bin エントリ
 │   │       ├── server.ts          # /api/* + 静的配信
 │   │       ├── agents.ts          # ランタイムモジュールの互換エクスポート
 │   │       ├── runtimes/
@@ -310,7 +310,7 @@ open-design/
 │   └── desktop/               # Electron ランタイム、tools-dev によって起動／検査される
 ├── packages/
 │   ├── contracts/             # 共有 web/daemon アプリ契約
-│   ├── sidecar-proto/         # Open Design sidecar プロトコル契約
+│   ├── sidecar-proto/         # SankiWork sidecar プロトコル契約
 │   ├── sidecar/               # 汎用 sidecar ランタイムプリミティブ
 │   └── platform/              # 汎用プロセス／プラットフォームプリミティブ
 ├── tools/dev/                 # `pnpm tools-dev` ライフサイクルと inspect CLI
@@ -321,15 +321,15 @@ open-design/
 ├── scripts/sync-design-systems.ts    # 上流の getdesign tarball から再インポート
 ├── docs/                      # 製品ビジョン + 仕様
 ├── pnpm-workspace.yaml        # apps/* + packages/* + tools/* + e2e
-└── package.json               # root quality スクリプト + `od` bin
+└── package.json               # root quality スクリプト + `sw` bin
 ```
 
 ## トラブルシューティング
 
 - **「no agents found on PATH」** — [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts) に登録されているローカルランタイムのいずれかをインストールし、その実行ファイルが daemon から見えることを確認してから、**Settings → Execution mode** で **Rescan** を実行してください。または、Settings で BYOK ランタイムを設定します。
 - **/api/chat で daemon が 500 を返す** — daemon ターミナルで stderr の末尾を確認してください。通常は CLI が引数を拒否しています。CLI ごとに argv の形式が異なります。調整が必要な場合は `apps/daemon/src/runtimes/defs/` の対応する定義を参照してください。
-- **メディア生成で `OD_BIN` が欠落、または daemon URL が `:0`** — 上記のメディアディスパッチャーチェックを実行してください。古い CLI セッションを再開せず、Open Design アプリからプロジェクトを再度開いて、daemon が新しい `OD_*` 変数を注入できるようにしてください。
-- **Codex がプラグインコンテキストを多く読み込みすぎる** — `OD_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` で Open Design を起動すると、daemon から起動された Codex プロセスが `--disable plugins` で実行されます。
+- **メディア生成で `SW_BIN` が欠落、または daemon URL が `:0`** — 上記のメディアディスパッチャーチェックを実行してください。古い CLI セッションを再開せず、SankiWork アプリからプロジェクトを再度開いて、daemon が新しい `SW_*` 変数を注入できるようにしてください。
+- **Codex がプラグインコンテキストを多く読み込みすぎる** — `SW_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` で SankiWork を起動すると、daemon から起動された Codex プロセスが `--disable plugins` で実行されます。
 - **アーティファクトがレンダリングされない** — まず引き渡しプロファイルを確認します。ファイルシステム対応のローカルランタイムでは、プレビュー可能なプロジェクトファイルが作成され、ファイルイベントが daemon に届いたかを確認してください。ソースを `<artifact>` に入れる経路ではありません。plain／テキスト専用または BYOK 実行では、完全な `<artifact>` ブロックが 1 つあることを確認し、daemon ログで最初に失敗した境界を探します。
 
 ## ビジョンへのマッピング

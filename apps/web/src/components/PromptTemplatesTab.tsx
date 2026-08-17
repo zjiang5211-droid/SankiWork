@@ -1,4 +1,4 @@
-import { Input, Select } from '@open-design/components';
+import { Input, Select } from '@sankiwork/components';
 import { useMemo, useState } from 'react';
 import { useI18n, useT } from '../i18n';
 import {
@@ -16,7 +16,7 @@ const PROVIDER_LABELS: Record<string, string> = {
   'heygen-com/hyperframes': 'HyperFrames',
   'YouMind-OpenLab/awesome-seedance-2-prompts': 'Seedance 2',
   'YouMind-OpenLab/awesome-gpt-image-2': 'GPT Image 2',
-  'nexu-io/open-design': 'Open Design',
+  'nexu-io/open-design': 'SankiWork',
 };
 function providerLabel(source: PromptTemplateSource): string {
   const known = PROVIDER_LABELS[source.repo];

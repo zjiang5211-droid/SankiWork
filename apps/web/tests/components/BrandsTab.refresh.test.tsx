@@ -3,7 +3,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { BrandSummary, WorkspaceCollabContext } from '@open-design/contracts';
+import type { BrandSummary, WorkspaceCollabContext } from '@sankiwork/contracts';
 import { workspaceContextFixture } from '../helpers/workspace-context';
 
 // EntryShell keeps the Brands sub-view mounted and only toggles visibility, so

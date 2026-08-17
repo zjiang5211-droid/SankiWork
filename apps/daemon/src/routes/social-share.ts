@@ -3,7 +3,7 @@ import {
   buildSocialSharePayload,
   normalizeSocialShareUrl,
   type SocialShareRequest,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { RouteDeps } from '../server-context.js';
 
 export interface RegisterSocialShareRoutesDeps extends RouteDeps<'http'> {}
@@ -16,7 +16,7 @@ export function registerSocialShareRoutes(
 
   app.post('/api/social-share', (req, res) => {
     const body = (req.body ?? {}) as Partial<SocialShareRequest>;
-    const kind = body.kind === 'project-html' ? 'project-html' : 'open-design-repo';
+    const kind = body.kind === 'project-html' ? 'project-html' : 'sankiwork-repo';
     if (kind === 'project-html' && !normalizeSocialShareUrl(body.url)) {
       return sendApiError(
         res,

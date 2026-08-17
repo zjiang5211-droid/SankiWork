@@ -37,7 +37,7 @@ export interface RunWorkspace {
   provenance: RunWorkspaceProvenance | null;
 }
 
-export const RUN_RESULT_PACKAGE_SCHEMA = 'open-design.run-result-package.v1' as const;
+export const RUN_RESULT_PACKAGE_SCHEMA = 'sankiwork.run-result-package.v1' as const;
 
 export interface RunResultPackageRun {
   id: string;

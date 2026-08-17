@@ -7,8 +7,8 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type SyntheticEvent,
 } from 'react';
-import { VisuallyHidden } from '@open-design/components';
-import type { ConnectorConnectResponse, ConnectorDetail, ConnectorStatusResponse } from '@open-design/contracts';
+import { VisuallyHidden } from '@sankiwork/components';
+import type { ConnectorConnectResponse, ConnectorDetail, ConnectorStatusResponse } from '@sankiwork/contracts';
 import { useT } from '../i18n';
 import type { Dict } from '../i18n/types';
 import {

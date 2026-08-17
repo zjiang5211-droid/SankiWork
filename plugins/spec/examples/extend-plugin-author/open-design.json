@@ -1,10 +1,10 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://sanki-ai.cloud/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "extend-plugin-author",
   "title": "Plugin Author",
   "version": "0.1.0",
-  "description": "Guide an agent through creating, validating, and preparing an Open Design plugin contribution.",
+  "description": "Guide an agent through creating, validating, and preparing an SankiWork plugin contribution.",
   "license": "MIT",
   "tags": ["extend", "plugin-authoring", "create-plugin", "spec-plugin", "marketplace"],
   "compat": {
@@ -16,7 +16,7 @@
     "mode": "utility",
     "scenario": "plugin-authoring",
     "useCase": {
-      "query": "Create an Open Design plugin for {{lane}} that helps users {{goal}}."
+      "query": "Create an SankiWork plugin for {{lane}} that helps users {{goal}}."
     },
     "context": {
       "skills": [{ "path": "./SKILL.md" }],

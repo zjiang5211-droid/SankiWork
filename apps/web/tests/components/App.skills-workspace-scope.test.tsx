@@ -17,7 +17,7 @@
 // so `route.kind` stays 'home' and no route change fires. Skills never did.
 
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
-import type { SkillSummary, WorkspaceCollabContext } from '@open-design/contracts';
+import type { SkillSummary, WorkspaceCollabContext } from '@sankiwork/contracts';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from '../../src/App';

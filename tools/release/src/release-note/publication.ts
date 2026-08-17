@@ -1,4 +1,4 @@
-import { isReleaseChannel, parseReleaseVersion } from "@open-design/release";
+import { isReleaseChannel, parseReleaseVersion } from "@sankiwork/release";
 
 import {
   RELEASE_NOTE_DEFAULT_LOCALE,
@@ -19,7 +19,7 @@ export type ReleaseNotePublication = {
   channel: ReleaseNotePlan["channel"];
   defaultLocale: string;
   entries: ReleaseNotePublicationEntry[];
-  kind: "open-design-release-note-publication";
+  kind: "sankiwork-release-note-publication";
   releaseVersion: string;
   state: "absent" | "planned" | "published";
   version: 1;
@@ -75,7 +75,7 @@ export function createReleaseNotePublication(
       size: entry.size,
       url: entryUrl(options.publicOrigin, options.versionPrefix, entry.name),
     })),
-    kind: "open-design-release-note-publication",
+    kind: "sankiwork-release-note-publication",
     releaseVersion: plan.releaseVersion,
     state: plan.state === "absent" ? "absent" : options.published ? "published" : "planned",
     version: 1,
@@ -144,7 +144,7 @@ export function releaseNoteMetadataFromPublication(
 }
 
 export function parseReleaseNotePublication(value: unknown): ReleaseNotePublication {
-  if (!isRecord(value) || value.kind !== "open-design-release-note-publication" || value.version !== 1) {
+  if (!isRecord(value) || value.kind !== "sankiwork-release-note-publication" || value.version !== 1) {
     throw new Error("invalid release note publication header");
   }
   if (value.state !== "absent" && value.state !== "planned" && value.state !== "published") {
@@ -198,7 +198,7 @@ export function parseReleaseNotePublication(value: unknown): ReleaseNotePublicat
     channel: value.channel,
     defaultLocale: RELEASE_NOTE_DEFAULT_LOCALE,
     entries,
-    kind: "open-design-release-note-publication",
+    kind: "sankiwork-release-note-publication",
     releaseVersion,
     state: value.state,
     version: 1,

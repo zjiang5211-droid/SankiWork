@@ -84,9 +84,9 @@ describe('buildOrbitSystemPrompt', () => {
     const stagedAlias = skillCwdAliasSegment(template.dir);
 
     expect(prompt).toContain('Skill id: orbit-general');
-    expect(prompt).toContain(`Staged root: .od-skills/${stagedAlias}/`);
-    expect(prompt).toContain(`read ".od-skills/${stagedAlias}/SKILL.md"`);
-    expect(prompt).toContain(`".od-skills/${stagedAlias}/example.html"`);
+    expect(prompt).toContain(`Staged root: .sankiwork-skills/${stagedAlias}/`);
+    expect(prompt).toContain(`read ".sankiwork-skills/${stagedAlias}/SKILL.md"`);
+    expect(prompt).toContain(`".sankiwork-skills/${stagedAlias}/example.html"`);
     expect(prompt).toContain('visual/domain guidance');
     expect(prompt).not.toContain('Selected template skill instructions:');
     expect(prompt).toContain('Selected template example prompt:');

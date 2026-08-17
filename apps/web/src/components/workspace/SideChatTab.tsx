@@ -11,7 +11,7 @@ import type {
   Conversation,
   ProjectFile,
 } from '../../types';
-import type { ChatSessionMode, WorkspaceCollabContext } from '@open-design/contracts';
+import type { ChatSessionMode, WorkspaceCollabContext } from '@sankiwork/contracts';
 import type { ChatSendMeta } from '../ChatComposer';
 import { useConversationChat } from './useConversationChat';
 import styles from './SideChatTab.module.css';

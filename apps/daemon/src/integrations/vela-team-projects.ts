@@ -1,4 +1,4 @@
-import type { ProjectSyncState } from '@open-design/contracts';
+import type { ProjectSyncState } from '@sankiwork/contracts';
 import type { ResourceHubPrincipal } from '../collab/resource-principal.js';
 
 export type VelaTeamProjectSyncState =

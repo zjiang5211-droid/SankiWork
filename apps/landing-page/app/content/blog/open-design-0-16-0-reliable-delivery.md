@@ -1,5 +1,5 @@
 ---
-title: "Open Design 0.16.0: reliable delivery"
+title: "SankiWork 0.16.0: reliable delivery"
 date: 2026-07-22
 category: "Product"
 readingTime: 7
@@ -8,7 +8,7 @@ socialImage: "/blog/open-design-0-16-0-reliable-delivery-cover.webp"
 ctaKind: download-app
 i18n:
   zh:
-    title: 'Open Design 0.16.0：可靠交付'
+    title: 'SankiWork 0.16.0：可靠交付'
     summary: 'open-design-v0.16.0 —— 五天内 20 位贡献者提交了 92 个 PR。代号「可靠交付（Reliable Delivery）」。视觉风格现在会跟着你手上真正在做的东西走，自动更新会真正生效，长任务能留住结果和随之产出的文件，预览也不再跟你较劲。另有应用内消息中心——以及 0.16.1 顺手清掉的最后一样挡住画布的东西。'
     category: '产品'
     bodyHtml: |
@@ -51,7 +51,7 @@ i18n:
         <li><strong>Gallery 优先展示真正有人在用的东西</strong>——幻灯片、图像、视频等非原型 Gallery会把真实使用量高的模板排在前面，空白条目和没有预览的卡片不再挤占顶部。原型仍保留人工策展的橱窗位，每个分类的完整目录也都还在。</li>
         <li><strong>设计系统导入还原度更高</strong>——仓库导入会选对流程，拆分的 token 包会保留布局值，常见的 YAML 列表与多行格式也保住了作者写下的元数据。</li>
         <li><strong>本地安全边界更牢</strong>——导入的项目会保护隐藏的凭证，删除插件只动这个插件自己的文件，市场与已保存站点的内容处理得更谨慎，每段对话也都稳稳挂在正确的项目上。</li>
-        <li><strong>发布前先预览</strong>——Cloudflare Pages 部署现在在界面和 <code>od deploy --target … --json</code> 里都把 Preview 与 Production 作为明确的目标，预览会返回自己的 URL，而不是顶掉你的线上域名。</li>
+        <li><strong>发布前先预览</strong>——Cloudflare Pages 部署现在在界面和 <code>sw deploy --target … --json</code> 里都把 Preview 与 Production 作为明确的目标，预览会返回自己的 URL，而不是顶掉你的线上域名。</li>
         <li><strong>Kiro 加入 MCP 配置选择器</strong>——直接从设置里复制正确的共享服务端片段，不用再手动翻译另一个客户端的格式。</li>
         <li><strong>值得一提的零碎修复</strong>——MCP 的后续追问能收到最新一条消息，ACP 历史刷新后不再长出空行，搭载较老处理器的 Windows 设备也能通过常规更新路径重新运行 OpenCode。</li>
       </ul>
@@ -65,7 +65,7 @@ i18n:
           <tr><th>如果你是……</th><th>从这里开始</th></tr>
         </thead>
         <tbody>
-          <tr><td>Open Design 新用户</td><td>下载桌面应用、开一个项目，然后为你正在做的形态挑一个专门的视觉方向</td></tr>
+          <tr><td>SankiWork 新用户</td><td>下载桌面应用、开一个项目，然后为你正在做的形态挑一个专门的视觉方向</td></tr>
           <tr><td>在跑长任务</td><td>把一次长运行推得更远——撞到上下文上限现在会带着最新的有用上下文继续，文件完整保留</td></tr>
           <tr><td>还停在旧版本</td><td>跑一次「检查更新…」——更新状态现在是明确的，升级后 PPTX 导出也能用了</td></tr>
           <tr><td>在用自己的密钥</td><td>重新测一遍你的 BYOK 服务商：报错会在配置阶段就出现，草稿也不会覆盖能用的配置</td></tr>
@@ -75,17 +75,17 @@ i18n:
 
       <h2>接下来做什么</h2>
       <p>一个值得信赖的版本，多半就是一个不再弄丢东西的版本。0.16.0 把预算花在了这里——一次真正落地的更新、一个留得住文件的长任务、一种匹配形态的风格、一个懂得让开的预览。下载桌面应用，重跑你手上最长的那个任务，看着它完整抵达。</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">下载 Open Design</a>。</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">下载 SankiWork</a>。</p>
       <p>五天 92 个 PR，来自 20 个人，每个人都把「结果做完」和「东西交到手上」之间的一道缝隙补上了一点。可靠是不显眼的活儿，却是让其他一切显得可信的那件活儿。我们看见你们了。🚀</p>
 
       <h2>延伸阅读</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1：看得更清，跑得更久</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0：更省成本，更快交付</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0：灵感时光机</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1：看得更清，跑得更久</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0：更省成本，更快交付</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0：灵感时光机</a></li>
       </ul>
   ja:
-    title: 'Open Design 0.16.0 — 確実に届く'
+    title: 'SankiWork 0.16.0 — 確実に届く'
     summary: 'open-design-v0.16.0 — 5 日間で 20 人のコントリビューターから 92 の PR。コードネームは「Reliable Delivery」。ビジュアルの方向性が実際に作っているものに追従し、自動アップデートがきちんと効き、長いタスクが答えと生成物を手放さず、プレビューが枠と争わなくなりました。アプリ内のメッセージセンターと、キャンバスを覆う最後の一点を片づけた 0.16.1 も。'
     category: 'プロダクト'
     bodyHtml: |
@@ -128,7 +128,7 @@ i18n:
         <li><strong>ギャラリーは実際に使われているものから</strong> — スライド、画像、動画などプロトタイプ以外のギャラリーは実使用のあるテンプレートを前に出し、空の項目やプレビューのないカードが上位を占めなくなりました。プロトタイプは編集部によるショーケースを保ち、各カテゴリのカタログも全て健在です。</li>
         <li><strong>デザインシステムの取り込みがより忠実に</strong> — リポジトリの取り込みが正しいフローを選び、分割されたトークンパッケージはレイアウト値を保ち、よくある YAML のリストや複数行の書式も作者が書いたメタデータを保ちます。</li>
         <li><strong>ローカルの安全境界が強く</strong> — 取り込んだプロジェクトは隠し資格情報を守り、プラグインの削除はそのプラグインのファイル内にとどまり、マーケットプレイスや保存済みサイトの内容はより慎重に扱われ、各会話は正しいプロジェクトに紐づいたままです。</li>
-        <li><strong>公開の前にプレビューを</strong> — Cloudflare Pages のデプロイが、画面と <code>od deploy --target … --json</code> の両方で Preview と Production を明示的なターゲットとして扱います。プレビューは本番ホスト名を置き換えず、自分の URL を返します。</li>
+        <li><strong>公開の前にプレビューを</strong> — Cloudflare Pages のデプロイが、画面と <code>sw deploy --target … --json</code> の両方で Preview と Production を明示的なターゲットとして扱います。プレビューは本番ホスト名を置き換えず、自分の URL を返します。</li>
         <li><strong>Kiro が MCP 設定のピッカーに参加</strong> — 別クライアントの形式を手作業で読み替えず、設定から正しい共有サーバーのスニペットをコピーできます。</li>
         <li><strong>名前を挙げておきたい静かな修正</strong> — MCP のフォローアップが最新のメッセージを受け取り、ACP の履歴が更新後に空行を増やさなくなり、古いプロセッサーの Windows 端末でも通常の更新経路で OpenCode を実行できます。</li>
       </ul>
@@ -142,7 +142,7 @@ i18n:
           <tr><th>あなたが……</th><th>ここから</th></tr>
         </thead>
         <tbody>
-          <tr><td>Open Design を初めて使う</td><td>デスクトップアプリを入れてプロジェクトを開始し、作っているフォーマット向けのビジュアル方向性を選ぶ</td></tr>
+          <tr><td>SankiWork を初めて使う</td><td>デスクトップアプリを入れてプロジェクトを開始し、作っているフォーマット向けのビジュアル方向性を選ぶ</td></tr>
           <tr><td>長いタスクを回している</td><td>長い実行をもう一歩先へ。コンテキストの上限に触れても最新の有用なコンテキストで続き、ファイルもそのまま</td></tr>
           <tr><td>古いビルドのまま</td><td>「アップデートを確認…」を実行。状態が明示され、アップグレード後は PPTX の書き出しも動く</td></tr>
           <tr><td>自分の鍵を使っている</td><td>BYOK のプロバイダーを再テスト。エラーは設定時に出て、下書きが動作中の設定を壊さない</td></tr>
@@ -152,17 +152,17 @@ i18n:
 
       <h2>次にすること</h2>
       <p>信頼できるリリースとは、たいてい物を失わなくなったリリースのことです。0.16.0 はそこに予算を使いました — 着地するアップデート、ファイルを保つ長いタスク、フォーマットに合うスタイル、邪魔をしないプレビュー。デスクトップアプリを入れて、手元でいちばん長いタスクを走らせ直し、丸ごと届くのを見てください。</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Open Design をダウンロード</a>。</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">SankiWork をダウンロード</a>。</p>
       <p>5 日間で 92 の PR。仕上がった成果と届いた成果のあいだにある隙間を、20 人がひとつずつ埋めました。信頼性は派手さのない仕事で、そして他のすべてを信じられるものにする仕事です。見ています。🚀</p>
 
       <h2>関連記事</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1 — より鮮明な視界、より長いフロー</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0 — コストを下げ、速く届ける</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0 — インスピレーションのタイムマシン</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1 — より鮮明な視界、より長いフロー</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0 — コストを下げ、速く届ける</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0 — インスピレーションのタイムマシン</a></li>
       </ul>
   ko:
-    title: 'Open Design 0.16.0: 확실한 전달'
+    title: 'SankiWork 0.16.0: 확실한 전달'
     summary: 'open-design-v0.16.0 — 5일 동안 20명의 기여자가 92개의 PR을 보냈습니다. 코드명 “Reliable Delivery”. 비주얼 방향이 실제로 만드는 것에 맞춰 따라오고, 자동 업데이트가 제대로 적용되며, 긴 작업이 결과와 함께 만들어진 파일까지 지키고, 미리보기가 프레임과 다투지 않습니다. 앱 안의 메시지 센터, 그리고 캔버스를 가리던 마지막 하나를 걷어낸 0.16.1까지.'
     category: '제품'
     bodyHtml: |
@@ -205,7 +205,7 @@ i18n:
         <li><strong>갤러리가 실제로 쓰이는 것부터 보여 줍니다</strong> — 슬라이드, 이미지, 영상 등 프로토타입이 아닌 갤러리는 실사용이 있는 템플릿을 앞세우고, 빈 항목과 미리보기 없는 카드가 상단을 차지하지 않습니다. 프로토타입은 편집 쇼케이스를 유지하고, 모든 카테고리의 전체 카탈로그도 그대로입니다.</li>
         <li><strong>디자인 시스템 가져오기가 더 충실해졌습니다</strong> — 저장소 가져오기가 알맞은 흐름을 고르고, 분리된 토큰 패키지가 레이아웃 값을 지키며, 흔한 YAML 목록과 여러 줄 형식이 작성자가 쓴 메타데이터를 보존합니다.</li>
         <li><strong>로컬 안전 경계가 더 튼튼해졌습니다</strong> — 가져온 프로젝트는 숨겨진 자격 증명을 지키고, 플러그인 삭제는 해당 플러그인 파일 안에서 끝나며, 마켓플레이스와 저장된 사이트 콘텐츠는 더 조심스럽게 다뤄지고, 각 대화는 올바른 프로젝트에 계속 붙어 있습니다.</li>
-        <li><strong>배포 전에 미리보기</strong> — Cloudflare Pages 배포가 화면과 <code>od deploy --target … --json</code> 양쪽에서 Preview와 Production을 명시적인 대상으로 다룹니다. 미리보기는 운영 호스트명을 대체하지 않고 자기 URL을 돌려줍니다.</li>
+        <li><strong>배포 전에 미리보기</strong> — Cloudflare Pages 배포가 화면과 <code>sw deploy --target … --json</code> 양쪽에서 Preview와 Production을 명시적인 대상으로 다룹니다. 미리보기는 운영 호스트명을 대체하지 않고 자기 URL을 돌려줍니다.</li>
         <li><strong>Kiro가 MCP 설정 선택기에 합류</strong> — 다른 클라이언트의 형식을 손으로 옮겨 적는 대신 설정에서 올바른 공유 서버 스니펫을 복사하세요.</li>
         <li><strong>짚고 갈 조용한 수정들</strong> — MCP 후속 요청이 최신 메시지를 받고, ACP 기록이 새로고침 후 빈 줄을 늘리지 않으며, 오래된 프로세서를 쓰는 Windows 기기도 일반 업데이트 경로로 OpenCode를 다시 실행할 수 있습니다.</li>
       </ul>
@@ -219,7 +219,7 @@ i18n:
           <tr><th>당신이……</th><th>여기서 시작하세요</th></tr>
         </thead>
         <tbody>
-          <tr><td>Open Design이 처음이라면</td><td>데스크톱 앱을 내려받아 프로젝트를 시작하고, 지금 만드는 포맷에 맞는 비주얼 방향을 고르세요</td></tr>
+          <tr><td>SankiWork이 처음이라면</td><td>데스크톱 앱을 내려받아 프로젝트를 시작하고, 지금 만드는 포맷에 맞는 비주얼 방향을 고르세요</td></tr>
           <tr><td>긴 작업을 돌리고 있다면</td><td>긴 실행을 한 걸음 더 밀어 보세요 — 컨텍스트 한계에 닿아도 최신의 유용한 컨텍스트로 이어지고 파일도 남습니다</td></tr>
           <tr><td>오래된 빌드를 쓰고 있다면</td><td>“업데이트 확인…”을 실행하세요 — 상태가 명확해졌고, 업그레이드 후 PPTX 내보내기도 동작합니다</td></tr>
           <tr><td>자기 키를 쓰고 있다면</td><td>BYOK 제공자를 다시 테스트하세요: 오류는 설정 단계에서 드러나고, 초안이 동작 중인 설정을 덮지 않습니다</td></tr>
@@ -229,17 +229,17 @@ i18n:
 
       <h2>다음에 할 일</h2>
       <p>믿을 수 있는 릴리스는 대개 무언가를 잃지 않게 된 릴리스입니다. 0.16.0은 예산을 바로 거기에 썼습니다 — 착지하는 업데이트, 파일을 지키는 긴 작업, 포맷에 맞는 스타일, 비켜서는 미리보기. 데스크톱 앱을 내려받아 가진 것 중 가장 긴 작업을 다시 돌리고, 그것이 온전히 도착하는지 보세요.</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Open Design 내려받기</a>.</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">SankiWork 내려받기</a>.</p>
       <p>5일 동안 92개의 PR, 완성된 결과와 전달된 결과 사이의 틈을 하나씩 메운 20명에게서. 안정성은 화려하지 않은 일이고, 나머지 모든 것을 믿을 수 있게 만드는 일입니다. 보고 있습니다. 🚀</p>
 
       <h2>함께 읽기</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1 — 더 또렷한 시야, 더 긴 몰입</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0 — 비용은 줄이고, 더 빠르게</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0 — 영감의 타임머신</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1 — 더 또렷한 시야, 더 긴 몰입</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0 — 비용은 줄이고, 더 빠르게</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0 — 영감의 타임머신</a></li>
       </ul>
   de:
-    title: 'Open Design 0.16.0: verlässliche Auslieferung'
+    title: 'SankiWork 0.16.0: verlässliche Auslieferung'
     summary: 'open-design-v0.16.0 — 92 PRs von 20 Mitwirkenden in fünf Tagen. Codename „Reliable Delivery“. Die visuelle Richtung folgt jetzt dem, was Sie tatsächlich bauen, automatische Updates greifen wirklich, lange Aufgaben behalten ihr Ergebnis samt Dateien, und Vorschauen kämpfen nicht mehr mit dem Rahmen. Dazu ein Nachrichtencenter in der App — und der 0.16.1-Patch, der das Letzte von der Canvas geräumt hat.'
     category: 'Produkt'
     bodyHtml: |
@@ -282,7 +282,7 @@ i18n:
         <li><strong>Galerien zeigen zuerst, was Menschen wirklich nutzen</strong> — Slides-, Bild-, Video- und andere Nicht-Prototyp-Galerien holen Vorlagen mit echter Nutzung nach vorne, während leere Einträge und Karten ohne Vorschau die Spitze nicht mehr verstopfen. Prototype behält sein kuratiertes Schaufenster, und jede Kategorie behält ihren vollständigen Katalog.</li>
         <li><strong>Design Systems werden originalgetreuer importiert</strong> — Repository-Importe wählen den richtigen Ablauf, aufgeteilte Token-Pakete behalten ihre Layoutwerte, und übliche YAML-Listen- und Mehrzeilenformate bewahren die Metadaten, die ihre Autoren geschrieben haben.</li>
         <li><strong>Stärkere lokale Sicherheitsgrenzen</strong> — importierte Projekte halten verborgene Zugangsdaten privat, das Entfernen eines Plugins bleibt in dessen eigenen Dateien, Marketplace- und gespeicherte Website-Inhalte werden vorsichtiger behandelt, und jede Konversation bleibt am richtigen Projekt hängen.</li>
-        <li><strong>Vorschau vor der Veröffentlichung</strong> — das Cloudflare-Pages-Deployment macht Preview und Production sowohl in der Oberfläche als auch in <code>od deploy --target … --json</code> zu expliziten Zielen, sodass eine Vorschau ihre eigene URL zurückgibt statt Ihren Live-Hostnamen zu ersetzen.</li>
+        <li><strong>Vorschau vor der Veröffentlichung</strong> — das Cloudflare-Pages-Deployment macht Preview und Production sowohl in der Oberfläche als auch in <code>sw deploy --target … --json</code> zu expliziten Zielen, sodass eine Vorschau ihre eigene URL zurückgibt statt Ihren Live-Hostnamen zu ersetzen.</li>
         <li><strong>Kiro kommt in die MCP-Auswahl</strong> — kopieren Sie das passende Shared-Server-Snippet aus den Einstellungen, statt das Format eines anderen Clients von Hand zu übersetzen.</li>
         <li><strong>Leise Korrekturen, die Erwähnung verdienen</strong> — MCP-Folgeanfragen erhalten die neueste Nachricht, ACP-Verläufe wachsen nach einem Refresh keine leeren Zeilen mehr, und Windows-Geräte mit älteren Prozessoren können OpenCode über den normalen Update-Pfad wieder ausführen.</li>
       </ul>
@@ -296,7 +296,7 @@ i18n:
           <tr><th>Wenn Sie …</th><th>Hier anfangen</th></tr>
         </thead>
         <tbody>
-          <tr><td>neu bei Open Design sind</td><td>Laden Sie die Desktop-App, starten Sie ein Projekt und wählen Sie eine visuelle Richtung, die zum Format passt, an dem Sie arbeiten</td></tr>
+          <tr><td>neu bei SankiWork sind</td><td>Laden Sie die Desktop-App, starten Sie ein Projekt und wählen Sie eine visuelle Richtung, die zum Format passt, an dem Sie arbeiten</td></tr>
           <tr><td>lange Aufgaben laufen lassen</td><td>Treiben Sie einen langen Lauf weiter — die Kontextgrenze zu erreichen läuft jetzt mit dem neuesten nützlichen Kontext weiter, Dateien intakt</td></tr>
           <tr><td>auf einem älteren Build sind</td><td>Führen Sie „Nach Updates suchen …“ aus — der Update-Zustand ist jetzt explizit, und der PPTX-Export funktioniert nach dem Upgrade</td></tr>
           <tr><td>eigene Schlüssel nutzen</td><td>Testen Sie Ihre BYOK-Anbieter erneut: Fehler zeigen sich beim Einrichten, Entwürfe überschreiben keine funktionierende Konfiguration</td></tr>
@@ -306,17 +306,17 @@ i18n:
 
       <h2>Was als Nächstes</h2>
       <p>Ein Release, dem man vertrauen kann, ist meist ein Release, das aufhört, Dinge zu verlieren. 0.16.0 gibt sein Budget genau dafür aus — ein Update, das landet, eine lange Aufgabe, die ihre Dateien behält, ein Stil, der zum Format passt, eine Vorschau, die aus dem Weg geht. Laden Sie die Desktop-App, starten Sie Ihre längste Aufgabe neu und sehen Sie zu, wie sie vollständig ankommt.</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Open Design herunterladen</a>.</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">SankiWork herunterladen</a>.</p>
       <p>92 PRs in fünf Tagen, von 20 Menschen, die jeweils eine weitere Lücke zwischen einem fertigen und einem ausgelieferten Ergebnis geschlossen haben. Verlässlichkeit ist unglamouröse Arbeit — und genau die Arbeit, die alles andere glaubwürdig macht. Wir sehen euch. 🚀</p>
 
       <h2>Weiterlesen</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1 — schärferer Blick, längerer Flow</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0 — weniger Kosten, schneller ausliefern</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0 — die Inspirations-Zeitmaschine</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1 — schärferer Blick, längerer Flow</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0 — weniger Kosten, schneller ausliefern</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0 — die Inspirations-Zeitmaschine</a></li>
       </ul>
   fr:
-    title: 'Open Design 0.16.0 : une livraison fiable'
+    title: 'SankiWork 0.16.0 : une livraison fiable'
     summary: 'open-design-v0.16.0 — 92 PR de 20 contributeurs en cinq jours. Nom de code « Reliable Delivery ». La direction visuelle suit désormais ce que vous fabriquez vraiment, les mises à jour automatiques prennent effet pour de bon, les longues tâches gardent leur résultat et les fichiers qui vont avec, et les aperçus cessent de se battre avec le cadre. Plus un centre de messages dans l''app — et le correctif 0.16.1 qui a dégagé la dernière chose posée sur votre canvas.'
     category: 'Produit'
     bodyHtml: |
@@ -359,7 +359,7 @@ i18n:
         <li><strong>Les galeries mettent en avant ce que les gens utilisent vraiment</strong> — les galeries Slides, image, vidéo et autres hors prototype font remonter les modèles réellement utilisés, tandis que les entrées vides et les cartes sans aperçu cessent d'encombrer le haut. Prototype conserve sa vitrine éditoriale, et chaque catégorie garde son catalogue complet.</li>
         <li><strong>Les design systems s'importent plus fidèlement</strong> — les imports de dépôt choisissent le bon flux, les paquets de tokens éclatés gardent leurs valeurs de mise en page, et les formats YAML de liste et multilignes courants préservent les métadonnées écrites par leurs auteurs.</li>
         <li><strong>Des frontières de sécurité locales renforcées</strong> — les projets importés gardent privés leurs identifiants cachés, la suppression d'un plugin reste dans les fichiers de ce plugin, les contenus de la marketplace et des sites enregistrés sont traités avec plus de soin, et chaque conversation reste rattachée au bon projet.</li>
-        <li><strong>Prévisualiser avant de publier</strong> — le déploiement Cloudflare Pages expose Preview et Production comme cibles explicites dans l'interface et dans <code>od deploy --target … --json</code>, si bien qu'un aperçu renvoie sa propre URL au lieu de remplacer votre nom d'hôte en production.</li>
+        <li><strong>Prévisualiser avant de publier</strong> — le déploiement Cloudflare Pages expose Preview et Production comme cibles explicites dans l'interface et dans <code>sw deploy --target … --json</code>, si bien qu'un aperçu renvoie sa propre URL au lieu de remplacer votre nom d'hôte en production.</li>
         <li><strong>Kiro rejoint le sélecteur de configuration MCP</strong> — copiez le bon extrait de serveur partagé depuis les Réglages au lieu de traduire à la main le format d'un autre client.</li>
         <li><strong>Des correctifs discrets qui méritent d'être cités</strong> — les relances MCP reçoivent le dernier message, les historiques ACP n'accumulent plus de lignes vides après un rafraîchissement, et les machines Windows à processeur plus ancien peuvent de nouveau exécuter OpenCode via le chemin de mise à jour normal.</li>
       </ul>
@@ -373,7 +373,7 @@ i18n:
           <tr><th>Si vous…</th><th>Commencez ici</th></tr>
         </thead>
         <tbody>
-          <tr><td>découvrez Open Design</td><td>Téléchargez l'app desktop, démarrez un projet et choisissez une direction visuelle faite pour le format sur lequel vous travaillez</td></tr>
+          <tr><td>découvrez SankiWork</td><td>Téléchargez l'app desktop, démarrez un projet et choisissez une direction visuelle faite pour le format sur lequel vous travaillez</td></tr>
           <tr><td>lancez de longues tâches</td><td>Poussez une longue exécution plus loin — atteindre le plafond de contexte continue désormais avec le contexte utile le plus récent, fichiers intacts</td></tr>
           <tr><td>êtes sur une build ancienne</td><td>Lancez « Rechercher les mises à jour… » — l'état est maintenant explicite, et l'export PPTX refonctionne après la mise à niveau</td></tr>
           <tr><td>utilisez vos propres clés</td><td>Retestez vos fournisseurs BYOK : les erreurs apparaissent à la configuration, les brouillons n'écrasent plus une config qui marche</td></tr>
@@ -383,17 +383,17 @@ i18n:
 
       <h2>Et maintenant</h2>
       <p>Une version en laquelle on peut avoir confiance est surtout une version qui arrête de perdre des choses. 0.16.0 dépense son budget exactement là — une mise à jour qui atterrit, une longue tâche qui garde ses fichiers, un style adapté au format, un aperçu qui s'écarte. Téléchargez l'app desktop, relancez la plus longue tâche que vous ayez, et regardez-la arriver entière.</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Télécharger Open Design</a>.</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Télécharger SankiWork</a>.</p>
       <p>92 PR en cinq jours, de la part de 20 personnes qui ont chacune comblé un écart de plus entre un résultat fini et un résultat livré. La fiabilité est un travail sans gloire, et c'est le travail qui rend tout le reste crédible. On vous voit. 🚀</p>
 
       <h2>À lire ensuite</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1 — vision plus nette, flow plus long</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0 — coûter moins, livrer plus vite</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0 — la machine à remonter l'inspiration</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1 — vision plus nette, flow plus long</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0 — coûter moins, livrer plus vite</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0 — la machine à remonter l'inspiration</a></li>
       </ul>
   ru:
-    title: 'Open Design 0.16.0: надёжная доставка'
+    title: 'SankiWork 0.16.0: надёжная доставка'
     summary: 'open-design-v0.16.0 — 92 PR от 20 участников за пять дней. Кодовое имя «Reliable Delivery». Визуальное направление теперь следует за тем, что вы действительно делаете, автообновления по-настоящему вступают в силу, длинные задачи сохраняют результат вместе с файлами, а превью перестаёт бороться с рамкой. Плюс центр сообщений внутри приложения — и патч 0.16.1, убравший последнее, что закрывало холст.'
     category: 'Продукт'
     bodyHtml: |
@@ -436,7 +436,7 @@ i18n:
         <li><strong>Галереи начинают с того, чем действительно пользуются</strong> — галереи слайдов, изображений, видео и другие непрототипные разделы поднимают наверх шаблоны с реальным использованием, а пустые записи и карточки без превью перестают забивать верх списка. У прототипов остаётся своя редакционная витрина, а полный каталог сохраняется в каждой категории.</li>
         <li><strong>Дизайн-системы импортируются точнее</strong> — импорт из репозитория выбирает правильный сценарий, разнесённые пакеты токенов сохраняют значения раскладки, а привычные форматы списков и многострочных значений в YAML сохраняют метаданные, которые написали авторы.</li>
         <li><strong>Более строгие локальные границы безопасности</strong> — импортированные проекты держат скрытые учётные данные при себе, удаление плагина не выходит за его собственные файлы, содержимое маркетплейса и сохранённых сайтов обрабатывается аккуратнее, а каждый разговор остаётся привязанным к нужному проекту.</li>
-        <li><strong>Превью перед публикацией</strong> — деплой в Cloudflare Pages выносит Preview и Production в явные цели и в интерфейсе, и в <code>od deploy --target … --json</code>, так что превью возвращает собственный URL, а не подменяет ваш боевой домен.</li>
+        <li><strong>Превью перед публикацией</strong> — деплой в Cloudflare Pages выносит Preview и Production в явные цели и в интерфейсе, и в <code>sw deploy --target … --json</code>, так что превью возвращает собственный URL, а не подменяет ваш боевой домен.</li>
         <li><strong>Kiro появился в выборе настройки MCP</strong> — скопируйте правильный фрагмент общего сервера из настроек вместо ручного перевода формата другого клиента.</li>
         <li><strong>Тихие исправления, которые стоит назвать</strong> — уточняющие запросы MCP получают последнее сообщение, история ACP перестала обрастать пустыми строками после обновления, а устройства Windows со старыми процессорами снова запускают OpenCode обычным путём обновления.</li>
       </ul>
@@ -450,7 +450,7 @@ i18n:
           <tr><th>Если вы…</th><th>Начните отсюда</th></tr>
         </thead>
         <tbody>
-          <tr><td>только знакомитесь с Open Design</td><td>Скачайте десктопное приложение, начните проект и выберите визуальное направление под тот формат, в котором работаете</td></tr>
+          <tr><td>только знакомитесь с SankiWork</td><td>Скачайте десктопное приложение, начните проект и выберите визуальное направление под тот формат, в котором работаете</td></tr>
           <tr><td>запускаете длинные задачи</td><td>Продвиньте длинный прогон дальше — упор в потолок контекста теперь продолжается со свежим полезным контекстом, файлы на месте</td></tr>
           <tr><td>сидите на старой сборке</td><td>Запустите «Проверить обновления…» — состояние теперь явное, а экспорт в PPTX после обновления работает</td></tr>
           <tr><td>используете свои ключи</td><td>Перепроверьте своих BYOK-провайдеров: ошибки всплывают на этапе настройки, а черновики не затирают рабочую конфигурацию</td></tr>
@@ -460,17 +460,17 @@ i18n:
 
       <h2>Что дальше</h2>
       <p>Релиз, которому можно доверять, — это в основном релиз, который перестал терять вещи. 0.16.0 тратит бюджет именно здесь: обновление, которое доезжает, длинная задача, которая держит файлы, стиль, подходящий формату, превью, которое уходит с дороги. Скачайте десктопное приложение, перезапустите самую длинную свою задачу и посмотрите, как она доходит целиком.</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Скачать Open Design</a>.</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Скачать SankiWork</a>.</p>
       <p>92 PR за пять дней от 20 человек, каждый из которых закрыл ещё один разрыв между готовым результатом и доставленным. Надёжность — работа без блеска, и именно она делает всё остальное убедительным. Мы вас видим. 🚀</p>
 
       <h2>Что почитать дальше</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1 — чётче взгляд, длиннее поток</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0 — дешевле и быстрее</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0 — машина времени для вдохновения</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1 — чётче взгляд, длиннее поток</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0 — дешевле и быстрее</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0 — машина времени для вдохновения</a></li>
       </ul>
   es:
-    title: 'Open Design 0.16.0: entrega fiable'
+    title: 'SankiWork 0.16.0: entrega fiable'
     summary: 'open-design-v0.16.0 — 92 PR de 20 personas en cinco días. Nombre en clave «Reliable Delivery». La dirección visual ahora sigue a lo que estás haciendo de verdad, las actualizaciones automáticas surten efecto, las tareas largas conservan su resultado y los archivos que lo acompañan, y las vistas previas dejan de pelearse con el marco. Además, un centro de mensajes dentro de la app y el parche 0.16.1 que despejó lo último que tapaba el lienzo.'
     category: 'Producto'
     bodyHtml: |
@@ -513,7 +513,7 @@ i18n:
         <li><strong>Las galerías empiezan por lo que la gente usa de verdad</strong>: las galerías de Slides, imagen, vídeo y otras que no son de prototipo destacan las plantillas con uso real, mientras que las entradas en blanco y las tarjetas sin vista previa dejan de ocupar la cabecera. Prototype conserva su escaparate editorial y cada categoría mantiene su catálogo completo.</li>
         <li><strong>Los design systems se importan con más fidelidad</strong>: las importaciones de repositorio eligen el flujo correcto, los paquetes de tokens divididos conservan sus valores de maquetación y los formatos habituales de listas y valores multilínea en YAML preservan los metadatos que escribieron sus autores.</li>
         <li><strong>Fronteras de seguridad locales más firmes</strong>: los proyectos importados mantienen privadas las credenciales ocultas, eliminar un plugin se queda dentro de los archivos de ese plugin, el contenido del marketplace y de los sitios guardados se maneja con más cuidado y cada conversación sigue ligada al proyecto correcto.</li>
-        <li><strong>Previsualiza antes de publicar</strong>: el despliegue en Cloudflare Pages expone Preview y Production como destinos explícitos en la interfaz y en <code>od deploy --target … --json</code>, de modo que una vista previa devuelve su propia URL en lugar de sustituir tu dominio en producción.</li>
+        <li><strong>Previsualiza antes de publicar</strong>: el despliegue en Cloudflare Pages expone Preview y Production como destinos explícitos en la interfaz y en <code>sw deploy --target … --json</code>, de modo que una vista previa devuelve su propia URL en lugar de sustituir tu dominio en producción.</li>
         <li><strong>Kiro entra en el selector de configuración MCP</strong>: copia el fragmento correcto de servidor compartido desde Ajustes en vez de traducir a mano el formato de otro cliente.</li>
         <li><strong>Correcciones discretas que merecen mención</strong>: los seguimientos de MCP reciben el último mensaje, los historiales ACP dejan de acumular filas vacías tras refrescar y los equipos Windows con procesadores antiguos vuelven a ejecutar OpenCode por la ruta normal de actualización.</li>
       </ul>
@@ -527,7 +527,7 @@ i18n:
           <tr><th>Si eres…</th><th>Empieza aquí</th></tr>
         </thead>
         <tbody>
-          <tr><td>nuevo en Open Design</td><td>Descarga la app de escritorio, empieza un proyecto y elige una dirección visual pensada para el formato en el que trabajas</td></tr>
+          <tr><td>nuevo en SankiWork</td><td>Descarga la app de escritorio, empieza un proyecto y elige una dirección visual pensada para el formato en el que trabajas</td></tr>
           <tr><td>de tareas largas</td><td>Lleva una ejecución larga más lejos: llegar al techo de contexto ahora continúa con el contexto útil más reciente, con los archivos intactos</td></tr>
           <tr><td>usuario de una build antigua</td><td>Ejecuta «Buscar actualizaciones…»: el estado ahora es explícito y la exportación a PPTX funciona tras actualizar</td></tr>
           <tr><td>de los que usan sus propias claves</td><td>Vuelve a probar tus proveedores BYOK: los errores aparecen al configurar y los borradores no pisan una configuración que funciona</td></tr>
@@ -537,17 +537,17 @@ i18n:
 
       <h2>Qué hacer ahora</h2>
       <p>Una versión en la que confiar es, sobre todo, una versión que deja de perder cosas. 0.16.0 gasta ahí su presupuesto: una actualización que aterriza, una tarea larga que conserva sus archivos, un estilo acorde al formato y una vista previa que se aparta. Descarga la app de escritorio, vuelve a lanzar la tarea más larga que tengas y mírala llegar entera.</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Descargar Open Design</a>.</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Descargar SankiWork</a>.</p>
       <p>92 PR en cinco días, de 20 personas que cerraron cada una un hueco más entre un resultado terminado y uno entregado. La fiabilidad es un trabajo poco vistoso, y es el trabajo que hace creíble todo lo demás. Os vemos. 🚀</p>
 
       <h2>Lecturas relacionadas</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1 — visión más nítida, flow más largo</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0 — cuesta menos, entrega antes</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0 — la máquina del tiempo de la inspiración</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1 — visión más nítida, flow más largo</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0 — cuesta menos, entrega antes</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0 — la máquina del tiempo de la inspiración</a></li>
       </ul>
   pt-br:
-    title: 'Open Design 0.16.0: entrega confiável'
+    title: 'SankiWork 0.16.0: entrega confiável'
     summary: 'open-design-v0.16.0 — 92 PRs de 20 pessoas em cinco dias. Codinome “Reliable Delivery”. A direção visual agora acompanha o que você está realmente criando, as atualizações automáticas passam a valer de fato, tarefas longas guardam o resultado e os arquivos que vieram com ele, e as prévias param de brigar com a moldura. Além de uma central de mensagens dentro do app — e o patch 0.16.1, que tirou a última coisa em cima do canvas.'
     category: 'Produto'
     bodyHtml: |
@@ -590,7 +590,7 @@ i18n:
         <li><strong>As galerias começam pelo que as pessoas realmente usam</strong> — as galerias de slides, imagem, vídeo e outras que não são de protótipo destacam modelos com uso real, enquanto entradas em branco e cards sem prévia deixam de ocupar o topo. Protótipo mantém sua vitrine editorial e cada categoria mantém o catálogo completo.</li>
         <li><strong>Design systems são importados com mais fidelidade</strong> — importações de repositório escolhem o fluxo certo, pacotes de tokens divididos preservam seus valores de layout, e os formatos comuns de lista e multilinha em YAML preservam os metadados que os autores escreveram.</li>
         <li><strong>Fronteiras locais de segurança mais firmes</strong> — projetos importados mantêm credenciais ocultas em sigilo, remover um plugin fica dentro dos arquivos daquele plugin, conteúdos do marketplace e de sites salvos são tratados com mais cuidado, e cada conversa continua ligada ao projeto certo.</li>
-        <li><strong>Prévia antes de publicar</strong> — o deploy no Cloudflare Pages expõe Preview e Production como destinos explícitos na interface e em <code>od deploy --target … --json</code>, então uma prévia devolve a própria URL em vez de substituir seu domínio em produção.</li>
+        <li><strong>Prévia antes de publicar</strong> — o deploy no Cloudflare Pages expõe Preview e Production como destinos explícitos na interface e em <code>sw deploy --target … --json</code>, então uma prévia devolve a própria URL em vez de substituir seu domínio em produção.</li>
         <li><strong>Kiro entra no seletor de configuração MCP</strong> — copie o trecho certo de servidor compartilhado nas Configurações em vez de traduzir o formato de outro cliente na mão.</li>
         <li><strong>Correções silenciosas que merecem menção</strong> — follow-ups de MCP recebem a mensagem mais recente, históricos ACP param de criar linhas vazias após atualizar, e máquinas Windows com processadores mais antigos voltam a rodar o OpenCode pelo caminho normal de atualização.</li>
       </ul>
@@ -604,7 +604,7 @@ i18n:
           <tr><th>Se você…</th><th>Comece por aqui</th></tr>
         </thead>
         <tbody>
-          <tr><td>é novo no Open Design</td><td>Baixe o app de desktop, comece um projeto e escolha uma direção visual feita para o formato em que está trabalhando</td></tr>
+          <tr><td>é novo no SankiWork</td><td>Baixe o app de desktop, comece um projeto e escolha uma direção visual feita para o formato em que está trabalhando</td></tr>
           <tr><td>roda tarefas longas</td><td>Leve uma execução longa mais adiante — bater no teto de contexto agora segue com o contexto útil mais recente, com os arquivos intactos</td></tr>
           <tr><td>está numa build antiga</td><td>Rode “Verificar atualizações…” — o estado agora é explícito e a exportação para PPTX funciona depois de atualizar</td></tr>
           <tr><td>usa as próprias chaves</td><td>Teste de novo seus provedores BYOK: os erros aparecem na configuração e rascunhos não atropelam uma config que funciona</td></tr>
@@ -614,17 +614,17 @@ i18n:
 
       <h2>O que fazer em seguida</h2>
       <p>Uma versão em que dá para confiar é, na maior parte, uma versão que parou de perder coisas. O 0.16.0 gasta o orçamento aí — uma atualização que aterrissa, uma tarefa longa que guarda os arquivos, um estilo que combina com o formato, uma prévia que sai da frente. Baixe o app de desktop, rode de novo a tarefa mais longa que você tem e veja-a chegar inteira.</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Baixar o Open Design</a>.</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Baixar o SankiWork</a>.</p>
       <p>92 PRs em cinco dias, de 20 pessoas que fecharam cada uma mais uma fresta entre um resultado pronto e um resultado entregue. Confiabilidade é um trabalho sem glamour, e é o trabalho que torna todo o resto crível. A gente vê vocês. 🚀</p>
 
       <h2>Leitura relacionada</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1 — visão mais nítida, flow mais longo</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0 — custe menos, entregue mais rápido</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0 — a máquina do tempo da inspiração</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1 — visão mais nítida, flow mais longo</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0 — custe menos, entregue mais rápido</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0 — a máquina do tempo da inspiração</a></li>
       </ul>
   it:
-    title: 'Open Design 0.16.0: consegna affidabile'
+    title: 'SankiWork 0.16.0: consegna affidabile'
     summary: 'open-design-v0.16.0 — 92 PR da 20 contributori in cinque giorni. Nome in codice «Reliable Delivery». La direzione visiva ora segue ciò che stai davvero costruendo, gli aggiornamenti automatici hanno davvero effetto, le attività lunghe conservano il risultato e i file che lo accompagnano, e le anteprime smettono di litigare con la cornice. In più un centro messaggi dentro l''app e la patch 0.16.1, che ha liberato l''ultima cosa rimasta sopra la canvas.'
     category: 'Prodotto'
     bodyHtml: |
@@ -667,7 +667,7 @@ i18n:
         <li><strong>Le gallerie partono da ciò che le persone usano davvero</strong> — le gallerie di slide, immagini, video e le altre non-prototipo mettono in cima i template con uso reale, mentre le voci vuote e le schede senza anteprima smettono di affollare la testa dell'elenco. Prototype conserva la sua vetrina editoriale e ogni categoria mantiene il catalogo completo.</li>
         <li><strong>I design system si importano in modo più fedele</strong> — le importazioni da repository scelgono il flusso giusto, i pacchetti di token suddivisi mantengono i valori di layout e i formati YAML più comuni per liste e valori multilinea preservano i metadati scritti dagli autori.</li>
         <li><strong>Confini di sicurezza locali più solidi</strong> — i progetti importati tengono private le credenziali nascoste, la rimozione di un plugin resta all'interno dei file di quel plugin, i contenuti del marketplace e dei siti salvati sono trattati con più cautela, e ogni conversazione resta agganciata al progetto corretto.</li>
-        <li><strong>Anteprima prima di pubblicare</strong> — il deploy su Cloudflare Pages espone Preview e Production come target espliciti sia nell'interfaccia sia in <code>od deploy --target … --json</code>, così un'anteprima restituisce il proprio URL invece di sostituire il tuo hostname di produzione.</li>
+        <li><strong>Anteprima prima di pubblicare</strong> — il deploy su Cloudflare Pages espone Preview e Production come target espliciti sia nell'interfaccia sia in <code>sw deploy --target … --json</code>, così un'anteprima restituisce il proprio URL invece di sostituire il tuo hostname di produzione.</li>
         <li><strong>Kiro entra nel selettore di configurazione MCP</strong> — copia lo snippet corretto del server condiviso dalle Impostazioni invece di tradurre a mano il formato di un altro client.</li>
         <li><strong>Correzioni silenziose che vale la pena citare</strong> — i follow-up MCP ricevono il messaggio più recente, le cronologie ACP non generano più righe vuote dopo un refresh, e i dispositivi Windows con processori più vecchi possono di nuovo eseguire OpenCode tramite il normale percorso di aggiornamento.</li>
       </ul>
@@ -681,7 +681,7 @@ i18n:
           <tr><th>Se sei…</th><th>Parti da qui</th></tr>
         </thead>
         <tbody>
-          <tr><td>nuovo su Open Design</td><td>Scarica l'app desktop, avvia un progetto e scegli una direzione visiva pensata per il formato su cui stai lavorando</td></tr>
+          <tr><td>nuovo su SankiWork</td><td>Scarica l'app desktop, avvia un progetto e scegli una direzione visiva pensata per il formato su cui stai lavorando</td></tr>
           <tr><td>uno che lancia attività lunghe</td><td>Spingi più in là un'esecuzione lunga: toccare il tetto del contesto ora prosegue con il contesto utile più recente, file intatti</td></tr>
           <tr><td>fermo a una build vecchia</td><td>Lancia «Verifica aggiornamenti…»: lo stato ora è esplicito e l'esportazione PPTX funziona dopo l'upgrade</td></tr>
           <tr><td>uno che usa le proprie chiavi</td><td>Ritesta i tuoi provider BYOK: gli errori emergono in configurazione e le bozze non travolgono una config funzionante</td></tr>
@@ -691,17 +691,17 @@ i18n:
 
       <h2>Cosa fare ora</h2>
       <p>Una release di cui fidarsi è soprattutto una release che smette di perdere pezzi. 0.16.0 spende lì il suo budget: un aggiornamento che atterra, un'attività lunga che conserva i file, uno stile che corrisponde al formato, un'anteprima che si toglie di mezzo. Scarica l'app desktop, rilancia l'attività più lunga che hai e guardala arrivare intera.</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Scarica Open Design</a>.</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Scarica SankiWork</a>.</p>
       <p>92 PR in cinque giorni, da 20 persone che hanno chiuso ciascuna un altro varco tra un risultato finito e uno consegnato. L'affidabilità è un lavoro poco appariscente, ed è il lavoro che rende credibile tutto il resto. Vi vediamo. 🚀</p>
 
       <h2>Letture correlate</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1 — sguardo più nitido, flow più lungo</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0 — costa meno, consegna prima</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0 — la macchina del tempo dell'ispirazione</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1 — sguardo più nitido, flow più lungo</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0 — costa meno, consegna prima</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0 — la macchina del tempo dell'ispirazione</a></li>
       </ul>
   tr:
-    title: 'Open Design 0.16.0: güvenilir teslimat'
+    title: 'SankiWork 0.16.0: güvenilir teslimat'
     summary: 'open-design-v0.16.0 — beş günde 20 katkıcıdan 92 PR. Kod adı “Reliable Delivery”. Görsel yön artık gerçekten ürettiğiniz şeyi izliyor, otomatik güncellemeler gerçekten devreye giriyor, uzun görevler sonucu ve yanındaki dosyaları koruyor, önizlemeler çerçeveyle boğuşmayı bırakıyor. Ayrıca uygulama içinde bir mesaj merkezi ve tuvalin üzerindeki son şeyi kaldıran 0.16.1 yaması.'
     category: 'Ürün'
     bodyHtml: |
@@ -744,7 +744,7 @@ i18n:
         <li><strong>Galeriler gerçekten kullanılan şeylerle başlıyor</strong> — slayt, görsel, video ve prototip dışı diğer galeriler gerçek kullanımı olan şablonları öne çıkarıyor; boş kayıtlar ve önizlemesiz kartlar üst sıraları tıkamıyor. Prototip kendi editoryal vitrinini koruyor, her kategori de tam kataloğunu.</li>
         <li><strong>Tasarım sistemleri daha sadık içe aktarılıyor</strong> — depo içe aktarmaları doğru akışı seçiyor, bölünmüş token paketleri yerleşim değerlerini koruyor, yaygın YAML liste ve çok satırlı biçimleri yazarlarının girdiği meta verileri saklıyor.</li>
         <li><strong>Daha güçlü yerel güvenlik sınırları</strong> — içe aktarılan projeler gizli kimlik bilgilerini saklı tutuyor, bir eklentiyi kaldırmak o eklentinin dosyalarıyla sınırlı kalıyor, pazar yeri ve kayıtlı site içerikleri daha dikkatli işleniyor, her konuşma doğru projeye bağlı kalıyor.</li>
-        <li><strong>Yayınlamadan önce önizleyin</strong> — Cloudflare Pages dağıtımı, hem arayüzde hem <code>od deploy --target … --json</code> içinde Preview ve Production'ı açık hedefler olarak sunuyor; önizleme canlı alan adınızın yerine geçmek yerine kendi URL'sini döndürüyor.</li>
+        <li><strong>Yayınlamadan önce önizleyin</strong> — Cloudflare Pages dağıtımı, hem arayüzde hem <code>sw deploy --target … --json</code> içinde Preview ve Production'ı açık hedefler olarak sunuyor; önizleme canlı alan adınızın yerine geçmek yerine kendi URL'sini döndürüyor.</li>
         <li><strong>Kiro, MCP kurulum seçicisine katıldı</strong> — başka bir istemcinin biçimini elle çevirmek yerine doğru paylaşılan sunucu parçacığını Ayarlar'dan kopyalayın.</li>
         <li><strong>Adı anılmayı hak eden sessiz düzeltmeler</strong> — MCP takip istekleri en son mesajı alıyor, ACP geçmişleri yenilemeden sonra boş satır üretmiyor ve eski işlemcili Windows cihazlar OpenCode'u normal güncelleme yolundan yeniden çalıştırabiliyor.</li>
       </ul>
@@ -758,7 +758,7 @@ i18n:
           <tr><th>Eğer…</th><th>Buradan başlayın</th></tr>
         </thead>
         <tbody>
-          <tr><td>Open Design'a yeniyseniz</td><td>Masaüstü uygulamasını indirin, bir proje başlatın ve çalıştığınız biçime uygun bir görsel yön seçin</td></tr>
+          <tr><td>SankiWork'a yeniyseniz</td><td>Masaüstü uygulamasını indirin, bir proje başlatın ve çalıştığınız biçime uygun bir görsel yön seçin</td></tr>
           <tr><td>Uzun görevler koşuyorsanız</td><td>Uzun bir koşuyu daha ileri götürün — bağlam tavanına çarpmak artık en güncel yararlı bağlamla, dosyalar yerinde devam ediyor</td></tr>
           <tr><td>Eski bir yapıdaysanız</td><td>“Güncellemeleri Denetle…”yi çalıştırın — durum artık açık ve yükseltmeden sonra PPTX dışa aktarma çalışıyor</td></tr>
           <tr><td>Kendi anahtarlarınızı kullanıyorsanız</td><td>BYOK sağlayıcılarınızı yeniden test edin: hatalar kurulumda ortaya çıkıyor, taslaklar çalışan yapılandırmayı ezmiyor</td></tr>
@@ -768,14 +768,14 @@ i18n:
 
       <h2>Sırada ne var</h2>
       <p>Güvenebileceğiniz bir sürüm, çoğunlukla bir şeyleri kaybetmeyi bırakmış bir sürümdür. 0.16.0 bütçesini tam oraya harcıyor: yere inen bir güncelleme, dosyalarını koruyan uzun bir görev, biçimle örtüşen bir stil, yoldan çekilen bir önizleme. Masaüstü uygulamasını indirin, elinizdeki en uzun görevi yeniden çalıştırın ve eksiksiz vardığını görün.</p>
-      <p><a href="https://releases.open-design.ai/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">Open Design'ı indir</a>.</p>
+      <p><a href="https://releases.sanki-ai.cloud/?utm_source=blog&amp;utm_medium=docs&amp;utm_campaign=202607_0_16_0&amp;utm_content=official">SankiWork'ı indir</a>.</p>
       <p>Beş günde 92 PR; biten bir sonuçla teslim edilmiş bir sonuç arasındaki boşluğu birer birer kapatan 20 kişiden. Güvenilirlik gösterişsiz bir iştir ve geri kalan her şeyi inandırıcı kılan iştir. Sizi görüyoruz. 🚀</p>
 
       <h2>İlgili okumalar</h2>
       <ul>
-        <li><a href="/blog/open-design-0-15-1/">Open Design 0.15.1 — daha keskin görüş, daha uzun akış</a></li>
-        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">Open Design 0.15.0 — daha az maliyet, daha hızlı teslim</a></li>
-        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">Open Design 0.14.0 — ilham zaman makinesi</a></li>
+        <li><a href="/blog/open-design-0-15-1/">SankiWork 0.15.1 — daha keskin görüş, daha uzun akış</a></li>
+        <li><a href="/blog/open-design-0-15-0-cost-less-ship-faster/">SankiWork 0.15.0 — daha az maliyet, daha hızlı teslim</a></li>
+        <li><a href="/blog/open-design-0-14-0-inspiration-time-machine/">SankiWork 0.14.0 — ilham zaman makinesi</a></li>
       </ul>
 ---
 
@@ -832,7 +832,7 @@ Image generation got steadier too: **Nano Banana and custom image generation ret
 - **Galleries lead with what people actually use** — Slides, image, video and other non-prototype galleries surface templates with real usage, while blank entries and preview-less cards stop crowding the top. Prototype keeps its editorial showcase, and every category keeps its full catalog.
 - **Design systems import more faithfully** — repository imports pick the right flow, split token packages keep their layout values, and common YAML list and multiline formats preserve the metadata their authors wrote.
 - **Stronger local safety boundaries** — imported projects keep hidden credentials private, removing a plugin stays inside that plugin's files, marketplace and saved-site content are handled more carefully, and each conversation stays attached to the correct project.
-- **Preview before you publish** — Cloudflare Pages deployment now exposes Preview and Production as explicit targets in the interface and in `od deploy --target … --json`, so a preview returns its own URL instead of replacing your live hostname.
+- **Preview before you publish** — Cloudflare Pages deployment now exposes Preview and Production as explicit targets in the interface and in `sw deploy --target … --json`, so a preview returns its own URL instead of replacing your live hostname.
 - **Kiro joins the MCP setup picker** — copy the correct shared-server snippet from Settings instead of hand-translating another client's format.
 - **Quieter fixes worth naming** — MCP follow-ups receive the latest message, ACP histories stop growing blank rows after a refresh, and Windows devices with older processors can run OpenCode again through the normal update path.
 
@@ -844,7 +844,7 @@ The next day, [0.16.1](https://github.com/nexu-io/open-design/releases/tag/open-
 
 | If you're… | Start here |
 |---|---|
-| New to Open Design | Download the desktop app, start a project, and pick a visual direction made for the format you're working in |
+| New to SankiWork | Download the desktop app, start a project, and pick a visual direction made for the format you're working in |
 | Running long tasks | Push a long run further — hitting the context ceiling now continues with the newest useful context, files intact |
 | On an older build | Run "Check for Updates…" — the update state is now explicit, and PPTX export works after upgrading |
 | Using your own keys | Re-test your BYOK providers: errors surface at setup, drafts no longer clobber a working config |
@@ -854,12 +854,12 @@ The next day, [0.16.1](https://github.com/nexu-io/open-design/releases/tag/open-
 
 A release you can trust is mostly a release that stops losing things. 0.16.0 spends its budget there — an update that lands, a long task that keeps its files, a style that matches the format, a preview that gets out of the way. Download the desktop app, rerun the longest task you've got, and see it arrive whole.
 
-[Download Open Design](https://releases.open-design.ai/?utm_source=blog&utm_medium=docs&utm_campaign=202607_0_16_0&utm_content=official).
+[Download SankiWork](https://releases.sanki-ai.cloud/?utm_source=blog&utm_medium=docs&utm_campaign=202607_0_16_0&utm_content=official).
 
 92 PRs in five days, from 20 people who each closed one more gap between a finished result and a delivered one. Reliability is unglamorous work, and it is the work that makes everything else believable. We see you. 🚀
 
 ## Related reading
 
-- [Open Design 0.15.1: sharper vision, longer flow](/blog/open-design-0-15-1/)
-- [Open Design 0.15.0: cost less, ship faster](/blog/open-design-0-15-0-cost-less-ship-faster/)
-- [Open Design 0.14.0: the inspiration time machine](/blog/open-design-0-14-0-inspiration-time-machine/)
+- [SankiWork 0.15.1: sharper vision, longer flow](/blog/open-design-0-15-1/)
+- [SankiWork 0.15.0: cost less, ship faster](/blog/open-design-0-15-0-cost-less-ship-faster/)
+- [SankiWork 0.14.0: the inspiration time machine](/blog/open-design-0-14-0-inspiration-time-machine/)

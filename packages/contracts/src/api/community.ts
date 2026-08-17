@@ -1,4 +1,4 @@
-export interface OpenDesignDiscordPresenceResponse {
+export interface SankiWorkDiscordPresenceResponse {
   inviteCode: string;
   inviteUrl: string;
   onlineCount: number;

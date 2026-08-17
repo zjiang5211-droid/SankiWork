@@ -3,7 +3,7 @@ import type { Express } from 'express';
 import type {
   MediaExecutionPolicy,
   MediaGenerationResultProps,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { AnalyticsContext } from '../analytics.js';
 import { defaultMediaExecutionPolicy, mediaPolicyDenial } from '../media/policy.js';
 import { formatMediaTaskDiagnostic } from '../media/diagnostics.js';
@@ -142,7 +142,7 @@ export function registerMediaRoutes(app: Express, ctx: RegisterMediaRoutesDeps) 
       : null;
     if (runContext) return runContext;
 
-    // Standalone `od media generate` requests do not carry browser analytics
+    // Standalone `sw media generate` requests do not carry browser analytics
     // headers or a parent run. Match the updater's daemon-internal identity
     // fallback, but only after explicit metrics consent; capture() re-checks
     // the same consent before sending.
@@ -651,7 +651,7 @@ export function registerMediaRoutes(app: Express, ctx: RegisterMediaRoutesDeps) 
       if (existing.length !== recents.length) {
         await writeAppConfig(RUNTIME_DATA_DIR, { recentLinkedDirs: existing });
       }
-      /** @type {import('@open-design/contracts').RecentLinkedDirsResponse} */
+      /** @type {import('@sankiwork/contracts').RecentLinkedDirsResponse} */
       const body = { dirs: existing };
       res.json(body);
     } catch (err: any) {

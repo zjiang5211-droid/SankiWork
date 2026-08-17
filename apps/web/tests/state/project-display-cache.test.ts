@@ -1,4 +1,4 @@
-import { buildWorkspacePermissions, type WorkspaceCollabContext } from '@open-design/contracts';
+import { buildWorkspacePermissions, type WorkspaceCollabContext } from '@sankiwork/contracts';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import {

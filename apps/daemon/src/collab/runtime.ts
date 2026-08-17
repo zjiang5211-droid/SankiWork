@@ -4,7 +4,7 @@
 // holds only C's trigger + presence, talking to the hub through
 // ResourcePublishAdapter.
 
-import type { ProjectSyncState } from '@open-design/contracts';
+import type { ProjectSyncState } from '@sankiwork/contracts';
 import { projectResourceIdFor } from '../integrations/vela-team-projects.js';
 import {
   CollabPresenceTracker,

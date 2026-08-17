@@ -1,5 +1,5 @@
 export const RELEASE_METADATA_URL = '/release-metadata';
-export const RELEASE_METADATA_UPSTREAM_URL = 'https://releases.open-design.ai/stable/latest/metadata.json';
+export const RELEASE_METADATA_UPSTREAM_URL = 'https://releases.sanki-ai.cloud/stable/latest/metadata.json';
 
 export function formatStableReleaseVersion(metadata: unknown): string | null {
   if (!metadata || typeof metadata !== 'object') return null;
@@ -18,7 +18,7 @@ export function formatStableReleaseVersion(metadata: unknown): string | null {
 
   const fromTag = (tag: unknown) => {
     if (typeof tag !== 'string') return null;
-    const cleaned = tag.replace(/^open-design[-_]?v?/i, '').trim();
+    const cleaned = tag.replace(/^sankiwork[-_]?v?/i, '').trim();
     return cleaned ? `v${cleaned.replace(/^v/, '')}` : null;
   };
 

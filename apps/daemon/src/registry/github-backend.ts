@@ -1,9 +1,9 @@
-import type { MarketplaceManifest } from '@open-design/contracts';
+import type { MarketplaceManifest } from '@sankiwork/contracts';
 import type {
   RegistryPublishOutcome,
   RegistryPublishRequest,
   RegistryYankOutcome,
-} from '@open-design/registry-protocol';
+} from '@sankiwork/registry-protocol';
 import { StaticRegistryBackend } from './static-backend.js';
 
 export interface GithubRegistryClient {

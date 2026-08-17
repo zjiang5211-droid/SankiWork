@@ -9,7 +9,7 @@
 // (when `onSelect` is wired) lets the host open a detail view —
 // ChatComposer uses this to surface details modals for plugin and skill chips.
 
-import type { ContextItem, ContextItemKind } from '@open-design/contracts';
+import type { ContextItem, ContextItemKind } from '@sankiwork/contracts';
 import { Icon } from './Icon';
 
 interface Props {

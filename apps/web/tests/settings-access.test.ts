@@ -5,7 +5,7 @@ import {
   type CollabMemberRole,
   type WorkspaceCollabContext,
   type WorkspaceLifecycleState,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   canShowWorkspaceSettings,
   isWorkspaceSettingsEntryWriteAction,

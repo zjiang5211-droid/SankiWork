@@ -12,7 +12,7 @@ import type {
   ProjectFile,
   ProjectFilesResponse,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { parseProvenance } from '../lib/parse-provenance';
 import { listConversations } from '../state/projects';
 import {

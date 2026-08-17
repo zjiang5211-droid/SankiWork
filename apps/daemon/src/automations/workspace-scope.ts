@@ -1,7 +1,7 @@
 import type {
   WorkspaceCollabContext,
   WorkspaceDirectoryItem,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { WorkspaceDirectoryFetchResult } from '../collab/vela-workspace-context.js';
 import { workspaceContextFromDirectoryItem } from '../collab/vela-workspace-context.js';
 

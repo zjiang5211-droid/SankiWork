@@ -69,7 +69,7 @@ async function seedProjectWithAssistantFileLink(
   });
   expect(fileResponse.ok(), `seed index.html: ${await fileResponse.text()}`).toBeTruthy();
 
-  const localAbsoluteHref = `/Users/mac/open-design/open-design-preview-0.10.0/projects/File%20Link%20Routing/index.html`;
+  const localAbsoluteHref = `/Users/mac/sankiwork/sankiwork-preview-0.10.0/projects/File%20Link%20Routing/index.html`;
   const assistantText = `已完成单文件原型：[index.html](${localAbsoluteHref})。`;
   const assistantResponse = await page.request.put(
     `/api/projects/${projectId}/conversations/${conversationId}/messages/a-${projectId}`,
@@ -89,7 +89,7 @@ async function seedProjectWithAssistantFileLink(
 }
 
 async function waitForWorkspaceReady(page: Page) {
-  await page.getByText('Loading Open Design…').waitFor({ state: 'hidden', timeout: T.medium }).catch(() => {});
+  await page.getByText('Loading SankiWork…').waitFor({ state: 'hidden', timeout: T.medium }).catch(() => {});
   await expect(page.getByTestId('chat-composer')).toBeVisible({ timeout: T.medium });
   await expect(page.getByTestId('file-workspace')).toBeVisible({ timeout: T.medium });
 }

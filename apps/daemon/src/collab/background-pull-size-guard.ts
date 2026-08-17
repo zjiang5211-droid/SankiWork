@@ -28,11 +28,11 @@ import type { AuthorizedTeamProjectPullInspection } from './authorized-team-proj
 
 export const DEFAULT_BACKGROUND_PULL_MAX_ENTRIES = 2000;
 export const BACKGROUND_PULL_MAX_ENTRIES_ENV =
-  'OD_COLLAB_BACKGROUND_PULL_MAX_ENTRIES';
+  'SW_COLLAB_BACKGROUND_PULL_MAX_ENTRIES';
 
 /**
  * Threshold resolution: a non-negative integer from
- * `OD_COLLAB_BACKGROUND_PULL_MAX_ENTRIES`; `0` disables the guard entirely
+ * `SW_COLLAB_BACKGROUND_PULL_MAX_ENTRIES`; `0` disables the guard entirely
  * (every background pull proceeds, probe never runs); anything invalid falls
  * back to the default so a typo can never silently disable the guardrail.
  */

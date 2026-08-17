@@ -227,7 +227,7 @@ describe('archive installer', () => {
     [429, 'Too Many Requests', 'too many requests'],
   ])('falls back to codeload when GitHub contents returns %i for a plugin subpath', async (status, statusText, body) => {
     const tarball = await buildFixtureTarball({
-      rootPrefix: 'open-design-main',
+      rootPrefix: 'sankiwork-main',
       pluginSubpath: 'plugins/community/import-smoke-test',
     });
     const urlsSeen: string[] = [];

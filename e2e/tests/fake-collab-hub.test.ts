@@ -33,7 +33,7 @@ afterEach(async () => {
 
 describe('fake collaboration hub authorization receipts', () => {
   it('uses the daemon contract maximum lifetime for a completed pull', async () => {
-    fixtureRoot = await mkdtemp(join(tmpdir(), 'open-design-fake-collab-hub-'));
+    fixtureRoot = await mkdtemp(join(tmpdir(), 'sankiwork-fake-collab-hub-'));
     const sourceDir = join(fixtureRoot, 'source');
     const targetDir = join(fixtureRoot, 'target');
     await mkdir(sourceDir, { recursive: true });
@@ -94,7 +94,7 @@ describe('fake collaboration hub authorization receipts', () => {
   });
 
   it('forwards the resource command workspace instead of the agent trace workspace', async () => {
-    fixtureRoot = await mkdtemp(join(tmpdir(), 'open-design-fake-collab-hub-'));
+    fixtureRoot = await mkdtemp(join(tmpdir(), 'sankiwork-fake-collab-hub-'));
     const velaBin = join(fixtureRoot, 'vela');
     hub = await startFakeCollabHub({
       root: fixtureRoot,
@@ -117,7 +117,7 @@ describe('fake collaboration hub authorization receipts', () => {
 
 describe('fake collaboration hub Vela resource pulls', () => {
   it('keeps single pull compatibility and isolates batch item failures', async () => {
-    fixtureRoot = await mkdtemp(join(tmpdir(), 'open-design-fake-collab-hub-'));
+    fixtureRoot = await mkdtemp(join(tmpdir(), 'sankiwork-fake-collab-hub-'));
     const sourceDir = join(fixtureRoot, 'source');
     const otherSourceDir = join(fixtureRoot, 'other-source');
     const singleTarget = join(fixtureRoot, 'single-target');
@@ -231,7 +231,7 @@ async function velaCommand(
     const child = spawn(bin, args, {
       env: {
         ...process.env,
-        OPEN_DESIGN_WORKSPACE_ID: WORKSPACE_ID,
+        SANKIWORK_WORKSPACE_ID: WORKSPACE_ID,
         VELA_WORKSPACE_ID: workspaceId,
         VELA_API_URL: hub!.url,
         VELA_CONTROL_KEY: OWNER.controlKey,

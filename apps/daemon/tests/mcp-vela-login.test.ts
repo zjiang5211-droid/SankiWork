@@ -53,7 +53,7 @@ describe('local MCP Vela login tools', () => {
             profile: 'default',
             user: null,
             configPath: '/local/private/vela.json',
-            activationUrl: 'https://amr-link.open-design.ai/activate',
+            activationUrl: 'https://amr-link.sanki-ai.cloud/activate',
             userCode: 'ABCD-EFGH',
           }),
           { status: 200 },
@@ -77,7 +77,7 @@ describe('local MCP Vela login tools', () => {
         loginInFlight: true,
         profile: 'default',
         user: null,
-        activationUrl: 'https://amr-link.open-design.ai/activate',
+        activationUrl: 'https://amr-link.sanki-ai.cloud/activate',
         userCode: 'ABCD-EFGH',
       },
     });
@@ -89,10 +89,10 @@ describe('local MCP Vela login tools', () => {
       'x-od-analytics-device-id': 'installation-1',
       'x-od-analytics-client-type': 'external_mcp',
       'x-od-analytics-entry-surface': 'external_mcp',
-      'x-od-analytics-external-plugin-id': 'open-design',
+      'x-od-analytics-external-plugin-id': 'sankiwork',
       'x-od-analytics-external-plugin-version': '0.4.0',
       'x-od-analytics-distribution-mechanism': 'git_marketplace',
-      'x-od-analytics-publisher-class': 'open_design_first_party',
+      'x-od-analytics-publisher-class': 'sankiwork_first_party',
     };
     const fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
       if (url.endsWith('/api/integrations/vela/login')) {
@@ -127,10 +127,10 @@ describe('local MCP Vela login tools', () => {
         analyticsHeaders,
         pluginAttribution: {
           context: {
-            id: 'open-design',
+            id: 'sankiwork',
             version: '0.4.0',
             distributionMechanism: 'git_marketplace',
-            publisherClass: 'open_design_first_party',
+            publisherClass: 'sankiwork_first_party',
           },
           pluginWorkflowId: '019f9414-85e8-7f20-8d8f-7f868b2d4b5f',
         },

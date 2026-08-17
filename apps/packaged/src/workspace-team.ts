@@ -34,10 +34,10 @@ export function workspaceTeamTransportEnv(
   const webOrigin = velaWebUrl?.trim().replace(/\/+$/, "") ?? "";
   if (webOrigin.length === 0) return {};
   return {
-    OD_WORKSPACE_CONTEXT_SOURCE: "vela",
-    OD_TEAM_PROJECTS_TRANSPORT: "vela-cli",
-    OD_COLLAB_TRANSPORT: "vela-cli",
-    OD_RESOURCE_TRANSPORT: "vela-cli",
-    OD_VELA_WEB_URL: webOrigin,
+    SW_WORKSPACE_CONTEXT_SOURCE: "vela",
+    SW_TEAM_PROJECTS_TRANSPORT: "vela-cli",
+    SW_COLLAB_TRANSPORT: "vela-cli",
+    SW_RESOURCE_TRANSPORT: "vela-cli",
+    SW_VELA_WEB_URL: webOrigin,
   };
 }

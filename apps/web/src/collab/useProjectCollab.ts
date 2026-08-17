@@ -4,7 +4,7 @@ import type {
   CollabPresenceMember,
   ProjectContentTransferState,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { resolveCollabSession } from './collab-session';
 import {
   lastResolvedTeamProjects as cachedTeamProjects,

@@ -53,7 +53,7 @@ function formatVersion(release: unknown): string | null {
   };
   const fromTag = (tag: unknown) => {
     if (typeof tag !== 'string') return null;
-    const cleaned = tag.replace(/^open-design[-_]?v?/i, '').trim();
+    const cleaned = tag.replace(/^sankiwork[-_]?v?/i, '').trim();
     return cleaned ? `v${cleaned.replace(/^v/, '')}` : null;
   };
   return fromName(record.name) ?? fromTag(record.tag_name);
@@ -184,7 +184,7 @@ function stablePlatformArtifact(
 }
 
 /**
- * Parse the canonical stable-release manifest served from releases.open-design.ai.
+ * Parse the canonical stable-release manifest served from releases.sanki-ai.cloud.
  * Unlike the unauthenticated GitHub API, this endpoint is not constrained by the
  * shared 60-request rate limit, so high-intent download links stay direct even
  * when GitHub metadata cannot be resolved during a build.
@@ -242,7 +242,7 @@ export async function fetchLatestStableRelease(
     try {
       const url = new URL(asset.url);
       return (
-        url.origin !== 'https://releases.open-design.ai' ||
+        url.origin !== 'https://releases.sanki-ai.cloud' ||
         (url.pathname !== versionPrefix &&
           !url.pathname.startsWith(`${versionPrefix}/`) &&
           !url.pathname.startsWith(`${versionPrefix}.`))

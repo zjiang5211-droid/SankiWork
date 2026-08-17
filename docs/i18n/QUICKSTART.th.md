@@ -9,11 +9,11 @@
 - **Node.js:** `~24` (Node 24.x). Repo บังคับเวอร์ชันนี้ผ่าน `package.json#engines`.
 - **pnpm:** `10.33.x`. Repo pin `pnpm@10.33.2` ผ่าน `packageManager`; ใช้ Corepack เพื่อให้เลือกเวอร์ชันที่ pin ไว้อัตโนมัติ.
 - **OS:** macOS, Linux และ WSL2 เป็น path หลัก. Windows native รองรับด้วย; ดูปัญหา setup ที่พบบ่อยใน [`docs/windows-troubleshooting.md`](../../docs/windows-troubleshooting.md).
-- **Optional local agent CLI:** Open Design รองรับ registry ของ local runtimes เช่น Claude Code, Codex, Devin for Terminal, OpenCode, Cursor Agent, Qwen, Qoder CLI, GitHub Copilot CLI และอื่น ๆ. รายการปัจจุบันอยู่ใน [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts). ถ้าไม่ได้ติดตั้ง runtime ใดเลย ให้ใช้ BYOK runtime ที่ตั้งค่าไว้ใน Settings.
+- **Optional local agent CLI:** SankiWork รองรับ registry ของ local runtimes เช่น Claude Code, Codex, Devin for Terminal, OpenCode, Cursor Agent, Qwen, Qoder CLI, GitHub Copilot CLI และอื่น ๆ. รายการปัจจุบันอยู่ใน [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts). ถ้าไม่ได้ติดตั้ง runtime ใดเลย ให้ใช้ BYOK runtime ที่ตั้งค่าไว้ใน Settings.
 
 ### Local agent CLI และ PATH
 
-Daemon จะ scan **`PATH`** ของคุณ (รวมถึง directory toolchain ของ user ที่พบบ่อย). ถ้าคุณติดตั้ง CLI ด้วย **`npm install -g`** หรือ **Homebrew** แล้ว Open Design ยังแสดงว่า *not installed*, GUI อาจเริ่มด้วย `PATH` แบบ minimal ที่ไม่มี global npm หรือ Homebrew `bin` directory (พบบ่อยบน macOS เมื่อไม่ได้ launch แอปจาก full login shell). ตรวจให้แน่ใจว่า directory ของ executable อยู่ใน `PATH` สำหรับ process ที่รัน daemon แล้วใช้ **Rescan** ใน **Settings → Execution mode**.
+Daemon จะ scan **`PATH`** ของคุณ (รวมถึง directory toolchain ของ user ที่พบบ่อย). ถ้าคุณติดตั้ง CLI ด้วย **`npm install -g`** หรือ **Homebrew** แล้ว SankiWork ยังแสดงว่า *not installed*, GUI อาจเริ่มด้วย `PATH` แบบ minimal ที่ไม่มี global npm หรือ Homebrew `bin` directory (พบบ่อยบน macOS เมื่อไม่ได้ launch แอปจาก full login shell). ตรวจให้แน่ใจว่า directory ของ executable อยู่ใน `PATH` สำหรับ process ที่รัน daemon แล้วใช้ **Rescan** ใน **Settings → Execution mode**.
 
 [`nvm`](https://github.com/nvm-sh/nvm) / [`fnm`](https://github.com/Schniz/fnm) เป็น convenience tools แบบ optional ไม่ใช่สิ่งจำเป็นในการ setup project. ถ้าคุณใช้ตัวใดตัวหนึ่ง ให้ติดตั้ง/เลือก Node 24 ก่อนรัน pnpm:
 
@@ -36,7 +36,7 @@ corepack pnpm --version   # should print 10.33.2
 
 ## Docker Setup
 
-รัน Open Design ใน environment ที่ containerized เต็มรูปแบบโดยไม่ต้องติดตั้ง Node.js หรือ pnpm ในเครื่อง.
+รัน SankiWork ใน environment ที่ containerized เต็มรูปแบบโดยไม่ต้องติดตั้ง Node.js หรือ pnpm ในเครื่อง.
 
 ### Requirements
 
@@ -51,7 +51,7 @@ docker compose version
 
 ---
 
-## เริ่ม Open Design
+## เริ่ม SankiWork
 
 จาก repository root:
 
@@ -68,7 +68,7 @@ docker compose version
    openssl rand -hex 32
    ```
 
-3. เปิด `.env` ใน editor ของคุณ, หา `OD_API_TOKEN=`, แล้ว paste token ที่ generate ลงไป.
+3. เปิด `.env` ใน editor ของคุณ, หา `SW_API_TOKEN=`, แล้ว paste token ที่ generate ลงไป.
 
 จากนั้น start service:
 
@@ -133,36 +133,36 @@ cp deploy/.env.example deploy/.env
 
 ```env
 # Port exposed on the host
-OPEN_DESIGN_PORT=7456
+SANKIWORK_PORT=7456
 
 # Container memory limit
-OPEN_DESIGN_MEM_LIMIT=384m
+SANKIWORK_MEM_LIMIT=384m
 
 # Allowed CORS origins
-OPEN_DESIGN_ALLOWED_ORIGINS=https://yourdomain.com
+SANKIWORK_ALLOWED_ORIGINS=https://yourdomain.com
 
 # Docker image tag
-OPEN_DESIGN_IMAGE=docker.io/vanjayak/open-design:latest
+SANKIWORK_IMAGE=docker.io/vanjayak/sankiwork:latest
 
 # Required API token for daemon security
 # Generate one with: openssl rand -hex 32
-OD_API_TOKEN=
+SW_API_TOKEN=
 ```
 
 ---
 
 ## Persistent Storage
 
-Open Design เก็บ projects และ SQLite data ไว้ใน Docker volume:
+SankiWork เก็บ projects และ SQLite data ไว้ใน Docker volume:
 
 ```text
-open_design_data
+sankiwork_data
 ```
 
 Volume นี้ mount ไปที่:
 
 ```text
-/app/.od
+/app/.sankiwork
 ```
 
 Data จะคงอยู่ข้ามการ restart container และการ update image.
@@ -170,7 +170,7 @@ Data จะคงอยู่ข้ามการ restart container และ�
 Inspect volume:
 
 ```bash
-docker volume inspect open-design_open_design_data
+docker volume inspect sankiwork_sankiwork_data
 ```
 
 ---
@@ -216,8 +216,8 @@ pnpm tools-dev status          # inspect managed runtimes
 pnpm tools-dev logs            # show daemon/web/desktop logs
 pnpm tools-dev check           # status + recent logs + common diagnostics
 pnpm tools-dev stop            # stop managed runtimes
-pnpm --filter @open-design/daemon build  # build apps/daemon/dist/cli.js for `od`
-pnpm --filter @open-design/web build     # build the web package when needed
+pnpm --filter @sankiwork/daemon build  # build apps/daemon/dist/cli.js for `sw`
+pnpm --filter @sankiwork/web build     # build the web package when needed
 pnpm typecheck                 # workspace typecheck
 ```
 
@@ -227,33 +227,33 @@ pnpm typecheck                 # workspace typecheck
 
 ## Media generation / agent dispatcher checks
 
-Skills สำหรับ image, video, audio และ HyperFrames เรียก local `od` CLI ผ่าน environment variables ที่ daemon inject เมื่อ spawn agent:
+Skills สำหรับ image, video, audio และ HyperFrames เรียก local `sw` CLI ผ่าน environment variables ที่ daemon inject เมื่อ spawn agent:
 
-- `OD_BIN` — absolute path ไปยัง `apps/daemon/dist/cli.js`.
-- `OD_DAEMON_URL` — URL ของ daemon ที่กำลังรัน.
-- `OD_PROJECT_ID` — active project id.
-- `OD_PROJECT_DIR` — file directory ของ active project.
+- `SW_BIN` — absolute path ไปยัง `apps/daemon/dist/cli.js`.
+- `SW_DAEMON_URL` — URL ของ daemon ที่กำลังรัน.
+- `SW_PROJECT_ID` — active project id.
+- `SW_PROJECT_DIR` — file directory ของ active project.
 
-ถ้า media generation fail ด้วย `OD_BIN: parameter not set`, `apps/daemon/dist/cli.js` หาย, หรือ `failed to reach daemon at http://127.0.0.1:0`, ให้ rebuild daemon CLI และ restart managed runtime:
+ถ้า media generation fail ด้วย `SW_BIN: parameter not set`, `apps/daemon/dist/cli.js` หาย, หรือ `failed to reach daemon at http://127.0.0.1:0`, ให้ rebuild daemon CLI และ restart managed runtime:
 
 ```bash
-pnpm --filter @open-design/daemon build
+pnpm --filter @sankiwork/daemon build
 pnpm tools-dev restart --daemon-port 7457 --web-port 5175
 ls -la apps/daemon/dist/cli.js
 curl -s http://127.0.0.1:7457/api/health
 ```
 
-จากนั้นเปิด project จาก Open Design app อีกครั้งแทนการ resume terminal agent session เก่า. Agent ที่ spawn จาก daemon ควรเห็นค่าเช่น:
+จากนั้นเปิด project จาก SankiWork app อีกครั้งแทนการ resume terminal agent session เก่า. Agent ที่ spawn จาก daemon ควรเห็นค่าเช่น:
 
 ```bash
-echo "OD_BIN=$OD_BIN"
-echo "OD_PROJECT_ID=$OD_PROJECT_ID"
-echo "OD_PROJECT_DIR=$OD_PROJECT_DIR"
-echo "OD_DAEMON_URL=$OD_DAEMON_URL"
-ls -la "$OD_BIN"
+echo "SW_BIN=$SW_BIN"
+echo "SW_PROJECT_ID=$SW_PROJECT_ID"
+echo "SW_PROJECT_DIR=$SW_PROJECT_DIR"
+echo "SW_DAEMON_URL=$SW_DAEMON_URL"
+ls -la "$SW_BIN"
 ```
 
-`OD_DAEMON_URL` ต้องเป็น daemon port จริง เช่น `http://127.0.0.1:7457`, ไม่ใช่ `http://127.0.0.1:0`. ค่า `:0` เป็นเพียง launch hint ภายในสำหรับ "เลือก free port" และไม่ควรรั่วเข้า agent sessions.
+`SW_DAEMON_URL` ต้องเป็น daemon port จริง เช่น `http://127.0.0.1:7457`, ไม่ใช่ `http://127.0.0.1:0`. ค่า `:0` เป็นเพียง launch hint ภายในสำหรับ "เลือก free port" และไม่ควรรั่วเข้า agent sessions.
 
 สำหรับ daemon-only production mode, daemon จะ serve static Next.js export เองที่ `http://localhost:7456` จึงไม่ต้องมี reverse proxy.
 
@@ -302,11 +302,11 @@ BASE_SYSTEM_PROMPT   (file หรือ <artifact> handoff ตาม execution p
 ## File map
 
 ```
-open-design/
+sankiwork/
 ├── apps/
 │   ├── daemon/                # Node/Express — spawns local agents + serves APIs
 │   │   └── src/
-│   │       ├── cli.ts             # `od` bin entry
+│   │       ├── cli.ts             # `sw` bin entry
 │   │       ├── server.ts          # /api/* + static serving
 │   │       ├── agents.ts          # compatibility exports for the runtime modules
 │   │       ├── runtimes/
@@ -330,7 +330,7 @@ open-design/
 │   └── desktop/               # Electron runtime, launched/inspected by tools-dev
 ├── packages/
 │   ├── contracts/             # shared web/daemon app contracts
-│   ├── sidecar-proto/         # Open Design sidecar protocol contract
+│   ├── sidecar-proto/         # SankiWork sidecar protocol contract
 │   ├── sidecar/               # generic sidecar runtime primitives
 │   └── platform/              # generic process/platform primitives
 ├── tools/dev/                 # `pnpm tools-dev` lifecycle and inspect CLI
@@ -341,25 +341,25 @@ open-design/
 ├── scripts/sync-design-systems.ts    # re-import from upstream getdesign tarball
 ├── docs/                      # product vision + spec
 ├── pnpm-workspace.yaml        # apps/* + packages/* + tools/* + e2e
-└── package.json               # root quality scripts + `od` bin
+└── package.json               # root quality scripts + `sw` bin
 ```
 
 ## Troubleshooting
 
-- **`better-sqlite3` fails to load / ABI mismatch after a Node.js version change** — `pnpm install` จะ re-run `postinstall` อัตโนมัติและ rebuild native addon สำหรับ Node.js ปัจจุบัน. ถ้าต้องการ rebuild เองหรือตรวจ fix: `pnpm --filter @open-design/daemon rebuild better-sqlite3` แล้ว `pnpm --filter @open-design/daemon exec node -e "require('better-sqlite3')"`. ต้องมี build tools: `python3`, `make`, `g++` (หรือ `clang++`). ถ้าคุณใช้ `ignore-scripts=true` ใน `.npmrc` (พบบ่อยใน AUR packages), ให้รัน `pnpm bootstrap` หลัง `pnpm install`.
+- **`better-sqlite3` fails to load / ABI mismatch after a Node.js version change** — `pnpm install` จะ re-run `postinstall` อัตโนมัติและ rebuild native addon สำหรับ Node.js ปัจจุบัน. ถ้าต้องการ rebuild เองหรือตรวจ fix: `pnpm --filter @sankiwork/daemon rebuild better-sqlite3` แล้ว `pnpm --filter @sankiwork/daemon exec node -e "require('better-sqlite3')"`. ต้องมี build tools: `python3`, `make`, `g++` (หรือ `clang++`). ถ้าคุณใช้ `ignore-scripts=true` ใน `.npmrc` (พบบ่อยใน AUR packages), ให้รัน `pnpm bootstrap` หลัง `pnpm install`.
 - **"no agents found on PATH"** — ติดตั้ง local runtime ที่ register ไว้ใน [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts), ตรวจว่า daemon มองเห็น executable แล้วใช้ **Rescan** ใน **Settings → Execution mode**. หรือ configure BYOK runtime ใน Settings.
-- **Claude Code exits with code 1** — Open Design start `claude` ได้แล้ว แต่ spawned non-interactive run fail ก่อน produce response. จาก shell หรือ app environment เดียวกับที่ start Open Design ให้เช็ค:
+- **Claude Code exits with code 1** — SankiWork start `claude` ได้แล้ว แต่ spawned non-interactive run fail ก่อน produce response. จาก shell หรือ app environment เดียวกับที่ start SankiWork ให้เช็ค:
   ```bash
   claude --version
   claude auth status --text
   printf 'hello' | claude -p --output-format stream-json --verbose --permission-mode bypassPermissions
   ```
-  ถ้า smoke test รายงาน `401`, `apiKeySource: "none"` หรือ auth error อื่นโดยไม่มี custom endpoint ให้รัน `claude`, ใช้ `/login`, exit Claude แล้วลอง Open Design ใหม่. ถ้าคุณใช้หลาย Claude profiles ให้ตั้ง **Settings -> Execution mode -> Claude Code config directory** ไปที่ profile path เช่น `~/.claude-2`. ถ้าตั้ง `ANTHROPIC_BASE_URL` หรือ proxy ไว้ ให้เช็ค endpoint URL, proxy credentials, endpoint auth environment และ model access; ลบ custom endpoint เฉพาะเมื่ออยาก retry ด้วย standard Claude Code auth. บน Windows, native PowerShell และ WSL ใช้ Claude installs และ credential stores แยกกัน; ให้ re-authenticate ใน environment เดียวกับที่ Open Design ใช้ และเช็ค Windows Credential Manager ถ้า `/login` ไม่ซ่อม native Windows credentials.
+  ถ้า smoke test รายงาน `401`, `apiKeySource: "none"` หรือ auth error อื่นโดยไม่มี custom endpoint ให้รัน `claude`, ใช้ `/login`, exit Claude แล้วลอง SankiWork ใหม่. ถ้าคุณใช้หลาย Claude profiles ให้ตั้ง **Settings -> Execution mode -> Claude Code config directory** ไปที่ profile path เช่น `~/.claude-2`. ถ้าตั้ง `ANTHROPIC_BASE_URL` หรือ proxy ไว้ ให้เช็ค endpoint URL, proxy credentials, endpoint auth environment และ model access; ลบ custom endpoint เฉพาะเมื่ออยาก retry ด้วย standard Claude Code auth. บน Windows, native PowerShell และ WSL ใช้ Claude installs และ credential stores แยกกัน; ให้ re-authenticate ใน environment เดียวกับที่ SankiWork ใช้ และเช็ค Windows Credential Manager ถ้า `/login` ไม่ซ่อม native Windows credentials.
 - **daemon 500 on /api/chat** — ดู stderr tail ใน daemon terminal; โดยมาก CLI reject args. CLI แต่ละตัวใช้ argv shapes ต่างกัน; ดู definition ที่ตรงกันใน `apps/daemon/src/runtimes/defs/` ถ้าต้องปรับ.
-- **media generation says `OD_BIN` is missing or daemon URL is `:0`** — รัน media dispatcher checks ด้านบน. อย่า resume CLI session เก่า; เปิด project จาก Open Design app ใหม่เพื่อให้ daemon inject variables `OD_*` ชุดใหม่.
-- **Codex loads too much plugin context** — start Open Design ด้วย `OD_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` เพื่อให้ daemon-spawned Codex processes รันด้วย `--disable plugins`.
+- **media generation says `SW_BIN` is missing or daemon URL is `:0`** — รัน media dispatcher checks ด้านบน. อย่า resume CLI session เก่า; เปิด project จาก SankiWork app ใหม่เพื่อให้ daemon inject variables `SW_*` ชุดใหม่.
+- **Codex loads too much plugin context** — start SankiWork ด้วย `SW_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` เพื่อให้ daemon-spawned Codex processes รันด้วย `--disable plugins`.
 - **artifact never renders** — ตรวจ handoff profile ก่อน. สำหรับ local runtime ที่ใช้ filesystem ได้ ให้ตรวจว่า agent สร้าง project file ที่ preview ได้และ file events มาถึง daemon; path นี้ไม่ควรส่ง source ใน `<artifact>`. สำหรับ plain/text-only หรือ BYOK run ให้ตรวจว่ามี `<artifact>` block ที่สมบูรณ์หนึ่งก้อน แล้วหา boundary แรกที่ fail ใน daemon log.
-- **`Authorization: Bearer <OD_API_TOKEN>` required on macOS** — Docker Desktop bridge networking ทำให้ daemon มอง request เป็น non-loopback. เปิด host networking ใน Docker Desktop และใช้ `network_mode: host`. ดู [`deploy/README.md` — Docker Desktop on macOS](../../deploy/README.md#docker-desktop-on-macos).
+- **`Authorization: Bearer <SW_API_TOKEN>` required on macOS** — Docker Desktop bridge networking ทำให้ daemon มอง request เป็น non-loopback. เปิด host networking ใน Docker Desktop และใช้ `network_mode: host`. ดู [`deploy/README.md` — Docker Desktop on macOS](../../deploy/README.md#docker-desktop-on-macos).
 
 ## Mapping back to the vision
 

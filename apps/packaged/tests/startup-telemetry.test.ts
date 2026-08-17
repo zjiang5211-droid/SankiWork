@@ -31,15 +31,15 @@ import {
 } from '../src/startup-telemetry.js';
 
 // Verbatim daemon log tail from issue #4638.
-const ISSUE_4638_LOG = `Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'better-sqlite3' imported from /Applications/Open Design.app/Contents/Resources/app/prebundled/daemon/chunks/server-PULTSXNL.mjs
+const ISSUE_4638_LOG = `Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'better-sqlite3' imported from /Applications/SankiWork.app/Contents/Resources/app/prebundled/daemon/chunks/server-PULTSXNL.mjs
     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:301:9)
-[open-design packaged] exited app=daemon pid=45305 code=1 signal=none`;
+[sankiwork packaged] exited app=daemon pid=45305 code=1 signal=none`;
 
 // Verbatim shape of what waitForStatus throws (sidecars.ts:206-208).
 const DAEMON_EXIT_MESSAGE =
-  'daemon exited before reporting status (code=1, signal=none); see /Users/liudetao/Library/Application Support/Open Design/namespaces/release-stable/logs/daemon/latest.log for details';
+  'daemon exited before reporting status (code=1, signal=none); see /Users/liudetao/Library/Application Support/SankiWork/namespaces/release-stable/logs/daemon/latest.log for details';
 const WEB_EXIT_MESSAGE =
-  'daemon exited before reporting status (code=1, signal=none); see /Users/liudetao/Library/Application Support/Open Design/namespaces/release-stable/logs/web/latest.log for details';
+  'daemon exited before reporting status (code=1, signal=none); see /Users/liudetao/Library/Application Support/SankiWork/namespaces/release-stable/logs/web/latest.log for details';
 
 describe('parseDaemonLogTail', () => {
   it('extracts the error code and missing module from the #4638 log', () => {
@@ -75,7 +75,7 @@ describe('classifyStartupFailure', () => {
     // is backslash-separated. A naive "/web/" check would misreport this as
     // daemon-start — the one platform split this field exists for.
     const winWebMessage =
-      'daemon exited before reporting status (code=1, signal=none); see C:\\Users\\Alice\\AppData\\Roaming\\Open Design\\namespaces\\release-stable\\logs\\web\\latest.log for details';
+      'daemon exited before reporting status (code=1, signal=none); see C:\\Users\\Alice\\AppData\\Roaming\\SankiWork\\namespaces\\release-stable\\logs\\web\\latest.log for details';
     expect(classifyStartupFailure(new Error(winWebMessage), false).failureKind).toBe('web-start');
   });
 
@@ -95,7 +95,7 @@ describe('classifyStartupFailure', () => {
     // time, so there is no exit code, signal, or daemon log to read. Splitting
     // it out of `unknown` is what makes the win32 budget-raise measurable.
     const winPipe =
-      'timed out waiting for sidecar status at \\\\.\\pipe\\open-design-release-stable-win-daemon (connect ENOENT \\\\.\\pipe\\open-design-release-stable-win-daemon)';
+      'timed out waiting for sidecar status at \\\\.\\pipe\\sankiwork-release-stable-win-daemon (connect ENOENT \\\\.\\pipe\\sankiwork-release-stable-win-daemon)';
     const c = classifyStartupFailure(new Error(winPipe), false);
     expect(c.failureKind).toBe('status-timeout');
     expect(c.exitCode).toBeNull();
@@ -107,7 +107,7 @@ describe('classifyStartupFailure', () => {
 describe('scrubUserPaths', () => {
   it('redacts the user home directory but keeps the rest of the path', () => {
     const scrubbed = scrubUserPaths(
-      '/Users/liudetao/Library/Application Support/Open Design/namespaces/release-stable/logs/daemon/latest.log',
+      '/Users/liudetao/Library/Application Support/SankiWork/namespaces/release-stable/logs/daemon/latest.log',
     );
     expect(scrubbed).not.toContain('liudetao');
     expect(scrubbed).toContain('/Users/<redacted>/Library/Application Support');
@@ -165,7 +165,7 @@ describe('resolveStartupDistinctId', () => {
   const dirs: string[] = [];
   afterEach(() => {
     for (const d of dirs.splice(0)) rmSync(d, { recursive: true, force: true });
-    delete process.env.OD_INSTALLATION_DIR;
+    delete process.env.SW_INSTALLATION_DIR;
   });
 
   it('reads installationId from an explicit installationRoot (not the child-only env)', () => {
@@ -255,14 +255,14 @@ describe('captureStartupFailure', () => {
     // `development` — 100% of packaged_runtime_failed were mislabeled dev in
     // prod and filtered out of the env=production dashboards.
     const saved = {
-      OD_TELEMETRY_ENV: process.env.OD_TELEMETRY_ENV,
-      OPEN_DESIGN_ENV: process.env.OPEN_DESIGN_ENV,
+      SW_TELEMETRY_ENV: process.env.SW_TELEMETRY_ENV,
+      SANKIWORK_ENV: process.env.SANKIWORK_ENV,
       POSTHOG_ENV: process.env.POSTHOG_ENV,
       LANGFUSE_ENVIRONMENT: process.env.LANGFUSE_ENVIRONMENT,
       NODE_ENV: process.env.NODE_ENV,
     };
-    delete process.env.OD_TELEMETRY_ENV;
-    delete process.env.OPEN_DESIGN_ENV;
+    delete process.env.SW_TELEMETRY_ENV;
+    delete process.env.SANKIWORK_ENV;
     delete process.env.POSTHOG_ENV;
     delete process.env.LANGFUSE_ENVIRONMENT;
     delete process.env.NODE_ENV;
@@ -290,9 +290,9 @@ describe('captureStartupFailure', () => {
     }
   });
 
-  it('honors an explicit OD_TELEMETRY_ENV override (local smoke test can force dev)', async () => {
-    const savedOd = process.env.OD_TELEMETRY_ENV;
-    process.env.OD_TELEMETRY_ENV = 'development';
+  it('honors an explicit SW_TELEMETRY_ENV override (local smoke test can force dev)', async () => {
+    const savedOd = process.env.SW_TELEMETRY_ENV;
+    process.env.SW_TELEMETRY_ENV = 'development';
     try {
       const fetchImpl = vi.fn().mockResolvedValue(new Response('ok'));
       await captureStartupFailure(
@@ -310,8 +310,8 @@ describe('captureStartupFailure', () => {
         .properties;
       expect(p.env).toBe('development');
     } finally {
-      if (savedOd === undefined) delete process.env.OD_TELEMETRY_ENV;
-      else process.env.OD_TELEMETRY_ENV = savedOd;
+      if (savedOd === undefined) delete process.env.SW_TELEMETRY_ENV;
+      else process.env.SW_TELEMETRY_ENV = savedOd;
     }
   });
 
@@ -504,10 +504,10 @@ describe('reportStartupFailure', () => {
 //     a total black hole with no way to count or name the residue.
 describe('startup-failure attribution', () => {
   // Verbatim tail shape of a daemon that threw without an ERR_ code.
-  const NON_ERR_CODE_LOG = `[open-design daemon] starting namespace=release-stable-win
+  const NON_ERR_CODE_LOG = `[sankiwork daemon] starting namespace=release-stable-win
 SqliteError: database disk image is malformed
     at Database.prepare (node:sqlite:214:9)
-[open-design packaged] exited app=daemon pid=8123 code=1 signal=none`;
+[sankiwork packaged] exited app=daemon pid=8123 code=1 signal=none`;
 
   it('names the daemon crash when the log tail carries no ERR_ code', () => {
     const parsed = parseDaemonLogTail(NON_ERR_CODE_LOG);
@@ -627,7 +627,7 @@ describe('errno triplet privacy', () => {
 
   it('reduces a path-bearing Windows syscall to the operation token', () => {
     const err = Object.assign(new Error('spawn UNKNOWN'), {
-      syscall: 'spawn C:\\Users\\Alice Smith\\AppData\\Open Design\\vela.exe',
+      syscall: 'spawn C:\\Users\\Alice Smith\\AppData\\SankiWork\\vela.exe',
     });
     expect(readErrnoFields(err).syscall).toBe('spawn');
   });

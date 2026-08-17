@@ -26,7 +26,7 @@ vi.mock('../../src/i18n', () => ({
   }),
   useT: () => (key: string) => {
     const labels: Record<string, string> = {
-      'app.brand': 'Open Design',
+      'app.brand': 'SankiWork',
       'common.close': 'Close',
       'common.untitled': 'Untitled',
       'entry.navDesignSystems': 'Design systems',
@@ -102,7 +102,7 @@ function createDataTransfer(): DataTransfer {
 // Home nav pill on any other section), so its current section is no longer
 // observable through textContent. Read it from the persisted tab state.
 function storedEntryTabView(): string | null {
-  const raw = window.localStorage.getItem('open-design:workspace-tabs:v1');
+  const raw = window.localStorage.getItem('sankiwork:workspace-tabs:v1');
   if (!raw) return null;
   try {
     const parsed = JSON.parse(raw) as {
@@ -436,7 +436,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
 
   it('collapses a restored two-entry-tab workspace into a single entry tab', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'entry:projects:1',
         tabs: [
@@ -481,7 +481,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
       expect(labels).toHaveLength(1);
       expect(labels.some((label) => label.includes('Project Alpha'))).toBe(false);
       const stored = JSON.parse(
-        window.localStorage.getItem('open-design:workspace-tabs:v1') ?? '{}',
+        window.localStorage.getItem('sankiwork:workspace-tabs:v1') ?? '{}',
       ) as { tabs?: Array<{ projectId?: string }> };
       expect(stored.tabs?.some((tab) => tab.projectId === project.id)).toBe(false);
     });
@@ -521,7 +521,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
 
   it('keeps a singleton Home tab when restoring a Home-less workspace and navigating back to Home', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'project:project-alpha',
         tabs: [
@@ -568,7 +568,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
     // that state must mint a Home tab and pin it leftmost, not leave the workspace
     // Home-less until the user manually navigates home.
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'project:project-alpha',
         tabs: [
@@ -612,7 +612,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
     // normalization must collapse them to one and keep the canonical (newest
     // here) tab, preserving the project's conversation/file context.
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'project:project-alpha-dup',
         tabs: [
@@ -650,7 +650,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
 
   it('deduplicates and cleans up restored Home tabs from old sessions', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'entry:home:old-two',
         tabs: [
@@ -740,7 +740,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
 
   it('maps the browser close-tab shortcut to the active workspace tab', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'project:project-alpha',
         tabs: [
@@ -783,7 +783,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
 
   it('switches tabs with browser-style next and previous tab shortcuts', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'project:project-alpha',
         tabs: [
@@ -884,7 +884,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
     });
 
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'project:project-alpha',
         tabs: [
@@ -962,7 +962,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
     expect(navigate).not.toHaveBeenCalled();
     expect(vibrate).toHaveBeenCalledWith(8);
     expect(vibrate).toHaveBeenCalledWith(12);
-    const stored = JSON.parse(window.localStorage.getItem('open-design:workspace-tabs:v1') ?? '{}') as {
+    const stored = JSON.parse(window.localStorage.getItem('sankiwork:workspace-tabs:v1') ?? '{}') as {
       activeTabId?: string;
       tabs?: Array<{ id?: string }>;
     };
@@ -976,7 +976,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
 
   it('reorders tabs live from right to left while dragging', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'project:project-alpha',
         tabs: [
@@ -1054,7 +1054,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
     // stays route truth, so the deep-linked project keeps its tab and the
     // first resolution must not navigate the user away.
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         tabs: [
           { id: 'entry:home:a', kind: 'entry', view: 'home', createdAt: 1, lastActiveAt: 1 },
@@ -1089,7 +1089,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
     // The now-known scope key is backfilled into storage so a later, REAL
     // change has something to compare against.
     await waitFor(() => {
-      const raw = window.localStorage.getItem('open-design:workspace-tabs:v1');
+      const raw = window.localStorage.getItem('sankiwork:workspace-tabs:v1');
       const parsed = JSON.parse(raw ?? '{}') as { scopeKey?: string };
       expect(parsed.scopeKey).toBe('user-1::ws-personal-1');
     });
@@ -1408,7 +1408,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
 
   it('migrates a v1 single-scope snapshot before switching away and back', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         scopeKey: 'user-1::ws-team-a',
         tabs: [
@@ -1483,14 +1483,14 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
       );
       await waitFor(() => {
         const parsed = JSON.parse(
-          window.localStorage.getItem('open-design:workspace-tabs:v1') ?? '{}',
+          window.localStorage.getItem('sankiwork:workspace-tabs:v1') ?? '{}',
         ) as { scopeKey?: string };
         expect(parsed.scopeKey).toBe(scopeKey);
       });
     }
 
     const persisted = JSON.parse(
-      window.localStorage.getItem('open-design:workspace-tabs:v1') ?? '{}',
+      window.localStorage.getItem('sankiwork:workspace-tabs:v1') ?? '{}',
     ) as { scopes?: Record<string, unknown> };
     expect(Object.keys(persisted.scopes ?? {})).toHaveLength(12);
     expect(persisted.scopes).not.toHaveProperty('user-1::ws-team-0');
@@ -1500,7 +1500,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
 
   it('keeps an outgoing route out of a different initial scope under StrictMode', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         scopeKey: 'user-1::ws-team-a',
         tabs: [
@@ -1641,7 +1641,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
   // and the scope starts from route truth instead.
   it('discards an unowned legacy snapshot instead of adopting it into the first resolved scope', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         tabs: [
           { id: 'entry:home:a', kind: 'entry', view: 'home', createdAt: 1, lastActiveAt: 1 },
@@ -1687,7 +1687,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
     // registry entry must not contain the unowned project tab.
     await waitFor(() => {
       const parsed = JSON.parse(
-        window.localStorage.getItem('open-design:workspace-tabs:v1') ?? '{}',
+        window.localStorage.getItem('sankiwork:workspace-tabs:v1') ?? '{}',
       ) as { scopeKey?: string; scopes?: Record<string, unknown> };
       expect(parsed.scopeKey).toBe('user-2::ws-new-team');
       expect(JSON.stringify(parsed.scopes?.['user-2::ws-new-team'] ?? {})).not.toContain(
@@ -1703,7 +1703,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
     // the route-derived tab survives; background legacy tabs are dropped
     // rather than guessed into the active workspace.
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         tabs: [
           { id: 'entry:home:a', kind: 'entry', view: 'home', createdAt: 1, lastActiveAt: 1 },
@@ -1754,7 +1754,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
     });
     await waitFor(() => {
       const parsed = JSON.parse(
-        window.localStorage.getItem('open-design:workspace-tabs:v1') ?? '{}',
+        window.localStorage.getItem('sankiwork:workspace-tabs:v1') ?? '{}',
       ) as { scopeKey?: string };
       expect(parsed.scopeKey).toBe('user-1::ws-personal-1');
     });
@@ -1787,7 +1787,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
       activeTabId: 'project:project-alpha:b',
     };
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'sankiwork:workspace-tabs:v1',
       JSON.stringify({
         ...ownedSnapshot,
         scopeKey: 'user-1::ws-a',
@@ -1833,7 +1833,7 @@ describe('WorkspaceTabsBar identity-scope tab reset', () => {
     // account's own bucket keeps it.
     await waitFor(() => {
       const parsed = JSON.parse(
-        window.localStorage.getItem('open-design:workspace-tabs:v1') ?? '{}',
+        window.localStorage.getItem('sankiwork:workspace-tabs:v1') ?? '{}',
       ) as { scopes?: Record<string, unknown> };
       expect(JSON.stringify(parsed.scopes?.['user-2::ws-b'] ?? {})).not.toContain(
         'project-alpha',

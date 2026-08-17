@@ -4,7 +4,7 @@ import { dirname, join, relative } from "node:path";
 import { promisify } from "node:util";
 
 import { rebuild } from "@electron/rebuild";
-import { createCommandInvocation, createPackageManagerInvocation } from "@open-design/platform";
+import { createCommandInvocation, createPackageManagerInvocation } from "@sankiwork/platform";
 
 import { hashJson, hashPath, ToolPackCache } from "../cache.js";
 import type { ToolPackConfig } from "../config.js";
@@ -75,7 +75,7 @@ async function runNpmInstall(appRoot: string): Promise<void> {
 }
 
 async function runEsbuild(config: ToolPackConfig, args: string[]): Promise<void> {
-  await runPnpm(config, ["--filter", "@open-design/packaged", "exec", "esbuild", ...args]);
+  await runPnpm(config, ["--filter", "@sankiwork/packaged", "exec", "esbuild", ...args]);
 }
 
 async function runElectronRebuild(config: ToolPackConfig, appRoot: string): Promise<void> {
@@ -131,24 +131,24 @@ async function buildWorkspaceArtifacts(config: ToolPackConfig): Promise<void> {
   const webNextEnvPath = join(config.workspaceRoot, "apps", "web", "next-env.d.ts");
   const previousWebNextEnv = await readFile(webNextEnvPath, "utf8").catch(() => null);
 
-  await runPnpm(config, ["--filter", "@open-design/release", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/contracts", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/registry-protocol", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/sidecar-proto", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/launcher-proto", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/sidecar", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/platform", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/agui-adapter", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/plugin-runtime", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/download", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/host", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/diagnostics", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/dsh-runtime", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/components", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/daemon", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/release", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/contracts", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/registry-protocol", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/sidecar-proto", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/launcher-proto", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/sidecar", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/platform", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/agui-adapter", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/plugin-runtime", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/download", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/host", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/diagnostics", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/dsh-runtime", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/components", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/daemon", "build"]);
   try {
-    await runPnpm(config, ["--filter", "@open-design/web", "build"], { OD_WEB_OUTPUT_MODE: config.webOutputMode });
-    await runPnpm(config, ["--filter", "@open-design/web", "build:sidecar"]);
+    await runPnpm(config, ["--filter", "@sankiwork/web", "build"], { SW_WEB_OUTPUT_MODE: config.webOutputMode });
+    await runPnpm(config, ["--filter", "@sankiwork/web", "build:sidecar"]);
     // Inject chunk IDs + upload browser sourcemaps to PostHog, then strip
     // .map files before any packaging step copies the web output into the
     // Electron resources. See `tools/pack/src/web-sourcemaps.ts`.
@@ -157,8 +157,8 @@ async function buildWorkspaceArtifacts(config: ToolPackConfig): Promise<void> {
     if (previousWebNextEnv == null) await rm(webNextEnvPath, { force: true });
     else await writeFile(webNextEnvPath, previousWebNextEnv, "utf8");
   }
-  await runPnpm(config, ["--filter", "@open-design/desktop", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/packaged", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/desktop", "build"]);
+  await runPnpm(config, ["--filter", "@sankiwork/packaged", "build"]);
 }
 
 export async function ensureWinWorkspaceBuild(config: ToolPackConfig, cache: ToolPackCache): Promise<string> {
@@ -277,9 +277,9 @@ async function writeAssembledAppEntrypoints(
     `${JSON.stringify(
       {
         dependencies: options.dependencies ?? createAssembledAppDependencies(config, paths, packedTarballs),
-        description: "Open Design packaged runtime",
+        description: "SankiWork packaged runtime",
         main: "./main.cjs",
-        name: "open-design-packaged-app",
+        name: "sankiwork-packaged-app",
         private: true,
         productName: PRODUCT_NAME,
         version: packageVersion,
@@ -377,8 +377,8 @@ async function buildPrebundledStandaloneRuntime(
     [
       'import { fileURLToPath } from "node:url";',
       "const selfPath = fileURLToPath(import.meta.url);",
-      "process.env.OD_BIN ??= selfPath;",
-      "process.env.OD_DAEMON_CLI_PATH ??= selfPath;",
+      "process.env.SW_BIN ??= selfPath;",
+      "process.env.SW_DAEMON_CLI_PATH ??= selfPath;",
       `await import(${JSON.stringify(
         toRelativeImportSpecifier(
           dirname(paths.daemonCliPrebundleEntrypointPath),

@@ -162,7 +162,7 @@ describe('project file versions', () => {
 
   it('writes a v2 manifest with an exact UTF-8 digest, explicit current id, and bounded artifact origin', async () => {
     await withProject(async (projectsRoot, projectId) => {
-      const content = '<html><body>你好 Open Design</body></html>';
+      const content = '<html><body>你好 SankiWork</body></html>';
       const contentDigest = createHash('sha256').update(Buffer.from(content, 'utf8')).digest('hex');
       const version = await createProjectFileVersion(
         projectsRoot,
@@ -174,7 +174,7 @@ describe('project file versions', () => {
           promptSource: 'message',
           origin: {
             entrySurface: 'external_mcp',
-            externalPluginId: 'open-design',
+            externalPluginId: 'sankiwork',
             pluginWorkflowId: '018f6f2e-2222-7222-8222-222222222222',
             runId: 'run-1',
           },
@@ -186,7 +186,7 @@ describe('project file versions', () => {
         contentDigest,
         origin: {
           entrySurface: 'external_mcp',
-          externalPluginId: 'open-design',
+          externalPluginId: 'sankiwork',
           pluginWorkflowId: '018f6f2e-2222-7222-8222-222222222222',
           runId: 'run-1',
         },
@@ -213,7 +213,7 @@ describe('project file versions', () => {
     await withProject(async (projectsRoot, projectId) => {
       const origin = {
         entrySurface: 'external_mcp' as const,
-        externalPluginId: 'open-design',
+        externalPluginId: 'sankiwork',
         pluginWorkflowId: 'workflow-1',
         runId: 'run-1',
       };
@@ -325,7 +325,7 @@ describe('project file versions', () => {
           source: 'ai',
           origin: {
             entrySurface: 'external_mcp',
-            externalPluginId: 'open-design',
+            externalPluginId: 'sankiwork',
             pluginWorkflowId: 'workflow-legacy',
             runId: 'run-legacy',
           },

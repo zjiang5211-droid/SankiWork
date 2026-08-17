@@ -1,7 +1,7 @@
 import { expect, type Page, type Request, type Route } from '@playwright/test';
 import { expectStableCount } from './assertions.js';
 
-export const STORAGE_KEY = 'open-design:config';
+export const STORAGE_KEY = 'sankiwork:config';
 
 const STANDARD_CONFIG = {
   mode: 'daemon',

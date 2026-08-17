@@ -18,7 +18,7 @@
 import React from 'react';
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { DesignSystemSummary, WorkspaceCollabContext } from '@open-design/contracts';
+import type { DesignSystemSummary, WorkspaceCollabContext } from '@sankiwork/contracts';
 
 import { DesignSystemsTab } from '../../src/components/DesignSystemsTab';
 import { I18nProvider } from '../../src/i18n';

@@ -1,4 +1,4 @@
-// Pre-run balance gate for the Open Design Cloud agent. Two tiers:
+// Pre-run balance gate for the SankiWork Cloud agent. Two tiers:
 //
 //   HARD  — the run cannot possibly succeed: the account is signed out, or the
 //           wallet balance is definitively <= $0. The send is blocked and the
@@ -16,7 +16,7 @@ import type {
   AmrWalletSnapshot,
   WorkspaceCollabContext,
   WorkspaceBillingResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { fetchAmrWalletSnapshot } from '../providers/daemon';
 
 /**
@@ -34,7 +34,7 @@ export const AMR_HARD_BLOCK_BALANCE_USD = 0;
  */
 export const AMR_LOW_BALANCE_WARN_USD = 2;
 
-const LOW_BALANCE_WARN_OPTOUT_KEY = 'open-design:amr-low-balance-warn-optout:v1';
+const LOW_BALANCE_WARN_OPTOUT_KEY = 'sankiwork:amr-low-balance-warn-optout:v1';
 
 export type AmrBalanceGateResult =
   | { kind: 'allow' }
@@ -163,7 +163,7 @@ export function setAmrLowBalanceWarnOptedOut(): void {
 }
 
 /**
- * Decide whether an Open Design Cloud run may start. Fast path first: the
+ * Decide whether an SankiWork Cloud run may start. Fast path first: the
  * daemon-cached snapshot answers without an upstream roundtrip, so healthy
  * balances start with no added latency. Only a hard-block answer is confirmed
  * against the live wallet (refresh=1) — the cache may predate a recharge or

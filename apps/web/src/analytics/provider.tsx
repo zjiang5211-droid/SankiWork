@@ -16,7 +16,7 @@ import {
   ANALYTICS_HEADER_LOCALE,
   ANALYTICS_HEADER_REQUEST_ID,
   ANALYTICS_HEADER_SESSION_ID,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import {
   applyConsent,
   applyIdentity,
@@ -29,7 +29,7 @@ import {
 } from './client';
 import { APP_VERSION_PLACEHOLDER } from './app-version';
 import { patchExceptionTrackingAppVersion } from './error-tracking';
-import type { AnalyticsConfigureGlobals } from '@open-design/contracts/analytics';
+import type { AnalyticsConfigureGlobals } from '@sankiwork/contracts/analytics';
 import {
   detectClientType,
   getAnonymousId,

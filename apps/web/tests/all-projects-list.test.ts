@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { TeamProject, WorkspaceCollabContext } from '@open-design/contracts';
+import type { TeamProject, WorkspaceCollabContext } from '@sankiwork/contracts';
 
 import {
   buildAllProjectsList,

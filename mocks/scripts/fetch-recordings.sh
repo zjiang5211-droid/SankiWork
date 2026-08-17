@@ -12,7 +12,7 @@
 #   bash mocks/scripts/fetch-recordings.sh --force          # re-download all
 #   bash mocks/scripts/fetch-recordings.sh --cache-dir <p>  # override cache location
 #
-# Default cache: mocks/recordings/. Override with OD_MOCKS_CACHE_DIR env
+# Default cache: mocks/recordings/. Override with SW_MOCKS_CACHE_DIR env
 # or --cache-dir flag — useful for sharing across multiple OD checkouts.
 
 set -euo pipefail
@@ -26,7 +26,7 @@ FILTER_OUTCOME=""
 FILTER_SKILL=""
 CONCURRENCY=8
 FORCE=0
-CACHE_DIR="${OD_MOCKS_CACHE_DIR:-$MOCKS_DIR/recordings}"
+CACHE_DIR="${SW_MOCKS_CACHE_DIR:-$MOCKS_DIR/recordings}"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in

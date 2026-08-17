@@ -10,7 +10,7 @@ import type {
   PluginSourceKind,
   SkillSummary,
   TrustTier,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 vi.mock('../../src/components/home-hero/PlaceholderCarousel', () => ({
   PlaceholderCarousel: () => null,

@@ -1,9 +1,9 @@
 /**
- * Regression coverage for the OD_LEGACY_DATA_DIR migration-aware
+ * Regression coverage for the SW_LEGACY_DATA_DIR migration-aware
  * daemon status timeout in apps/packaged/src/sidecars.ts.
  *
  * Background: when the user is recovering 0.3.x `.od/` data via
- * OD_LEGACY_DATA_DIR, apps/daemon/src/legacy-data-migrator.ts runs a
+ * SW_LEGACY_DATA_DIR, apps/daemon/src/legacy-data-migrator.ts runs a
  * synchronous payload copy at module import time, before the daemon
  * sidecar can answer status. With the default 35-second status budget
  * a multi-GB legacy `.od/projects` or `.od/artifacts` tree can hit the
@@ -21,8 +21,8 @@ import { tmpdir } from 'node:os';
 import { delimiter, dirname, join, posix } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 
-import { createJsonIpcServer, resolveAppIpcPath } from '@open-design/sidecar';
-import { APP_KEYS, OPEN_DESIGN_SIDECAR_CONTRACT } from '@open-design/sidecar-proto';
+import { createJsonIpcServer, resolveAppIpcPath } from '@sankiwork/sidecar';
+import { APP_KEYS, SANKIWORK_SIDECAR_CONTRACT } from '@sankiwork/sidecar-proto';
 
 import {
   buildPackagedDaemonSpawnEnv,
@@ -75,36 +75,36 @@ describe('resolveDaemonStatusTimeoutMs', () => {
     expect(resolveDaemonStatusTimeoutMs({}, 'win32')).toBe(90_000);
   });
 
-  it('treats an empty OD_LEGACY_DATA_DIR as unset', () => {
-    expect(resolveDaemonStatusTimeoutMs({ OD_LEGACY_DATA_DIR: '' }, 'freebsd')).toBe(35_000);
+  it('treats an empty SW_LEGACY_DATA_DIR as unset', () => {
+    expect(resolveDaemonStatusTimeoutMs({ SW_LEGACY_DATA_DIR: '' }, 'freebsd')).toBe(35_000);
   });
 
-  it('extends the budget to 30 minutes when OD_LEGACY_DATA_DIR is set', () => {
+  it('extends the budget to 30 minutes when SW_LEGACY_DATA_DIR is set', () => {
     // The packaged sidecar must give the daemon a long-enough window to
-    // sync-copy a multi-GB legacy `.od/` payload. Anything below ~10
+    // sync-copy a multi-GB legacy `.sankiwork/` payload. Anything below ~10
     // minutes was historically observed to time out on real installs.
     const value = resolveDaemonStatusTimeoutMs({
-      OD_LEGACY_DATA_DIR: '/path/to/old/.od',
+      SW_LEGACY_DATA_DIR: '/path/to/old/.sankiwork',
     }, 'linux');
     expect(value).toBeGreaterThanOrEqual(10 * 60 * 1000);
     expect(value).toBe(30 * 60 * 1000);
     // The migration override beats the widened win32 baseline too.
     expect(
-      resolveDaemonStatusTimeoutMs({ OD_LEGACY_DATA_DIR: '/path/to/old/.od' }, 'win32'),
+      resolveDaemonStatusTimeoutMs({ SW_LEGACY_DATA_DIR: '/path/to/old/.sankiwork' }, 'win32'),
     ).toBe(30 * 60 * 1000);
   });
 
   it('falls back to process.env when called with no argument', () => {
-    const original = process.env.OD_LEGACY_DATA_DIR;
+    const original = process.env.SW_LEGACY_DATA_DIR;
     try {
-      delete process.env.OD_LEGACY_DATA_DIR;
+      delete process.env.SW_LEGACY_DATA_DIR;
       expect(resolveDaemonStatusTimeoutMs(undefined, 'linux')).toBe(90_000);
       expect(resolveDaemonStatusTimeoutMs(undefined, 'darwin')).toBe(90_000);
-      process.env.OD_LEGACY_DATA_DIR = '/some/legacy/path';
+      process.env.SW_LEGACY_DATA_DIR = '/some/legacy/path';
       expect(resolveDaemonStatusTimeoutMs(undefined, 'linux')).toBe(30 * 60 * 1000);
     } finally {
-      if (original == null) delete process.env.OD_LEGACY_DATA_DIR;
-      else process.env.OD_LEGACY_DATA_DIR = original;
+      if (original == null) delete process.env.SW_LEGACY_DATA_DIR;
+      else process.env.SW_LEGACY_DATA_DIR = original;
     }
   });
 });
@@ -114,7 +114,7 @@ describe('packaged web URL registration', () => {
     const namespace = `web-url-${process.pid}-${Date.now()}`;
     const daemonIpc = resolveAppIpcPath({
       app: APP_KEYS.DAEMON,
-      contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+      contract: SANKIWORK_SIDECAR_CONTRACT,
       namespace,
     });
     const received: unknown[] = [];
@@ -290,14 +290,14 @@ describe('packaged child Vite+ environment forwarding', () => {
     expect(env.NODE_USE_ENV_PROXY).toBeUndefined();
   });
 
-  it('forwards OD_ALLOWED_INTERNAL_HOSTS so the daemon can resolve trusted loopback hosts in packaged sidecars', () => {
+  it('forwards SW_ALLOWED_INTERNAL_HOSTS so the daemon can resolve trusted loopback hosts in packaged sidecars', () => {
     const env = resolvePackagedChildBaseEnv({
       HOME: '/Users/tester',
-      OD_ALLOWED_INTERNAL_HOSTS: '127.0.0.1,localhost',
+      SW_ALLOWED_INTERNAL_HOSTS: '127.0.0.1,localhost',
       RANDOM_INTERNAL_FLAG: 'drop-me',
     });
 
-    expect(env.OD_ALLOWED_INTERNAL_HOSTS).toBe('127.0.0.1,localhost');
+    expect(env.SW_ALLOWED_INTERNAL_HOSTS).toBe('127.0.0.1,localhost');
     expect(env.RANDOM_INTERNAL_FLAG).toBeUndefined();
   });
 
@@ -322,16 +322,16 @@ describe('resolvePackagedElectronNodeCommand', () => {
   it('uses the hidden Electron helper as the macOS Electron-as-Node command when available', async () => {
     const root = mkdtempSync(join(tmpdir(), 'od-packaged-electron-helper-'));
     try {
-      const appPath = posix.join(root.replaceAll('\\', '/'), 'Open Design.app');
-      const execPath = posix.join(appPath, 'Contents', 'MacOS', 'Open Design');
+      const appPath = posix.join(root.replaceAll('\\', '/'), 'SankiWork.app');
+      const execPath = posix.join(appPath, 'Contents', 'MacOS', 'SankiWork');
       const helperPath = posix.join(
         appPath,
         'Contents',
         'Frameworks',
-        'Open Design Helper.app',
+        'SankiWork Helper.app',
         'Contents',
         'MacOS',
-        'Open Design Helper',
+        'SankiWork Helper',
       );
 
       mkdirSync(posix.join(appPath, 'Contents', 'MacOS'), { recursive: true });
@@ -350,7 +350,7 @@ describe('resolvePackagedElectronNodeCommand', () => {
   it('falls back to the main executable when the macOS helper is unavailable', async () => {
     const root = mkdtempSync(join(tmpdir(), 'od-packaged-no-electron-helper-'));
     try {
-      const execPath = join(root, 'Open Design.app', 'Contents', 'MacOS', 'Open Design');
+      const execPath = join(root, 'SankiWork.app', 'Contents', 'MacOS', 'SankiWork');
       mkdirSync(dirname(execPath), { recursive: true });
       writeFileSync(execPath, '#!/bin/sh\n', 'utf8');
 
@@ -361,7 +361,7 @@ describe('resolvePackagedElectronNodeCommand', () => {
   });
 
   it('keeps the main executable on non-macOS platforms', async () => {
-    const execPath = '/opt/Open Design/open-design';
+    const execPath = '/opt/SankiWork/sankiwork';
 
     await expect(resolvePackagedElectronNodeCommand(execPath, 'linux')).resolves.toBe(execPath);
   });
@@ -446,18 +446,18 @@ describe('buildPackagedDaemonSpawnEnv', () => {
     }
   });
 
-  it('sets OD_REQUIRE_DESKTOP_AUTH=1 when requireDesktopAuth=true (Electron entry)', () => {
+  it('sets SW_REQUIRE_DESKTOP_AUTH=1 when requireDesktopAuth=true (Electron entry)', () => {
     const env = buildPackagedDaemonSpawnEnv(fakePaths(), {
       appVersion: '1.2.3',
       daemonCliEntry: null,
       legacyDataDir: null,
       requireDesktopAuth: true,
     });
-    expect(env.OD_REQUIRE_DESKTOP_AUTH).toBe('1');
-    expect(env.OD_DATA_DIR).toBe('/tmp/od-pkg/data');
-    expect(env.OD_RESOURCE_ROOT).toBe('/tmp/od-pkg/resources');
-    expect(env.OD_APP_VERSION).toBe('1.2.3');
-    expect(env.OD_LEGACY_DATA_DIR).toBeUndefined();
+    expect(env.SW_REQUIRE_DESKTOP_AUTH).toBe('1');
+    expect(env.SW_DATA_DIR).toBe('/tmp/od-pkg/data');
+    expect(env.SW_RESOURCE_ROOT).toBe('/tmp/od-pkg/resources');
+    expect(env.SW_APP_VERSION).toBe('1.2.3');
+    expect(env.SW_LEGACY_DATA_DIR).toBeUndefined();
   });
 
   it('forwards updater controls needed by a historical desktop handoff', () => {
@@ -465,22 +465,22 @@ describe('buildPackagedDaemonSpawnEnv', () => {
       appVersion: '1.2.3',
       daemonCliEntry: null,
       desktopHandoffEnv: {
-        OD_UPDATE_CURRENT_VERSION: '1.2.3',
-        OD_UPDATE_INSTALLED_VERSION: '1.0.0',
-        OD_UPDATE_METADATA_URL: 'http://127.0.0.1:54321/stable/latest/metadata.json',
+        SW_UPDATE_CURRENT_VERSION: '1.2.3',
+        SW_UPDATE_INSTALLED_VERSION: '1.0.0',
+        SW_UPDATE_METADATA_URL: 'http://127.0.0.1:54321/stable/latest/metadata.json',
         PATH: 'must-not-leak-through-handoff-env',
       },
       legacyDataDir: null,
       requireDesktopAuth: true,
     });
 
-    expect(env.OD_UPDATE_CURRENT_VERSION).toBe('1.2.3');
-    expect(env.OD_UPDATE_INSTALLED_VERSION).toBe('1.0.0');
-    expect(env.OD_UPDATE_METADATA_URL).toBe('http://127.0.0.1:54321/stable/latest/metadata.json');
+    expect(env.SW_UPDATE_CURRENT_VERSION).toBe('1.2.3');
+    expect(env.SW_UPDATE_INSTALLED_VERSION).toBe('1.0.0');
+    expect(env.SW_UPDATE_METADATA_URL).toBe('http://127.0.0.1:54321/stable/latest/metadata.json');
     expect(env.PATH).toBeUndefined();
   });
 
-  it('omits OD_REQUIRE_DESKTOP_AUTH entirely when requireDesktopAuth=false (headless)', () => {
+  it('omits SW_REQUIRE_DESKTOP_AUTH entirely when requireDesktopAuth=false (headless)', () => {
     const env = buildPackagedDaemonSpawnEnv(fakePaths(), {
       appVersion: null,
       daemonCliEntry: null,
@@ -488,24 +488,24 @@ describe('buildPackagedDaemonSpawnEnv', () => {
       requireDesktopAuth: false,
     });
     // Round-5 (lefarcen P2): MUST NOT set the env var, even to "0" —
-    // the daemon's gate trigger is `process.env.OD_REQUIRE_DESKTOP_AUTH === '1'`,
+    // the daemon's gate trigger is `process.env.SW_REQUIRE_DESKTOP_AUTH === '1'`,
     // so a literal "0" would behave the same as omitted today, but a
     // future code change to truthy-check the variable would silently
     // re-arm the gate. Omitted is the intent.
-    expect('OD_REQUIRE_DESKTOP_AUTH' in env).toBe(false);
-    expect(env.OD_DATA_DIR).toBe('/tmp/od-pkg/data');
-    expect(env.OD_APP_VERSION).toBeUndefined();
+    expect('SW_REQUIRE_DESKTOP_AUTH' in env).toBe(false);
+    expect(env.SW_DATA_DIR).toBe('/tmp/od-pkg/data');
+    expect(env.SW_APP_VERSION).toBeUndefined();
   });
 
   it('forwards the signed packaged launcher used to bootstrap MCP headlessly', () => {
     const env = buildPackagedDaemonSpawnEnv(fakePaths(), {
       appVersion: '1.2.3',
-      daemonCliEntry: '/Applications/Open Design.app/Contents/Resources/app/prebundled/daemon/daemon-cli.mjs',
+      daemonCliEntry: '/Applications/SankiWork.app/Contents/Resources/app/prebundled/daemon/daemon-cli.mjs',
       legacyDataDir: null,
       mcpBootstrapArgs: [
         '-g',
         '-j',
-        '/Applications/Open Design.app',
+        '/Applications/SankiWork.app',
         '--args',
         '--headless',
       ],
@@ -514,26 +514,26 @@ describe('buildPackagedDaemonSpawnEnv', () => {
       requireDesktopAuth: false,
     });
 
-    expect(env.OD_MCP_BOOTSTRAP_COMMAND).toBe(
+    expect(env.SW_MCP_BOOTSTRAP_COMMAND).toBe(
       '/usr/bin/open',
     );
-    expect(JSON.parse(env.OD_MCP_BOOTSTRAP_ARGS ?? 'null')).toEqual([
+    expect(JSON.parse(env.SW_MCP_BOOTSTRAP_ARGS ?? 'null')).toEqual([
       '-g',
       '-j',
-      '/Applications/Open Design.app',
+      '/Applications/SankiWork.app',
       '--args',
       '--headless',
     ]);
   });
 
-  it('forwards OD_LEGACY_DATA_DIR only when set, irrespective of requireDesktopAuth', () => {
+  it('forwards SW_LEGACY_DATA_DIR only when set, irrespective of requireDesktopAuth', () => {
     const withLegacy = buildPackagedDaemonSpawnEnv(fakePaths(), {
       appVersion: null,
       daemonCliEntry: null,
-      legacyDataDir: '/old/.od',
+      legacyDataDir: '/old/.sankiwork',
       requireDesktopAuth: false,
     });
-    expect(withLegacy.OD_LEGACY_DATA_DIR).toBe('/old/.od');
+    expect(withLegacy.SW_LEGACY_DATA_DIR).toBe('/old/.sankiwork');
 
     const withEmptyLegacy = buildPackagedDaemonSpawnEnv(fakePaths(), {
       appVersion: null,
@@ -543,30 +543,30 @@ describe('buildPackagedDaemonSpawnEnv', () => {
     });
     // Empty string must NOT propagate — daemon treats "env set but
     // path invalid" as an error and refuses to start.
-    expect('OD_LEGACY_DATA_DIR' in withEmptyLegacy).toBe(false);
+    expect('SW_LEGACY_DATA_DIR' in withEmptyLegacy).toBe(false);
   });
 
-  it('forwards daemonCliEntry through OD_DAEMON_CLI_PATH when set', () => {
+  it('forwards daemonCliEntry through SW_DAEMON_CLI_PATH when set', () => {
     const env = buildPackagedDaemonSpawnEnv(fakePaths(), {
       appVersion: null,
       daemonCliEntry: '/path/to/cli/dist/index.js',
       legacyDataDir: null,
       requireDesktopAuth: true,
     });
-    expect(env.OD_DAEMON_CLI_PATH).toBe('/path/to/cli/dist/index.js');
+    expect(env.SW_DAEMON_CLI_PATH).toBe('/path/to/cli/dist/index.js');
   });
 
-  it('forwards the packaged node command as OD_NODE_BIN for agent wrapper calls', () => {
+  it('forwards the packaged node command as SW_NODE_BIN for agent wrapper calls', () => {
     const env = buildPackagedDaemonSpawnEnv(fakePaths(), {
       appVersion: null,
       daemonCliEntry: null,
       legacyDataDir: null,
-      nodeCommand: 'C:\\Users\\Ada\\AppData\\Local\\Programs\\Open Design\\resources\\open-design\\bin\\node.exe',
+      nodeCommand: 'C:\\Users\\Ada\\AppData\\Local\\Programs\\SankiWork\\resources\\sankiwork\\bin\\node.exe',
       requireDesktopAuth: true,
     });
 
-    expect(env.OD_NODE_BIN).toBe(
-      'C:\\Users\\Ada\\AppData\\Local\\Programs\\Open Design\\resources\\open-design\\bin\\node.exe',
+    expect(env.SW_NODE_BIN).toBe(
+      'C:\\Users\\Ada\\AppData\\Local\\Programs\\SankiWork\\resources\\sankiwork\\bin\\node.exe',
     );
   });
 
@@ -576,10 +576,10 @@ describe('buildPackagedDaemonSpawnEnv', () => {
       daemonCliEntry: null,
       legacyDataDir: null,
       requireDesktopAuth: true,
-      telemetryRelayUrl: 'https://telemetry.open-design.ai/api/langfuse',
+      telemetryRelayUrl: 'https://telemetry.sanki-ai.cloud/api/langfuse',
     });
-    expect(env.OPEN_DESIGN_TELEMETRY_RELAY_URL).toBe(
-      'https://telemetry.open-design.ai/api/langfuse',
+    expect(env.SANKIWORK_TELEMETRY_RELAY_URL).toBe(
+      'https://telemetry.sanki-ai.cloud/api/langfuse',
     );
   });
 
@@ -591,7 +591,7 @@ describe('buildPackagedDaemonSpawnEnv', () => {
       legacyDataDir: null,
       requireDesktopAuth: true,
     });
-    expect(env.OPEN_DESIGN_AMR_PROFILE).toBe('test');
+    expect(env.SANKIWORK_AMR_PROFILE).toBe('test');
   });
 
   it.each(['feature-test', 'test'] as const)(
@@ -605,12 +605,12 @@ describe('buildPackagedDaemonSpawnEnv', () => {
         requireDesktopAuth: true,
         velaWebUrl: 'https://vela.example.invalid',
       });
-      expect(env.OPEN_DESIGN_AMR_PROFILE).toBe(amrProfile);
-      expect(env.OD_WORKSPACE_CONTEXT_SOURCE).toBe('vela');
-      expect(env.OD_TEAM_PROJECTS_TRANSPORT).toBe('vela-cli');
-      expect(env.OD_COLLAB_TRANSPORT).toBe('vela-cli');
-      expect(env.OD_RESOURCE_TRANSPORT).toBe('vela-cli');
-      expect(env.OD_VELA_WEB_URL).toBe('https://vela.example.invalid');
+      expect(env.SANKIWORK_AMR_PROFILE).toBe(amrProfile);
+      expect(env.SW_WORKSPACE_CONTEXT_SOURCE).toBe('vela');
+      expect(env.SW_TEAM_PROJECTS_TRANSPORT).toBe('vela-cli');
+      expect(env.SW_COLLAB_TRANSPORT).toBe('vela-cli');
+      expect(env.SW_RESOURCE_TRANSPORT).toBe('vela-cli');
+      expect(env.SW_VELA_WEB_URL).toBe('https://vela.example.invalid');
     },
   );
 
@@ -629,11 +629,11 @@ describe('buildPackagedDaemonSpawnEnv', () => {
           requireDesktopAuth: true,
           velaWebUrl,
         });
-        expect('OD_WORKSPACE_CONTEXT_SOURCE' in env).toBe(false);
-        expect('OD_TEAM_PROJECTS_TRANSPORT' in env).toBe(false);
-        expect('OD_COLLAB_TRANSPORT' in env).toBe(false);
-        expect('OD_RESOURCE_TRANSPORT' in env).toBe(false);
-        expect('OD_VELA_WEB_URL' in env).toBe(false);
+        expect('SW_WORKSPACE_CONTEXT_SOURCE' in env).toBe(false);
+        expect('SW_TEAM_PROJECTS_TRANSPORT' in env).toBe(false);
+        expect('SW_COLLAB_TRANSPORT' in env).toBe(false);
+        expect('SW_RESOURCE_TRANSPORT' in env).toBe(false);
+        expect('SW_VELA_WEB_URL' in env).toBe(false);
       }
     },
   );
@@ -647,11 +647,11 @@ describe('buildPackagedDaemonSpawnEnv', () => {
         legacyDataDir: null,
         requireDesktopAuth: true,
       });
-      expect('OD_WORKSPACE_CONTEXT_SOURCE' in env).toBe(false);
-      expect('OD_TEAM_PROJECTS_TRANSPORT' in env).toBe(false);
-      expect('OD_COLLAB_TRANSPORT' in env).toBe(false);
-      expect('OD_RESOURCE_TRANSPORT' in env).toBe(false);
-      expect('OD_VELA_WEB_URL' in env).toBe(false);
+      expect('SW_WORKSPACE_CONTEXT_SOURCE' in env).toBe(false);
+      expect('SW_TEAM_PROJECTS_TRANSPORT' in env).toBe(false);
+      expect('SW_COLLAB_TRANSPORT' in env).toBe(false);
+      expect('SW_RESOURCE_TRANSPORT' in env).toBe(false);
+      expect('SW_VELA_WEB_URL' in env).toBe(false);
     }
   });
 
@@ -664,13 +664,13 @@ describe('buildPackagedDaemonSpawnEnv', () => {
       daemonCliEntry: null,
       legacyDataDir: null,
       requireDesktopAuth: true,
-      velaWebUrl: 'https://open-design.ai/cloud',
+      velaWebUrl: 'https://sanki-ai.cloud/cloud',
     });
-    expect(env.OD_WORKSPACE_CONTEXT_SOURCE).toBe('vela');
-    expect(env.OD_TEAM_PROJECTS_TRANSPORT).toBe('vela-cli');
-    expect(env.OD_COLLAB_TRANSPORT).toBe('vela-cli');
-    expect(env.OD_RESOURCE_TRANSPORT).toBe('vela-cli');
-    expect(env.OD_VELA_WEB_URL).toBe('https://open-design.ai/cloud');
+    expect(env.SW_WORKSPACE_CONTEXT_SOURCE).toBe('vela');
+    expect(env.SW_TEAM_PROJECTS_TRANSPORT).toBe('vela-cli');
+    expect(env.SW_COLLAB_TRANSPORT).toBe('vela-cli');
+    expect(env.SW_RESOURCE_TRANSPORT).toBe('vela-cli');
+    expect(env.SW_VELA_WEB_URL).toBe('https://sanki-ai.cloud/cloud');
   });
 
   // The profile allowlist remains the load-bearing half of the gate for every
@@ -687,11 +687,11 @@ describe('buildPackagedDaemonSpawnEnv', () => {
         requireDesktopAuth: true,
         velaWebUrl: 'https://vela.example.invalid',
       });
-      expect('OD_WORKSPACE_CONTEXT_SOURCE' in env).toBe(false);
-      expect('OD_TEAM_PROJECTS_TRANSPORT' in env).toBe(false);
-      expect('OD_COLLAB_TRANSPORT' in env).toBe(false);
-      expect('OD_RESOURCE_TRANSPORT' in env).toBe(false);
-      expect('OD_VELA_WEB_URL' in env).toBe(false);
+      expect('SW_WORKSPACE_CONTEXT_SOURCE' in env).toBe(false);
+      expect('SW_TEAM_PROJECTS_TRANSPORT' in env).toBe(false);
+      expect('SW_COLLAB_TRANSPORT' in env).toBe(false);
+      expect('SW_RESOURCE_TRANSPORT' in env).toBe(false);
+      expect('SW_VELA_WEB_URL' in env).toBe(false);
     }
   });
 
@@ -705,11 +705,11 @@ describe('buildPackagedDaemonSpawnEnv', () => {
       legacyDataDir: null,
       requireDesktopAuth: true,
     });
-    expect('OD_WORKSPACE_CONTEXT_SOURCE' in env).toBe(false);
-    expect('OD_TEAM_PROJECTS_TRANSPORT' in env).toBe(false);
-    expect('OD_COLLAB_TRANSPORT' in env).toBe(false);
-    expect('OD_RESOURCE_TRANSPORT' in env).toBe(false);
-    expect('OD_VELA_WEB_URL' in env).toBe(false);
+    expect('SW_WORKSPACE_CONTEXT_SOURCE' in env).toBe(false);
+    expect('SW_TEAM_PROJECTS_TRANSPORT' in env).toBe(false);
+    expect('SW_COLLAB_TRANSPORT' in env).toBe(false);
+    expect('SW_RESOURCE_TRANSPORT' in env).toBe(false);
+    expect('SW_VELA_WEB_URL' in env).toBe(false);
   });
 
   it('forwards POSTHOG_KEY/POSTHOG_HOST to the daemon spawn env when baked into the bundle', () => {
@@ -740,7 +740,7 @@ describe('buildPackagedDaemonSpawnEnv', () => {
 });
 
 describe('waitForStatus child-exit fast-fail', () => {
-  // mrcfps round-7: when OD_LEGACY_DATA_DIR is set the daemon status
+  // mrcfps round-7: when SW_LEGACY_DATA_DIR is set the daemon status
   // budget extends to 30 minutes for legitimate large-payload migrations.
   // But a daemon that throws LegacyMigrationError at startup (invalid
   // legacy dir, existing target payload, symlink, marker write failure)
@@ -820,7 +820,7 @@ describe('waitForStatus child-exit fast-fail', () => {
     child.pid = 5678;
     const ipcPath = resolveAppIpcPath({
       app: APP_KEYS.WEB,
-      contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+      contract: SANKIWORK_SIDECAR_CONTRACT,
       namespace: `stale-ipc-${process.pid}-${Date.now()}`,
     });
     const server = await createJsonIpcServer({
@@ -857,7 +857,7 @@ describe('waitForStatus child-exit fast-fail', () => {
 /**
  * The web sidecar used to be spawned once and never watched. When it
  * died mid-session — observed 2026-07-25 after a 0.15.1 -> 0.16.1
- * launcher handoff reaped it — nothing respawned it, and the od://
+ * launcher handoff reaped it — nothing respawned it, and the sankiwork://
  * proxy kept forwarding to the dead port until the app was relaunched.
  *
  * The supervisor respawns it, but a sidecar that crashes during boot

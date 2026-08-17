@@ -12,7 +12,7 @@
 import { createHash } from "node:crypto";
 import { isAbsolute, resolve } from "node:path";
 
-import { pathContains } from "@open-design/platform";
+import { pathContains } from "@sankiwork/platform";
 
 import { LOCK_DIR, PARTIAL_DIR, STATE_DIR } from "./constants.js";
 import { MANAGED_DOWNLOAD_ERROR_CODES, ManagedDownloadError } from "./errors.js";

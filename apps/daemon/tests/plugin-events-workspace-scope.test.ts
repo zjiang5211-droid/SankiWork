@@ -1,6 +1,6 @@
 import type http from 'node:http';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 import { startServer } from '../src/server.js';
 import { ensureWorkspaceResource, openDatabase } from '../src/db.js';
 import { upsertInstalledPlugin } from '../src/plugins/registry.js';
@@ -50,7 +50,7 @@ beforeAll(async () => {
   baseUrl = started.url;
   server = started.server;
   shutdown = started.shutdown;
-  const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+  const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
 
   for (const plugin of [
     fakePlugin('event-bundled', 'bundled'),

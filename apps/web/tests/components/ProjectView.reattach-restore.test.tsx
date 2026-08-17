@@ -295,7 +295,7 @@ describe('computeTraceObjectFiles', () => {
     const files = computeTraceObjectFiles(
       before,
       next as never,
-      ['.od/projects/project-2/existing.html'],
+      ['.sankiwork/projects/project-2/existing.html'],
       'project-1',
     );
 
@@ -307,7 +307,7 @@ describe('computeTraceObjectFiles', () => {
     const next = [
       { name: 'existing.html', path: 'existing.html', size: 10, mtime: 2, kind: 'html', mime: 'text/html' },
     ];
-    const touchedPaths = ['.od/projects/project-1/existing.html'];
+    const touchedPaths = ['.sankiwork/projects/project-1/existing.html'];
 
     const files = computeTraceObjectFiles(before, next as never, touchedPaths, 'project-1');
 
@@ -1339,13 +1339,13 @@ describe('ProjectView daemon reattach restore', () => {
 
     reattachDaemonRun.mockImplementation(async (options: any) => {
       const error = new Error(
-        'AMR Cloud reported insufficient balance for this model. Top up your AMR balance at https://open-design.ai/amr/dashboard, then retry this run.',
+        'AMR Cloud reported insufficient balance for this model. Top up your AMR balance at https://sanki-ai.cloud/amr/dashboard, then retry this run.',
       ) as Error & { code: string; details: unknown };
       error.code = 'AMR_INSUFFICIENT_BALANCE';
       error.details = {
         kind: 'amr_account',
         action: 'recharge',
-        actionUrl: 'https://open-design.ai/amr/dashboard',
+        actionUrl: 'https://sanki-ai.cloud/amr/dashboard',
       };
       options.handlers.onError(error);
     });

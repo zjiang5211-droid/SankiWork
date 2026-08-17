@@ -20,7 +20,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { applyPlugin } from '../src/plugins/apply.js';
-import type { InstalledPluginRecord, PluginManifest, PluginPipeline } from '@open-design/contracts';
+import type { InstalledPluginRecord, PluginManifest, PluginPipeline } from '@sankiwork/contracts';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 

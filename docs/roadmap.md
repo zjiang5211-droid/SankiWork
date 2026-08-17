@@ -138,7 +138,7 @@ v1." Its estimates and checkboxes are retained as historical context.
 **Deployment:**
 - Docker compose file
 - Topology B: Vercel web + tunneled local daemon
-  - Ship a helper subcommand: `od daemon --expose` using `cloudflared` (opt-in, documented)
+  - Ship a helper subcommand: `sw daemon --expose` using `cloudflared` (opt-in, documented)
 
 **Dev experience:**
 - `od skill test` with cheap-model runs
@@ -149,7 +149,7 @@ v1." Its estimates and checkboxes are retained as historical context.
 1. All four modes fully functional.
 2. Three adapters working (Claude Code, Codex, Cursor Agent); fallback chain shipping.
 3. PDF + PPTX export working for at least the `magazine-web-ppt` + `pitch-deck` skills.
-4. Deployed example at `demo.open-design.dev` (Topology C).
+4. Deployed example at `demo.sankiwork.dev` (Topology C).
 5. Skill author docs published; at least one third-party skill submitted.
 6. Documentation site rebuilt from these spec docs.
 
@@ -186,23 +186,23 @@ Milestones:
 |---|---|
 | SE0 | Contracts for source packets, automation templates, evolution proposals, memory tree nodes, and compression reports. |
 | SE1 | Editable memory tree that agents actually consume through the daemon and BYOK/API-mode prompt resolver. |
-| SE2 | Automation template registry exposed in both web UI and `od automation`. |
+| SE2 | Automation template registry exposed in both web UI and `sw automation`. |
 | SE3 | Design-system extraction and skill crystallization proposals with review gates. |
 | SE4 | Connector-driven ingestion into memory/design-system/skill proposals with provenance. |
 | SE5 | Optional token compression with before/after token reports and rollback-safe stored originals. |
 
 SE1 starts from the existing Markdown memory store: `/api/memory/tree` and
-`od memory tree list/view/edit/move` expose a derived editable tree while the
+`sw memory tree list/view/edit/move` expose a derived editable tree while the
 same selected entries continue feeding daemon and BYOK/API-mode prompts.
 
 SE2 also includes the first review gate: `/api/automation-proposals` plus
-`od automation proposal list/get/apply/reject` can review memory-node, skill,
+`sw automation proposal list/get/apply/reject` can review memory-node, skill,
 and design-system proposals. Accepted memory proposals write into the memory
 tree; accepted skill and design-system proposals write reviewed drafts under
 the user-owned runtime roots.
 
 SE3/SE4 start closing the source loop through `/api/automation-ingestions`,
-`/api/automation-source-packets`, and `od automation source ingest/list/get`.
+`/api/automation-source-packets`, and `sw automation source ingest/list/get`.
 The Automations page now has a source-ingestion panel that can turn pasted
 connector/repo/artifact/chat context into stored source packets plus reviewable
 memory, skill, and design-system proposals. Each ingestion can choose

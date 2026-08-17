@@ -19,7 +19,7 @@ test("isPendingApprovalRun matches approval-gated fork PR runs from GitHub's cap
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -50,7 +50,7 @@ test("isPendingApprovalRun also accepts action_required runs reported only in st
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -81,7 +81,7 @@ test("isPendingApprovalRun rejects runs outside the allowlist or without action_
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -133,7 +133,7 @@ test("runTargetsPullRequest accepts empty run.pull_requests only when the head S
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -164,7 +164,7 @@ test("runTargetsPullRequest accepts fork PR runs with no GitHub PR association w
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -178,7 +178,7 @@ test("runTargetsPullRequest accepts fork PR runs with no GitHub PR association w
     name: "CI",
     event: "pull_request",
     head_branch: "fix/workflow-linkage",
-    head_repository: { full_name: "someone/open-design" },
+    head_repository: { full_name: "someone/sankiwork" },
     status: "completed",
     conclusion: "action_required",
     head_sha: pull.head.sha,
@@ -197,7 +197,7 @@ test("runTargetsPullRequest rejects ambiguous empty run.pull_requests associatio
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -238,7 +238,7 @@ test("runTargetsPullRequest rejects fork PR runs when multiple open PRs share th
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -281,7 +281,7 @@ test("runTargetsPullRequest rejects empty associations when fork head identity d
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -295,7 +295,7 @@ test("runTargetsPullRequest rejects empty associations when fork head identity d
     name: "CI",
     event: "pull_request",
     head_branch: "different-branch",
-    head_repository: { full_name: "someone/open-design" },
+    head_repository: { full_name: "someone/sankiwork" },
     status: "completed",
     conclusion: "action_required",
     head_sha: pull.head.sha,
@@ -314,7 +314,7 @@ test("runTargetsPullRequest rejects runs that GitHub already associates to a dif
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -355,7 +355,7 @@ test("runTargetsPullRequest approves only the run that GitHub associates to the 
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -403,7 +403,7 @@ test("runTargetsPullRequest ignores base tip churn for the same PR association",
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -443,7 +443,7 @@ test("listPendingApprovalRuns paginates all pull_request runs for the head SHA a
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -525,7 +525,7 @@ test("listPendingApprovalRuns only approves the unified CI workflow", async () =
     head: {
       ref: "fix/readme-copy",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",
@@ -575,7 +575,7 @@ test("hasPullApprovalStateDrift ignores base tip churn but still rejects base re
     head: {
       ref: "fix/workflow-linkage",
       sha: "734076155c44e569304856590019cea54506fdab",
-      repo: { full_name: "someone/open-design" },
+      repo: { full_name: "someone/sankiwork" },
     },
     base: {
       ref: "main",

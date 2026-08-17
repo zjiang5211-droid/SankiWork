@@ -6,7 +6,7 @@
 // terminal outcome wins, attribution carried from the amr_entry click.
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { AmrEntryAttribution } from '@open-design/contracts/analytics';
+import type { AmrEntryAttribution } from '@sankiwork/contracts/analytics';
 
 // Spy on the analytics client so the user_id ordering contract is
 // observable without a live PostHog instance.
@@ -31,7 +31,7 @@ import { cancelVelaLogin, startVelaLogin } from '../src/providers/daemon';
 
 const attribution: AmrEntryAttribution = {
   entryId: 'od-amr-test-entry',
-  sourceProduct: 'open_design',
+  sourceProduct: 'sankiwork',
   sourceDetail: 'inline_model_switcher_amr_row',
   occurredAt: new Date().toISOString(),
 };

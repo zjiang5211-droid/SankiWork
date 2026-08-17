@@ -259,11 +259,11 @@ describe('listSkills', () => {
     expect(skill.body).toContain(`${liveArtifactAlias}/references/artifact-schema.md`);
     expect(skill.body).not.toContain(`${liveArtifactAlias}/assets/template.html`);
     expect(skill.body).not.toContain(`${liveArtifactAlias}/references/layouts.md`);
-    expect(skill.body).toContain('"$OD_NODE_BIN" "$OD_BIN" tools live-artifacts create --input artifact.json');
+    expect(skill.body).toContain('"$SW_NODE_BIN" "$SW_BIN" tools live-artifacts create --input artifact.json');
     expect(skill.body).toContain('do not ask “where should the data come from?” before checking daemon connector tools');
     expect(skill.body).toContain('notion.notion_search');
-    expect(skill.body).toContain('`OD_DAEMON_URL`');
-    expect(skill.body).toContain('`OD_TOOL_TOKEN`');
+    expect(skill.body).toContain('`SW_DAEMON_URL`');
+    expect(skill.body).toContain('`SW_TOOL_TOKEN`');
   });
 
   it('includes the agent-browser skill as an external CLI integration', async () => {
@@ -291,7 +291,7 @@ describe('listSkills', () => {
     expect(skill.body).toContain('--remote-debugging-port=9223');
     expect(skill.body).toContain('Chrome crashed before CDP became available');
     expect(skill.body).toContain('command -v agent-browser');
-    expect(skill.body).toContain('Open Design Smoke Path');
+    expect(skill.body).toContain('SankiWork Smoke Path');
     expect(skill.body).toContain('`daemon-cli.mjs browser snapshot`');
     expect(skill.body).toContain('misinterpreted as daemon startup');
     expect(skill.body).toContain('trap cleanup_agent_browser EXIT INT TERM');

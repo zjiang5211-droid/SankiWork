@@ -12,7 +12,7 @@ import type {
   LibraryAssetKind,
   LibraryElementMeta,
   LibrarySourceKind,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export const SOURCE_LABELS: Record<LibrarySourceKind, string> = {
   clipper: 'Clipper',

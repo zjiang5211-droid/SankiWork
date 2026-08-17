@@ -1,4 +1,4 @@
-import type { ChatSessionMode } from '@open-design/contracts';
+import type { ChatSessionMode } from '@sankiwork/contracts';
 import type { AgentEvent, ChatMessage } from '../types';
 import { hasFileMutationToolUse } from './file-ops';
 import { unfinishedTodosFromEvents } from './todos';

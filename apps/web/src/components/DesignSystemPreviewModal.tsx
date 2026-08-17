@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { useAnalytics } from '../analytics/provider';
 import {
   trackDesignSystemsTemplatesModalClick,
@@ -106,7 +106,7 @@ export function DesignSystemPreviewModal({
           trackDesignSystemsTemplatesModalClick(analytics.track, {
             page_name: 'design_systems',
             area: 'templates_modal',
-            element: viewId === 'kit' ? 'open_design_set' : viewId,
+            element: viewId === 'kit' ? 'sankiwork_set' : viewId,
             templates_id: system.id,
             templates_type: system.source ?? 'library',
           });

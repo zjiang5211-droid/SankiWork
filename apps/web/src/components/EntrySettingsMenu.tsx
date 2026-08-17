@@ -6,10 +6,10 @@ import {
 } from 'react';
 import {
   buildSocialSharePayload,
-  OPEN_DESIGN_GITHUB_REPO_URL,
+  SANKIWORK_GITHUB_REPO_URL,
   type SocialShareRequest,
   type SocialShareResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   LOCALE_LABEL,
   LOCALES,
@@ -32,9 +32,9 @@ import { enterpriseUrl } from './enterpriseUrl';
 const DISCORD_URL = 'https://discord.gg/mHAjSMV6gz';
 const X_URL = 'https://x.com/OpenDesignHQ';
 const THREADS_URL = 'https://www.threads.com/@opendesign.ai';
-const YOUTUBE_URL = 'https://www.youtube.com/@Open-Design-ai';
+const YOUTUBE_URL = 'https://www.youtube.com/@SankiWork-ai';
 const INSTAGRAM_URL = 'https://www.instagram.com/opendesign.ai/';
-const LINKEDIN_URL = 'https://www.linkedin.com/company/open-design-ai/';
+const LINKEDIN_URL = 'https://www.linkedin.com/company/sankiwork-ai/';
 const XIAOHONGSHU_URL =
   'https://www.xiaohongshu.com/user/profile/691effad000000003002978f';
 
@@ -83,7 +83,7 @@ export function EntrySettingsMenu({
   const discordPresence = useDiscordPresence();
   const [open, setOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const [openDesignShare, setOpenDesignShare] = useState<SocialShareResponse | null>(null);
+  const [sankiWorkShare, setSankiWorkShare] = useState<SocialShareResponse | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const langListRef = useRef<HTMLDivElement | null>(null);
@@ -92,22 +92,22 @@ export function EntrySettingsMenu({
         count: formatDiscordPresenceCount(discordPresence.onlineCount),
       })
     : null;
-  const openDesignShareRequest = useMemo<SocialShareRequest>(() => {
-    const text = t('socialShare.openDesignText');
+  const sankiWorkShareRequest = useMemo<SocialShareRequest>(() => {
+    const text = t('socialShare.sankiWorkText');
     return {
-      kind: 'open-design-repo',
+      kind: 'sankiwork-repo',
       locale,
-      title: t('socialShare.openDesignTitle'),
+      title: t('socialShare.sankiWorkTitle'),
       text,
-      copyText: t('socialShare.openDesignCopyText', {
+      copyText: t('socialShare.sankiWorkCopyText', {
         text,
-        url: OPEN_DESIGN_GITHUB_REPO_URL,
+        url: SANKIWORK_GITHUB_REPO_URL,
       }),
     };
   }, [locale, t]);
-  const fallbackOpenDesignShare = useMemo(
-    () => buildSocialSharePayload(openDesignShareRequest),
-    [openDesignShareRequest],
+  const fallbackSankiWorkShare = useMemo(
+    () => buildSocialSharePayload(sankiWorkShareRequest),
+    [sankiWorkShareRequest],
   );
 
   useEffect(() => {
@@ -157,18 +157,18 @@ export function EntrySettingsMenu({
   useEffect(() => {
     if (!open) return;
     let cancelled = false;
-    setOpenDesignShare(null);
-    void createSocialSharePayload(openDesignShareRequest)
+    setSankiWorkShare(null);
+    void createSocialSharePayload(sankiWorkShareRequest)
       .then((payload) => {
-        if (!cancelled) setOpenDesignShare(payload);
+        if (!cancelled) setSankiWorkShare(payload);
       })
       .catch(() => {
-        if (!cancelled) setOpenDesignShare(null);
+        if (!cancelled) setSankiWorkShare(null);
       });
     return () => {
       cancelled = true;
     };
-  }, [open, openDesignShareRequest]);
+  }, [open, sankiWorkShareRequest]);
 
   return (
     <div className="entry-settings-menu" ref={wrapRef}>
@@ -278,10 +278,10 @@ export function EntrySettingsMenu({
           <section className="entry-settings-menu__section">
             <div className="entry-settings-menu__section-title">
               <Icon name="external-link" size={14} />
-              <span>{t('socialShare.openDesignSection')}</span>
+              <span>{t('socialShare.sankiWorkSection')}</span>
             </div>
             <SocialShareGrid
-              share={openDesignShare ?? fallbackOpenDesignShare}
+              share={sankiWorkShare ?? fallbackSankiWorkShare}
               className="entry-settings-social-share"
               onShare={(platform) => {
                 trackSettingsPopoverClick(analytics.track, {

@@ -182,8 +182,8 @@ describe('GET /api/projects/:id/raw/* range request route', () => {
     expect(createResponse.status).toBe(200);
 
     // Write a test video file into the daemon's projects root.
-    // OD_DATA_DIR is set by tests/setup.ts so we can derive the path.
-    projectsRoot = path.join(process.env.OD_DATA_DIR!, 'projects');
+    // SW_DATA_DIR is set by tests/setup.ts so we can derive the path.
+    projectsRoot = path.join(process.env.SW_DATA_DIR!, 'projects');
     const dir = path.join(projectsRoot, projectId);
     await mkdir(dir, { recursive: true });
     await writeFile(path.join(dir, 'clip.mp4'), Buffer.alloc(FILE_SIZE, 0x42));

@@ -33,12 +33,12 @@ export function assertPackagedPtySmokeResult(value: unknown): PackagedPtySmokeRe
 export function packagedPtySmokeCommand(platform: PackagedPtySmokePlatform): string {
   return platform === 'win32'
     ? [
-        'set "OD_PTY_VALUE=PTY_OK"',
-        'echo OD_PACKAGED_%OD_PTY_VALUE%',
+        'set "SW_PTY_VALUE=PTY_OK"',
+        'echo SW_PACKAGED_%SW_PTY_VALUE%',
         'exit /b 0',
         '',
       ].join('\r\n')
-    : `printf 'OD_PACKAGED_%s\\n' 'PTY_OK'; exit 0\n`;
+    : `printf 'SW_PACKAGED_%s\\n' 'PTY_OK'; exit 0\n`;
 }
 
 /**
@@ -47,7 +47,7 @@ export function packagedPtySmokeCommand(platform: PackagedPtySmokePlatform): str
  * terminal and project it created even when the assertion path fails.
  */
 export function packagedPtySmokeExpression(platform: PackagedPtySmokePlatform): string {
-  const marker = 'OD_PACKAGED_PTY_OK';
+  const marker = 'SW_PACKAGED_PTY_OK';
   const shell = platform === 'win32' ? 'cmd.exe' : '/bin/sh';
   const command = packagedPtySmokeCommand(platform);
 

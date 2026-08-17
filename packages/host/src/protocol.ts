@@ -1,43 +1,43 @@
-import type { ReleaseChannel } from "@open-design/release";
+import type { ReleaseChannel } from "@sankiwork/release";
 
 /**
  * @module protocol
  *
- * The Open Design renderer host-bridge wire contract: the injected-global name
+ * The SankiWork renderer host-bridge wire contract: the injected-global name
  * and version, client/updater constant registries, and every request/result
- * type that crosses the host bridge — including the {@link OpenDesignHostBridge}
+ * type that crosses the host bridge — including the {@link SankiWorkHostBridge}
  * shape itself. Pure declarations only; depends on nothing else in the package.
  */
 
-export const OPEN_DESIGN_HOST_GLOBAL = "__od__";
-export const OPEN_DESIGN_HOST_VERSION = 2;
+export const SANKIWORK_HOST_GLOBAL = "__sankiwork__";
+export const SANKIWORK_HOST_VERSION = 2;
 
-export const OPEN_DESIGN_HOST_CLIENT_TYPES = Object.freeze({
+export const SANKIWORK_HOST_CLIENT_TYPES = Object.freeze({
   DESKTOP: "desktop",
 } as const);
 
-export type OpenDesignHostClientType =
-  (typeof OPEN_DESIGN_HOST_CLIENT_TYPES)[keyof typeof OPEN_DESIGN_HOST_CLIENT_TYPES];
+export type SankiWorkHostClientType =
+  (typeof SANKIWORK_HOST_CLIENT_TYPES)[keyof typeof SANKIWORK_HOST_CLIENT_TYPES];
 
-export type OpenDesignHostClient = {
+export type SankiWorkHostClient = {
   // BCP-47 locale string (e.g. "zh-CN", "pt-BR") the host process read from
   // the OS at startup. The renderer uses this so the packaged desktop app
   // can follow the OS language even when Chromium's built-in
   // `navigator.language` would have defaulted to en-US.
   osLocale?: string;
   platform?: string;
-  type: OpenDesignHostClientType;
+  type: SankiWorkHostClientType;
 };
 
-export type OpenDesignHostFailure = {
+export type SankiWorkHostFailure = {
   details?: unknown;
   ok: false;
   reason: string;
 };
 
-export type OpenDesignHostActionResult =
+export type SankiWorkHostActionResult =
   | { ok: true }
-  | OpenDesignHostFailure;
+  | SankiWorkHostFailure;
 
 /**
  * The workspace attribution the renderer gives the host so a folder import
@@ -57,7 +57,7 @@ export type OpenDesignHostActionResult =
  * it would reject the very `WorkspaceCollabContext` callers pass. Callers hand
  * over a variable, not a fresh literal, so the extra fields ride along fine.
  */
-export type OpenDesignHostWorkspaceContext = {
+export type SankiWorkHostWorkspaceContext = {
   lifecycleState: string;
   memberStatus: string;
   permissions: {
@@ -70,43 +70,43 @@ export type OpenDesignHostWorkspaceContext = {
   workspaceType: string;
 };
 
-export type OpenDesignHostProjectImportInit = {
+export type SankiWorkHostProjectImportInit = {
   designSystemId?: string | null;
   name?: string;
   skillId?: string | null;
-  workspaceContext?: OpenDesignHostWorkspaceContext | null;
+  workspaceContext?: SankiWorkHostWorkspaceContext | null;
 };
 
-export type OpenDesignHostProjectImportSuccess = {
+export type SankiWorkHostProjectImportSuccess = {
   conversationId: string;
   entryFile: string | null;
   ok: true;
   projectId: string;
 };
 
-export type OpenDesignHostProjectImportResult =
-  | OpenDesignHostProjectImportSuccess
+export type SankiWorkHostProjectImportResult =
+  | SankiWorkHostProjectImportSuccess
   | {
       canceled: true;
       ok: false;
     }
-  | OpenDesignHostFailure;
+  | SankiWorkHostFailure;
 
-export type OpenDesignHostProjectReplaceWorkingDirSuccess = {
+export type SankiWorkHostProjectReplaceWorkingDirSuccess = {
   baseDir: string;
   entryFile: string | null;
   ok: true;
 };
 
-export type OpenDesignHostProjectReplaceWorkingDirResult =
-  | OpenDesignHostProjectReplaceWorkingDirSuccess
+export type SankiWorkHostProjectReplaceWorkingDirResult =
+  | SankiWorkHostProjectReplaceWorkingDirSuccess
   | {
       canceled: true;
       ok: false;
     }
-  | OpenDesignHostFailure;
+  | SankiWorkHostFailure;
 
-export type OpenDesignHostPickWorkingDirSuccess = {
+export type SankiWorkHostPickWorkingDirSuccess = {
   baseDir: string;
   ok: true;
   // Single-use HMAC token (minted by the host main process for `baseDir`)
@@ -116,24 +116,24 @@ export type OpenDesignHostPickWorkingDirSuccess = {
   token: string;
 };
 
-export type OpenDesignHostPickWorkingDirResult =
-  | OpenDesignHostPickWorkingDirSuccess
+export type SankiWorkHostPickWorkingDirResult =
+  | SankiWorkHostPickWorkingDirSuccess
   | {
       canceled: true;
       ok: false;
     }
-  | OpenDesignHostFailure;
+  | SankiWorkHostFailure;
 
-export type OpenDesignHostPdfPrintOptions = {
+export type SankiWorkHostPdfPrintOptions = {
   deck?: boolean;
 };
 
-export type OpenDesignHostCaptureClip = { x: number; y: number; width: number; height: number };
-export type OpenDesignHostCaptureOptions = { clip?: OpenDesignHostCaptureClip };
-export type OpenDesignHostCaptureSuccess = { dataUrl: string; h: number; ok: true; w: number };
-export type OpenDesignHostCaptureResult = OpenDesignHostCaptureSuccess | OpenDesignHostFailure;
+export type SankiWorkHostCaptureClip = { x: number; y: number; width: number; height: number };
+export type SankiWorkHostCaptureOptions = { clip?: SankiWorkHostCaptureClip };
+export type SankiWorkHostCaptureSuccess = { dataUrl: string; h: number; ok: true; w: number };
+export type SankiWorkHostCaptureResult = SankiWorkHostCaptureSuccess | SankiWorkHostFailure;
 
-export type OpenDesignHostBrowserClearDataOptions = {
+export type SankiWorkHostBrowserClearDataOptions = {
   cookies?: boolean;
   storage?: boolean;
 };
@@ -145,16 +145,16 @@ export type OpenDesignHostBrowserClearDataOptions = {
  * muddy gray when the OS is dark but the app theme is explicitly light);
  * `system` restores following the OS.
  */
-export const OPEN_DESIGN_HOST_APPEARANCE_THEMES = Object.freeze({
+export const SANKIWORK_HOST_APPEARANCE_THEMES = Object.freeze({
   DARK: "dark",
   LIGHT: "light",
   SYSTEM: "system",
 } as const);
 
-export type OpenDesignHostAppearanceTheme =
-  (typeof OPEN_DESIGN_HOST_APPEARANCE_THEMES)[keyof typeof OPEN_DESIGN_HOST_APPEARANCE_THEMES];
+export type SankiWorkHostAppearanceTheme =
+  (typeof SANKIWORK_HOST_APPEARANCE_THEMES)[keyof typeof SANKIWORK_HOST_APPEARANCE_THEMES];
 
-export const OPEN_DESIGN_HOST_UPDATER_ACTIONS = Object.freeze({
+export const SANKIWORK_HOST_UPDATER_ACTIONS = Object.freeze({
   CHECK: "check",
   CLEAR_CACHE: "clear-cache",
   DOWNLOAD: "download",
@@ -163,16 +163,16 @@ export const OPEN_DESIGN_HOST_UPDATER_ACTIONS = Object.freeze({
   STATUS: "status",
 } as const);
 
-export type OpenDesignHostUpdaterAction =
-  (typeof OPEN_DESIGN_HOST_UPDATER_ACTIONS)[keyof typeof OPEN_DESIGN_HOST_UPDATER_ACTIONS];
+export type SankiWorkHostUpdaterAction =
+  (typeof SANKIWORK_HOST_UPDATER_ACTIONS)[keyof typeof SANKIWORK_HOST_UPDATER_ACTIONS];
 
 /** @internal Updater actions that return a status snapshot (every action except `quit`). */
-export type OpenDesignHostUpdaterStatusAction = Exclude<
-  OpenDesignHostUpdaterAction,
-  typeof OPEN_DESIGN_HOST_UPDATER_ACTIONS.QUIT
+export type SankiWorkHostUpdaterStatusAction = Exclude<
+  SankiWorkHostUpdaterAction,
+  typeof SANKIWORK_HOST_UPDATER_ACTIONS.QUIT
 >;
 
-export const OPEN_DESIGN_HOST_UPDATER_STATES = Object.freeze({
+export const SANKIWORK_HOST_UPDATER_STATES = Object.freeze({
   AVAILABLE: "available",
   CHECKING: "checking",
   DOWNLOADED: "downloaded",
@@ -184,35 +184,35 @@ export const OPEN_DESIGN_HOST_UPDATER_STATES = Object.freeze({
   UNSUPPORTED: "unsupported",
 } as const);
 
-export type OpenDesignHostUpdaterState =
-  (typeof OPEN_DESIGN_HOST_UPDATER_STATES)[keyof typeof OPEN_DESIGN_HOST_UPDATER_STATES];
+export type SankiWorkHostUpdaterState =
+  (typeof SANKIWORK_HOST_UPDATER_STATES)[keyof typeof SANKIWORK_HOST_UPDATER_STATES];
 
-export type OpenDesignHostUpdaterMode = "js-incremental" | "package-launcher";
-export type OpenDesignHostUpdaterChannel = ReleaseChannel;
+export type SankiWorkHostUpdaterMode = "js-incremental" | "package-launcher";
+export type SankiWorkHostUpdaterChannel = ReleaseChannel;
 
-export type OpenDesignHostUpdaterActionOptions = {
+export type SankiWorkHostUpdaterActionOptions = {
   payload?: Record<string, unknown>;
 };
 
-export type OpenDesignHostUpdaterCapabilitySet = {
+export type SankiWorkHostUpdaterCapabilitySet = {
   canApplyInPlace: boolean;
   canDownload: boolean;
   canOpenInstaller: boolean;
   requiresManualInstall: boolean;
 };
 
-export type OpenDesignHostUpdaterPathSnapshot = {
+export type SankiWorkHostUpdaterPathSnapshot = {
   downloadRoot?: string;
   manifestPath?: string;
 };
 
-export type OpenDesignHostUpdaterChecksumSnapshot = {
+export type SankiWorkHostUpdaterChecksumSnapshot = {
   algorithm: "sha256" | "sha512";
   url?: string;
   value?: string;
 };
 
-export type OpenDesignHostUpdaterArtifactSnapshot = {
+export type SankiWorkHostUpdaterArtifactSnapshot = {
   name?: string;
   platformKey?: string;
   size?: number;
@@ -220,18 +220,18 @@ export type OpenDesignHostUpdaterArtifactSnapshot = {
   url: string;
 };
 
-export type OpenDesignHostUpdaterProgressSnapshot = {
+export type SankiWorkHostUpdaterProgressSnapshot = {
   receivedBytes: number;
   totalBytes?: number;
 };
 
-export type OpenDesignHostUpdaterErrorSnapshot = {
+export type SankiWorkHostUpdaterErrorSnapshot = {
   code: string;
   details?: unknown;
   message: string;
 };
 
-export type OpenDesignHostUpdaterInstallResult = {
+export type SankiWorkHostUpdaterInstallResult = {
   activeVersion?: string;
   artifactPath?: string;
   dryRun?: boolean;
@@ -242,11 +242,11 @@ export type OpenDesignHostUpdaterInstallResult = {
   path: string;
 };
 
-export type OpenDesignHostUpdaterReleaseSnapshot = {
+export type SankiWorkHostUpdaterReleaseSnapshot = {
   arch: string;
-  artifact: OpenDesignHostUpdaterArtifactSnapshot;
-  checksum: OpenDesignHostUpdaterChecksumSnapshot;
-  channel: OpenDesignHostUpdaterChannel;
+  artifact: SankiWorkHostUpdaterArtifactSnapshot;
+  checksum: SankiWorkHostUpdaterChecksumSnapshot;
+  channel: SankiWorkHostUpdaterChannel;
   downloadedAt: string;
   key: string;
   metadata?: Record<string, unknown>;
@@ -255,29 +255,29 @@ export type OpenDesignHostUpdaterReleaseSnapshot = {
   version: string;
 };
 
-export type OpenDesignHostUpdaterIncomingSnapshot = {
+export type SankiWorkHostUpdaterIncomingSnapshot = {
   arch: string;
-  artifact: OpenDesignHostUpdaterArtifactSnapshot;
-  channel: OpenDesignHostUpdaterChannel;
+  artifact: SankiWorkHostUpdaterArtifactSnapshot;
+  channel: SankiWorkHostUpdaterChannel;
   key?: string;
   metadata?: Record<string, unknown>;
-  progress?: OpenDesignHostUpdaterProgressSnapshot;
+  progress?: SankiWorkHostUpdaterProgressSnapshot;
   startedAt: string;
   version: string;
 };
 
-export type OpenDesignHostUpdaterCacheLifecycleTrigger = "cold-start" | "manual" | "next-version-ready";
+export type SankiWorkHostUpdaterCacheLifecycleTrigger = "cold-start" | "manual" | "next-version-ready";
 
-export type OpenDesignHostUpdaterReleaseLifecycleState =
+export type SankiWorkHostUpdaterReleaseLifecycleState =
   | "cleanup-deferred"
   | "cleanup-removed"
   | "deprecated"
   | "retained"
   | "unknown";
 
-export type OpenDesignHostUpdaterCacheLifecycleSummary = {
+export type SankiWorkHostUpdaterCacheLifecycleSummary = {
   lastRunAt?: string;
-  lastTrigger?: OpenDesignHostUpdaterCacheLifecycleTrigger;
+  lastTrigger?: SankiWorkHostUpdaterCacheLifecycleTrigger;
   platform: string;
   releases: {
     cleanupDeferred: number;
@@ -290,11 +290,11 @@ export type OpenDesignHostUpdaterCacheLifecycleSummary = {
   };
 };
 
-export type OpenDesignHostUpdaterCacheSnapshot = {
-  lifecycle?: OpenDesignHostUpdaterCacheLifecycleSummary;
+export type SankiWorkHostUpdaterCacheSnapshot = {
+  lifecycle?: SankiWorkHostUpdaterCacheLifecycleSummary;
 };
 
-export type OpenDesignHostUpdaterReinstallReason =
+export type SankiWorkHostUpdaterReinstallReason =
   | "launcher-schema"
   | "outer-below-min"
   | "outer-version-unreadable";
@@ -305,47 +305,47 @@ export type OpenDesignHostUpdaterReinstallReason =
  * outer package version; `url` is an optional operator-supplied explanation
  * link.
  */
-export type OpenDesignHostUpdaterReinstallSnapshot = {
+export type SankiWorkHostUpdaterReinstallSnapshot = {
   installedVersion?: string;
   minVersion?: string;
-  reason: OpenDesignHostUpdaterReinstallReason;
+  reason: SankiWorkHostUpdaterReinstallReason;
   url?: string;
 };
 
-export type OpenDesignHostUpdaterStatusSnapshot = {
-  active?: OpenDesignHostUpdaterReleaseSnapshot;
+export type SankiWorkHostUpdaterStatusSnapshot = {
+  active?: SankiWorkHostUpdaterReleaseSnapshot;
   arch: string;
-  artifact?: OpenDesignHostUpdaterArtifactSnapshot;
+  artifact?: SankiWorkHostUpdaterArtifactSnapshot;
   artifactUrl?: string;
   availableVersion?: string;
-  cache?: OpenDesignHostUpdaterCacheSnapshot;
-  capabilities: OpenDesignHostUpdaterCapabilitySet;
-  channel: OpenDesignHostUpdaterChannel;
-  checksum?: OpenDesignHostUpdaterChecksumSnapshot;
+  cache?: SankiWorkHostUpdaterCacheSnapshot;
+  capabilities: SankiWorkHostUpdaterCapabilitySet;
+  channel: SankiWorkHostUpdaterChannel;
+  checksum?: SankiWorkHostUpdaterChecksumSnapshot;
   currentVersion: string;
   downloadPath?: string;
   enabled: boolean;
-  error?: OpenDesignHostUpdaterErrorSnapshot;
-  incoming?: OpenDesignHostUpdaterIncomingSnapshot;
-  installResult?: OpenDesignHostUpdaterInstallResult;
+  error?: SankiWorkHostUpdaterErrorSnapshot;
+  incoming?: SankiWorkHostUpdaterIncomingSnapshot;
+  installResult?: SankiWorkHostUpdaterInstallResult;
   lastCheckedAt?: string;
   metadata?: Record<string, unknown>;
-  mode: OpenDesignHostUpdaterMode;
-  paths?: OpenDesignHostUpdaterPathSnapshot;
+  mode: SankiWorkHostUpdaterMode;
+  paths?: SankiWorkHostUpdaterPathSnapshot;
   platform: string;
-  progress?: OpenDesignHostUpdaterProgressSnapshot;
-  reinstall?: OpenDesignHostUpdaterReinstallSnapshot;
-  state: OpenDesignHostUpdaterState;
+  progress?: SankiWorkHostUpdaterProgressSnapshot;
+  reinstall?: SankiWorkHostUpdaterReinstallSnapshot;
+  state: SankiWorkHostUpdaterState;
   supported: boolean;
 };
 
-export type OpenDesignHostUpdaterResult =
-  | { ok: true; status: OpenDesignHostUpdaterStatusSnapshot }
-  | OpenDesignHostFailure;
+export type SankiWorkHostUpdaterResult =
+  | { ok: true; status: SankiWorkHostUpdaterStatusSnapshot }
+  | SankiWorkHostFailure;
 
-export type OpenDesignHostUpdaterStatusListener = (status: OpenDesignHostUpdaterStatusSnapshot) => void;
+export type SankiWorkHostUpdaterStatusListener = (status: SankiWorkHostUpdaterStatusSnapshot) => void;
 
-export type OpenDesignHostUpdaterMenuLabels = {
+export type SankiWorkHostUpdaterMenuLabels = {
   check: string;
   checking: string;
   downloading: string;
@@ -354,56 +354,56 @@ export type OpenDesignHostUpdaterMenuLabels = {
   restart: string;
 };
 
-export type OpenDesignHostUpdaterOpenDialogRequest = {
+export type SankiWorkHostUpdaterOpenDialogRequest = {
   source: string;
 };
 
-export type OpenDesignHostUpdaterOpenDialogListener = (request: OpenDesignHostUpdaterOpenDialogRequest) => void;
+export type SankiWorkHostUpdaterOpenDialogListener = (request: SankiWorkHostUpdaterOpenDialogRequest) => void;
 
-export type OpenDesignHostBridge = {
+export type SankiWorkHostBridge = {
   // Optional so older host builds still satisfy the bridge shape; callers
   // must feature-detect before invoking.
   appearance?: {
-    setTheme(theme: OpenDesignHostAppearanceTheme): void;
+    setTheme(theme: SankiWorkHostAppearanceTheme): void;
   };
   browser: {
-    clearData(options?: OpenDesignHostBrowserClearDataOptions): Promise<OpenDesignHostActionResult>;
+    clearData(options?: SankiWorkHostBrowserClearDataOptions): Promise<SankiWorkHostActionResult>;
   };
   capture: {
-    page(options?: OpenDesignHostCaptureOptions): Promise<OpenDesignHostCaptureResult>;
+    page(options?: SankiWorkHostCaptureOptions): Promise<SankiWorkHostCaptureResult>;
   };
-  client: OpenDesignHostClient;
+  client: SankiWorkHostClient;
   pdf: {
-    print(html: string, nonce?: string, options?: OpenDesignHostPdfPrintOptions): Promise<OpenDesignHostActionResult>;
+    print(html: string, nonce?: string, options?: SankiWorkHostPdfPrintOptions): Promise<SankiWorkHostActionResult>;
   };
   pet: {
     setVisible(visible: boolean): void;
   };
   project: {
-    pickAndImport(init?: OpenDesignHostProjectImportInit): Promise<OpenDesignHostProjectImportResult>;
-    pickAndReplaceWorkingDir(projectId: string): Promise<OpenDesignHostProjectReplaceWorkingDirResult>;
+    pickAndImport(init?: SankiWorkHostProjectImportInit): Promise<SankiWorkHostProjectImportResult>;
+    pickAndReplaceWorkingDir(projectId: string): Promise<SankiWorkHostProjectReplaceWorkingDirResult>;
     // Optional so older host builds still satisfy the bridge shape; callers
     // must feature-detect before invoking.
-    pickWorkingDir?(): Promise<OpenDesignHostPickWorkingDirResult>;
+    pickWorkingDir?(): Promise<SankiWorkHostPickWorkingDirResult>;
   };
   shell: {
-    openExternal(url: string): Promise<OpenDesignHostActionResult>;
-    openPath(projectId: string): Promise<OpenDesignHostActionResult>;
+    openExternal(url: string): Promise<SankiWorkHostActionResult>;
+    openPath(projectId: string): Promise<SankiWorkHostActionResult>;
   };
   updater: {
-    check(options?: OpenDesignHostUpdaterActionOptions): Promise<OpenDesignHostUpdaterStatusSnapshot>;
-    "clear-cache"(options?: OpenDesignHostUpdaterActionOptions): Promise<OpenDesignHostUpdaterStatusSnapshot>;
-    download(options?: OpenDesignHostUpdaterActionOptions): Promise<OpenDesignHostUpdaterStatusSnapshot>;
-    install(options?: OpenDesignHostUpdaterActionOptions): Promise<OpenDesignHostUpdaterStatusSnapshot>;
-    quit(options?: OpenDesignHostUpdaterActionOptions): Promise<OpenDesignHostActionResult>;
-    setMenuLabels(labels: OpenDesignHostUpdaterMenuLabels): Promise<OpenDesignHostActionResult>;
-    status(options?: OpenDesignHostUpdaterActionOptions): Promise<OpenDesignHostUpdaterStatusSnapshot>;
-    subscribe(listener: OpenDesignHostUpdaterStatusListener): () => void;
-    subscribeOpenDialog(listener: OpenDesignHostUpdaterOpenDialogListener): () => void;
+    check(options?: SankiWorkHostUpdaterActionOptions): Promise<SankiWorkHostUpdaterStatusSnapshot>;
+    "clear-cache"(options?: SankiWorkHostUpdaterActionOptions): Promise<SankiWorkHostUpdaterStatusSnapshot>;
+    download(options?: SankiWorkHostUpdaterActionOptions): Promise<SankiWorkHostUpdaterStatusSnapshot>;
+    install(options?: SankiWorkHostUpdaterActionOptions): Promise<SankiWorkHostUpdaterStatusSnapshot>;
+    quit(options?: SankiWorkHostUpdaterActionOptions): Promise<SankiWorkHostActionResult>;
+    setMenuLabels(labels: SankiWorkHostUpdaterMenuLabels): Promise<SankiWorkHostActionResult>;
+    status(options?: SankiWorkHostUpdaterActionOptions): Promise<SankiWorkHostUpdaterStatusSnapshot>;
+    subscribe(listener: SankiWorkHostUpdaterStatusListener): () => void;
+    subscribeOpenDialog(listener: SankiWorkHostUpdaterOpenDialogListener): () => void;
   };
-  version: typeof OPEN_DESIGN_HOST_VERSION;
+  version: typeof SANKIWORK_HOST_VERSION;
 };
 
-export type OpenDesignHostGlobalScope = Record<string, unknown> & {
+export type SankiWorkHostGlobalScope = Record<string, unknown> & {
   window?: unknown;
 };

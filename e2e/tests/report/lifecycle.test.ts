@@ -40,7 +40,7 @@ describe('report lifecycle', () => {
 });
 
 async function makeRoot(): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), 'open-design-e2e-report-'));
+  const root = await mkdtemp(join(tmpdir(), 'sankiwork-e2e-report-'));
   roots.push(root);
   return root;
 }

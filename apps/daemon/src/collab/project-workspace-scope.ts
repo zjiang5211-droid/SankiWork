@@ -1,7 +1,7 @@
 import type {
   ProjectVisibility,
   ProjectWorkspaceScope,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   workspaceContextFromDirectoryItem,
   type WorkspaceDirectoryFetchResult,

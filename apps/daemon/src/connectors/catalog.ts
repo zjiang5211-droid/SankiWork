@@ -30,7 +30,7 @@ export interface ConnectorToolDetail {
 export interface ConnectorCatalogToolDefinition extends ConnectorToolDetail {
   /** Provider scopes required for this tool. Empty for local/read-only providers. */
   requiredScopes: string[];
-  /** Provider-native tool identifier, when different from the Open Design tool name. */
+  /** Provider-native tool identifier, when different from the SankiWork tool name. */
   providerToolId?: string;
 }
 
@@ -251,7 +251,7 @@ export function connectorDefinitionToDetail(definition: ConnectorCatalogDefiniti
       : { featuredToolNames: [...definition.featuredToolNames] }),
     ...(definition.minimumApproval === undefined ? {} : { minimumApproval: definition.minimumApproval }),
     auth: {
-      provider: definition.authentication ?? (definition.provider === 'open-design' ? 'local' : 'oauth'),
+      provider: definition.authentication ?? (definition.provider === 'sankiwork' ? 'local' : 'oauth'),
       configured: definition.authentication === 'local' || definition.authentication === 'none',
     },
   };

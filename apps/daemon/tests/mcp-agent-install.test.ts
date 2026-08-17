@@ -12,8 +12,8 @@ import {
 
 const SPEC: McpLaunchSpec = {
   command: '/usr/local/bin/node',
-  args: ['/opt/open-design/cli.js', 'mcp', '--daemon-url', 'http://127.0.0.1:7456'],
-  env: { OD_DATA_DIR: '/home/u/.open-design' },
+  args: ['/opt/sankiwork/cli.js', 'mcp', '--daemon-url', 'http://127.0.0.1:7456'],
+  env: { SW_DATA_DIR: '/home/u/.sankiwork' },
 };
 
 const SPEC_NO_ENV: McpLaunchSpec = { ...SPEC, env: {} };
@@ -21,7 +21,7 @@ const SPEC_NO_ENV: McpLaunchSpec = { ...SPEC, env: {} };
 const ctx = (platform: NodeJS.Platform = 'linux') => ({
   home: '/home/u',
   platform,
-  serverName: 'open-design',
+  serverName: 'sankiwork',
 });
 
 describe('agent slug guard', () => {
@@ -43,19 +43,19 @@ describe('CLI-driven agents', () => {
     expect(plan.bin).toBe('claude');
     expect(plan.addArgv).toEqual([
       'mcp', 'add', '--scope', 'user',
-      'open-design',
-      '-e', 'OD_DATA_DIR=/home/u/.open-design',
+      'sankiwork',
+      '-e', 'SW_DATA_DIR=/home/u/.sankiwork',
       '--',
       SPEC.command, ...SPEC.args,
     ]);
-    expect(plan.removeArgv).toEqual(['mcp', 'remove', '--scope', 'user', 'open-design']);
+    expect(plan.removeArgv).toEqual(['mcp', 'remove', '--scope', 'user', 'sankiwork']);
   });
 
   it('codex uses --env and a -- separator', () => {
     const plan = planAgentInstall('codex', SPEC, ctx());
     if (plan.kind !== 'cli') throw new Error('expected cli');
     expect(plan.addArgv).toContain('--env');
-    expect(plan.addArgv).toContain('OD_DATA_DIR=/home/u/.open-design');
+    expect(plan.addArgv).toContain('SW_DATA_DIR=/home/u/.sankiwork');
     expect(plan.addArgv.slice(-SPEC.args.length - 2)).toEqual(['--', SPEC.command, ...SPEC.args]);
   });
 
@@ -64,12 +64,12 @@ describe('CLI-driven agents', () => {
     if (plan.kind !== 'cli') throw new Error('expected cli');
     expect(plan.bin).toBe('reasonix');
     expect(plan.addArgv).toEqual([
-      'mcp', 'add', 'open-design',
-      '--env', 'OD_DATA_DIR=/home/u/.open-design',
+      'mcp', 'add', 'sankiwork',
+      '--env', 'SW_DATA_DIR=/home/u/.sankiwork',
       SPEC.command, ...SPEC.args,
     ]);
-    expect(plan.removeArgv).toEqual(['mcp', 'remove', 'open-design']);
-    expect(plan.getArgv).toEqual(['mcp', 'get', 'open-design']);
+    expect(plan.removeArgv).toEqual(['mcp', 'remove', 'sankiwork']);
+    expect(plan.getArgv).toEqual(['mcp', 'get', 'sankiwork']);
   });
 
 });
@@ -112,7 +112,7 @@ describe('JSON-config agents', () => {
     if (plan.kind !== 'json') throw new Error('expected json');
     expect(plan.configPath).toBe('/home/u/.kiro/settings/mcp.json');
     expect(plan.keyPath).toEqual(['mcpServers']);
-    expect(plan.serverKey).toBe('open-design');
+    expect(plan.serverKey).toBe('sankiwork');
     expect(plan.entry).toEqual({
       command: SPEC.command,
       args: SPEC.args,
@@ -125,7 +125,7 @@ describe('JSON-config agents', () => {
     if (plan.kind !== 'json') throw new Error('expected json');
     expect(plan.configPath).toBe('/home/u/.raven/config.json');
     expect(plan.keyPath).toEqual(['tools', 'mcpServers']);
-    expect(plan.serverKey).toBe('open-design');
+    expect(plan.serverKey).toBe('sankiwork');
     expect(plan.entry).toEqual({
       command: SPEC.command,
       args: SPEC.args,
@@ -156,7 +156,7 @@ describe('JSON-config agents', () => {
     const installed = JSON.parse(applyJsonInstall(existing, plan));
     expect(installed.theme).toBe('dark');
     expect(installed.tools.mcpServers.existing).toEqual({ command: 'existing-command' });
-    expect(installed.tools.mcpServers['open-design']).toEqual(plan.entry);
+    expect(installed.tools.mcpServers['sankiwork']).toEqual(plan.entry);
 
     const removed = removeJsonInstall(JSON.stringify(installed), plan);
     expect(removed).not.toBeNull();
@@ -183,7 +183,7 @@ describe('JSON-config agents', () => {
     if (plan.kind !== 'json') throw new Error('expected json');
     expect(plan.configPath).toBe('/home/u/Library/Application Support/Claude/claude_desktop_config.json');
     expect(plan.keyPath).toEqual(['mcpServers']);
-    expect(plan.serverKey).toBe('open-design');
+    expect(plan.serverKey).toBe('sankiwork');
     expect(plan.entry).toEqual({
       command: SPEC.command,
       args: SPEC.args,
@@ -227,7 +227,7 @@ describe('applyJsonInstall', () => {
   it('creates the file structure from empty input', () => {
     const out = applyJsonInstall(null, plan);
     const parsed = JSON.parse(out);
-    expect(parsed.mcpServers['open-design'].command).toBe(SPEC.command);
+    expect(parsed.mcpServers['sankiwork'].command).toBe(SPEC.command);
     expect(out.endsWith('\n')).toBe(true);
   });
 
@@ -239,7 +239,7 @@ describe('applyJsonInstall', () => {
     const out = JSON.parse(applyJsonInstall(existing, plan));
     expect(out.editor).toEqual({ theme: 'dark' });
     expect(out.mcpServers['other-server']).toEqual({ command: 'foo' });
-    expect(out.mcpServers['open-design'].type).toBe('stdio');
+    expect(out.mcpServers['sankiwork'].type).toBe('stdio');
   });
 
   it('is idempotent — re-applying yields the same content', () => {
@@ -256,13 +256,13 @@ describe('applyJsonInstall', () => {
 describe('removeJsonInstall', () => {
   const plan = planAgentInstall('cursor', SPEC, ctx()) as JsonInstallPlan;
 
-  it('removes only the open-design entry', () => {
+  it('removes only the sankiwork entry', () => {
     const existing = applyJsonInstall(
       JSON.stringify({ mcpServers: { other: { command: 'x' } } }),
       plan,
     );
     const out = JSON.parse(removeJsonInstall(existing, plan)!);
-    expect(out.mcpServers).not.toHaveProperty('open-design');
+    expect(out.mcpServers).not.toHaveProperty('sankiwork');
     expect(out.mcpServers.other).toEqual({ command: 'x' });
   });
 

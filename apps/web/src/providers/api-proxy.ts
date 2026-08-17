@@ -6,7 +6,7 @@ import type {
   ProxyMessageContent,
   ProxyTextContentBlock,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { projectFileUrl } from './registry';
 import { workspaceProjectHeaders } from '../collab/workspace-identity';
 import type { StreamHandlers } from './anthropic';

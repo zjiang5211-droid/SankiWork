@@ -44,7 +44,7 @@ describe('CLI startup boundaries', () => {
     expect(output).not.toContain('AMR_STRING_FLAGS');
   });
 
-  it('keeps od daemon start alive until SIGTERM and reports the actual listening port', async () => {
+  it('keeps sw daemon start alive until SIGTERM and reports the actual listening port', async () => {
     const root = await mkdtemp(join(tmpdir(), 'od-cli-daemon-start-'));
     const dataDir = join(root, 'data');
     await mkdir(dataDir);
@@ -64,8 +64,8 @@ describe('CLI startup boundaries', () => {
         cwd: daemonRoot,
         env: {
           ...process.env,
-          OD_BIND_HOST: '127.0.0.1',
-          OD_DATA_DIR: dataDir,
+          SW_BIND_HOST: '127.0.0.1',
+          SW_DATA_DIR: dataDir,
         },
       },
     );
@@ -100,12 +100,12 @@ describe('CLI startup boundaries', () => {
     const port = await findFreePort();
     const env = {
       ...process.env,
-      OD_BIND_HOST: '127.0.0.1',
-      OD_DATA_DIR: dataDir,
+      SW_BIND_HOST: '127.0.0.1',
+      SW_DATA_DIR: dataDir,
       POSTHOG_KEY: '',
       POSTHOG_HOST: '',
-      OPEN_DESIGN_VELA_TELEMETRY: 'off',
-      OPEN_DESIGN_TELEMETRY_RELAY_URL: '',
+      SANKIWORK_VELA_TELEMETRY: 'off',
+      SANKIWORK_TELEMETRY_RELAY_URL: '',
       LANGFUSE_PUBLIC_KEY: '',
       LANGFUSE_SECRET_KEY: '',
     };
@@ -274,7 +274,7 @@ describe('CLI startup boundaries', () => {
           cwd: daemonRoot,
           env: {
             ...process.env,
-            OD_DATA_DIR: dataDir,
+            SW_DATA_DIR: dataDir,
           },
         },
       );
@@ -284,7 +284,7 @@ describe('CLI startup boundaries', () => {
       const stderr = failed.stderr ?? '';
       expect(failed.code).toBe(3);
       expect(stderr).toContain('failed to reach daemon');
-      expect(stderr).not.toContain('OD_DATA_DIR');
+      expect(stderr).not.toContain('SW_DATA_DIR');
     } finally {
       await chmod(dataDir, 0o700).catch(() => undefined);
       await rm(root, { recursive: true, force: true });
@@ -341,7 +341,7 @@ describe('CLI startup boundaries', () => {
           cwd: daemonRoot,
           env: {
             ...process.env,
-            OD_TOOL_TOKEN: 'run-token',
+            SW_TOOL_TOKEN: 'run-token',
           },
         },
       );

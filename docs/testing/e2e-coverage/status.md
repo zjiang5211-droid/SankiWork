@@ -237,19 +237,19 @@ Workspace authority 的场景必须显式提供 fake runtime 和 workspace heade
 从仓库根目录运行：
 
 ```bash
-pnpm --filter @open-design/e2e typecheck
+pnpm --filter @sankiwork/e2e typecheck
 ```
 
 ```bash
-pnpm --filter @open-design/e2e exec playwright test -c playwright.config.ts ui/app.test.ts --project=chromium
+pnpm --filter @sankiwork/e2e exec playwright test -c playwright.config.ts ui/app.test.ts --project=chromium
 ```
 
 ```bash
-pnpm --filter @open-design/e2e exec playwright test -c playwright.config.ts ui/real-daemon-run.test.ts --project=chromium
+pnpm --filter @sankiwork/e2e exec playwright test -c playwright.config.ts ui/real-daemon-run.test.ts --project=chromium
 ```
 
 ```bash
-pnpm --filter @open-design/e2e exec playwright test -c playwright.config.ts ui/app-design-files.test.ts ui/app-restoration.test.ts ui/project-management-flows.test.ts ui/entry-configuration-flows.test.ts ui/workspace-keyboard-flows.test.ts --project=chromium
+pnpm --filter @sankiwork/e2e exec playwright test -c playwright.config.ts ui/app-design-files.test.ts ui/app-restoration.test.ts ui/project-management-flows.test.ts ui/entry-configuration-flows.test.ts ui/workspace-keyboard-flows.test.ts --project=chromium
 ```
 
 这些 grouped commands 是当前验证入口；不要把某次运行的固定通过数量当作长期基线，因为测试集合会继续演进。

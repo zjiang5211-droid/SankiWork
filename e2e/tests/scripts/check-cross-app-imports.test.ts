@@ -13,8 +13,8 @@ import {
 
 const registry: AppDirectoryRegistry = {
   packageNameByDirectory: new Map([
-    ["daemon", "@open-design/daemon"],
-    ["web", "@open-design/web"],
+    ["daemon", "@sankiwork/daemon"],
+    ["web", "@sankiwork/web"],
   ]),
 };
 
@@ -34,9 +34,9 @@ test("cross-app import check rejects another app's package name", () => {
   const violations = collectCrossAppImportViolationsFromSource(
     "apps/web/src/runtime/todos.ts",
     [
-      "import type { RunRecord } from '@open-design/daemon/src/server.ts';",
-      "const mod = await import('@open-design/daemon');",
-      "const legacy = require('@open-design/daemon/dist/cli.js');",
+      "import type { RunRecord } from '@sankiwork/daemon/src/server.ts';",
+      "const mod = await import('@sankiwork/daemon');",
+      "const legacy = require('@sankiwork/daemon/dist/cli.js');",
     ].join("\n"),
     registry,
   );
@@ -51,12 +51,12 @@ test("cross-app import check rejects another app's package name", () => {
 test("cross-app import check rejects another app's package name in require.resolve", () => {
   const violations = collectCrossAppImportViolationsFromSource(
     "apps/web/src/setup-runtime.ts",
-    "const daemonManifest = require.resolve('@open-design/daemon/package.json');",
+    "const daemonManifest = require.resolve('@sankiwork/daemon/package.json');",
     registry,
   );
 
   assert.equal(violations.length, 1);
-  assert.equal(violations[0]?.specifier, "@open-design/daemon/package.json");
+  assert.equal(violations[0]?.specifier, "@sankiwork/daemon/package.json");
   assert.equal(violations[0]?.targetApp, "daemon");
   assert.equal(violations[0]?.lineNumber, 1);
 });
@@ -67,11 +67,11 @@ test("cross-app import check rejects createRequire-based cross-app resolution", 
     [
       "import { createRequire, createRequire as makeRequire } from 'node:module';",
       "import * as nodeModule from 'node:module';",
-      "const directDaemonManifest = createRequire(import.meta.url).resolve('@open-design/daemon/package.json');",
-      "const aliasDaemonManifest = makeRequire(import.meta.url).resolve('@open-design/daemon/package.json');",
+      "const directDaemonManifest = createRequire(import.meta.url).resolve('@sankiwork/daemon/package.json');",
+      "const aliasDaemonManifest = makeRequire(import.meta.url).resolve('@sankiwork/daemon/package.json');",
       "const nodeRequire = nodeModule.createRequire(import.meta.url);",
-      "const daemonCli = nodeRequire('@open-design/daemon/dist/cli.js');",
-      "const daemonPackageJson = nodeRequire.resolve('@open-design/daemon/package.json');",
+      "const daemonCli = nodeRequire('@sankiwork/daemon/dist/cli.js');",
+      "const daemonPackageJson = nodeRequire.resolve('@sankiwork/daemon/package.json');",
     ].join("\n"),
     registry,
   );
@@ -79,10 +79,10 @@ test("cross-app import check rejects createRequire-based cross-app resolution", 
   assert.deepEqual(
     violations.map((violation) => violation.specifier),
     [
-      "@open-design/daemon/package.json",
-      "@open-design/daemon/package.json",
-      "@open-design/daemon/dist/cli.js",
-      "@open-design/daemon/package.json",
+      "@sankiwork/daemon/package.json",
+      "@sankiwork/daemon/package.json",
+      "@sankiwork/daemon/dist/cli.js",
+      "@sankiwork/daemon/package.json",
     ],
   );
   assert.deepEqual(
@@ -98,13 +98,13 @@ test("cross-app import check rejects CommonJS node:module namespace createRequir
     [
       'const moduleApi = require("node:module");',
       "const nodeRequire = moduleApi.createRequire(__filename);",
-      'nodeRequire.resolve("@open-design/daemon/package.json");',
+      'nodeRequire.resolve("@sankiwork/daemon/package.json");',
     ].join("\n"),
     registry,
   );
 
   assert.equal(violations.length, 1);
-  assert.equal(violations[0]?.specifier, "@open-design/daemon/package.json");
+  assert.equal(violations[0]?.specifier, "@sankiwork/daemon/package.json");
   assert.equal(violations[0]?.targetApp, "daemon");
   assert.equal(violations[0]?.lineNumber, 3);
 });
@@ -118,7 +118,7 @@ test("cross-app import check rejects cross-app imports from app-owned mjs entryp
 
   const violations = collectCrossAppImportViolationsFromSource(
     "apps/web/postcss.config.mjs",
-    "import { startDaemon } from '@open-design/daemon/src/server.ts';",
+    "import { startDaemon } from '@sankiwork/daemon/src/server.ts';",
     registry,
   );
 
@@ -146,8 +146,8 @@ test("cross-app import check allows packages, same-app relatives, and externals"
   const violations = collectCrossAppImportViolationsFromSource(
     "apps/web/src/components/ChatPane.tsx",
     [
-      "import { Button } from '@open-design/components';",
-      "import type { ChatRunEvent } from '@open-design/contracts';",
+      "import { Button } from '@sankiwork/components';",
+      "import type { ChatRunEvent } from '@sankiwork/contracts';",
       "import { latestTodoWriteInputFromMessages } from '../runtime/todos.ts';",
       "import path from 'node:path';",
       "import React from 'react';",
@@ -162,10 +162,10 @@ test("cross-app import check ignores quoted snippets and comments", () => {
   const violations = collectCrossAppImportViolationsFromSource(
     "apps/web/tests/import-boundary-fixture.test.ts",
     [
-      "const snippet = \"import { x } from '@open-design/daemon/src/server.ts';\";",
-      "// import { y } from '@open-design/daemon/src/server.ts';",
+      "const snippet = \"import { x } from '@sankiwork/daemon/src/server.ts';\";",
+      "// import { y } from '@sankiwork/daemon/src/server.ts';",
       "/*",
-      "require('@open-design/daemon/dist/cli.js');",
+      "require('@sankiwork/daemon/dist/cli.js');",
       "*/",
     ].join("\n"),
     registry,
@@ -187,8 +187,8 @@ test("cross-app import check ignores relatives that escape apps/ without hitting
 test("cross-app import check allows allowlisted packaged -> desktop main export", () => {
   const violations = collectCrossAppImportViolationsFromSource(
     "apps/packaged/src/index.ts",
-    "import { applyOsLocaleSwitch, createSplashWindow } from '@open-design/desktop/main';",
-    { packageNameByDirectory: new Map([["packaged", "@open-design/packaged"], ["desktop", "@open-design/desktop"]]) },
+    "import { applyOsLocaleSwitch, createSplashWindow } from '@sankiwork/desktop/main';",
+    { packageNameByDirectory: new Map([["packaged", "@sankiwork/packaged"], ["desktop", "@sankiwork/desktop"]]) },
   );
 
   assert.deepEqual(violations, []);
@@ -205,7 +205,7 @@ test("cross-app import check ignores files outside apps/", () => {
 });
 
 test("app registry loading fails loudly when an app manifest is malformed", async () => {
-  const appsRoot = await mkdtemp(path.join(os.tmpdir(), "open-design-apps-"));
+  const appsRoot = await mkdtemp(path.join(os.tmpdir(), "sankiwork-apps-"));
   const appRoot = path.join(appsRoot, "web");
   const manifestPath = path.join(appRoot, "package.json");
 
@@ -224,7 +224,7 @@ test("app registry loading fails loudly when an app manifest is malformed", asyn
 });
 
 test("app registry loading rejects parseable app manifests without a package name", async () => {
-  const appsRoot = await mkdtemp(path.join(os.tmpdir(), "open-design-apps-"));
+  const appsRoot = await mkdtemp(path.join(os.tmpdir(), "sankiwork-apps-"));
   const appRoot = path.join(appsRoot, "web");
   const manifestPath = path.join(appRoot, "package.json");
 

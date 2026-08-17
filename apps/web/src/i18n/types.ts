@@ -2611,10 +2611,10 @@ export interface Dict {
   'ds.saving': string;
   'ds.copyDesignMd': string;
   'ds.editDesignMd': string;
-  'ds.openDesignMd': string;
+  'ds.sankiWorkMd': string;
   'ds.copyDesignMdModule': string;
   'ds.editDesignMdModule': string;
-  'ds.openDesignMdModule': string;
+  'ds.sankiWorkMdModule': string;
   'ds.uploadMd': string;
   'ds.uploadFont': string;
   'ds.pasteImage': string;
@@ -2775,10 +2775,10 @@ export interface Dict {
   'avatar.reasoningLabel': string;
   'avatar.serviceTierLabel': string;
   'avatar.customSuffix': string;
-  'socialShare.openDesignSection': string;
-  'socialShare.openDesignTitle': string;
-  'socialShare.openDesignText': string;
-  'socialShare.openDesignCopyText': string;
+  'socialShare.sankiWorkSection': string;
+  'socialShare.sankiWorkTitle': string;
+  'socialShare.sankiWorkText': string;
+  'socialShare.sankiWorkCopyText': string;
   'socialShare.projectSection': string;
   'socialShare.publishPageTitle': string;
   'socialShare.publishPageSubtitle': string;
@@ -4343,8 +4343,8 @@ export interface Dict {
   'assistant.copyMarkdown': string;
   'assistant.forkConversation': string;
   'assistant.forkingConversation': string;
-  'assistant.shareToOpenDesign': string;
-  'assistant.shareToOpenDesignBusy': string;
+  'assistant.shareToSankiWork': string;
+  'assistant.shareToSankiWorkBusy': string;
   'assistant.feedbackPrompt': string;
   'assistant.feedbackPositive': string;
   'assistant.feedbackNegative': string;
@@ -5007,7 +5007,7 @@ export interface Dict {
   'library.previewAsset': string;
   'library.selectAsset': string;
   'library.deselectAsset': string;
-  'library.openDesignSystem': string;
+  'library.sankiWorkSystem': string;
   'library.openProject': string;
   'library.opening': string;
   'library.editAsPage': string;

@@ -17,8 +17,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
-import { LIBRARY_UPLOAD_MAX_BYTES, libraryUploadAcceptAttr } from '@open-design/contracts';
-import { Button } from '@open-design/components';
+import { LIBRARY_UPLOAD_MAX_BYTES, libraryUploadAcceptAttr } from '@sankiwork/contracts';
+import { Button } from '@sankiwork/components';
 import { Icon } from './Icon';
 import { modalOverlay, modalContent } from '../motion';
 import { uploadLibraryFile, uploadLibraryText, type LibraryUploadOutcome } from '../providers/registry';

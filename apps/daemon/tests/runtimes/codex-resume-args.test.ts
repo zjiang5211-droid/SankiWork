@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   codexAgentDef,
-  codexOpenDesignShellEnvironmentArgs,
+  codexSankiWorkShellEnvironmentArgs,
 } from '../../src/runtimes/defs/codex.js';
 
 // codex is capture-style: it mints its own thread id (reported on the stream's
@@ -97,9 +97,9 @@ describe('codex buildArgs session resume', () => {
     expect(args).not.toContain('resume');
   });
 
-  it('carries only the Open Design wrapper contract across Codex shell environment filtering', () => {
+  it('carries only the SankiWork wrapper contract across Codex shell environment filtering', () => {
     const args = codexAgentDef.buildArgs('prompt', [], [], {}, {});
-    const shellArgs = codexOpenDesignShellEnvironmentArgs();
+    const shellArgs = codexSankiWorkShellEnvironmentArgs();
 
     expect(args).toEqual(expect.arrayContaining(shellArgs));
     expect(shellArgs).toContain('allow_login_shell=false');
@@ -111,15 +111,15 @@ describe('codex buildArgs session resume', () => {
       arg.startsWith('shell_environment_policy.include_only='),
     );
     expect(includeOnly).toContain('"PATH"');
-    expect(includeOnly).toContain('"OD_NODE_BIN"');
-    expect(includeOnly).toContain('"OD_BIN"');
-    expect(includeOnly).toContain('"OD_DAEMON_URL"');
-    expect(includeOnly).toContain('"OD_TOOL_TOKEN"');
-    expect(includeOnly).toContain('"OD_DATA_DIR"');
-    expect(includeOnly).toContain('"OD_PROJECT_ID"');
-    expect(includeOnly).toContain('"OD_PROJECT_DIR"');
+    expect(includeOnly).toContain('"SW_NODE_BIN"');
+    expect(includeOnly).toContain('"SW_BIN"');
+    expect(includeOnly).toContain('"SW_DAEMON_URL"');
+    expect(includeOnly).toContain('"SW_TOOL_TOKEN"');
+    expect(includeOnly).toContain('"SW_DATA_DIR"');
+    expect(includeOnly).toContain('"SW_PROJECT_ID"');
+    expect(includeOnly).toContain('"SW_PROJECT_DIR"');
     expect(includeOnly).not.toContain('OPENAI_API_KEY');
-    expect(includeOnly).not.toContain('OD_API_TOKEN');
+    expect(includeOnly).not.toContain('SW_API_TOKEN');
   });
 
   it('declares CLI-managed, capture-style session resume', () => {

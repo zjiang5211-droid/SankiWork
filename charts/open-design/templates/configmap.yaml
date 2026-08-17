@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "open-design.fullname" . }}
+  name: {{ include "sankiwork.fullname" . }}
   labels:
-    {{- include "open-design.labels" . | nindent 4 }}
+    {{- include "sankiwork.labels" . | nindent 4 }}
 data:
-  OD_BIND_HOST: {{ .Values.config.bindHost | quote }}
-  OD_PORT: {{ .Values.config.webPort | quote }}
-  OD_WEB_PORT: {{ .Values.config.webPort | quote }}
+  SW_BIND_HOST: {{ .Values.config.bindHost | quote }}
+  SW_PORT: {{ .Values.config.webPort | quote }}
+  SW_WEB_PORT: {{ .Values.config.webPort | quote }}
   PROXY_PORT: {{ .Values.authProxy.port | quote }}
   NODE_ENV: {{ .Values.config.nodeEnv | quote }}
   NODE_OPTIONS: {{ .Values.config.nodeOptions | quote }}
@@ -28,7 +28,7 @@ data:
   {{- end }}
 {{- end }}
 {{- if $publicBaseUrl }}
-  OD_PUBLIC_BASE_URL: {{ $publicBaseUrl | quote }}
+  SW_PUBLIC_BASE_URL: {{ $publicBaseUrl | quote }}
 {{- end }}
 
 {{- $origins := .Values.config.allowedOrigins }}
@@ -56,4 +56,4 @@ data:
       {{- $origins = printf "%s,%s" $localProxy $localSvc }}
     {{- end }}
   {{- end }}
-  OD_ALLOWED_ORIGINS: {{ $origins | quote }}
+  SW_ALLOWED_ORIGINS: {{ $origins | quote }}

@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Button, Dialog, VisuallyHidden } from '@open-design/components';
+import { Button, Dialog, VisuallyHidden } from '@sankiwork/components';
 import { useT } from '../i18n';
 import { useAnalytics } from '../analytics/provider';
 import { getResolvedDeviceId } from '../analytics/client';

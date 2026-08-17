@@ -24,7 +24,7 @@ const REPO_DISCUSSIONS = `${REPO}/discussions`;
 const DISCORD = 'https://discord.gg/mHAjSMV6gz';
 const X_PROFILE = 'https://x.com/OpenDesignHQ';
 
-// Open Design Cloud endpoints for the header account module.
+// SankiWork Cloud endpoints for the header account module.
 // Production defaults; overridable at build time via PUBLIC_* env so a
 // preview/staging build can point at a non-prod cloud. These are surfaced to
 // the runtime via `data-*` on `.nav-account` because the auth logic lives in
@@ -32,11 +32,11 @@ const X_PROFILE = 'https://x.com/OpenDesignHQ';
 // cannot read `import.meta.env` itself).
 const env = import.meta.env as Record<string, string | undefined>;
 const CLOUD_API_BASE =
-  env.PUBLIC_CLOUD_API_BASE ?? env.PUBLIC_AMR_API_BASE ?? 'https://amr-api.open-design.ai';
+  env.PUBLIC_CLOUD_API_BASE ?? env.PUBLIC_AMR_API_BASE ?? 'https://amr-api.sanki-ai.cloud';
 const CLOUD_CONSOLE_URL =
   env.PUBLIC_CLOUD_CONSOLE_URL ??
   env.PUBLIC_AMR_CONSOLE_URL ??
-  'https://open-design.ai/cloud/dashboard?source=open_design';
+  'https://sanki-ai.cloud/cloud/dashboard?source=sankiwork';
 
 // Solution → Use cases / Roles. Hrefs mirror upstream main's header 1:1 and
 // pair positionally with the localized `useCaseItems` / `roleItems` tuples.
@@ -111,7 +111,7 @@ export interface HeaderProps {
     | 'html-anything'
     | 'html-video'
     | 'codex-slides'
-    | 'open-design-plugin'
+    | 'sankiwork-plugin'
     | 'solution'
     | 'agent'
     | 'plugins'
@@ -185,7 +185,7 @@ export function Header({
           <img
             className='brand-logo'
             src='/logo-lockup.svg'
-            alt='Open Design'
+            alt='SankiWork'
             width={225}
             height={83}
           />
@@ -210,7 +210,7 @@ export function Header({
         <nav id='primary-nav' data-nav-primary>
           <ul className='nav-links'>
             {/* Product — a mega menu whose columns are top-level categories:
-                the Open Design product family and the Agent catalog today,
+                the SankiWork product family and the Agent catalog today,
                 with room to add more (e.g. Feature) as its own column later.
                 The trigger is a <button> (not a link) so it never navigates —
                 Product used to bounce to the homepage — but its panel is
@@ -229,7 +229,7 @@ export function Header({
                   active === 'html-anything' ||
                   active === 'html-video' ||
                   active === 'codex-slides' ||
-                  active === 'open-design-plugin' ||
+                  active === 'sankiwork-plugin' ||
                   active === 'agent'
                     ? ' is-active'
                     : '')
@@ -242,7 +242,7 @@ export function Header({
                 className='nav-dropdown nav-dropdown-mega'
                 aria-label={productMenuCopy.product}
               >
-                {/* Products column — the Open Design product family. Names
+                {/* Products column — the SankiWork product family. Names
                     only (no blurbs): keeps the column compact and aligned
                     with the Agent column, and avoids per-locale width blowups
                     from long descriptions. */}
@@ -251,7 +251,7 @@ export function Header({
                   <ul className='nav-mega-list'>
                     <li>
                       <a href={href('/')}>
-                        <span className='dropdown-name'>{productMenuCopy.openDesignName}</span>
+                        <span className='dropdown-name'>{productMenuCopy.sankiWorkName}</span>
                       </a>
                     </li>
                     <li>
@@ -268,7 +268,7 @@ export function Header({
                       </a>
                     </li>
                     {/* Product name, not a translatable phrase — same treatment
-                        as the hardcoded "Open Design" in the footer's product
+                        as the hardcoded "SankiWork" in the footer's product
                         column, so it does not add an identical string to every
                         locale block. */}
                     <li>
@@ -282,9 +282,9 @@ export function Header({
                     <li>
                       <a
                         href={href('/codex-plugin/')}
-                        className={active === 'open-design-plugin' ? 'is-active' : undefined}
+                        className={active === 'sankiwork-plugin' ? 'is-active' : undefined}
                       >
-                        <span className='dropdown-name'>Open Design Plugin</span>
+                        <span className='dropdown-name'>SankiWork Plugin</span>
                       </a>
                     </li>
                   </ul>
@@ -607,7 +607,7 @@ export function Header({
             {headerCopy.download}
           </a>
           {/*
-            Open Design Cloud account entry. Signed-out visitors only see the
+            SankiWork Cloud account entry. Signed-out visitors only see the
             download CTA above; the avatar menu stays `hidden` until the
             enhancer confirms a live cloud session via
             `GET {api}/api/auth/get-session`. Config flows through `data-*`

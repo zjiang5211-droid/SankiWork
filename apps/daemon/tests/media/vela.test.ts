@@ -41,16 +41,16 @@ describe('Vela media provider', () => {
   let projectDir: string;
   let refs: string[];
   let tempOutputDirs: string[];
-  const originalAliases = process.env.OD_MEDIA_MODEL_ALIASES;
-  const originalStubs = process.env.OD_MEDIA_ALLOW_STUBS;
-  const originalPoll = process.env.OD_VELA_VIDEO_POLL_INTERVAL_MS;
-  const originalVideoTimeout = process.env.OD_VELA_VIDEO_TIMEOUT_MS;
+  const originalAliases = process.env.SW_MEDIA_MODEL_ALIASES;
+  const originalStubs = process.env.SW_MEDIA_ALLOW_STUBS;
+  const originalPoll = process.env.SW_VELA_VIDEO_POLL_INTERVAL_MS;
+  const originalVideoTimeout = process.env.SW_VELA_VIDEO_TIMEOUT_MS;
 
   beforeEach(async () => {
     runVelaCommandMock.mockReset();
     root = await mkdtemp(path.join(os.tmpdir(), 'od-vela-media-test-'));
     projectRoot = path.join(root, 'repo');
-    projectsRoot = path.join(projectRoot, '.od', 'projects');
+    projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     projectDir = path.join(projectsRoot, 'project-1');
     await mkdir(projectDir, { recursive: true });
     refs = [];
@@ -60,21 +60,21 @@ describe('Vela media provider', () => {
       refs.push(name);
     }
     tempOutputDirs = [];
-    delete process.env.OD_MEDIA_MODEL_ALIASES;
-    delete process.env.OD_MEDIA_ALLOW_STUBS;
-    process.env.OD_VELA_VIDEO_POLL_INTERVAL_MS = '1';
-    process.env.OD_VELA_VIDEO_TIMEOUT_MS = '1000';
+    delete process.env.SW_MEDIA_MODEL_ALIASES;
+    delete process.env.SW_MEDIA_ALLOW_STUBS;
+    process.env.SW_VELA_VIDEO_POLL_INTERVAL_MS = '1';
+    process.env.SW_VELA_VIDEO_TIMEOUT_MS = '1000';
   });
 
   afterEach(async () => {
-    if (originalAliases == null) delete process.env.OD_MEDIA_MODEL_ALIASES;
-    else process.env.OD_MEDIA_MODEL_ALIASES = originalAliases;
-    if (originalStubs == null) delete process.env.OD_MEDIA_ALLOW_STUBS;
-    else process.env.OD_MEDIA_ALLOW_STUBS = originalStubs;
-    if (originalPoll == null) delete process.env.OD_VELA_VIDEO_POLL_INTERVAL_MS;
-    else process.env.OD_VELA_VIDEO_POLL_INTERVAL_MS = originalPoll;
-    if (originalVideoTimeout == null) delete process.env.OD_VELA_VIDEO_TIMEOUT_MS;
-    else process.env.OD_VELA_VIDEO_TIMEOUT_MS = originalVideoTimeout;
+    if (originalAliases == null) delete process.env.SW_MEDIA_MODEL_ALIASES;
+    else process.env.SW_MEDIA_MODEL_ALIASES = originalAliases;
+    if (originalStubs == null) delete process.env.SW_MEDIA_ALLOW_STUBS;
+    else process.env.SW_MEDIA_ALLOW_STUBS = originalStubs;
+    if (originalPoll == null) delete process.env.SW_VELA_VIDEO_POLL_INTERVAL_MS;
+    else process.env.SW_VELA_VIDEO_POLL_INTERVAL_MS = originalPoll;
+    if (originalVideoTimeout == null) delete process.env.SW_VELA_VIDEO_TIMEOUT_MS;
+    else process.env.SW_VELA_VIDEO_TIMEOUT_MS = originalVideoTimeout;
     await rm(root, { recursive: true, force: true });
   });
 
@@ -176,7 +176,7 @@ describe('Vela media provider', () => {
   }
 
   it('maps vela catalogue id to image gen, preserves aliasing, and injects trusted workspace env', async () => {
-    process.env.OD_MEDIA_MODEL_ALIASES = JSON.stringify({
+    process.env.SW_MEDIA_MODEL_ALIASES = JSON.stringify({
       'vela/gpt-image-2': 'tenant-image-model',
     });
     mockReadyImage();
@@ -204,7 +204,7 @@ describe('Vela media provider', () => {
     expect(result.providerNote).toContain('1:1 2K');
     expect(options.timeoutMs).toBe(330_000);
     expect(options.configuredEnv).toEqual({
-      VELA_INVOCATION_SOURCE: 'open-design',
+      VELA_INVOCATION_SOURCE: 'sankiwork',
       VELA_WORKSPACE_ID: 'workspace-team',
     });
     await expect(stat(tempOutputDirs[0]!)).rejects.toThrow();
@@ -247,7 +247,7 @@ describe('Vela media provider', () => {
     expect(inputPaths.every((inputPath) => !inputPath.startsWith(projectDir))).toBe(true);
     expect(new Set(inputPaths.map((inputPath) => path.dirname(inputPath)))).toHaveLength(1);
     expect(options.configuredEnv).toEqual({
-      VELA_INVOCATION_SOURCE: 'open-design',
+      VELA_INVOCATION_SOURCE: 'sankiwork',
     });
   });
 
@@ -531,7 +531,7 @@ describe('Vela media provider', () => {
   });
 
   it('never turns a Vela failure into a stub, even when stubs are enabled', async () => {
-    process.env.OD_MEDIA_ALLOW_STUBS = '1';
+    process.env.SW_MEDIA_ALLOW_STUBS = '1';
     mockVelaCommand(async (args: string[]) => {
       tempOutputDirs.push(path.dirname(valueAfter(args, '--output')));
       throw new Error('workspace billing denied');
@@ -630,7 +630,7 @@ describe('Vela media provider', () => {
   });
 
   it('times out with the last video status and cleans temporary output', async () => {
-    process.env.OD_VELA_VIDEO_TIMEOUT_MS = '3';
+    process.env.SW_VELA_VIDEO_TIMEOUT_MS = '3';
     runVelaCommandMock
       .mockResolvedValueOnce(JSON.stringify({ task_id: 'mt_slow', status: 'queued' }))
       .mockImplementation(async (args: string[]) => {

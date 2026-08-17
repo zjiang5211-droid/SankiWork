@@ -21,8 +21,8 @@
 import { type CSSProperties, useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
-import type { LibraryAsset } from '@open-design/contracts';
-import { Button } from '@open-design/components';
+import type { LibraryAsset } from '@sankiwork/contracts';
+import { Button } from '@sankiwork/components';
 import { libraryAssetElementUrl, libraryAssetFigmaUrl, libraryAssetRawUrl } from '../providers/registry';
 import { modalOverlay, modalContent } from '../motion';
 import {

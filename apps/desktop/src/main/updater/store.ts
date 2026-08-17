@@ -7,7 +7,7 @@ import type {
   DesktopUpdateChecksumSnapshot,
   DesktopUpdateErrorSnapshot,
   DesktopUpdateStatusSnapshot,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 
 import {
   isDesktopUpdateChannel,
@@ -33,7 +33,7 @@ import type { DesktopUpdaterLogger } from "../updater.js";
  * and the owned-root recovery used by manual clear-cache.
  */
 
-export const OWNERSHIP_SENTINEL = ".open-design-updater-root.json";
+export const OWNERSHIP_SENTINEL = ".sankiwork-updater-root.json";
 export const STORE_METADATA_FILE = "metadata.json";
 export const RELEASES_DIR = "releases";
 export const STAGING_DIR = "staging";
@@ -145,7 +145,7 @@ export function storeShapeError(root: string, message: string, details?: unknown
 }
 
 export function logStoreError(logger: DesktopUpdaterLogger, error: DesktopUpdateErrorSnapshot): void {
-  logger.error("[open-design updater] invalid update store", error);
+  logger.error("[sankiwork updater] invalid update store", error);
 }
 
 export function isAllowedRootEntry(layout: DesktopUpdaterStoreLayout, name: string): boolean {
@@ -255,13 +255,13 @@ export async function ensureOwnedUpdateRoot(
           ok: false,
           error: createError(
             "update-root-not-owned",
-            `update root is not empty and has no Open Design updater ownership marker: ${realRoot}`,
+            `update root is not empty and has no SankiWork updater ownership marker: ${realRoot}`,
           ),
         };
       }
       await writeJson(layout.ownershipSentinelPath, {
         createdAt: new Date().toISOString(),
-        owner: "open-design-updater",
+        owner: "sankiwork-updater",
         source: config.source,
         version: UPDATE_ROOT_VERSION,
       });
@@ -344,10 +344,10 @@ export async function rebuildOwnedUpdateRootForManualClear(
       await rm(join(realRoot, entry), { force: true, recursive: true });
     }
     await writeJson(layout.metadataPath, { version: STORE_METADATA_VERSION });
-    logger.warn("[open-design updater] rebuilt corrupt owned update store for manual clear", { root: realRoot });
+    logger.warn("[sankiwork updater] rebuilt corrupt owned update store for manual clear", { root: realRoot });
     return true;
   } catch (error) {
-    logger.warn("[open-design updater] failed to rebuild corrupt update store for manual clear", {
+    logger.warn("[sankiwork updater] failed to rebuild corrupt update store for manual clear", {
       error: error instanceof Error ? error.message : String(error),
     });
     return false;

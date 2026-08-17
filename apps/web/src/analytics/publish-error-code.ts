@@ -13,7 +13,7 @@
  * Mirrors apps/web/src/analytics/deploy-error-code.ts (issue-#5220 pattern).
  */
 
-import type { TrackingPublishErrorCode } from '@open-design/contracts/analytics';
+import type { TrackingPublishErrorCode } from '@sankiwork/contracts/analytics';
 
 import { publicFilePublishFailureKey } from '../collab/public-file-publish';
 

@@ -85,7 +85,7 @@ fi
 downloads_dir="$HOME/Downloads"
 download_path="$downloads_dir/$dmg_name"
 partial_path="$download_path.partial.$$"
-mount_dir="$(mktemp -d "${TMPDIR:-/tmp}/open-design-unsafe-dmg.XXXXXX")"
+mount_dir="$(mktemp -d "${TMPDIR:-/tmp}/sankiwork-unsafe-dmg.XXXXXX")"
 mounted=0
 
 cleanup() {

@@ -9,7 +9,7 @@
 // Frontmatter format (matches Claude Code's auto-memory pattern):
 //   ---
 //   name: User role
-//   description: User is a senior FE engineer working on Open Design.
+//   description: User is a senior FE engineer working on SankiWork.
 //   type: user
 //   ---
 //
@@ -23,7 +23,7 @@
 import { promises as fsp } from 'node:fs';
 import path from 'node:path';
 import { EventEmitter } from 'node:events';
-import { MEMORY_TYPES, PROFILE_MEMORY_ID, parseFormAnswers } from '@open-design/contracts';
+import { MEMORY_TYPES, PROFILE_MEMORY_ID, parseFormAnswers } from '@sankiwork/contracts';
 import { parseFrontmatter } from './design-systems/frontmatter.js';
 // Imported lazily through the memory-extractions module by the call
 // sites below so a future test-only build of memory.ts that stubs the

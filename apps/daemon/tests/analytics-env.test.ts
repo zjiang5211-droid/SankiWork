@@ -28,7 +28,7 @@ describe('analytics telemetry environment', () => {
 
     expect(readPublicConfigResponse({
       POSTHOG_KEY: 'phc_test',
-      OD_TELEMETRY_ENV: 'local_development',
+      SW_TELEMETRY_ENV: 'local_development',
     })).toMatchObject({
       enabled: true,
       env: 'local_development',
@@ -47,7 +47,7 @@ describe('analytics telemetry environment', () => {
     const { createAnalyticsService } = await import('../src/analytics.js');
     createAnalyticsService({
       dataDir,
-      env: { POSTHOG_KEY: 'phc_test', OD_TELEMETRY_ENV: 'local_development' },
+      env: { POSTHOG_KEY: 'phc_test', SW_TELEMETRY_ENV: 'local_development' },
     });
 
     expect(posthogCtor).toHaveBeenCalledTimes(1);
@@ -66,7 +66,7 @@ describe('analytics telemetry environment', () => {
       dataDir,
       env: {
         POSTHOG_KEY: 'phc_test',
-        OD_TELEMETRY_ENV: 'local_development',
+        SW_TELEMETRY_ENV: 'local_development',
       },
     });
 
@@ -105,7 +105,7 @@ describe('analytics telemetry environment', () => {
     const { createAnalyticsService } = await import('../src/analytics.js');
     const analytics = createAnalyticsService({
       dataDir,
-      env: { POSTHOG_KEY: 'phc_test', OD_TELEMETRY_ENV: 'local_development' },
+      env: { POSTHOG_KEY: 'phc_test', SW_TELEMETRY_ENV: 'local_development' },
     });
 
     await analytics.identifyGroup({

@@ -24,11 +24,11 @@ stage. It's the natural counterpart to `diff-review`.
 
 | surface | typical follow-on |
 | --- | --- |
-| `cli` | the user runs `od files read` against the project; no extra push |
+| `cli` | the user runs `sw files read` against the project; no extra push |
 | `desktop` | open the project in the OD desktop app |
-| `web` | publish to the public marketplace via spec §13's `od://` deep link |
+| `web` | publish to the public marketplace via spec §13's `sankiwork://` deep link |
 | `docker` | wrap the artifact into a self-contained container (calls the §15.4 image) |
-| `github` | open a PR via `od plugin publish --to <catalog>` |
+| `github` | open a PR via `sw plugin publish --to <catalog>` |
 | `figma` | round-trip back into the figma-migration source file |
 | `code-agent` | hand off to Cursor / Claude Code / Codex sitting on top of the project cwd |
 

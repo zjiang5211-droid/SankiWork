@@ -5,10 +5,10 @@
 // the upstream request fails.
 
 import { useEffect, useState } from 'react';
-import type { OpenDesignDiscordPresenceResponse } from '@open-design/contracts';
+import type { SankiWorkDiscordPresenceResponse } from '@sankiwork/contracts';
 
 const API = '/api/community/discord';
-const LS_KEY = 'open-design:discord-presence';
+const LS_KEY = 'sankiwork:discord-presence';
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
 type CachedPresence = {
@@ -52,7 +52,7 @@ function writePersistedCache(value: CachedPresence): void {
   }
 }
 
-function cacheFromPayload(payload: Partial<OpenDesignDiscordPresenceResponse>): CachedPresence | null {
+function cacheFromPayload(payload: Partial<SankiWorkDiscordPresenceResponse>): CachedPresence | null {
   if (
     typeof payload.onlineCount !== 'number' ||
     payload.onlineCount < 0 ||

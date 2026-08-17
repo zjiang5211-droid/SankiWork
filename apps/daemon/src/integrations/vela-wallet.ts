@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-import type { AmrWalletSnapshot } from '@open-design/contracts';
+import type { AmrWalletSnapshot } from '@sankiwork/contracts';
 
 import {
   markVelaAuthorizationExpired,
@@ -11,7 +11,7 @@ import {
 
 const DEFAULT_AMR_WALLET_CACHE_TTL_MS = 8_000;
 const DEFAULT_AMR_WALLET_FETCH_TIMEOUT_MS = 8_000;
-const DEFAULT_AMR_API_URL = 'https://amr-api.open-design.ai';
+const DEFAULT_AMR_API_URL = 'https://amr-api.sanki-ai.cloud';
 
 type FetchLike = typeof fetch;
 
@@ -271,7 +271,7 @@ export function createVelaWalletSnapshotReader(options: VelaWalletReaderOptions 
     if (current) return current;
     const timeoutMs =
       options.timeoutMs ??
-      readPositiveInteger(env.OD_AMR_WALLET_FETCH_TIMEOUT_MS, DEFAULT_AMR_WALLET_FETCH_TIMEOUT_MS);
+      readPositiveInteger(env.SW_AMR_WALLET_FETCH_TIMEOUT_MS, DEFAULT_AMR_WALLET_FETCH_TIMEOUT_MS);
     const promise = fetchSnapshot(key, {
       apiUrl: context.apiUrl,
       controlKey: context.controlKey,

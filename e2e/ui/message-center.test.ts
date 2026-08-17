@@ -3,8 +3,8 @@ import { routeAgents } from '@/playwright/mock-factory';
 import { ensureRailOpen } from '@/playwright/rail';
 import type { Page } from '@playwright/test';
 
-const STORAGE_KEY = 'open-design:config';
-const READ_KEY = 'open-design.message-center.anonymous-read-ids.v1';
+const STORAGE_KEY = 'sankiwork:config';
+const READ_KEY = 'sankiwork.message-center.anonymous-read-ids.v1';
 
 test.describe.configure({ timeout: 30_000 });
 
@@ -13,8 +13,8 @@ async function seedEntryHome(page: Page, options?: { locale?: string }) {
     window.localStorage.clear();
     window.sessionStorage.clear();
     if (locale) {
-      window.localStorage.setItem('open-design:locale', locale);
-      window.localStorage.setItem('open-design:locale-source', 'manual');
+      window.localStorage.setItem('sankiwork:locale', locale);
+      window.localStorage.setItem('sankiwork:locale-source', 'manual');
     }
     window.localStorage.setItem(
       key,
@@ -74,7 +74,7 @@ async function seedEntryHome(page: Page, options?: { locale?: string }) {
 
 async function gotoEntryHome(page: Page, timeout = 10_000) {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, { timeout: 15_000 });
+  await expect(page.getByText('Loading SankiWork…')).toHaveCount(0, { timeout: 15_000 });
   await expect(page.getByTestId('home-hero')).toBeVisible({ timeout });
   await ensureRailOpen(page);
 }

@@ -16,12 +16,12 @@ import {
   modelIdForTracking,
   type TrackingRunCancelOrigin,
   type TrackingRunTerminalTrigger,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 
 import { agentCliEnvForAgent, readAppConfig } from './app-config.js';
 import type { AppVersionInfo } from './app-version.js';
 import { listMessages } from './db.js';
-import { normalizeOpenDesignTelemetryRelayUrl } from './integrations/telemetry-relay.js';
+import { normalizeSankiWorkTelemetryRelayUrl } from './integrations/telemetry-relay.js';
 import {
   deriveLangfuseDeliveryState,
   readFeedbackTelemetrySinkConfig,
@@ -204,14 +204,14 @@ function mergeTraceSafeManifests(
 }
 
 function inferObjectRegistrationRelayUrl(env: NodeJS.ProcessEnv = process.env): string | null {
-  const objectRelayUrl = env.OPEN_DESIGN_OBJECT_RELAY_URL?.trim();
+  const objectRelayUrl = env.SANKIWORK_OBJECT_RELAY_URL?.trim();
   if (!objectRelayUrl) {
-    const telemetryRelayUrl = env.OPEN_DESIGN_TELEMETRY_RELAY_URL?.trim();
+    const telemetryRelayUrl = env.SANKIWORK_TELEMETRY_RELAY_URL?.trim();
     return telemetryRelayUrl
-      ? normalizeOpenDesignTelemetryRelayUrl(telemetryRelayUrl)
+      ? normalizeSankiWorkTelemetryRelayUrl(telemetryRelayUrl)
       : null;
   }
-  const normalizedObjectRelayUrl = normalizeOpenDesignTelemetryRelayUrl(
+  const normalizedObjectRelayUrl = normalizeSankiWorkTelemetryRelayUrl(
     objectRelayUrl,
   );
   try {
@@ -246,10 +246,10 @@ function objectRegistrationTelemetryConfig(
     kind: 'relay',
     relayUrl,
     timeoutMs: parsePositiveInt(
-      env.OPEN_DESIGN_OBJECT_RELAY_TIMEOUT_MS ?? env.OPEN_DESIGN_TELEMETRY_TIMEOUT_MS,
+      env.SANKIWORK_OBJECT_RELAY_TIMEOUT_MS ?? env.SANKIWORK_TELEMETRY_TIMEOUT_MS,
       20_000,
     ),
-    retries: parseNonNegativeInt(env.OPEN_DESIGN_TELEMETRY_RETRIES, 1),
+    retries: parseNonNegativeInt(env.SANKIWORK_TELEMETRY_RETRIES, 1),
   };
 }
 
@@ -683,7 +683,7 @@ function objectStorageRef(args: {
     ? args.projectId
     : 'unknown-project';
   return [
-    'od://objects',
+    'sankiwork://objects',
     'workspaces',
     'unknown',
     'projects',
@@ -830,7 +830,7 @@ function buildTraceSafeManifests(args: {
         ...(extension ? { extension } : {}),
         redacted: false,
         truncated: false,
-        stored_in_open_design: true,
+        stored_in_sankiwork: true,
         retention_policy: 'project_lifetime',
         access_scope: 'project',
         sensitivity: 'private',
@@ -903,7 +903,7 @@ function buildTraceSafeManifests(args: {
           : { export_status: 'unavailable' }),
         redacted: false,
         truncated: false,
-        stored_in_open_design: true,
+        stored_in_sankiwork: true,
         retention_policy: 'project_lifetime',
         access_scope: 'project',
         sensitivity: 'private',
@@ -940,7 +940,7 @@ function buildTraceObjectSummary(args: {
   const skipReasons: Record<string, number> = {};
   let uploadedCount = 0;
   for (const entry of entries) {
-    if (entry.status === 'ok' && entry.stored_in_open_design === true) {
+    if (entry.status === 'ok' && entry.stored_in_sankiwork === true) {
       uploadedCount += 1;
       continue;
     }

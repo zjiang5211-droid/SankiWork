@@ -35,8 +35,8 @@ import {
   type TrackingFeedbackReasonCode,
   type TrackingFeedbackRatingWithNone,
   type TrackingProjectKind,
-} from "@open-design/contracts/analytics";
-import { questionsFormTrackingId } from "@open-design/contracts/analytics";
+} from "@sankiwork/contracts/analytics";
+import { questionsFormTrackingId } from "@sankiwork/contracts/analytics";
 import {
   formOptionLabelForValue,
   hasUnterminatedQuestionForm,
@@ -53,7 +53,7 @@ import {
   type OdCardBrandBrowserAssist,
   type RunContextSelection,
   type WorkspaceContextItem,
-} from "@open-design/contracts";
+} from "@sankiwork/contracts";
 import { OdCardView, type BrandBrowserAssistConfirm } from "./OdCard";
 import {
   normalizeVisualStyleQuestionValue,
@@ -119,7 +119,7 @@ export type QuestionFormSubmitHandler = (
 
 const DISCORD_INVITE_URL = "https://discord.gg/mHAjSMV6gz";
 const viewedInlineQuestionForms = new Set<string>();
-const QUESTION_FORM_DRAFT_STORAGE_PREFIX = "open-design:question-form-draft:";
+const QUESTION_FORM_DRAFT_STORAGE_PREFIX = "sankiwork:question-form-draft:";
 
 interface ActionNotice {
   message: string;
@@ -261,7 +261,7 @@ function SkillPluginCandidateCard({
           setNotice({ message: install?.message ?? "Plugin draft created, but install failed." });
         } else {
           if (typeof window !== "undefined") {
-            window.dispatchEvent(new CustomEvent("open-design:plugins-changed"));
+            window.dispatchEvent(new CustomEvent("sankiwork:plugins-changed"));
           }
           setNotice({ message: install?.message ?? "Plugin draft created and added to My plugins." });
         }
@@ -276,7 +276,7 @@ function SkillPluginCandidateCard({
     }
   }
 
-  async function share(action: "contribute-open-design") {
+  async function share(action: "contribute-sankiwork") {
     if (!projectId) return;
     setBusy("contribute");
     setNotice(null);
@@ -286,7 +286,7 @@ function SkillPluginCandidateCard({
         { action },
       );
       setNotice({
-        message: `Open Design contribution task started for ${data?.path ?? "the draft"}.`,
+        message: `SankiWork contribution task started for ${data?.path ?? "the draft"}.`,
       });
     } catch (err) {
       setNotice({ message: err instanceof Error ? err.message : String(err) });
@@ -307,7 +307,7 @@ function SkillPluginCandidateCard({
             type="button"
             className="plugin-action-button"
             disabled={disabled}
-            onClick={() => void share("contribute-open-design")}
+            onClick={() => void share("contribute-sankiwork")}
           >
             <Icon name={busy === "contribute" ? "spinner" : "share"} size={13} />
             <span>{busy === "contribute" ? "Starting..." : t("skillPluginCandidate.contributeToMain")}</span>
@@ -370,11 +370,11 @@ interface Props {
   ) => Promise<{ message?: string; url?: string } | void> | { message?: string; url?: string } | void;
   activePluginActionPaths?: Set<string>;
   hiddenPluginActionPaths?: Set<string>;
-  // Click handler for the post-completion "Share to Open Design" submission
+  // Click handler for the post-completion "Share to SankiWork" submission
   // action. ProjectView wires this to handleSend with the bundled
   // `od-share-to-community` trigger prompt.
-  onShareToOpenDesign?: () => void;
-  shareToOpenDesignBusy?: boolean;
+  onShareToSankiWork?: () => void;
+  shareToSankiWorkBusy?: boolean;
   // Consecutive messages from the same assistant share one identity header.
   // ChatPane sets this false after the first item in a contiguous run.
   showRole?: boolean;
@@ -454,7 +454,7 @@ const ASSISTANT_MESSAGE_COMPARED_PROPS: Array<keyof Props> = [
   'nextUserContent',
   'questionFormSubmitDisabled',
   'forking',
-  'shareToOpenDesignBusy',
+  'shareToSankiWorkBusy',
   'suppressDirectionForms',
   'hasDesignSystemContext',
   'nextStepAiOptimizeBusy',
@@ -514,8 +514,8 @@ function AssistantMessageImpl({
   onRequestPluginFolderAgentAction,
   activePluginActionPaths = new Set(),
   hiddenPluginActionPaths = new Set(),
-  onShareToOpenDesign,
-  shareToOpenDesignBusy = false,
+  onShareToSankiWork,
+  shareToSankiWorkBusy = false,
   showRole = true,
   isLast,
   errorCardOwnerId = null,
@@ -781,9 +781,9 @@ function AssistantMessageImpl({
     hasEmptyResponse ||
     !!copyMarkdown ||
     canFork;
-  const canShowOpenDesignSubmission = !!onShareToOpenDesign && showFeedback && runSucceeded;
-  const showOpenDesignSubmission =
-    canShowOpenDesignSubmission && (!!isLast || shareToOpenDesignBusy);
+  const canShowSankiWorkSubmission = !!onShareToSankiWork && showFeedback && runSucceeded;
+  const showSankiWorkSubmission =
+    canShowSankiWorkSubmission && (!!isLast || shareToSankiWorkBusy);
   const effectiveNextStepVariant: NextStepActionsVariant =
     nextStepVariant === 'brand-extraction' && (!runSucceeded || !nextStepArtifactName)
       ? 'brand-programmatic-incomplete'
@@ -846,7 +846,7 @@ function AssistantMessageImpl({
     !hasPendingQuestionForm &&
     ((!!isLast && hasNextStepPrimary &&
       ((runSucceeded && hasTurnDeliverable) || isBrandExtractionRecovery)) ||
-      showOpenDesignSubmission);
+      showSankiWorkSubmission);
   // Pre-output vs working: before any real content (text / thinking / tools /
   // files) the footer shimmers "Preparing…"; the moment content lands it
   // flips to "Working". The elapsed clock stays anchored to the persisted run
@@ -1139,8 +1139,8 @@ function AssistantMessageImpl({
             onDownload={isLast && nextStepFileName ? onArtifactDownload : undefined}
             skills={isLast ? nextStepSkills : undefined}
             toolboxSkillNames={isLast ? toolboxSkillNames : undefined}
-            onShareToOpenDesign={showOpenDesignSubmission ? onShareToOpenDesign : undefined}
-            shareToOpenDesignBusy={shareToOpenDesignBusy}
+            onShareToSankiWork={showSankiWorkSubmission ? onShareToSankiWork : undefined}
+            shareToSankiWorkBusy={shareToSankiWorkBusy}
             variant={effectiveNextStepVariant}
           />
         ) : null}
@@ -2329,7 +2329,7 @@ function PluginActionPanel({
                   <span>
                     {actionBusy && busyKey === `contribute:${folder.path}`
                       ? "Sending..."
-                      : "Open Design PR"}
+                      : "SankiWork PR"}
                   </span>
                 </button>
                 {onRequestOpenFile ? (
@@ -2425,7 +2425,7 @@ function pathMatchesFolderFileBasename(
 }
 
 function hasPluginFinalActionHint(content: string): boolean {
-  return /\b(Add to My plugins|Open Design PR|Publish repo|plugin publish|ready to publish|ready to add)\b/i.test(
+  return /\b(Add to My plugins|SankiWork PR|Publish repo|plugin publish|ready to publish|ready to add)\b/i.test(
     content,
   );
 }

@@ -55,7 +55,7 @@ export const STARTUP_FAILURE_EVENT = "packaged_runtime_failed";
 //
 // EVENT_SCHEMA_VERSION must stay in lockstep with
 // packages/contracts/src/analytics/public-params.ts. It is replicated (not
-// imported) because apps/packaged does not depend on @open-design/contracts and
+// imported) because apps/packaged does not depend on @sankiwork/contracts and
 // a single integer isn't worth a new cross-package dependency that also
 // complicates the daemon-chunk externalization.
 const EVENT_SCHEMA_VERSION = 2;
@@ -71,13 +71,13 @@ const CAPTURE_SOURCE = "packaged/startup";
 // env=production dashboards. apps/packaged only ever runs as a packaged build,
 // so an unset NODE_ENV here means packaged production, not dev; treat anything
 // that isn't an explicit development marker as production so the two sides
-// match. Explicit overrides (OD_TELEMETRY_ENV / OPEN_DESIGN_ENV / POSTHOG_ENV /
+// match. Explicit overrides (SW_TELEMETRY_ENV / SANKIWORK_ENV / POSTHOG_ENV /
 // LANGFUSE_ENVIRONMENT) still win for anyone who needs to force a bucket
 // (e.g. a maintainer smoke-testing a local packaged build).
 function resolveTelemetryEnv(env: NodeJS.ProcessEnv = process.env): string {
   const explicit =
-    env.OD_TELEMETRY_ENV?.trim() ||
-    env.OPEN_DESIGN_ENV?.trim() ||
+    env.SW_TELEMETRY_ENV?.trim() ||
+    env.SANKIWORK_ENV?.trim() ||
     env.POSTHOG_ENV?.trim() ||
     env.LANGFUSE_ENVIRONMENT?.trim();
   if (explicit) return explicit;
@@ -120,7 +120,7 @@ const EXIT_RE =
 const STATUS_TIMEOUT_RE = /^timed out waiting for sidecar status at /;
 
 // Node's message for a spawn that never became a process (`spawn UNKNOWN`,
-// `spawn C:\…\Open Design.exe ENOENT`). Message shape is the fallback; the
+// `spawn C:\…\SankiWork.exe ENOENT`). Message shape is the fallback; the
 // error object's `syscall` is the primary signal since it survives an empty
 // message.
 const SPAWN_RE = /^spawn\b/;
@@ -169,7 +169,7 @@ export function classifyStartupFailure(
 // A thrown-error headline in a log tail: `SqliteError: database disk image is
 // malformed`, `TypeError: x is not a function`, `Error [ERR_X]: …`. Anchored on
 // a leading identifier that ends in Error/Exception so stack frames (`    at …`)
-// and our own bracketed prefixes (`[open-design packaged] exited …`) never match.
+// and our own bracketed prefixes (`[sankiwork packaged] exited …`) never match.
 const DAEMON_ERROR_LINE_RE =
   /^(?:\s*(?:Uncaught|Unhandled)\s+)?[A-Za-z_$][\w$]*(?:Error|Exception)(?:\s*\[[^\]]+\])?\s*:\s*.+$/;
 
@@ -272,14 +272,14 @@ function osName(platform: NodeJS.Platform = process.platform): string {
 // analysis — we segment on os/version/channel, not per-user funnels.
 //
 // `installationRoot` must be passed explicitly from `paths.installationRoot`:
-// OD_INSTALLATION_DIR is only set in the daemon CHILD env, never in the packaged
+// SW_INSTALLATION_DIR is only set in the daemon CHILD env, never in the packaged
 // main process, so relying on the env here would always fall through to the
 // synthetic id. The env is kept as a secondary fallback only.
 export function resolveStartupDistinctId(
   namespace: string,
   installationRoot?: string | null,
 ): string {
-  const dir = installationRoot?.trim() || process.env.OD_INSTALLATION_DIR?.trim();
+  const dir = installationRoot?.trim() || process.env.SW_INSTALLATION_DIR?.trim();
   try {
     if (dir) {
       const raw = readFileSync(join(dir, "installation.json"), "utf8");

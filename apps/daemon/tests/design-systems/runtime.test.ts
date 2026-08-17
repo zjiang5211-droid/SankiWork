@@ -2,7 +2,7 @@ import { cp, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/promises'
 import os from 'node:os';
 import path from 'node:path';
 
-import { resolveDesignSystemIntent } from '@open-design/contracts';
+import { resolveDesignSystemIntent } from '@sankiwork/contracts';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import {
@@ -71,7 +71,7 @@ describe('design-system structured runtime', () => {
       'runtime-v3',
       fixturesRoot,
       path.join(fixturesRoot, 'missing-user-root'),
-      { OD_DESIGN_TOKEN_CHANNEL: '0' },
+      { SW_DESIGN_TOKEN_CHANNEL: '0' },
     );
 
     expect(context).toEqual({ mode: 'legacy' });

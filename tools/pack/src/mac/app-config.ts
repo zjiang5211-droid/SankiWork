@@ -6,17 +6,17 @@ import type { ToolPackConfig } from "../config.js";
 import { pathExists } from "./fs.js";
 import type { SeededAppConfigPaths } from "./types.js";
 
-export const PACKAGED_CONFIG_PATH_ENV = "OD_PACKAGED_CONFIG_PATH";
+export const PACKAGED_CONFIG_PATH_ENV = "SW_PACKAGED_CONFIG_PATH";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value != null && !Array.isArray(value);
 }
 
 export function resolveSeededAppConfigPaths(config: ToolPackConfig): SeededAppConfigPaths {
-  const configuredDataDir = process.env.OD_DATA_DIR?.trim();
+  const configuredDataDir = process.env.SW_DATA_DIR?.trim();
   const sourceDataDir = configuredDataDir
     ? resolveProjectRelativePath(configuredDataDir, config.workspaceRoot)
-    : join(config.workspaceRoot, ".od");
+    : join(config.workspaceRoot, ".sankiwork");
   return {
     sourcePath: join(sourceDataDir, "app-config.json"),
     targetPath: join(config.roots.runtime.namespaceRoot, "data", "app-config.json"),
@@ -40,7 +40,7 @@ export async function seedPackagedAppConfig(config: ToolPackConfig): Promise<voi
 }
 
 export async function writeLaunchPackagedConfig(config: ToolPackConfig, appPath: string): Promise<string> {
-  const embeddedConfigPath = join(appPath, "Contents", "Resources", "open-design-config.json");
+  const embeddedConfigPath = join(appPath, "Contents", "Resources", "sankiwork-config.json");
   const raw = (await pathExists(embeddedConfigPath))
     ? JSON.parse(await readFile(embeddedConfigPath, "utf8")) as unknown
     : {};
@@ -48,7 +48,7 @@ export async function writeLaunchPackagedConfig(config: ToolPackConfig, appPath:
     throw new Error(`packaged launch config source must be a JSON object: ${embeddedConfigPath}`);
   }
 
-  const launchConfigPath = join(config.roots.runtime.namespaceRoot, "runtime", "open-design-config.json");
+  const launchConfigPath = join(config.roots.runtime.namespaceRoot, "runtime", "sankiwork-config.json");
   await mkdir(dirname(launchConfigPath), { recursive: true });
   await writeFile(
     launchConfigPath,

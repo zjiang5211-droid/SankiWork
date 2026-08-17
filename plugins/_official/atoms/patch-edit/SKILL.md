@@ -36,7 +36,7 @@ project-cwd/
 
 The atom completes when every step in `plan/steps.json` is in a
 terminal state (`completed` / `skipped`) OR `iterations >=
-OD_MAX_DEVLOOP_ITERATIONS`. Use:
+SW_MAX_DEVLOOP_ITERATIONS`. Use:
 
 ```jsonc
 {

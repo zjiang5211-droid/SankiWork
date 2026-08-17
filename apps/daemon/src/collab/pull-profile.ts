@@ -72,7 +72,7 @@ export function sharedProjectPullProfileEnabled(
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
   return ENABLED_VALUES.has(
-    env.OD_COLLAB_PULL_PROFILE?.trim().toLowerCase() ?? '',
+    env.SW_COLLAB_PULL_PROFILE?.trim().toLowerCase() ?? '',
   );
 }
 

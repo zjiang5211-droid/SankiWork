@@ -107,7 +107,7 @@ describe('AmrAccountControl', () => {
     });
 
     expect(
-      screen.getByRole('group', { name: 'Open Design Cloud account status' }),
+      screen.getByRole('group', { name: 'SankiWork Cloud account status' }),
     ).toBeTruthy();
     expect(screen.getByText('Not signed in')).toBeTruthy();
     const signIn = screen.getByRole('button', { name: 'Sign in' });
@@ -279,7 +279,7 @@ describe('AmrLoginPill', () => {
     expect(screen.getByText('leaf@example.com')).toBeTruthy();
     expect(screen.getByText('TEST')).toBeTruthy();
     expect(screen.getByRole('link', { name: 'Manage' }).getAttribute('href')).toBe(
-      'https://vela.powerformer.net/dashboard?source=open_design',
+      'https://vela.powerformer.net/dashboard?source=sankiwork',
     );
   });
 
@@ -294,7 +294,7 @@ describe('AmrLoginPill', () => {
 
     expect(screen.getByText('LOCAL')).toBeTruthy();
     expect(screen.getByRole('link', { name: 'Manage' }).getAttribute('href')).toBe(
-      'http://localhost:5173/dashboard?source=open_design',
+      'http://localhost:5173/dashboard?source=sankiwork',
     );
   });
 
@@ -309,7 +309,7 @@ describe('AmrLoginPill', () => {
 
     expect(screen.queryByText('PROD')).toBeNull();
     expect(screen.getByRole('link', { name: 'Manage' }).getAttribute('href')).toBe(
-      'https://open-design.ai/amr/dashboard?source=open_design',
+      'https://sanki-ai.cloud/amr/dashboard?source=sankiwork',
     );
   });
 
@@ -317,7 +317,7 @@ describe('AmrLoginPill', () => {
     const fetchMock = vi.fn(async (input: string | URL | Request) => {
       const url = typeof input === 'string' ? input : input.toString();
       if (url === '/api/attribution/bridge-url') {
-        return jsonResponse({ body: { url: 'https://open-design.ai/amr/dashboard?od_bridge=odbr_12345678' } });
+        return jsonResponse({ body: { url: 'https://sanki-ai.cloud/amr/dashboard?od_bridge=odbr_12345678' } });
       }
       if (url === '/api/system/open-external') return jsonResponse({ body: { ok: true } });
       return new Response('{}', { status: 202 });
@@ -346,8 +346,8 @@ describe('AmrLoginPill', () => {
     fireEvent.click(link);
 
     const url = new URL(link.href);
-    expect(url.searchParams.get('source')).toBe('open_design');
-    expect(url.searchParams.get('od_origin')).toBe('open_design');
+    expect(url.searchParams.get('source')).toBe('sankiwork');
+    expect(url.searchParams.get('od_origin')).toBe('sankiwork');
     expect(url.searchParams.get('od_entry_source')).toBe('settings_amr_console');
     expect(url.searchParams.get('od_device_id')).toBe('od-install-abc');
     expect(url.searchParams.get('od_entry_id')).toMatch(/^od-amr-/u);
@@ -366,7 +366,7 @@ describe('AmrLoginPill', () => {
       '/api/system/open-external',
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify({ url: 'https://open-design.ai/amr/dashboard?od_bridge=odbr_12345678' }),
+        body: JSON.stringify({ url: 'https://sanki-ai.cloud/amr/dashboard?od_bridge=odbr_12345678' }),
       }),
     );
   });
@@ -438,7 +438,7 @@ describe('AmrLoginPill', () => {
     });
   });
 
-  it('passes the Open Design device id in login attribution when metrics consent is enabled', async () => {
+  it('passes the SankiWork device id in login attribution when metrics consent is enabled', async () => {
     const fetchMock = vi.fn(async (input, init) => {
       const url = typeof input === 'string' ? input : (input as URL).toString();
       if (url.endsWith('/api/integrations/vela/status')) {
@@ -600,7 +600,7 @@ describe('AmrLoginPill', () => {
   });
 
   // This pill is what Settings' "Sign in / Register" cloud callout and the
-  // Open Design agent card's "Authorize" action both render (SettingsDialog
+  // SankiWork agent card's "Authorize" action both render (SettingsDialog
   // renders it from a full-page `/settings` route, so the entry rail — and
   // its `useWorkspaceContext` hook — is unmounted the whole time the user is
   // on that page). Besides notifyAmrLoginStatusChanged(), it also fires

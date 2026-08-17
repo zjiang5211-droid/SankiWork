@@ -12,7 +12,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import type {
   MemoryChangeEvent,
   MemoryExtractionEvent,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { useT } from '../i18n';
 import { toastSlideUp } from '../motion';
 

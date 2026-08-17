@@ -462,7 +462,7 @@ describe('GET /api/projects/:id/export/*?inline=1 route', () => {
   const projectId = 'proj-export-inline-test';
 
   const cssBody = 'body{color:#0a0}';
-  const jsBody = 'window.OD_EXPORT_OK = 42;';
+  const jsBody = 'window.SW_EXPORT_OK = 42;';
   const nestedJsBody = 'export const N = 7;';
 
   beforeAll(async () => {
@@ -485,7 +485,7 @@ describe('GET /api/projects/:id/export/*?inline=1 route', () => {
     });
     expect(createProject.status).toBe(200);
 
-    projectsRoot = path.join(process.env.OD_DATA_DIR!, 'projects');
+    projectsRoot = path.join(process.env.SW_DATA_DIR!, 'projects');
     const dir = path.join(projectsRoot, projectId);
     const pages = path.join(dir, 'pages');
     const shared = path.join(dir, 'shared');
@@ -780,7 +780,7 @@ describe('POST /api/projects/:id/export/html route', () => {
     });
     expect(created.status).toBe(200);
 
-    projectsRoot = path.join(process.env.OD_DATA_DIR!, 'projects');
+    projectsRoot = path.join(process.env.SW_DATA_DIR!, 'projects');
     const root = path.join(projectsRoot, projectId);
     await Promise.all([
       mkdir(path.join(root, 'pages'), { recursive: true }),

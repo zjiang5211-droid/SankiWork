@@ -8,7 +8,7 @@ import {
 import type {
   CollabCloudMemberDirectoryEntry,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { useWorkspaceContext } from './useWorkspaceContext';
 import { useWorkspaceInvalidation } from './workspace-events';
 import { teamMembersStoreFor } from './team-members-store';

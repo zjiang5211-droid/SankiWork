@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { PREVIEW_OBSERVABILITY_MESSAGE_TYPE } from '@open-design/contracts/runtime/preview-observability';
+import { PREVIEW_OBSERVABILITY_MESSAGE_TYPE } from '@sankiwork/contracts/runtime/preview-observability';
 
 const { reportSafetyEvent } = vi.hoisted(() => ({
   reportSafetyEvent: vi.fn(),

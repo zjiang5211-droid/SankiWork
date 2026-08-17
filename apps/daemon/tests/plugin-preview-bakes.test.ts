@@ -11,7 +11,7 @@ import {
   PLUGIN_PREVIEWS_ROUTE,
 } from '../src/plugins/plugin-preview-bakes.js';
 
-const PUBLIC_BASE = 'https://repo-assets.open-design.ai/plugin-previews';
+const PUBLIC_BASE = 'https://repo-assets.sanki-ai.cloud/plugin-previews';
 
 interface ManifestEntry {
   video: string;
@@ -61,9 +61,9 @@ let previousBaseUrl: string | undefined;
 
 afterEach(async () => {
   if (previousBaseUrl === undefined) {
-    delete process.env.OD_PLUGIN_PREVIEWS_BASE_URL;
+    delete process.env.SW_PLUGIN_PREVIEWS_BASE_URL;
   } else {
-    process.env.OD_PLUGIN_PREVIEWS_BASE_URL = previousBaseUrl;
+    process.env.SW_PLUGIN_PREVIEWS_BASE_URL = previousBaseUrl;
   }
   previousBaseUrl = undefined;
   if (tmpDir) {
@@ -145,8 +145,8 @@ describe('bakedPreviewBlock', () => {
 
   it('lets an explicit preview base override both local and public origins', async () => {
     tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-baked-preview-'));
-    previousBaseUrl = process.env.OD_PLUGIN_PREVIEWS_BASE_URL;
-    process.env.OD_PLUGIN_PREVIEWS_BASE_URL = 'https://cdn.example.test/previews/';
+    previousBaseUrl = process.env.SW_PLUGIN_PREVIEWS_BASE_URL;
+    process.env.SW_PLUGIN_PREVIEWS_BASE_URL = 'https://cdn.example.test/previews/';
     await writeManifest(tmpDir, {
       'html-plugin': {
         video: 'html-plugin/fed987fed987abcd/preview.mp4',

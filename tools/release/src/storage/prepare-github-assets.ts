@@ -1,7 +1,7 @@
 import { copyFileSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { optional, required, writeJson } from "./common.ts";
-import { releaseChannelDescriptor } from "@open-design/release";
+import { releaseChannelDescriptor } from "@sankiwork/release";
 
 const releaseChannel = releaseChannelDescriptor(required("RELEASE_CHANNEL")).channel;
 const releaseVersion = required("RELEASE_VERSION");
@@ -46,16 +46,16 @@ function findRequiredAsset(files: string[], name: string): string {
 }
 
 const allowedNames = [
-  `open-design-${releaseVersion}-mac-arm64.dmg`,
-  `open-design-${releaseVersion}-mac-arm64.dmg.sha256`,
-  `open-design-${releaseVersion}-mac-x64.dmg`,
-  `open-design-${releaseVersion}-mac-x64.dmg.sha256`,
-  `open-design-${releaseVersion}-win-x64-setup.exe`,
-  `open-design-${releaseVersion}-win-x64-setup.exe.sha256`,
+  `sankiwork-${releaseVersion}-mac-arm64.dmg`,
+  `sankiwork-${releaseVersion}-mac-arm64.dmg.sha256`,
+  `sankiwork-${releaseVersion}-mac-x64.dmg`,
+  `sankiwork-${releaseVersion}-mac-x64.dmg.sha256`,
+  `sankiwork-${releaseVersion}-win-x64-setup.exe`,
+  `sankiwork-${releaseVersion}-win-x64-setup.exe.sha256`,
   ...(enableLinux
     ? [
-        `open-design-${releaseVersion}-linux-x64.AppImage`,
-        `open-design-${releaseVersion}-linux-x64.AppImage.sha256`,
+        `sankiwork-${releaseVersion}-linux-x64.AppImage`,
+        `sankiwork-${releaseVersion}-linux-x64.AppImage.sha256`,
       ]
     : []),
 ];

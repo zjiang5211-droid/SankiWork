@@ -3,7 +3,7 @@ import { delimiter } from 'node:path';
 import path from 'node:path';
 import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { wellKnownUserToolchainBins } from '@open-design/platform';
+import { wellKnownUserToolchainBins } from '@sankiwork/platform';
 import { resolveSandboxRuntimeConfigFromEnv } from '../sandbox-mode.js';
 import { expandHomePath } from './paths.js';
 import type { RuntimeAgentDef } from './types.js';
@@ -45,7 +45,7 @@ let cachedToolchainDirs: string[] | null = null;
 let cachedToolchainDirsAt = 0;
 
 // Resolve the home directory detection should search, honoring the sandbox /
-// `OD_AGENT_HOME` override. `hasOverride` lets callers scope strictly to the
+// `SW_AGENT_HOME` override. `hasOverride` lets callers scope strictly to the
 // override home (skipping real-machine system locations) so sandboxed
 // detection runs and tests stay deterministic instead of reaching the host.
 function resolveDetectionHome(): { home: string; hasOverride: boolean } {
@@ -54,7 +54,7 @@ function resolveDetectionHome(): { home: string; hasOverride: boolean } {
     RUNTIME_PROJECT_ROOT,
   );
   const homeOverride =
-    sandboxRuntime?.roots.agentHomeDir ?? process.env.OD_AGENT_HOME;
+    sandboxRuntime?.roots.agentHomeDir ?? process.env.SW_AGENT_HOME;
   return { home: homeOverride || homedir(), hasOverride: Boolean(homeOverride) };
 }
 
@@ -71,7 +71,7 @@ function userToolchainDirs() {
   }
   cachedToolchainHome = home;
   cachedToolchainDirsAt = now;
-  // When OD_AGENT_HOME is set, scope the search strictly to the override
+  // When SW_AGENT_HOME is set, scope the search strictly to the override
   // home: skip Homebrew / /usr/local *and* pass an empty env so that a
   // developer or CI runner with NPM_CONFIG_PREFIX / npm_config_prefix
   // exported can't leak the real machine's <prefix>/bin into a sandboxed
@@ -207,11 +207,11 @@ export function resolveAmrOpenCodeExecutable(
     if (selectedCompanion) return selectedCompanion;
   }
   // In packaged builds prefer the bundled companion under
-  // `OD_RESOURCE_ROOT/bin/libexec/opencode/opencode` so a stale global
+  // `SW_RESOURCE_ROOT/bin/libexec/opencode/opencode` so a stale global
   // `opencode` on the user's PATH can't override the known-good build that
   // shipped with this app. PATH is only consulted as a last resort.
   const resourceRoot = (
-    env.OD_RESOURCE_ROOT ?? process.env.OD_RESOURCE_ROOT
+    env.SW_RESOURCE_ROOT ?? process.env.SW_RESOURCE_ROOT
   )?.trim();
   if (resourceRoot) {
     const bundledDir = packagedVelaOpenCodeCompanionTree(resourceRoot);
@@ -262,7 +262,7 @@ function packagedBuiltInExecutable(
     return resolveAmrOpenCodeExecutable({ ...process.env, ...configuredEnv });
   }
   if (def.id !== 'amr') return null;
-  const resourceRoot = process.env.OD_RESOURCE_ROOT?.trim();
+  const resourceRoot = process.env.SW_RESOURCE_ROOT?.trim();
   if (!resourceRoot) return null;
   if (
     !resolveAmrOpenCodeExecutable({ ...process.env, ...configuredEnv }) &&

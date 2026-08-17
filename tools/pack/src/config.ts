@@ -4,11 +4,11 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 import {
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_DEFAULTS,
-} from "@open-design/sidecar-proto";
-import { resolveNamespace } from "@open-design/sidecar";
-import { releaseChannelFromVersion, releaseNamespace } from "@open-design/release";
+} from "@sankiwork/sidecar-proto";
+import { resolveNamespace } from "@sankiwork/sidecar";
+import { releaseChannelFromVersion, releaseNamespace } from "@sankiwork/release";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -89,7 +89,7 @@ export type ToolPackConfig = {
   telemetryRelayUrl?: string;
   /**
    * PostHog product-analytics ingest key, sourced from process.env.POSTHOG_KEY
-   * at packaging time. Baked into open-design-config.json so the packaged
+   * at packaging time. Baked into sankiwork-config.json so the packaged
    * daemon can read it as POSTHOG_KEY env at launch — only official Open
    * Design builds (CI with the secret set) ship with this; forks compiling
    * locally produce binaries that omit the key and the integration
@@ -101,9 +101,9 @@ export type ToolPackConfig = {
   posthogHost?: string;
   /**
    * Origin of the vela web console this build's AMR backend serves, sourced
-   * from `OD_VELA_WEB_URL` at packaging time. Baked into
-   * open-design-config.json so the packaged runtime can forward it to the
-   * daemon as `OD_VELA_WEB_URL`, which is what turns the workspace-team
+   * from `SW_VELA_WEB_URL` at packaging time. Baked into
+   * sankiwork-config.json so the packaged runtime can forward it to the
+   * daemon as `SW_VELA_WEB_URL`, which is what turns the workspace-team
    * transports on and what the workspace settings / members / dashboard
    * console links are derived from.
    *
@@ -124,7 +124,7 @@ export type ToolPackConfig = {
    */
   posthogCliApiKey?: string;
   /**
-   * PostHog project ID (e.g. `420348` for the official Open Design project)
+   * PostHog project ID (e.g. `420348` for the official SankiWork project)
    * used by `@posthog/cli sourcemap upload`. Sourced from
    * `POSTHOG_CLI_PROJECT_ID` (or the alias `POSTHOG_PROJECT_ID`) in CI.
    * Required for upload to be attempted; missing → strip-only path.
@@ -180,7 +180,7 @@ function resolveToolPackWebOutputMode(platform: ToolPackPlatform, value: string 
   if (platform === "linux") return "server";
   if (value == null || value.length === 0) return "standalone";
   if (value === "server" || value === "standalone") return value;
-  throw new Error(`unsupported OD_WEB_OUTPUT_MODE value: ${value}`);
+  throw new Error(`unsupported SW_WEB_OUTPUT_MODE value: ${value}`);
 }
 
 function resolveToolPackAmrProfile(value: string | undefined): ToolPackAmrProfile | undefined {
@@ -190,7 +190,7 @@ function resolveToolPackAmrProfile(value: string | undefined): ToolPackAmrProfil
   if (normalized === "prod" || normalized === "test" || normalized === "feature-test" || normalized === "local") {
     return normalized;
   }
-  throw new Error(`OPEN_DESIGN_AMR_PROFILE must be prod, test, feature-test, or local: ${value}`);
+  throw new Error(`SANKIWORK_AMR_PROFILE must be prod, test, feature-test, or local: ${value}`);
 }
 
 function resolveToolPackPosthogKey(value: string | undefined): string | undefined {
@@ -237,10 +237,10 @@ function resolveToolPackVelaWebUrl(value: string | undefined): string | undefine
   try {
     parsed = new URL(normalized);
   } catch {
-    throw new Error(`OD_VELA_WEB_URL must be an absolute URL: ${value}`);
+    throw new Error(`SW_VELA_WEB_URL must be an absolute URL: ${value}`);
   }
   if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
-    throw new Error(`OD_VELA_WEB_URL must be http(s): ${value}`);
+    throw new Error(`SW_VELA_WEB_URL must be http(s): ${value}`);
   }
   return normalized.replace(/\/+$/, "");
 }
@@ -293,10 +293,10 @@ function resolveToolPackTelemetryRelayUrl(value: string | undefined): string | u
   try {
     parsed = new URL(normalized);
   } catch {
-    throw new Error(`OPEN_DESIGN_TELEMETRY_RELAY_URL must be an absolute https URL: ${value}`);
+    throw new Error(`SANKIWORK_TELEMETRY_RELAY_URL must be an absolute https URL: ${value}`);
   }
   if (parsed.protocol !== "https:") {
-    throw new Error(`OPEN_DESIGN_TELEMETRY_RELAY_URL must use https: ${value}`);
+    throw new Error(`SANKIWORK_TELEMETRY_RELAY_URL must use https: ${value}`);
   }
   return normalized.replace(/\/+$/, "");
 }
@@ -309,10 +309,10 @@ function resolveToolPackUpdateMetadataUrl(value: string | undefined): string | u
   try {
     parsed = new URL(normalized);
   } catch {
-    throw new Error(`OD_UPDATE_METADATA_URL must be an absolute URL: ${value}`);
+    throw new Error(`SW_UPDATE_METADATA_URL must be an absolute URL: ${value}`);
   }
   if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
-    throw new Error(`OD_UPDATE_METADATA_URL must use http(s): ${value}`);
+    throw new Error(`SW_UPDATE_METADATA_URL must use http(s): ${value}`);
   }
   return normalized;
 }
@@ -346,7 +346,7 @@ export function resolveToolPackConfig(
 ): ToolPackConfig {
   const appVersion = resolveToolPackAppVersion(options.appVersion);
   const namespace = resolveNamespace({
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     env: process.env,
     namespace: options.namespace ?? defaultNamespaceForAppVersion(platform, appVersion),
   });
@@ -391,12 +391,12 @@ export function resolveToolPackConfig(
     requireVelaCli: options.requireVelaCli === true,
     silent: options.silent !== false,
     signed: options.signed === true,
-    amrProfile: resolveToolPackAmrProfile(process.env.OPEN_DESIGN_AMR_PROFILE),
-    telemetryRelayUrl: resolveToolPackTelemetryRelayUrl(process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL),
-    updateMetadataUrl: resolveToolPackUpdateMetadataUrl(process.env.OD_UPDATE_METADATA_URL),
+    amrProfile: resolveToolPackAmrProfile(process.env.SANKIWORK_AMR_PROFILE),
+    telemetryRelayUrl: resolveToolPackTelemetryRelayUrl(process.env.SANKIWORK_TELEMETRY_RELAY_URL),
+    updateMetadataUrl: resolveToolPackUpdateMetadataUrl(process.env.SW_UPDATE_METADATA_URL),
     posthogKey: resolveToolPackPosthogKey(process.env.POSTHOG_KEY),
     posthogHost: resolveToolPackPosthogHost(process.env.POSTHOG_HOST),
-    velaWebUrl: resolveToolPackVelaWebUrl(process.env.OD_VELA_WEB_URL),
+    velaWebUrl: resolveToolPackVelaWebUrl(process.env.SW_VELA_WEB_URL),
     posthogCliApiKey: resolveToolPackPosthogCliApiKey(
       process.env.POSTHOG_CLI_API_KEY ?? process.env.POSTHOG_PERSONAL_API_KEY,
     ),
@@ -405,7 +405,7 @@ export function resolveToolPackConfig(
     ),
     posthogCliHost: resolveToolPackPosthogCliHost(process.env.POSTHOG_CLI_HOST),
     to: resolveToolPackBuildOutput(platform, options.to),
-    webOutputMode: resolveToolPackWebOutputMode(platform, process.env.OD_WEB_OUTPUT_MODE),
+    webOutputMode: resolveToolPackWebOutputMode(platform, process.env.SW_WEB_OUTPUT_MODE),
     workspaceRoot: WORKSPACE_ROOT,
   };
 }

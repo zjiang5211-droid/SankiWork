@@ -12,7 +12,7 @@ test('live artifact MCP discovery is limited to mature ACP agents', () => {
     assert.equal(server.length, 1);
     const s = server[0];
     if (!s) throw new Error('unreachable: server length verified as 1 above');
-    assert.equal(s.name, 'open-design-live-artifacts');
+    assert.equal(s.name, 'sankiwork-live-artifacts');
     assert.equal(s.command, 'od');
     assert.deepEqual(s.args, ['mcp', 'live-artifacts']);
     const envIsMap =
@@ -37,7 +37,7 @@ test('Kimi retains ACP live-artifacts and external MCP wiring', () => {
   assert.equal(kimi.externalMcpInjection, 'acp-merge');
   assert.deepEqual(buildLiveArtifactsMcpServersForAgent(kimi), [
     {
-      name: 'open-design-live-artifacts',
+      name: 'sankiwork-live-artifacts',
       command: 'od',
       args: ['mcp', 'live-artifacts'],
       env: [{ name: 'ELECTRON_RUN_AS_NODE', value: '1' }],
@@ -53,7 +53,7 @@ test('live artifact MCP discovery can use daemon-resolved CLI command', () => {
     } as unknown as Parameters<typeof buildLiveArtifactsMcpServersForAgent>[1]),
     [
       {
-        name: 'open-design-live-artifacts',
+        name: 'sankiwork-live-artifacts',
         command: process.execPath,
         args: ['/workspace/apps/daemon/dist/cli.js', 'mcp', 'live-artifacts'],
         env: [{ name: 'ELECTRON_RUN_AS_NODE', value: '1' }],
@@ -75,12 +75,12 @@ test('MCP-capable agents can discover equivalent live artifact and connector too
 
   for (const tool of tools) {
     assert.equal(typeof tool.description, 'string');
-    assert.match(tool.description, /POSIX equivalent: `"\$OD_NODE_BIN" "\$OD_BIN" tools /u);
+    assert.match(tool.description, /POSIX equivalent: `"\$SW_NODE_BIN" "\$SW_BIN" tools /u);
     assert.equal(tool.inputSchema.type, 'object');
   }
 
   const initialized = await handleLiveArtifactsMcpRequest({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }) as { result: { serverInfo: { name: string }; capabilities: unknown } };
-  assert.equal(initialized.result.serverInfo.name, 'open-design-live-artifacts');
+  assert.equal(initialized.result.serverInfo.name, 'sankiwork-live-artifacts');
   assert.deepEqual(initialized.result.capabilities, { tools: {} });
 
   const listed = await handleLiveArtifactsMcpRequest({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} }) as { result: { tools: Array<{ name: string }> } };
@@ -98,8 +98,8 @@ test('MCP-capable agents can discover equivalent live artifact and connector too
 });
 
 test('live artifact MCP connector list forwards daily digest use case to daemon tools', async () => {
-  process.env.OD_DAEMON_URL = 'http://127.0.0.1:17456/base';
-  process.env.OD_TOOL_TOKEN = 'test-tool-token';
+  process.env.SW_DAEMON_URL = 'http://127.0.0.1:17456/base';
+  process.env.SW_TOOL_TOKEN = 'test-tool-token';
   const calls: Array<{ url: string; init: RequestInit | undefined }> = [];
   globalThis.fetch = async (url, init) => {
     calls.push({ url: String(url), init });
@@ -121,8 +121,8 @@ test('live artifact MCP connector list forwards daily digest use case to daemon 
 });
 
 test('live artifact MCP create forwards input and artifact payload fields to daemon tools', async () => {
-  process.env.OD_DAEMON_URL = 'http://127.0.0.1:17456';
-  process.env.OD_TOOL_TOKEN = 'test-tool-token';
+  process.env.SW_DAEMON_URL = 'http://127.0.0.1:17456';
+  process.env.SW_TOOL_TOKEN = 'test-tool-token';
   const calls: Array<{ url: string; init: RequestInit | undefined }> = [];
   globalThis.fetch = async (url, init) => {
     calls.push({ url: String(url), init });
@@ -149,8 +149,8 @@ test('live artifact MCP create forwards input and artifact payload fields to dae
 });
 
 test('live artifact MCP update preserves nested input and artifact payload fields', async () => {
-  process.env.OD_DAEMON_URL = 'http://127.0.0.1:17456';
-  process.env.OD_TOOL_TOKEN = 'test-tool-token';
+  process.env.SW_DAEMON_URL = 'http://127.0.0.1:17456';
+  process.env.SW_TOOL_TOKEN = 'test-tool-token';
   const calls: Array<{ url: string; init: RequestInit | undefined }> = [];
   globalThis.fetch = async (url, init) => {
     calls.push({ url: String(url), init });

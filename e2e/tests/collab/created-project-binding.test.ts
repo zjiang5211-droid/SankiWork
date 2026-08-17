@@ -151,7 +151,7 @@ describe('a created project is bound only to an explicit Workspace', () => {
         async ({ webUrl }) => {
           await setAmbientWorkspace(webUrl, AMBIENT);
 
-          // `od project create`, MCP, and other headerless legacy callers do
+          // `sw project create`, MCP, and other headerless legacy callers do
           // not inherit whichever Workspace the daemon most recently observed.
           const plainCreate = await createProject(webUrl, 'Bind plain create');
           const plainScope = await readScope(webUrl, plainCreate);
@@ -242,7 +242,7 @@ describe('an asserted workspace identity is verified before it is persisted', ()
     async () => {
       const suite = await createSmokeSuite('collab-created-project-unverified-claim');
 
-      // `OD_WORKSPACE_CONTEXT_SOURCE=vela` is what makes the daemon's
+      // `SW_WORKSPACE_CONTEXT_SOURCE=vela` is what makes the daemon's
       // project-creation membership authority exist at all
       // (`fetchProjectCreationWorkspaceDirectory` is undefined otherwise — the
       // documented local/dev compatibility path). The mock directory below lists
@@ -300,7 +300,7 @@ describe('an asserted workspace identity is verified before it is persisted', ()
         {
           env: {
             AMR_HOME: await emptyAmrHome(suite.scratchDir),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: directoryUrl,
             VELA_CONTROL_KEY: 'e2e-binding-control-key',
           },

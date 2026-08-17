@@ -5,7 +5,7 @@ import type {
   ProjectFileVersion,
   ProjectFileVersionPromptSource,
   ProjectFileVersionSource,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { createHash, randomUUID } from 'node:crypto';
 import { mkdir, readFile, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -17,7 +17,7 @@ const VERSION_MANIFEST = 'manifest.json';
 const VERSION_ID_RE = /^[A-Za-z0-9_-]+$/u;
 const CONTENT_DIGEST_RE = /^[a-f0-9]{64}$/u;
 const ORIGIN_ID_RE = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/u;
-const EXTERNAL_PLUGIN_IDS = new Set(['open-design']);
+const EXTERNAL_PLUGIN_IDS = new Set(['sankiwork']);
 const versionFileLocks = new Map<string, Promise<void>>();
 
 type VersionPromptSource = ProjectFileVersionPromptSource;
@@ -214,7 +214,7 @@ function normalizeArtifactOrigin(value: unknown): ArtifactOrigin | undefined {
   const raw = value as Record<string, unknown>;
   const entrySurface = raw.entrySurface;
   if (
-    entrySurface !== 'open_design_ui'
+    entrySurface !== 'sankiwork_ui'
     && entrySurface !== 'od_cli'
     && entrySurface !== 'external_mcp'
     && entrySurface !== 'unknown'

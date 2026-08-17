@@ -38,7 +38,7 @@ export type OdCardKind =
   | 'rule-proposal'
   | 'brand-browser-assist';
 
-export const OD_CARD_KINDS: readonly OdCardKind[] = [
+export const SW_CARD_KINDS: readonly OdCardKind[] = [
   'task-brief',
   'memory-applied',
   'verify-scorecard',
@@ -150,7 +150,7 @@ export type OdCardSegment =
 
 // `od-card` is the canonical tag. The close tag must match, so we capture the
 // name and compute the matching close string. Case-insensitive at scan time.
-const OD_CARD_OPEN_RE = /<(od-card)\b([^>]*)>/i;
+const SW_CARD_OPEN_RE = /<(od-card)\b([^>]*)>/i;
 
 /**
  * Split a final assistant text payload into ordered prose + card segments so
@@ -162,7 +162,7 @@ export function splitOnOdCards(input: string): OdCardSegment[] {
   let cursor = 0;
   while (cursor < input.length) {
     const slice = input.slice(cursor);
-    const m = OD_CARD_OPEN_RE.exec(slice);
+    const m = SW_CARD_OPEN_RE.exec(slice);
     if (!m) {
       out.push({ kind: 'text', text: slice });
       break;
@@ -210,7 +210,7 @@ export function stripTrailingOpenOdCard(
   let cursor = 0;
   while (cursor < input.length) {
     const slice = input.slice(cursor);
-    const m = OD_CARD_OPEN_RE.exec(slice);
+    const m = SW_CARD_OPEN_RE.exec(slice);
     if (!m) break;
     const closeTag = '</od-card>';
     const openStart = cursor + m.index;
@@ -247,7 +247,7 @@ function parseAttrs(raw: string): Record<string, string> {
 function normalizeKind(raw: unknown): OdCardKind | null {
   if (typeof raw !== 'string') return null;
   const lower = raw.toLowerCase().trim();
-  return (OD_CARD_KINDS as readonly string[]).includes(lower)
+  return (SW_CARD_KINDS as readonly string[]).includes(lower)
     ? (lower as OdCardKind)
     : null;
 }

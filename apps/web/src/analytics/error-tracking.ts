@@ -139,14 +139,14 @@ const FETCH_FAILURE_MESSAGES = new Set([
 
 // A frame originates in packaged desktop app code when its (pre-scrub) path
 // is either:
-//   - served from the `od://` scheme — the packaged renderer, all platforms;
+//   - served from the `sankiwork://` scheme — the packaged renderer, all platforms;
 //   - a `file://` path inside the macOS app bundle, i.e. it contains
 //     `.app/Contents/Resources` (source-mapped frames; scrub.ts rewrites
 //     these for privacy — see `scrubFilePath`). We match the bundle marker
-//     rather than a channel-specific app name so `Open Design Beta.app` /
-//     `Open Design Preview.app` builds are covered too.
+//     rather than a channel-specific app name so `SankiWork Beta.app` /
+//     `SankiWork Preview.app` builds are covered too.
 function isPackagedFramePath(path: string): boolean {
-  return path.startsWith('od://') || path.includes('.app/Contents/Resources');
+  return path.startsWith('sankiwork://') || path.includes('.app/Contents/Resources');
 }
 
 // True when the exception originated in packaged desktop app code. We key off
@@ -282,7 +282,7 @@ function dispatch(item: BufferedSafetyEvent): void {
 // and the matching id into the .map it uploads to PostHog. At load time each
 // injected chunk registers `globalThis._posthogChunkIds[<its Error().stack>] =
 // <chunkId>`. Symbolication then requires that chunk id to ride along on each
-// captured frame: packaged chunks load over the `od://` scheme, which PostHog
+// captured frame: packaged chunks load over the `sankiwork://` scheme, which PostHog
 // cannot fetch a `.map` from, so the chunk id is the ONLY correlation key.
 //
 // posthog-js stamps it natively, but we set `capture_exceptions: false` and
@@ -369,7 +369,7 @@ function buildExceptionList(
   // this module is the sole browser-exception transport.
   //
   // Also stamp `chunk_id` when the frame's chunk registered one (see
-  // `getFilenameToChunkIdMap`). Without it, packaged `od://` frames carry no
+  // `getFilenameToChunkIdMap`). Without it, packaged `sankiwork://` frames carry no
   // source URL PostHog can fetch, so the uploaded sourcemap can never be
   // matched and every frame stays minified — the reason production stacks
   // showed `?:?` despite the tools-pack sourcemap upload succeeding.

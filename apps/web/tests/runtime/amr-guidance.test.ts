@@ -29,14 +29,14 @@ describe('amrRechargeUrlForProfile', () => {
   // entry this module builds therefore targets `/dashboard`, not `/wallet`.
   it('targets the console dashboard on every AMR profile', () => {
     expect(DEFAULT_AMR_RECHARGE_URL).toBe(
-      'https://open-design.ai/amr/dashboard?source=open_design',
+      'https://sanki-ai.cloud/amr/dashboard?source=sankiwork',
     );
     expect(amrRechargeUrlForProfile('prod')).toBe(DEFAULT_AMR_RECHARGE_URL);
     expect(amrRechargeUrlForProfile('test')).toBe(
-      'https://vela.powerformer.net/dashboard?source=open_design',
+      'https://vela.powerformer.net/dashboard?source=sankiwork',
     );
     expect(amrRechargeUrlForProfile('local')).toBe(
-      'http://localhost:5173/dashboard?source=open_design',
+      'http://localhost:5173/dashboard?source=sankiwork',
     );
     expect(amrRechargeUrlForProfile(' unknown ')).toBe(DEFAULT_AMR_RECHARGE_URL);
     expect(amrRechargeUrlForProfile(null)).toBe(DEFAULT_AMR_RECHARGE_URL);
@@ -56,14 +56,14 @@ describe('amrRechargeUrlForProfile', () => {
   it('uses the runtime console origin the daemon reported for a non-prod profile', () => {
     setRuntimeAmrConsoleOrigin(RUNTIME_CONSOLE_ORIGIN);
     expect(amrRechargeUrlForProfile('feature-test')).toBe(
-      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=open_design`,
+      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=sankiwork`,
     );
   });
 
   it('tolerates a trailing slash and blank runtime origins', () => {
     setRuntimeAmrConsoleOrigin(`${RUNTIME_CONSOLE_ORIGIN}/`);
     expect(amrRechargeUrlForProfile('feature-test')).toBe(
-      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=open_design`,
+      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=sankiwork`,
     );
     setRuntimeAmrConsoleOrigin('   ');
     expect(amrRechargeUrlForProfile('feature-test')).toBe(DEFAULT_AMR_RECHARGE_URL);
@@ -81,7 +81,7 @@ describe('amrRechargeUrlForProfile', () => {
 
 // The web bundle ships publicly, so an environment hostname that is not itself
 // public must not be a literal in it. New environments arrive through the
-// daemon's runtime console origin (OD_VELA_WEB_URL, baked at packaging time
+// daemon's runtime console origin (SW_VELA_WEB_URL, baked at packaging time
 // from a CI secret) — not by adding a row to the static profile table.
 describe('amr-guidance origin literals', () => {
   it('bakes no additional environment origin into the web bundle', () => {
@@ -105,10 +105,10 @@ describe('workspace-scoped AMR URLs', () => {
   it('pins console and plans links to the exact workspace', () => {
     setRuntimeAmrConsoleOrigin(RUNTIME_CONSOLE_ORIGIN);
     expect(amrConsoleUrlForWorkspace('feature-test', ' workspace-a ')).toBe(
-      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=open_design&workspaceId=workspace-a`,
+      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=sankiwork&workspaceId=workspace-a`,
     );
     expect(amrPlansUrlForWorkspace('feature-test', ' workspace-a ')).toBe(
-      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=open_design&workspaceId=workspace-a&billing=plan`,
+      `${RUNTIME_CONSOLE_ORIGIN}/dashboard?source=sankiwork&workspaceId=workspace-a&billing=plan`,
     );
   });
 
@@ -337,7 +337,7 @@ describe('resolveRunFailureUi', () => {
     });
   });
 
-  // PRD "需要登录" — non-AMR agents. Open Design can't sign in for them (their
+  // PRD "需要登录" — non-AMR agents. SankiWork can't sign in for them (their
   // login lives in the user's own terminal), so the card shows the {agent}
   // sign-in copy, a plain Retry primary, and promotes AMR via the switch card.
   it('shows sign-in copy + retry + AMR promotion for non-AMR AGENT_AUTH_REQUIRED / UNAUTHORIZED', () => {

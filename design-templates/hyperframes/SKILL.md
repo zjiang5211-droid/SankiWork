@@ -33,9 +33,9 @@ od:
 
 HTML is the source of truth for video. A composition is an HTML file with `data-*` attributes for timing, a GSAP timeline for animation, and CSS for appearance. The framework handles clip visibility, media playback, and timeline sync.
 
-## Open Design integration (load-bearing for this surface)
+## SankiWork integration (load-bearing for this surface)
 
-When this skill runs inside Open Design (i.e. `$OD_PROJECT_DIR` is set), the
+When this skill runs inside SankiWork (i.e. `$SW_PROJECT_DIR` is set), the
 output flow is fixed: only the rendered `.mp4` should land in the project
 root. Composition source files (`hyperframes.json`, `meta.json`,
 `index.html`, assets) belong inside a hidden cache directory so they don't
@@ -53,7 +53,7 @@ chat-tool time; the scaffold path costs seconds.
 # 1. Pick a hidden cache slot. Dotfile prefix → OD's project file
 #    listing skips it, so the source files never clutter the chat.
 COMP_REL=".hyperframes-cache/$(date +%s)-$(openssl rand -hex 2)"
-COMP="$OD_PROJECT_DIR/$COMP_REL"
+COMP="$SW_PROJECT_DIR/$COMP_REL"
 
 # 2. Get an immediately-renderable scaffold (hyperframes.json,
 #    meta.json, index.html with GSAP CDN + window.__timelines.main
@@ -76,11 +76,11 @@ npx hyperframes init "$COMP" --example blank --skip-skills --non-interactive
 #    is unsandboxed, so renders complete reliably.)
 #
 #    The dispatcher returns within ~1s with a {taskId}; drive the
-#    render to completion by looping `"$OD_NODE_BIN" "$OD_BIN" media wait <taskId>` calls.
+#    render to completion by looping `"$SW_NODE_BIN" "$SW_BIN" media wait <taskId>` calls.
 #    Each call long-polls up to 25s (well under your shell tool's
 #    default 30s cap) and exits 0/2/5 to signal done/running/failed.
-out=$("$OD_NODE_BIN" "$OD_BIN" media generate \
-  --project "$OD_PROJECT_ID" \
+out=$("$SW_NODE_BIN" "$SW_BIN" media generate \
+  --project "$SW_PROJECT_ID" \
   --surface video \
   --model hyperframes-html \
   --output "<descriptive-name>.mp4" \
@@ -89,7 +89,7 @@ ec=$?
 task_id=$(printf '%s\n' "$out" | tail -1 | jq -r '.taskId // empty')
 since=$(printf '%s\n' "$out" | tail -1 | jq -r '.nextSince // 0')
 while [ "$ec" -eq 2 ] && [ -n "$task_id" ]; do
-  out=$("$OD_NODE_BIN" "$OD_BIN" media wait "$task_id" --since "$since")
+  out=$("$SW_NODE_BIN" "$SW_BIN" media wait "$task_id" --since "$since")
   ec=$?
   since=$(printf '%s\n' "$out" | tail -1 | jq -r '.nextSince // '"$since")
 done
@@ -128,7 +128,7 @@ The lighter HF subcommands you CAN still run from your own shell
 
 Reserve the daemon dispatch for `render`/`inspect`/`preview` (anything
 Chrome-bound). After authoring the composition under `.hyperframes-cache/`,
-render it by calling `"$OD_NODE_BIN" "$OD_BIN" media generate --surface video --model hyperframes-html --composition-dir <rel>`.
+render it by calling `"$SW_NODE_BIN" "$SW_BIN" media generate --surface video --model hyperframes-html --composition-dir <rel>`.
 The daemon runs the Chrome-bound HyperFrames render outside your shell
 sandbox and streams progress back to you. Do not run `npx hyperframes render`
 yourself.

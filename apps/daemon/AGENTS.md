@@ -7,7 +7,7 @@ Follow the root `AGENTS.md` and `apps/AGENTS.md` first. This file records daemon
 `apps/daemon` is the local Express + SQLite daemon and owns:
 
 - `/api/*` HTTP routes and SSE streams.
-- The `od` CLI entrypoint in `src/cli.ts`.
+- The `sw` CLI entrypoint in `src/cli.ts`.
 - Project persistence, generated files, artifacts, media, skills, design systems, plugins, MCP, connector credentials, automation state, agent spawning, and static serving.
 - The daemon sidecar entry under `sidecar/`.
 
@@ -25,7 +25,7 @@ The daemon is not a shared library for the web app. Do not import daemon private
 - `src/runtimes/` owns agent runtime definitions, spawning, parser integration, executable discovery, and runtime environment shaping. Agent argument definitions belong in `src/runtimes/defs/`.
 - `src/prompts/` owns daemon-side prompt construction. Keep mirrored BYOK/API wording in `packages/contracts/src/prompts/` when the same text is exposed outside the daemon.
 - `src/plugins/`, `src/connectors/`, `src/registry/`, `src/research/`, `src/media-adapters/`, `src/live-artifacts/`, `src/storage/`, and `src/critique/` own their named domains. Prefer adding code inside the existing domain folder before creating a new top-level folder.
-- Team resource storage is Vela-owned. Daemon adapters under `src/collab/vela-cli-*` must invoke Vela through `src/integrations/vela-command.ts`, which shares the login/agent binary resolver and environment. Do not add Resource Hub tokens, direct HTTP clients, or a second content-addressed drive implementation to Open Design. `od resource` is only a thin Vela CLI compatibility entry point.
+- Team resource storage is Vela-owned. Daemon adapters under `src/collab/vela-cli-*` must invoke Vela through `src/integrations/vela-command.ts`, which shares the login/agent binary resolver and environment. Do not add Resource Hub tokens, direct HTTP clients, or a second content-addressed drive implementation to SankiWork. `sw resource` is only a thin Vela CLI compatibility entry point.
 - `tests/` contains daemon tests. Keep test paths roughly parallel to `src/` when useful.
 
 Do not edit generated `dist/` output.
@@ -102,7 +102,7 @@ Guidelines:
 User-facing capabilities must be reachable through both:
 
 - Web/API routes in the daemon.
-- `od` CLI subcommands in `src/cli.ts`.
+- `sw` CLI subcommands in `src/cli.ts`.
 
 When adding a user-facing capability, close the loop in one change: contract type, daemon route, web surface if applicable, and CLI command with `--json` plus `--prompt-file <path|->` for long prompts where relevant.
 
@@ -125,9 +125,9 @@ When adding a user-facing capability, close the loop in one change: contract typ
 Common daemon checks:
 
 ```bash
-pnpm --filter @open-design/daemon typecheck
-pnpm --filter @open-design/daemon test
-pnpm --filter @open-design/daemon build
+pnpm --filter @sankiwork/daemon typecheck
+pnpm --filter @sankiwork/daemon test
+pnpm --filter @sankiwork/daemon build
 ```
 
 Focused tests from `apps/daemon`:

@@ -5,7 +5,7 @@ import type {
   ProjectDesignTokenSuggestionProp,
   ProjectDesignTokenSuggestionQuery,
   ProjectDesignTokenSuggestionsResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { readDesignSystem } from './design-systems/index.js';
 
 type ProjectFileLike = {

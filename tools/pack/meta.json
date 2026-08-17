@@ -1,7 +1,7 @@
 {
   "toolName": "tools-pack",
-  "packageName": "@open-design/tools-pack",
-  "buildCommand": "pnpm --filter @open-design/tools-pack build",
+  "packageName": "@sankiwork/tools-pack",
+  "buildCommand": "pnpm --filter @sankiwork/tools-pack build",
   "distEntries": ["dist/index.mjs"],
   "inputs": ["src", "resources", "meta.json", "package.json", "esbuild.config.mjs", "tsconfig.json"]
 }

@@ -2,7 +2,7 @@
 //
 // The web frontend pushes preferences here via PUT /api/app-config; the
 // daemon persists them to <dataDir>/app-config.json (where dataDir defaults
-// to <projectRoot>/.od but follows OD_DATA_DIR when set, keeping test and
+// to <projectRoot>/.sankiwork but follows SW_DATA_DIR when set, keeping test and
 // multi-namespace runs isolated). This survives browser storage resets and
 // origin changes so onboarding and agent selection don't reappear unexpectedly.
 //
@@ -45,7 +45,7 @@ export interface PluginEnvKnobs {
   // its run/conversation/project is terminal. Default unset -> unlimited.
   snapshotRetentionDays: number | null;
   // GC worker tick interval. Phase 5 reads this; Phase 1 just exposes the
-  // knob through `od config get` so operators can plan ahead.
+  // knob through `sw config get` so operators can plan ahead.
   snapshotGcIntervalMs: number;
 }
 
@@ -67,10 +67,10 @@ function nullableIntFromEnv(key: string): number | null {
 
 export function readPluginEnvKnobs(): PluginEnvKnobs {
   return {
-    maxDevloopIterations:        intFromEnv('OD_MAX_DEVLOOP_ITERATIONS', 10),
-    snapshotUnreferencedTtlDays: intFromEnv('OD_SNAPSHOT_UNREFERENCED_TTL_DAYS', 30),
-    snapshotRetentionDays:       nullableIntFromEnv('OD_SNAPSHOT_RETENTION_DAYS'),
-    snapshotGcIntervalMs:        intFromEnv('OD_SNAPSHOT_GC_INTERVAL_MS', 6 * 60 * 60 * 1000),
+    maxDevloopIterations:        intFromEnv('SW_MAX_DEVLOOP_ITERATIONS', 10),
+    snapshotUnreferencedTtlDays: intFromEnv('SW_SNAPSHOT_UNREFERENCED_TTL_DAYS', 30),
+    snapshotRetentionDays:       nullableIntFromEnv('SW_SNAPSHOT_RETENTION_DAYS'),
+    snapshotGcIntervalMs:        intFromEnv('SW_SNAPSHOT_GC_INTERVAL_MS', 6 * 60 * 60 * 1000),
   };
 }
 
@@ -160,9 +160,9 @@ function configFile(dataDir: string): string {
 }
 
 export function appConfigDir(projectRoot: string, env: NodeJS.ProcessEnv = process.env): string {
-  const raw = env.OD_DATA_DIR;
+  const raw = env.SW_DATA_DIR;
   if (typeof raw !== 'string' || raw.trim().length === 0) {
-    return path.join(projectRoot, '.od');
+    return path.join(projectRoot, '.sankiwork');
   }
   const expanded = expandHomePrefix(raw.trim());
   return path.isAbsolute(expanded) ? expanded : path.resolve(projectRoot, expanded);
@@ -200,7 +200,7 @@ const AGENT_CLI_ENV_KEYS: ReadonlyMap<string, ReadonlySet<string>> = new Map([
     'VELA_LINK_URL',
     'VELA_RUNTIME_KEY',
     'VELA_OPENCODE_BIN',
-    'OPEN_DESIGN_AMR_PROFILE',
+    'SANKIWORK_AMR_PROFILE',
     'OPENCODE_TEST_HOME',
   ])],
   ['aider', new Set(['AIDER_BIN'])],

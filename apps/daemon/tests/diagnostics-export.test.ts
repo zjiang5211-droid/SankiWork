@@ -11,8 +11,8 @@ import {
   SIDECAR_MODES,
   SIDECAR_SOURCES,
   type SidecarStamp,
-} from '@open-design/sidecar-proto';
-import type { SidecarRuntimeContext } from '@open-design/sidecar';
+} from '@sankiwork/sidecar-proto';
+import type { SidecarRuntimeContext } from '@sankiwork/sidecar';
 
 import {
   STANDALONE_LAUNCH_WARNING,
@@ -45,7 +45,7 @@ interface DiagnosticsManifestFile {
 
 describe('diagnostics export handler — non-sidecar launch', () => {
   // Reviewer-requested regression spec: `runDaemonCliStartup()` calls
-  // `startDaemonRuntime()` without a runtime context, so plain `od` users
+  // `startDaemonRuntime()` without a runtime context, so plain `sw` users
   // hit the diagnostics handler with `options.runtime == null`. The bundle
   // must still produce a valid zip AND surface a manifest warning that
   // file-based logs were not captured, so the operator can tell the
@@ -102,7 +102,7 @@ describe('diagnostics export handler — non-sidecar launch', () => {
         JSON.stringify({
           agentCliEnv: {
             amr: {
-              OPEN_DESIGN_AMR_PROFILE: 'local',
+              SANKIWORK_AMR_PROFILE: 'local',
               VELA_LINK_URL: 'https://settings-only.example.test/link',
               VELA_RUNTIME_KEY: runtimeKey,
             },
@@ -430,7 +430,7 @@ describe('diagnostics export handler — run event logs', () => {
     const runsDir = join(root, 'runs');
     const runLogPath = join(runsDir, 'run-sensitive', 'events.jsonl');
     const username = userInfo().username;
-    const homePath = `/Users/${username}/open-design/project`;
+    const homePath = `/Users/${username}/sankiwork/project`;
     const secretBearer = 'od_bearer_secret_12345';
     const secretQuery = 'query-token-secret';
     const secretApiKey = 'api-key-secret';
@@ -508,7 +508,7 @@ describe('diagnostics export handler — run event logs', () => {
       expect(runLog).toContain('Bearer [REDACTED]');
       expect(runLog).toContain('access_token=[REDACTED]');
       expect(runLog).toContain('api_key=[REDACTED]');
-      expect(runLog).toContain('/Users/<USER>/open-design/project');
+      expect(runLog).toContain('/Users/<USER>/sankiwork/project');
       expect(runLog).not.toContain(secretBearer);
       expect(runLog).not.toContain(secretQuery);
       expect(runLog).not.toContain(secretApiKey);

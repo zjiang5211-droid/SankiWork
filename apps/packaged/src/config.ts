@@ -1,7 +1,7 @@
 import { access, readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 
-import { SIDECAR_DEFAULTS, normalizeNamespace } from "@open-design/sidecar-proto";
+import { SIDECAR_DEFAULTS, normalizeNamespace } from "@sankiwork/sidecar-proto";
 
 // `electron` is loaded lazily so this module can also be imported from the
 // headless entry, which runs in a plain Node process without the electron
@@ -12,12 +12,12 @@ async function loadElectronApp() {
   return electron.app;
 }
 
-export const PACKAGED_CONFIG_PATH_ENV = "OD_PACKAGED_CONFIG_PATH";
-export const PACKAGED_NAMESPACE_ENV = "OD_PACKAGED_NAMESPACE";
-export const PACKAGED_NAMESPACE_BASE_ROOT_ENV = "OD_PACKAGED_NAMESPACE_BASE_ROOT";
-export const PACKAGED_WEB_OUTPUT_MODE_OVERRIDE_ENV = "OD_PACKAGED_ALLOW_WEB_OUTPUT_MODE_OVERRIDE";
-export const PACKAGED_WEB_STANDALONE_ROOT_ENV = "OD_WEB_STANDALONE_ROOT";
-export const PACKAGED_WEB_OUTPUT_MODE_ENV = "OD_WEB_OUTPUT_MODE";
+export const PACKAGED_CONFIG_PATH_ENV = "SW_PACKAGED_CONFIG_PATH";
+export const PACKAGED_NAMESPACE_ENV = "SW_PACKAGED_NAMESPACE";
+export const PACKAGED_NAMESPACE_BASE_ROOT_ENV = "SW_PACKAGED_NAMESPACE_BASE_ROOT";
+export const PACKAGED_WEB_OUTPUT_MODE_OVERRIDE_ENV = "SW_PACKAGED_ALLOW_WEB_OUTPUT_MODE_OVERRIDE";
+export const PACKAGED_WEB_STANDALONE_ROOT_ENV = "SW_WEB_STANDALONE_ROOT";
+export const PACKAGED_WEB_OUTPUT_MODE_ENV = "SW_WEB_OUTPUT_MODE";
 
 export type PackagedWebOutputMode = "server" | "standalone";
 export type PackagedAmrProfile = "prod" | "test" | "feature-test" | "local";
@@ -31,7 +31,7 @@ export type RawPackagedConfig = {
   namespaceBaseRoot?: string;
   nodeCommandRelative?: string;
   resourceRoot?: string;
-  // Baked by tools/pack from OPEN_DESIGN_TELEMETRY_RELAY_URL and forwarded to
+  // Baked by tools/pack from SANKIWORK_TELEMETRY_RELAY_URL and forwarded to
   // the daemon at runtime; Langfuse credentials never ship in packaged config.
   telemetryRelayUrl?: string;
   updateMetadataUrl?: string;
@@ -44,8 +44,8 @@ export type RawPackagedConfig = {
   posthogKey?: string;
   posthogHost?: string;
   // Origin of the vela web console this build's AMR backend serves, baked by
-  // tools/pack from OD_VELA_WEB_URL at packaging time. Forwarded to the daemon
-  // spawn env as OD_VELA_WEB_URL, where it both gates the workspace-team
+  // tools/pack from SW_VELA_WEB_URL at packaging time. Forwarded to the daemon
+  // spawn env as SW_VELA_WEB_URL, where it both gates the workspace-team
   // transports and supplies the workspace console links. Injected rather than
   // checked in because the non-prod AMR environments are internal deployments
   // and this repository is public; absent for prod and fork builds.
@@ -89,7 +89,7 @@ async function readJsonIfExists(filePath: string): Promise<RawPackagedConfig | n
 }
 
 function resolveDefaultConfigPath(): string {
-  return join(process.resourcesPath, "open-design-config.json");
+  return join(process.resourcesPath, "sankiwork-config.json");
 }
 
 async function readRawPackagedConfig(): Promise<RawPackagedConfig> {
@@ -103,7 +103,7 @@ async function readRawPackagedConfig(): Promise<RawPackagedConfig> {
   const electronApp = await loadElectronApp();
   return (
     (await readJsonIfExists(resolveDefaultConfigPath())) ??
-    (await readJsonIfExists(join(electronApp.getAppPath(), "open-design-config.json"))) ??
+    (await readJsonIfExists(join(electronApp.getAppPath(), "sankiwork-config.json"))) ??
     {}
   );
 }
@@ -156,7 +156,7 @@ function resolvePackagedWebStandaloneRoot(
   const configured = resolveOptionalPath(value);
   if (configured != null) return configured;
   if (webOutputMode !== "standalone") return null;
-  return join(process.resourcesPath, "open-design-web-standalone");
+  return join(process.resourcesPath, "sankiwork-web-standalone");
 }
 
 async function resolvePackagedRelativeEntry(value: string | undefined): Promise<string | null> {
@@ -179,10 +179,10 @@ export async function readPackagedConfig(): Promise<PackagedConfig> {
     raw.namespaceBaseRoot,
     electronApp.getPath("userData"),
   );
-  const resourceRoot = resolveOptionalPath(raw.resourceRoot) ?? join(process.resourcesPath, "open-design");
+  const resourceRoot = resolveOptionalPath(raw.resourceRoot) ?? join(process.resourcesPath, "sankiwork");
   const relativeNodeCommand =
     raw.nodeCommandRelative == null || raw.nodeCommandRelative.length === 0
-      ? join("open-design", "bin", "node")
+      ? join("sankiwork", "bin", "node")
       : raw.nodeCommandRelative;
   const nodeCommandCandidate = join(process.resourcesPath, relativeNodeCommand);
   const nodeCommand = (await pathExists(nodeCommandCandidate)) ? nodeCommandCandidate : null;

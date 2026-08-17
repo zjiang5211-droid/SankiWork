@@ -17,12 +17,12 @@ function readPackageJson(relativePath: string): PackageJson {
 function collectWorkspaceRuntimeDeps(relativePath: string): string[] {
   const pkg = readPackageJson(relativePath);
   if (pkg.dependencies == null) return [];
-  return Object.keys(pkg.dependencies).filter((name) => name.startsWith("@open-design/"));
+  return Object.keys(pkg.dependencies).filter((name) => name.startsWith("@sankiwork/"));
 }
 
 function loadInternalPackageNames(modulePath: string): string[] {
   const source = readFileSync(join(ROOT, modulePath), "utf8");
-  const matches = source.matchAll(/name:\s*"(@open-design\/[^"]+)"/g);
+  const matches = source.matchAll(/name:\s*"(@sankiwork\/[^"]+)"/g);
   return [...matches].map((m) => m[1]!);
 }
 

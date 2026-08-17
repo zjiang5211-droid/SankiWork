@@ -1,4 +1,4 @@
-import { RELEASE_CHANNELS, type ReleaseChannel } from "@open-design/release";
+import { RELEASE_CHANNELS, type ReleaseChannel } from "@sankiwork/release";
 
 export const APP_KEYS = Object.freeze({
   DAEMON: "daemon",
@@ -24,17 +24,17 @@ export const SIDECAR_SOURCES = Object.freeze({
 export type SidecarSource = (typeof SIDECAR_SOURCES)[keyof typeof SIDECAR_SOURCES];
 
 export const SIDECAR_ENV = Object.freeze({
-  BASE: "OD_SIDECAR_BASE",
-  DAEMON_CLI_PATH: "OD_DAEMON_CLI_PATH",
-  DAEMON_PORT: "OD_PORT",
-  IPC_BASE: "OD_SIDECAR_IPC_BASE",
-  IPC_PATH: "OD_SIDECAR_IPC_PATH",
-  NAMESPACE: "OD_SIDECAR_NAMESPACE",
-  SOURCE: "OD_SIDECAR_SOURCE",
-  TOOLS_DEV_PARENT_PID: "OD_TOOLS_DEV_PARENT_PID",
-  WEB_DIST_DIR: "OD_WEB_DIST_DIR",
-  WEB_PORT: "OD_WEB_PORT",
-  WEB_TSCONFIG_PATH: "OD_WEB_TSCONFIG_PATH",
+  BASE: "SW_SIDECAR_BASE",
+  DAEMON_CLI_PATH: "SW_DAEMON_CLI_PATH",
+  DAEMON_PORT: "SW_PORT",
+  IPC_BASE: "SW_SIDECAR_IPC_BASE",
+  IPC_PATH: "SW_SIDECAR_IPC_PATH",
+  NAMESPACE: "SW_SIDECAR_NAMESPACE",
+  SOURCE: "SW_SIDECAR_SOURCE",
+  TOOLS_DEV_PARENT_PID: "SW_TOOLS_DEV_PARENT_PID",
+  WEB_DIST_DIR: "SW_WEB_DIST_DIR",
+  WEB_PORT: "SW_WEB_PORT",
+  WEB_TSCONFIG_PATH: "SW_WEB_TSCONFIG_PATH",
 } as const);
 
 export const SIDECAR_RUNTIME_ENV = Object.freeze({
@@ -63,13 +63,13 @@ export const SIDECAR_STAMP_FIELDS = ["app", "mode", "namespace", "ipc", "source"
 
 export const SIDECAR_DEFAULTS = Object.freeze({
   host: "127.0.0.1",
-  ipcBase: "/tmp/open-design/ipc",
+  ipcBase: "/tmp/sankiwork/ipc",
   namespace: "default",
   projectTmpDirName: ".tmp",
-  windowsPipePrefix: "open-design",
+  windowsPipePrefix: "sankiwork",
 } as const);
 
-export const OPEN_DESIGN_PRODUCT_NAME = "Open Design";
+export const SANKIWORK_PRODUCT_NAME = "SankiWork";
 
 export function resolveWindowsReleaseNamespaceToken(value: string): string {
   return value.replace(/[^A-Za-z0-9._-]+/g, "-");
@@ -77,7 +77,7 @@ export function resolveWindowsReleaseNamespaceToken(value: string): string {
 
 export function resolveWindowsUninstallRegistryKey(namespace: string): string {
   const namespaceToken = resolveWindowsReleaseNamespaceToken(namespace);
-  return `Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${OPEN_DESIGN_PRODUCT_NAME}-${namespaceToken}`;
+  return `Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${SANKIWORK_PRODUCT_NAME}-${namespaceToken}`;
 }
 
 export const SIDECAR_MESSAGES = Object.freeze({
@@ -167,7 +167,7 @@ export type DaemonStatusSnapshot = {
    * PR #974 round 6 (mrcfps): true when the daemon's
    * `/api/import/folder` route refuses tokenless requests. Surfaced
    * over IPC so `tools-dev start desktop` can detect a daemon that
-   * was spawned without `OD_REQUIRE_DESKTOP_AUTH=1` (the split-start
+   * was spawned without `SW_REQUIRE_DESKTOP_AUTH=1` (the split-start
    * dev flow `start daemon` -> `start desktop`) and restart it
    * before launching desktop main, instead of letting a renderer
    * race the registration handshake. Mirrors
@@ -330,7 +330,7 @@ export type DesktopExportArtifactImageFormat = "png" | "jpeg";
 
 // Generic programmatic export (PDF / image). The desktop renderer writes
 // the result to a temporary file and returns its path; the daemon streams those
-// bytes to the HTTP caller (the `od export` CLI), then removes the temp file.
+// bytes to the HTTP caller (the `sw export` CLI), then removes the temp file.
 export type DesktopExportArtifactInput = {
   baseHref?: string;
   deck: boolean;
@@ -611,7 +611,7 @@ export type SidecarStamp = {
 export type SidecarStampInput = Partial<Record<(typeof SIDECAR_STAMP_FIELDS)[number], unknown>>;
 export type SidecarStampCriteria = Partial<SidecarStamp>;
 
-export type OpenDesignSidecarContract = {
+export type SankiWorkSidecarContract = {
   appKeys: typeof APP_KEYS;
   defaults: typeof SIDECAR_DEFAULTS;
   env: typeof SIDECAR_RUNTIME_ENV;
@@ -927,8 +927,8 @@ function normalizeDesktopShowInput(input: unknown): DesktopShowInput {
   assertKnownKeys(value, ["deeplinkUrl"], "desktop show input");
   if (value.deeplinkUrl == null) return {};
   const deeplinkUrl = normalizeNonEmptyString(value.deeplinkUrl, "desktop show deeplinkUrl");
-  if (!deeplinkUrl.startsWith("opendesign://")) {
-    throw new Error("desktop show deeplinkUrl must use the opendesign scheme");
+  if (!deeplinkUrl.startsWith("sankiwork://")) {
+    throw new Error("desktop show deeplinkUrl must use the sankiwork scheme");
   }
   return { deeplinkUrl };
 }
@@ -1012,7 +1012,7 @@ export function normalizeDesktopSidecarMessage(input: unknown): DesktopSidecarMe
   }
 }
 
-export const OPEN_DESIGN_SIDECAR_CONTRACT = Object.freeze({
+export const SANKIWORK_SIDECAR_CONTRACT = Object.freeze({
   appKeys: APP_KEYS,
   defaults: SIDECAR_DEFAULTS,
   env: SIDECAR_RUNTIME_ENV,
@@ -1031,4 +1031,4 @@ export const OPEN_DESIGN_SIDECAR_CONTRACT = Object.freeze({
   updateChannels: DESKTOP_UPDATE_CHANNELS,
   updateModes: DESKTOP_UPDATE_MODES,
   updateStates: DESKTOP_UPDATE_STATES,
-} as const satisfies OpenDesignSidecarContract);
+} as const satisfies SankiWorkSidecarContract);

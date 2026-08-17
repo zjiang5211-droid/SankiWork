@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://sanki-ai.cloud/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "image-template-social-media-post-sensational-girl-dance-storyboard-8-shots",
   "title": "Social Media Post - Sensational Girl Dance Storyboard (8 Shots)",
@@ -48,7 +48,7 @@
   },
   "license": "Apache-2.0",
   "author": {
-    "name": "open-design contributors",
+    "name": "sankiwork contributors",
     "url": "https://github.com/nexu-io/open-design"
   },
   "homepage": "https://github.com/nexu-io/open-design",

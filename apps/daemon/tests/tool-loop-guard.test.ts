@@ -357,11 +357,11 @@ describe('resolveToolLoopMode', () => {
     expect(resolveToolLoopMode({})).toBe('warn');
   });
   it('reads off/warn/halt case-insensitively', () => {
-    expect(resolveToolLoopMode({ OD_TOOL_LOOP_GUARD: 'OFF' })).toBe('off');
-    expect(resolveToolLoopMode({ OD_TOOL_LOOP_GUARD: ' warn ' })).toBe('warn');
-    expect(resolveToolLoopMode({ OD_TOOL_LOOP_GUARD: 'HALT' })).toBe('halt');
+    expect(resolveToolLoopMode({ SW_TOOL_LOOP_GUARD: 'OFF' })).toBe('off');
+    expect(resolveToolLoopMode({ SW_TOOL_LOOP_GUARD: ' warn ' })).toBe('warn');
+    expect(resolveToolLoopMode({ SW_TOOL_LOOP_GUARD: 'HALT' })).toBe('halt');
   });
   it('falls back to warn on an unrecognized value', () => {
-    expect(resolveToolLoopMode({ OD_TOOL_LOOP_GUARD: 'disable' })).toBe('warn');
+    expect(resolveToolLoopMode({ SW_TOOL_LOOP_GUARD: 'disable' })).toBe('warn');
   });
 });

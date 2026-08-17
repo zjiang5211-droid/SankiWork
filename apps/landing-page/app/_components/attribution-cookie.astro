@@ -2,8 +2,8 @@
 /*
  * First-touch acquisition cookie for cross-app payment attribution.
  *
- * The marketing site (open-design.ai) and the vela checkout/wallet page
- * (served same-origin at open-design.ai/cloud/*) share the open-design.ai
+ * The marketing site (sanki-ai.cloud) and the vela checkout/wallet page
+ * (served same-origin at sanki-ai.cloud/cloud/*) share the sanki-ai.cloud
  * domain. This captures utm_* + the external referrer on landing and stores a
  * FIRST-TOUCH cookie (`od_attr`) so the checkout page can read it back and
  * attribute the payment to the originating traffic source — closing the
@@ -34,7 +34,7 @@
     try {
       if (document.referrer) {
         var rh = new URL(document.referrer).hostname;
-        if (rh && rh.indexOf('open-design') === -1) ref = rh.slice(0, 120);
+        if (rh && rh.indexOf('sankiwork') === -1) ref = rh.slice(0, 120);
       }
     } catch (e) {}
 
@@ -48,10 +48,10 @@
     };
 
     // 30-day first-touch window. Use the apex domain in production so the
-    // same-origin checkout page (open-design.ai/cloud/*) can read it; on
+    // same-origin checkout page (sanki-ai.cloud/cloud/*) can read it; on
     // preview/dev hosts fall back to a host-only cookie so it still works.
     var host = location.hostname || '';
-    var domainAttr = /(^|\.)open-design\.ai$/.test(host) ? ';domain=.open-design.ai' : '';
+    var domainAttr = /(^|\.)sanki-ai\.cloud$/.test(host) ? ';domain=.sanki-ai.cloud' : '';
     var secure = location.protocol === 'https:' ? ';Secure' : '';
     document.cookie = COOKIE + '=' + encodeURIComponent(JSON.stringify(data)) +
       ';path=/;max-age=' + (60 * 60 * 24 * 30) + domainAttr + ';SameSite=Lax' + secure;

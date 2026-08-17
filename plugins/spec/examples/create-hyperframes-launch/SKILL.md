@@ -3,7 +3,7 @@ name: create-hyperframes-launch
 description: Use this plugin when the user wants a HyperFrames-ready HTML motion composition, launch animation, kinetic typography clip, product reveal, or social video made from code.
 license: MIT
 metadata:
-  author: open-design-spec
+  author: sankiwork-spec
   version: "0.1.0"
 od:
   mode: hyperframes

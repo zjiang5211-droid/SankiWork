@@ -1,4 +1,4 @@
-import { normalizeWorkspaceInviteCreateErrorCode } from '@open-design/contracts';
+import { normalizeWorkspaceInviteCreateErrorCode } from '@sankiwork/contracts';
 import type { Dict } from '../i18n/types';
 
 // Single source of truth for "which sentence does the invite dialog show when a

@@ -13,7 +13,7 @@ import type {
 
 // Team-edition collaboration shared DTOs: presence overlay (presence) and
 // the sync trigger. Single source of truth for the daemon routes, the web
-// CollabClient, and the `od collab` CLI so no surface re-declares these shapes.
+// CollabClient, and the `sw collab` CLI so no surface re-declares these shapes.
 
 export type CollabMemberRole = 'owner' | 'admin' | 'member';
 

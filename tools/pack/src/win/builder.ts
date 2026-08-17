@@ -187,13 +187,13 @@ async function runElectronBuilderRaw(
     executableName: PRODUCT_NAME,
     extraMetadata: {
       main: "./main.cjs",
-      name: "open-design-packaged-app",
+      name: "sankiwork-packaged-app",
       productName: PRODUCT_NAME,
       version: packageVersion,
     },
     extraResources: [
-      { from: paths.resourceRoot, to: "open-design" },
-      { from: paths.packagedConfigPath, to: "open-design-config.json" },
+      { from: paths.resourceRoot, to: "sankiwork" },
+      { from: paths.packagedConfigPath, to: "sankiwork-config.json" },
       // Vendored dom-to-pptx browser bundle for editable PPTX export (read from
       // process.resourcesPath by the desktop main at runtime).
       domToPptxBundleResource(config),
@@ -221,7 +221,7 @@ async function runElectronBuilderRaw(
       warningsAsErrors: false,
     },
     productName: PRODUCT_NAME,
-    publish: [{ provider: "generic", url: "https://updates.invalid/open-design" }],
+    publish: [{ provider: "generic", url: "https://updates.invalid/sankiwork" }],
     win: {
       artifactName: `${PRODUCT_NAME}-${namespaceToken}.\${ext}`,
       icon: paths.winIconPath,
@@ -385,7 +385,7 @@ async function assertMaterializedUnpackedVersionConsistency(
     );
   }
 
-  const packagedConfigPath = join(unpackedRoot, "resources", "open-design-config.json");
+  const packagedConfigPath = join(unpackedRoot, "resources", "sankiwork-config.json");
   const packagedConfig = JSON.parse(await readFile(packagedConfigPath, "utf8")) as { appVersion?: unknown };
   if (packagedConfig.appVersion !== packagedVersion) {
     throw new Error(
@@ -470,7 +470,7 @@ export async function materializeCachedUnpackedForInstaller(
   }
   await mkdir(join(paths.unpackedRoot, "resources"), { recursive: true });
   await writeFile(
-    join(paths.unpackedRoot, "resources", "open-design-config.json"),
+    join(paths.unpackedRoot, "resources", "sankiwork-config.json"),
     await readFile(paths.packagedConfigPath),
   );
   if (packagedVersion != null) {
@@ -828,8 +828,8 @@ export async function runElectronBuilder(
           reuseRequiredPaths: [
             ...resolveWinNsisOverlayRequiredPaths(),
             [
-              "resources/open-design-web-standalone/apps/web/server.js",
-              "resources/open-design-web-standalone/server.js",
+              "resources/sankiwork-web-standalone/apps/web/server.js",
+              "resources/sankiwork-web-standalone/server.js",
             ],
           ],
           to: paths.unpackedRoot,

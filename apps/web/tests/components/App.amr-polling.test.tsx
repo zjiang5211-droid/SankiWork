@@ -64,7 +64,7 @@ vi.mock('../../src/components/EntryView', () => ({
         {config.agentModels?.amr?.model ?? 'none'}
       </div>
       <div data-testid="amr-profile">
-        {config.agentCliEnv?.amr?.OPEN_DESIGN_AMR_PROFILE ?? 'none'}
+        {config.agentCliEnv?.amr?.SANKIWORK_AMR_PROFILE ?? 'none'}
       </div>
       <div data-testid="codex-auth">
         {agents.find((agent) => agent.id === 'codex')?.authStatus ?? 'none'}
@@ -645,7 +645,7 @@ describe('App AMR polling', () => {
       ...baseConfig,
       agentModels: { amr: { model: 'old-remote', reasoning: 'default' } },
       agentCliEnv: {
-        amr: { OPEN_DESIGN_AMR_PROFILE: 'prod' },
+        amr: { SANKIWORK_AMR_PROFILE: 'prod' },
       },
     });
     mockedFetchAmrModels.mockReset();
@@ -664,7 +664,7 @@ describe('App AMR polling', () => {
       .mockResolvedValueOnce({})
       .mockResolvedValueOnce({
         agentCliEnv: {
-          amr: { OPEN_DESIGN_AMR_PROFILE: 'local' },
+          amr: { SANKIWORK_AMR_PROFILE: 'local' },
         },
       });
     mockedMergeDaemonConfig.mockImplementation((local, daemon) => ({
@@ -705,7 +705,7 @@ describe('App AMR polling', () => {
       expect(screen.getByTestId('amr-profile').textContent).toBe('prod');
     });
 
-    fireEvent(window, new CustomEvent('open-design:app-config-changed'));
+    fireEvent(window, new CustomEvent('sankiwork:app-config-changed'));
 
     await waitFor(() => {
       expect(screen.getByTestId('amr-profile').textContent).toBe('local');
@@ -728,14 +728,14 @@ describe('App AMR polling', () => {
     mockedLoadConfig.mockReturnValue({
       ...baseConfig,
       agentCliEnv: {
-        amr: { OPEN_DESIGN_AMR_PROFILE: 'prod' },
+        amr: { SANKIWORK_AMR_PROFILE: 'prod' },
       },
     });
     mockedFetchDaemonConfig
       .mockResolvedValueOnce({})
       .mockResolvedValueOnce({
         agentCliEnv: {
-          amr: { OPEN_DESIGN_AMR_PROFILE: 'local' },
+          amr: { SANKIWORK_AMR_PROFILE: 'local' },
         },
       });
     mockedMergeDaemonConfig.mockImplementation((local, daemon) => ({
@@ -774,7 +774,7 @@ describe('App AMR polling', () => {
       expect(mockedFetchAmrModels).toHaveBeenCalledTimes(1);
     });
 
-    fireEvent(window, new CustomEvent('open-design:app-config-changed'));
+    fireEvent(window, new CustomEvent('sankiwork:app-config-changed'));
 
     await waitFor(() => {
       expect(mockedFetchAmrModels).toHaveBeenCalledTimes(2);

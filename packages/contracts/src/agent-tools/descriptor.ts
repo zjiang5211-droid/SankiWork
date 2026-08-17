@@ -50,7 +50,7 @@ interface AgentToolDescriptorBase {
 /**
  * A tool whose whole effect is an ephemeral browser view movement (navigate,
  * scroll, focus, open a panel). It runs in the browser and has no meaningful
- * `od` CLI form, so it is exempt from the UI/CLI dual-track law — but only by
+ * `sw` CLI form, so it is exempt from the UI/CLI dual-track law — but only by
  * asserting that exemption explicitly at the type level.
  */
 export interface BrowserToolDescriptor extends AgentToolDescriptorBase {
@@ -68,7 +68,7 @@ export interface BrowserToolDescriptor extends AgentToolDescriptorBase {
 /**
  * A real capability that runs as a normal API action. The UI/CLI dual-track law
  * is encoded structurally: an api tool cannot be declared without both its
- * `/api/*` route and its `od` subcommand.
+ * `/api/*` route and its `sw` subcommand.
  */
 export interface ApiToolDescriptor extends AgentToolDescriptorBase {
   surface: 'api';
@@ -77,7 +77,7 @@ export interface ApiToolDescriptor extends AgentToolDescriptorBase {
    * bodies, and auth are transport concerns resolved at call time, not here.
    */
   api: { method: AgentToolHttpMethod; route: string };
-  /** The equivalent `od` CLI form, satisfying the dual-track law. */
+  /** The equivalent `sw` CLI form, satisfying the dual-track law. */
   cli: { subcommand: string };
   viewStateOnly?: never;
 }

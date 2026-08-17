@@ -1,4 +1,4 @@
-import { todoStatusIsUnfinished } from '@open-design/contracts';
+import { todoStatusIsUnfinished } from '@sankiwork/contracts';
 import type { AgentEvent } from '../types';
 
 export type TodoStatus = 'pending' | 'in_progress' | 'completed' | 'stopped';

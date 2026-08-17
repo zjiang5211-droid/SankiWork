@@ -6,7 +6,7 @@ import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import { SketchPreview } from '../../src/components/SketchPreview';
 import { fetchProjectFileText } from '../../src/providers/registry';

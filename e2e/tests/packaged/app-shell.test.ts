@@ -80,7 +80,7 @@ function renderFixture(
     body: { textContent: options.bodyText ?? '' },
     querySelector: (selectors) => elements.find((element) => matchesSelector(element, selectors)) ?? null,
     querySelectorAll: (selectors) => elements.filter((element) => matchesSelector(element, selectors)),
-    title: options.title ?? 'Open Design',
+    title: options.title ?? 'SankiWork',
   };
 }
 
@@ -110,8 +110,8 @@ const CLOUD_SIGN_IN_LANDING: readonly FixtureNode[] = [
 
 describe('packaged app-shell probe', () => {
   it('accepts auth-first routes as packaged renderer URLs', () => {
-    expect(packagedAppRouteUrl('od://app/')).toBe(true);
-    expect(packagedAppRouteUrl('od://app/onboarding')).toBe(true);
+    expect(packagedAppRouteUrl('sankiwork://app/')).toBe(true);
+    expect(packagedAppRouteUrl('sankiwork://app/onboarding')).toBe(true);
     expect(packagedAppRouteUrl('http://127.0.0.1:3000/')).toBe(false);
   });
 

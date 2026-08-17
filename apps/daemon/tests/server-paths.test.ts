@@ -41,13 +41,13 @@ describe('resolveDaemonCliPath', () => {
   });
 
   it('uses the packaged daemon CLI path override before package resolution', () => {
-    expect(resolveDaemonCliPath({ OD_DAEMON_CLI_PATH: '/app/prebundled/daemon-cli.mjs' })).toBe(
+    expect(resolveDaemonCliPath({ SW_DAEMON_CLI_PATH: '/app/prebundled/daemon-cli.mjs' })).toBe(
       '/app/prebundled/daemon-cli.mjs',
     );
   });
 
-  it('uses OD_BIN as a fallback override for bundled wrapper invocations', () => {
-    expect(resolveDaemonCliPath({ OD_BIN: '/app/prebundled/daemon-cli.mjs' })).toBe(
+  it('uses SW_BIN as a fallback override for bundled wrapper invocations', () => {
+    expect(resolveDaemonCliPath({ SW_BIN: '/app/prebundled/daemon-cli.mjs' })).toBe(
       '/app/prebundled/daemon-cli.mjs',
     );
   });
@@ -79,10 +79,10 @@ describe('resolveDaemonResourceRoot', () => {
       'versions',
       '0.10.0-beta.15',
       'payload',
-      'Open Design Beta.app',
+      'SankiWork Beta.app',
       'Contents',
       'Resources',
-      'open-design',
+      'sankiwork',
     );
 
     expect(resolveDaemonResourceRoot({ configured, safeBases: [installationRoot] })).toBe(configured);
@@ -93,7 +93,7 @@ describe('resolveDaemonResourceRoot', () => {
     const configured = path.resolve(import.meta.dirname, '..', 'fixtures-other', 'resources');
 
     expect(() => resolveDaemonResourceRoot({ configured, safeBases: [safeBase] })).toThrow(
-      /OD_RESOURCE_ROOT must be under/,
+      /SW_RESOURCE_ROOT must be under/,
     );
   });
 });
@@ -101,9 +101,9 @@ describe('resolveDaemonResourceRoot', () => {
 describe('resolveDaemonPluginPreviewsDir', () => {
   it('resolves under the resource root in the packaged layout', () => {
     // Packaged: the prebundled daemon's PROJECT_ROOT is Resources/app (no data/),
-    // but the bundled manifest lives under OD_RESOURCE_ROOT (Resources/open-design).
-    const resourceRoot = '/Applications/Open Design.app/Contents/Resources/open-design';
-    const projectRoot = '/Applications/Open Design.app/Contents/Resources/app';
+    // but the bundled manifest lives under SW_RESOURCE_ROOT (Resources/sankiwork).
+    const resourceRoot = '/Applications/SankiWork.app/Contents/Resources/sankiwork';
+    const projectRoot = '/Applications/SankiWork.app/Contents/Resources/app';
 
     expect(
       resolveDaemonPluginPreviewsDir({ env: {}, resourceRoot, projectRoot }),
@@ -118,21 +118,21 @@ describe('resolveDaemonPluginPreviewsDir', () => {
     ).toBe(path.join(projectRoot, 'data', 'plugin-previews'));
   });
 
-  it('honors an OD_PLUGIN_PREVIEWS_DIR override from the injected env', () => {
+  it('honors an SW_PLUGIN_PREVIEWS_DIR override from the injected env', () => {
     const projectRoot = '/repo';
 
     // Absolute override passes through; a relative one resolves against projectRoot.
     expect(
       resolveDaemonPluginPreviewsDir({
-        env: { OD_PLUGIN_PREVIEWS_DIR: '/abs/previews' },
-        resourceRoot: '/res/open-design',
+        env: { SW_PLUGIN_PREVIEWS_DIR: '/abs/previews' },
+        resourceRoot: '/res/sankiwork',
         projectRoot,
       }),
     ).toBe('/abs/previews');
     expect(
       resolveDaemonPluginPreviewsDir({
-        env: { OD_PLUGIN_PREVIEWS_DIR: 'rel/previews' },
-        resourceRoot: '/res/open-design',
+        env: { SW_PLUGIN_PREVIEWS_DIR: 'rel/previews' },
+        resourceRoot: '/res/sankiwork',
         projectRoot,
       }),
     ).toBe(path.join(projectRoot, 'rel', 'previews'));

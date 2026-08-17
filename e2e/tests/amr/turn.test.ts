@@ -40,7 +40,7 @@ type ProjectResponse = {
   project: { id: string; metadata?: { kind?: string }; name: string };
 };
 
-// Inline fake `vela` binary. Handles the two argv shapes Open Design's
+// Inline fake `vela` binary. Handles the two argv shapes SankiWork's
 // daemon ever spawns:
 //
 //   `vela models`                       — legacy catalog probe compatibility.
@@ -76,9 +76,9 @@ function readBalanceState() {
 if (env.FAKE_VELA_SPAWN_ENV_LOG) {
   appendFileSync(env.FAKE_VELA_SPAWN_ENV_LOG, JSON.stringify({
     argv: argv.slice(2),
-    workspaceId: env.OPEN_DESIGN_WORKSPACE_ID ?? null,
-    runId: env.OPEN_DESIGN_RUN_ID ?? null,
-    sessionId: env.OPEN_DESIGN_SESSION_ID ?? null,
+    workspaceId: env.SANKIWORK_WORKSPACE_ID ?? null,
+    runId: env.SANKIWORK_RUN_ID ?? null,
+    sessionId: env.SANKIWORK_SESSION_ID ?? null,
   }) + '\\n', 'utf8');
 }
 
@@ -606,7 +606,7 @@ describe('AMR chat-run end-to-end', () => {
             FAKE_VELA_BALANCE_FILE: balanceStateFile,
             FAKE_VELA_SETTLED_TEAM_BALANCE_USD: '17.50',
             FAKE_VELA_WORKSPACE_MEMBER_ID: workspace.workspaceMemberId,
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-amr-workspace-control-key',
           },

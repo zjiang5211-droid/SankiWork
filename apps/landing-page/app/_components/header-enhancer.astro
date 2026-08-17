@@ -23,7 +23,7 @@ const directAssets = {
     const formatVersion = (release) => {
       const fromTag = (tag) => {
         if (typeof tag !== 'string') return null;
-        const cleaned = tag.replace(/^open-design[-_]?v?/i, '').trim();
+        const cleaned = tag.replace(/^sankiwork[-_]?v?/i, '').trim();
         return cleaned ? `v${cleaned.replace(/^v/, '')}` : null;
       };
       const fromName = (name) => {
@@ -280,7 +280,7 @@ const directAssets = {
         .catch(() => {});
     }
 
-    // Open Design Cloud header account. Detects an existing cloud session via
+    // SankiWork Cloud header account. Detects an existing cloud session via
     // the vela API and reveals the avatar menu only for signed-in visitors.
     // Signed-out visitors keep the download CTA as the sole account-side
     // action, because the product itself runs in the desktop client. All
@@ -423,9 +423,9 @@ const directAssets = {
     // Share text + links are baked at build time against the canonical
     // production host (Astro.site). Rewrite that origin to wherever the page is
     // actually served so a share from staging/preview carries the matching host
-    // (e.g. staging.open-design.ai) instead of always pointing at production.
+    // (e.g. staging.sanki-ai.cloud) instead of always pointing at production.
     // On production this is a no-op (the origins match).
-    const SHARE_PROD_ORIGIN = 'https://open-design.ai';
+    const SHARE_PROD_ORIGIN = 'https://sanki-ai.cloud';
     const rewriteShareOrigin = (dialog) => {
       const here = window.location.origin;
       if (!here || here === SHARE_PROD_ORIGIN || !/^https?:/.test(here)) return;

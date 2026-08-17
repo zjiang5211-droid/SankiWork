@@ -7,7 +7,7 @@
 // evidence/electron-project-waterfall-20260727. Both copies now live here,
 // on top of the single-flight status read every other consumer shares.
 
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 import { fetchProjectCollabStatus } from './collab-client';
 import { fetchTeamProjectsCatalog } from './team-projects-catalog';

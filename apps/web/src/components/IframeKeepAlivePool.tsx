@@ -14,8 +14,8 @@ import {
   type SyntheticEvent,
 } from 'react';
 
-export const OD_PREVIEW_KEEP_ALIVE =
-  typeof process === 'undefined' || process.env.OD_PREVIEW_KEEP_ALIVE !== '0';
+export const SW_PREVIEW_KEEP_ALIVE =
+  typeof process === 'undefined' || process.env.SW_PREVIEW_KEEP_ALIVE !== '0';
 export const DEFAULT_IFRAME_KEEP_ALIVE_POOL_SIZE = 5;
 
 interface PoolEntry {

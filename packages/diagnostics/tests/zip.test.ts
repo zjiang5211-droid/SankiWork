@@ -24,7 +24,7 @@ describe("buildDiagnosticsZip", () => {
 
     const result = await buildDiagnosticsZip({
       context: {
-        app: { name: "open-design", version: "1.2.3", packaged: false },
+        app: { name: "sankiwork", version: "1.2.3", packaged: false },
         source: "test",
         namespace: "default",
       },
@@ -37,7 +37,7 @@ describe("buildDiagnosticsZip", () => {
     expect(log).toContain("token=[REDACTED]");
 
     const manifest = JSON.parse(await zip.file("summary/manifest.json")!.async("string"));
-    expect(manifest.app.name).toBe("open-design");
+    expect(manifest.app.name).toBe("sankiwork");
     expect(manifest.namespace).toBe("default");
     expect(manifest.files[0].name).toBe("logs/daemon/latest.log");
     expect(manifest.warnings).toEqual([]);
@@ -50,7 +50,7 @@ describe("buildDiagnosticsZip", () => {
 
   it("includes redacted in-memory summaries for failures that happened before a run existed", async () => {
     const result = await buildDiagnosticsZip({
-      context: { app: { name: "open-design" }, source: "test" },
+      context: { app: { name: "sankiwork" }, source: "test" },
       sources: [],
       redaction: { username: "alice" },
       summaries: {
@@ -71,7 +71,7 @@ describe("buildDiagnosticsZip", () => {
   it("records a warning placeholder when a file cannot be read", async () => {
     const result = await buildDiagnosticsZip({
       context: {
-        app: { name: "open-design" },
+        app: { name: "sankiwork" },
         source: "test",
       },
       sources: [{ name: "logs/missing.log", absolutePath: join(tempDir, "no-such.log"), kind: "text" }],

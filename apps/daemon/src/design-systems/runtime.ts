@@ -17,7 +17,7 @@ import {
   type DesignSystemRuntimeBundle,
   type DesignSystemRuntimePaths,
   type LoadedDesignSystemComponent,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export type DesignSystemRuntimeLoadResult =
   | { mode: 'legacy' }

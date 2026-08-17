@@ -17,49 +17,49 @@ const execFileAsync = promisify(execFile);
 describe("resolveWinInstallIdentity", () => {
   it("keeps the default namespace on the canonical Windows display name", () => {
     expect(resolveWinInstallIdentity({ namespace: "default" })).toMatchObject({
-      displayName: "Open Design",
-      shortcutName: "Open Design.lnk",
-      uninstallerName: "Uninstall Open Design.exe",
+      displayName: "SankiWork",
+      shortcutName: "SankiWork.lnk",
+      uninstallerName: "Uninstall SankiWork.exe",
     });
   });
 
   it("uses the canonical Windows display name for stable release namespaces", () => {
     expect(resolveWinInstallIdentity({ namespace: "release-stable-win" })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design.exe",
-      displayName: "Open Design",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-release-stable-win",
-      shortcutName: "Open Design.lnk",
-      uninstallerName: "Uninstall Open Design.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\SankiWork.exe",
+      displayName: "SankiWork",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\SankiWork-release-stable-win",
+      shortcutName: "SankiWork.lnk",
+      uninstallerName: "Uninstall SankiWork.exe",
     });
   });
 
   it("uses first-class beta display identity for beta release namespaces", () => {
     expect(resolveWinInstallIdentity({ namespace: "release-beta-win" })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design Beta.exe",
-      displayName: "Open Design Beta",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-release-beta-win",
-      shortcutName: "Open Design Beta.lnk",
-      uninstallerName: "Uninstall Open Design Beta.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\SankiWork Beta.exe",
+      displayName: "SankiWork Beta",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\SankiWork-release-beta-win",
+      shortcutName: "SankiWork Beta.lnk",
+      uninstallerName: "Uninstall SankiWork Beta.exe",
     });
   });
 
   it("keeps non-release beta-like namespaces isolated from the real beta channel identity", () => {
     expect(resolveWinInstallIdentity({ namespace: "beta-local-flow" })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design beta-local-flow.exe",
-      displayName: "Open Design beta-local-flow",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-beta-local-flow",
-      shortcutName: "Open Design beta-local-flow.lnk",
-      uninstallerName: "Uninstall Open Design beta-local-flow.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\SankiWork beta-local-flow.exe",
+      displayName: "SankiWork beta-local-flow",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\SankiWork-beta-local-flow",
+      shortcutName: "SankiWork beta-local-flow.lnk",
+      uninstallerName: "Uninstall SankiWork beta-local-flow.exe",
     });
   });
 
   it("uses first-class preview display identity for preview release namespaces", () => {
     expect(resolveWinInstallIdentity({ namespace: "release-preview-win" })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design Preview.exe",
-      displayName: "Open Design Preview",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-release-preview-win",
-      shortcutName: "Open Design Preview.lnk",
-      uninstallerName: "Uninstall Open Design Preview.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\SankiWork Preview.exe",
+      displayName: "SankiWork Preview",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\SankiWork-release-preview-win",
+      shortcutName: "SankiWork Preview.lnk",
+      uninstallerName: "Uninstall SankiWork Preview.exe",
     });
   });
 
@@ -68,15 +68,15 @@ describe("resolveWinInstallIdentity", () => {
       appVersion: "0.8.0-prerelease.2",
       namespace: "release-stable-win",
     })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design Prerelease.exe",
-      displayName: "Open Design Prerelease",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-release-stable-win",
-      shortcutName: "Open Design Prerelease.lnk",
-      uninstallerName: "Uninstall Open Design Prerelease.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\SankiWork Prerelease.exe",
+      displayName: "SankiWork Prerelease",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\SankiWork-release-stable-win",
+      shortcutName: "SankiWork Prerelease.lnk",
+      uninstallerName: "Uninstall SankiWork Prerelease.exe",
     });
     expect(resolveWinInstallIdentity({ namespace: "release-prerelease-win" })).toMatchObject({
-      displayName: "Open Design Prerelease",
-      shortcutName: "Open Design Prerelease.lnk",
+      displayName: "SankiWork Prerelease",
+      shortcutName: "SankiWork Prerelease.lnk",
     });
   });
 
@@ -87,17 +87,17 @@ describe("resolveWinInstallIdentity", () => {
   });
 
   it("emits a valid NSIS command literal for executable paths containing spaces", () => {
-    expect(createNsisQuotedCommandLiteral(["$INSTDIR\\Open Design.exe", "%1"])).toBe(
-      `'"$INSTDIR\\Open Design.exe" "%1"'`,
+    expect(createNsisQuotedCommandLiteral(["$INSTDIR\\SankiWork.exe", "%1"])).toBe(
+      `'"$INSTDIR\\SankiWork.exe" "%1"'`,
     );
-    expect(createNsisQuotedCommandLiteral(["$INSTDIR\\Open Design.exe"])).toBe(
-      `'"$INSTDIR\\Open Design.exe"'`,
+    expect(createNsisQuotedCommandLiteral(["$INSTDIR\\SankiWork.exe"])).toBe(
+      `'"$INSTDIR\\SankiWork.exe"'`,
     );
   });
 
   it("removes an Electron-refreshed invite protocol while this install still owns it", async () => {
     const source = await readFile(new URL("../src/win/custom-installer.ts", import.meta.url), "utf8");
-    expect(source).toContain('const inviteProtocolKey = "Software\\\\Classes\\\\opendesign"');
+    expect(source).toContain('const inviteProtocolKey = "Software\\\\Classes\\\\sankiwork"');
     expect(source).toContain('WriteRegStr HKCU "${inviteProtocolKey}" "URL Protocol" ""');
     expect(source).toContain(
       'WriteRegStr HKCU "${inviteProtocolKey}\\\\shell\\\\open\\\\command" "" ${inviteProtocolCommand}',

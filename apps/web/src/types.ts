@@ -93,7 +93,7 @@ import type {
   InstallDesignSystemResponse,
   UninstallResponse,
   UpdateDeployConfigRequest,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export type {
   CloudflarePagesDeploySelection,
@@ -107,7 +107,7 @@ export type {
   PreviewAnnotationStyle,
   PreviewCommentSelectionKind,
   PreviewVisualMarkKind,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export type ExecMode = 'daemon' | 'api';
 export type ApiProtocol =

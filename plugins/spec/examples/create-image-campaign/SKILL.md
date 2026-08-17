@@ -3,7 +3,7 @@ name: create-image-campaign
 description: Use this plugin when the user wants image assets, posters, social visuals, ad concepts, or a small campaign image system from a creative brief.
 license: MIT
 metadata:
-  author: open-design-spec
+  author: sankiwork-spec
   version: "0.1.0"
 od:
   mode: image

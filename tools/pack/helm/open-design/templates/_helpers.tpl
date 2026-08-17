@@ -1,18 +1,18 @@
 {{- /*
-Open Design Helm chart helpers. Spec §15.5.
+SankiWork Helm chart helpers. Spec §15.5.
 
 Names:
-  open-design.name        chart-name (`open-design`)
-  open-design.fullname    release-prefixed name (truncated to 63 chars)
-  open-design.labels      common label set
-  open-design.selectorLabels   selector subset
+  sankiwork.name        chart-name (`sankiwork`)
+  sankiwork.fullname    release-prefixed name (truncated to 63 chars)
+  sankiwork.labels      common label set
+  sankiwork.selectorLabels   selector subset
 */ -}}
 
-{{- define "open-design.name" -}}
+{{- define "sankiwork.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "open-design.fullname" -}}
+{{- define "sankiwork.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -25,14 +25,14 @@ Names:
 {{- end -}}
 {{- end -}}
 
-{{- define "open-design.labels" -}}
-app.kubernetes.io/name: {{ include "open-design.name" . }}
+{{- define "sankiwork.labels" -}}
+app.kubernetes.io/name: {{ include "sankiwork.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" }}
 {{- end -}}
 
-{{- define "open-design.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "open-design.name" . }}
+{{- define "sankiwork.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "sankiwork.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}

@@ -466,12 +466,12 @@ test('qoder adapter inherits QODER_PERSONAL_ACCESS_TOKEN from daemon env', () =>
   const env = spawnEnvForAgent('qoder', {
     QODER_PERSONAL_ACCESS_TOKEN: 'qoder-pat',
     PATH: '/usr/bin',
-    OD_DAEMON_URL: 'http://127.0.0.1:7456',
+    SW_DAEMON_URL: 'http://127.0.0.1:7456',
   });
 
   assert.equal(env.QODER_PERSONAL_ACCESS_TOKEN, 'qoder-pat');
   assert.equal(env.PATH, '/usr/bin');
-  assert.equal(env.OD_DAEMON_URL, 'http://127.0.0.1:7456');
+  assert.equal(env.SW_DAEMON_URL, 'http://127.0.0.1:7456');
 });
 
 test('qoder adapter does not define static secret env', () => {
@@ -484,7 +484,7 @@ test('qoder adapter does not define static secret env', () => {
 test('detectAgents keeps qoder unavailable with fallback metadata when qodercli is missing', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'od-agents-empty-'));
   try {
-    process.env.OD_AGENT_HOME = dir;
+    process.env.SW_AGENT_HOME = dir;
     process.env.PATH = dir;
 
     const agents = await detectAgents();

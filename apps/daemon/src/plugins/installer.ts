@@ -39,7 +39,7 @@ import type {
   MarketplaceTrust,
   PluginSourceKind,
   TrustTier,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type Database from 'better-sqlite3';
 import { recordPluginEvent } from './events.js';
 import { upsertPluginLockfileEntry } from './lockfile.js';
@@ -102,7 +102,7 @@ export interface InstallOptions {
   manifestDigest?: string;
   archiveIntegrity?: string;
   // Optional runtime-data lockfile path. Daemon routes pass
-  // `<OD_DATA_DIR>/od-plugin-lock.json`; tests can point at temp dirs.
+  // `<SW_DATA_DIR>/od-plugin-lock.json`; tests can point at temp dirs.
   lockfilePath?: string;
   // Called after manifest identity is known but before existing bytes or the
   // installed_plugins row can be replaced. Workspace-aware callers use this
@@ -839,7 +839,7 @@ export async function* installFromLocalFolder(
 
   // Plan §3.II1 / §3.JJ1 — emit 'plugin.installed' OR
   // 'plugin.upgraded' (per opts.eventKind) so ops dashboards +
-  // `od plugin events tail` see the operation land in the in-
+  // `sw plugin events tail` see the operation land in the in-
   // memory ring buffer. Best-effort; recordPluginEvent never
   // throws.
   recordPluginEvent({

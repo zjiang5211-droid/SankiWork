@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ChangeEvent, type KeyboardEvent, type ReactNode } from 'react';
-import { Button, Textarea } from '@open-design/components';
+import { Button, Textarea } from '@sankiwork/components';
 import type {
   ConnectorConnectResponse,
   ConnectorDetail,
@@ -7,7 +7,7 @@ import type {
   DesignSystemSummary,
   LibraryAsset,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { streamViaDaemon } from '../providers/daemon';
 import {
   connectConnector,
@@ -115,7 +115,7 @@ import {
   designSystemModuleType,
   designSystemRepoHostFromUrl,
   designSystemTotalSizeBucket,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import type {
   DesignSystemsCreateClickProps,
   TrackingDesignSystemCreateEntryFrom,
@@ -129,7 +129,7 @@ import type {
   TrackingDesignSystemStatusAction,
   TrackingDesignSystemStatusValue,
   TrackingDesignSystemsEntryFrom,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import { useI18n } from '../i18n';
 import { useWorkspaceContext } from '../collab/useWorkspaceContext';
 import { workspaceIdentityCacheKey } from '../collab/workspace-identity';
@@ -249,7 +249,7 @@ const EMPTY_SETUP: SetupState = {
 
 const GENERATION_JOB_STORAGE_PREFIX = 'od:design-system-generation-job:';
 const GITHUB_CONNECTOR_ID = 'github';
-const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'open-design:connector-connected';
+const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'sankiwork:connector-connected';
 const GITHUB_CONNECTOR_STATUS_TIMEOUT_MS = 5000;
 const LOCAL_CODE_UPLOAD_ROOT = 'context/local-code';
 const ASSET_UPLOAD_ROOT = 'assets';
@@ -5372,7 +5372,7 @@ function buildFallbackDesignMdFromState(state: SetupState): string {
     state.company.trim()
     || state.notes.trim()
     || sourceNotes
-    || 'Design system generated from source material supplied in Open Design.';
+    || 'Design system generated from source material supplied in SankiWork.';
   return [
     '---',
     `name: ${yamlString(title.replace(/\s+Design System$/iu, ''))}`,
@@ -5435,7 +5435,7 @@ function buildCreationAgentPrompt(
   const localFolderRunbook = buildLocalFolderRunbook(state.codeFolders);
   const title = inferDesignSystemTitle(state);
   return [
-    'Create this project as a complete Open Design design system workspace.',
+    'Create this project as a complete SankiWork design system workspace.',
     '',
     'Autonomy requirement:',
     '- Do not ask setup or clarification questions during design-system generation.',
@@ -5481,7 +5481,7 @@ function buildCreationAgentPrompt(
     '- For private repositories, local git credentials or GitHub CLI authentication (`gh auth login --web`) are preferred intake paths because the command still writes local evidence snapshots.',
     '- If the bounded command cannot write snapshots at all, stop with the permission, GitHub CLI login, connection, rate-limit, or clone issue. Do not substitute ad-hoc public GitHub browsing, memory, or URL-only inference.',
     '- Finish only after the project contains reviewable design-system artifacts: `DESIGN.md`, `README.md`, `SKILL.md`, reusable token/style files, focused preview HTML cards, UI-kit examples, preserved assets/fonts when supported, and provenance/context notes.',
-    '- Before your final response, run `"$OD_NODE_BIN" "$OD_BIN" tools connectors design-system-package-audit --path . --fail-on-warnings`. Fix every audit error and design-quality warning, including generic visual artifacts, thin source-backed modules, stale manifest paths, and missing representative assets/fonts. If an issue cannot be fixed because source evidence is missing, explain that blocker instead of claiming the design system is ready.',
+    '- Before your final response, run `"$SW_NODE_BIN" "$SW_BIN" tools connectors design-system-package-audit --path . --fail-on-warnings`. Fix every audit error and design-quality warning, including generic visual artifacts, thin source-backed modules, stale manifest paths, and missing representative assets/fonts. If an issue cannot be fixed because source evidence is missing, explain that blocker instead of claiming the design system is ready.',
     '',
     `Design system workspace title:\n${title}`,
     '',
@@ -5499,7 +5499,7 @@ function buildCreationAgentPrompt(
       ? githubRunbook
       : '',
     state.codeFolders.length
-      ? `Read the linked local code folders that Open Design attached to this project: ${state.codeFolders.join(', ')}. Treat them as source context only unless the user asks you to edit them.\n\n${localFolderRunbook}`
+      ? `Read the linked local code folders that SankiWork attached to this project: ${state.codeFolders.join(', ')}. Treat them as source context only unless the user asks you to edit them.\n\n${localFolderRunbook}`
       : '',
     stagedLocalCode?.uploadedPaths.length
       ? `Inspect the copied local code snapshot files in this project under \`${LOCAL_CODE_UPLOAD_ROOT}/\`: ${stagedLocalCode.uploadedPaths.slice(0, 20).join(', ')}${stagedLocalCode.uploadedPaths.length > 20 ? `, and ${stagedLocalCode.uploadedPaths.length - 20} more` : ''}.`
@@ -5644,7 +5644,7 @@ function buildSourceContextManifest(
     '- DESIGN.md is the canonical source of truth.',
     '- Use the canonical design-system title above for headings, README/SKILL names, preview labels, and UI-kit copy unless inspected evidence proves a more accurate product name. Never title the system from URL protocol text such as `https`.',
     '- colors_and_type.css should hold concrete reusable tokens when the source evidence supports them; if fonts/ contains preserved font files, colors_and_type.css must bind those files with @font-face, @import, or url(...) references so typography does not fall back to substitute fonts.',
-    '- README.md and SKILL.md should make the extracted system reusable as a real Open Design design-system package.',
+    '- README.md and SKILL.md should make the extracted system reusable as a real SankiWork design-system package.',
     '- README.md should include a source-backed Product Overview/Product Context section, source repository or source folder references, package contents, a concrete `## Preview Manifest` listing every generated `preview/*.html` card, and reuse workflow, similar to Claude Design exports.',
     '- SKILL.md should include YAML frontmatter with `name`, `description`, and `user-invocable`, plus Claude-style reusable skill sections: What is inside, Source context, When to use this skill, How to use, and Design system highlights. The usage guidance should point agents at README.md, DESIGN.md, colors_and_type.css, preview/, assets/, build/, fonts/, source_examples/, and ui_kits/app/.',
     '- README.md, SKILL.md, DESIGN.md, and ui_kits/app/README.md must describe the final focused preview cards and `ui_kits/app/` paths, not old scaffold names such as `preview/typography-scale.html` or `ui_kits/generated_interface/`.',
@@ -5658,7 +5658,7 @@ function buildSourceContextManifest(
     '- preview/brand-assets.html should visibly reference preserved files from assets/ or build/ instead of recreating logos/icons as inline placeholder drawings.',
     '- GitHub evidence must come from the bounded `github-design-context` command, not direct connector tree/content/raw tool calls. The command tries this-device git first, authenticated GitHub CLI second, and connector-platform fallback only when local access cannot read the repository.',
     '- Linked local folder evidence should come from the bounded `local-design-context` command, which writes a local evidence note and snapshots under `context/local-code/` before final design-system rules are drafted.',
-    '- Before marking the design system ready, run `"$OD_NODE_BIN" "$OD_BIN" tools connectors design-system-package-audit --path . --fail-on-warnings` and fix every reported error or warning.',
+    '- Before marking the design system ready, run `"$SW_NODE_BIN" "$SW_BIN" tools connectors design-system-package-audit --path . --fail-on-warnings` and fix every reported error or warning.',
     '- Draft design systems cannot be used by other projects until published.',
   );
 
@@ -5668,7 +5668,7 @@ function buildSourceContextManifest(
 function buildLocalFolderRunbook(folders: string[]): string {
   if (folders.length === 0) return '';
   const intakeCommands = folders
-    .map((folder, index) => `   - \`"$OD_NODE_BIN" "$OD_BIN" tools connectors local-design-context --path ${shellQuote(folder)} --output context/local-code/${localEvidenceFileName(folder, index)}\``)
+    .map((folder, index) => `   - \`"$SW_NODE_BIN" "$SW_BIN" tools connectors local-design-context --path ${shellQuote(folder)} --output context/local-code/${localEvidenceFileName(folder, index)}\``)
     .join('\n');
   return [
     'Local folder intake is required before drafting from linked local code folders:',
@@ -5683,7 +5683,7 @@ function buildLocalFolderRunbook(folders: string[]): string {
 function buildGithubConnectorRunbook(githubUrls: string[]): string {
   if (githubUrls.length === 0) return '';
   const intakeCommands = githubUrls
-    .map((url) => `   - \`"$OD_NODE_BIN" "$OD_BIN" tools connectors github-design-context --repo ${shellQuote(url)} --output context/github/${githubEvidenceFileName(url)}\``)
+    .map((url) => `   - \`"$SW_NODE_BIN" "$SW_BIN" tools connectors github-design-context --repo ${shellQuote(url)} --output context/github/${githubEvidenceFileName(url)}\``)
     .join('\n');
   return [
     'GitHub repository intake is required before drafting the design system:',

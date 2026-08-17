@@ -8,7 +8,7 @@ import { generateMedia } from '../../src/media/index.js';
 const PNG_BASE64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+X2uoAAAAASUVORK5CYII=';
 const VIDEO_BASE64 = Buffer.from([0, 0, 0, 24, 102, 116, 121, 112]).toString('base64');
 const OPENAI_ENV_KEYS = [
-  'OD_OPENAI_API_KEY',
+  'SW_OPENAI_API_KEY',
   'OPENAI_API_KEY',
   'AZURE_API_KEY',
   'AZURE_OPENAI_API_KEY',
@@ -19,12 +19,12 @@ describe('OpenAI-compatible media providers', () => {
   let projectRoot: string;
   let projectsRoot: string;
   const realFetch = globalThis.fetch;
-  const originalImageRouterKey = process.env.OD_IMAGEROUTER_API_KEY;
-  const originalCustomImageKey = process.env.OD_CUSTOM_IMAGE_API_KEY;
-  const originalMediaConfigDir = process.env.OD_MEDIA_CONFIG_DIR;
-  const originalDataDir = process.env.OD_DATA_DIR;
-  const originalEnvAliases = process.env.OD_MEDIA_MODEL_ALIASES;
-  const originalAllowStubs = process.env.OD_MEDIA_ALLOW_STUBS;
+  const originalImageRouterKey = process.env.SW_IMAGEROUTER_API_KEY;
+  const originalCustomImageKey = process.env.SW_CUSTOM_IMAGE_API_KEY;
+  const originalMediaConfigDir = process.env.SW_MEDIA_CONFIG_DIR;
+  const originalDataDir = process.env.SW_DATA_DIR;
+  const originalEnvAliases = process.env.SW_MEDIA_MODEL_ALIASES;
+  const originalAllowStubs = process.env.SW_MEDIA_ALLOW_STUBS;
   const originalOpenAIEnv = Object.fromEntries(
     OPENAI_ENV_KEYS.map((key) => [key, process.env[key]]),
   );
@@ -32,14 +32,14 @@ describe('OpenAI-compatible media providers', () => {
   beforeEach(async () => {
     root = await mkdtemp(path.join(tmpdir(), 'od-openai-compatible-media-'));
     projectRoot = path.join(root, 'project-root');
-    projectsRoot = path.join(projectRoot, '.od', 'projects');
+    projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });
-    delete process.env.OD_IMAGEROUTER_API_KEY;
-    delete process.env.OD_CUSTOM_IMAGE_API_KEY;
-    delete process.env.OD_MEDIA_CONFIG_DIR;
-    delete process.env.OD_DATA_DIR;
-    delete process.env.OD_MEDIA_MODEL_ALIASES;
-    delete process.env.OD_MEDIA_ALLOW_STUBS;
+    delete process.env.SW_IMAGEROUTER_API_KEY;
+    delete process.env.SW_CUSTOM_IMAGE_API_KEY;
+    delete process.env.SW_MEDIA_CONFIG_DIR;
+    delete process.env.SW_DATA_DIR;
+    delete process.env.SW_MEDIA_MODEL_ALIASES;
+    delete process.env.SW_MEDIA_ALLOW_STUBS;
     for (const key of OPENAI_ENV_KEYS) {
       delete process.env[key];
     }
@@ -49,34 +49,34 @@ describe('OpenAI-compatible media providers', () => {
     globalThis.fetch = realFetch;
     vi.unstubAllGlobals();
     if (originalImageRouterKey == null) {
-      delete process.env.OD_IMAGEROUTER_API_KEY;
+      delete process.env.SW_IMAGEROUTER_API_KEY;
     } else {
-      process.env.OD_IMAGEROUTER_API_KEY = originalImageRouterKey;
+      process.env.SW_IMAGEROUTER_API_KEY = originalImageRouterKey;
     }
     if (originalCustomImageKey == null) {
-      delete process.env.OD_CUSTOM_IMAGE_API_KEY;
+      delete process.env.SW_CUSTOM_IMAGE_API_KEY;
     } else {
-      process.env.OD_CUSTOM_IMAGE_API_KEY = originalCustomImageKey;
+      process.env.SW_CUSTOM_IMAGE_API_KEY = originalCustomImageKey;
     }
     if (originalMediaConfigDir == null) {
-      delete process.env.OD_MEDIA_CONFIG_DIR;
+      delete process.env.SW_MEDIA_CONFIG_DIR;
     } else {
-      process.env.OD_MEDIA_CONFIG_DIR = originalMediaConfigDir;
+      process.env.SW_MEDIA_CONFIG_DIR = originalMediaConfigDir;
     }
     if (originalDataDir == null) {
-      delete process.env.OD_DATA_DIR;
+      delete process.env.SW_DATA_DIR;
     } else {
-      process.env.OD_DATA_DIR = originalDataDir;
+      process.env.SW_DATA_DIR = originalDataDir;
     }
     if (originalEnvAliases == null) {
-      delete process.env.OD_MEDIA_MODEL_ALIASES;
+      delete process.env.SW_MEDIA_MODEL_ALIASES;
     } else {
-      process.env.OD_MEDIA_MODEL_ALIASES = originalEnvAliases;
+      process.env.SW_MEDIA_MODEL_ALIASES = originalEnvAliases;
     }
     if (originalAllowStubs == null) {
-      delete process.env.OD_MEDIA_ALLOW_STUBS;
+      delete process.env.SW_MEDIA_ALLOW_STUBS;
     } else {
-      process.env.OD_MEDIA_ALLOW_STUBS = originalAllowStubs;
+      process.env.SW_MEDIA_ALLOW_STUBS = originalAllowStubs;
     }
     for (const key of OPENAI_ENV_KEYS) {
       if (originalOpenAIEnv[key] == null) {
@@ -89,7 +89,7 @@ describe('OpenAI-compatible media providers', () => {
   });
 
   async function writeConfig(data: unknown) {
-    const file = path.join(projectRoot, '.od', 'media-config.json');
+    const file = path.join(projectRoot, '.sankiwork', 'media-config.json');
     await mkdir(path.dirname(file), { recursive: true });
     await writeFile(file, JSON.stringify(data), 'utf8');
   }
@@ -443,7 +443,7 @@ describe('OpenAI-compatible media providers', () => {
   });
 
   it('renders ImageRouter images through the OpenAI-compatible JSON endpoint', async () => {
-    process.env.OD_IMAGEROUTER_API_KEY = 'ir-test-key';
+    process.env.SW_IMAGEROUTER_API_KEY = 'ir-test-key';
 
     const fetchMock = vi.fn(async (input: unknown, init?: RequestInit) => {
       expect(String(input)).toBe('https://api.imagerouter.io/v1/openai/images/generations');
@@ -485,7 +485,7 @@ describe('OpenAI-compatible media providers', () => {
   });
 
   it('renders ImageRouter videos through the OpenAI-compatible JSON endpoint', async () => {
-    process.env.OD_IMAGEROUTER_API_KEY = 'ir-test-key';
+    process.env.SW_IMAGEROUTER_API_KEY = 'ir-test-key';
 
     const fetchMock = vi.fn(async (input: unknown, init?: RequestInit) => {
       expect(String(input)).toBe('https://api.imagerouter.io/v1/openai/videos/generations');
@@ -531,7 +531,7 @@ describe('OpenAI-compatible media providers', () => {
 
   it('keeps aliased gpt-image-2 on the explicit OpenAI API path', async () => {
     process.env.OPENAI_API_KEY = 'sk-openai-test-key';
-    process.env.OD_MEDIA_MODEL_ALIASES = JSON.stringify({
+    process.env.SW_MEDIA_MODEL_ALIASES = JSON.stringify({
       'gpt-image-2': 'custom-gpt-image-2-deployment',
     });
 

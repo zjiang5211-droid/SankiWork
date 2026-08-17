@@ -3,7 +3,7 @@ import type { Locator, Page } from '@playwright/test';
 import { routeAgents, suppressWhatsNew } from '../lib/playwright/mock-factory.js';
 import { T } from '@/timeouts';
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'sankiwork:config';
 test.describe.configure({ timeout: T.xlong });
 
 test.beforeEach(async ({ page }) => {
@@ -86,13 +86,13 @@ function connectorCard(scope: Page | Locator, id: string) {
 }
 
 async function waitForLoadingToClear(page: Page) {
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, { timeout: T.long });
+  await expect(page.getByText('Loading SankiWork…')).toHaveCount(0, { timeout: T.long });
 }
 
 async function gotoConnectors(page: Page) {
   await page.goto('/integrations', { waitUntil: 'domcontentloaded' });
   await waitForLoadingToClear(page);
-  const privacyRegion = page.getByRole('region', { name: /Help us improve Open Design/i });
+  const privacyRegion = page.getByRole('region', { name: /Help us improve SankiWork/i });
   if (await privacyRegion.isVisible().catch(() => false)) {
     await privacyRegion.getByRole('button', { name: /I get it|not now|got it/i }).click();
   }

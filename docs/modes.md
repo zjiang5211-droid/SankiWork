@@ -2,7 +2,7 @@
 
 **Parent:** [`spec.md`](spec.md) · **Siblings:** [`architecture.md`](architecture.md) · [`skills-protocol.md`](skills-protocol.md) · [`agent-adapters.md`](agent-adapters.md)
 
-Open Design has two related taxonomies:
+SankiWork has two related taxonomies:
 
 - The **New Project UI** exposes six creation tabs: Prototype, Live Artifact,
   Deck, Template, Media, and Other. Media then selects Image, Video, or Audio.
@@ -102,7 +102,7 @@ Project panel.
   under `design-templates/` and are listed through `/api/design-templates`;
   functional capabilities live under `skills/` and are listed through
   `/api/skills`.
-- Keep user-facing capabilities reachable through both the web UI and `od` CLI,
+- Keep user-facing capabilities reachable through both the web UI and `sw` CLI,
   following the repository-wide dual-track rule in the root `AGENTS.md`.
 
 ## Related implementation

@@ -28,7 +28,7 @@
 - [ ] **Step 1: Verify branch and clean tree**
 
 ```bash
-cd /c/Users/ekada/OneDrive/Desktop/Githubcontributing/open-design
+cd /c/Users/ekada/OneDrive/Desktop/Githubcontributing/sankiwork
 git status
 git branch --show-current
 ```
@@ -46,8 +46,8 @@ Expected: pnpm 10.33.2, no errors, all workspace packages linked.
 ```bash
 pnpm typecheck
 pnpm guard
-pnpm --filter @open-design/web test
-pnpm --filter @open-design/daemon test
+pnpm --filter @sankiwork/web test
+pnpm --filter @sankiwork/daemon test
 ```
 Expected: all pass on the unmodified `feat/critique-theater` branch.
 
@@ -63,7 +63,7 @@ Expected: status JSON shows daemon and web both `running`, then both `stopped`.
 - [ ] **Step 5: Record baseline metrics for later regression checks**
 
 ```bash
-pnpm --filter @open-design/web build 2>&1 | tail -20 > /tmp/web-baseline-build.txt
+pnpm --filter @sankiwork/web build 2>&1 | tail -20 > /tmp/web-baseline-build.txt
 ```
 Expected: build completes; capture bundle size baseline for the size-limit gate later.
 
@@ -131,7 +131,7 @@ describe('CritiqueConfig', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 ```bash
-pnpm --filter @open-design/contracts test critique.test.ts
+pnpm --filter @sankiwork/contracts test critique.test.ts
 ```
 Expected: FAIL with "cannot find module './critique'".
 
@@ -198,7 +198,7 @@ export function defaultCritiqueConfig(): CritiqueConfig {
 - [ ] **Step 4: Run test to verify it passes**
 
 ```bash
-pnpm --filter @open-design/contracts test critique.test.ts
+pnpm --filter @sankiwork/contracts test critique.test.ts
 ```
 Expected: PASS, 5/5.
 
@@ -250,7 +250,7 @@ describe('PanelEvent', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 ```bash
-pnpm --filter @open-design/contracts test critique.test.ts
+pnpm --filter @sankiwork/contracts test critique.test.ts
 ```
 Expected: FAIL with "isPanelEvent is not exported".
 
@@ -310,7 +310,7 @@ export function isPanelEvent(value: unknown): value is PanelEvent {
 - [ ] **Step 4: Run test to verify it passes**
 
 ```bash
-pnpm --filter @open-design/contracts test critique.test.ts
+pnpm --filter @sankiwork/contracts test critique.test.ts
 ```
 Expected: PASS, all assertions.
 
@@ -362,7 +362,7 @@ describe('SseEvent critique extensions', () => {
 - [ ] **Step 3: Run test to verify it fails**
 
 ```bash
-pnpm --filter @open-design/contracts test sse.test.ts
+pnpm --filter @sankiwork/contracts test sse.test.ts
 ```
 Expected: FAIL with "panelEventToSse not exported".
 
@@ -397,7 +397,7 @@ Update the existing `isSseEvent` guard if it enumerates types: append the 11 `cr
 - [ ] **Step 5: Run test to verify it passes and commit**
 
 ```bash
-pnpm --filter @open-design/contracts test
+pnpm --filter @sankiwork/contracts test
 ```
 Expected: all sse tests pass.
 
@@ -459,7 +459,7 @@ git commit -m "test(critique): add v1 wire-protocol golden fixtures"
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { PanelEvent } from '@open-design/contracts/critique';
+import type { PanelEvent } from '@sankiwork/contracts/critique';
 import { parseCritiqueStream } from '../parser';
 
 const fixture = (name: string) =>
@@ -502,7 +502,7 @@ describe('parseCritiqueStream / happy', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 ```bash
-pnpm --filter @open-design/daemon test parser.test.ts
+pnpm --filter @sankiwork/daemon test parser.test.ts
 ```
 Expected: FAIL with "cannot find module '../parser'".
 
@@ -517,7 +517,7 @@ export class MissingArtifactError extends Error { constructor(msg: string) { sup
 
 ```ts
 // apps/daemon/src/critique/parser.ts
-import type { PanelEvent } from '@open-design/contracts/critique';
+import type { PanelEvent } from '@sankiwork/contracts/critique';
 import { parseV1 } from './parsers/v1';
 
 export interface ParserOptions {
@@ -538,7 +538,7 @@ export async function* parseCritiqueStream(
 
 ```ts
 // apps/daemon/src/critique/parsers/v1.ts
-import type { PanelEvent, PanelistRole } from '@open-design/contracts/critique';
+import type { PanelEvent, PanelistRole } from '@sankiwork/contracts/critique';
 import { MalformedBlockError, OversizeBlockError, MissingArtifactError } from '../errors';
 
 const TAG_OPEN = /<([A-Z_]+)([^>]*)>/g;
@@ -763,7 +763,7 @@ function extractInner(buf: string, start: number, tag: string): string {
 - [ ] **Step 4: Run tests and verify they pass**
 
 ```bash
-pnpm --filter @open-design/daemon test parser.test.ts
+pnpm --filter @sankiwork/daemon test parser.test.ts
 ```
 Expected: PASS, all 2 cases.
 
@@ -814,7 +814,7 @@ it('emits parser_warning with kind=duplicate_ship and keeps the first SHIP', asy
 - [ ] **Step 2: Run tests; verify three FAIL and one PASS or all FAIL based on current parser behavior**
 
 ```bash
-pnpm --filter @open-design/daemon test parser.test.ts
+pnpm --filter @sankiwork/daemon test parser.test.ts
 ```
 Expected: every case currently testing failure modes fails until the parser handles them; iterate until they pass.
 
@@ -825,7 +825,7 @@ Audit `parsers/v1.ts` against the four invariants. The buffer overflow check is 
 - [ ] **Step 4: Re-run tests and confirm all pass**
 
 ```bash
-pnpm --filter @open-design/daemon test parser.test.ts
+pnpm --filter @sankiwork/daemon test parser.test.ts
 ```
 Expected: PASS, 6/6.
 
@@ -851,7 +851,7 @@ git commit -m "test(daemon): cover parser failure modes with golden fixtures"
 ```ts
 // apps/daemon/tests/critique/scoreboard.test.ts
 import { describe, expect, it } from 'vitest';
-import { defaultCritiqueConfig } from '@open-design/contracts/critique';
+import { defaultCritiqueConfig } from '@sankiwork/contracts/critique';
 import { computeComposite } from '../scoreboard';
 
 describe('computeComposite', () => {
@@ -878,7 +878,7 @@ describe('computeComposite', () => {
 - [ ] **Step 2: Run test to verify failure**
 
 ```bash
-pnpm --filter @open-design/daemon test scoreboard.test.ts
+pnpm --filter @sankiwork/daemon test scoreboard.test.ts
 ```
 Expected: FAIL with module not found.
 
@@ -886,7 +886,7 @@ Expected: FAIL with module not found.
 
 ```ts
 // apps/daemon/src/critique/scoreboard.ts
-import type { PanelistRole } from '@open-design/contracts/critique';
+import type { PanelistRole } from '@sankiwork/contracts/critique';
 
 export type RoleScores = Partial<Record<PanelistRole, number | undefined>>;
 export type RoleWeights = Record<PanelistRole, number>;
@@ -904,7 +904,7 @@ export function computeComposite(scores: RoleScores, weights: RoleWeights): numb
 - [ ] **Step 4: Run tests, confirm pass**
 
 ```bash
-pnpm --filter @open-design/daemon test scoreboard.test.ts
+pnpm --filter @sankiwork/daemon test scoreboard.test.ts
 ```
 
 - [ ] **Step 5: Commit**
@@ -950,14 +950,14 @@ describe('decideRound', () => {
 - [ ] **Step 2: Run, expect fail**
 
 ```bash
-pnpm --filter @open-design/daemon test scoreboard.test.ts
+pnpm --filter @sankiwork/daemon test scoreboard.test.ts
 ```
 
 - [ ] **Step 3: Implement**
 
 Append to `scoreboard.ts`:
 ```ts
-import type { CritiqueConfig, RoundDecision } from '@open-design/contracts/critique';
+import type { CritiqueConfig, RoundDecision } from '@sankiwork/contracts/critique';
 
 export interface RoundState {
   round: number;
@@ -975,7 +975,7 @@ export function decideRound(state: RoundState, cfg: CritiqueConfig): RoundDecisi
 - [ ] **Step 4: Pass**
 
 ```bash
-pnpm --filter @open-design/daemon test scoreboard.test.ts
+pnpm --filter @sankiwork/daemon test scoreboard.test.ts
 ```
 
 - [ ] **Step 5: Commit**
@@ -1026,7 +1026,7 @@ describe('selectFallbackRound', () => {
 - [ ] **Step 3: Implement**
 
 ```ts
-import type { FallbackPolicy } from '@open-design/contracts/critique';
+import type { FallbackPolicy } from '@sankiwork/contracts/critique';
 
 export function selectFallbackRound(
   rounds: RoundState[], policy: FallbackPolicy,
@@ -1109,7 +1109,7 @@ it('00NN_critique_rounds adds and removes columns idempotently', () => {
 - [ ] **Step 4: Run tests; expected PASS**
 
 ```bash
-pnpm --filter @open-design/daemon test migrations.test.ts
+pnpm --filter @sankiwork/daemon test migrations.test.ts
 ```
 
 - [ ] **Step 5: Commit**
@@ -1168,7 +1168,7 @@ it('writes .ndjson.gz when over threshold', async () => {
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { gzipSync } from 'node:zlib';
-import type { PanelEvent } from '@open-design/contracts/critique';
+import type { PanelEvent } from '@sankiwork/contracts/critique';
 
 export interface TranscriptOptions { gzipThresholdBytes?: number; }
 
@@ -1210,7 +1210,7 @@ git commit -m "feat(daemon): transcript writer with ndjson + gzip threshold"
 ```ts
 import Database from 'better-sqlite3';
 import { runOrchestrator } from '../orchestrator';
-import { defaultCritiqueConfig } from '@open-design/contracts/critique';
+import { defaultCritiqueConfig } from '@sankiwork/contracts/critique';
 // Uses an in-memory DB seeded with the production schema and a stub event bus.
 
 it('happy path: parses, scores, persists shipped, emits SSE events in order', async () => {
@@ -1239,7 +1239,7 @@ it('happy path: parses, scores, persists shipped, emits SSE events in order', as
 - [ ] **Step 2: Fail**
 
 ```bash
-pnpm --filter @open-design/daemon test orchestrator.test.ts
+pnpm --filter @sankiwork/daemon test orchestrator.test.ts
 ```
 
 - [ ] **Step 3: Implement**
@@ -1249,8 +1249,8 @@ pnpm --filter @open-design/daemon test orchestrator.test.ts
 import type Database from 'better-sqlite3';
 import type {
   CritiqueConfig, PanelEvent, ShipStatus,
-} from '@open-design/contracts/critique';
-import { panelEventToSse } from '@open-design/contracts/sse';
+} from '@sankiwork/contracts/critique';
+import { panelEventToSse } from '@sankiwork/contracts/sse';
 import { parseCritiqueStream } from './parser';
 import { computeComposite, decideRound, selectFallbackRound, type RoundState } from './scoreboard';
 import { writeTranscript } from './transcript';
@@ -1393,9 +1393,9 @@ In `spawn.ts`, after stdout is established, branch on `cfg.enabled`:
 // apps/daemon/tests/agents/spawn-critique.test.ts
 import { spawnAgent } from '../spawn';
 
-it('routes through critique orchestrator when OD_CRITIQUE_ENABLED=true', async () => {
+it('routes through critique orchestrator when SW_CRITIQUE_ENABLED=true', async () => {
   // mock CLI emitting the happy fixture
-  process.env.OD_CRITIQUE_ENABLED = 'true';
+  process.env.SW_CRITIQUE_ENABLED = 'true';
   const { status } = await spawnAgent(/* mocked params */);
   expect(['shipped', 'below_threshold']).toContain(status);
 });
@@ -1404,7 +1404,7 @@ it('routes through critique orchestrator when OD_CRITIQUE_ENABLED=true', async (
 - [ ] **Step 4: Pass**
 
 ```bash
-pnpm --filter @open-design/daemon test
+pnpm --filter @sankiwork/daemon test
 ```
 
 - [ ] **Step 5: Commit**
@@ -1428,7 +1428,7 @@ git commit -m "feat(daemon): branch agent spawn through critique orchestrator wh
 
 ```ts
 import { describe, expect, it } from 'vitest';
-import { defaultCritiqueConfig, PROTOCOL_VERSION } from '@open-design/contracts/critique';
+import { defaultCritiqueConfig, PROTOCOL_VERSION } from '@sankiwork/contracts/critique';
 import { renderPanelPrompt } from '../panel';
 
 describe('renderPanelPrompt', () => {
@@ -1467,7 +1467,7 @@ describe('renderPanelPrompt', () => {
 
 ```ts
 // apps/daemon/src/prompts/panel.ts
-import { type CritiqueConfig, PROTOCOL_VERSION } from '@open-design/contracts/critique';
+import { type CritiqueConfig, PROTOCOL_VERSION } from '@sankiwork/contracts/critique';
 
 export interface PanelRenderInput {
   cfg: CritiqueConfig;
@@ -1565,7 +1565,7 @@ it('omits Critique Theater protocol when cfg.enabled is false', () => {
 In `discovery.ts`:
 ```ts
 import { renderPanelPrompt } from './panel';
-import { defaultCritiqueConfig } from '@open-design/contracts/critique';
+import { defaultCritiqueConfig } from '@sankiwork/contracts/critique';
 
 // in composeDiscoveryPrompt:
 const cfg = input.critique ?? defaultCritiqueConfig();
@@ -1576,7 +1576,7 @@ return existingComposed + tail;
 - [ ] **Step 4: Pass**
 
 ```bash
-pnpm --filter @open-design/web test discovery.test.ts
+pnpm --filter @sankiwork/web test discovery.test.ts
 ```
 
 - [ ] **Step 5: Commit**
@@ -1704,8 +1704,8 @@ describe('reducer', () => {
 
 ```ts
 // apps/web/src/components/Theater/state/reducer.ts
-import type { CritiqueSseEvent } from '@open-design/contracts/sse';
-import type { PanelistRole } from '@open-design/contracts/critique';
+import type { CritiqueSseEvent } from '@sankiwork/contracts/sse';
+import type { PanelistRole } from '@sankiwork/contracts/critique';
 
 export type CritiqueAction = CritiqueSseEvent;
 
@@ -1904,7 +1904,7 @@ git commit -m "feat(i18n): Critique Theater strings across all 6 locales"
 - Modify: `apps/web/src/components/SettingsDialog.tsx` (existing)
 - Modify: `apps/daemon/src/api/settings.ts` (existing)
 
-- [ ] **Step 1–5:** Add the toggle bound to `OD_CRITIQUE_ENABLED`. Persist through the existing settings endpoint. Test that the daemon reads the new value at run start. Commit.
+- [ ] **Step 1–5:** Add the toggle bound to `SW_CRITIQUE_ENABLED`. Persist through the existing settings endpoint. Test that the daemon reads the new value at run start. Commit.
 
 ```bash
 git commit -m "feat(web,daemon): Settings toggle Critique Theater (beta)"
@@ -2125,7 +2125,7 @@ docs/critique-theater.md
      - Auto-converging rounds (max 3, threshold 8.0/10)
      - The single CLI session model (no parallel processes, no second transport)
   3. Settings reference
-     - OD_CRITIQUE_ENABLED env var and the in-app toggle
+     - SW_CRITIQUE_ENABLED env var and the in-app toggle
      - Per-skill override via SKILL.md frontmatter (od.critique.policy)
      - Score threshold and weights (read-only in v1)
   4. Reading the score badge
@@ -2144,7 +2144,7 @@ docs/critique-theater.md
      - Can I add my own panelist? (link to v2 roadmap entry)
 ```
 
-The README adds a single line under the existing "What you get" table linking to the new doc; no new section in the README itself. `apps/daemon/src/critique/AGENTS.md` and `apps/web/src/components/Theater/AGENTS.md` give engineering-side guidance per the existing convention. `AGENTS.md` (root) gains an entry for `OD_CRITIQUE_ENABLED` in the environment-variables table.
+The README adds a single line under the existing "What you get" table linking to the new doc; no new section in the README itself. `apps/daemon/src/critique/AGENTS.md` and `apps/web/src/components/Theater/AGENTS.md` give engineering-side guidance per the existing convention. `AGENTS.md` (root) gains an entry for `SW_CRITIQUE_ENABLED` in the environment-variables table.
 
 ### Task 14.1: User-facing `docs/critique-theater.md`
 
@@ -2183,14 +2183,14 @@ git commit -m "docs: README + AGENTS.md entries for Critique Theater"
 
 ### Task 15.1: M0 flag wiring
 
-- [ ] **Step 1: Default `OD_CRITIQUE_ENABLED=false`.**
+- [ ] **Step 1: Default `SW_CRITIQUE_ENABLED=false`.**
 - [ ] **Step 2: Run end-to-end.** Verify legacy generation is unchanged.
 - [ ] **Step 3: Flip env to `true`.** Verify the orchestrator path runs.
 - [ ] **Step 4: Document the env var** in `docs/critique-theater.md` and the README.
 - [ ] **Step 5: Commit.**
 
 ```bash
-git commit -m "chore(rollout): M0 ships behind OD_CRITIQUE_ENABLED=false"
+git commit -m "chore(rollout): M0 ships behind SW_CRITIQUE_ENABLED=false"
 ```
 
 ### Task 15.2: Final validation matrix

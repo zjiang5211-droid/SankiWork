@@ -71,8 +71,8 @@ export async function createFakeAgentRuntimes(
     ? input
     : (input.runtimeIds ?? ['codex', ...FAKE_AGENT_RUNTIME_IDS]);
   const root = Array.isArray(input)
-    ? path.join(tmpdir(), `open-design-fake-agents-${process.pid}`)
-    : (input.root ?? path.join(tmpdir(), `open-design-fake-agents-${process.pid}`));
+    ? path.join(tmpdir(), `sankiwork-fake-agents-${process.pid}`)
+    : (input.root ?? path.join(tmpdir(), `sankiwork-fake-agents-${process.pid}`));
   await mkdir(root, { recursive: true });
 
   const runtimes = {} as Record<FakeAgentId, FakeAgentRuntime>;
@@ -179,7 +179,7 @@ async function emitRun(promptText) {
     return;
   }
   if (
-    promptText.includes('Create an Open Design plugin for:') &&
+    promptText.includes('Create an SankiWork plugin for:') &&
     promptText.includes('produce a folder named generated-plugin')
   ) {
     await emitPluginAuthoringRun();
@@ -297,9 +297,9 @@ async function emitPluginAuthoringRun() {
   );
   const summary = [
     'Created generated-plugin with open-design.json, SKILL.md, and examples/demo.md.',
-    'od plugin validate: passed',
-    'od plugin pack: generated-plugin-0.1.0.tgz',
-    'od plugin install --source: passed',
+    'sw plugin validate: passed',
+    'sw plugin pack: generated-plugin-0.1.0.tgz',
+    'sw plugin install --source: passed',
   ].join('\\n');
   emitSuccess(summary, false, false);
   process.exitCode = 0;
@@ -395,10 +395,10 @@ async function emitPlanArtifactGenerateRun() {
 }
 
 async function emitExistingArtifactEditRun(promptText) {
-  const projectId = process.env.OD_PROJECT_ID || projectIdFromPrompt(promptText);
-  const daemonUrl = process.env.OD_DAEMON_URL;
+  const projectId = process.env.SW_PROJECT_ID || projectIdFromPrompt(promptText);
+  const daemonUrl = process.env.SW_DAEMON_URL;
   if (!projectId || !daemonUrl) {
-    throw new Error('fake artifact edit requires OD_PROJECT_ID and OD_DAEMON_URL');
+    throw new Error('fake artifact edit requires SW_PROJECT_ID and SW_DAEMON_URL');
   }
   const response = await fetch(new URL('/api/projects/' + encodeURIComponent(projectId) + '/files', daemonUrl), {
     method: 'POST',
@@ -420,9 +420,9 @@ async function emitManagedAliasArtifactEditRun(promptText) {
   if (agentId !== 'claude') {
     throw new Error('managed-project alias edit fixture requires the Claude fake runtime');
   }
-  const projectId = process.env.OD_PROJECT_ID || projectIdFromPrompt(promptText);
+  const projectId = process.env.SW_PROJECT_ID || projectIdFromPrompt(promptText);
   if (!projectId) {
-    throw new Error('managed-project alias edit fixture requires OD_PROJECT_ID');
+    throw new Error('managed-project alias edit fixture requires SW_PROJECT_ID');
   }
   const fileName = 'real-daemon-smoke.html';
   const content = '<!doctype html><html><body><main><h1 data-od-id="smoke-title">Real Daemon Smoke Edited</h1><p>Edited in place through a managed-project alias.</p></main></body></html>';
@@ -438,7 +438,7 @@ async function emitManagedAliasArtifactEditRun(promptText) {
         id: 'toolu-managed-alias-write',
         name: 'Write',
         input: {
-          file_path: '.od/projects/' + projectId + '/' + fileName,
+          file_path: '.sankiwork/projects/' + projectId + '/' + fileName,
           content,
         },
       }],
@@ -473,7 +473,7 @@ async function emitManagedAliasArtifactEditRun(promptText) {
 }
 
 function projectIdFromPrompt(promptText = '') {
-  const marker = '.od/projects/';
+  const marker = '.sankiwork/projects/';
   const idx = promptText.indexOf(marker);
   if (idx === -1) return '';
   return promptText
@@ -488,14 +488,14 @@ function projectDir(promptText = '') {
   const fromPrompt = idx === -1
     ? ''
     : promptText.slice(idx + marker.length).split('\`')[0] || '';
-  const fromEnv = process.env.OD_DATA_DIR && process.env.OD_PROJECT_ID
-    ? join(process.env.OD_DATA_DIR, 'projects', process.env.OD_PROJECT_ID)
+  const fromEnv = process.env.SW_DATA_DIR && process.env.SW_PROJECT_ID
+    ? join(process.env.SW_DATA_DIR, 'projects', process.env.SW_PROJECT_ID)
     : '';
   const cwdFlagIndex = args.indexOf('-C');
   const fromArgs = cwdFlagIndex >= 0 && typeof args[cwdFlagIndex + 1] === 'string'
     ? args[cwdFlagIndex + 1]
     : '';
-  return process.env.OD_PROJECT_DIR || fromEnv || fromArgs || fromPrompt || process.cwd();
+  return process.env.SW_PROJECT_DIR || fromEnv || fromArgs || fromPrompt || process.cwd();
 }
 
 function writeJson(value) {
@@ -605,10 +605,10 @@ async function emitOrbitRun() {
 }
 
 async function createOrbitLiveArtifact() {
-  const baseUrl = process.env.OD_DAEMON_URL;
-  const token = process.env.OD_TOOL_TOKEN;
+  const baseUrl = process.env.SW_DAEMON_URL;
+  const token = process.env.SW_TOOL_TOKEN;
   if (!baseUrl || !token) {
-    throw new Error('Orbit fake run requires OD_DAEMON_URL and OD_TOOL_TOKEN');
+    throw new Error('Orbit fake run requires SW_DAEMON_URL and SW_TOOL_TOKEN');
   }
   const url = new URL('/api/tools/live-artifacts/create', baseUrl);
   const payload = {

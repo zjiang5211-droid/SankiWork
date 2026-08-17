@@ -1,6 +1,6 @@
 {
-  "name": "@open-design/desktop",
-  "version": "0.19.2",
+  "name": "@sankiwork/desktop",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "main": "./dist/main/index.js",
@@ -19,14 +19,14 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json --noEmit"
   },
   "dependencies": {
-    "@open-design/diagnostics": "workspace:*",
-    "@open-design/download": "workspace:*",
-    "@open-design/host": "workspace:*",
-    "@open-design/launcher-proto": "workspace:*",
-    "@open-design/platform": "workspace:*",
-    "@open-design/release": "workspace:*",
-    "@open-design/sidecar": "workspace:*",
-    "@open-design/sidecar-proto": "workspace:*"
+    "@sankiwork/diagnostics": "workspace:*",
+    "@sankiwork/download": "workspace:*",
+    "@sankiwork/host": "workspace:*",
+    "@sankiwork/launcher-proto": "workspace:*",
+    "@sankiwork/platform": "workspace:*",
+    "@sankiwork/release": "workspace:*",
+    "@sankiwork/sidecar": "workspace:*",
+    "@sankiwork/sidecar-proto": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "24.12.2",

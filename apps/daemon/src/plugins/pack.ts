@@ -1,10 +1,10 @@
-// Phase 4 / spec §14 / plan §3.X1 — `od plugin pack <folder>`.
+// Phase 4 / spec §14 / plan §3.X1 — `sw plugin pack <folder>`.
 //
 // Produces a gzip-compressed tar archive of a plugin folder so the
 // author can hand it to a peer or upload it to a marketplace
 // without going through GitHub. The installer's HTTPS-tarball
 // path (§3.A6) consumes the same .tgz shape, so a packed archive
-// is byte-equal to what `od plugin install --source <https://...>`
+// is byte-equal to what `sw plugin install --source <https://...>`
 // would download.
 //
 // What we put in the archive:

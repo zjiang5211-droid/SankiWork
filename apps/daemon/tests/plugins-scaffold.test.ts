@@ -1,4 +1,4 @@
-// Phase 4 / spec §14.1 — `od plugin scaffold` unit test.
+// Phase 4 / spec §14.1 — `sw plugin scaffold` unit test.
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { mkdtemp, readFile, rm, stat } from 'node:fs/promises';

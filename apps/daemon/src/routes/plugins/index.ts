@@ -6,8 +6,8 @@ import type {
   Project,
   ProjectMetadata,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
-import { TeamResourceCopyForbiddenError } from '@open-design/contracts';
+} from '@sankiwork/contracts';
+import { TeamResourceCopyForbiddenError } from '@sankiwork/contracts';
 import {
   duplicatePluginExampleIntoProject,
   PluginDuplicateProjectError,
@@ -991,9 +991,9 @@ export function registerProjectPluginRoutes(app: Express, deps: RegisterPluginRo
     if (!await authorizeWrite(req, res, req.params.id)) return;
     return helpers.handleCandidateShareTask(req, res);
   });
-  app.post('/api/projects/:id/plugins/contribute-open-design', async (req, res) => {
+  app.post('/api/projects/:id/plugins/contribute-sankiwork', async (req, res) => {
     if (!await authorizeWrite(req, res, req.params.id)) return;
-    return helpers.handleProjectPluginCli(req, res, 'contribute-open-design');
+    return helpers.handleProjectPluginCli(req, res, 'contribute-sankiwork');
   });
   app.post('/api/projects/:id/plugins/share-tasks', async (req, res) => {
     if (!await authorizeWrite(req, res, req.params.id)) return;

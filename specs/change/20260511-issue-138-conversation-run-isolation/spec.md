@@ -138,8 +138,8 @@ Add to `apps/daemon/tests/runs.test.ts`:
 
 #### Validation commands
 
-- `pnpm --filter @open-design/web test`
-- `pnpm --filter @open-design/daemon test`
+- `pnpm --filter @sankiwork/web test`
+- `pnpm --filter @sankiwork/daemon test`
 - `pnpm typecheck`
 
 ### Pseudocode
@@ -200,9 +200,9 @@ Flow:
 ### Verification
 
 - Confirmed new web regression failed before the fix: `expected 'streaming' to be 'idle'` after switching to `conv-b`.
-- `pnpm --filter @open-design/web exec vitest run -c vitest.config.ts tests/components/ProjectView.run-isolation.test.tsx tests/components/ProjectView.run-cleanup.test.tsx tests/components/ProjectView.pendingPrompt.test.tsx` - passed.
-- `pnpm --filter @open-design/daemon exec vitest run -c vitest.config.ts tests/runs.test.ts` - passed.
-- `pnpm --filter @open-design/web typecheck` - passed.
+- `pnpm --filter @sankiwork/web exec vitest run -c vitest.config.ts tests/components/ProjectView.run-isolation.test.tsx tests/components/ProjectView.run-cleanup.test.tsx tests/components/ProjectView.pendingPrompt.test.tsx` - passed.
+- `pnpm --filter @sankiwork/daemon exec vitest run -c vitest.config.ts tests/runs.test.ts` - passed.
+- `pnpm --filter @sankiwork/web typecheck` - passed.
 - `pnpm guard` - passed.
 - `pnpm typecheck` - passed.
 - Reviewer subagent final pass: no remaining blocking issues.

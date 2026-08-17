@@ -14,8 +14,8 @@ describe('design-system tool CLI', () => {
   beforeEach(() => {
     process.env = {
       ...ORIGINAL_ENV,
-      OD_DAEMON_URL: 'http://127.0.0.1:7456/base/',
-      OD_TOOL_TOKEN: 'agent-run-token',
+      SW_DAEMON_URL: 'http://127.0.0.1:7456/base/',
+      SW_TOOL_TOKEN: 'agent-run-token',
     };
     stdoutOutput = [];
     stderrOutput = [];

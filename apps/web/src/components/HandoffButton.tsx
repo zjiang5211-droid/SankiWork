@@ -8,11 +8,11 @@ import type {
   HostEditor,
   HostEditorId,
   HostEditorsResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   handoffTargetIdToTracking,
   type TrackingArtifactKind,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import { fetchHostEditors, openProjectInEditor } from '../providers/registry';
 import { useAnalytics } from '../analytics/provider';
 import { trackHandoffClick } from '../analytics/events';
@@ -23,8 +23,8 @@ import { EditorIcon } from './EditorIcon';
 import { AgentIcon } from './AgentIcon';
 import { useProjectCollabContext } from '../collab/collab-context';
 
-const PREFERRED_EDITOR_KEY = 'open-design:preferred-editor';
-const PREFERRED_FRAMEWORK_KEY = 'open-design:handoff-framework';
+const PREFERRED_EDITOR_KEY = 'sankiwork:preferred-editor';
+const PREFERRED_FRAMEWORK_KEY = 'sankiwork:handoff-framework';
 const PROJECT_PATH_COPY_ID = 'project-path';
 
 type HandoffTab = 'editor' | 'cli';
@@ -81,7 +81,7 @@ const CLI_ORDER = [
 ];
 
 const FALLBACK_CLI_TARGETS: CliTarget[] = [
-  { id: 'amr', name: 'Open Design', bin: 'vela', available: false },
+  { id: 'amr', name: 'SankiWork', bin: 'vela', available: false },
   { id: 'claude', name: 'Claude Code', bin: 'claude', available: false },
   { id: 'codex', name: 'Codex CLI', bin: 'codex', available: false },
   { id: 'opencode', name: 'OpenCode', bin: 'opencode-cli', available: false },
@@ -115,7 +115,7 @@ interface Props {
   artifactId?: string;
   artifactKind?: TrackingArtifactKind;
   // Retained on the props contract for the callers that still pass them
-  // (FileViewer / ProjectView). No longer read here since the Open Design
+  // (FileViewer / ProjectView). No longer read here since the SankiWork
   // Cloud website link was removed from the CLI tab (acceptance #101).
   metricsConsent?: boolean;
   installationId?: string | null;
@@ -163,7 +163,7 @@ function writePreferredFramework(id: string): void {
 }
 
 function cliDisplayName(agent: Pick<CliTarget, 'id' | 'name'>): string {
-  return agent.id === 'amr' ? 'Open Design' : agent.name;
+  return agent.id === 'amr' ? 'SankiWork' : agent.name;
 }
 
 function mergeCliTargets(agents: AgentInfo[] | undefined): CliTarget[] {

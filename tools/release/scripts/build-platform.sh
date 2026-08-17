@@ -67,7 +67,7 @@ notarize_mac_dmg_once() {
   local auth_args=()
   local s3_arg="--no-s3-acceleration"
   local status
-  if [ "${OPEN_DESIGN_NOTARIZE_S3_ACCELERATION:-false}" = "true" ]; then
+  if [ "${SANKIWORK_NOTARIZE_S3_ACCELERATION:-false}" = "true" ]; then
     s3_arg="--s3-acceleration"
   fi
   while IFS= read -r -d '' arg; do
@@ -89,8 +89,8 @@ notarize_mac_dmg_once() {
 
 notarize_mac_dmg() {
   local dmg_path="$1"
-  local attempts="${OPEN_DESIGN_NOTARIZE_ATTEMPTS:-8}"
-  local retry_delay_ms="${OPEN_DESIGN_NOTARIZE_RETRY_DELAY_MS:-15000}"
+  local attempts="${SANKIWORK_NOTARIZE_ATTEMPTS:-8}"
+  local retry_delay_ms="${SANKIWORK_NOTARIZE_RETRY_DELAY_MS:-15000}"
   local attempt output status
   if [ ! -f "$dmg_path" ]; then
     echo "expected dmg not found for notarization: $dmg_path" >&2
@@ -124,7 +124,7 @@ prepare_mac_signing() {
   required APPLE_SIGNING_CERTIFICATE_BASE64
   required APPLE_SIGNING_CERTIFICATE_PASSWORD
 
-  local cert_path="$RELEASE_WORK_DIR/open-design-signing.p12"
+  local cert_path="$RELEASE_WORK_DIR/sankiwork-signing.p12"
   if ! printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 --decode > "$cert_path" 2>/dev/null; then
     printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 -D > "$cert_path"
   fi
@@ -318,18 +318,18 @@ if [ "$RELEASE_SMOKE_MODE" = "skip" ]; then
 elif [ "$RELEASE_TARGET" = "linux_x64" ]; then
   required RELEASE_REPORT_DIR
   mkdir -p "$RELEASE_REPORT_DIR/screenshots"
-  OD_PACKAGED_E2E_LINUX_APPIMAGE=1 \
-  OD_PACKAGED_E2E_NAMESPACE="$RELEASE_NAMESPACE" \
-  OD_PACKAGED_E2E_SCREENSHOT_PATH="$RELEASE_REPORT_DIR/screenshots/open-design-linux-smoke.png" \
-  OD_PACKAGED_E2E_TOOLS_PACK_DIR="$TOOLS_PACK_DIR" \
+  SW_PACKAGED_E2E_LINUX_APPIMAGE=1 \
+  SW_PACKAGED_E2E_NAMESPACE="$RELEASE_NAMESPACE" \
+  SW_PACKAGED_E2E_SCREENSHOT_PATH="$RELEASE_REPORT_DIR/screenshots/sankiwork-linux-smoke.png" \
+  SW_PACKAGED_E2E_TOOLS_PACK_DIR="$TOOLS_PACK_DIR" \
   pnpm --dir e2e test specs/linux.spec.ts 2>&1 | tee "$RELEASE_REPORT_DIR/vitest.log"
 else
   required RELEASE_REPORT_DIR
   update_build_json_path=""
   update_version=""
-  if [ "$RELEASE_SMOKE_MODE" = "full" ] && [ -z "${OD_PACKAGED_E2E_MAC_UPDATE_METADATA_URL:-}" ]; then
+  if [ "$RELEASE_SMOKE_MODE" = "full" ] && [ -z "${SW_PACKAGED_E2E_MAC_UPDATE_METADATA_URL:-}" ]; then
     if [ "$RELEASE_TARGET" != "mac_arm64" ]; then
-      echo "local tools-serve mac updater fixture is only supported for mac_arm64; provide OD_PACKAGED_E2E_MAC_UPDATE_METADATA_URL for $RELEASE_TARGET full smoke" >&2
+      echo "local tools-serve mac updater fixture is only supported for mac_arm64; provide SW_PACKAGED_E2E_MAC_UPDATE_METADATA_URL for $RELEASE_TARGET full smoke" >&2
       exit 1
     fi
     update_version="$(resolve_local_update_version "$release_channel" "$RELEASE_VERSION")"
@@ -356,19 +356,19 @@ else
     }
     measure_step "tools-pack mac build update fixture" build_mac_update_fixture
   fi
-  OD_PACKAGED_E2E_BUILD_JSON_PATH="$BUILD_JSON_PATH" \
-  OD_PACKAGED_E2E_BUILD_LOG_PATH="$BUILD_LOG_PATH" \
-  OD_PACKAGED_E2E_MAC=1 \
-  OD_PACKAGED_E2E_MAC_UPDATE_BUILD_JSON_PATH="$update_build_json_path" \
-  OD_PACKAGED_E2E_MAC_UPDATE_FIXTURE="${update_build_json_path:+tools-serve}" \
-  OD_PACKAGED_E2E_MAC_UPDATE_METADATA_URL="${OD_PACKAGED_E2E_MAC_UPDATE_METADATA_URL:-}" \
-  OD_PACKAGED_E2E_MAC_UPDATE_VERSION="${OD_PACKAGED_E2E_MAC_UPDATE_VERSION:-$update_version}" \
-  OD_PACKAGED_E2E_MAC_SMOKE_PROFILE="$RELEASE_SMOKE_MODE" \
-  OD_PACKAGED_E2E_NAMESPACE="$RELEASE_NAMESPACE" \
-  OD_PACKAGED_E2E_RELEASE_CHANNEL="$release_channel" \
-  OD_PACKAGED_E2E_RELEASE_VERSION="$RELEASE_VERSION" \
-  OD_PACKAGED_E2E_REPORT_DIR="$RELEASE_REPORT_DIR" \
-  OD_PACKAGED_E2E_TOOLS_PACK_DIR="$TOOLS_PACK_DIR" \
+  SW_PACKAGED_E2E_BUILD_JSON_PATH="$BUILD_JSON_PATH" \
+  SW_PACKAGED_E2E_BUILD_LOG_PATH="$BUILD_LOG_PATH" \
+  SW_PACKAGED_E2E_MAC=1 \
+  SW_PACKAGED_E2E_MAC_UPDATE_BUILD_JSON_PATH="$update_build_json_path" \
+  SW_PACKAGED_E2E_MAC_UPDATE_FIXTURE="${update_build_json_path:+tools-serve}" \
+  SW_PACKAGED_E2E_MAC_UPDATE_METADATA_URL="${SW_PACKAGED_E2E_MAC_UPDATE_METADATA_URL:-}" \
+  SW_PACKAGED_E2E_MAC_UPDATE_VERSION="${SW_PACKAGED_E2E_MAC_UPDATE_VERSION:-$update_version}" \
+  SW_PACKAGED_E2E_MAC_SMOKE_PROFILE="$RELEASE_SMOKE_MODE" \
+  SW_PACKAGED_E2E_NAMESPACE="$RELEASE_NAMESPACE" \
+  SW_PACKAGED_E2E_RELEASE_CHANNEL="$release_channel" \
+  SW_PACKAGED_E2E_RELEASE_VERSION="$RELEASE_VERSION" \
+  SW_PACKAGED_E2E_REPORT_DIR="$RELEASE_REPORT_DIR" \
+  SW_PACKAGED_E2E_TOOLS_PACK_DIR="$TOOLS_PACK_DIR" \
   pnpm --dir e2e exec tsx scripts/release-smoke.ts mac specs/mac.spec.ts
 fi
 

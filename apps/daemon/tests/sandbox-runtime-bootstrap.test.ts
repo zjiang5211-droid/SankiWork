@@ -43,13 +43,13 @@ test('sandbox runtime registry ignores host-local agent profiles at module load'
   const root = mkdtempSync(path.join(tmpdir(), 'od-sandbox-registry-'));
   const dataDir = path.join(root, 'data');
   const hostHome = path.join(root, 'host-home');
-  const hostConfigDir = path.join(hostHome, '.open-design');
+  const hostConfigDir = path.join(hostHome, '.sankiwork');
   const hostConfig = path.join(hostConfigDir, 'agents.local.json');
   const sandboxConfigDir = path.join(
     dataDir,
     'sandbox',
     'agent-home',
-    '.open-design',
+    '.sankiwork',
   );
   const sandboxConfig = path.join(sandboxConfigDir, 'agents.local.json');
 
@@ -76,11 +76,11 @@ test('sandbox runtime registry ignores host-local agent profiles at module load'
     );
 
     await withEnvSnapshot(
-      ['OD_SANDBOX_MODE', 'OD_DATA_DIR', 'OD_AGENT_PROFILES_CONFIG'],
+      ['SW_SANDBOX_MODE', 'SW_DATA_DIR', 'SW_AGENT_PROFILES_CONFIG'],
       async () => {
-        process.env.OD_SANDBOX_MODE = '1';
-        process.env.OD_DATA_DIR = dataDir;
-        process.env.OD_AGENT_PROFILES_CONFIG = hostConfig;
+        process.env.SW_SANDBOX_MODE = '1';
+        process.env.SW_DATA_DIR = dataDir;
+        process.env.SW_AGENT_PROFILES_CONFIG = hostConfig;
 
         vi.resetModules();
         vi.doMock('node:os', async () => ({
@@ -101,10 +101,10 @@ test('sandbox runtime registry ignores host-local agent profiles at module load'
   }
 });
 
-test('sandbox runtime registry ignores implicit profiles without OD_DATA_DIR', async () => {
+test('sandbox runtime registry ignores implicit profiles without SW_DATA_DIR', async () => {
   const root = mkdtempSync(path.join(tmpdir(), 'od-sandbox-registry-missing-data-'));
   const hostHome = path.join(root, 'host-home');
-  const hostConfigDir = path.join(hostHome, '.open-design');
+  const hostConfigDir = path.join(hostHome, '.sankiwork');
   const hostConfig = path.join(hostConfigDir, 'agents.local.json');
 
   try {
@@ -117,11 +117,11 @@ test('sandbox runtime registry ignores implicit profiles without OD_DATA_DIR', a
     );
 
     await withEnvSnapshot(
-      ['OD_SANDBOX_MODE', 'OD_DATA_DIR', 'OD_AGENT_PROFILES_CONFIG'],
+      ['SW_SANDBOX_MODE', 'SW_DATA_DIR', 'SW_AGENT_PROFILES_CONFIG'],
       async () => {
-        process.env.OD_SANDBOX_MODE = '1';
-        delete process.env.OD_DATA_DIR;
-        delete process.env.OD_AGENT_PROFILES_CONFIG;
+        process.env.SW_SANDBOX_MODE = '1';
+        delete process.env.SW_DATA_DIR;
+        delete process.env.SW_AGENT_PROFILES_CONFIG;
 
         vi.resetModules();
         vi.doMock('node:os', async () => ({

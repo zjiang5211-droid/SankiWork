@@ -3,7 +3,7 @@ import type {
   TrackingAmrOpenCodeLastEventType,
   TrackingAmrOpenCodeLastToolKind,
   TrackingAmrOpenCodeLastToolStatus,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import { redactSecrets } from './redact.js';
 
 export interface RunEventForDiagnostics {

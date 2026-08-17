@@ -6,9 +6,9 @@ import type {
   AnalyticsEntrySurface,
   AnalyticsHostProduct,
   AnalyticsPublisherClass,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 
-export const OPEN_DESIGN_PLUGIN_ID = 'open-design';
+export const SANKIWORK_PLUGIN_ID = 'sankiwork';
 export const PLUGIN_TELEMETRY_SCHEMA_VERSION = 3;
 const MIN_PLUGIN_GENERATION_SLO_WINDOW_MS = 5 * 60 * 1000;
 const DEFAULT_PLUGIN_GENERATION_SLO_WINDOW_MS = 45 * 60 * 1000;
@@ -16,7 +16,7 @@ const MAX_PLUGIN_GENERATION_SLO_WINDOW_MS = 24 * 60 * 60 * 1000;
 const PLUGIN_GENERATION_TERMINAL_BUFFER_MS = 60 * 1000;
 
 export interface ExternalPluginContext {
-  id: typeof OPEN_DESIGN_PLUGIN_ID;
+  id: typeof SANKIWORK_PLUGIN_ID;
   version: string;
   distributionMechanism: AnalyticsDistributionMechanism;
   publisherClass: AnalyticsPublisherClass;
@@ -25,7 +25,7 @@ export interface ExternalPluginContext {
 export interface ExternalPluginRunAnalyticsHints {
   entrySurface: AnalyticsEntrySurface;
   hostProduct: AnalyticsHostProduct;
-  externalPluginId: typeof OPEN_DESIGN_PLUGIN_ID;
+  externalPluginId: typeof SANKIWORK_PLUGIN_ID;
   externalPluginVersion: string;
   distributionMechanism: AnalyticsDistributionMechanism;
   publisherClass: AnalyticsPublisherClass;
@@ -65,7 +65,7 @@ const ALLOWED_DISTRIBUTION = new Set<AnalyticsDistributionMechanism>([
   'unknown',
 ]);
 const ALLOWED_PUBLISHER = new Set<AnalyticsPublisherClass>([
-  'open_design_first_party',
+  'sankiwork_first_party',
   'third_party',
   'unknown',
 ]);
@@ -112,9 +112,9 @@ export function validateExternalPluginContext(
   if (extra.length > 0) {
     throw pluginContractError(`unsupported externalPluginContext field: ${extra[0]}`);
   }
-  if (input.id !== OPEN_DESIGN_PLUGIN_ID) {
+  if (input.id !== SANKIWORK_PLUGIN_ID) {
     throw pluginContractError(
-      `id must be ${OPEN_DESIGN_PLUGIN_ID}`,
+      `id must be ${SANKIWORK_PLUGIN_ID}`,
     );
   }
   if (
@@ -139,7 +139,7 @@ export function validateExternalPluginContext(
     throw pluginContractError('publisherClass is invalid');
   }
   return {
-    id: OPEN_DESIGN_PLUGIN_ID,
+    id: SANKIWORK_PLUGIN_ID,
     version: input.version,
     distributionMechanism:
       input.distributionMechanism as AnalyticsDistributionMechanism,

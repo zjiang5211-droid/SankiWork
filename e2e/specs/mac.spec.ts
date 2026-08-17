@@ -25,22 +25,22 @@ import { createDesktopHarness, STORAGE_KEY, waitFor } from '../lib/desktop/deskt
 const execFileAsync = promisify(execFile);
 const e2eRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const workspaceRoot = dirname(e2eRoot);
-const toolsPackDir = resolveFromWorkspace(process.env.OD_PACKAGED_E2E_TOOLS_PACK_DIR ?? '.tmp/tools-pack');
+const toolsPackDir = resolveFromWorkspace(process.env.SW_PACKAGED_E2E_TOOLS_PACK_DIR ?? '.tmp/tools-pack');
 const namespace = resolvePackagedSmokeNamespace('mac');
-const releaseChannel = process.env.OD_PACKAGED_E2E_RELEASE_CHANNEL;
-const releaseVersion = process.env.OD_PACKAGED_E2E_RELEASE_VERSION;
+const releaseChannel = process.env.SW_PACKAGED_E2E_RELEASE_CHANNEL;
+const releaseVersion = process.env.SW_PACKAGED_E2E_RELEASE_VERSION;
 const updateScenario = resolvePackagedUpdateScenario({ releaseChannel, releaseVersion });
 const toolsPackReleaseVersionArgs = releaseAppVersionArgs(releaseVersion);
-const pnpmCommand = process.env.OD_E2E_PNPM_COMMAND ?? 'pnpm';
+const pnpmCommand = process.env.SW_E2E_PNPM_COMMAND ?? 'pnpm';
 const screenshotPath = join(toolsPackDir, 'screenshots', `${namespace}.png`);
-const smokeProfile = process.env.OD_PACKAGED_E2E_MAC_SMOKE_PROFILE ?? 'core';
+const smokeProfile = process.env.SW_PACKAGED_E2E_MAC_SMOKE_PROFILE ?? 'core';
 const verifyCoreOnly = smokeProfile === 'core';
-const updateMetadataUrl = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_MAC_UPDATE_METADATA_URL);
-const updateVersion = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_MAC_UPDATE_VERSION);
-const updateBuildJsonPath = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_MAC_UPDATE_BUILD_JSON_PATH);
-const updateFixture = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_MAC_UPDATE_FIXTURE);
+const updateMetadataUrl = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_MAC_UPDATE_METADATA_URL);
+const updateVersion = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_MAC_UPDATE_VERSION);
+const updateBuildJsonPath = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_MAC_UPDATE_BUILD_JSON_PATH);
+const updateFixture = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_MAC_UPDATE_FIXTURE);
 const packagedInviteDeeplink =
-  'opendesign://workspace/invite/continue?workspace_id=packaged-smoke-workspace&member_id=packaged-smoke-member&invite_id=packaged-smoke-invite&nonce=packaged-smoke-nonce';
+  'sankiwork://workspace/invite/continue?workspace_id=packaged-smoke-workspace&member_id=packaged-smoke-member&invite_id=packaged-smoke-invite&nonce=packaged-smoke-nonce';
 
 const outputNamespaceRoot = join(toolsPackDir, 'out', 'mac', 'namespaces', namespace);
 const runtimeNamespaceRoot = join(toolsPackDir, 'runtime', 'mac', 'namespaces', namespace);
@@ -341,12 +341,12 @@ type PackagedOnboardingEvalValue = {
   title: string;
 };
 
-const shouldRunPackagedMacSmoke = process.platform === 'darwin' && process.env.OD_PACKAGED_E2E_MAC === '1';
+const shouldRunPackagedMacSmoke = process.platform === 'darwin' && process.env.SW_PACKAGED_E2E_MAC === '1';
 const macDescribe = shouldRunPackagedMacSmoke ? describe : describe.skip;
 const shouldRunPackagedMacOnboardingSmoke =
-  shouldRunPackagedMacSmoke && process.env.OD_PACKAGED_E2E_MAC_ONBOARDING_SMOKE === '1';
+  shouldRunPackagedMacSmoke && process.env.SW_PACKAGED_E2E_MAC_ONBOARDING_SMOKE === '1';
 const macOnboardingDescribe = shouldRunPackagedMacOnboardingSmoke ? describe : describe.skip;
-const shouldRunDesktopMacSmoke = process.platform === 'darwin' && process.env.OD_DESKTOP_SMOKE === '1';
+const shouldRunDesktopMacSmoke = process.platform === 'darwin' && process.env.SW_DESKTOP_SMOKE === '1';
 const desktopMacDescribe = shouldRunDesktopMacSmoke ? describe : describe.skip;
 
 macDescribe('packaged mac runtime smoke', () => {
@@ -1046,12 +1046,12 @@ macOnboardingDescribe('packaged mac onboarding AMR smoke', () => {
       const screenshot = await runToolsPackJson<MacInspectResult>('inspect', ['--path', onboardingScreenshotPath]);
       expect(screenshot.screenshot?.path).toBe(onboardingScreenshotPath);
       expect(await fileSizeBytes(onboardingScreenshotPath)).toBeGreaterThan(0);
-      await report.report.save('screenshots/open-design-mac-onboarding-smoke.png', await readFile(onboardingScreenshotPath));
+      await report.report.save('screenshots/sankiwork-mac-onboarding-smoke.png', await readFile(onboardingScreenshotPath));
       await report.report.json('onboarding-summary.json', {
         health,
         initial,
         namespace,
-        screenshot: 'screenshots/open-design-mac-onboarding-smoke.png',
+        screenshot: 'screenshots/sankiwork-mac-onboarding-smoke.png',
         start: {
           appPath: start.appPath,
           executablePath: start.executablePath,
@@ -1656,7 +1656,7 @@ async function resolveLocalPayloadUpdateFixture(): Promise<{ payloadPath: string
   const fallbackBuildJsonPath = resolveFallbackUpdateBuildJsonPath();
   if (fallbackBuildJsonPath == null) {
     throw new Error(
-      'full packaged mac payload smoke requires update payload metadata; set OD_PACKAGED_E2E_MAC_UPDATE_METADATA_URL or provide mac-tools-pack-update-build.json next to OD_PACKAGED_E2E_BUILD_JSON_PATH',
+      'full packaged mac payload smoke requires update payload metadata; set SW_PACKAGED_E2E_MAC_UPDATE_METADATA_URL or provide mac-tools-pack-update-build.json next to SW_PACKAGED_E2E_BUILD_JSON_PATH',
     );
   }
   const updateBuild = JSON.parse(stripUtf8Bom(await readFile(fallbackBuildJsonPath, 'utf8'))) as {
@@ -1682,7 +1682,7 @@ async function resolveLocalPayloadUpdateFixture(): Promise<{ payloadPath: string
 
 function resolveFallbackUpdateBuildJsonPath(): string | null {
   if (updateBuildJsonPath != null && updateBuildJsonPath !== '') return resolveFromWorkspace(updateBuildJsonPath);
-  const mainBuildJsonPath = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_BUILD_JSON_PATH);
+  const mainBuildJsonPath = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_BUILD_JSON_PATH);
   if (mainBuildJsonPath == null || mainBuildJsonPath === '') return null;
   return join(dirname(resolveFromWorkspace(mainBuildJsonPath)), 'mac-tools-pack-update-build.json');
 }
@@ -1690,7 +1690,7 @@ function resolveFallbackUpdateBuildJsonPath(): string | null {
 function assertToolsServeFixtureEnabled(platformName: string, value: string | null): void {
   if (value === 'tools-serve') return;
   throw new Error(
-    `full packaged ${platformName} payload smoke requires explicit tools-serve fixture; set OD_PACKAGED_E2E_MAC_UPDATE_FIXTURE=tools-serve or provide OD_PACKAGED_E2E_MAC_UPDATE_METADATA_URL`,
+    `full packaged ${platformName} payload smoke requires explicit tools-serve fixture; set SW_PACKAGED_E2E_MAC_UPDATE_FIXTURE=tools-serve or provide SW_PACKAGED_E2E_MAC_UPDATE_METADATA_URL`,
   );
 }
 
@@ -1711,11 +1711,11 @@ function stripUtf8Bom(value: string): string {
 }
 
 const UPDATE_ENV_KEYS = [
-  'OD_UPDATE_AUTO_CHECK',
-  'OD_UPDATE_ENABLED',
-  'OD_UPDATE_METADATA_URL',
-  'OD_UPDATE_CURRENT_VERSION',
-  'OD_UPDATE_OPEN_DRY_RUN',
+  'SW_UPDATE_AUTO_CHECK',
+  'SW_UPDATE_ENABLED',
+  'SW_UPDATE_METADATA_URL',
+  'SW_UPDATE_CURRENT_VERSION',
+  'SW_UPDATE_OPEN_DRY_RUN',
 ] as const;
 
 function captureUpdateEnv(): Partial<Record<(typeof UPDATE_ENV_KEYS)[number], string>> {
@@ -2282,7 +2282,7 @@ async function buildVersionBumpedMacPayloadFixture(
       throw new Error(`payload manifest has no entry.executable: ${payloadZipPath}`);
     }
     // <bundle>.app/Contents/MacOS/<binary> → <bundle>.app/Contents/Resources
-    const configPath = join(extractRoot, dirname(dirname(executableRelPath)), 'Resources', 'open-design-config.json');
+    const configPath = join(extractRoot, dirname(dirname(executableRelPath)), 'Resources', 'sankiwork-config.json');
     const config = JSON.parse(await readFile(configPath, 'utf8')) as { appVersion?: string };
     config.appVersion = bumpedVersion;
     await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`, 'utf8');
@@ -2590,12 +2590,12 @@ async function assertMacInviteProtocolRegistration(installedAppPath: string): Pr
   const schemes = (plist.CFBundleURLTypes ?? []).flatMap(
     (entry) => entry.CFBundleURLSchemes ?? [],
   );
-  expect(schemes).toContain('opendesign');
+  expect(schemes).toContain('sankiwork');
 }
 
 async function invokeMacInviteDeeplink(installedAppPath: string): Promise<void> {
   // `-a` pins delivery to this namespace's installed test bundle instead of a
-  // developer's stable Open Design app that may own the same global scheme.
+  // developer's stable SankiWork app that may own the same global scheme.
   await execFileAsync('/usr/bin/open', ['-a', installedAppPath, packagedInviteDeeplink]);
 }
 

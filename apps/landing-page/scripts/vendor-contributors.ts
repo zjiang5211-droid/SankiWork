@@ -41,7 +41,7 @@ async function main() {
   console.log(`[vendor-contributors] fetching contributors for ${REPO}…`);
   const res = await fetch(
     `https://api.github.com/repos/${REPO}/contributors?per_page=60`,
-    { headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'open-design-build' } },
+    { headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'sankiwork-build' } },
   );
   if (!res.ok) throw new Error(`GitHub API ${res.status} ${res.statusText}`);
   const all = (await res.json()) as Contributor[];
@@ -67,7 +67,7 @@ async function main() {
   for (const c of picked) {
     const sep = c.avatar_url.includes('?') ? '&' : '?';
     const url = `${c.avatar_url}${sep}s=${AVATAR_SIZE}`;
-    const img = await fetch(url, { headers: { 'User-Agent': 'open-design-build' } });
+    const img = await fetch(url, { headers: { 'User-Agent': 'sankiwork-build' } });
     if (!img.ok) {
       console.warn(`[vendor-contributors] skip ${c.login}: avatar ${img.status}`);
       continue;

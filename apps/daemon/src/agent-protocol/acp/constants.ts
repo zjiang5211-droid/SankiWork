@@ -16,10 +16,10 @@ export const MAX_TIMEOUT_MS = 24 * 60 * 60 * 1000;
 // watchdog (10 min) so agents that spend several minutes silently writing
 // large artifacts do not get killed before the outer watchdog can apply.
 // Callers can override via `stageTimeoutMs`; the chat server reads
-// `OD_ACP_STAGE_TIMEOUT_MS` from the environment.
+// `SW_ACP_STAGE_TIMEOUT_MS` from the environment.
 // A non-positive `stageTimeoutMs` (`<= 0`) disables the watchdog entirely,
 // mirroring the outer chat watchdog's escape-hatch semantics — without this,
-// `OD_ACP_STAGE_TIMEOUT_MS=0` would call `setTimeout(..., 0)` and fail every
+// `SW_ACP_STAGE_TIMEOUT_MS=0` would call `setTimeout(..., 0)` and fail every
 // ACP session on the next tick instead of disabling the watchdog.
 /** Default per-stage inactivity watchdog timeout (10 minutes) for an ACP session; resets on every received line from the agent subprocess. */
 export const DEFAULT_STAGE_TIMEOUT_MS = 10 * 60 * 1000;

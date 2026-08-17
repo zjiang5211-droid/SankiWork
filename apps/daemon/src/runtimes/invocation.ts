@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process';
 import os from 'node:os';
 import { promisify } from 'node:util';
-import { createCommandInvocation } from '@open-design/platform';
+import { createCommandInvocation } from '@sankiwork/platform';
 import type { RuntimeExecOptions } from './types.js';
 
 const execFileP = promisify(execFile);

@@ -10,11 +10,11 @@ import type {
   WorkspaceDirectoryItem,
   WorkspaceDirectoryResponse,
   WorkspaceInvalidationSsePayload,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { coalescedGet, forceCoalescedGet } from '../lib/coalesced-get';
 import { BackoffController, type BackoffOptions } from '../lib/backoff';
 import {
@@ -99,7 +99,7 @@ export function workspaceResourceReadContext(
 }
 
 /**
- * Whether an Open Design Cloud (AMR) run has a cloud identity that could pay
+ * Whether an SankiWork Cloud (AMR) run has a cloud identity that could pay
  * for it.
  *
  * AMR bills the caller's OWN wallet — their current workspace. The only state
@@ -665,7 +665,7 @@ export function useWorkspaceContext(): WorkspaceContextState {
    * hand keeps showing it, which is what stops the rail flashing signed-out.
    *
    * Without it, signing in during onboarding left the bottom-left "sign in to
-   * Open Design Cloud" callout on screen for the whole (vela-backed,
+   * SankiWork Cloud" callout on screen for the whole (vela-backed,
    * up-to-seconds) re-read, because `loading` had already settled to false on
    * the earlier signed-out read and only `context !== null` gates the callout
    * (#140). It also forces the coalescing entry, whose whole premise — that
@@ -1746,8 +1746,8 @@ const WORKSPACE_BILLING_RETRY_EVENT = 'od:workspace-billing-retry';
  * One retry schedule per billing `requestKey`, shared by every mounted
  * consumer — the module-level counterpart of the per-hook timer it replaced.
  *
- * Two properties are load-bearing for the packaged (od://) client, whose
- * proxy answers with synthetic 502s (`OD_PROTOCOL_PROXY_FAILED`) when the
+ * Two properties are load-bearing for the packaged (sankiwork://) client, whose
+ * proxy answers with synthetic 502s (`SW_PROTOCOL_PROXY_FAILED`) when the
  * bursty first-open request load hits a transient transport failure:
  *
  *  1. The delay grows exponentially (5s → 10s → 20s → 40s → 60s cap) while
@@ -1782,7 +1782,7 @@ function scheduleWorkspaceBillingRetry(requestKey: string): void {
         maxMs: WORKSPACE_BILLING_RETRY_MAX_MS,
         factor: 2,
         // Jitter stays OFF for billing: its exponential schedule predates this
-        // change and is pinned by an exact-cadence regression test (the od://
+        // change and is pinned by an exact-cadence regression test (the sankiwork://
         // 502-storm). Only the arithmetic moves onto the shared controller;
         // the observable 5s→10s→20s→40s→60s timing is unchanged.
         jitter: false,

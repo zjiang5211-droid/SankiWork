@@ -12,7 +12,7 @@ test('release metadata proxy keeps the stable snapshot fresh within one minute',
 
   try {
     const response = await onRequest({
-      request: new Request('https://open-design.ai/release-metadata'),
+      request: new Request('https://sanki-ai.cloud/release-metadata'),
       env: {},
     });
 

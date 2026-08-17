@@ -6,7 +6,7 @@ records module-level boundaries for `apps/landing-page/`.
 ## Purpose
 
 `apps/landing-page` is a stand-alone static Astro site that renders
-the Open Design marketing surface in the **Atelier Zero** style and
+the SankiWork marketing surface in the **Atelier Zero** style and
 ships a public plugin library plus compatibility/detail catalog pages for
 repository skills, design templates, design systems, craft principles, and
 legacy live-artifact templates.
@@ -17,8 +17,8 @@ Tightly coupled with:
   `example.html` known-good rendering for the homepage hero.
 - Design system: `design-systems/atelier-zero/DESIGN.md` — token spec.
 - Image assets: `design-templates/open-design-landing/assets/*.png` are uploaded to
-  Cloudflare R2 (`open-design-static`) and served through
-  `static.open-design.ai` with Image Resizing (`format=auto`). Do not
+  Cloudflare R2 (`sankiwork-static`) and served through
+  `static.sanki-ai.cloud` with Image Resizing (`format=auto`). Do not
   commit local mirrored PNGs into `apps/landing-page/public/assets/`.
 
 ## What it is
@@ -71,9 +71,9 @@ Tightly coupled with:
 ## Boundary constraints
 
 - Must remain a static Astro output.
-- Must not import from `@open-design/web`, `@open-design/daemon`,
-  `@open-design/desktop`, `@open-design/sidecar*`, or
-  `@open-design/contracts`. Those are product runtime concerns.
+- Must not import from `@sankiwork/web`, `@sankiwork/daemon`,
+  `@sankiwork/desktop`, `@sankiwork/sidecar*`, or
+  `@sankiwork/contracts`. Those are product runtime concerns.
 - Must not introduce a `src/` shell — keep all source under `app/`.
   Component bundles live in `app/_components/<name>.{tsx,astro}`.
 - Must not depend on any non-Google web font.
@@ -101,18 +101,18 @@ Tightly coupled with:
 Deploys are split across **two Cloudflare Pages projects** so a merge to
 `main` can never publish to the live site on its own:
 
-- Production project `open-design-landing` → `open-design.ai`.
-- Staging project `open-design-landing-staging` → `staging.open-design.ai`.
+- Production project `open-design-landing` → `sanki-ai.cloud`.
+- Staging project `open-design-landing-staging` → `staging.sanki-ai.cloud`.
 
 The safety gate is project separation: only the manual production workflow
 ever names the production project.
 
 - `.github/workflows/landing-page-staging.yml` runs on push to `main` and
   deploys to the **staging project** (`open-design-landing-staging`,
-  `staging.open-design.ai`).
+  `staging.sanki-ai.cloud`).
 - `.github/workflows/landing-page-production.yml` is **manual**
   (`workflow_dispatch`) and is the only workflow that names the production
-  project (`open-design-landing`, `open-design.ai`). Gate it with required
+  project (`open-design-landing`, `sanki-ai.cloud`). Gate it with required
   reviewers on the GitHub `production` environment.
 - `.github/workflows/landing-page-ci.yml` runs on PRs: it validates the build
   and, for same-repo branches, deploys a per-PR preview into the staging
@@ -139,10 +139,10 @@ build-time readers and the staged site will fall behind silently.
 ## Common commands
 
 ```bash
-pnpm --filter @open-design/landing-page dev          # http://127.0.0.1:17574
-pnpm --filter @open-design/landing-page typecheck
-pnpm --filter @open-design/landing-page previews     # render thumbnails
-pnpm --filter @open-design/landing-page build        # static export → out/
+pnpm --filter @sankiwork/landing-page dev          # http://127.0.0.1:17574
+pnpm --filter @sankiwork/landing-page typecheck
+pnpm --filter @sankiwork/landing-page previews     # render thumbnails
+pnpm --filter @sankiwork/landing-page build        # static export → out/
 ```
 
 ## When to update this app
@@ -158,5 +158,5 @@ pnpm --filter @open-design/landing-page build        # static export → out/
 - New section added to the canonical landing page → port it into
   `app/page.tsx` and `app/globals.css` keeping lockstep with
   `design-templates/open-design-landing/example.html`.
-- Brand re-keying for a non-Open-Design tenant → fork the app, update
+- Brand re-keying for a non-SankiWork tenant → fork the app, update
   copy, swap PNGs. Do not parameterize this app for multi-tenancy.

@@ -2,7 +2,7 @@ import type { Express, Request } from 'express';
 import type {
   PreviewComment,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { RouteDeps } from '../../server-context.js';
 import type { BoundWorkspaceResourceMutationGate } from '../../collab/workspace-resource-mutation.js';
 import { isProjectCommentAnchorConversationId } from '../../db.js';

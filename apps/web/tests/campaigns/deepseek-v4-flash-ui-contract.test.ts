@@ -43,7 +43,7 @@ describe('DeepSeek V4 Flash workbench campaign entry', () => {
     expect(entryShellSource).toContain("'noopener,noreferrer'");
     // No hardcoded marketing URL, and no locale pinned into a link shown to
     // all 19 locales.
-    expect(entryShellSource).not.toContain('open-design.ai/zh/pricing');
+    expect(entryShellSource).not.toContain('sanki-ai.cloud/zh/pricing');
     expect(entryShellSource).not.toContain('DEEPSEEK_CAMPAIGN_PRICING_URL');
   });
 

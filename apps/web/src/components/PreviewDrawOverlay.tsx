@@ -35,7 +35,7 @@ interface PreviewSnapshot {
 }
 type CaptureFrameRect = Pick<DOMRect, 'left' | 'top' | 'width' | 'height'>;
 
-export const ANNOTATION_EVENT = 'opendesign:annotation';
+export const ANNOTATION_EVENT = 'sankiwork:annotation';
 export type AnnotationAction = 'draft' | 'queue' | 'send';
 export type DrawToolbarElement =
   | 'rect'

@@ -34,7 +34,7 @@ export interface AgentModelOption {
  * concrete handler (open a URL, re-run detection, write an env override,
  * launch the OAuth terminal flow). Keeping the intent typed — rather than a
  * pre-baked button label + URL — means the Settings card, the unavailable
- * grid, and (PR-B) the `od agent healthcheck` CLI / health-check panel all
+ * grid, and (PR-B) the `sw agent healthcheck` CLI / health-check panel all
  * render the same fix affordances from one source of truth instead of each
  * re-deriving copy and wiring.
  */
@@ -46,7 +46,7 @@ export type AgentFixIntent =
   /** Re-run agent detection (the Settings "Rescan" affordance). */
   | { kind: 'rescan' }
   /**
-   * Prompt the user to point Open Design at an explicit binary by writing
+   * Prompt the user to point SankiWork at an explicit binary by writing
    * `envKey` (e.g. `CURSOR_AGENT_BIN`) into `agentCliEnv`. Used when the CLI
    * is installed somewhere PATH detection can't reach.
    */
@@ -77,7 +77,7 @@ export type AgentDiagnosticReason =
   | 'configured-bin-invalid'
   /** The binary ran, but its version could not be read under a strict policy. */
   | 'version-probe-failed'
-  /** The installed CLI version is outside this Open Design build's tested set. */
+  /** The installed CLI version is outside this SankiWork build's tested set. */
   | 'untested-version'
   /** A required external runtime profile or companion failed its handshake. */
   | 'runtime-profile-incompatible'
@@ -122,7 +122,7 @@ export interface AgentInfo {
    */
   diagnostics?: AgentDiagnostic[];
   models?: AgentModelOption[];
-  /** Whether models came from the installed CLI or Open Design's static fallback. */
+  /** Whether models came from the installed CLI or SankiWork's static fallback. */
   modelsSource?: 'live' | 'fallback';
   reasoningOptions?: AgentModelOption[];
   /** HTTPS URL to install or download the CLI (vendor docs, GitHub README, npm). */
@@ -130,7 +130,7 @@ export interface AgentInfo {
   /** Optional HTTPS URL for configuration / auth / usage docs. */
   docsUrl?: string;
   /**
-   * How the daemon forwards the user's `.od/mcp-config.json` external MCP
+   * How the daemon forwards the user's `.sankiwork/mcp-config.json` external MCP
    * servers to this runtime at spawn time. Mirrors the field on
    * `RuntimeAgentDef` in the daemon. Undefined means the runtime has no
    * native MCP transport wired yet, in which case the settings UI surfaces

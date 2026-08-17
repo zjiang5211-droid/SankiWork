@@ -2,7 +2,7 @@ import type {
   CollabPresenceMember,
   WorkspaceCollabContext,
   WorkspaceLifecycleState,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 // The collaboration surface seam onto the B (workspace) + D (visibility) lanes. B owns the
 // CurrentWorkspaceContext (identity token → workspaceMemberId + role + lifecycle);

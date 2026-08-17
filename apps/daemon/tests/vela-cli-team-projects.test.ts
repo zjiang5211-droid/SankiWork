@@ -673,8 +673,8 @@ describe('Vela CLI team-project catalog adapter', () => {
 
   it('keeps Vela workspace context authoritative over legacy transport flags', () => {
     expect(shouldUseVelaCliTeamProjectCatalog({
-      OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-      OD_TEAM_PROJECTS_TRANSPORT: 'resource-hub',
+      SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+      SW_TEAM_PROJECTS_TRANSPORT: 'resource-hub',
     })).toBe(true);
   });
 });

@@ -1,27 +1,27 @@
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_MODES,
   SIDECAR_SOURCES,
   type SidecarStamp,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import {
   parseLauncherAfterQuitArgs,
   parseLauncherDelegatedArgs,
   parseLauncherHandoffResumeArgs,
-} from "@open-design/launcher-proto";
+} from "@sankiwork/launcher-proto";
 import {
   bootstrapSidecarRuntime,
   createSidecarLaunchEnv,
   resolveAppIpcPath,
-} from "@open-design/sidecar";
+} from "@sankiwork/sidecar";
 import {
   applyLoopbackConnectionLimitSwitch,
   applyOsLocaleSwitch,
   createSplashWindow,
   setSplashStage,
-} from "@open-design/desktop/main";
-import { readProcessStamp } from "@open-design/platform";
+} from "@sankiwork/desktop/main";
+import { readProcessStamp } from "@sankiwork/platform";
 import { join } from "node:path";
 import { app, dialog } from "electron";
 
@@ -88,7 +88,7 @@ function createPackagedDesktopStamp(namespace: string): SidecarStamp {
     app: APP_KEYS.DESKTOP,
     ipc: resolveAppIpcPath({
       app: APP_KEYS.DESKTOP,
-      contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+      contract: SANKIWORK_SIDECAR_CONTRACT,
       namespace,
     }),
     mode: SIDECAR_MODES.RUNTIME,
@@ -100,7 +100,7 @@ function createPackagedDesktopStamp(namespace: string): SidecarStamp {
 function applyLaunchEnv(base: string, stamp: SidecarStamp): void {
   const env = createSidecarLaunchEnv({
     base,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     stamp,
   });
 
@@ -111,8 +111,8 @@ function applyLaunchEnv(base: string, stamp: SidecarStamp): void {
 
 function applyPackagedUpdaterEnv(updateMetadataUrl: string | null): void {
   if (updateMetadataUrl == null) return;
-  if (process.env.OD_UPDATE_METADATA_URL != null && process.env.OD_UPDATE_METADATA_URL.length > 0) return;
-  process.env.OD_UPDATE_METADATA_URL = updateMetadataUrl;
+  if (process.env.SW_UPDATE_METADATA_URL != null && process.env.SW_UPDATE_METADATA_URL.length > 0) return;
+  process.env.SW_UPDATE_METADATA_URL = updateMetadataUrl;
 }
 
 async function main(): Promise<void> {
@@ -142,7 +142,7 @@ async function main(): Promise<void> {
   const afterQuit = parseLauncherAfterQuitArgs(process.argv.slice(1));
   const handoffResume = parseLauncherHandoffResumeArgs(process.argv.slice(1));
   const delegated = parseLauncherDelegatedArgs(process.argv.slice(1));
-  const argvStamp = readProcessStamp(process.argv.slice(1), OPEN_DESIGN_SIDECAR_CONTRACT);
+  const argvStamp = readProcessStamp(process.argv.slice(1), SANKIWORK_SIDECAR_CONTRACT);
   const namespace = argvStamp?.namespace ?? config.namespace;
   const namespaceConfig = namespace === config.namespace ? config : { ...config, namespace };
   const initialPaths = resolvePackagedNamespacePaths(namespaceConfig, namespace, process.env);
@@ -183,7 +183,7 @@ async function main(): Promise<void> {
     appVersion: activeConfig.appVersion,
     namespace,
     source: SIDECAR_SOURCES.PACKAGED,
-    // Pass installationRoot explicitly: OD_INSTALLATION_DIR is only set in the
+    // Pass installationRoot explicitly: SW_INSTALLATION_DIR is only set in the
     // daemon child env, not this parent process (see startup-telemetry.ts).
     installationRoot: paths.installationRoot,
     // Absolute path where the daemon's better-sqlite3 binding ships in the
@@ -241,7 +241,7 @@ async function main(): Promise<void> {
   const runtime = bootstrapSidecarRuntime(stamp, process.env, {
     app: APP_KEYS.DESKTOP,
     base: paths.runtimeRoot,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
   });
 
   const sidecars = await startPackagedSidecars(runtime, paths, {
@@ -298,7 +298,7 @@ async function main(): Promise<void> {
   // lack of a target should surface as the protocol layer's structured 503.
   registerOdProtocol(() => sidecars.currentWebUrl());
 
-  const { runDesktopMain } = await import("@open-design/desktop/main");
+  const { runDesktopMain } = await import("@sankiwork/desktop/main");
   await runDesktopMain(runtime, {
     splashWindow: splash.window,
     splashStartedAt: splash.startedAt,
@@ -318,7 +318,7 @@ async function main(): Promise<void> {
     },
     // Round-7 (lefarcen P2 @ runtime.ts:336): packaged main-process
     // fetch targets the daemon sidecar's real http URL — never the
-    // od://app/ renderer URL, which Node/undici cannot resolve through
+    // sankiwork://app/ renderer URL, which Node/undici cannot resolve through
     // Electron's protocol handler.
     async discoverDaemonUrl() {
       return sidecars.daemon.url;

@@ -6,7 +6,7 @@ import type {
   WorkspaceBillingSummary,
   WorkspaceTeamBillingPlanId,
   WorkspaceWalletBalance,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { runVelaCommand } from './vela-command.js';
 
 // A-lane billing 收口. Instead of the daemon holding billing credentials, it
@@ -509,7 +509,7 @@ const defaultRunVelaBilling: RunVelaBilling = async (args) => {
   let stderr = '';
   try {
     return await runVelaCommand(['billing', ...args], {
-      configuredEnv: { VELA_INVOCATION_SOURCE: 'open-design' },
+      configuredEnv: { VELA_INVOCATION_SOURCE: 'sankiwork' },
       maxBuffer: 4 * 1024 * 1024,
       onStderr: (value) => {
         stderr = value;

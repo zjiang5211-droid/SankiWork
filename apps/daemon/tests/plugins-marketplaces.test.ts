@@ -1,7 +1,7 @@
 // Plan §3.B4 — marketplaces add / list / refresh / remove / trust unit tests.
 //
 // Locks the storage half of the federated catalog story. The Phase 3
-// follow-up will layer on `od plugin install <name>` resolution +
+// follow-up will layer on `sw plugin install <name>` resolution +
 // trust UI, but the storage layout here is the contract that lookup
 // will read against.
 
@@ -141,7 +141,7 @@ describe('marketplaces', () => {
   it('normalizes public marketplace urls to the canonical raw registry', async () => {
     const seenUrls: string[] = [];
     const result = await addMarketplace(db, {
-      url: 'https://open-design.ai/marketplace/community/open-design-marketplace.json',
+      url: 'https://sanki-ai.cloud/marketplace/community/open-design-marketplace.json',
       fetcher: async (url) => {
         seenUrls.push(url);
         return {
@@ -204,7 +204,7 @@ describe('marketplaces', () => {
   it('refresh normalizes legacy public urls before fetching', async () => {
     const seeded = ensureMarketplaceManifest(db, {
       id: 'community',
-      url: 'https://open-design.ai/marketplace/community/open-design-marketplace.json',
+      url: 'https://sanki-ai.cloud/marketplace/community/open-design-marketplace.json',
       trust: 'restricted',
       manifestText: VALID_MANIFEST,
     });
@@ -248,7 +248,7 @@ describe('marketplaces', () => {
   it('upserts a fixed built-in marketplace manifest', () => {
     const result = ensureMarketplaceManifest(db, {
       id: 'official',
-      url: 'https://open-design.ai/marketplace/open-design-marketplace.json',
+      url: 'https://sanki-ai.cloud/marketplace/open-design-marketplace.json',
       trust: 'official',
       manifestText: VALID_MANIFEST,
       now: 123,
@@ -265,7 +265,7 @@ describe('marketplaces', () => {
     });
     const updated = ensureMarketplaceManifest(db, {
       id: 'official',
-      url: 'https://open-design.ai/marketplace/open-design-marketplace.json',
+      url: 'https://sanki-ai.cloud/marketplace/open-design-marketplace.json',
       trust: 'official',
       manifestText: updatedManifest,
       now: 456,
@@ -285,7 +285,7 @@ describe('marketplaces', () => {
 
     const seeded = ensureMarketplaceManifest(db, {
       id: 'community',
-      url: 'https://open-design.ai/marketplace/community/open-design-marketplace.json',
+      url: 'https://sanki-ai.cloud/marketplace/community/open-design-marketplace.json',
       trust: 'restricted',
       manifestText: communityManifest,
       now: 123,
@@ -317,21 +317,21 @@ describe('marketplaces', () => {
     expect(officialManifest.metadata?.bundledPreinstallCount).toBe(
       officialManifest.plugins?.length,
     );
-    expect(officialManifest.plugins?.some((plugin) => plugin.name === 'open-design/build-test')).toBe(true);
+    expect(officialManifest.plugins?.some((plugin) => plugin.name === 'sankiwork/build-test')).toBe(true);
     expect(officialManifest.plugins?.every((plugin) =>
       /^github:nexu-io\/open-design(?:@[^/]+)?\/plugins\/_official\//.test(plugin.source ?? ''),
     )).toBe(true);
 
     const seeded = ensureMarketplaceManifest(db, {
       id: 'official',
-      url: 'https://open-design.ai/marketplace/open-design-marketplace.json',
+      url: 'https://sanki-ai.cloud/marketplace/open-design-marketplace.json',
       trust: 'official',
       manifestText: officialManifestText,
       now: 123,
     });
     if (!seeded.ok) throw new Error('official seed failed');
 
-    const resolved = resolvePluginInMarketplaces(db, 'open-design/build-test');
+    const resolved = resolvePluginInMarketplaces(db, 'sankiwork/build-test');
     expect(resolved?.marketplaceId).toBe('official');
     expect(resolved?.marketplaceTrust).toBe('official');
   });

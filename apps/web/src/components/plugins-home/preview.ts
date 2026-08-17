@@ -19,7 +19,7 @@
 import type {
   InstalledPluginRecord,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { workspaceResourceUrl } from '../../collab/workspace-identity';
 
 export type PluginPreviewKind = 'media' | 'html' | 'design' | 'text';

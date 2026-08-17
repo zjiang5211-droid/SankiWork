@@ -206,8 +206,8 @@ function stablePrereleaseMetadata(publicOrigin: string, baseVersion: string): Re
       mac: {
         arch: "arm64",
         artifacts: {
-          dmg: artifact("Open Design.dmg"),
-          zip: artifact("Open Design-mac-arm64.zip"),
+          dmg: artifact("SankiWork.dmg"),
+          zip: artifact("SankiWork-mac-arm64.zip"),
         },
         enabled: true,
         signed: true,
@@ -215,8 +215,8 @@ function stablePrereleaseMetadata(publicOrigin: string, baseVersion: string): Re
       macIntel: {
         arch: "x64",
         artifacts: {
-          dmg: artifact("Open Design Intel.dmg"),
-          zip: artifact("Open Design-mac-x64.zip"),
+          dmg: artifact("SankiWork Intel.dmg"),
+          zip: artifact("SankiWork-mac-x64.zip"),
         },
         enabled: true,
         signed: true,
@@ -224,7 +224,7 @@ function stablePrereleaseMetadata(publicOrigin: string, baseVersion: string): Re
       win: {
         arch: "x64",
         artifacts: {
-          installer: artifact("Open Design Setup.exe"),
+          installer: artifact("SankiWork Setup.exe"),
         },
         enabled: true,
       },
@@ -265,9 +265,9 @@ describe("tools-release local channel prepare validation", () => {
       const commonEnv = {
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_GH_NODE_SCRIPT: fakeGh,
-        OPEN_DESIGN_STABLE_METADATA_URL: `${server.origin}/stable/latest/metadata.json`,
-        OPEN_DESIGN_STABLE_VERSION: packagedVersion,
+        SANKIWORK_GH_NODE_SCRIPT: fakeGh,
+        SANKIWORK_STABLE_METADATA_URL: `${server.origin}/stable/latest/metadata.json`,
+        SANKIWORK_STABLE_VERSION: packagedVersion,
         // Matches the stable fixture metadata above and keeps the tag-derived
         // latest-stable floor below any real packaged version.
         ...(await createHermeticTagRepoEnv(["open-design-v0.9.0"])),
@@ -276,7 +276,7 @@ describe("tools-release local channel prepare validation", () => {
       const beta = await runPrepare("beta", {
         ...commonEnv,
         GITHUB_REF_NAME: "main",
-        OPEN_DESIGN_BETA_METADATA_URL: `${server.origin}/beta/latest/metadata.json`,
+        SANKIWORK_BETA_METADATA_URL: `${server.origin}/beta/latest/metadata.json`,
       });
       expect(beta.stdout).toContain("[release-beta] channel: beta");
       expect(beta.outputs.release_version).toBe(`${packagedVersion}-beta.1`);
@@ -286,7 +286,7 @@ describe("tools-release local channel prepare validation", () => {
       const betas = await runPrepare("betas", {
         ...commonEnv,
         GITHUB_REF_NAME: "main",
-        OPEN_DESIGN_BETAS_METADATA_URL: `${server.origin}/betas/latest/metadata.json`,
+        SANKIWORK_BETAS_METADATA_URL: `${server.origin}/betas/latest/metadata.json`,
       });
       expect(betas.stdout).toContain("[release-betas] channel: betas");
       expect(betas.outputs.release_version).toBe(`${packagedVersion}-betas.1`);
@@ -295,8 +295,8 @@ describe("tools-release local channel prepare validation", () => {
       const preview = await runPrepare("preview", {
         ...commonEnv,
         GITHUB_REF_NAME: "main",
-        OPEN_DESIGN_PREVIEW_METADATA_URL: `${server.origin}/preview/latest/metadata.json`,
-        OPEN_DESIGN_PREVIEW_VERSION: packagedVersion,
+        SANKIWORK_PREVIEW_METADATA_URL: `${server.origin}/preview/latest/metadata.json`,
+        SANKIWORK_PREVIEW_VERSION: packagedVersion,
       });
       expect(preview.stdout).toContain("[release-preview] channel: preview");
       expect(preview.outputs.release_version).toBe(`${packagedVersion}-preview.1`);
@@ -305,7 +305,7 @@ describe("tools-release local channel prepare validation", () => {
       const prerelease = await runPrepare("prerelease", {
         ...commonEnv,
         GITHUB_REF_NAME: "main",
-        OPEN_DESIGN_PRERELEASE_METADATA_URL: `${server.origin}/prerelease/latest/metadata.json`,
+        SANKIWORK_PRERELEASE_METADATA_URL: `${server.origin}/prerelease/latest/metadata.json`,
       });
       expect(prerelease.stdout).toContain("[release-prerelease] channel: prerelease");
       expect(prerelease.outputs.release_version).toBe(`${packagedVersion}-prerelease.1`);
@@ -335,9 +335,9 @@ describe("tools-release local channel prepare validation", () => {
         GITHUB_REF_NAME: "main",
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_BETA_METADATA_URL: `${server.origin}/beta/latest/metadata.json`,
-        OPEN_DESIGN_RELEASE_FORCE: "1",
-        OPEN_DESIGN_STABLE_METADATA_URL: `${server.origin}/stable/latest/metadata.json`,
+        SANKIWORK_BETA_METADATA_URL: `${server.origin}/beta/latest/metadata.json`,
+        SANKIWORK_RELEASE_FORCE: "1",
+        SANKIWORK_STABLE_METADATA_URL: `${server.origin}/stable/latest/metadata.json`,
       });
 
       expect(beta.stdout).toContain("[release-beta] force: true");
@@ -361,7 +361,7 @@ describe("tools-release local channel prepare validation", () => {
         GITHUB_REF_NAME: "main",
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_PREVIEW_METADATA_URL: `${server.origin}/preview/latest/metadata.json`,
+        SANKIWORK_PREVIEW_METADATA_URL: `${server.origin}/preview/latest/metadata.json`,
         ...(await createHermeticTagRepoEnv(["open-design-v0.10.0"])),
       });
 
@@ -384,7 +384,7 @@ describe("tools-release local channel prepare validation", () => {
           GITHUB_REF_NAME: "main",
           GITHUB_REPOSITORY: "nexu-io/open-design",
           GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-          OPEN_DESIGN_PREVIEW_METADATA_URL: `${server.origin}/preview/latest/metadata.json`,
+          SANKIWORK_PREVIEW_METADATA_URL: `${server.origin}/preview/latest/metadata.json`,
           ...(await createHermeticTagRepoEnv(["open-design-v99.0.0"])),
         }),
       ).rejects.toThrow(/must be strictly greater than latest stable 99\.0\.0/);
@@ -412,8 +412,8 @@ describe("tools-release local channel prepare validation", () => {
         GITHUB_REF_NAME: "main",
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_BETAS_METADATA_URL: `${server.origin}/betas/latest/metadata.json`,
-        OPEN_DESIGN_STABLE_METADATA_URL: `${server.origin}/stable/latest/metadata.json`,
+        SANKIWORK_BETAS_METADATA_URL: `${server.origin}/betas/latest/metadata.json`,
+        SANKIWORK_STABLE_METADATA_URL: `${server.origin}/stable/latest/metadata.json`,
       });
 
       expect(betas.stdout).toContain("betas metadata.json: not found; using betas.0 fallback");
@@ -438,10 +438,10 @@ describe("tools-release local channel prepare validation", () => {
         GITHUB_REF_NAME: `release/v${packagedVersion}`,
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_GH_NODE_SCRIPT: fakeGh,
-        OPEN_DESIGN_RELEASE_DRY_RUN: "true",
-        OPEN_DESIGN_RELEASES_PUBLIC_ORIGIN: server.origin,
-        OPEN_DESIGN_STABLE_PRERELEASE_VERSION: prereleaseVersion,
+        SANKIWORK_GH_NODE_SCRIPT: fakeGh,
+        SANKIWORK_RELEASE_DRY_RUN: "true",
+        SANKIWORK_RELEASES_PUBLIC_ORIGIN: server.origin,
+        SANKIWORK_STABLE_PRERELEASE_VERSION: prereleaseVersion,
       });
 
       expect(stable.stdout).toContain("[release-stable] channel: stable");
@@ -473,10 +473,10 @@ describe("tools-release local channel prepare validation", () => {
         GITHUB_REF_NAME: `release/v${packagedVersion}`,
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_GH_NODE_SCRIPT: fakeGh,
-        OPEN_DESIGN_RELEASE_DRY_RUN: "prepublish",
-        OPEN_DESIGN_RELEASES_PUBLIC_ORIGIN: server.origin,
-        OPEN_DESIGN_STABLE_PRERELEASE_VERSION: prereleaseVersion,
+        SANKIWORK_GH_NODE_SCRIPT: fakeGh,
+        SANKIWORK_RELEASE_DRY_RUN: "prepublish",
+        SANKIWORK_RELEASES_PUBLIC_ORIGIN: server.origin,
+        SANKIWORK_STABLE_PRERELEASE_VERSION: prereleaseVersion,
       });
 
       expect(stable.stdout).toContain("[release-stable] dry run mode: prepublish");
@@ -505,10 +505,10 @@ describe("tools-release local channel prepare validation", () => {
         GITHUB_REF_NAME: `release/v${packagedVersion}`,
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_GH_NODE_SCRIPT: fakeGh,
-        OPEN_DESIGN_RELEASE_DRY_RUN: "false",
-        OPEN_DESIGN_RELEASES_PUBLIC_ORIGIN: server.origin,
-        OPEN_DESIGN_STABLE_PRERELEASE_VERSION: prereleaseVersion,
+        SANKIWORK_GH_NODE_SCRIPT: fakeGh,
+        SANKIWORK_RELEASE_DRY_RUN: "false",
+        SANKIWORK_RELEASES_PUBLIC_ORIGIN: server.origin,
+        SANKIWORK_STABLE_PRERELEASE_VERSION: prereleaseVersion,
       });
 
       expect(stable.stdout).toContain("[release-stable] dry run: false");
@@ -535,10 +535,10 @@ describe("tools-release local channel prepare validation", () => {
         GITHUB_REF_NAME: `release/v${packagedVersion}`,
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_GH_NODE_SCRIPT: fakeGh,
-        OPEN_DESIGN_RELEASE_DRY_RUN: "metadata",
-        OPEN_DESIGN_RELEASES_PUBLIC_ORIGIN: server.origin,
-        OPEN_DESIGN_STABLE_PRERELEASE_VERSION: `${packagedVersion}-preview.2`,
+        SANKIWORK_GH_NODE_SCRIPT: fakeGh,
+        SANKIWORK_RELEASE_DRY_RUN: "metadata",
+        SANKIWORK_RELEASES_PUBLIC_ORIGIN: server.origin,
+        SANKIWORK_STABLE_PRERELEASE_VERSION: `${packagedVersion}-preview.2`,
       })).rejects.toThrow(/prereleaseVersion must be x\.y\.z-prerelease\.N/);
     } finally {
       await server.close();
@@ -560,10 +560,10 @@ describe("tools-release local channel prepare validation", () => {
         GITHUB_REF_NAME: "main",
         GITHUB_REPOSITORY: "nexu-io/open-design",
         GITHUB_SHA: "0123456789abcdef0123456789abcdef01234567",
-        OPEN_DESIGN_GH_NODE_SCRIPT: fakeGh,
-        OPEN_DESIGN_RELEASE_DRY_RUN: "metadata",
-        OPEN_DESIGN_RELEASES_PUBLIC_ORIGIN: server.origin,
-        OPEN_DESIGN_STABLE_PRERELEASE_VERSION: prereleaseVersion,
+        SANKIWORK_GH_NODE_SCRIPT: fakeGh,
+        SANKIWORK_RELEASE_DRY_RUN: "metadata",
+        SANKIWORK_RELEASES_PUBLIC_ORIGIN: server.origin,
+        SANKIWORK_STABLE_PRERELEASE_VERSION: prereleaseVersion,
       })).rejects.toThrow(/requires GITHUB_REF_NAME to be release\/vX\.Y\.Z; got main/);
     } finally {
       await server.close();

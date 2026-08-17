@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const SAVED_PLUGIN_IDS_KEY = 'open-design:saved-plugin-ids';
-const SAVED_PLUGIN_IDS_EVENT = 'open-design:saved-plugin-ids-changed';
+const SAVED_PLUGIN_IDS_KEY = 'sankiwork:saved-plugin-ids';
+const SAVED_PLUGIN_IDS_EVENT = 'sankiwork:saved-plugin-ids-changed';
 
 type SavedPluginIdsEvent = CustomEvent<{ ids: string[] }>;
 

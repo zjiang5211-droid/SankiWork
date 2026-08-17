@@ -117,7 +117,7 @@ if (args[1] === 'upsert' || args[1] === 'remove') {
   if (process.env.FAKE_TEAM_PROJECT_MUTATION_LOG) {
     appendFileSync(
       process.env.FAKE_TEAM_PROJECT_MUTATION_LOG,
-      JSON.stringify({ args, workspaceId: process.env.OPEN_DESIGN_WORKSPACE_ID ?? null }) + '\\n',
+      JSON.stringify({ args, workspaceId: process.env.SANKIWORK_WORKSPACE_ID ?? null }) + '\\n',
     );
   }
   process.stdout.write('{}\\n');
@@ -235,8 +235,8 @@ describe('team shared-project catalog', () => {
         {
           env: {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-            OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-team-catalog-control-key',
             VELA_BIN: velaBin,
@@ -275,8 +275,8 @@ describe('team shared-project catalog', () => {
         {
           env: {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-            OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-personal-catalog-control-key',
             VELA_BIN: velaBin,
@@ -374,8 +374,8 @@ describe('team shared-project catalog', () => {
           env: {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
             FAKE_STALE_TEAM_PROJECT: '1',
-            OD_RESOURCE_TRANSPORT: 'stub',
-            OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+            SW_RESOURCE_TRANSPORT: 'stub',
+            SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-stale-unshare-control-key',
             VELA_BIN: velaBin,
@@ -454,9 +454,9 @@ describe('team shared-project catalog', () => {
           env: {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
             FAKE_FIRST_OPEN_PROJECT: '1',
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-            OD_RESOURCE_TRANSPORT: 'vela-cli',
-            OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_RESOURCE_TRANSPORT: 'vela-cli',
+            SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-first-open-control-key',
             VELA_BIN: velaBin,
@@ -521,9 +521,9 @@ describe('team shared-project catalog', () => {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
             FAKE_FIRST_OPEN_PROJECT: '1',
             FAKE_PULL_FAIL_ONCE_FILE: failOnceFile,
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-            OD_RESOURCE_TRANSPORT: 'vela-cli',
-            OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_RESOURCE_TRANSPORT: 'vela-cli',
+            SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-first-open-retry-key',
             VELA_BIN: velaBin,
@@ -619,9 +619,9 @@ describe('team shared-project catalog', () => {
           env: {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
             FAKE_TEAM_PROJECT_MUTATION_LOG: mutationLog,
-            OD_RESOURCE_TRANSPORT: 'stub',
-            OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_RESOURCE_TRANSPORT: 'stub',
+            SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-rename-catalog-control-key',
             VELA_BIN: velaBin,

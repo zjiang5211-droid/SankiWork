@@ -883,7 +883,7 @@ function changedMergeGroupFiles(): string[] {
 }
 
 function runGh(args: string[]): string {
-  const nodeScript = process.env.OPEN_DESIGN_GH_NODE_SCRIPT;
+  const nodeScript = process.env.SANKIWORK_GH_NODE_SCRIPT;
   if (nodeScript != null && nodeScript.length > 0) {
     return execFileSync(process.execPath, [nodeScript, ...args], {
       encoding: "utf8",

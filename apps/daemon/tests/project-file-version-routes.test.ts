@@ -52,8 +52,8 @@ describe('project file version routes', () => {
   }
 
   function projectsRoot(): string {
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     return path.join(dataDir, 'projects');
   }
 
@@ -238,7 +238,7 @@ describe('project file version routes', () => {
       promptSource: 'message',
       origin: {
         entrySurface: 'external_mcp',
-        externalPluginId: 'open-design',
+        externalPluginId: 'sankiwork',
         pluginWorkflowId: 'workflow-origin',
         runId: 'run-origin',
       },
@@ -270,7 +270,7 @@ describe('project file version routes', () => {
         parentVersionId: parent!.id,
         origin: {
           entrySurface: 'external_mcp',
-          externalPluginId: 'open-design',
+          externalPluginId: 'sankiwork',
           pluginWorkflowId: 'workflow-origin',
           runId: 'run-origin',
         },
@@ -293,7 +293,7 @@ describe('project file version routes', () => {
       promptSource: 'message',
       origin: {
         entrySurface: 'external_mcp',
-        externalPluginId: 'open-design',
+        externalPluginId: 'sankiwork',
         pluginWorkflowId: 'workflow-drift',
         runId: 'run-drift',
       },

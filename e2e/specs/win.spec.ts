@@ -37,32 +37,32 @@ import { missingWorkingWinInstallerOverwriteMarkers } from '@/vitest/win-install
 const execFileAsync = promisify(execFile);
 const e2eRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const workspaceRoot = dirname(e2eRoot);
-const toolsPackDir = resolveFromWorkspace(process.env.OD_PACKAGED_E2E_TOOLS_PACK_DIR ?? '.tmp/tools-pack');
+const toolsPackDir = resolveFromWorkspace(process.env.SW_PACKAGED_E2E_TOOLS_PACK_DIR ?? '.tmp/tools-pack');
 const namespace = resolvePackagedSmokeNamespace('win');
 const toolsPackBin = join(workspaceRoot, 'tools', 'pack', 'bin', 'tools-pack.mjs');
-const maxInstallDurationMs = Number.parseInt(process.env.OD_PACKAGED_E2E_WIN_MAX_INSTALL_MS ?? '120000', 10);
+const maxInstallDurationMs = Number.parseInt(process.env.SW_PACKAGED_E2E_WIN_MAX_INSTALL_MS ?? '120000', 10);
 // `??` would keep an EMPTY value, and the release workflows can hand one down
 // — see `resolvePackagedSmokeProfile` for why all three layers have to agree
 // that empty means unset. An empty value surviving here reads as "not core"
 // and silently selects the updater path.
-const smokeProfile = resolvePackagedSmokeProfile(process.env.OD_PACKAGED_E2E_WIN_SMOKE_PROFILE);
+const smokeProfile = resolvePackagedSmokeProfile(process.env.SW_PACKAGED_E2E_WIN_SMOKE_PROFILE);
 const verifyCoreOnly = smokeProfile === 'core';
-const verifyReinstallWhileRunning = !verifyCoreOnly && process.env.OD_PACKAGED_E2E_WIN_VERIFY_REINSTALL !== '0';
+const verifyReinstallWhileRunning = !verifyCoreOnly && process.env.SW_PACKAGED_E2E_WIN_VERIFY_REINSTALL !== '0';
 const verifyUpgradePersistence =
-  !verifyCoreOnly && process.env.OD_PACKAGED_E2E_WIN_VERIFY_UPGRADE_PERSISTENCE === '1';
-const updateMetadataUrl = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_WIN_UPDATE_METADATA_URL);
-const updateVersion = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_WIN_UPDATE_VERSION);
-const updateBuildJsonPath = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_WIN_UPDATE_BUILD_JSON_PATH);
+  !verifyCoreOnly && process.env.SW_PACKAGED_E2E_WIN_VERIFY_UPGRADE_PERSISTENCE === '1';
+const updateMetadataUrl = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_WIN_UPDATE_METADATA_URL);
+const updateVersion = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_WIN_UPDATE_VERSION);
+const updateBuildJsonPath = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_WIN_UPDATE_BUILD_JSON_PATH);
 const intermediateUpdateBuildJsonPath = normalizeOptionalEnv(
-  process.env.OD_PACKAGED_E2E_WIN_INTERMEDIATE_UPDATE_BUILD_JSON_PATH,
+  process.env.SW_PACKAGED_E2E_WIN_INTERMEDIATE_UPDATE_BUILD_JSON_PATH,
 );
-const updateFixture = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_WIN_UPDATE_FIXTURE);
-const updateFixturePort = resolveOptionalFixturePort(process.env.OD_PACKAGED_E2E_WIN_UPDATE_FIXTURE_PORT);
-const updateFixtureMode = resolveUpdateFixtureMode(process.env.OD_PACKAGED_E2E_WIN_UPDATE_MODE);
-const releaseChannel = process.env.OD_PACKAGED_E2E_RELEASE_CHANNEL;
-const releaseVersion = process.env.OD_PACKAGED_E2E_RELEASE_VERSION;
+const updateFixture = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_WIN_UPDATE_FIXTURE);
+const updateFixturePort = resolveOptionalFixturePort(process.env.SW_PACKAGED_E2E_WIN_UPDATE_FIXTURE_PORT);
+const updateFixtureMode = resolveUpdateFixtureMode(process.env.SW_PACKAGED_E2E_WIN_UPDATE_MODE);
+const releaseChannel = process.env.SW_PACKAGED_E2E_RELEASE_CHANNEL;
+const releaseVersion = process.env.SW_PACKAGED_E2E_RELEASE_VERSION;
 const packagedInviteDeeplink =
-  'opendesign://workspace/invite/continue?workspace_id=packaged-smoke-workspace&member_id=packaged-smoke-member&invite_id=packaged-smoke-invite&nonce=packaged-smoke-nonce';
+  'sankiwork://workspace/invite/continue?workspace_id=packaged-smoke-workspace&member_id=packaged-smoke-member&invite_id=packaged-smoke-invite&nonce=packaged-smoke-nonce';
 const updateScenario = resolvePackagedUpdateScenario({ releaseChannel, releaseVersion });
 const installIdentity = resolvePackagedWinInstallIdentity({ namespace, releaseVersion });
 
@@ -223,7 +223,7 @@ const clickUpdaterRailExpression = `
   (async () => {
     const onboarding = document.querySelector('.entry-shell--onboarding, .entry-onboarding-modal');
     if (onboarding instanceof HTMLElement) return { clicked: false, reason: 'onboarding-visible' };
-    const host = window.__od__;
+    const host = window.__sankiwork__;
     let hostStatus = null;
     if (host?.updater?.status instanceof Function) {
       hostStatus = await host.updater.status({ payload: { source: 'e2e-open-ready-updater-prompt' } });
@@ -500,10 +500,10 @@ type DirectInstallerResult = {
 
 type UpdateFixtureMode = 'installer' | 'payload';
 
-const shouldRunPackagedWinSmoke = process.platform === 'win32' && process.env.OD_PACKAGED_E2E_WIN === '1';
+const shouldRunPackagedWinSmoke = process.platform === 'win32' && process.env.SW_PACKAGED_E2E_WIN === '1';
 const winDescribe = shouldRunPackagedWinSmoke ? describe : describe.skip;
 const shouldRunPackagedWinOnboardingSmoke =
-  shouldRunPackagedWinSmoke && process.env.OD_PACKAGED_E2E_WIN_ONBOARDING_SMOKE === '1';
+  shouldRunPackagedWinSmoke && process.env.SW_PACKAGED_E2E_WIN_ONBOARDING_SMOKE === '1';
 const winOnboardingDescribe = shouldRunPackagedWinOnboardingSmoke ? describe : describe.skip;
 
 winDescribe('packaged windows runtime smoke', () => {
@@ -553,7 +553,7 @@ winDescribe('packaged windows runtime smoke', () => {
       expect(basename(install.startMenuShortcutPath)).toBe(`${installIdentity.displayName}.lnk`);
       expect(install.registryEntries.length).toBeGreaterThan(0);
       expect(JSON.stringify(install.registryEntries)).toContain(installIdentity.displayName);
-      expect(JSON.stringify(install.registryEntries)).toContain(`Open Design-${installIdentity.namespaceToken}`);
+      expect(JSON.stringify(install.registryEntries)).toContain(`SankiWork-${installIdentity.namespaceToken}`);
       await assertWindowsInviteProtocolRegistration(install.installDir);
       expect(install.installPayload.fileCount).toBeGreaterThan(0);
       expect(install.installPayload.totalBytes).toBeGreaterThan(0);
@@ -675,7 +675,7 @@ winDescribe('packaged windows runtime smoke', () => {
 
       // Establish the data-root postcondition before probing unrelated runtime
       // capabilities. A healthy auth-first renderer may already be on
-      // od://app/onboarding, but it must still read the completed seed written
+      // sankiwork://app/onboarding, but it must still read the completed seed written
       // into this tools-pack namespace.
       if (!inspect.desktopIpcUnavailable) {
         seededOnboardingCompleted = await measureSmokeStep(timings, 'verify seeded onboarding config', async () =>
@@ -784,7 +784,7 @@ winDescribe('packaged windows runtime smoke', () => {
         );
         expect(preUpdateScreenshot.screenshot?.path).toBe(preUpdateScreenshotPath);
         expect(await fileSizeBytes(preUpdateScreenshotPath)).toBeGreaterThan(0);
-        await report.report.save('screenshots/open-design-win-before-update.png', await readFile(preUpdateScreenshotPath));
+        await report.report.save('screenshots/sankiwork-win-before-update.png', await readFile(preUpdateScreenshotPath));
       } else if (verifyUpgradePersistence) {
         throw new Error('upgrade persistence validation requires desktop IPC eval support');
       }
@@ -803,7 +803,7 @@ winDescribe('packaged windows runtime smoke', () => {
                 expectedVersion: expectedPayloadUpdateVersion,
                 ...(intermediateUpdateFixture == null
                   ? {}
-                  : { legacyInstalledExecutablePath: join(install.installDir, 'Open Design.exe') }),
+                  : { legacyInstalledExecutablePath: join(install.installDir, 'SankiWork.exe') }),
                 persistedProjectId,
                 verifyPptx: intermediateUpdateFixture == null,
               }),
@@ -829,7 +829,7 @@ winDescribe('packaged windows runtime smoke', () => {
           applyPackagedUpdateEnv(process.env, updateScenario, payloadFixture.info.metadataUrl, { openDryRun: false });
           const intermediateVersion = intermediateUpdateFixture.targetVersion;
           const targetVersion = localUpdateFixture.targetVersion;
-          process.env.OD_UPDATE_CURRENT_VERSION = intermediateVersion;
+          process.env.SW_UPDATE_CURRENT_VERSION = intermediateVersion;
           const fixtureSwitchStop = await measureSmokeStep(timings, 'stop before target update fixture', async () =>
             runToolsPackJson<WinStopResult>('stop'),
           );
@@ -876,7 +876,7 @@ winDescribe('packaged windows runtime smoke', () => {
             workspaceRoot,
           });
           applyPackagedUpdateEnv(process.env, updateScenario, payloadFixture.info.metadataUrl, { openDryRun: false });
-          process.env.OD_UPDATE_CURRENT_VERSION = expectedPayloadUpdateVersion;
+          process.env.SW_UPDATE_CURRENT_VERSION = expectedPayloadUpdateVersion;
           const recoveryFixture = payloadFixture;
           const recoveryTargetVersion = expectedPayloadUpdateVersion;
           updaterRecovery = await measureSmokeStep(timings, 'same-version reinstall and clear-cache recovery', async () =>
@@ -984,7 +984,7 @@ winDescribe('packaged windows runtime smoke', () => {
           ? { afterUpdate: null, beforeUpdate: null }
           : {
               afterUpdate: report.screenshotRelpath,
-              beforeUpdate: 'screenshots/open-design-win-before-update.png',
+              beforeUpdate: 'screenshots/sankiwork-win-before-update.png',
             },
         start: {
           executablePath: start.executablePath,
@@ -1144,7 +1144,7 @@ winDescribe('packaged windows runtime smoke', () => {
       cleanupInstalled = true;
       await seedPackagedOnboardingComplete();
 
-      const sevenZipExe = join(install.installDir, 'resources', 'open-design', 'bin', '7z.exe');
+      const sevenZipExe = join(install.installDir, 'resources', 'sankiwork', 'bin', '7z.exe');
       expect((await stat(sevenZipExe)).isFile()).toBe(true);
       const corruptPayloadPath = await buildCorruptedWinPayloadFixture(
         localUpdate.payloadPath,
@@ -1294,8 +1294,8 @@ winOnboardingDescribe('packaged windows onboarding AMR smoke', () => {
 
       const inspect = await measureSmokeStep(timings, 'wait healthy inspect eval', async () => waitForHealthyDesktop());
       expect(inspect.status?.state).toBe('running');
-      // A fresh install boots at `od://app/` and the SPA immediately redirects to the dedicated
-      // onboarding route (`od://app/onboarding`, since the #4513 cloud sign-in redesign). Whether
+      // A fresh install boots at `sankiwork://app/` and the SPA immediately redirects to the dedicated
+      // onboarding route (`sankiwork://app/onboarding`, since the #4513 cloud sign-in redesign). Whether
       // the desktop is reported healthy just before or just after that redirect is a race, so the
       // healthy URL/href may be either — match the prefix leniently exactly as the mac smoke and
       // the onboarding-landing assertion below do, instead of pinning the bare root (which flaked
@@ -1311,7 +1311,7 @@ winOnboardingDescribe('packaged windows onboarding AMR smoke', () => {
         'fresh packaged Windows onboarding Cloud identity gate',
       );
       // Onboarding lives on a dedicated route since the #4513 cloud sign-in
-      // redesign, so the href is `od://app/onboarding` (packaged) — not the
+      // redesign, so the href is `sankiwork://app/onboarding` (packaged) — not the
       // bare app root. Match the prefix the same lenient way the mac smoke
       // does instead of pinning the exact root path. Before the user-data
       // reset fix the app booted to Home and never reached this line, which
@@ -1324,12 +1324,12 @@ winOnboardingDescribe('packaged windows onboarding AMR smoke', () => {
       const screenshot = await runToolsPackJson<WinInspectResult>('inspect', ['--path', onboardingScreenshotPath]);
       expect(screenshot.screenshot?.path).toBe(onboardingScreenshotPath);
       expect(await fileSizeBytes(onboardingScreenshotPath)).toBeGreaterThan(0);
-      await report.report.save('screenshots/open-design-win-onboarding-smoke.png', await readFile(onboardingScreenshotPath));
+      await report.report.save('screenshots/sankiwork-win-onboarding-smoke.png', await readFile(onboardingScreenshotPath));
       await report.report.json('onboarding-summary.json', {
         health,
         initial,
         namespace,
-        screenshot: 'screenshots/open-design-win-onboarding-smoke.png',
+        screenshot: 'screenshots/sankiwork-win-onboarding-smoke.png',
         start: {
           executablePath: start.executablePath,
           logPath: start.logPath,
@@ -1508,7 +1508,7 @@ async function runSameVersionUpdaterRecoveryAcceptance(options: {
     persistedProjectId: options.persistedProjectId,
   });
   const installedConfig = JSON.parse(
-    await readFile(join(options.installDir, 'resources', 'open-design-config.json'), 'utf8'),
+    await readFile(join(options.installDir, 'resources', 'sankiwork-config.json'), 'utf8'),
   ) as { appVersion?: unknown };
   expect(installedConfig.appVersion).toBe(options.targetVersion);
 
@@ -1679,11 +1679,11 @@ async function runInstallerFallbackAcceptance(options: {
   );
   expect(install.code).toBe(0);
   assertWorkingWinInstallerOverwriteLog(install.nsisLogTail);
-  process.env.OD_UPDATE_CURRENT_VERSION = targetVersion;
+  process.env.SW_UPDATE_CURRENT_VERSION = targetVersion;
 
   const start = await runToolsPackJsonForVersion<WinStartResult>('start', targetVersion);
   expect(start.source).toBe('installed');
-  expect(start.executablePath).toBe(join(options.installDir, 'Open Design.exe'));
+  expect(start.executablePath).toBe(join(options.installDir, 'SankiWork.exe'));
   // The updater-owned installer may preserve the already-confirmed payload
   // desktop while replacing the physical outer. Verify continuity here; the
   // explicit full stop + installed-outer cold start below owns the stronger
@@ -1803,14 +1803,14 @@ async function runDirectInstaller(
             '-ExecutionPolicy',
             'Bypass',
             '-Command',
-            "& { $process = Start-Process -FilePath $env:OD_TEST_INSTALLER_PATH -ArgumentList '/S', $env:OD_TEST_INSTALL_DIR_ARG -Wait -PassThru; exit $process.ExitCode }",
+            "& { $process = Start-Process -FilePath $env:SW_TEST_INSTALLER_PATH -ArgumentList '/S', $env:SW_TEST_INSTALL_DIR_ARG -Wait -PassThru; exit $process.ExitCode }",
           ],
           {
             cwd: dirname(installerPath),
             env: {
               ...process.env,
-              OD_TEST_INSTALL_DIR_ARG: `/D=${installDir}`,
-              OD_TEST_INSTALLER_PATH: installerPath,
+              SW_TEST_INSTALL_DIR_ARG: `/D=${installDir}`,
+              SW_TEST_INSTALLER_PATH: installerPath,
             },
             maxBuffer: 20 * 1024 * 1024,
           },
@@ -1844,7 +1844,7 @@ async function resolveLocalUpdateFixture(
     : resolveFromWorkspace(explicitBuildJsonPath);
   if (fallbackBuildJsonPath == null) {
     throw new Error(
-      'full packaged windows payload smoke requires update payload metadata; set OD_PACKAGED_E2E_WIN_UPDATE_METADATA_URL or provide windows-tools-pack-update-build.json next to OD_PACKAGED_E2E_BUILD_JSON_PATH',
+      'full packaged windows payload smoke requires update payload metadata; set SW_PACKAGED_E2E_WIN_UPDATE_METADATA_URL or provide windows-tools-pack-update-build.json next to SW_PACKAGED_E2E_BUILD_JSON_PATH',
     );
   }
   const updateBuild = JSON.parse(stripUtf8Bom(await readFile(fallbackBuildJsonPath, 'utf8'))) as {
@@ -1941,7 +1941,7 @@ function settledLauncherGeneration(launcher: LauncherSnapshot, expectedVersion: 
 
 function resolveFallbackUpdateBuildJsonPath(): string | null {
   if (updateBuildJsonPath != null && updateBuildJsonPath !== '') return resolveFromWorkspace(updateBuildJsonPath);
-  const mainBuildJsonPath = normalizeOptionalEnv(process.env.OD_PACKAGED_E2E_BUILD_JSON_PATH);
+  const mainBuildJsonPath = normalizeOptionalEnv(process.env.SW_PACKAGED_E2E_BUILD_JSON_PATH);
   if (mainBuildJsonPath == null || mainBuildJsonPath === '') return null;
   return join(dirname(resolveFromWorkspace(mainBuildJsonPath)), 'windows-tools-pack-update-build.json');
 }
@@ -1949,7 +1949,7 @@ function resolveFallbackUpdateBuildJsonPath(): string | null {
 function assertToolsServeFixtureEnabled(platformName: string, value: string | null): void {
   if (value === 'tools-serve') return;
   throw new Error(
-    `full packaged ${platformName} payload smoke requires explicit tools-serve fixture; set OD_PACKAGED_E2E_WIN_UPDATE_FIXTURE=tools-serve or provide OD_PACKAGED_E2E_WIN_UPDATE_METADATA_URL`,
+    `full packaged ${platformName} payload smoke requires explicit tools-serve fixture; set SW_PACKAGED_E2E_WIN_UPDATE_FIXTURE=tools-serve or provide SW_PACKAGED_E2E_WIN_UPDATE_METADATA_URL`,
   );
 }
 
@@ -1970,11 +1970,11 @@ function stripUtf8Bom(value: string): string {
 }
 
 const UPDATE_ENV_KEYS = [
-  'OD_UPDATE_AUTO_CHECK',
-  'OD_UPDATE_ENABLED',
-  'OD_UPDATE_METADATA_URL',
-  'OD_UPDATE_CURRENT_VERSION',
-  'OD_UPDATE_OPEN_DRY_RUN',
+  'SW_UPDATE_AUTO_CHECK',
+  'SW_UPDATE_ENABLED',
+  'SW_UPDATE_METADATA_URL',
+  'SW_UPDATE_CURRENT_VERSION',
+  'SW_UPDATE_OPEN_DRY_RUN',
 ] as const;
 
 function captureUpdateEnv(): Partial<Record<(typeof UPDATE_ENV_KEYS)[number], string>> {
@@ -2065,7 +2065,7 @@ async function fetchPackagedHealth(daemonUrl: string): Promise<HealthEvalValue> 
       health: await response.json() as HealthEvalValue['health'],
       href: daemonUrl,
       status: response.status,
-      title: 'Open Design Beta',
+      title: 'SankiWork Beta',
     };
   } finally {
     clearTimeout(timeout);
@@ -2254,8 +2254,8 @@ async function buildVersionBumpedWinPayloadFixture(
     if (executableRelPath == null || executableRelPath.length === 0) {
       throw new Error(`payload manifest has no entry.executable: ${payloadSevenZPath}`);
     }
-    // <payload dir>/<binary>.exe → <payload dir>/resources/open-design-config.json
-    const configPath = join(extractRoot, dirname(executableRelPath), 'resources', 'open-design-config.json');
+    // <payload dir>/<binary>.exe → <payload dir>/resources/sankiwork-config.json
+    const configPath = join(extractRoot, dirname(executableRelPath), 'resources', 'sankiwork-config.json');
     const config = JSON.parse(await readFile(configPath, 'utf8')) as { appVersion?: string };
     config.appVersion = bumpedVersion;
     await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`, 'utf8');
@@ -2451,7 +2451,7 @@ async function assertPayloadDesktopIdentity(
     normalizePathForComparison(resolve(legacyInstalledExecutablePath)),
   );
   const resourceRoot = await readDesktopStartupResourceRoot(identity.pid);
-  expectPathInside(resourceRoot, join(payloadRoot, 'resources', 'open-design'));
+  expectPathInside(resourceRoot, join(payloadRoot, 'resources', 'sankiwork'));
 }
 
 async function readDesktopStartupResourceRoot(pid: number): Promise<string> {
@@ -2564,7 +2564,7 @@ function expectWindowsPackagedAppUrl(value: string | null | undefined): void {
 }
 
 function expectWindowsPackagedRouteUrl(value: string | null | undefined): void {
-  expect(packagedAppRouteUrl(value), `${String(value)} should be an od://app/* packaged renderer URL`).toBe(true);
+  expect(packagedAppRouteUrl(value), `${String(value)} should be an sankiwork://app/* packaged renderer URL`).toBe(true);
 }
 
 function expectWindowsFallbackWebUrl(value: string | null | undefined): void {
@@ -2578,7 +2578,7 @@ function expectWindowsDaemonUrl(value: string | null | undefined): void {
 async function assertWindowsInviteProtocolRegistration(installDir: string): Promise<void> {
   const { stdout } = await execFileAsync('reg.exe', [
     'query',
-    'HKCU\\Software\\Classes\\opendesign\\shell\\open\\command',
+    'HKCU\\Software\\Classes\\sankiwork\\shell\\open\\command',
     '/ve',
   ]);
   const normalized = stdout.toLowerCase();
@@ -2638,7 +2638,7 @@ async function readInviteContinuationResults(): Promise<InviteContinuationResult
     }
     if (!isRecord(entry) || entry.message !== 'console.info' || !isRecord(entry.meta)) continue;
     const args = entry.meta.args;
-    if (!Array.isArray(args) || args[0] !== '[open-design desktop] invite deeplink continuation completed') continue;
+    if (!Array.isArray(args) || args[0] !== '[sankiwork desktop] invite deeplink continuation completed') continue;
     const outcome = args[1];
     if (!isRecord(outcome) || typeof outcome.ok !== 'boolean') continue;
     results.push({
@@ -2654,7 +2654,7 @@ async function assertWindowsInviteProtocolRemoved(): Promise<void> {
   await expect(
     execFileAsync('reg.exe', [
       'query',
-      'HKCU\\Software\\Classes\\opendesign',
+      'HKCU\\Software\\Classes\\sankiwork',
     ]),
   ).rejects.toMatchObject({ code: 1 });
 }
@@ -2678,7 +2678,7 @@ async function seedPackagedOnboardingComplete(): Promise<void> {
   // app's baked config. `tools-pack win start` rewrites the launch config's
   // `namespaceBaseRoot` to the tools-pack runtime root (see
   // writeInstalledLaunchPackagedConfig in tools/pack/src/win/lifecycle.ts) and
-  // hands it to the runtime via OD_PACKAGED_CONFIG_PATH, so the live daemon's
+  // hands it to the runtime via SW_PACKAGED_CONFIG_PATH, so the live daemon's
   // RUNTIME_DATA_DIR is always under runtimeNamespaceRoot regardless of what
   // the installer baked. Deriving the path from the installed manifest landed
   // the seed elsewhere (the AppData fallback), so the daemon never saw it and
@@ -2797,7 +2797,7 @@ function resolveOptionalFixturePort(value: string | undefined): number | null {
   const port = Number(normalized);
   if (!Number.isInteger(port) || port < 1 || port > 65_535) {
     throw new Error(
-      `OD_PACKAGED_E2E_WIN_UPDATE_FIXTURE_PORT must be an integer between 1 and 65535, received ${JSON.stringify(normalized)}`,
+      `SW_PACKAGED_E2E_WIN_UPDATE_FIXTURE_PORT must be an integer between 1 and 65535, received ${JSON.stringify(normalized)}`,
     );
   }
   return port;
@@ -2806,5 +2806,5 @@ function resolveOptionalFixturePort(value: string | undefined): number | null {
 function resolveUpdateFixtureMode(value: string | undefined): UpdateFixtureMode {
   const normalized = normalizeOptionalEnv(value) ?? 'payload';
   if (normalized === 'installer' || normalized === 'payload') return normalized;
-  throw new Error(`OD_PACKAGED_E2E_WIN_UPDATE_MODE must be installer or payload, received ${JSON.stringify(normalized)}`);
+  throw new Error(`SW_PACKAGED_E2E_WIN_UPDATE_MODE must be installer or payload, received ${JSON.stringify(normalized)}`);
 }

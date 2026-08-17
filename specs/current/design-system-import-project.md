@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Open Design needs imported design systems to satisfy four stakeholders at
+SankiWork needs imported design systems to satisfy four stakeholders at
 once:
 
 - **Push channel**: system-prompt injection must stay small, dense,

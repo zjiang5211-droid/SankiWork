@@ -232,7 +232,7 @@ type LocalizedContentIds = {
 
 ### Verification
 
-- `pnpm --filter @open-design/web exec vitest run -c vitest.config.ts tests/i18n/content.test.ts` - passed.
+- `pnpm --filter @sankiwork/web exec vitest run -c vitest.config.ts tests/i18n/content.test.ts` - passed.
 - `pnpm typecheck` from `e2e/` - passed.
 - `pnpm test tests/localized-content.test.ts` from `e2e/` - passed.
 - Reviewer subagent - no blocking issues after fixes.

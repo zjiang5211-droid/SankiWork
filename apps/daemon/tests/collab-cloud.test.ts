@@ -7,7 +7,7 @@ import {
   buildWorkspaceSeatSummary,
   type CollabCloudComment,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   closeDatabase,
   deleteConversationAndRepairTeamCommentAnchor,
@@ -1071,16 +1071,16 @@ describe('collab-cloud client', () => {
 
 describe('VelaCliCollabClient', () => {
   it('uses the CLI transport when team/resource sync is already Vela-backed', () => {
-    expect(shouldUseVelaCliCollabTransport({ OD_COLLAB_TRANSPORT: 'vela-cli' })).toBe(true);
-    expect(shouldUseVelaCliCollabTransport({ OD_COLLAB_TRANSPORT: 'sdk' })).toBe(false);
-    expect(shouldUseVelaCliCollabTransport({ OD_WORKSPACE_CONTEXT_SOURCE: 'vela' })).toBe(true);
+    expect(shouldUseVelaCliCollabTransport({ SW_COLLAB_TRANSPORT: 'vela-cli' })).toBe(true);
+    expect(shouldUseVelaCliCollabTransport({ SW_COLLAB_TRANSPORT: 'sdk' })).toBe(false);
+    expect(shouldUseVelaCliCollabTransport({ SW_WORKSPACE_CONTEXT_SOURCE: 'vela' })).toBe(true);
     expect(shouldUseVelaCliCollabTransport({
-      OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
-      OD_COLLAB_CLOUD_URL: 'http://legacy-fixture.local',
+      SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
+      SW_COLLAB_CLOUD_URL: 'http://legacy-fixture.local',
     })).toBe(true);
-    expect(shouldUseVelaCliCollabTransport({ OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli' })).toBe(true);
-    expect(shouldUseVelaCliCollabTransport({ OD_RESOURCE_TRANSPORT: 'vela-cli' })).toBe(true);
-    expect(shouldUseVelaCliCollabTransport({ OD_COLLAB_CLOUD_URL: 'http://fixture.local' })).toBe(false);
+    expect(shouldUseVelaCliCollabTransport({ SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli' })).toBe(true);
+    expect(shouldUseVelaCliCollabTransport({ SW_RESOURCE_TRANSPORT: 'vela-cli' })).toBe(true);
+    expect(shouldUseVelaCliCollabTransport({ SW_COLLAB_CLOUD_URL: 'http://fixture.local' })).toBe(false);
     expect(shouldUseVelaCliCollabTransport({})).toBe(false);
   });
 

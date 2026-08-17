@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import type Database from 'better-sqlite3';
-import { PLUGIN_SHARE_ACTION_PLUGIN_IDS } from '@open-design/contracts';
+import { PLUGIN_SHARE_ACTION_PLUGIN_IDS } from '@sankiwork/contracts';
 import { upsertMessage } from '../db.js';
 import { emittedRenderableQuestionForm } from '../question-form-detect.js';
 import { execGhBuffered } from '../services/login-shell.js';
@@ -107,12 +107,12 @@ export function githubRepoNameFromPluginName(name: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9._-]+/g, '-')
     .replace(/(^[-._]+|[-._]+$)/g, '');
-  return slug || 'open-design-plugin';
+  return slug || 'sankiwork-plugin';
 }
 
 export const PLUGIN_SHARE_ACTION_LABELS: Record<PluginShareAction, string> = {
   'publish-github': 'Publish to GitHub',
-  'contribute-open-design': 'Contribute to Open Design',
+  'contribute-sankiwork': 'Contribute to SankiWork',
 };
 
 export const USER_PLUGIN_SOURCE_KINDS = new Set([
@@ -128,7 +128,7 @@ const PLUGIN_CONTEXT_SKIP_DIRS = new Set([
   '.git',
   '.next',
   '.nuxt',
-  '.od',
+  '.sankiwork',
   '.output',
   '.tmp',
   '.turbo',
@@ -159,13 +159,13 @@ export function renderPluginSharePrompt({ action, sourcePlugin, stagedPath }: Pl
   const title = sourcePlugin.title || sourcePlugin.id;
   if (action === 'publish-github') {
     return [
-      `Publish the local Open Design plugin "${title}" as a new public GitHub repository.`,
+      `Publish the local SankiWork plugin "${title}" as a new public GitHub repository.`,
       '',
       `The plugin source files have been copied into this project at \`${stagedPath}\`.`,
-      'Use the local daemon share endpoint so the publish flow runs through Open Design\'s validated GitHub path:',
+      'Use the local daemon share endpoint so the publish flow runs through SankiWork\'s validated GitHub path:',
       '',
       '```bash',
-      `curl -sS -X POST "$OD_DAEMON_URL/api/projects/$OD_PROJECT_ID/plugins/publish-github" \\`,
+      `curl -sS -X POST "$SW_DAEMON_URL/api/projects/$SW_PROJECT_ID/plugins/publish-github" \\`,
       `  -H 'content-type: application/json' \\`,
       `  -d '${JSON.stringify({ path: stagedPath })}'`,
       '```',
@@ -176,13 +176,13 @@ export function renderPluginSharePrompt({ action, sourcePlugin, stagedPath }: Pl
     ].join('\n');
   }
   return [
-    `Open a pull request to add the local Open Design plugin "${title}" to the Open Design repository.`,
+    `Open a pull request to add the local SankiWork plugin "${title}" to the SankiWork repository.`,
     '',
     `The plugin source files have been copied into this project at \`${stagedPath}\`.`,
-    'Use the local daemon share endpoint so the contribution flow runs through Open Design\'s validated GitHub path:',
+    'Use the local daemon share endpoint so the contribution flow runs through SankiWork\'s validated GitHub path:',
     '',
     '```bash',
-    `curl -sS -X POST "$OD_DAEMON_URL/api/projects/$OD_PROJECT_ID/plugins/contribute-open-design" \\`,
+    `curl -sS -X POST "$SW_DAEMON_URL/api/projects/$SW_PROJECT_ID/plugins/contribute-sankiwork" \\`,
     `  -H 'content-type: application/json' \\`,
     `  -d '${JSON.stringify({ path: stagedPath })}'`,
     '```',
@@ -407,7 +407,7 @@ export function upsertSkillPluginCandidateAssistantMessage(
   upsertMessage(db, run.conversationId, {
     id: messageId,
     role: 'assistant',
-    content: `Open Design found reusable skill material that can become a plugin: ${candidate.title}`,
+    content: `SankiWork found reusable skill material that can become a plugin: ${candidate.title}`,
     events: [{
       kind: 'plugin_candidate',
       candidateId: candidate.id,

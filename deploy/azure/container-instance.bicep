@@ -1,19 +1,19 @@
 targetScope = 'resourceGroup'
 
-@description('Azure region for the Open Design container group and storage account.')
+@description('Azure region for the SankiWork container group and storage account.')
 param location string = resourceGroup().location
 
 @description('Container group name.')
-param containerGroupName string = 'open-design'
+param containerGroupName string = 'sankiwork'
 
 @description('DNS label for the Azure Container Instances upstream endpoint. Must be unique in the selected region.')
-param dnsNameLabel string = toLower('open-design-${uniqueString(resourceGroup().id, location)}')
+param dnsNameLabel string = toLower('sankiwork-${uniqueString(resourceGroup().id, location)}')
 
-@description('Open Design container image.')
+@description('SankiWork container image.')
 param image string = 'ghcr.io/nexu-io/od:latest'
 
 @secure()
-@description('Required Open Design API token. Generate with: openssl rand -hex 32')
+@description('Required SankiWork API token. Generate with: openssl rand -hex 32')
 param odApiToken string
 
 @description('Comma-separated browser-visible origins allowed by the daemon. Set this to the authenticated reverse proxy origin, for example https://od.example.com.')
@@ -30,13 +30,13 @@ param cpuCores int = 1
 @minValue(1)
 param memoryInGB int = 1
 
-@description('Azure Files share quota in GiB for persistent Open Design data.')
+@description('Azure Files share quota in GiB for persistent SankiWork data.')
 @minValue(1)
 @maxValue(5120)
 param fileShareQuotaGB int = 10
 
 var storageAccountName = take(toLower('od${uniqueString(resourceGroup().id, location)}'), 24)
-var fileShareName = 'opendesigndata'
+var fileShareName = 'sankiworkdata'
 var appPort = 7456
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
@@ -86,7 +86,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01'
     }
     containers: [
       {
-        name: 'open-design'
+        name: 'sankiwork'
         properties: {
           image: image
           ports: [
@@ -105,27 +105,27 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01'
               value: nodeOptions
             }
             {
-              name: 'OD_BIND_HOST'
+              name: 'SW_BIND_HOST'
               value: '0.0.0.0'
             }
             {
-              name: 'OD_PORT'
+              name: 'SW_PORT'
               value: string(appPort)
             }
             {
-              name: 'OD_WEB_PORT'
+              name: 'SW_WEB_PORT'
               value: string(appPort)
             }
             {
-              name: 'OD_DATA_DIR'
-              value: '/app/.od'
+              name: 'SW_DATA_DIR'
+              value: '/app/.sankiwork'
             }
             {
-              name: 'OD_ALLOWED_ORIGINS'
+              name: 'SW_ALLOWED_ORIGINS'
               value: allowedOrigins
             }
             {
-              name: 'OD_API_TOKEN'
+              name: 'SW_API_TOKEN'
               secureValue: odApiToken
             }
           ]
@@ -137,8 +137,8 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01'
           }
           volumeMounts: [
             {
-              name: 'open-design-data'
-              mountPath: '/app/.od'
+              name: 'sankiwork-data'
+              mountPath: '/app/.sankiwork'
               readOnly: false
             }
           ]
@@ -158,7 +158,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01'
     ]
     volumes: [
       {
-        name: 'open-design-data'
+        name: 'sankiwork-data'
         azureFile: {
           shareName: dataShare.name
           storageAccountName: storageAccount.name

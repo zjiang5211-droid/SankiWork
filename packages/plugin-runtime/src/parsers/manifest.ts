@@ -1,8 +1,8 @@
 import {
-  OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+  SANKIWORK_PLUGIN_SPEC_VERSION,
   PluginManifestSchema,
   type PluginManifest,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export interface ManifestParseSuccess {
   ok: true;
@@ -48,7 +48,7 @@ export function parseManifestObject(value: unknown): ManifestParseResult {
   return {
     ok: true,
     manifest: {
-      specVersion: OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+      specVersion: SANKIWORK_PLUGIN_SPEC_VERSION,
       ...result.data,
     },
     warnings: [],

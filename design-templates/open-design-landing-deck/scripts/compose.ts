@@ -25,7 +25,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { resolve, dirname, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type {
-  OpenDesignLandingDeckInputs,
+  SankiWorkLandingDeckInputs,
   Slide,
   CoverSlide,
   SectionSlide,
@@ -636,7 +636,7 @@ body::before { z-index: 0; }
  * slide renderers
  * ------------------------------------------------------------------ */
 
-function chromeStrip(brand: OpenDesignLandingDeckInputs['brand'], deckTitle: string): string {
+function chromeStrip(brand: SankiWorkLandingDeckInputs['brand'], deckTitle: string): string {
   return `<div class='slide-chrome'>
   <div class='left'>
     <span class='mark'>${brand.mark}</span>
@@ -649,7 +649,7 @@ function chromeStrip(brand: OpenDesignLandingDeckInputs['brand'], deckTitle: str
 </div>`;
 }
 
-function footStrip(idx: number, total: number, brand: OpenDesignLandingDeckInputs['brand']): string {
+function footStrip(idx: number, total: number, brand: SankiWorkLandingDeckInputs['brand']): string {
   const counter = `${String(idx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
   return `<div class='slide-foot'>
   <span>${brand.year_roman ?? brand.year ?? ''} · ${brand.location ?? ''}</span>
@@ -796,7 +796,7 @@ function renderSlide(
   s: Slide,
   i: number,
   total: number,
-  inputs: OpenDesignLandingDeckInputs,
+  inputs: SankiWorkLandingDeckInputs,
   assets: string,
 ): string {
   return `<section class='slide ${classFor(s)}' data-slide-kind='${s.kind}'>
@@ -845,7 +845,7 @@ const RUNTIME_SCRIPT = `
   function applySlide(n) {
     idx = Math.max(0, Math.min(total - 1, n));
     deck.style.transform = 'translateX(' + (-idx * 100) + 'vw)';
-    /* load-bearing: .slide.active is read by Open Design's host bridge
+    /* load-bearing: .slide.active is read by SankiWork's host bridge
        (src/runtime/srcdoc.ts findActiveByClass) to drive the slide
        counter. No CSS targets it — do not remove. */
     slides.forEach(function (s, i) { s.classList.toggle('active', i === idx); });
@@ -946,7 +946,7 @@ const RUNTIME_SCRIPT = `
     }
   }, { passive: true });
 
-  /* Host-driven navigation: Open Design's host bridge classifies this deck
+  /* Host-driven navigation: SankiWork's host bridge classifies this deck
      as class-driven (because go() toggles .slide.active) but the visible
      slide is moved by deck.style.transform, which the bridge can't drive.
      Two cooperating handlers keep the deck in sync with the host:
@@ -990,7 +990,7 @@ const RUNTIME_SCRIPT = `
  * top-level
  * ------------------------------------------------------------------ */
 
-export function renderDeck(inputs: OpenDesignLandingDeckInputs, baseCss: string): string {
+export function renderDeck(inputs: SankiWorkLandingDeckInputs, baseCss: string): string {
   const assets = inputs.imagery.assets_path.replace(/\/?$/, '/');
   const total = inputs.slides.length;
   const slides = inputs.slides
@@ -1037,7 +1037,7 @@ async function main(): Promise<void> {
     readFile(inputsPath, 'utf8'),
     readFile(SISTER_STYLES, 'utf8'),
   ]);
-  const inputs = JSON.parse(inputsRaw) as OpenDesignLandingDeckInputs;
+  const inputs = JSON.parse(inputsRaw) as SankiWorkLandingDeckInputs;
   const html = renderDeck(inputs, css);
 
   await mkdir(dirname(outputPath), { recursive: true });

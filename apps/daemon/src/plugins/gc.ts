@@ -3,9 +3,9 @@
 // The unreferenced-snapshot TTL is enforced by `pruneExpiredSnapshots()`
 // (defined in `snapshots.ts`); this module owns the periodic schedule
 // and the audit log. The worker is started from `server.ts` boot and
-// disabled when `OD_SNAPSHOT_GC_INTERVAL_MS` is set to `0`.
+// disabled when `SW_SNAPSHOT_GC_INTERVAL_MS` is set to `0`.
 //
-// Operator escape hatch: `od plugin snapshots prune --before <ts>` calls
+// Operator escape hatch: `sw plugin snapshots prune --before <ts>` calls
 // `pruneExpiredSnapshots(db, { before: cutoff })` synchronously without
 // touching the periodic timer.
 
@@ -52,7 +52,7 @@ export function startSnapshotGc(opts: SnapshotGcOptions): SnapshotGcHandle {
 
   const tick = () => {
     try {
-      // Plan §3.M1 / spec PB2 — feed OD_SNAPSHOT_RETENTION_DAYS into
+      // Plan §3.M1 / spec PB2 — feed SW_SNAPSHOT_RETENTION_DAYS into
       // pruneExpiredSnapshots so referenced rows whose project has
       // been deleted are eligible for deletion after the configured
       // window. The unreferenced-TTL sweep stays the v1 default

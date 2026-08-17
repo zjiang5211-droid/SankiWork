@@ -29,7 +29,7 @@ describe('Playwright tools-dev runtime lifecycle', () => {
 
   test('uses the explicit namespace as a prefix while keeping concurrent runs isolated', () => {
     const env = {
-      OD_E2E_NAMESPACE: 'focused route stress',
+      SW_E2E_NAMESPACE: 'focused route stress',
     };
     expect(initializePlaywrightRunNamespace(env, () => 'run-token')).toBe(
       'focused-route-stress-run-token',
@@ -39,7 +39,7 @@ describe('Playwright tools-dev runtime lifecycle', () => {
 
   test('preserves an inherited exact run namespace across Playwright processes', () => {
     const env = {
-      OD_E2E_NAMESPACE: 'ignored-prefix',
+      SW_E2E_NAMESPACE: 'ignored-prefix',
       [PLAYWRIGHT_RUN_NAMESPACE_ENV]: 'generated-run',
     };
     expect(initializePlaywrightRunNamespace(env, () => 'unused')).toBe('generated-run');

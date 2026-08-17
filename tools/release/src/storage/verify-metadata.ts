@@ -3,7 +3,7 @@ import {
   assertLauncherVersionFloorSatisfiable,
   resolveLauncherVersionFloor,
 } from "./launcher-version-floor.ts";
-import { releaseChannelDescriptor } from "@open-design/release";
+import { releaseChannelDescriptor } from "@sankiwork/release";
 import { readFile } from "node:fs/promises";
 import { parseReleaseNotePublication, releaseNoteMetadataFromPublication } from "../release-note/publication.ts";
 

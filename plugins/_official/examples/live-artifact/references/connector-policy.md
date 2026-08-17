@@ -16,7 +16,7 @@ If a tool name, scope, or description suggests write/create/update/delete/admin/
 ## Execution boundaries
 
 - Use daemon wrapper commands or `/api/tools/connectors/*`; do not call provider APIs directly from the artifact workflow when a daemon connector exists.
-- Tool endpoints require the injected `OD_TOOL_TOKEN`; do not invent or pass `projectId`.
+- Tool endpoints require the injected `SW_TOOL_TOKEN`; do not invent or pass `projectId`.
 - Agent calls and refresh-runner calls must share the same daemon connector execution service.
 - Re-check connector status, allowlists, current scopes, tool safety, and refresh eligibility at execution time.
 - For connector-backed refresh, saved `connectorId`, `accountLabel`, tool name, input shape, and approval policy must still match current connector state.
@@ -26,7 +26,7 @@ If a tool name, scope, or description suggests write/create/update/delete/admin/
 List connectors before using connector-backed data:
 
 ```bash
-"$OD_NODE_BIN" "$OD_BIN" tools connectors list --format compact
+"$SW_NODE_BIN" "$SW_BIN" tools connectors list --format compact
 ```
 
 The compact result includes each connector's `id`, display metadata, `status`, optional `accountLabel`, and callable tool summaries with `name`, `description`, `safety`, and `inputSchema`. Use this output to select a connector and tool; do not guess tool names.
@@ -46,10 +46,10 @@ For Notion, prefer this selection order:
 Create a bounded JSON object input file that matches the selected tool's `inputSchema`, then execute through the wrapper:
 
 ```bash
-"$OD_NODE_BIN" "$OD_BIN" tools connectors execute --connector "$CONNECTOR_ID" --tool "$TOOL_NAME" --input input.json
+"$SW_NODE_BIN" "$SW_BIN" tools connectors execute --connector "$CONNECTOR_ID" --tool "$TOOL_NAME" --input input.json
 ```
 
-The wrapper reads `OD_NODE_BIN`, `OD_BIN`, `OD_DAEMON_URL`, and `OD_TOOL_TOKEN`, sends the request to `/api/tools/connectors/execute`, and prints compact JSON. Successful output includes `connectorId`, optional `accountLabel`, `toolName`, `safety`, `outputSummary`, redacted `output`, and daemon metadata. On failure, fix the input/schema/connection issue and retry; do not bypass connector validation with direct provider calls.
+The wrapper reads `SW_NODE_BIN`, `SW_BIN`, `SW_DAEMON_URL`, and `SW_TOOL_TOKEN`, sends the request to `/api/tools/connectors/execute`, and prints compact JSON. Successful output includes `connectorId`, optional `accountLabel`, `toolName`, `safety`, `outputSummary`, redacted `output`, and daemon metadata. On failure, fix the input/schema/connection issue and retry; do not bypass connector validation with direct provider calls.
 
 Execution is fail-closed:
 
@@ -70,7 +70,7 @@ Connector-backed live artifact refresh is allowed only for tools that remain rea
 {
   "type": "connector_tool",
   "toolName": "github.public_repo_summary",
-  "input": { "owner": "open-design", "repo": "open-design" },
+  "input": { "owner": "sankiwork", "repo": "sankiwork" },
   "connector": {
     "connectorId": "github_public",
     "accountLabel": "public",

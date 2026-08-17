@@ -45,7 +45,7 @@ design-templates/open-design-landing-deck/
 ├── SKILL.md                 # ← agent contract (read this first)
 ├── README.md                # ← you are here
 ├── schema.ts                # typed slide variants + brand block (re-exports from sister)
-├── inputs.example.json      # Open Design 11-slide pitch deck
+├── inputs.example.json      # SankiWork 11-slide pitch deck
 ├── example.html             # canonical rendering
 └── scripts/
     └── compose.ts           # inputs.json + sister styles.css → index.html
@@ -104,11 +104,11 @@ are mechanical:
 | --- | --- |
 | skill folder `editorial-collage-deck/` | `open-design-landing-deck/` |
 | shared assets `../editorial-collage/assets/` | `../open-design-landing/assets/` |
-| TS type `EditorialCollageDeckInputs` | `OpenDesignLandingDeckInputs` |
+| TS type `EditorialCollageDeckInputs` | `SankiWorkLandingDeckInputs` |
 
 The deprecated `EditorialCollageDeckInputs` alias is still re-exported from
 [`schema.ts`](./schema.ts) for backwards compatibility. New code should use
-`OpenDesignLandingDeckInputs`.
+`SankiWorkLandingDeckInputs`.
 
 ## See also
 

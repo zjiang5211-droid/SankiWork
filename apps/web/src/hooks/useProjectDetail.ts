@@ -10,7 +10,7 @@ import type {
   Project,
   ProjectDetailResponse,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export interface ProjectDetailState {
   project: Project | null;

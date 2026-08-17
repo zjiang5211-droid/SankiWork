@@ -11,7 +11,7 @@ import { fetchExternalBrandAsset } from "./safe-fetch.js";
  * voice analysis. The output is a compact `material.md` digest that gets
  * inlined into a SINGLE agent prompt — the agent never needs WebFetch/Bash
  * in the happy path. This is what makes extraction take ~30s instead of the
- * 2–3 min multi-turn agent-driven flow in open-design.
+ * 2–3 min multi-turn agent-driven flow in sankiwork.
  *
  * No headless browser, no cheerio — regex over HTML at this fidelity is
  * fine; the LLM downstream is tolerant of harvest noise.

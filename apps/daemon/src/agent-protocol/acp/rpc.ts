@@ -110,7 +110,7 @@ export function inferRpcErrorRetryable(message: string, data: unknown): boolean 
 }
 /**
  * Promotes an opencode `ROLE_MARKER_HALLUCINATION` error embedded in an ACP
- * JSON-RPC `error.data` payload into a canonical Open Design error object.
+ * JSON-RPC `error.data` payload into a canonical SankiWork error object.
  * Returns `null` when the data payload does not match the expected shape.
  * Exists so callers can surface a vendor-specific failure with a structured
  * error code rather than a bare generic message.
@@ -140,7 +140,7 @@ export function promotedOpenCodeSessionErrorPayload(data: unknown, fallbackMessa
       retryable: typeof details.retryable === 'boolean' ? details.retryable : true,
       details: {
         ...details,
-        promoted_by: 'open_design_acp',
+        promoted_by: 'sankiwork_acp',
       },
     },
   };

@@ -43,7 +43,7 @@ export function registerDaemonRoutes(app: Express, deps: RegisterDaemonRoutesDep
       bindHost: host,
       port: deps.getResolvedPort(),
       dataDir: paths.RUNTIME_DATA_DIR,
-      mediaConfigDir: env.OD_MEDIA_CONFIG_DIR ?? null,
+      mediaConfigDir: env.SW_MEDIA_CONFIG_DIR ?? null,
       sandboxMode: sandboxRuntime.enabled,
       sandbox: sandboxRuntime.enabled
         ? { enabled: true, roots: sandboxRuntime.roots }
@@ -100,7 +100,7 @@ export function registerDaemonRoutes(app: Express, deps: RegisterDaemonRoutesDep
 
   app.post('/api/agents/:agentId/companion/install', requireLocalDaemonRequest, async (req, res) => {
     if (req.params.agentId !== 'deepseek-harness') {
-      return sendApiError(res, 400, 'BAD_REQUEST', 'This agent has no Open Design connection component.');
+      return sendApiError(res, 400, 'BAD_REQUEST', 'This agent has no SankiWork connection component.');
     }
     try {
       const result = await installDeepSeekHarnessCompanion({
@@ -164,7 +164,7 @@ export function registerDaemonRoutes(app: Express, deps: RegisterDaemonRoutesDep
     });
   });
 
-  if (env.OD_METRICS_ENDPOINT !== 'disabled') {
+  if (env.SW_METRICS_ENDPOINT !== 'disabled') {
     app.get('/api/metrics', async (_req, res) => {
       res.setHeader('Content-Type', register.contentType);
       res.send(await getCritiqueMetrics());
@@ -188,7 +188,7 @@ export function registerDaemonRoutes(app: Express, deps: RegisterDaemonRoutesDep
       const cleanParseThreshold = parseRate(req.query.cleanParseThreshold, 0.95);
       const history = await readConformanceHistory(paths.RUNTIME_DATA_DIR, windowDays);
       const decision = evaluateRollout({
-        current: parseRolloutPhase(env.OD_CRITIQUE_ROLLOUT_PHASE),
+        current: parseRolloutPhase(env.SW_CRITIQUE_ROLLOUT_PHASE),
         history,
         windowDays,
         shippedThreshold,

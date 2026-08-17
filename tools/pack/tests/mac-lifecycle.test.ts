@@ -5,20 +5,20 @@ import { join } from "node:path";
 import type { ChildProcess } from "node:child_process";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { DesktopStatusSnapshot } from "@open-design/sidecar-proto";
+import type { DesktopStatusSnapshot } from "@sankiwork/sidecar-proto";
 
 import type { ToolPackConfig } from "../src/config.js";
 import { resolveMacPaths } from "../src/mac/paths.js";
 
 const requestJsonIpc = vi.fn(async (): Promise<DesktopStatusSnapshot> => ({ state: "running" }));
-const resolveAppIpcPath = vi.fn(() => "/tmp/open-design/ipc/test/desktop.sock");
+const resolveAppIpcPath = vi.fn(() => "/tmp/sankiwork/ipc/test/desktop.sock");
 const createSidecarLaunchEnv = vi.fn(({ extraEnv }: { extraEnv: NodeJS.ProcessEnv }) => extraEnv);
 const collectProcessTreePids = vi.fn(
   (_processes: unknown[], rootPids: Array<number | null>) =>
     rootPids.filter((pid): pid is number => typeof pid === "number"),
 );
 const listProcessSnapshots = vi.fn(async () => [] as Array<{ command: string; pid: number; ppid: number }>);
-const matchesStampedProcess = vi.fn<typeof import("@open-design/platform").matchesStampedProcess>(() => false);
+const matchesStampedProcess = vi.fn<typeof import("@sankiwork/platform").matchesStampedProcess>(() => false);
 const stopProcesses = vi.fn(async (pids: number[]) => ({ remainingPids: [], stoppedPids: pids }));
 const spawnLoggedProcess = vi.fn(async ({ env }: { env: NodeJS.ProcessEnv }) => {
   return Object.assign(new EventEmitter(), {
@@ -28,13 +28,13 @@ const spawnLoggedProcess = vi.fn(async ({ env }: { env: NodeJS.ProcessEnv }) => 
   }) as unknown as ChildProcess & { env: NodeJS.ProcessEnv };
 });
 
-vi.mock("@open-design/sidecar", () => ({
+vi.mock("@sankiwork/sidecar", () => ({
   createSidecarLaunchEnv,
   requestJsonIpc,
   resolveAppIpcPath,
 }));
 
-vi.mock("@open-design/platform", () => ({
+vi.mock("@sankiwork/platform", () => ({
   collectProcessTreePids,
   createProcessStampArgs: vi.fn(() => []),
   isProcessAlive: vi.fn(() => true),
@@ -99,11 +99,11 @@ afterEach(() => {
 
 describe("startPackedMacApp", () => {
   it("accepts a clean launcher exit when the delegated desktop becomes healthy", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-lifecycle-"));
     try {
       const config = makeConfig(root);
       const paths = resolveMacPaths(config);
-      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "Open Design");
+      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "SankiWork");
       const delegatedPid = 5678;
 
       await mkdir(join(paths.installedAppPath, "Contents", "MacOS"), { recursive: true });
@@ -130,11 +130,11 @@ describe("startPackedMacApp", () => {
   });
 
   it("rejects a non-zero launcher exit before desktop handoff", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-lifecycle-"));
     try {
       const config = makeConfig(root);
       const paths = resolveMacPaths(config);
-      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "Open Design");
+      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "SankiWork");
 
       await mkdir(join(paths.installedAppPath, "Contents", "MacOS"), { recursive: true });
       await writeFile(executablePath, "#!/bin/sh\nexit 1\n", "utf8");
@@ -156,23 +156,23 @@ describe("startPackedMacApp", () => {
   });
 
   it("writes a launch override when the bundled config is missing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-lifecycle-"));
     try {
       const config = makeConfig(root);
       const paths = resolveMacPaths(config);
-      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "Open Design");
+      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "SankiWork");
 
       await mkdir(join(paths.installedAppPath, "Contents", "MacOS"), { recursive: true });
       await writeFile(executablePath, "#!/bin/sh\nexit 0\n", "utf8");
       await chmod(executablePath, 0o755);
 
       const result = await startPackedMacApp(config);
-      const launchConfigPath = join(config.roots.runtime.namespaceRoot, "runtime", "open-design-config.json");
+      const launchConfigPath = join(config.roots.runtime.namespaceRoot, "runtime", "sankiwork-config.json");
       const launchEnv = spawnLoggedProcess.mock.calls[0]?.[0]?.env as NodeJS.ProcessEnv | undefined;
 
       expect(result.source).toBe("installed");
       expect(result.status?.state).toBe("running");
-      expect(launchEnv?.OD_PACKAGED_CONFIG_PATH).toBe(launchConfigPath);
+      expect(launchEnv?.SW_PACKAGED_CONFIG_PATH).toBe(launchConfigPath);
       await expect(readFile(launchConfigPath, "utf8")).resolves.toContain(
         `"namespaceBaseRoot": ${JSON.stringify(config.roots.runtime.namespaceBaseRoot)}`,
       );
@@ -182,12 +182,12 @@ describe("startPackedMacApp", () => {
   });
 
   it("passes a launch override config path for portable mac starts", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-lifecycle-"));
     try {
       const config = makeConfig(root);
       const paths = resolveMacPaths(config);
-      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "Open Design");
-      const bundledConfigPath = join(paths.installedAppPath, "Contents", "Resources", "open-design-config.json");
+      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "SankiWork");
+      const bundledConfigPath = join(paths.installedAppPath, "Contents", "Resources", "sankiwork-config.json");
 
       await mkdir(join(paths.installedAppPath, "Contents", "MacOS"), { recursive: true });
       await mkdir(join(paths.installedAppPath, "Contents", "Resources"), { recursive: true });
@@ -197,20 +197,20 @@ describe("startPackedMacApp", () => {
         bundledConfigPath,
         `${JSON.stringify({
           appVersion: "1.2.3",
-          daemonCliEntryRelative: "open-design/bin/od",
+          daemonCliEntryRelative: "sankiwork/bin/sw",
           namespace: config.namespace,
-          nodeCommandRelative: "open-design/bin/node",
+          nodeCommandRelative: "sankiwork/bin/node",
         }, null, 2)}\n`,
         "utf8",
       );
 
       const result = await startPackedMacApp(config);
-      const launchConfigPath = join(config.roots.runtime.namespaceRoot, "runtime", "open-design-config.json");
+      const launchConfigPath = join(config.roots.runtime.namespaceRoot, "runtime", "sankiwork-config.json");
       const launchEnv = spawnLoggedProcess.mock.calls[0]?.[0]?.env as NodeJS.ProcessEnv | undefined;
 
       expect(result.source).toBe("installed");
       expect(result.status?.state).toBe("running");
-      expect(launchEnv?.OD_PACKAGED_CONFIG_PATH).toBe(launchConfigPath);
+      expect(launchEnv?.SW_PACKAGED_CONFIG_PATH).toBe(launchConfigPath);
       await expect(readFile(launchConfigPath, "utf8")).resolves.toContain(
         `"namespaceBaseRoot": ${JSON.stringify(config.roots.runtime.namespaceBaseRoot)}`,
       );
@@ -221,11 +221,11 @@ describe("startPackedMacApp", () => {
   });
 
   it("uses the preview executable name for preview release namespaces", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-lifecycle-"));
     try {
       const config = makeConfig(root, { namespace: "release-preview" });
       const paths = resolveMacPaths(config);
-      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "Open Design Preview");
+      const executablePath = join(paths.installedAppPath, "Contents", "MacOS", "SankiWork Preview");
 
       await mkdir(join(paths.installedAppPath, "Contents", "MacOS"), { recursive: true });
       await writeFile(executablePath, "#!/bin/sh\nexit 0\n", "utf8");
@@ -244,7 +244,7 @@ describe("startPackedMacApp", () => {
 
 describe("stopPackedMacApp", () => {
   it("waits for a packaged-source payload desktop to exit after graceful shutdown", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-lifecycle-"));
     const config = makeConfig(root);
     const payloadDesktop = { command: "payload-desktop", pid: 4242, ppid: 1 };
 

@@ -6,17 +6,17 @@ import { dirname, join, resolve } from "node:path";
 import { posix } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { requestJsonIpc, resolveAppIpcPath } from "@open-design/sidecar";
+import { requestJsonIpc, resolveAppIpcPath } from "@sankiwork/sidecar";
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_MODES,
   SIDECAR_SOURCES,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("@open-design/sidecar", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@open-design/sidecar")>();
+vi.mock("@sankiwork/sidecar", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@sankiwork/sidecar")>();
   return {
     ...actual,
     requestJsonIpc: vi.fn(async () => {
@@ -144,11 +144,11 @@ describe("buildDockerArgs", () => {
     const args = buildDockerArgs(
       {
         ...makeConfig(),
-        telemetryRelayUrl: "https://telemetry.open-design.ai/api/langfuse",
+        telemetryRelayUrl: "https://telemetry.sanki-ai.cloud/api/langfuse",
       },
       { uid: 1000, gid: 1000 },
     );
-    expect(args).toContain("OPEN_DESIGN_TELEMETRY_RELAY_URL=https://telemetry.open-design.ai/api/langfuse");
+    expect(args).toContain("SANKIWORK_TELEMETRY_RELAY_URL=https://telemetry.sanki-ai.cloud/api/langfuse");
   });
 
   it("passes the AMR profile into containerized builds when configured", () => {
@@ -159,12 +159,12 @@ describe("buildDockerArgs", () => {
       },
       { uid: 1000, gid: 1000 },
     );
-    expect(args).toContain("OPEN_DESIGN_AMR_PROFILE=test");
+    expect(args).toContain("SANKIWORK_AMR_PROFILE=test");
   });
 
   it("bind-mounts the host Vela binary directory and rewrites the env path into the container", () => {
-    const previous = process.env.OPEN_DESIGN_VELA_CLI_BIN;
-    process.env.OPEN_DESIGN_VELA_CLI_BIN = "/host/bin/vela";
+    const previous = process.env.SANKIWORK_VELA_CLI_BIN;
+    process.env.SANKIWORK_VELA_CLI_BIN = "/host/bin/vela";
     try {
       const args = buildDockerArgs(makeConfig(), { uid: 1000, gid: 1000 });
       // The container only mounts /project, /tools-pack, and cache/home by
@@ -173,11 +173,11 @@ describe("buildDockerArgs", () => {
       // and the env rewritten to the container-side path so the resource
       // copier can actually read the binary.
       expect(args).toContain("/host/bin:/opt/vela-cli:ro");
-      expect(args).toContain("OPEN_DESIGN_VELA_CLI_BIN=/opt/vela-cli/vela");
-      expect(args).not.toContain("OPEN_DESIGN_VELA_CLI_BIN=/host/bin/vela");
+      expect(args).toContain("SANKIWORK_VELA_CLI_BIN=/opt/vela-cli/vela");
+      expect(args).not.toContain("SANKIWORK_VELA_CLI_BIN=/host/bin/vela");
     } finally {
-      if (previous === undefined) delete process.env.OPEN_DESIGN_VELA_CLI_BIN;
-      else process.env.OPEN_DESIGN_VELA_CLI_BIN = previous;
+      if (previous === undefined) delete process.env.SANKIWORK_VELA_CLI_BIN;
+      else process.env.SANKIWORK_VELA_CLI_BIN = previous;
     }
   });
 
@@ -315,10 +315,10 @@ describe("buildDockerArgs", () => {
     expect(last).toContain("--app-version '0.5.0-beta.1'\\''quoted'");
   });
 
-  it("exports OD_TOOLS_PACK_PNPM_BIN=/tmp/pnpm so the inner build's production install skips npm", () => {
+  it("exports SW_TOOLS_PACK_PNPM_BIN=/tmp/pnpm so the inner build's production install skips npm", () => {
     const args = buildDockerArgs(makeConfig(), { uid: 1000, gid: 1000 });
     const envFlagIndex = args.findIndex(
-      (arg, i) => arg === "-e" && args[i + 1] === "OD_TOOLS_PACK_PNPM_BIN=/tmp/pnpm",
+      (arg, i) => arg === "-e" && args[i + 1] === "SW_TOOLS_PACK_PNPM_BIN=/tmp/pnpm",
     );
     expect(envFlagIndex).toBeGreaterThan(-1);
   });
@@ -345,7 +345,7 @@ describe("stopPackedLinuxHeadless", () => {
       app: APP_KEYS.DESKTOP,
       ipc: resolveAppIpcPath({
         app: APP_KEYS.DESKTOP,
-        contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+        contract: SANKIWORK_SIDECAR_CONTRACT,
         namespace,
       }),
       mode: SIDECAR_MODES.RUNTIME,
@@ -358,7 +358,7 @@ describe("stopPackedLinuxHeadless", () => {
       await writeFile(
         markerPath,
         `${JSON.stringify({
-          appPath: "/tmp/Open-Design.AppImage",
+          appPath: "/tmp/SankiWork.AppImage",
           executablePath: "/tmp/.mount_od/AppRun",
           logPath: join(namespaceRoot, "logs", "desktop", "latest.log"),
           namespaceRoot,
@@ -406,7 +406,7 @@ describe("stopPackedLinuxHeadless", () => {
       app: APP_KEYS.DESKTOP,
       ipc: resolveAppIpcPath({
         app: APP_KEYS.DESKTOP,
-        contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+        contract: SANKIWORK_SIDECAR_CONTRACT,
         namespace,
       }),
       mode: SIDECAR_MODES.RUNTIME,
@@ -419,7 +419,7 @@ describe("stopPackedLinuxHeadless", () => {
       await writeFile(
         markerPath,
         `${JSON.stringify({
-          appPath: "/tmp/Open-Design.AppImage",
+          appPath: "/tmp/SankiWork.AppImage",
           executablePath: "/tmp/.mount_od/AppRun",
           logPath: join(namespaceRoot, "logs", "desktop", "latest.log"),
           namespaceRoot,
@@ -471,7 +471,7 @@ describe("stopPackedLinuxHeadless", () => {
       app: APP_KEYS.DESKTOP,
       ipc: resolveAppIpcPath({
         app: APP_KEYS.DESKTOP,
-        contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+        contract: SANKIWORK_SIDECAR_CONTRACT,
         namespace,
       }),
       mode: SIDECAR_MODES.RUNTIME,
@@ -488,7 +488,7 @@ describe("stopPackedLinuxHeadless", () => {
       await writeFile(
         markerPath,
         `${JSON.stringify({
-          appPath: "/tmp/Open-Design.AppImage",
+          appPath: "/tmp/SankiWork.AppImage",
           executablePath: "/tmp/.mount_od/AppRun",
           logPath: join(namespaceRoot, "logs", "desktop", "latest.log"),
           namespaceRoot,
@@ -541,14 +541,14 @@ describe("stopPackedLinuxApp", () => {
       },
     };
     const appDir = join(root, "AppDir");
-    const executablePath = join(appDir, "Open Design");
+    const executablePath = join(appDir, "SankiWork");
     const appRunPath = join(appDir, "AppRun");
     const markerPath = join(runtimeNamespaceRoot, "runtime", "desktop-root.json");
     const stamp = {
       app: APP_KEYS.DESKTOP,
       ipc: resolveAppIpcPath({
         app: APP_KEYS.DESKTOP,
-        contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+        contract: SANKIWORK_SIDECAR_CONTRACT,
         namespace,
       }),
       mode: SIDECAR_MODES.RUNTIME,
@@ -563,7 +563,7 @@ describe("stopPackedLinuxApp", () => {
       await chmod(executablePath, 0o755);
       await writeFile(appRunPath, "#!/bin/sh\n", "utf8");
       await mkdir(config.roots.output.appBuilderRoot, { recursive: true });
-      await writeFile(join(config.roots.output.appBuilderRoot, "Open-Design.direct-apprun.AppImage"), "", "utf8");
+      await writeFile(join(config.roots.output.appBuilderRoot, "SankiWork.direct-apprun.AppImage"), "", "utf8");
 
       child = spawn(executablePath, ["-e", "setInterval(() => {}, 1000)"], {
         env: { ...process.env, APPIMAGE: appRunPath },
@@ -615,42 +615,42 @@ describe("stopPackedLinuxApp", () => {
 });
 
 describe("resolveProductionInstallCommand", () => {
-  it("defaults to npm install --omit=dev --no-package-lock when OD_TOOLS_PACK_PNPM_BIN is unset", () => {
+  it("defaults to npm install --omit=dev --no-package-lock when SW_TOOLS_PACK_PNPM_BIN is unset", () => {
     expect(resolveProductionInstallCommand({})).toEqual({
       command: "npm",
       args: ["install", "--omit=dev", "--no-package-lock"],
     });
   });
 
-  it("treats an empty OD_TOOLS_PACK_PNPM_BIN as unset and keeps the npm host default", () => {
-    expect(resolveProductionInstallCommand({ OD_TOOLS_PACK_PNPM_BIN: "" })).toEqual({
+  it("treats an empty SW_TOOLS_PACK_PNPM_BIN as unset and keeps the npm host default", () => {
+    expect(resolveProductionInstallCommand({ SW_TOOLS_PACK_PNPM_BIN: "" })).toEqual({
       command: "npm",
       args: ["install", "--omit=dev", "--no-package-lock"],
     });
   });
 
-  it("uses OD_TOOLS_PACK_PNPM_BIN with hoisted-layout pnpm flags when set", () => {
+  it("uses SW_TOOLS_PACK_PNPM_BIN with hoisted-layout pnpm flags when set", () => {
     // --config.node-linker=hoisted intentionally matches the prior
     // npm/electron-builder packaging layout so the AppImage pack step keeps
     // working when the assembled-app install runs through pnpm.
     expect(
-      resolveProductionInstallCommand({ OD_TOOLS_PACK_PNPM_BIN: "/tmp/pnpm" }),
+      resolveProductionInstallCommand({ SW_TOOLS_PACK_PNPM_BIN: "/tmp/pnpm" }),
     ).toEqual({
       command: "/tmp/pnpm",
       args: ["install", "--prod", "--no-lockfile", "--config.node-linker=hoisted"],
     });
   });
 
-  it("chains end-to-end with buildDockerArgs: docker exports OD_TOOLS_PACK_PNPM_BIN and the resolver returns the standalone pnpm install for that value", () => {
+  it("chains end-to-end with buildDockerArgs: docker exports SW_TOOLS_PACK_PNPM_BIN and the resolver returns the standalone pnpm install for that value", () => {
     const dockerArgs = buildDockerArgs(makeConfig(), { uid: 1000, gid: 1000 });
     const envFlagIndex = dockerArgs.findIndex(
-      (arg, i) => arg === "-e" && dockerArgs[i + 1]?.startsWith("OD_TOOLS_PACK_PNPM_BIN="),
+      (arg, i) => arg === "-e" && dockerArgs[i + 1]?.startsWith("SW_TOOLS_PACK_PNPM_BIN="),
     );
     expect(envFlagIndex).toBeGreaterThan(-1);
     const envValue = dockerArgs[envFlagIndex + 1]?.split("=")[1];
     expect(envValue).toBe("/tmp/pnpm");
 
-    const resolved = resolveProductionInstallCommand({ OD_TOOLS_PACK_PNPM_BIN: envValue });
+    const resolved = resolveProductionInstallCommand({ SW_TOOLS_PACK_PNPM_BIN: envValue });
     expect(resolved).toEqual({
       command: "/tmp/pnpm",
       args: ["install", "--prod", "--no-lockfile", "--config.node-linker=hoisted"],
@@ -662,8 +662,8 @@ describe("resolveProductionInstallCommand", () => {
 describe("renderDesktopTemplate", () => {
   const template = `[Desktop Entry]
 Type=Application
-Name=Open Design (@@NAMESPACE@@)
-Exec=env -u ELECTRON_RUN_AS_NODE OD_PACKAGED_NAMESPACE=@@NAMESPACE@@ @@EXEC_PATH@@ --appimage-extract-and-run %U
+Name=SankiWork (@@NAMESPACE@@)
+Exec=env -u ELECTRON_RUN_AS_NODE SW_PACKAGED_NAMESPACE=@@NAMESPACE@@ @@EXEC_PATH@@ --appimage-extract-and-run %U
 Icon=@@ICON_PATH@@
 MimeType=x-scheme-handler/od;
 `;
@@ -671,31 +671,31 @@ MimeType=x-scheme-handler/od;
   it("substitutes all @@TOKEN@@ placeholders", () => {
     const out = renderDesktopTemplate(template, {
       namespace: "default",
-      execPath: "/home/u/.local/bin/Open-Design.default.AppImage",
-      iconName: "open-design-default",
+      execPath: "/home/u/.local/bin/SankiWork.default.AppImage",
+      iconName: "sankiwork-default",
     });
-    expect(out).toContain("Name=Open Design (default)");
+    expect(out).toContain("Name=SankiWork (default)");
     expect(out).toContain(
-      "Exec=env -u ELECTRON_RUN_AS_NODE OD_PACKAGED_NAMESPACE=default /home/u/.local/bin/Open-Design.default.AppImage --appimage-extract-and-run %U",
+      "Exec=env -u ELECTRON_RUN_AS_NODE SW_PACKAGED_NAMESPACE=default /home/u/.local/bin/SankiWork.default.AppImage --appimage-extract-and-run %U",
     );
-    expect(out).toContain("Icon=open-design-default");
+    expect(out).toContain("Icon=sankiwork-default");
   });
 
-  it("uses OD_PACKAGED_NAMESPACE (not OD_NAMESPACE) so apps/packaged actually picks up the namespace override", () => {
+  it("uses SW_PACKAGED_NAMESPACE (not SW_NAMESPACE) so apps/packaged actually picks up the namespace override", () => {
     const out = renderDesktopTemplate(template, {
       namespace: "ns",
       execPath: "/x",
-      iconName: "open-design-ns",
+      iconName: "sankiwork-ns",
     });
-    expect(out).toMatch(/^Exec=env -u ELECTRON_RUN_AS_NODE OD_PACKAGED_NAMESPACE=ns /m);
-    expect(out).not.toMatch(/OD_NAMESPACE=/);
+    expect(out).toMatch(/^Exec=env -u ELECTRON_RUN_AS_NODE SW_PACKAGED_NAMESPACE=ns /m);
+    expect(out).not.toMatch(/SW_NAMESPACE=/);
   });
 
   it("unsets ELECTRON_RUN_AS_NODE on the Exec= line so desktop launches run Electron normally", () => {
     const out = renderDesktopTemplate(template, {
       namespace: "ns",
       execPath: "/x",
-      iconName: "open-design-ns",
+      iconName: "sankiwork-ns",
     });
     expect(out).toMatch(/^Exec=env -u ELECTRON_RUN_AS_NODE /m);
   });
@@ -704,7 +704,7 @@ MimeType=x-scheme-handler/od;
     const out = renderDesktopTemplate(template, {
       namespace: "ns",
       execPath: "/x",
-      iconName: "open-design-ns",
+      iconName: "sankiwork-ns",
     });
     expect(out).toMatch(/^Exec=.*--appimage-extract-and-run .*%U$/m);
   });
@@ -713,7 +713,7 @@ MimeType=x-scheme-handler/od;
     const out = renderDesktopTemplate(template, {
       namespace: "ns",
       execPath: "/x",
-      iconName: "open-design-ns",
+      iconName: "sankiwork-ns",
     });
     expect(out).not.toMatch(/@@[A-Z_]+@@/);
   });
@@ -722,7 +722,7 @@ MimeType=x-scheme-handler/od;
     const out = renderDesktopTemplate(template, {
       namespace: "ns",
       execPath: "/x",
-      iconName: "open-design-ns",
+      iconName: "sankiwork-ns",
     });
     expect(out).toContain("MimeType=x-scheme-handler/od;");
   });
@@ -732,8 +732,8 @@ describe("renderLinuxPackagedMainEntry", () => {
   it("loads the ESM packaged entry without require or temporary keepalive handles", () => {
     const out = renderLinuxPackagedMainEntry();
 
-    expect(out).toContain('import("@open-design/packaged")');
-    expect(out).not.toContain('require("@open-design/packaged")');
+    expect(out).toContain('import("@sankiwork/packaged")');
+    expect(out).not.toContain('require("@sankiwork/packaged")');
     expect(out).not.toContain("setTimeout");
   });
 });
@@ -750,7 +750,7 @@ describe("renderLinuxAppImageAppRun", () => {
 
     expect(out).toContain("unset ELECTRON_RUN_AS_NODE");
     expect(out.indexOf("unset ELECTRON_RUN_AS_NODE")).toBeLessThan(out.indexOf('exec "$BIN"'));
-    expect(out).toContain('BIN="$APPDIR/Open Design"');
+    expect(out).toContain('BIN="$APPDIR/SankiWork"');
   });
 
   it("preserves AppImageLauncher install-only behavior", () => {
@@ -778,7 +778,7 @@ describe("renderLinuxAppImageAppRun", () => {
     const appDir = join(root, "AppDir");
     const appRunPath = join(appDir, "AppRun");
     const observedEnvPath = join(root, "observed-env.txt");
-    const electronPath = join(appDir, "Open Design");
+    const electronPath = join(appDir, "SankiWork");
 
     try {
       await mkdir(appDir, { recursive: true });
@@ -823,7 +823,7 @@ describe("createLinuxDesktopLaunchEnv", () => {
     const config = makeConfig();
     const stamp = {
       app: APP_KEYS.DESKTOP,
-      ipc: "/tmp/open-design/ipc/default/desktop.sock",
+      ipc: "/tmp/sankiwork/ipc/default/desktop.sock",
       mode: SIDECAR_MODES.RUNTIME,
       namespace: "default",
       source: SIDECAR_SOURCES.TOOLS_PACK,
@@ -836,7 +836,7 @@ describe("createLinuxDesktopLaunchEnv", () => {
 
     expect(env.ELECTRON_RUN_AS_NODE).toBeUndefined();
     expect(env.KEEP_ME).toBe("yes");
-    expect(env.OD_SIDECAR_BASE).toBe(resolve(config.roots.runtime.namespaceRoot, "runtime"));
+    expect(env.SW_SIDECAR_BASE).toBe(resolve(config.roots.runtime.namespaceRoot, "runtime"));
   });
 });
 
@@ -871,11 +871,11 @@ describe("shouldRejectLinuxHeadlessInspectOptions", () => {
 
   it("rejects headless eval and screenshot requests", () => {
     expect(shouldRejectLinuxHeadlessInspectOptions({ expr: "document.title" })).toBe(true);
-    expect(shouldRejectLinuxHeadlessInspectOptions({ path: "/tmp/open-design-linux.png" })).toBe(true);
+    expect(shouldRejectLinuxHeadlessInspectOptions({ path: "/tmp/sankiwork-linux.png" })).toBe(true);
     expect(
       shouldRejectLinuxHeadlessInspectOptions({
         expr: "document.title",
-        path: "/tmp/open-design-linux.png",
+        path: "/tmp/sankiwork-linux.png",
       }),
     ).toBe(true);
   });
@@ -899,26 +899,26 @@ describe("inspectPackedLinuxApp", () => {
     const requestJsonIpcMock = vi.mocked(requestJsonIpc);
     requestJsonIpcMock.mockReset();
     requestJsonIpcMock
-      .mockResolvedValueOnce({ state: "running", url: "od://app/" })
-      .mockResolvedValueOnce({ ok: true, value: "Open Design" })
-      .mockResolvedValueOnce({ path: "/tmp/open-design-linux.png" });
+      .mockResolvedValueOnce({ state: "running", url: "sankiwork://app/" })
+      .mockResolvedValueOnce({ ok: true, value: "SankiWork" })
+      .mockResolvedValueOnce({ path: "/tmp/sankiwork-linux.png" });
 
     const result = await inspectPackedLinuxApp(makeConfig(), {
       expr: "document.title",
-      path: "/tmp/open-design-linux.png",
+      path: "/tmp/sankiwork-linux.png",
     });
 
     expect(result).toEqual({
-      eval: { ok: true, value: "Open Design" },
-      screenshot: { path: "/tmp/open-design-linux.png" },
-      status: { state: "running", url: "od://app/" },
+      eval: { ok: true, value: "SankiWork" },
+      screenshot: { path: "/tmp/sankiwork-linux.png" },
+      status: { state: "running", url: "sankiwork://app/" },
     });
     expect(requestJsonIpcMock).toHaveBeenCalledTimes(3);
   });
 });
 
 describe("matchesAppImageProcess", () => {
-  const installPath = "/home/u/.local/bin/Open-Design.default.AppImage";
+  const installPath = "/home/u/.local/bin/SankiWork.default.AppImage";
 
   it("matches FUSE-mode (executable === installPath)", () => {
     const ok = matchesAppImageProcess(
@@ -964,7 +964,7 @@ describe("matchesAppImageProcess", () => {
     const ok = matchesAppImageProcess(
       {
         pid: 1234,
-        executable: "/tmp/appimage_extracted_fe548e54/Open Design",
+        executable: "/tmp/appimage_extracted_fe548e54/SankiWork",
         env: { APPIMAGE: "/tmp/appimage_extracted_fe548e54/AppRun" },
       },
       installPath,
@@ -976,7 +976,7 @@ describe("matchesAppImageProcess", () => {
     const ok = matchesAppImageProcess(
       {
         pid: 1234,
-        executable: "/tmp/appimage_extracted_fe548e54/Open Design",
+        executable: "/tmp/appimage_extracted_fe548e54/SankiWork",
         env: { APPIMAGE: "/tmp/other/AppRun" },
       },
       installPath,
@@ -988,7 +988,7 @@ describe("matchesAppImageProcess", () => {
     const ok = matchesAppImageProcess(
       {
         pid: 1234,
-        executable: "/tmp/appimage_extracted_fe548e54/Open Design",
+        executable: "/tmp/appimage_extracted_fe548e54/SankiWork",
         env: { APPIMAGE: installPath },
       },
       installPath,
@@ -1000,7 +1000,7 @@ describe("matchesAppImageProcess", () => {
     const ok = matchesAppImageProcess(
       {
         pid: 1234,
-        executable: "/tmp/appimage_extracted_fe548e54/Open Design",
+        executable: "/tmp/appimage_extracted_fe548e54/SankiWork",
         env: { APPIMAGE: "/elsewhere/Other.AppImage" },
       },
       installPath,

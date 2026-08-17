@@ -1,7 +1,7 @@
 import {
   workspaceContextHasWorkspaceIdentity,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 /**
  * Whether the public single-file "Publish" entry point may be rendered.

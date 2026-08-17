@@ -45,7 +45,7 @@
 // — produces a record in `memory-extractions.ts` so the settings panel
 // can show running / skipped / success / failed states in real time.
 
-import { MEMORY_TYPES } from '@open-design/contracts';
+import { MEMORY_TYPES } from '@sankiwork/contracts';
 import {
   composeMemoryBody,
   listMemoryEntries,
@@ -67,7 +67,7 @@ import { AIHUBMIX_APP_CODE } from './integrations/aihubmix.js';
 import { spawn } from 'node:child_process';
 import os from 'node:os';
 import { createHash } from 'node:crypto';
-import { createCommandInvocation } from '@open-design/platform';
+import { createCommandInvocation } from '@sankiwork/platform';
 import {
   applyAgentLaunchEnv,
   getAgentDef,
@@ -253,14 +253,14 @@ function envKeyFor(provider) {
   }
   if (provider === 'senseaudio') {
     return (
-      process.env.OD_SENSEAUDIO_API_KEY?.trim()
+      process.env.SW_SENSEAUDIO_API_KEY?.trim()
       || process.env.SENSEAUDIO_API_KEY?.trim()
       || ''
     );
   }
   if (provider === 'aihubmix') {
     return (
-      process.env.OD_AIHUBMIX_API_KEY?.trim()
+      process.env.SW_AIHUBMIX_API_KEY?.trim()
       || process.env.AIHUBMIX_API_KEY?.trim()
       || ''
     );
@@ -419,7 +419,7 @@ async function hasUnsupportedMediaProviderConfig(projectRoot) {
 //   6. (legacy fallback) media-config text-capable BYOK → OpenAI /
 //      MiniMax / AIHubMix / SenseAudio fast defaults
 //
-// The `OD_MEMORY_MODEL` env continues to override the model name across
+// The `SW_MEMORY_MODEL` env continues to override the model name across
 // (1)–(6) so power users don't lose that lever. It does NOT override the
 // memory-config provider since that one carries an explicit user choice.
 // `projectRoot` is required for the media-config path; `chatAgentId` is
@@ -509,7 +509,7 @@ async function pickProvider(projectRoot, dataDir, chatAgentId, chatProvider, cha
     };
   }
 
-  const envOverrideModel = (process.env.OD_MEMORY_MODEL || '').trim();
+  const envOverrideModel = (process.env.SW_MEMORY_MODEL || '').trim();
 
   // Chat-protocol-constrained branch (path 1). Only run when we know
   // which CLI is in use AND it maps to one of the four providers; we
@@ -521,7 +521,7 @@ async function pickProvider(projectRoot, dataDir, chatAgentId, chatProvider, cha
     const localCliProvider = localCliProviderFor(
       normalizedChatAgentId,
       chatProtocol,
-      process.env.OD_MEMORY_MODEL || chatModel,
+      process.env.SW_MEMORY_MODEL || chatModel,
     );
     if (localCliProvider) return localCliProvider;
 

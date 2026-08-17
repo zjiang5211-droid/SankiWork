@@ -74,8 +74,8 @@ describe('project preview containment routes', () => {
     workspaceId: string,
     workspaceMemberId: string,
   ): void {
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required by the daemon test harness');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required by the daemon test harness');
     const db = openDatabase(process.cwd(), { dataDir });
     ensureWorkspaceProject(db, {
       projectId,
@@ -264,9 +264,9 @@ describe('project preview containment routes', () => {
   });
 
   it('serves minted preview HTML and assets without bearer headers when API token auth is enabled', async () => {
-    const previousToken = process.env.OD_API_TOKEN;
+    const previousToken = process.env.SW_API_TOKEN;
     const token = `preview-token-${randomUUID()}`;
-    process.env.OD_API_TOKEN = token;
+    process.env.SW_API_TOKEN = token;
     let tokenServer: http.Server | undefined;
     let shutdown: (() => Promise<void> | void) | undefined;
     let tokenBaseUrl = '';
@@ -354,8 +354,8 @@ describe('project preview containment routes', () => {
       }
       if (shutdown) await Promise.resolve(shutdown());
       if (tokenServer) await new Promise<void>((resolve) => tokenServer!.close(() => resolve()));
-      if (previousToken === undefined) delete process.env.OD_API_TOKEN;
-      else process.env.OD_API_TOKEN = previousToken;
+      if (previousToken === undefined) delete process.env.SW_API_TOKEN;
+      else process.env.SW_API_TOKEN = previousToken;
     }
   });
 

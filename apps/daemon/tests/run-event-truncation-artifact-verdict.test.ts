@@ -47,7 +47,7 @@ describe('run event-buffer truncation vs artifact verdict (unit)', () => {
           id: 'resolve-1',
           name: 'Bash',
           input: {
-            command: '"$OD_NODE_BIN" "$OD_BIN" tools design-systems resolve --intent account.settings',
+            command: '"$SW_NODE_BIN" "$SW_BIN" tools design-systems resolve --intent account.settings',
           },
         },
       },
@@ -177,7 +177,7 @@ describe('run event-buffer truncation vs artifact verdict (HTTP)', () => {
     LANGFUSE_PUBLIC_KEY: process.env.LANGFUSE_PUBLIC_KEY,
     LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
     LANGFUSE_BASE_URL: process.env.LANGFUSE_BASE_URL,
-    OPEN_DESIGN_TELEMETRY_RELAY_URL: process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL,
+    SANKIWORK_TELEMETRY_RELAY_URL: process.env.SANKIWORK_TELEMETRY_RELAY_URL,
   };
   let started: StartedServer | null = null;
   let binDir: string | null = null;
@@ -207,7 +207,7 @@ describe('run event-buffer truncation vs artifact verdict (HTTP)', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {

@@ -3,7 +3,7 @@ name: deploy-vercel-static
 description: Use this plugin when the user wants to deploy an accepted static web artifact to Vercel or prepare an equivalent deployment handoff with preview and production URLs.
 license: MIT
 metadata:
-  author: open-design-spec
+  author: sankiwork-spec
   version: "0.1.0"
 ---
 

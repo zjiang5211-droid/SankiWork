@@ -142,10 +142,10 @@ function runPromptEnhancer(options: {
     maxTouchPoints: options.device?.maxTouchPoints ?? 5,
   };
   const directAssets = {
-    macArm64: 'https://example.com/open-design-mac-arm64.dmg',
-    macX64: 'https://example.com/open-design-mac-x64.dmg',
-    windows: 'https://example.com/open-design-win-x64-setup.exe',
-    linux: 'https://example.com/open-design-x86_64.AppImage',
+    macArm64: 'https://example.com/sankiwork-mac-arm64.dmg',
+    macX64: 'https://example.com/sankiwork-mac-x64.dmg',
+    windows: 'https://example.com/sankiwork-win-x64-setup.exe',
+    linux: 'https://example.com/sankiwork-x86_64.AppImage',
   };
   const fetch = async () => ({ ok: true, json: async () => ({ assets: [] }) });
 
@@ -213,8 +213,8 @@ async function runHomepageDownloadEnhancerAfterPrompt(
     ok: true,
     json: async () => ({
       assets: [{
-        name: 'open-design-0.16.1-mac-arm64.dmg',
-        browser_download_url: 'https://example.com/open-design-mac-arm64.dmg',
+        name: 'sankiwork-0.16.1-mac-arm64.dmg',
+        browser_download_url: 'https://example.com/sankiwork-mac-arm64.dmg',
       }],
     }),
   });
@@ -342,7 +342,7 @@ test('download hero: every active locale explains the agent-led design workflow'
   }
   assert.equal(
     getInfoPageCopy('zh').download.heading,
-    '免费下载 Open Design，用你的 Agent 开始设计。',
+    '免费下载 SankiWork，用你的 Agent 开始设计。',
   );
   assert.match(downloadPageSource, /hero-product-1280\.webp/);
   assert.match(downloadPageSource, /hero-download-attention/);
@@ -414,7 +414,7 @@ test('download prompt: header and prompt keep mobile fallbacks aligned in docume
         platform: 'Win32',
         maxTouchPoints: 0,
       },
-      expectedHref: 'https://example.com/open-design-win-x64-setup.exe',
+      expectedHref: 'https://example.com/sankiwork-win-x64-setup.exe',
     },
     {
       name: 'Linux desktop',
@@ -423,7 +423,7 @@ test('download prompt: header and prompt keep mobile fallbacks aligned in docume
         platform: 'Linux x86_64',
         maxTouchPoints: 0,
       },
-      expectedHref: 'https://example.com/open-design-x86_64.AppImage',
+      expectedHref: 'https://example.com/sankiwork-x86_64.AppImage',
     },
   ];
 
@@ -476,26 +476,26 @@ test('download prompt: official stable metadata keeps installer links direct whe
       mac: {
         artifacts: {
           dmg: {
-            name: 'open-design-0.16.1-mac-arm64.dmg',
-            url: 'https://releases.open-design.ai/stable/versions/0.16.1/open-design-0.16.1-mac-arm64.dmg',
+            name: 'sankiwork-0.16.1-mac-arm64.dmg',
+            url: 'https://releases.sanki-ai.cloud/stable/versions/0.16.1/sankiwork-0.16.1-mac-arm64.dmg',
             size: 292_248_232,
-            sha256Url: 'https://releases.open-design.ai/mac-arm64.dmg.sha256',
+            sha256Url: 'https://releases.sanki-ai.cloud/mac-arm64.dmg.sha256',
           },
         },
       },
       macIntel: {
         artifacts: {
           dmg: {
-            name: 'open-design-0.16.1-mac-x64.dmg',
-            url: 'https://releases.open-design.ai/stable/versions/0.16.1/open-design-0.16.1-mac-x64.dmg',
+            name: 'sankiwork-0.16.1-mac-x64.dmg',
+            url: 'https://releases.sanki-ai.cloud/stable/versions/0.16.1/sankiwork-0.16.1-mac-x64.dmg',
           },
         },
       },
       win: {
         artifacts: {
           installer: {
-            name: 'open-design-0.16.1-win-x64-setup.exe',
-            url: 'https://releases.open-design.ai/stable/versions/0.16.1/open-design-0.16.1-win-x64-setup.exe',
+            name: 'sankiwork-0.16.1-win-x64-setup.exe',
+            url: 'https://releases.sanki-ai.cloud/stable/versions/0.16.1/sankiwork-0.16.1-win-x64-setup.exe',
           },
         },
       },

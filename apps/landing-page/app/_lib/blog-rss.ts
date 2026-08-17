@@ -7,9 +7,9 @@ export async function buildBlogRss(context: { site: URL }) {
   );
 
   return rss({
-    title: 'Open Design Blog',
+    title: 'SankiWork Blog',
     description:
-      'Editorial notes on Open Design, agent-native design workflows, BYOK, skills, systems, and community.',
+      'Editorial notes on SankiWork, agent-native design workflows, BYOK, skills, systems, and community.',
     site: context.site,
     items: posts.map((post) => ({
       title: post.data.title,

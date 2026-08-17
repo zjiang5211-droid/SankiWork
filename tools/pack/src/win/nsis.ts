@@ -36,33 +36,33 @@ Var /GLOBAL odRemoveLocalDataCheckbox
 Var /GLOBAL odLocalDataRoot
 Var /GLOBAL odDownloadAttributionUrl
 
-LangString OD_REMOVE_LOCAL_DATA_TITLE 1033 "Remove local data"
-LangString OD_REMOVE_LOCAL_DATA_TITLE 2052 "删除本地数据"
-LangString OD_REMOVE_LOCAL_DATA_TITLE 1028 "刪除本機資料"
-LangString OD_REMOVE_LOCAL_DATA_TITLE 1046 "Remover dados locais"
-LangString OD_REMOVE_LOCAL_DATA_TITLE 1049 "Удалить локальные данные"
-LangString OD_REMOVE_LOCAL_DATA_TITLE 1065 "حذف داده‌های محلی"
+LangString SW_REMOVE_LOCAL_DATA_TITLE 1033 "Remove local data"
+LangString SW_REMOVE_LOCAL_DATA_TITLE 2052 "删除本地数据"
+LangString SW_REMOVE_LOCAL_DATA_TITLE 1028 "刪除本機資料"
+LangString SW_REMOVE_LOCAL_DATA_TITLE 1046 "Remover dados locais"
+LangString SW_REMOVE_LOCAL_DATA_TITLE 1049 "Удалить локальные данные"
+LangString SW_REMOVE_LOCAL_DATA_TITLE 1065 "حذف داده‌های محلی"
 
-LangString OD_REMOVE_LOCAL_DATA_HINT 1033 "Choose whether the uninstaller should remove Open Design data stored on this computer."
-LangString OD_REMOVE_LOCAL_DATA_HINT 2052 "请选择卸载程序是否删除此电脑上保存的 Open Design 数据。"
-LangString OD_REMOVE_LOCAL_DATA_HINT 1028 "請選擇解除安裝程式是否刪除此電腦上儲存的 Open Design 資料。"
-LangString OD_REMOVE_LOCAL_DATA_HINT 1046 "Escolha se o desinstalador deve remover os dados do Open Design armazenados neste computador."
-LangString OD_REMOVE_LOCAL_DATA_HINT 1049 "Выберите, должен ли деинсталлятор удалить данные Open Design, сохраненные на этом компьютере."
-LangString OD_REMOVE_LOCAL_DATA_HINT 1065 "انتخاب کنید که حذف‌کننده داده‌های Open Design ذخیره‌شده در این رایانه را حذف کند یا نه."
+LangString SW_REMOVE_LOCAL_DATA_HINT 1033 "Choose whether the uninstaller should remove SankiWork data stored on this computer."
+LangString SW_REMOVE_LOCAL_DATA_HINT 2052 "请选择卸载程序是否删除此电脑上保存的 SankiWork 数据。"
+LangString SW_REMOVE_LOCAL_DATA_HINT 1028 "請選擇解除安裝程式是否刪除此電腦上儲存的 SankiWork 資料。"
+LangString SW_REMOVE_LOCAL_DATA_HINT 1046 "Escolha se o desinstalador deve remover os dados do SankiWork armazenados neste computador."
+LangString SW_REMOVE_LOCAL_DATA_HINT 1049 "Выберите, должен ли деинсталлятор удалить данные SankiWork, сохраненные на этом компьютере."
+LangString SW_REMOVE_LOCAL_DATA_HINT 1065 "انتخاب کنید که حذف‌کننده داده‌های SankiWork ذخیره‌شده در این رایانه را حذف کند یا نه."
 
-LangString OD_REMOVE_LOCAL_DATA_CHECKBOX 1033 "Remove local Open Design data:"
-LangString OD_REMOVE_LOCAL_DATA_CHECKBOX 2052 "删除本地 Open Design 数据："
-LangString OD_REMOVE_LOCAL_DATA_CHECKBOX 1028 "刪除本機 Open Design 資料："
-LangString OD_REMOVE_LOCAL_DATA_CHECKBOX 1046 "Remover dados locais do Open Design:"
-LangString OD_REMOVE_LOCAL_DATA_CHECKBOX 1049 "Удалить локальные данные Open Design:"
-LangString OD_REMOVE_LOCAL_DATA_CHECKBOX 1065 "حذف داده‌های محلی Open Design:"
+LangString SW_REMOVE_LOCAL_DATA_CHECKBOX 1033 "Remove local SankiWork data:"
+LangString SW_REMOVE_LOCAL_DATA_CHECKBOX 2052 "删除本地 SankiWork 数据："
+LangString SW_REMOVE_LOCAL_DATA_CHECKBOX 1028 "刪除本機 SankiWork 資料："
+LangString SW_REMOVE_LOCAL_DATA_CHECKBOX 1046 "Remover dados locais do SankiWork:"
+LangString SW_REMOVE_LOCAL_DATA_CHECKBOX 1049 "Удалить локальные данные SankiWork:"
+LangString SW_REMOVE_LOCAL_DATA_CHECKBOX 1065 "حذف داده‌های محلی SankiWork:"
 
 !macro customUnWelcomePage
   !insertmacro MUI_UNPAGE_WELCOME
-  UninstPage custom un.OpenDesignLocalDataPage un.OpenDesignLocalDataPageLeave
+  UninstPage custom un.SankiWorkLocalDataPage un.SankiWorkLocalDataPageLeave
 !macroend
 
-Function OpenDesignReadDownloadAttribution
+Function SankiWorkReadDownloadAttribution
   ClearErrors
   StrCpy $odDownloadAttributionUrl ""
   FileOpen $0 "$EXEPATH:Zone.Identifier" r
@@ -94,10 +94,10 @@ Function OpenDesignReadDownloadAttribution
 FunctionEnd
 
 !macro customInstall
-  Call OpenDesignReadDownloadAttribution
+  Call SankiWorkReadDownloadAttribution
 !macroend
 
-Function un.OpenDesignLocalDataPage
+Function un.SankiWorkLocalDataPage
   StrCpy $odRemoveLocalData "1"
   StrCpy $odLocalDataRoot "${localDataRoot}"
   nsDialogs::Create 1018
@@ -106,15 +106,15 @@ Function un.OpenDesignLocalDataPage
     Abort
   \${EndIf}
 
-  \${NSD_CreateLabel} 0 0 100% 24u "$(OD_REMOVE_LOCAL_DATA_HINT)"
+  \${NSD_CreateLabel} 0 0 100% 24u "$(SW_REMOVE_LOCAL_DATA_HINT)"
   Pop $0
-  \${NSD_CreateCheckbox} 0 34u 100% 36u "$(OD_REMOVE_LOCAL_DATA_CHECKBOX) $odLocalDataRoot"
+  \${NSD_CreateCheckbox} 0 34u 100% 36u "$(SW_REMOVE_LOCAL_DATA_CHECKBOX) $odLocalDataRoot"
   Pop $odRemoveLocalDataCheckbox
   \${NSD_Check} $odRemoveLocalDataCheckbox
   nsDialogs::Show
 FunctionEnd
 
-Function un.OpenDesignLocalDataPageLeave
+Function un.SankiWorkLocalDataPageLeave
   \${NSD_GetState} $odRemoveLocalDataCheckbox $0
   \${If} $0 == \${BST_CHECKED}
     StrCpy $odRemoveLocalData "1"
@@ -128,7 +128,7 @@ FunctionEnd
     StrCpy $odLocalDataRoot "${localDataRoot}"
   \${EndIf}
   \${If} $odRemoveLocalData != "0"
-    DetailPrint "Removing local Open Design data: $odLocalDataRoot"
+    DetailPrint "Removing local SankiWork data: $odLocalDataRoot"
     RMDir /r "$odLocalDataRoot"
   \${EndIf}
 !macroend

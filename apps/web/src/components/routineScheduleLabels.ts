@@ -1,4 +1,4 @@
-import type { RoutineSchedule } from '@open-design/contracts';
+import type { RoutineSchedule } from '@sankiwork/contracts';
 
 import type { Dict } from '../i18n/types';
 

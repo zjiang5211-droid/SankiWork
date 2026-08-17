@@ -1,6 +1,6 @@
 {
   "annotations": { "list": [] },
-  "description": "Critique Theater observability dashboard. Imports the 9 open_design_critique_* series the daemon exposes on /api/metrics and renders the three default views the spec calls out: fleet quality, adapter health, and brief throughput. Tune buckets and queries after the first 1000 runs; this file is the starting point, not the prescribed final shape.",
+  "description": "Critique Theater observability dashboard. Imports the 9 sankiwork_critique_* series the daemon exposes on /api/metrics and renders the three default views the spec calls out: fleet quality, adapter health, and brief throughput. Tune buckets and queries after the first 1000 runs; this file is the starting point, not the prescribed final shape.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -24,17 +24,17 @@
       "gridPos": { "x": 0, "y": 1, "w": 16, "h": 8 },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, sum(rate(open_design_critique_composite_score_bucket[5m])) by (le, adapter))",
+          "expr": "histogram_quantile(0.50, sum(rate(sankiwork_critique_composite_score_bucket[5m])) by (le, adapter))",
           "legendFormat": "{{adapter}} p50",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.90, sum(rate(open_design_critique_composite_score_bucket[5m])) by (le, adapter))",
+          "expr": "histogram_quantile(0.90, sum(rate(sankiwork_critique_composite_score_bucket[5m])) by (le, adapter))",
           "legendFormat": "{{adapter}} p90",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, sum(rate(open_design_critique_composite_score_bucket[5m])) by (le, adapter))",
+          "expr": "histogram_quantile(0.99, sum(rate(sankiwork_critique_composite_score_bucket[5m])) by (le, adapter))",
           "legendFormat": "{{adapter}} p99",
           "refId": "C"
         }
@@ -53,7 +53,7 @@
       "gridPos": { "x": 16, "y": 1, "w": 8, "h": 8 },
       "targets": [
         {
-          "expr": "sum(rate(open_design_critique_composite_score_bucket[5m])) by (le)",
+          "expr": "sum(rate(sankiwork_critique_composite_score_bucket[5m])) by (le)",
           "format": "heatmap",
           "legendFormat": "{{le}}",
           "refId": "A"
@@ -80,7 +80,7 @@
       "gridPos": { "x": 0, "y": 10, "w": 12, "h": 8 },
       "targets": [
         {
-          "expr": "sum(rate(open_design_critique_degraded_total[5m])) by (adapter, reason)",
+          "expr": "sum(rate(sankiwork_critique_degraded_total[5m])) by (adapter, reason)",
           "legendFormat": "{{adapter}} / {{reason}}",
           "refId": "A"
         }
@@ -95,7 +95,7 @@
       "gridPos": { "x": 12, "y": 10, "w": 12, "h": 8 },
       "targets": [
         {
-          "expr": "sum(rate(open_design_critique_parser_errors_total[5m])) by (adapter, kind)",
+          "expr": "sum(rate(sankiwork_critique_parser_errors_total[5m])) by (adapter, kind)",
           "legendFormat": "{{adapter}} / {{kind}}",
           "refId": "A"
         }
@@ -118,7 +118,7 @@
       "gridPos": { "x": 0, "y": 19, "w": 12, "h": 8 },
       "targets": [
         {
-          "expr": "sum(rate(open_design_critique_runs_total[1h])) by (status) * 3600",
+          "expr": "sum(rate(sankiwork_critique_runs_total[1h])) by (status) * 3600",
           "legendFormat": "{{status}}",
           "refId": "A"
         }
@@ -132,7 +132,7 @@
       "gridPos": { "x": 12, "y": 19, "w": 6, "h": 8 },
       "targets": [
         {
-          "expr": "sum(rate(open_design_critique_rounds_total[1h])) by (adapter) / clamp_min(sum(rate(open_design_critique_runs_total[1h])) by (adapter), 1)",
+          "expr": "sum(rate(sankiwork_critique_rounds_total[1h])) by (adapter) / clamp_min(sum(rate(sankiwork_critique_runs_total[1h])) by (adapter), 1)",
           "legendFormat": "{{adapter}}",
           "refId": "A"
         }
@@ -147,17 +147,17 @@
       "gridPos": { "x": 18, "y": 19, "w": 6, "h": 8 },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, sum(rate(open_design_critique_round_duration_ms_bucket[5m])) by (le))",
+          "expr": "histogram_quantile(0.50, sum(rate(sankiwork_critique_round_duration_ms_bucket[5m])) by (le))",
           "legendFormat": "p50",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.90, sum(rate(open_design_critique_round_duration_ms_bucket[5m])) by (le))",
+          "expr": "histogram_quantile(0.90, sum(rate(sankiwork_critique_round_duration_ms_bucket[5m])) by (le))",
           "legendFormat": "p90",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, sum(rate(open_design_critique_round_duration_ms_bucket[5m])) by (le))",
+          "expr": "histogram_quantile(0.99, sum(rate(sankiwork_critique_round_duration_ms_bucket[5m])) by (le))",
           "legendFormat": "p99",
           "refId": "C"
         }
@@ -168,7 +168,7 @@
   "refresh": "30s",
   "schemaVersion": 39,
   "style": "dark",
-  "tags": ["critique-theater", "open-design"],
+  "tags": ["critique-theater", "sankiwork"],
   "templating": {
     "list": [
       {
@@ -190,7 +190,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "Critique Theater",
-  "uid": "open-design-critique-theater",
+  "uid": "sankiwork-critique-theater",
   "version": 1,
   "weekStart": ""
 }

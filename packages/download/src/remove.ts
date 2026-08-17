@@ -14,7 +14,7 @@
 import { readdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 
-import { removePathBestEffort } from "@open-design/platform";
+import { removePathBestEffort } from "@sankiwork/platform";
 
 import { MANAGED_DOWNLOAD_ERROR_CODES, ManagedDownloadError } from "./errors.js";
 import { pathExists } from "./fs-io.js";

@@ -27,7 +27,7 @@ import type {
   TeamProject,
   WorkspaceCollabContext,
   WorkspaceTeamProjectsResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import { coalescedGet, forceCoalescedGet } from '../lib/coalesced-get';
 import {

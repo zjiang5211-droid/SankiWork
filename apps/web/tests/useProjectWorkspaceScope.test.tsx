@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import type {
   ProjectWorkspaceScopeResponse,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import {
   projectWorkspaceScopeAuthorizesAmr,

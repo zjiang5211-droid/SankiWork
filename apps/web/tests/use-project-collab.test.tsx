@@ -6,7 +6,7 @@ import {
   type CollabMemberRole,
   type WorkspaceCollabContext,
   type WorkspaceLifecycleState,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useProjectCollab } from '../src/collab/useProjectCollab';
 

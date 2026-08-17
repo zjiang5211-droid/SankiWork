@@ -33,7 +33,7 @@ function fakePaths(root: string): PackagedNamespacePaths {
     installerObservationRoot: join(root, "data", "observations", "installer"),
     logsRoot: join(root, "logs"),
     namespaceRoot: root,
-    resourceRoot: join(root, "resources", "open-design"),
+    resourceRoot: join(root, "resources", "sankiwork"),
     runtimeRoot: join(root, "runtime"),
     updateRoot: join(root, "updates"),
     webIdentityPath: join(root, "runtime", "web-root.json"),
@@ -85,7 +85,7 @@ describe("verifyPackagedDataRootWritable", () => {
       }
 
       expect(captured).toBeInstanceOf(PackagedPathAccessError);
-      expect((captured as Error).message).toContain("Open Design could not create or write to:");
+      expect((captured as Error).message).toContain("SankiWork could not create or write to:");
       expect((captured as Error).message).toContain(join(blocker, "data"));
       expect((captured as Error).message).toContain("Current user:");
       expect((captured as Error).message).toContain("Try in Terminal:");
@@ -110,13 +110,13 @@ describe("claimPackagedSingleInstanceLock", () => {
     const focusExisting = vi.fn();
 
     expect(claimPackagedSingleInstanceLock(app, focusExisting)).toBe(true);
-    listeners.get("second-instance")?.({}, ["Open Design.exe", "--from-protocol"]);
+    listeners.get("second-instance")?.({}, ["SankiWork.exe", "--from-protocol"]);
 
     expect(app.requestSingleInstanceLock).toHaveBeenCalledTimes(1);
     expect(app.on).toHaveBeenCalledWith("second-instance", expect.any(Function));
     expect(app.quit).not.toHaveBeenCalled();
     expect(focusExisting).toHaveBeenCalledExactlyOnceWith([
-      "Open Design.exe",
+      "SankiWork.exe",
       "--from-protocol",
     ]);
   });
@@ -124,7 +124,7 @@ describe("claimPackagedSingleInstanceLock", () => {
   it("queues a deeplink from the lock fallback while desktop IPC is unavailable", async () => {
     const root = mkdtempSync(join(tmpdir(), "od-packaged-lock-deeplink-"));
     const listeners = new Map<string, (event: unknown, argv: string[]) => void>();
-    const deeplinkUrl = "opendesign://workspace/invite/continue?nonce=cold-race";
+    const deeplinkUrl = "sankiwork://workspace/invite/continue?nonce=cold-race";
     const handoff = createPackagedSecondInstanceHandoff();
     const app = {
       on: vi.fn((event: string, listener: (event: unknown, argv: string[]) => void) => {
@@ -149,7 +149,7 @@ describe("claimPackagedSingleInstanceLock", () => {
       expect(claimPackagedSingleInstanceLock(app, (argv) => {
         handoff.handle(findPackagedDeeplinkArg(argv));
       })).toBe(true);
-      listeners.get("second-instance")?.({}, ["Open Design.exe", deeplinkUrl]);
+      listeners.get("second-instance")?.({}, ["SankiWork.exe", deeplinkUrl]);
 
       expect(show).not.toHaveBeenCalled();
       expect(dispatchDeeplink).not.toHaveBeenCalled();

@@ -130,7 +130,7 @@ export function wellKnownUserToolchainBins(
     // in most third-party "fix npm EACCES" tutorials, and
     // ~/.npm-packages is the second-most common variant. Without
     // these, GUI-launched daemons miss `npm i -g`'d CLIs even though
-    // they resolve cleanly from the user's shell. See open-design
+    // they resolve cleanly from the user's shell. See sankiwork
     // issue #442.
     join(home, ".npm-global", "bin"),
     join(home, ".npm-packages", "bin"),
@@ -178,7 +178,7 @@ export function wellKnownUserToolchainBins(
 
   // The system-wide Nix paths are host-absolute and must only appear when
   // includeSystemBins is true (same gate as /opt/homebrew/bin), so sandboxed
-  // runs with OD_AGENT_HOME do not reach host-installed tools.
+  // runs with SW_AGENT_HOME do not reach host-installed tools.
   if (includeSystemBins) {
     dirs.push("/opt/homebrew/bin", "/usr/local/bin");
     // `/run/current-system/sw/bin` — system-wide profile on NixOS and nix-darwin

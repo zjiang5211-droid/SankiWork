@@ -16,7 +16,7 @@ import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { runVelaResourceCommand } from '../src/collab/vela-cli-resource-adapter.js';
 import {
   createCollabRuntime,
@@ -1929,7 +1929,7 @@ describe('collab sync routes', () => {
     // The gate was widened, not removed. A signed-out caller (or a context read
     // that came back empty) has no id to publish under and no member id to own
     // the resource with, so all three handlers still refuse it — and must ship a
-    // human-readable reason alongside the code, since the `od` CLI and embedding
+    // human-readable reason alongside the code, since the `sw` CLI and embedding
     // agents surface the body verbatim. The sentence now says SIGN IN; telling a
     // personal user to "switch to a team workspace" is no longer true.
     const resolveProjectDir = vi.fn(() => {
@@ -2790,9 +2790,9 @@ describe('collab sync routes', () => {
   it('infers a pulled shared project name from the bundled skill manifest when no project manifest exists', async () => {
     const dir = await mkdtemp(path.join(tmpdir(), 'od-pull-'));
     tempDirs.push(dir);
-    await mkdir(path.join(dir, '.od-skills', 'fs-emerald'), { recursive: true });
+    await mkdir(path.join(dir, '.sankiwork-skills', 'fs-emerald'), { recursive: true });
     await writeFile(
-      path.join(dir, '.od-skills', 'fs-emerald', 'open-design.json'),
+      path.join(dir, '.sankiwork-skills', 'fs-emerald', 'open-design.json'),
       JSON.stringify({ title: 'Emerald Editorial', name: 'example-fs-emerald-editorial' }),
     );
 
@@ -2814,9 +2814,9 @@ describe('collab sync routes', () => {
   it('repairs an existing placeholder pulled project name once pulled files expose a title', async () => {
     const dir = await mkdtemp(path.join(tmpdir(), 'od-pull-'));
     tempDirs.push(dir);
-    await mkdir(path.join(dir, '.od-skills', 'fs-emerald'), { recursive: true });
+    await mkdir(path.join(dir, '.sankiwork-skills', 'fs-emerald'), { recursive: true });
     await writeFile(
-      path.join(dir, '.od-skills', 'fs-emerald', 'open-design.json'),
+      path.join(dir, '.sankiwork-skills', 'fs-emerald', 'open-design.json'),
       JSON.stringify({ title: 'Emerald Editorial' }),
     );
 
@@ -3238,7 +3238,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-route-'));
     tempDirs.push(root);
     const liveDir = path.join(root, 'project');
-    const stageDir = path.join(root, '.project.od-pull-stage-test');
+    const stageDir = path.join(root, '.project.sankiwork-pull-stage-test');
     await mkdir(stageDir);
     await writeFile(path.join(stageDir, 'index.html'), '<title>Staged project</title>');
     const receipt = authorizedReceipt('authorized-fast', 5);
@@ -4075,7 +4075,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-log-'));
     tempDirs.push(root);
     const liveDir = path.join(root, 'project');
-    const stageDir = path.join(root, '.project.od-pull-stage-test');
+    const stageDir = path.join(root, '.project.sankiwork-pull-stage-test');
     await mkdir(stageDir);
     await writeFile(path.join(stageDir, 'index.html'), '<title>Staged project</title>');
     let snapshot = {
@@ -4466,7 +4466,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-preempt-'));
     tempDirs.push(root);
     const liveDir = path.join(root, 'preempt');
-    const stage4 = path.join(root, '.preempt.od-pull-stage-v4');
+    const stage4 = path.join(root, '.preempt.sankiwork-pull-stage-v4');
     await mkdir(liveDir);
     await writeFile(path.join(liveDir, 'index.html'), '<title>Version three</title>');
     await mkdir(stage4);

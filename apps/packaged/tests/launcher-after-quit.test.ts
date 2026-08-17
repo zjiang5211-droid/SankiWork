@@ -3,8 +3,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import { describe, expect, it, vi } from "vitest";
-import { SIDECAR_MESSAGES } from "@open-design/sidecar-proto";
-import type { StopProcessesResult, stopProcesses, waitForProcessExit } from "@open-design/platform";
+import { SIDECAR_MESSAGES } from "@sankiwork/sidecar-proto";
+import type { StopProcessesResult, stopProcesses, waitForProcessExit } from "@sankiwork/platform";
 
 import {
   exitPackagedLauncherForExistingDesktop,
@@ -44,7 +44,7 @@ function fakePaths(root: string): PackagedNamespacePaths {
     installerObservationRoot: join(root, "data", "observations", "installer"),
     logsRoot: join(root, "logs"),
     namespaceRoot: root,
-    resourceRoot: join(root, "resources", "open-design"),
+    resourceRoot: join(root, "resources", "sankiwork"),
     runtimeRoot: join(root, "runtime"),
     updateRoot: join(root, "updates"),
     webIdentityPath: join(root, "runtime", "web-root.json"),
@@ -159,8 +159,8 @@ describe("inspectExistingDesktopForLauncher", () => {
             };
           }
           return { accepted: true };
-        }) as typeof import("@open-design/sidecar").requestJsonIpc,
-        waitForExit: (async (pid: number) => pid === 1234) as typeof import("@open-design/platform").waitForProcessExit,
+        }) as typeof import("@sankiwork/sidecar").requestJsonIpc,
+        waitForExit: (async (pid: number) => pid === 1234) as typeof import("@sankiwork/platform").waitForProcessExit,
       });
 
       expect(result).toEqual({ action: "continue", reason: "superseded-version" });
@@ -191,7 +191,7 @@ describe("inspectExistingDesktopForLauncher", () => {
       const paths = fakePaths(root);
 
       const result = await inspectExistingDesktopForLauncher("release-beta-win", {
-        deeplinkUrl: "opendesign://workspace/invite/continue?nonce=hot-delivery",
+        deeplinkUrl: "sankiwork://workspace/invite/continue?nonce=hot-delivery",
         incomingVersion,
         paths,
         requestIpc: (async (ipcPath: string, message: unknown, options?: { timeoutMs?: number }) => {
@@ -208,7 +208,7 @@ describe("inspectExistingDesktopForLauncher", () => {
             };
           }
           return { accepted: true };
-        }) as typeof import("@open-design/sidecar").requestJsonIpc,
+        }) as typeof import("@sankiwork/sidecar").requestJsonIpc,
       });
 
       expect(result).toEqual({ action: "exit", reason: "existing-focused" });
@@ -217,7 +217,7 @@ describe("inspectExistingDesktopForLauncher", () => {
         { type: SIDECAR_MESSAGES.STATUS },
         { type: SIDECAR_MESSAGES.STATUS },
         {
-          input: { deeplinkUrl: "opendesign://workspace/invite/continue?nonce=hot-delivery" },
+          input: { deeplinkUrl: "sankiwork://workspace/invite/continue?nonce=hot-delivery" },
           type: SIDECAR_MESSAGES.SHOW,
         },
       ]);
@@ -257,8 +257,8 @@ describe("inspectExistingDesktopForLauncher", () => {
             };
           }
           return { accepted: true };
-        }) as typeof import("@open-design/sidecar").requestJsonIpc,
-        waitForExit: (async (pid: number) => pid === 1234) as typeof import("@open-design/platform").waitForProcessExit,
+        }) as typeof import("@sankiwork/sidecar").requestJsonIpc,
+        waitForExit: (async (pid: number) => pid === 1234) as typeof import("@sankiwork/platform").waitForProcessExit,
       });
 
       expect(result).toEqual({ action: "continue", reason: "headless-owner" });
@@ -285,7 +285,7 @@ describe("inspectExistingDesktopForLauncher", () => {
         paths,
         requestIpc: (async () => {
           throw new Error("pipe closed");
-        }) as typeof import("@open-design/sidecar").requestJsonIpc,
+        }) as typeof import("@sankiwork/sidecar").requestJsonIpc,
       });
 
       expect(result).toEqual({ action: "continue", reason: "inspect-failed" });
@@ -313,7 +313,7 @@ describe("inspectExistingDesktopForLauncher", () => {
             return { pid: 1234, state: "running", updatedAt: new Date().toISOString() };
           }
           throw new Error("show rejected");
-        }) as typeof import("@open-design/sidecar").requestJsonIpc,
+        }) as typeof import("@sankiwork/sidecar").requestJsonIpc,
       });
 
       expect(result).toEqual({ action: "exit", reason: "existing-focus-failed" });
@@ -343,8 +343,8 @@ describe("inspectExistingDesktopForLauncher", () => {
             return { pid: 1234, state: "running", updatedAt: new Date().toISOString() };
           }
           return { accepted: true };
-        }) as typeof import("@open-design/sidecar").requestJsonIpc,
-        waitForExit: (async (pid: number) => pid === 1234) as typeof import("@open-design/platform").waitForProcessExit,
+        }) as typeof import("@sankiwork/sidecar").requestJsonIpc,
+        waitForExit: (async (pid: number) => pid === 1234) as typeof import("@sankiwork/platform").waitForProcessExit,
       });
 
       expect(result).toEqual({ action: "continue", reason: "stale-sidecar" });
@@ -381,7 +381,7 @@ describe("inspectExistingDesktopForLauncher", () => {
             return { pid: 1234, state: "running", updatedAt: new Date().toISOString() };
           }
           return { accepted: true };
-        }) as typeof import("@open-design/sidecar").requestJsonIpc,
+        }) as typeof import("@sankiwork/sidecar").requestJsonIpc,
         stopProcesses: stop,
         waitForExit: neverExits,
       });
@@ -417,7 +417,7 @@ describe("inspectExistingDesktopForLauncher", () => {
             return { pid: 1234, state: "running", updatedAt: new Date().toISOString() };
           }
           return { accepted: true };
-        }) as typeof import("@open-design/sidecar").requestJsonIpc,
+        }) as typeof import("@sankiwork/sidecar").requestJsonIpc,
         stopProcesses: stop,
         waitForExit: neverExits,
       });

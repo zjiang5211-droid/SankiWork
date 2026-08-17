@@ -16,7 +16,7 @@
 // reappear exactly when `context` goes back to null from a genuine sign-out.
 
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { EntryNavRail, resetWorkspaceDirectoryCache } from '../../src/components/EntryNavRail';
@@ -61,7 +61,7 @@ afterEach(() => {
 
 describe('EntryNavRail sign-out (recvqbkcLqIFH7)', () => {
   it('clears a stale CloudSignInTip dismissal so the sign-in card can render again', async () => {
-    // Simulate a session that dismissed the "Open Design Cloud 版" card at
+    // Simulate a session that dismissed the "SankiWork Cloud 版" card at
     // some earlier point — the exact stale state that hides the sign-in
     // entry point after a later real sign-out.
     window.localStorage.setItem(DISMISSED_KEY, '1');

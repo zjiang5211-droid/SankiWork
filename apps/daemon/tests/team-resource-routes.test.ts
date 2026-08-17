@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import express from 'express';
 import http from 'node:http';
-import { TeamResourceCopyForbiddenError } from '@open-design/contracts';
+import { TeamResourceCopyForbiddenError } from '@sankiwork/contracts';
 import { registerTeamResourceRoutes } from '../src/routes/team-resources.js';
 import {
   createDevTeamResourceStateProvider,

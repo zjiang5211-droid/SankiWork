@@ -12,16 +12,16 @@
 //
 // The evaluation is a PURE function (`enforceVerify`) so it is fully testable
 // without a model call. A small ring buffer mirrors `memory-extractions.ts`
-// so the settings panel and the `od memory verifications` CLI can list recent
+// so the settings panel and the `sw memory verifications` CLI can list recent
 // enforcement outcomes, fed over the `verify` SSE channel on
 // `/api/memory/events`.
 
 import { randomUUID } from 'node:crypto';
-import { splitOnOdCards } from '@open-design/contracts';
+import { splitOnOdCards } from '@sankiwork/contracts';
 import type {
   MemoryVerifyResult,
   MemoryVerifyRecord,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { memoryEvents } from './memory.js';
 
 export interface ActiveRuleForVerify {

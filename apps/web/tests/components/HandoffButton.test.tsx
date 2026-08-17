@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import type { HostEditor, HostEditorsResponse } from '@open-design/contracts';
+import type { HostEditor, HostEditorsResponse } from '@sankiwork/contracts';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { HandoffButton } from '../../src/components/HandoffButton';
@@ -68,7 +68,7 @@ describe('HandoffButton i18n', () => {
   });
 
   it('does not show the preferred editor row as selected', async () => {
-    window.localStorage.setItem('open-design:preferred-editor', 'cursor');
+    window.localStorage.setItem('sankiwork:preferred-editor', 'cursor');
     stubEditors([
       { id: 'cursor', label: 'Cursor', available: true },
       { id: 'finder', label: 'Finder', available: true },

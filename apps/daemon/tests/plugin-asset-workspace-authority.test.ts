@@ -3,7 +3,7 @@ import type http from 'node:http';
 import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { afterEach, describe, expect, it } from 'vitest';
 import { registerPluginAssetRoutes } from '../src/routes/plugins/assets.js';
 

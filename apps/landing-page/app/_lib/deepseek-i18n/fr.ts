@@ -22,17 +22,17 @@ export const fr: DeepseekCopyOverride = {
     'Bouclez la boucle : annotez de vraies pages, compilez des assets de motion, emportez votre bibliothèque de skills.',
     'Faites du harness lui-même un workspace de design : panneaux d’aperçu, workbenches et boards à côté du chat.',
   ],
-  collectionCloserHeading: 'Passez la config. Designez avec DeepSeek Harness dans Open Design',
+  collectionCloserHeading: 'Passez la config. Designez avec DeepSeek Harness dans SankiWork',
   filterAll: 'Tout',
   collectionCloserBody:
-    'Open Design est le workspace de design open source et agent-native qui tourne autour de DeepSeek Harness. Il garde vos systèmes, vos skills et vos templates cohérents pour que l’agent livre un travail qui vous appartient.',
+    'SankiWork est le workspace de design open source et agent-native qui tourne autour de DeepSeek Harness. Il garde vos systèmes, vos skills et vos templates cohérents pour que l’agent livre un travail qui vous appartient.',
 
   categoryVision: 'Vision & entrée',
   categoryCanvas: 'Canvas & UI générative',
   categoryWorkflow: 'Workflow de design',
   categoryWorkspace: 'Workspace & aperçu',
 
-  ctaDownload: 'Télécharger Open Design',
+  ctaDownload: 'Télécharger SankiWork',
   ctaStarList: 'Star DeepSeek Harness',
   ctaGuide: 'Comment designer avec DeepSeek Harness',
   ctaBrowseAll: 'Parcourir tous les plugins',
@@ -71,9 +71,9 @@ export const fr: DeepseekCopyOverride = {
   detailMoreOnList: 'Plus dans le dépôt DeepSeek Harness',
   detailRelated: 'Autres plugins design pour DeepSeek Harness',
   finalEyebrow: 'Prochaine étape',
-  detailCloserHeading: 'Designez avec Open Design, sans la config',
+  detailCloserHeading: 'Designez avec SankiWork, sans la config',
   detailCloserBody:
-    'Installez ce plugin vous-même, ou faites tourner toute une couche design sélectionnée autour de DeepSeek Harness avec Open Design. Apportez votre clé, gardez la main sur ce que vous produisez.',
+    'Installez ce plugin vous-même, ou faites tourner toute une couche design sélectionnée autour de DeepSeek Harness avec SankiWork. Apportez votre clé, gardez la main sur ce que vous produisez.',
 
   skills: {
     modlens: {

@@ -112,8 +112,8 @@ flowchart TD
 
 ### Test Strategy
 
-- E2E: run `pnpm --filter @open-design/e2e test tests/localized-content.test.ts` to verify real repository resources remain displayable under `de` / `fr` / `ru`, and missing category / tag translations do not block. Source: `e2e/tests/localized-content.test.ts:333-377`; `e2e/AGENTS.md:40-55`
-- Web unit: run `pnpm --filter @open-design/web test` to cover localized ids still coming from dictionaries, plus skill/design-system/prompt-template field-level fallback. Source: `apps/web/tests/i18n/content.test.ts:12-80`; `apps/AGENTS.md:27-33,47-59`
+- E2E: run `pnpm --filter @sankiwork/e2e test tests/localized-content.test.ts` to verify real repository resources remain displayable under `de` / `fr` / `ru`, and missing category / tag translations do not block. Source: `e2e/tests/localized-content.test.ts:333-377`; `e2e/AGENTS.md:40-55`
+- Web unit: run `pnpm --filter @sankiwork/web test` to cover localized ids still coming from dictionaries, plus skill/design-system/prompt-template field-level fallback. Source: `apps/web/tests/i18n/content.test.ts:12-80`; `apps/AGENTS.md:27-33,47-59`
 - Probe: temporarily add a probe content resource without matching `de` / `fr` / `ru` localized dictionary entries, then run CI-equivalent verification to confirm English fallback is displayable and missing optional translations do not block; remove the temporary probe content afterward. Source: `e2e/tests/localized-content.test.ts:155-409`; `docs/skills-contributing.md:188-202`
 - Repo checks: run `pnpm guard` and `pnpm typecheck` to cover repository-level scripts and type boundaries. Source: `AGENTS.md#validation-strategy`
 
@@ -152,14 +152,14 @@ Flow:
   - [x] Substep 1.1 Implement: Remove or rewrite the full coverage assertions that compare `LOCALIZED_CONTENT_IDS` against discovered categories / tags.
   - [x] Substep 1.2 Implement: Preserve the fallback smoke test that real resources display non-empty content under `de` / `fr` / `ru`.
   - [x] Substep 1.3 Implement: Add direct category / tag fallback assertions when needed, covering the behavior where missing dictionary entries return original values.
-  - [x] Substep 1.4 Verify: Run `pnpm --filter @open-design/e2e test tests/localized-content.test.ts`.
+  - [x] Substep 1.4 Verify: Run `pnpm --filter @sankiwork/e2e test tests/localized-content.test.ts`.
 - [x] Step 2: Synchronize contribution and coverage docs
   - [x] Substep 2.1 Implement: Update `docs/skills-contributing.md` so featured localized copy is described as an optional enhancement path.
   - [x] Substep 2.2 Implement: Update SET-043 / SET-044 coverage descriptions in `docs/testing/e2e-coverage/settings.md`.
   - [x] Substep 2.3 Implement: Review `docs/design-systems.md` for consistency with the new semantics, and make minor wording adjustments only if needed.
   - [x] Substep 2.4 Verify: Manually check that the docs no longer describe `de` / `fr` / `ru` content translations as a hard blocking requirement for content contributions.
 - [x] Step 3: Regression verification
-  - [x] Substep 3.1 Verify: Run `pnpm --filter @open-design/web test`.
+  - [x] Substep 3.1 Verify: Run `pnpm --filter @sankiwork/web test`.
   - [x] Substep 3.2 Verify: Temporarily add a probe content resource without `de` / `fr` / `ru` localized dictionary entries, run CI-equivalent verification, confirm it passes, then remove the probe content.
   - [x] Substep 3.3 Verify: Run `pnpm guard`.
   - [x] Substep 3.4 Verify: Run `pnpm typecheck`.
@@ -176,10 +176,10 @@ Flow:
 
 ### Verification
 
-- `pnpm --filter @open-design/web test tests/i18n/content.test.ts` - passed.
-- `pnpm --filter @open-design/e2e test tests/localized-content.test.ts` - initially found and cleaned up a pre-existing probe empty directory, then passed.
-- Temporarily added English-only skill, design template, design system, and prompt template probes, then ran `pnpm --filter @open-design/e2e test tests/localized-content.test.ts` - passed; removed the temporary probe content afterward.
-- `pnpm --filter @open-design/e2e test tests/localized-content.test.ts` - final passed.
-- `pnpm --filter @open-design/web test` - passed, 110 files / 1013 tests.
+- `pnpm --filter @sankiwork/web test tests/i18n/content.test.ts` - passed.
+- `pnpm --filter @sankiwork/e2e test tests/localized-content.test.ts` - initially found and cleaned up a pre-existing probe empty directory, then passed.
+- Temporarily added English-only skill, design template, design system, and prompt template probes, then ran `pnpm --filter @sankiwork/e2e test tests/localized-content.test.ts` - passed; removed the temporary probe content afterward.
+- `pnpm --filter @sankiwork/e2e test tests/localized-content.test.ts` - final passed.
+- `pnpm --filter @sankiwork/web test` - passed, 110 files / 1013 tests.
 - `pnpm guard` - passed.
 - `pnpm typecheck` - passed.

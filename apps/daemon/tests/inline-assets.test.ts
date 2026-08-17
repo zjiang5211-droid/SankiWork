@@ -68,10 +68,10 @@ describe('inlineRelativeAssets (FS-backed)', () => {
   });
 
   it('inlines a top-level <script src> as an inline <script> with the file body', async () => {
-    write('app.js', 'window.OD_OK = 1;');
+    write('app.js', 'window.SW_OK = 1;');
     const html = '<html><head><script src="app.js"></script></head></html>';
     const out = await inlineRelativeAssets(html, 'index.html', fsReader());
-    expect(out).toContain('window.OD_OK = 1;');
+    expect(out).toContain('window.SW_OK = 1;');
     expect(out).not.toContain('src="app.js"');
     expect(out.match(/<script[^>]*>/g)?.length).toBe(1);
   });

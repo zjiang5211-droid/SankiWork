@@ -1,6 +1,6 @@
 // Daemon-side core of the clipper page → Figma export: an `html` asset can
 // carry a `metadata.figmaCapture` marker (which the web "Download Figma" action
-// and `od library figma` gate on), and the OD Figma capture IR round-trips
+// and `sw library figma` gate on), and the OD Figma capture IR round-trips
 // through the content-addressed sidecar next to the owned HTML object.
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';

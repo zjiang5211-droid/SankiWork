@@ -16,7 +16,7 @@ function trustedTarget(raw: unknown): URL | null {
   try {
     const url = new URL(value);
     if (url.protocol !== 'https:') return null;
-    if (!['open-design.ai', 'www.open-design.ai', 'staging.open-design.ai'].includes(url.hostname)) return null;
+    if (!['sanki-ai.cloud', 'www.sanki-ai.cloud', 'staging.sanki-ai.cloud'].includes(url.hostname)) return null;
     return url;
   } catch {
     return null;

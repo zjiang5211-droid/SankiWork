@@ -1,16 +1,16 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 
-import { stopProcesses, waitForProcessExit, type StopProcessesResult } from "@open-design/platform";
-import { compareLauncherVersions, type LauncherAfterQuitRequest } from "@open-design/launcher-proto";
+import { stopProcesses, waitForProcessExit, type StopProcessesResult } from "@sankiwork/platform";
+import { compareLauncherVersions, type LauncherAfterQuitRequest } from "@sankiwork/launcher-proto";
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_MESSAGES,
   type AppKey,
   type DesktopStatusSnapshot,
-} from "@open-design/sidecar-proto";
-import { requestJsonIpc, resolveAppIpcPath } from "@open-design/sidecar";
+} from "@sankiwork/sidecar-proto";
+import { requestJsonIpc, resolveAppIpcPath } from "@sankiwork/sidecar";
 
 import type { PackagedNamespacePaths } from "./paths.js";
 
@@ -79,7 +79,7 @@ async function forceStopLingeringDesktop(
   const outcome = !gone ? "survived" : result.forcedPids.includes(pid) ? "sigkill" : "sigterm";
   const message = `force-stop ${context} pid=${pid} outcome=${outcome}`;
   await writeLauncherAfterQuitLog(paths, message);
-  if (!gone) logger.warn(`[open-design launcher] ${message}`);
+  if (!gone) logger.warn(`[sankiwork launcher] ${message}`);
   return gone;
 }
 
@@ -101,7 +101,7 @@ async function restartExistingDesktop(
   } catch (error) {
     const message = `inspect-found-existing namespace=${input.namespace} shutdown=failed reason=${input.reason} error=${error instanceof Error ? error.message : String(error)}`;
     await writeLauncherAfterQuitLog(input.paths, message);
-    input.logger.warn(`[open-design launcher] ${message}`);
+    input.logger.warn(`[sankiwork launcher] ${message}`);
     return false;
   }
   if (input.pid == null) return true;
@@ -156,7 +156,7 @@ export async function waitForLauncherAfterQuit(
   // Force it off so the relaunched app binds cleanly instead of skewing.
   const message = `timed-out targetPid=${request.targetPid}; forcing stop`;
   await writeLauncherAfterQuitLog(paths, message);
-  logger.warn(`[open-design launcher] ${message}`);
+  logger.warn(`[sankiwork launcher] ${message}`);
   return await forceStopLingeringDesktop(request.targetPid, "after-quit-timeout", paths, logger, stop);
 }
 
@@ -178,7 +178,7 @@ export async function inspectExistingDesktopForLauncher(
   const stop = options.stopProcesses ?? stopProcesses;
   const ipcPath = resolveAppIpcPath({
     app: APP_KEYS.DESKTOP,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     namespace,
   });
   let status: DesktopStatusSnapshot | null = null;
@@ -191,7 +191,7 @@ export async function inspectExistingDesktopForLauncher(
   } catch (error) {
     const message = `inspect-unavailable namespace=${namespace} action=continue error=${error instanceof Error ? error.message : String(error)}`;
     await writeLauncherAfterQuitLog(options.paths, message);
-    logger.info?.(`[open-design launcher] ${message}`);
+    logger.info?.(`[sankiwork launcher] ${message}`);
     return { action: "continue", reason: "inspect-failed" };
   }
 
@@ -204,7 +204,7 @@ export async function inspectExistingDesktopForLauncher(
   for (const app of [APP_KEYS.DAEMON, APP_KEYS.WEB]) {
     const sidecarIpcPath = resolveAppIpcPath({
       app,
-      contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+      contract: SANKIWORK_SIDECAR_CONTRACT,
       namespace,
     });
     const sidecarStatus = await requestIpc<{ url?: unknown }>(
@@ -295,7 +295,7 @@ export async function inspectExistingDesktopForLauncher(
   } catch (error) {
     const message = `inspect-found-existing namespace=${namespace} focus=failed error=${error instanceof Error ? error.message : String(error)}`;
     await writeLauncherAfterQuitLog(options.paths, message);
-    logger.warn(`[open-design launcher] ${message}`);
+    logger.warn(`[sankiwork launcher] ${message}`);
     return { action: "exit", reason: "existing-focus-failed" };
   }
 }

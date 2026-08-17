@@ -132,7 +132,7 @@ Type stack:
       Daily`) followed by an inline `Orbit` tag.
 
    c. **Sender row** — round avatar `O` + `Open Orbit
-      <orbit@opendesign.local>` + 收件人 `我 ▾` + date right-aligned +
+      <orbit@sankiwork.local>` + 收件人 `我 ▾` + date right-aligned +
       reply icon + more icon.
 
    d. **Digest body** (`<div class="digest-body">`):

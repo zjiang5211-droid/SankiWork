@@ -5,7 +5,7 @@ import { promisify } from "node:util";
 
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_MESSAGES,
   SIDECAR_MODES,
   SIDECAR_SOURCES,
@@ -16,8 +16,8 @@ import {
   type DesktopUpdateAction,
   type DesktopUpdateResult,
   type SidecarStamp,
-} from "@open-design/sidecar-proto";
-import { createSidecarLaunchEnv, requestJsonIpc, resolveAppIpcPath } from "@open-design/sidecar";
+} from "@sankiwork/sidecar-proto";
+import { createSidecarLaunchEnv, requestJsonIpc, resolveAppIpcPath } from "@sankiwork/sidecar";
 import {
   collectProcessTreePids,
   createProcessStampArgs,
@@ -27,7 +27,7 @@ import {
   readLogTail,
   spawnLoggedProcess,
   stopProcesses,
-} from "@open-design/platform";
+} from "@sankiwork/platform";
 import type { ToolPackConfig } from "../config.js";
 import { readToolPackLauncherRuntimeSnapshot } from "../launcher-runtime-snapshot.js";
 import { readToolPackUpdateCacheLifecycleSnapshot } from "../update-cache-lifecycle-snapshot.js";
@@ -46,7 +46,7 @@ function desktopStamp(config: ToolPackConfig): SidecarStamp {
     app: APP_KEYS.DESKTOP,
     ipc: resolveAppIpcPath({
       app: APP_KEYS.DESKTOP,
-      contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+      contract: SANKIWORK_SIDECAR_CONTRACT,
       namespace: config.namespace,
     }),
     mode: SIDECAR_MODES.RUNTIME,
@@ -151,7 +151,7 @@ async function resolveDesktopRootIdentityFallback(config: ToolPackConfig): Promi
 
   let stamp: SidecarStamp;
   try {
-    stamp = OPEN_DESIGN_SIDECAR_CONTRACT.normalizeStamp(marker.stamp);
+    stamp = SANKIWORK_SIDECAR_CONTRACT.normalizeStamp(marker.stamp);
   } catch {
     return {
       fallback: { ...fallback, reason: "marker-invalid-stamp" },
@@ -161,7 +161,7 @@ async function resolveDesktopRootIdentityFallback(config: ToolPackConfig): Promi
 
   const expectedIpc = resolveAppIpcPath({
     app: APP_KEYS.DESKTOP,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     namespace: config.namespace,
   });
   if (
@@ -537,13 +537,13 @@ export async function startPackedMacApp(config: ToolPackConfig): Promise<MacStar
   let child: ChildProcess;
   try {
     child = await spawnLoggedProcess({
-      args: createProcessStampArgs(stamp, OPEN_DESIGN_SIDECAR_CONTRACT),
+      args: createProcessStampArgs(stamp, SANKIWORK_SIDECAR_CONTRACT),
       command: target.executablePath,
       cwd: target.appPath,
       detached: true,
       env: createSidecarLaunchEnv({
         base: join(config.roots.runtime.namespaceRoot, "runtime"),
-        contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+        contract: SANKIWORK_SIDECAR_CONTRACT,
         extraEnv: {
           ...process.env,
           [DESKTOP_LOG_ECHO_ENV]: "0",
@@ -611,7 +611,7 @@ async function findManagedDesktopProcessTree(config: ToolPackConfig): Promise<{
         matchesStampedProcess(
           processInfo,
           { mode: SIDECAR_MODES.RUNTIME, namespace: config.namespace, source },
-          OPEN_DESIGN_SIDECAR_CONTRACT,
+          SANKIWORK_SIDECAR_CONTRACT,
         )
       ),
     )

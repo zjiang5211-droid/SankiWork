@@ -17,8 +17,8 @@
 ### 1. 项目聊天输入与运行状态
 
 文件：
-- [e2e/ui/workspace-keyboard-flows.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/workspace-keyboard-flows.test.ts)
-- [e2e/ui/app-restoration.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/app-restoration.test.ts)
+- [e2e/ui/workspace-keyboard-flows.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/workspace-keyboard-flows.test.ts)
+- [e2e/ui/app-restoration.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/app-restoration.test.ts)
 
 新增用例：
 
@@ -37,8 +37,8 @@
 ### 2. 聊天文件链接与 HTML 预览恢复
 
 文件：
-- [e2e/ui/app-restoration.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/app-restoration.test.ts)
-- [e2e/ui/app-manual-edit.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/app-manual-edit.test.ts)
+- [e2e/ui/app-restoration.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/app-restoration.test.ts)
+- [e2e/ui/app-manual-edit.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/app-manual-edit.test.ts)
 
 新增用例：
 
@@ -53,8 +53,8 @@
 ### 3. Plugin authoring 必须真实产生产物
 
 文件：
-- [e2e/lib/fake-agents.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/lib/fake-agents.ts)
-- [e2e/ui/real-daemon-run.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/real-daemon-run.test.ts)
+- [e2e/lib/fake-agents.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/lib/fake-agents.ts)
+- [e2e/ui/real-daemon-run.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/real-daemon-run.test.ts)
 
 新增用例：
 
@@ -72,7 +72,7 @@
 ### 4. 评论模式与预览联动
 
 文件：
-- [e2e/ui/app.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/app.test.ts)
+- [e2e/ui/app.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/app.test.ts)
 
 新增用例：
 
@@ -83,7 +83,7 @@
 ### 5. Diagnostics 导出完整性
 
 文件：
-- [e2e/ui/diagnostics-export.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/diagnostics-export.test.ts)
+- [e2e/ui/diagnostics-export.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/diagnostics-export.test.ts)
 
 新增用例：
 
@@ -97,8 +97,8 @@
 ### 6. Integrations：连接、恢复、退化状态
 
 文件：
-- [e2e/ui/settings-connectors-auth-happy-path.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/settings-connectors-auth-happy-path.test.ts)
-- [e2e/ui/settings-connectors-auth-recovery.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/settings-connectors-auth-recovery.test.ts)
+- [e2e/ui/settings-connectors-auth-happy-path.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/settings-connectors-auth-happy-path.test.ts)
+- [e2e/ui/settings-connectors-auth-recovery.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/settings-connectors-auth-recovery.test.ts)
 
 新增 happy-path 覆盖：
 
@@ -116,7 +116,7 @@
 ### 7. Design systems manager：发布、过滤、删除 fallback
 
 文件：
-- [e2e/ui/design-systems-manager.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/design-systems-manager.test.ts)
+- [e2e/ui/design-systems-manager.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/design-systems-manager.test.ts)
 
 新增用例：
 
@@ -127,10 +127,10 @@
 ### 8. main 最新功能回归补测
 
 文件：
-- [e2e/ui/project-management-flows.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/project-management-flows.test.ts)
-- [e2e/ui/amr-onboarding.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/amr-onboarding.test.ts)
-- [e2e/ui/app-manual-edit.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/app-manual-edit.test.ts)
-- [e2e/ui/settings-api-protocol.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/e2e/ui/settings-api-protocol.test.ts)
+- [e2e/ui/project-management-flows.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/project-management-flows.test.ts)
+- [e2e/ui/amr-onboarding.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/amr-onboarding.test.ts)
+- [e2e/ui/app-manual-edit.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/app-manual-edit.test.ts)
+- [e2e/ui/settings-api-protocol.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e/ui/settings-api-protocol.test.ts)
 
 新增用例：
 
@@ -169,7 +169,7 @@
 仓库根目录：
 
 ```bash
-cd /Users/mac/open-design/open-design-amr-runtime-acp/e2e
+cd /Users/mac/sankiwork/sankiwork-amr-runtime-acp/e2e
 ```
 
 ### 聊天输入 / retry / queued / links
@@ -281,7 +281,7 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 1. Diagnostics 导出路径与缺失日志清单
 
 文件：
-- [apps/daemon/tests/diagnostics-export.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/diagnostics-export.test.ts)
+- [apps/daemon/tests/diagnostics-export.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/diagnostics-export.test.ts)
 
 新增用例：
 
@@ -296,7 +296,7 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 2. nested raw HTML route 契约
 
 文件：
-- [apps/daemon/tests/projects-routes.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/projects-routes.test.ts)
+- [apps/daemon/tests/projects-routes.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/projects-routes.test.ts)
 
 新增用例：
 
@@ -309,7 +309,7 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 3. run 终态幂等
 
 文件：
-- [apps/daemon/tests/runs.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/runs.test.ts)
+- [apps/daemon/tests/runs.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/runs.test.ts)
 
 新增用例：
 
@@ -322,8 +322,8 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 4. AMR model id 归一化回归
 
 文件：
-- [apps/daemon/tests/amr-acp-integration.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/amr-acp-integration.test.ts)
-- [apps/daemon/src/runtimes/defs/amr.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/src/runtimes/defs/amr.ts)
+- [apps/daemon/tests/amr-acp-integration.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/amr-acp-integration.test.ts)
+- [apps/daemon/src/runtimes/defs/amr.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/src/runtimes/defs/amr.ts)
 
 新增覆盖：
 
@@ -336,8 +336,8 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 5. Plugin authoring 完成性判定
 
 文件：
-- [apps/daemon/tests/chat-route.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/chat-route.test.ts)
-- [apps/daemon/src/server.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/src/server.ts)
+- [apps/daemon/tests/chat-route.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/chat-route.test.ts)
+- [apps/daemon/src/server.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/src/server.ts)
 
 新增覆盖：
 
@@ -356,8 +356,8 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 6. Grok Build prompt inline argv 契约
 
 文件：
-- [apps/daemon/tests/runtimes/agent-args.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/runtimes/agent-args.test.ts)
-- [apps/daemon/src/runtimes/defs/grok-build.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/src/runtimes/defs/grok-build.ts)
+- [apps/daemon/tests/runtimes/agent-args.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/runtimes/agent-args.test.ts)
+- [apps/daemon/src/runtimes/defs/grok-build.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/src/runtimes/defs/grok-build.ts)
 
 新增覆盖：
 
@@ -372,18 +372,18 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 7. AMR login/status 同源配置契约
 
 文件：
-- [apps/daemon/tests/integrations/vela.routes.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/integrations/vela.routes.test.ts)
+- [apps/daemon/tests/integrations/vela.routes.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/integrations/vela.routes.test.ts)
 
 新增覆盖：
 
 1. `uses the same Settings-configured AMR env for login and subsequent status reads`
    - 覆盖 `/api/integrations/vela/login` 与 `/api/integrations/vela/status` 都必须使用同一份 `agentCliEnv.amr`
-   - 避免终端里的 `vela` 已登录，但 Open Design 因配置源不一致读成未登录
+   - 避免终端里的 `vela` 已登录，但 SankiWork 因配置源不一致读成未登录
 
 ### 8. queued run 取消的终态语义
 
 文件：
-- [apps/daemon/tests/runs.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/runs.test.ts)
+- [apps/daemon/tests/runs.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/runs.test.ts)
 
 新增覆盖：
 
@@ -394,7 +394,7 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 9. /api/agents 的 AMR live model discovery 不得回退假默认
 
 文件：
-- [apps/daemon/tests/runtimes/env-and-detection.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/runtimes/env-and-detection.test.ts)
+- [apps/daemon/tests/runtimes/env-and-detection.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/runtimes/env-and-detection.test.ts)
 
 新增覆盖：
 
@@ -406,7 +406,7 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 10. retry 复用已有 assistant message 行而不是复制新行
 
 文件：
-- [apps/daemon/tests/chat-route.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/chat-route.test.ts)
+- [apps/daemon/tests/chat-route.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/chat-route.test.ts)
 
 新增覆盖：
 
@@ -418,7 +418,7 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 ### 已覆盖的 artifact quiet-period / watchdog 收尾
 
 文件：
-- [apps/daemon/tests/chat-run-artifact-quiet-period.test.ts](/Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon/tests/chat-run-artifact-quiet-period.test.ts)
+- [apps/daemon/tests/chat-run-artifact-quiet-period.test.ts](/Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon/tests/chat-run-artifact-quiet-period.test.ts)
 
 现有覆盖已经锁住：
 
@@ -433,7 +433,7 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 仓库根目录：
 
 ```bash
-cd /Users/mac/open-design/open-design-amr-runtime-acp/apps/daemon
+cd /Users/mac/sankiwork/sankiwork-amr-runtime-acp/apps/daemon
 ```
 
 ```bash

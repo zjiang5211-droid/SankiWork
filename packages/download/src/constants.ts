@@ -11,7 +11,7 @@
  */
 
 /** File name of the ownership sentinel written at the root of a managed base. */
-export const STORE_SENTINEL = ".open-design-download-root.json";
+export const STORE_SENTINEL = ".sankiwork-download-root.json";
 /** Subdirectory holding per-target manifest JSON files. */
 export const STATE_DIR = ".state";
 /** Subdirectory holding in-progress partial download files. */
@@ -23,9 +23,9 @@ export const STORE_SCHEMA_VERSION = 1;
 /** Schema version stamped into each download manifest. */
 export const MANIFEST_SCHEMA_VERSION = 1;
 /** Kind tag identifying a managed-download root sentinel. */
-export const STORE_KIND = "open-design-managed-download-root";
+export const STORE_KIND = "sankiwork-managed-download-root";
 /** Kind tag identifying a managed-download manifest. */
-export const MANIFEST_KIND = "open-design-managed-download";
+export const MANIFEST_KIND = "sankiwork-managed-download";
 /** Default number of download attempts before giving up. */
 export const DEFAULT_MAX_ATTEMPTS = 3;
 /** Default age threshold (ms) above which prune removes stale scratch entries. */

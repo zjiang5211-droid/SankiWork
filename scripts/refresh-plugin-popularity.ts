@@ -36,7 +36,7 @@ function getArg(name: string, dflt: string | number | boolean): string | number 
 
 const WRITE = Boolean(getArg('write', false));
 const WINDOW_DAYS = Number(getArg('window', 28));
-const OD_REPO = String(getArg('od-repo', process.env.OD_REPO || REPO_ROOT));
+const SW_REPO = String(getArg('od-repo', process.env.SW_REPO || REPO_ROOT));
 const WEIGHT_USERS = Number(getArg('w-users', 0.6));
 const WEIGHT_RUNS = Number(getArg('w-runs', 0.4));
 const MIN_USERS = Number(getArg('min-users', 20));
@@ -89,7 +89,7 @@ async function fetchCounts(): Promise<Counts> {
 
 // 2. live catalog from the bundled first-party manifests. Their bare `name`
 // matches the telemetry plugin_id; the marketplace registry is not used (its
-// names are `open-design/<id>`-prefixed and do not match plugin_id).
+// names are `sankiwork/<id>`-prefixed and do not match plugin_id).
 interface CatalogEntry {
   dir: string;
   od: Record<string, unknown>;
@@ -97,7 +97,7 @@ interface CatalogEntry {
 
 function liveCatalog(): Map<string, CatalogEntry> {
   const catalog = new Map<string, CatalogEntry>();
-  const officialRoot = join(OD_REPO, 'plugins/_official');
+  const officialRoot = join(SW_REPO, 'plugins/_official');
   if (!existsSync(officialRoot)) return catalog;
   for (const bucket of readdirSync(officialRoot)) {
     let entries: string[];
@@ -123,7 +123,7 @@ function liveCatalog(): Map<string, CatalogEntry> {
 
 // Pre-baked hover-pan clips the daemon attaches to gallery tiles.
 function bakedPreviewIds(): Set<string> {
-  const mf = join(OD_REPO, 'data/plugin-previews/manifest.json');
+  const mf = join(SW_REPO, 'data/plugin-previews/manifest.json');
   if (!existsSync(mf)) return new Set<string>();
   try {
     const previews =
@@ -254,8 +254,8 @@ async function main(): Promise<void> {
     console.warn('plugin-popularity refresh skipped: no PostHog API key in env.');
     return;
   }
-  if (!existsSync(join(OD_REPO, 'plugins/_official'))) {
-    throw new Error(`--od-repo does not look like an open-design checkout: ${OD_REPO}`);
+  if (!existsSync(join(SW_REPO, 'plugins/_official'))) {
+    throw new Error(`--od-repo does not look like an sankiwork checkout: ${SW_REPO}`);
   }
 
   const counts = await fetchCounts();
@@ -280,7 +280,7 @@ async function main(): Promise<void> {
 
   if (WRITE) {
     const stamp = new Date().toISOString().slice(0, 10);
-    const out = join(OD_REPO, 'apps/web/src/components/plugins-home/pluginPopularity.generated.ts');
+    const out = join(SW_REPO, 'apps/web/src/components/plugins-home/pluginPopularity.generated.ts');
     writeFileSync(out, render(scored, noPreview, stamp));
     console.log(`\nwrote ${out}`);
   } else {

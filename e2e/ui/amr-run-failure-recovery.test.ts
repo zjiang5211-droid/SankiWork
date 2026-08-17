@@ -27,7 +27,7 @@ let codexRuntime: Awaited<ReturnType<typeof createFakeAgentRuntimes>>['codex'];
 const ACTIVE_ARTIFACT_PREVIEW_SELECTOR = '[data-testid="artifact-preview-frame"]:visible, [data-testid="artifact-preview-frame-url-load"]:visible, [data-testid="artifact-preview-frame-srcdoc"]:visible, [data-testid="live-artifact-preview-frame"]:visible';
 const AMR_AGENT = {
   id: 'amr',
-  name: 'Open Design AMR',
+  name: 'SankiWork AMR',
   bin: 'vela',
   available: true,
   version: 'test',
@@ -168,8 +168,8 @@ test('[P0] @critical AMR insufficient-balance failures surface Top up AMR and re
           const url = new URL(href, window.location.href);
           return (
             url.pathname.endsWith('/dashboard') &&
-            url.searchParams.get('source') === 'open_design' &&
-            url.searchParams.get('od_origin') === 'open_design' &&
+            url.searchParams.get('source') === 'sankiwork' &&
+            url.searchParams.get('od_origin') === 'sankiwork' &&
             url.searchParams.get('od_entry_source') === 'chat_error_recharge'
           );
         }) ?? null;
@@ -228,7 +228,7 @@ test('[P0] @critical AMR auth failures return to the existing sign-in gate witho
   await sendPrompt(page, 'AMR auth failure recovery smoke');
   await page.reload({ waitUntil: 'domcontentloaded' });
   await expect(page).toHaveURL(/\/onboarding$/, { timeout: T.long });
-  await expect(page.getByRole('heading', { name: /Sign in to Open Design|登录 Open Design/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Sign in to SankiWork|登录 SankiWork/i })).toBeVisible();
   await expect(page.getByRole('alertdialog')).toHaveCount(0);
   expect(loginRequested).toBe(false);
 });
@@ -325,7 +325,7 @@ test('[P0] @critical AMR model catalog invalid-key failures return to sign-in wi
   loggedIn = false;
   await page.reload({ waitUntil: 'domcontentloaded' });
   await expect(page).toHaveURL(/\/onboarding$/, { timeout: T.long });
-  await expect(page.getByRole('heading', { name: /Sign in to Open Design|登录 Open Design/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Sign in to SankiWork|登录 SankiWork/i })).toBeVisible();
   await expect(page.getByRole('alertdialog')).toHaveCount(0);
   expect(loginRequested).toBe(false);
 });
@@ -417,14 +417,14 @@ test('[P0] @critical non-AMR model failures stay recoverable while Cloud is sign
 
   await gotoProject(page, projectId);
 
-  const switchAndRetry = page.getByRole('button', { name: /Switch to Open Design Cloud & retry/i }).first();
+  const switchAndRetry = page.getByRole('button', { name: /Switch to SankiWork Cloud & retry/i }).first();
   await expect(switchAndRetry).toBeVisible({ timeout: T.long });
   await switchAndRetry.click();
 
   await expect
     .poll(() => new URL(page.url()).pathname, { timeout: T.medium })
     .toBe('/onboarding');
-  await expect(page.getByRole('heading', { name: /Sign in to Open Design|登录 Open Design/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Sign in to SankiWork|登录 SankiWork/i })).toBeVisible();
   await expect
     .poll(async () => {
       const raw = await page.evaluate((key) => window.localStorage.getItem(key), STORAGE_KEY);
@@ -592,7 +592,7 @@ test('[P1] Settings AMR upgrade opens the attributed plans URL for the active pr
   const url = new URL(openedUrl);
   expect(url.pathname).toBe('/dashboard');
   expect(url.searchParams.get('billing')).toBe('plan');
-  expect(url.searchParams.get('od_origin')).toBe('open_design');
+  expect(url.searchParams.get('od_origin')).toBe('sankiwork');
   expect(url.searchParams.get('od_entry_source')).toBe('settings_amr_upgrade');
   expect(url.searchParams.get('od_entry_id')).toBeTruthy();
 });
@@ -647,7 +647,7 @@ test('[P0] @critical Settings preserves AMR account, recharge shortcut, and mode
 
   await settings.getByTestId('settings-agent-select-codex').click();
   await expect(settings.getByTestId('settings-agent-select-codex')).toHaveAttribute('aria-pressed', 'true');
-  await expect(settings.getByTestId('settings-agent-select-amr')).toContainText('Open Design');
+  await expect(settings.getByTestId('settings-agent-select-amr')).toContainText('SankiWork');
 
   await settings.getByTestId('settings-agent-select-amr').click();
   await expect(settings.getByTestId('settings-agent-select-amr')).toHaveAttribute('aria-pressed', 'true');
@@ -655,7 +655,7 @@ test('[P0] @critical Settings preserves AMR account, recharge shortcut, and mode
   await expect(settings.locator('.agent-card-amr-profile-badge')).toContainText(/test/i);
   const amrConsole = settings.getByRole('link', { name: /Manage|管理/i });
   await expect(amrConsole).toBeVisible();
-  await expect(amrConsole).toHaveAttribute('href', /source=open_design/);
+  await expect(amrConsole).toHaveAttribute('href', /source=sankiwork/);
 
   await settings.getByRole('combobox', { name: 'Model', exact: true }).click();
   modelPopover = page.getByTestId('settings-agent-model-popover-amr');
@@ -701,7 +701,7 @@ test('[P0] after an AMR failure the user can switch to Codex and complete a fres
   await gotoProject(page, amr.projectId);
   await sendPrompt(page, 'AMR auth failure before switch smoke');
   await expect(runErrorCard(page)).toContainText(
-    /Open Design agent isn't signed in yet|AMR sign-in is required/i,
+    /SankiWork agent isn't signed in yet|AMR sign-in is required/i,
     { timeout: T.long },
   );
   const settings = await openExecutionSettingsDialog(page);
@@ -727,7 +727,7 @@ test('[P0] after an AMR failure the user can switch to Codex and complete a fres
 test('[P0] upstream outages keep Retry available without promoting AMR', async ({ page }) => {
   await stubCatalogsEmpty(page);
   await stubRuntimeAgents(page);
-  const root = join(tmpdir(), `open-design-upstream-ui-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
+  const root = join(tmpdir(), `sankiwork-upstream-ui-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
   const runtimes = await createFakeAgentRuntimes({ root: join(root, 'agents'), runtimeIds: ['claude'] });
   const config = {
     mode: 'daemon',
@@ -799,14 +799,14 @@ test('[P0] upstream outages keep Retry available without promoting AMR', async (
 
   await expect(page.getByRole('button', { name: /^Retry$|^重试$|^重試$/i }).first()).toBeVisible({ timeout: T.long });
   await expect(page.getByText(/Generation service unavailable|model provider is temporarily unavailable/i).first()).toBeVisible();
-  await expect(page.getByRole('button', { name: /Switch to Open Design Cloud & retry/i })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /Switch to SankiWork Cloud & retry/i })).toHaveCount(0);
   await expect(page.getByText(/Model call failed/i)).toHaveCount(0);
 });
 
 test('[P1] zh-CN run failure guidance shows actionable copy and expandable raw source', async ({ page }) => {
   await page.addInitScript(() => {
-    window.localStorage.setItem('open-design:locale', 'zh-CN');
-    window.localStorage.setItem('open-design:locale-source', 'manual');
+    window.localStorage.setItem('sankiwork:locale', 'zh-CN');
+    window.localStorage.setItem('sankiwork:locale-source', 'manual');
   });
   await stubCatalogsEmpty(page);
   await stubRuntimeAgents(page);
@@ -882,7 +882,7 @@ test('[P1] zh-CN run failure guidance shows actionable copy and expandable raw s
   await expect(card).toContainText('内容过长', { timeout: T.long });
   await expect(card).toContainText('本轮输入超出了模型的上下文上限');
   await expect(page.getByRole('button', { name: /^重试$/ }).first()).toBeVisible();
-  await expect(page.getByRole('button', { name: /Switch to Open Design Cloud & retry/i })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /Switch to SankiWork Cloud & retry/i })).toHaveCount(0);
 
   const sourceToggle = card.getByRole('button', { name: /查看详情/ });
   await expect(sourceToggle).toHaveAttribute('aria-expanded', 'false');
@@ -972,7 +972,7 @@ test('[P0] antigravity rate limits offer terminal model switching without promot
   const launchTerminal = page.getByRole('button', { name: /Switch model in terminal/i }).first();
   await expect(launchTerminal).toBeVisible({ timeout: T.long });
   await expect(page.getByRole('button', { name: /^Retry$|^重试$|^重試$/i }).first()).toBeVisible();
-  await expect(page.getByRole('button', { name: /Switch to Open Design Cloud & retry/i })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /Switch to SankiWork Cloud & retry/i })).toHaveCount(0);
 
   await launchTerminal.click();
 
@@ -997,7 +997,7 @@ async function setupAmrWorkspace(
 ) {
   await stubCatalogsEmpty(page);
 
-  const root = join(tmpdir(), `open-design-amr-ui-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
+  const root = join(tmpdir(), `sankiwork-amr-ui-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
   const homeDir = join(root, 'home');
   const fakeVelaSessionId = `fake-amr-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   const velaBin = await writeFakeVelaBin(join(root, 'bin'), {
@@ -1043,7 +1043,7 @@ async function setupAmrWorkspace(
         VELA_LINK_URL: 'http://localhost:18081',
         VELA_RUNTIME_KEY: 'fake-runtime-key',
         FAKE_VELA_SESSION_ID: fakeVelaSessionId,
-        ...(options.profile ? { OPEN_DESIGN_AMR_PROFILE: options.profile } : {}),
+        ...(options.profile ? { SANKIWORK_AMR_PROFILE: options.profile } : {}),
       },
       codex: codexRuntime.env,
     },

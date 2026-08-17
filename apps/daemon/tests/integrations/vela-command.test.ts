@@ -14,8 +14,8 @@ const {
 }));
 
 vi.mock('node:child_process', () => ({ execFile: execFileMock }));
-vi.mock('@open-design/platform', async (importOriginal) => ({
-  ...await importOriginal<typeof import('@open-design/platform')>(),
+vi.mock('@sankiwork/platform', async (importOriginal) => ({
+  ...await importOriginal<typeof import('@sankiwork/platform')>(),
   listProcessSnapshots: listProcessSnapshotsMock,
   stopProcesses: stopProcessesMock,
 }));
@@ -78,8 +78,8 @@ describe('runVelaCommand', () => {
       env: {
         ...process.env,
         VELA_BIN: process.execPath,
-        OPEN_DESIGN_AMR_PROFILE: 'feature-test',
-        OD_DATA_DIR: '',
+        SANKIWORK_AMR_PROFILE: 'feature-test',
+        SW_DATA_DIR: '',
       },
     });
 
@@ -92,7 +92,7 @@ describe('runVelaCommand', () => {
     expect(command).toBe(process.execPath);
     expect(args).toEqual(['resource', 'head', 'project-1']);
     expect(options.env.VELA_PROFILE).toBe('feature-test');
-    expect(options.env.AMR_CLIENT_SOURCE).toBe('open_design');
+    expect(options.env.AMR_CLIENT_SOURCE).toBe('sankiwork');
   });
 
   it('delivers successful stderr diagnostics without changing stdout', async () => {
@@ -124,7 +124,7 @@ describe('runVelaCommand', () => {
         env: {
           ...process.env,
           VELA_BIN: process.execPath,
-          OD_DATA_DIR: '',
+          SW_DATA_DIR: '',
         },
         onStderr,
       }),
@@ -148,7 +148,7 @@ describe('runVelaCommand', () => {
       },
     );
     vi.stubEnv('VELA_BIN', process.execPath);
-    vi.stubEnv('OD_DATA_DIR', '');
+    vi.stubEnv('SW_DATA_DIR', '');
 
     await runVelaResourceBatchCommand(
       [{
@@ -197,7 +197,7 @@ describe('runVelaCommand', () => {
         env: {
           ...process.env,
           VELA_BIN: '/missing/inherited/vela',
-          OD_DATA_DIR: dataDir,
+          SW_DATA_DIR: dataDir,
         },
       });
 
@@ -212,7 +212,7 @@ describe('runVelaCommand', () => {
       env: {
         ...process.env,
         VELA_BIN: '/missing/inherited/vela',
-        OD_DATA_DIR: '',
+        SW_DATA_DIR: '',
       },
       configuredEnv: { VELA_BIN: process.execPath },
     });
@@ -246,7 +246,7 @@ describe('runVelaCommand', () => {
       env: {
         ...process.env,
         VELA_BIN: process.execPath,
-        OD_DATA_DIR: '',
+        SW_DATA_DIR: '',
       },
       timeoutMs: 50,
       terminationGraceMs: 25,
@@ -298,7 +298,7 @@ describe('runVelaCommand', () => {
       env: {
         ...process.env,
         VELA_BIN: process.execPath,
-        OD_DATA_DIR: '',
+        SW_DATA_DIR: '',
       },
       timeoutMs: 50,
       signal: controller.signal,
@@ -332,7 +332,7 @@ describe('runVelaCommand', () => {
       env: {
         ...process.env,
         VELA_BIN: process.execPath,
-        OD_DATA_DIR: '',
+        SW_DATA_DIR: '',
       },
       signal: controller.signal,
     })).rejects.toMatchObject({
@@ -363,7 +363,7 @@ describe('runVelaCommand', () => {
       env: {
         ...process.env,
         VELA_BIN: process.execPath,
-        OD_DATA_DIR: '',
+        SW_DATA_DIR: '',
       },
       signal: controller.signal,
     });
@@ -386,7 +386,7 @@ describe('runVelaCommand', () => {
     vi.useFakeTimers();
     vi.spyOn(console, 'warn').mockImplementation(() => {});
     vi.stubEnv('VELA_BIN', process.execPath);
-    vi.stubEnv('OD_DATA_DIR', '');
+    vi.stubEnv('SW_DATA_DIR', '');
     let callback!: (error: Error | null, stdout: string) => void;
     execFileMock.mockImplementation(
       (
@@ -505,9 +505,9 @@ describe('runVelaCommand', () => {
   });
 
   it('enables Vela pull profiling only behind the OD opt-in', async () => {
-    vi.stubEnv('OD_COLLAB_PULL_PROFILE', '1');
+    vi.stubEnv('SW_COLLAB_PULL_PROFILE', '1');
     vi.stubEnv('VELA_BIN', process.execPath);
-    vi.stubEnv('OD_DATA_DIR', '');
+    vi.stubEnv('SW_DATA_DIR', '');
     const info = vi.spyOn(console, 'info').mockImplementation(() => {});
     execFileMock.mockImplementationOnce(
       (
@@ -562,10 +562,10 @@ describe('runVelaCommand', () => {
   });
 
   it('does not force Vela profiling or log stderr by default', async () => {
-    vi.stubEnv('OD_COLLAB_PULL_PROFILE', '');
+    vi.stubEnv('SW_COLLAB_PULL_PROFILE', '');
     vi.stubEnv('VELA_RESOURCE_PULL_PROFILE', '');
     vi.stubEnv('VELA_BIN', process.execPath);
-    vi.stubEnv('OD_DATA_DIR', '');
+    vi.stubEnv('SW_DATA_DIR', '');
     const info = vi.spyOn(console, 'info').mockImplementation(() => {});
     execFileMock.mockImplementationOnce(
       (

@@ -133,7 +133,7 @@ async function startProjectStubServer(): Promise<StubServer> {
         res.end(JSON.stringify({ ok: true, deletedProjectIds: ['project-1', 'project-2'] }));
         return;
       }
-      // Workspace directory used by `od project list` to auto-resolve the
+      // Workspace directory used by `sw project list` to auto-resolve the
       // signed-in workspace when no explicit --workspace/--workspace-member
       // is supplied (#6679). Mirrors the personal workspace shape returned
       // by the real daemon GET /api/workspace/directory.
@@ -211,7 +211,7 @@ async function runCli(args: string[]): Promise<{ stdout: string; stderr: string;
   }
 }
 
-describe('od project CLI', () => {
+describe('sw project CLI', () => {
   it('documents exact workspace identity for bound project and file commands', async () => {
     const projectHelp = await runCli(['project', 'help']);
     const filesHelp = await runCli(['files', 'help']);
@@ -349,7 +349,7 @@ describe('od project CLI', () => {
     });
   });
 
-  it('od project list without --workspace resolves the signed-in workspace automatically (#6679)', async () => {
+  it('sw project list without --workspace resolves the signed-in workspace automatically (#6679)', async () => {
     stub = await startProjectStubServer();
 
     const result = await runCli(['project', 'list', '--json', '--daemon-url', stub.baseUrl]);
@@ -377,7 +377,7 @@ describe('od project CLI', () => {
     });
   });
 
-  it('od project list with explicit --workspace routes to the workspace-scoped catalog (#6679)', async () => {
+  it('sw project list with explicit --workspace routes to the workspace-scoped catalog (#6679)', async () => {
     stub = await startProjectStubServer();
 
     const result = await runCli([
@@ -410,7 +410,7 @@ describe('od project CLI', () => {
     });
   });
 
-  it('od project list falls back to headerless catalog when no signed-in workspace (#6679)', async () => {
+  it('sw project list falls back to headerless catalog when no signed-in workspace (#6679)', async () => {
     // Custom stub whose directory endpoint returns empty (signed-out / no vela)
     // so resolveMcpWorkspaceContext returns null and the CLI falls back to the
     // headerless unbound catalog exactly as before the fix.

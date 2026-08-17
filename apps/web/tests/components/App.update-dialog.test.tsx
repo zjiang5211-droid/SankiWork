@@ -4,10 +4,10 @@ import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type {
-  OpenDesignHostUpdaterOpenDialogListener,
-  OpenDesignHostUpdaterStatusSnapshot,
-} from '@open-design/host';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+  SankiWorkHostUpdaterOpenDialogListener,
+  SankiWorkHostUpdaterStatusSnapshot,
+} from '@sankiwork/host';
+import { installMockSankiWorkHost } from '@sankiwork/host/testing';
 
 import { App } from '../../src/App';
 import { fetchAmrModels, fetchVelaLoginStatus } from '../../src/providers/daemon';
@@ -142,8 +142,8 @@ const baseConfig: AppConfig = {
 };
 
 function idleStatus(
-  overrides: Partial<OpenDesignHostUpdaterStatusSnapshot> = {},
-): OpenDesignHostUpdaterStatusSnapshot {
+  overrides: Partial<SankiWorkHostUpdaterStatusSnapshot> = {},
+): SankiWorkHostUpdaterStatusSnapshot {
   return {
     arch: 'arm64',
     capabilities: {
@@ -205,7 +205,7 @@ describe('App updater dialog integration', () => {
   });
 
   it('exposes the desktop host platform on the workspace shell', () => {
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         client: {
           platform: 'win32',
@@ -222,14 +222,14 @@ describe('App updater dialog integration', () => {
   });
 
   it('mounts the updater open-dialog subscription and handles the mac app menu request', async () => {
-    let openDialogListener: OpenDesignHostUpdaterOpenDialogListener | null = null;
+    let openDialogListener: SankiWorkHostUpdaterOpenDialogListener | null = null;
     const check = vi.fn(async () => idleStatus({ state: 'not-available' }));
     const unsubscribeOpenDialog = vi.fn();
-    const subscribeOpenDialog = vi.fn((listener: OpenDesignHostUpdaterOpenDialogListener) => {
+    const subscribeOpenDialog = vi.fn((listener: SankiWorkHostUpdaterOpenDialogListener) => {
       openDialogListener = listener;
       return unsubscribeOpenDialog;
     });
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           check,

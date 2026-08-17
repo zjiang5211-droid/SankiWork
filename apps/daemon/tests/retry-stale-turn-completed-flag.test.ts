@@ -49,8 +49,8 @@ describe('same-run retry stale turnCompletedCleanly (review red spec)', () => {
     LANGFUSE_PUBLIC_KEY: process.env.LANGFUSE_PUBLIC_KEY,
     LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
     LANGFUSE_BASE_URL: process.env.LANGFUSE_BASE_URL,
-    OPEN_DESIGN_TELEMETRY_RELAY_URL: process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL,
-    OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS: process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS,
+    SANKIWORK_TELEMETRY_RELAY_URL: process.env.SANKIWORK_TELEMETRY_RELAY_URL,
+    SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS: process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS,
   };
   let started: StartedServer | null = null;
   let binDir: string | null = null;
@@ -78,13 +78,13 @@ describe('same-run retry stale turnCompletedCleanly (review red spec)', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
     // Trip the no-output watchdog after the empty clean turn. The window must
     // comfortably outlast the time it takes the daemon to parse attempt 1's
     // `turn_end` and set run.turnCompletedCleanly — otherwise (e.g. a cold
     // module import) the watchdog can fire first, the flag never gets set, and
     // the run fails for the wrong reason (a false green that hides a regression).
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '1200';
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '1200';
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {

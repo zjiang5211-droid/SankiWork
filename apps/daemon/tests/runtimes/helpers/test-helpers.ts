@@ -100,12 +100,12 @@ export const deepseekMaxPromptArgBytes = (() => {
   );
   return deepseek.maxPromptArgBytes;
 })();
-const originalDisablePlugins = process.env.OD_CODEX_DISABLE_PLUGINS;
+const originalDisablePlugins = process.env.SW_CODEX_DISABLE_PLUGINS;
 const originalPath = process.env.PATH;
 const originalHome = process.env.HOME;
-const originalAgentHome = process.env.OD_AGENT_HOME;
-const originalDaemonUrl = process.env.OD_DAEMON_URL;
-const originalToolToken = process.env.OD_TOOL_TOKEN;
+const originalAgentHome = process.env.SW_AGENT_HOME;
+const originalDaemonUrl = process.env.SW_DAEMON_URL;
+const originalToolToken = process.env.SW_TOOL_TOKEN;
 const originalNpmConfigPrefix = process.env.NPM_CONFIG_PREFIX;
 const originalPathExt = process.env.PATHEXT;
 const originalVpHome = process.env.VP_HOME;
@@ -114,9 +114,9 @@ const originalPlatformDescriptor = Object.getOwnPropertyDescriptor(process, 'pla
 
 afterEach(() => {
   if (originalDisablePlugins == null) {
-    delete process.env.OD_CODEX_DISABLE_PLUGINS;
+    delete process.env.SW_CODEX_DISABLE_PLUGINS;
   } else {
-    process.env.OD_CODEX_DISABLE_PLUGINS = originalDisablePlugins;
+    process.env.SW_CODEX_DISABLE_PLUGINS = originalDisablePlugins;
   }
   process.env.PATH = originalPath;
   if (originalHome == null) {
@@ -125,19 +125,19 @@ afterEach(() => {
     process.env.HOME = originalHome;
   }
   if (originalAgentHome == null) {
-    delete process.env.OD_AGENT_HOME;
+    delete process.env.SW_AGENT_HOME;
   } else {
-    process.env.OD_AGENT_HOME = originalAgentHome;
+    process.env.SW_AGENT_HOME = originalAgentHome;
   }
   if (originalDaemonUrl == null) {
-    delete process.env.OD_DAEMON_URL;
+    delete process.env.SW_DAEMON_URL;
   } else {
-    process.env.OD_DAEMON_URL = originalDaemonUrl;
+    process.env.SW_DAEMON_URL = originalDaemonUrl;
   }
   if (originalToolToken == null) {
-    delete process.env.OD_TOOL_TOKEN;
+    delete process.env.SW_TOOL_TOKEN;
   } else {
-    process.env.OD_TOOL_TOKEN = originalToolToken;
+    process.env.SW_TOOL_TOKEN = originalToolToken;
   }
   if (originalNpmConfigPrefix == null) {
     delete process.env.NPM_CONFIG_PREFIX;

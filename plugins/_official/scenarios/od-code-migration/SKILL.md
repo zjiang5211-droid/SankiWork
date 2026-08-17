@@ -41,7 +41,7 @@ the `build-test` atom.
 
 A plugin built on this scenario typically declares `od.inputs`:
 
-  - `repoPath` (string, required): pulled from `od project import`.
+  - `repoPath` (string, required): pulled from `sw project import`.
   - `targetStack` (form): collected by `rewrite-plan`.
   - `testCommand` / `buildCommand` (string, optional): overrides
     the inferred package.json scripts in the `build-test` atom.

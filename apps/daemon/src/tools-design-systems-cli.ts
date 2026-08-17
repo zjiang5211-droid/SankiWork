@@ -3,7 +3,7 @@ import type {
   ResolveDesignSystemIntentRequest,
   ValidateDesignSystemAdherenceApiResponse,
   ValidateDesignSystemAdherenceRequest,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 type JsonObject = Record<string, unknown>;
 
@@ -22,20 +22,20 @@ interface ParsedOptions {
 }
 
 const DESIGN_SYSTEMS_USAGE = `Usage:
-  od tools design-systems read --path <manifest-declared-path> [--design-system <id>]
-  od tools design-systems resolve --intent <canonical-intent> [--design-system <id>] [--json]
-  od tools design-systems validate --intent <canonical-intent> --artifact <project-relative-file> [--artifact <file>...] [--design-system <id>] [--json]
+  sw tools design-systems read --path <manifest-declared-path> [--design-system <id>]
+  sw tools design-systems resolve --intent <canonical-intent> [--design-system <id>] [--json]
+  sw tools design-systems validate --intent <canonical-intent> --artifact <project-relative-file> [--artifact <file>...] [--design-system <id>] [--json]
 
 Environment:
-  OD_NODE_BIN     Node-compatible runtime for agent wrapper invocations
-  OD_BIN          Open Design CLI script for agent wrapper invocations
-  OD_DAEMON_URL   Daemon base URL injected into agent runs
-  OD_TOOL_TOKEN   Bearer token injected into agent runs
+  SW_NODE_BIN     Node-compatible runtime for agent wrapper invocations
+  SW_BIN          SankiWork CLI script for agent wrapper invocations
+  SW_DAEMON_URL   Daemon base URL injected into agent runs
+  SW_TOOL_TOKEN   Bearer token injected into agent runs
 
 Agent runtime invocation:
-  "$OD_NODE_BIN" "$OD_BIN" tools design-systems read --path preview/colors.html
-  "$OD_NODE_BIN" "$OD_BIN" tools design-systems resolve --intent account.settings.save
-  "$OD_NODE_BIN" "$OD_BIN" tools design-systems validate --intent account.settings.save --artifact account-settings.html --artifact styles.css
+  "$SW_NODE_BIN" "$SW_BIN" tools design-systems read --path preview/colors.html
+  "$SW_NODE_BIN" "$SW_BIN" tools design-systems resolve --intent account.settings.save
+  "$SW_NODE_BIN" "$SW_BIN" tools design-systems validate --intent account.settings.save --artifact account-settings.html --artifact styles.css
 `;
 
 function writeJson(value: unknown, stream: NodeJS.WriteStream = process.stdout): void {
@@ -87,8 +87,8 @@ function parseOptions(args: string[]): ParsedOptions | { error: string } {
 }
 
 function daemonUrl(): URL | { error: string } {
-  const rawUrl = process.env.OD_DAEMON_URL;
-  if (!rawUrl) return { error: 'OD_DAEMON_URL is required' };
+  const rawUrl = process.env.SW_DAEMON_URL;
+  if (!rawUrl) return { error: 'SW_DAEMON_URL is required' };
   try {
     const url = new URL(rawUrl);
     url.pathname = url.pathname.replace(/\/+$/u, '');
@@ -96,13 +96,13 @@ function daemonUrl(): URL | { error: string } {
     url.hash = '';
     return url;
   } catch {
-    return { error: 'OD_DAEMON_URL must be a valid URL' };
+    return { error: 'SW_DAEMON_URL must be a valid URL' };
   }
 }
 
 function toolToken(): string | { error: string } {
-  const token = process.env.OD_TOOL_TOKEN;
-  if (!token) return { error: 'OD_TOOL_TOKEN is required' };
+  const token = process.env.SW_TOOL_TOKEN;
+  if (!token) return { error: 'SW_TOOL_TOKEN is required' };
   return token;
 }
 

@@ -4,7 +4,7 @@
 // upload, agent task, design-system staging, AI generation) with a source
 // badge, a kind badge, and back-links. Captures from the browser extension
 // stream in live over the `/api/library/events` SSE feed. The OD Clipper is
-// zero-config — it connects automatically whenever Open Design is running
+// zero-config — it connects automatically whenever SankiWork is running
 // locally, so there is no pairing step here.
 //
 // Each card thumbnail is kind-aware (image / video / html / font / color) and
@@ -14,7 +14,7 @@
 // the action bar or with Delete / Backspace.
 
 import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
-import type { ChatAttachment, DesignSystemSummary, LibraryAsset } from '@open-design/contracts';
+import type { ChatAttachment, DesignSystemSummary, LibraryAsset } from '@sankiwork/contracts';
 import {
   applyLibraryAsset,
   deleteLibraryAsset,
@@ -32,7 +32,7 @@ import { useInView } from './plugins-home/useInView';
 import { navigate } from '../router';
 import { setPendingDesignSystemCreateEntry } from '../analytics/ds-create-entry';
 import { setComposerSeed, setDesignSystemAssetSeed, setHomeComposerAssetSeed } from '../state/libraryHandoff';
-import { Button, Dialog, DialogDescription, DialogFooter, DialogTitle } from '@open-design/components';
+import { Button, Dialog, DialogDescription, DialogFooter, DialogTitle } from '@sankiwork/components';
 import { Icon } from './Icon';
 import {
   KindIcon,
@@ -462,7 +462,7 @@ const LibraryCard = memo(function LibraryCard({
             className={styles.linkBtn}
             onClick={() => navigate({ kind: 'design-system-detail', designSystemId })}
           >
-            {t('library.openDesignSystem')}
+            {t('library.sankiWorkSystem')}
           </button>
         ) : projectId ? (
           <button
@@ -1143,7 +1143,7 @@ export function LibrarySection({ active, onOpenProject }: Props) {
           <p className={styles.headerHint}>{t('library.headerHint')}</p>
           <a
             className={styles.clipperDownload}
-            href="https://open-design.ai/clipper"
+            href="https://sanki-ai.cloud/clipper"
             target="_blank"
             rel="noreferrer"
           >
@@ -1321,7 +1321,7 @@ export function LibrarySection({ active, onOpenProject }: Props) {
           <p>{t('library.emptyTitle')}</p>
           <p className={styles.emptyHint}>
             {t('library.emptyHintBefore')}{' '}
-            <code>od library import &lt;file&gt;</code>
+            <code>sw library import &lt;file&gt;</code>
             {t('library.emptyHintAfter')}
           </p>
         </div>

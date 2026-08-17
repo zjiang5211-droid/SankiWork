@@ -1,6 +1,6 @@
 ---
 /*
- * /solutions/prototype/ — Solution use-case page: prototyping with Open Design.
+ * /solutions/prototype/ — Solution use-case page: prototyping with SankiWork.
  *
  * This is the TEMPLATE the other five use-case pages copy. Layout is a wide,
  * Figma-marketing-style flow: a two-column hero band, a compact how-it-works
@@ -20,7 +20,7 @@ import { bundledRecordOf, categorizePlugin } from '../../../_lib/plugin-facets';
 import { pickSolutionPlugins } from '../../../_lib/solution-featured';
 import { localeFromPath, localizedHref, localePath, stripLocaleFromPath } from '../../../i18n';
 
-const SITE = Astro.site?.toString() ?? 'https://open-design.ai/';
+const SITE = Astro.site?.toString() ?? 'https://sanki-ai.cloud/';
 const REPO = 'https://github.com/nexu-io/open-design';
 const REPO_RELEASES = `${REPO}/releases`;
 const locale = localeFromPath(Astro.url.pathname);
@@ -61,7 +61,7 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Open Design', item: SITE },
+      { '@type': 'ListItem', position: 1, name: 'SankiWork', item: SITE },
       { '@type': 'ListItem', position: 2, name: page.breadcrumb, item: pageUrl },
     ],
   },
@@ -87,7 +87,7 @@ const jsonLd = [
 
 <Layout title={title} description={description} active="solution" jsonLd={jsonLd}>
   <nav class="breadcrumb" aria-label={common.breadcrumbAria}>
-    <a href={href('/')}>Open Design</a>
+    <a href={href('/')}>SankiWork</a>
     <span>/</span>
     <span aria-current="page">{page.breadcrumb}</span>
   </nav>
@@ -191,7 +191,7 @@ const jsonLd = [
       </ol>
     </section>
 
-    <section class="info-cta" aria-label="Open Design call to action">
+    <section class="info-cta" aria-label="SankiWork call to action">
       <div>
         <h2>{page.ctaTitle}</h2>
         <p>{page.ctaBody}</p>

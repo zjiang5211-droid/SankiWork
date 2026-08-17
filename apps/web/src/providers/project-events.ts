@@ -9,7 +9,7 @@ import {
   type ProjectConversationCreatedSsePayload,
   type ProjectContentTransferStateSsePayload,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   workspaceIdentityCacheKey,
   workspaceResourceUrl,

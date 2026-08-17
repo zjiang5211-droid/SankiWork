@@ -64,13 +64,13 @@ function makeConfig(root: string, overrides: Partial<ToolPackConfig> = {}): Tool
   };
 }
 
-const envState = { odDataDir: process.env.OD_DATA_DIR };
+const envState = { odDataDir: process.env.SW_DATA_DIR };
 
 afterEach(() => {
   if (envState.odDataDir == null) {
-    delete process.env.OD_DATA_DIR;
+    delete process.env.SW_DATA_DIR;
   } else {
-    process.env.OD_DATA_DIR = envState.odDataDir;
+    process.env.SW_DATA_DIR = envState.odDataDir;
   }
 });
 
@@ -78,19 +78,19 @@ describe("resolveSeededAppConfigPaths", () => {
   it("declares the Workspace invite URL scheme in the packaged app metadata", async () => {
     const source = await readFile(new URL("../src/mac/builder.ts", import.meta.url), "utf8");
     expect(source).toContain("protocols: [");
-    expect(source).toContain('schemes: ["opendesign"]');
+    expect(source).toContain('schemes: ["sankiwork"]');
   });
 
-  it("uses workspace .od by default", () => {
+  it("uses workspace .sankiwork by default", () => {
     const config = makeConfig("/work");
     expect(resolveSeededAppConfigPaths(config)).toEqual({
-      sourcePath: join("/work", ".od", "app-config.json"),
+      sourcePath: join("/work", ".sankiwork", "app-config.json"),
       targetPath: join("/work", ".tmp", "tools-pack", "runtime", "mac", "namespaces", "local-test", "data", "app-config.json"),
     });
   });
 
-  it("prefers OD_DATA_DIR when provided", () => {
-    process.env.OD_DATA_DIR = "/custom/data";
+  it("prefers SW_DATA_DIR when provided", () => {
+    process.env.SW_DATA_DIR = "/custom/data";
     const config = makeConfig("/work");
     expect(resolveSeededAppConfigPaths(config)).toEqual({
       sourcePath: join("/custom/data", "app-config.json"),
@@ -98,8 +98,8 @@ describe("resolveSeededAppConfigPaths", () => {
     });
   });
 
-  it("resolves relative OD_DATA_DIR against the workspace root", () => {
-    process.env.OD_DATA_DIR = "e2e/ui/.od-data";
+  it("resolves relative SW_DATA_DIR against the workspace root", () => {
+    process.env.SW_DATA_DIR = "e2e/ui/.od-data";
     const config = makeConfig("/work");
     expect(resolveSeededAppConfigPaths(config)).toEqual({
       sourcePath: resolve("/work", "e2e", "ui", ".od-data", "app-config.json"),
@@ -107,11 +107,11 @@ describe("resolveSeededAppConfigPaths", () => {
     });
   });
 
-  it("expands $HOME-style OD_DATA_DIR values", () => {
-    process.env.OD_DATA_DIR = "$HOME/.open-design";
+  it("expands $HOME-style SW_DATA_DIR values", () => {
+    process.env.SW_DATA_DIR = "$HOME/.sankiwork";
     const config = makeConfig("/work");
     expect(resolveSeededAppConfigPaths(config)).toEqual({
-      sourcePath: join(os.homedir(), ".open-design", "app-config.json"),
+      sourcePath: join(os.homedir(), ".sankiwork", "app-config.json"),
       targetPath: join("/work", ".tmp", "tools-pack", "runtime", "mac", "namespaces", "local-test", "data", "app-config.json"),
     });
   });
@@ -119,10 +119,10 @@ describe("resolveSeededAppConfigPaths", () => {
 
 describe("seedPackagedAppConfig", () => {
   it("copies the current app-config into the packaged runtime namespace", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root);
-      const sourceDir = join(root, ".od");
+      const sourceDir = join(root, ".sankiwork");
       await mkdir(sourceDir, { recursive: true });
       await writeFile(
         join(sourceDir, "app-config.json"),
@@ -141,10 +141,10 @@ describe("seedPackagedAppConfig", () => {
   });
 
   it("skips seeding for portable builds", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root, { portable: true });
-      const sourceDir = join(root, ".od");
+      const sourceDir = join(root, ".sankiwork");
       await mkdir(sourceDir, { recursive: true });
       await writeFile(join(sourceDir, "app-config.json"), "{\n  \"agentId\": \"codex\"\n}\n", "utf8");
 
@@ -161,7 +161,7 @@ describe("seedPackagedAppConfig", () => {
 
 describe("copyResourceTree", () => {
   it("does not embed the build machine Node launcher into mac resources", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root);
       const paths = resolveMacPaths(config);
@@ -186,7 +186,7 @@ describe("copyResourceTree", () => {
       await writeFile(
         join(dshRuntimeRoot, "package.json"),
         `${JSON.stringify({
-          name: "@open-design/dsh-runtime",
+          name: "@sankiwork/dsh-runtime",
           version: "0.1.0",
           files: ["dist"],
         }, null, 2)}\n`,
@@ -200,7 +200,7 @@ describe("copyResourceTree", () => {
       expect(await pathExists(join(paths.resourceRoot, "bin", "node"))).toBe(false);
       const dshRuntimeResourceRoot = join(paths.resourceRoot, "agent-runtimes", "deepseek-harness");
       await expect(readFile(join(dshRuntimeResourceRoot, "manifest.json"), "utf8")).resolves.toContain(
-        '"packageName": "@open-design/dsh-runtime"',
+        '"packageName": "@sankiwork/dsh-runtime"',
       );
       expect((await readdir(dshRuntimeResourceRoot)).filter((entry) => entry.endsWith(".tgz"))).toHaveLength(1);
     } finally {
@@ -211,7 +211,7 @@ describe("copyResourceTree", () => {
 
 describe("copyMacPrebundleRuntimeDependencies", () => {
   it("copies the pinned prebuilt fsevents binding into the assembled app", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root);
       const chokidarRoot = join(root, "apps", "daemon", "node_modules", "chokidar");
@@ -237,7 +237,7 @@ describe("copyMacPrebundleRuntimeDependencies", () => {
   });
 
   it("rejects a workspace fsevents version that drifted from the assembly contract", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root);
       const chokidarRoot = join(root, "apps", "daemon", "node_modules", "chokidar");
@@ -257,7 +257,7 @@ describe("copyMacPrebundleRuntimeDependencies", () => {
 
 describe("renderMacPackagedConfig", () => {
   it("omits nodeCommandRelative so packaged mac sidecars use Electron as Node", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root);
 
@@ -275,7 +275,7 @@ describe("renderMacPackagedConfig", () => {
   });
 
   it("bakes the configured updater metadata URL for mac beta validation", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root, {
         updateMetadataUrl: "http://127.0.0.1:4567/beta/latest/metadata.json",
@@ -300,7 +300,7 @@ describe("renderMacPackagedConfig", () => {
   // rather than the source tree, so packaging has to carry it into the bundle
   // (same chain as posthogKey) or the feature stays dark in the packaged app.
   it("bakes the injected vela web origin for a workspace-team build", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root, {
         amrProfile: "feature-test",
@@ -322,7 +322,7 @@ describe("renderMacPackagedConfig", () => {
   });
 
   it("omits the vela web origin when the build was given none", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const packagedConfig = JSON.parse(
         renderMacPackagedConfig({
@@ -386,7 +386,7 @@ describe("runElectronBuilder", () => {
   }
 
   it("does not explicitly disable electron-builder notarization for notarized mac builds", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const builderConfig = await prepareElectronBuilderConfig(root, { macNotarize: true });
 
@@ -398,7 +398,7 @@ describe("runElectronBuilder", () => {
   });
 
   it("keeps signed-only mac builds from invoking electron-builder notarization", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const builderConfig = await prepareElectronBuilderConfig(root, { macNotarize: false });
 
@@ -412,7 +412,7 @@ describe("runElectronBuilder", () => {
 
 describe("createMacElectronRebuildOptions", () => {
   it("targets the packaged Electron ABI for required native modules", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root, { electronVersion: "41.3.0" });
       const appRoot = join(root, "assembled", "app");
@@ -436,7 +436,7 @@ describe("createMacElectronRebuildOptions", () => {
 
 describe("validateMacNativeRebuildOutput", () => {
   it("reports a missing rebuilt native module as missing output", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       await expect(validateMacNativeRebuildOutput(root)).resolves.toBe(
         `native module output is missing: ${join(root, "node_modules", "better-sqlite3", "build", "Release", "better_sqlite3.node")}`,
@@ -447,7 +447,7 @@ describe("validateMacNativeRebuildOutput", () => {
   });
 
   it("preserves non-ENOENT filesystem diagnostics from stat failures", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const buildPath = join(root, "node_modules", "better-sqlite3", "build");
       const nativePath = join(buildPath, "Release", "better_sqlite3.node");
@@ -472,11 +472,11 @@ describe("validateMacNativeRebuildOutput", () => {
 
 describe("writeLaunchPackagedConfig", () => {
   it("injects the tools-pack runtime namespace root without mutating the packaged app config", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-tools-pack-mac-"));
     try {
       const config = makeConfig(root, { namespace: "release-beta", portable: true });
-      const appPath = join(root, "Open Design.app");
-      const embeddedConfigPath = join(appPath, "Contents", "Resources", "open-design-config.json");
+      const appPath = join(root, "SankiWork.app");
+      const embeddedConfigPath = join(appPath, "Contents", "Resources", "sankiwork-config.json");
       await mkdir(dirname(embeddedConfigPath), { recursive: true });
       await writeFile(
         embeddedConfigPath,
@@ -484,7 +484,7 @@ describe("writeLaunchPackagedConfig", () => {
           {
             appVersion: "0.5.1-beta.2",
             namespace: "packaged-default",
-            nodeCommandRelative: "open-design/bin/node",
+            nodeCommandRelative: "sankiwork/bin/node",
             webOutputMode: "standalone",
           },
           null,
@@ -497,12 +497,12 @@ describe("writeLaunchPackagedConfig", () => {
       const launchConfig = JSON.parse(await readFile(launchConfigPath, "utf8")) as Record<string, unknown>;
       const embeddedConfig = JSON.parse(await readFile(embeddedConfigPath, "utf8")) as Record<string, unknown>;
 
-      expect(launchConfigPath).toBe(join(config.roots.runtime.namespaceRoot, "runtime", "open-design-config.json"));
+      expect(launchConfigPath).toBe(join(config.roots.runtime.namespaceRoot, "runtime", "sankiwork-config.json"));
       expect(launchConfig).toMatchObject({
         appVersion: "0.5.1-beta.2",
         namespace: "release-beta",
         namespaceBaseRoot: config.roots.runtime.namespaceBaseRoot,
-        nodeCommandRelative: "open-design/bin/node",
+        nodeCommandRelative: "sankiwork/bin/node",
         webOutputMode: "standalone",
       });
       expect(embeddedConfig).not.toHaveProperty("namespaceBaseRoot");

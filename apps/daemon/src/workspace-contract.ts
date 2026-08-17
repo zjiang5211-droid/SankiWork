@@ -1,7 +1,7 @@
 import type {
   OrchestratorWorkspace,
   RunWorkspace,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 const ORCHESTRATOR_WORKSPACE_KIND = 'scratch';
 const ORCHESTRATOR_WRITEBACK = 'external';

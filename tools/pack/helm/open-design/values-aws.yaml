@@ -1,6 +1,6 @@
 # Spec §15.5 — AWS override.
 #
-# `helm install od ./tools/pack/helm/open-design \
+# `helm install od ./tools/pack/helm/sankiwork \
 #    -f tools/pack/helm/open-design/values-aws.yaml \
 #    --set secrets.apiToken=$(openssl rand -hex 32)`
 #

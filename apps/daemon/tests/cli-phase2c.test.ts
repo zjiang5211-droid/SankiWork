@@ -7,8 +7,8 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import url from 'node:url';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
-import { createJsonIpcServer } from '@open-design/sidecar';
-import { SIDECAR_ENV, SIDECAR_MESSAGES, normalizeDaemonSidecarMessage } from '@open-design/sidecar-proto';
+import { createJsonIpcServer } from '@sankiwork/sidecar';
+import { SIDECAR_ENV, SIDECAR_MESSAGES, normalizeDaemonSidecarMessage } from '@sankiwork/sidecar-proto';
 
 import { createAgentRuntimeEnv, startServer } from '../src/server.js';
 import { resetDesktopAuthForTests, setDesktopAuthSecret } from '../src/desktop-auth.js';
@@ -64,7 +64,7 @@ describe('Phase 2C CLI wrappers', () => {
   ): Promise<{ stdout: string; stderr: string }> {
     const env: NodeJS.ProcessEnv = {
       ...process.env,
-      OD_DAEMON_URL: baseUrl,
+      SW_DAEMON_URL: baseUrl,
       ...options.env,
     };
     delete env.NODE_OPTIONS;
@@ -112,7 +112,7 @@ describe('Phase 2C CLI wrappers', () => {
   ): Promise<{ code: number | null; stdout: string; stderr: string }> {
     const env: NodeJS.ProcessEnv = {
       ...process.env,
-      OD_DAEMON_URL: baseUrl,
+      SW_DAEMON_URL: baseUrl,
       ...options.env,
     };
     delete env.NODE_OPTIONS;
@@ -388,7 +388,7 @@ describe('mintImportTokenForCli', () => {
   });
 
   it('reports inactive when desktop import auth gate is dormant', () => {
-    const result = mintImportTokenForCli('/tmp/open-design-cli-import');
+    const result = mintImportTokenForCli('/tmp/sankiwork-cli-import');
 
     expect(result).toMatchObject({
       ok: false,
@@ -401,7 +401,7 @@ describe('mintImportTokenForCli', () => {
     const secret = randomBytes(32);
     setDesktopAuthSecret(secret);
 
-    const result = mintImportTokenForCli('/tmp/open-design-cli-import');
+    const result = mintImportTokenForCli('/tmp/sankiwork-cli-import');
 
     expect(result.ok).toBe(true);
     if (result.ok) {

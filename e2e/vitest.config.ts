@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
 
-const configuredMaxWorkers = Number.parseInt(process.env.OD_E2E_VITEST_MAX_WORKERS ?? '4', 10);
+const configuredMaxWorkers = Number.parseInt(process.env.SW_E2E_VITEST_MAX_WORKERS ?? '4', 10);
 const maxWorkers = Number.isFinite(configuredMaxWorkers) && configuredMaxWorkers > 0
   ? configuredMaxWorkers
   : 4;

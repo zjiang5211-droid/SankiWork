@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, Dispatch, SetStateAction } from 'react';
-import { Button, VisuallyHidden } from '@open-design/components';
+import { Button, VisuallyHidden } from '@sankiwork/components';
 import type {
   AmrWalletSnapshot,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
-import { validateBaseUrl } from '@open-design/contracts/api/connectionTest';
+} from '@sankiwork/contracts';
+import { validateBaseUrl } from '@sankiwork/contracts/api/connectionTest';
 import {
   agentIdToTracking,
   byokProtocolToTracking,
   executionModeToTracking,
   settingsSectionToTracking,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import { useAnalytics } from '../analytics/provider';
 import { byokErrorCode } from '../analytics/byok-error-code';
 import {
@@ -46,7 +46,7 @@ import { AgentDiagnosticRow } from './AgentDiagnosticRow';
 import { DeepSeekHarnessSetupDialog } from './DeepSeekHarnessSetupDialog';
 import { AmrLoginPill } from './AmrLoginPill';
 import { PlanBadge } from './PlanBadge';
-import { orderAgentsWithOpenDesignFirst } from './agentOrdering';
+import { orderAgentsWithSankiWorkFirst } from './agentOrdering';
 import {
   AMR_LOGIN_STATUS_EVENT,
   amrLoginStatusEventReason,
@@ -287,7 +287,7 @@ interface ByokProviderPreset {
 // sign-in coachmark when the user has not authorized AMR yet).
 export type SettingsHighlight = 'amr' | null;
 
-const OPEN_DESIGN_RELEASES_URL = 'https://github.com/nexu-io/open-design/releases';
+const SANKIWORK_RELEASES_URL = 'https://github.com/nexu-io/open-design/releases';
 
 type AboutUpdatePrimaryAction = 'check' | 'download' | 'install' | 'quit';
 type AboutUpdateTone = 'neutral' | 'success' | 'warning' | 'error';
@@ -880,7 +880,7 @@ function cleanAgentVersionLabel(
 }
 
 function displayAgentName(agent: Pick<AgentInfo, 'id' | 'name'>): string {
-  return agent.id === 'amr' ? 'Open Design' : agent.name;
+  return agent.id === 'amr' ? 'SankiWork' : agent.name;
 }
 
 const AGENT_CLI_ENV_FIELDS = [
@@ -1177,7 +1177,7 @@ export function isValidApiBaseUrl(value: string): boolean {
   if (!/^https?:\/\//i.test(trimmed)) return false;
   const result = validateBaseUrl(trimmed);
   // The internal-IP / SSRF decision belongs to the daemon, which is the single
-  // source of truth and honors the operator's OD_ALLOWED_INTERNAL_HOSTS
+  // source of truth and honors the operator's SW_ALLOWED_INTERNAL_HOSTS
   // allowlist — a value the browser cannot see (#3225). A `forbidden` result
   // here is a syntactically-valid URL that points at an internal address; keep
   // it UI-valid so the operator can run the connection test / model fetch and
@@ -1273,7 +1273,7 @@ export function updateAgentCliEnvValue(
 }
 
 const AMR_PROFILE_AGENT_ID = 'amr';
-const AMR_PROFILE_ENV_KEY = 'OPEN_DESIGN_AMR_PROFILE';
+const AMR_PROFILE_ENV_KEY = 'SANKIWORK_AMR_PROFILE';
 
 function sameAgentModelChoice(
   left: AgentModelChoice | undefined,
@@ -2005,7 +2005,7 @@ export function SettingsDialog({
   ]);
 
   const handleOpenReleaseNotes = useCallback(() => {
-    void openExternalUrl(OPEN_DESIGN_RELEASES_URL);
+    void openExternalUrl(SANKIWORK_RELEASES_URL);
   }, []);
 
   // Manual updater/launcher cache clear — the disaster-recovery action for
@@ -3883,7 +3883,7 @@ export function SettingsDialog({
   };
   const activeHeader = sectionHeader[activeSection];
   const visibleAgents = agents.filter(isVisibleLocalCliAgent);
-  const installedAgents = orderAgentsWithOpenDesignFirst(
+  const installedAgents = orderAgentsWithSankiWorkFirst(
     visibleAgents.filter((agent) => agent.available || deepSeekHarnessNeedsSetup(agent)),
   );
   const unavailableAgents = visibleAgents.filter(
@@ -4458,7 +4458,7 @@ export function SettingsDialog({
               </div>
               </div>
               {cfg.mode === 'daemon' && !amrCardSignedIn ? (
-                // Only prompt to sign into Open Design Cloud when NOT already
+                // Only prompt to sign into SankiWork Cloud when NOT already
                 // signed in — the AMR/vela session IS the cloud identity (one
                 // session drives both), so a logged-in user has nothing to do
                 // here and the callout was showing spuriously.
@@ -4467,7 +4467,7 @@ export function SettingsDialog({
                     <strong>{t('settings.cloudCalloutTitle')}</strong>
                     <p>{t('settings.cloudCalloutBody')}</p>
                   </div>
-                  {/* Same device-auth flow as the 授权 button on the Open Design
+                  {/* Same device-auth flow as the 授权 button on the SankiWork
                       agent card below — the AMR/vela session IS the cloud
                       identity, so signing in here is that one flow. This used to
                       navigate to onboarding, which walked the user through the
@@ -8130,9 +8130,9 @@ function MediaProvidersSection({
 // Important: every snippet uses absolute paths to the daemon's current
 // Node-compatible runtime and built cli.js, fetched at runtime. macOS
 // and Linux ship a system /usr/bin/od (octal-dump) that shadows any
-// `od` we might add to PATH, and most Open Design users run from
-// source where `od` is not installed globally. The installer panel
-// must NOT reference bare `od`.
+// `sw` we might add to PATH, and most SankiWork users run from
+// source where `sw` is not installed globally. The installer panel
+// must NOT reference bare `sw`.
 type McpClientId =
   | 'claude'
   | 'codex'
@@ -8225,7 +8225,7 @@ function buildCodexEnvToml(info: McpInstallInfo): string {
   if (entries.length === 0) return '';
   return `
 
-[mcp_servers.open-design.env]
+[mcp_servers.sankiwork.env]
 ${entries.map(([key, value]) => `${key} = ${JSON.stringify(value)}`).join('\n')}`;
 }
 
@@ -8237,13 +8237,13 @@ function buildSharedMcpJson(info: McpInstallInfo): string {
     .join('\n');
   return `{
   "mcpServers": {
-    "open-design": ${innerJson}
+    "sankiwork": ${innerJson}
   }
 }`;
 }
 
 // One-click install toggle for Codex: queries the daemon for whether
-// `codex mcp get open-design` succeeds, and POSTs/DELETEs the install
+// `codex mcp get sankiwork` succeeds, and POSTs/DELETEs the install
 // endpoint to call `codex mcp add/remove` on the user's behalf. The
 // copy-snippet path still works for users who prefer to paste manually
 // or whose Codex CLI is not on PATH (button shows a disabled hint in
@@ -8365,7 +8365,7 @@ function IntegrationsSection() {
       buildInstruction: () => t('settings.mcpInstructionCli'),
       buildSnippet: (info) => {
         const inner = JSON.stringify(buildMcpStdioServerConfig(info));
-        return `claude mcp add-json --scope user open-design '${inner}'`;
+        return `claude mcp add-json --scope user sankiwork '${inner}'`;
       },
       buildSnippetLang: () => 'bash',
     },
@@ -8381,7 +8381,7 @@ function IntegrationsSection() {
         );
         return t('settings.mcpInstructionCodex', { path });
       },
-      buildSnippet: (info) => `[mcp_servers.open-design]\ncommand = ${JSON.stringify(info.command)}\nargs = ${JSON.stringify(info.args)}${buildCodexEnvToml(info)}`,
+      buildSnippet: (info) => `[mcp_servers.sankiwork]\ncommand = ${JSON.stringify(info.command)}\nargs = ${JSON.stringify(info.args)}${buildCodexEnvToml(info)}`,
       buildSnippetLang: () => 'toml',
     },
     {
@@ -8397,7 +8397,7 @@ function IntegrationsSection() {
       buildDeeplink: (info) => {
         const inner = buildMcpStdioServerConfig(info);
         const encoded = utf8Btoa(JSON.stringify(inner));
-        return `cursor://anysphere.cursor-deeplink/mcp/install?name=open-design&config=${encoded}`;
+        return `cursor://anysphere.cursor-deeplink/mcp/install?name=sankiwork&config=${encoded}`;
       },
       deeplinkLabel: () => t('settings.mcpDeeplinkInstallCursor'),
     },
@@ -8420,7 +8420,7 @@ function IntegrationsSection() {
         t('settings.mcpInstructionCopilot', {
           shortcut: commandPaletteShortcut(info.platform),
         }),
-      buildSnippet: (info) => `{\n  "servers": {\n    "open-design": {\n      "type": "stdio",\n      "command": ${JSON.stringify(info.command)},\n      "args": ${JSON.stringify(info.args)}${info.env && Object.keys(info.env).length > 0 ? `,\n      "env": ${JSON.stringify(info.env)}` : ''}\n    }\n  }\n}`,
+      buildSnippet: (info) => `{\n  "servers": {\n    "sankiwork": {\n      "type": "stdio",\n      "command": ${JSON.stringify(info.command)},\n      "args": ${JSON.stringify(info.args)}${info.env && Object.keys(info.env).length > 0 ? `,\n      "env": ${JSON.stringify(info.env)}` : ''}\n    }\n  }\n}`,
       buildSnippetLang: () => 'json',
     },
     {
@@ -8439,7 +8439,7 @@ function IntegrationsSection() {
         t('settings.mcpInstructionZed', {
           shortcut: settingsShortcut(info.platform),
         }),
-      buildSnippet: (info) => `{\n  "context_servers": {\n    "open-design": {\n      "source": "custom",\n      "command": ${JSON.stringify(info.command)},\n      "args": ${JSON.stringify(info.args)}${info.env && Object.keys(info.env).length > 0 ? `,\n      "env": ${JSON.stringify(info.env)}` : ''}\n    }\n  }\n}`,
+      buildSnippet: (info) => `{\n  "context_servers": {\n    "sankiwork": {\n      "source": "custom",\n      "command": ${JSON.stringify(info.command)},\n      "args": ${JSON.stringify(info.args)}${info.env && Object.keys(info.env).length > 0 ? `,\n      "env": ${JSON.stringify(info.env)}` : ''}\n    }\n  }\n}`,
       buildSnippetLang: () => 'json',
     },
     {
@@ -8489,7 +8489,7 @@ function IntegrationsSection() {
   }, [pickerOpen]);
 
   // Pull the absolute paths to node + cli.js from the running daemon
-  // so snippets work even when `od` isn't on PATH (the realistic
+  // so snippets work even when `sw` isn't on PATH (the realistic
   // case for source clones, plus macOS/Linux ship a /usr/bin/od that
   // shadows any global install). Fetched on mount; if the daemon is
   // unreachable we surface a clear error instead of a half-built
@@ -8780,7 +8780,7 @@ function IntegrationsSection() {
  * The toggle has two halves on opposite sides of the HTTP boundary:
  *
  *   * Browser-side: `useCritiqueTheaterEnabled` reads / writes the
- *     `open-design:config` localStorage blob; this is what gates
+ *     `sankiwork:config` localStorage blob; this is what gates
  *     whether `<CritiqueTheaterMount>` actually renders.
  *   * Daemon-side: the rollout resolver in `server.ts` reads
  *     `project.metadata.critiqueTheaterEnabled`, so the daemon only

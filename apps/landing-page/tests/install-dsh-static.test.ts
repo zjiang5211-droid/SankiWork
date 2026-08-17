@@ -40,7 +40,7 @@ test('publishes pinned cross-platform DeepSeek Harness installers', () => {
 
   assert.match(cmd, /^@echo off\r?\n/);
   assert.match(cmd, /powershell\.exe/);
-  assert.match(cmd, /https:\/\/open-design\.ai\/install-dsh\.ps1/);
+  assert.match(cmd, /https:\/\/sanki-ai\.cloud\/install-dsh\.ps1/);
   assert.doesNotMatch(cmd, /DEEPSEEK_API_KEY/);
 });
 
@@ -108,10 +108,10 @@ printf '%s\\n' '10.33.2'
 
   const env = {
     ...process.env,
-    OD_DSH_INSTALL_PLATFORM: 'linux-x64',
-    OD_DSH_INSTALL_DIST_BASE: `file://${dist}`,
-    OD_DSH_INSTALL_ROOT: installRoot,
-    OD_DSH_INSTALL_BIN_DIR: binDir,
+    SW_DSH_INSTALL_PLATFORM: 'linux-x64',
+    SW_DSH_INSTALL_DIST_BASE: `file://${dist}`,
+    SW_DSH_INSTALL_ROOT: installRoot,
+    SW_DSH_INSTALL_BIN_DIR: binDir,
     PATH: '/usr/bin:/bin:/usr/sbin:/sbin',
   };
 
@@ -155,9 +155,9 @@ test('POSIX installer reuses a complete compatible toolchain without downloading
 
   const env = {
     ...process.env,
-    OD_DSH_INSTALL_DIST_BASE: 'https://invalid.example.test/should-not-download',
-    OD_DSH_INSTALL_ROOT: join(tmp, 'managed'),
-    OD_DSH_INSTALL_BIN_DIR: binDir,
+    SW_DSH_INSTALL_DIST_BASE: 'https://invalid.example.test/should-not-download',
+    SW_DSH_INSTALL_ROOT: join(tmp, 'managed'),
+    SW_DSH_INSTALL_BIN_DIR: binDir,
     PATH: `${pathDir}:/usr/bin:/bin:/usr/sbin:/sbin`,
   };
 

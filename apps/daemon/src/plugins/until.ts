@@ -10,7 +10,7 @@
 // Comparison operators: == != >= <= > < (booleans support ==/!= only).
 // Boolean literals: true / false. Number literals: any JSON number.
 //
-// The evaluator is intentionally tiny so `od plugin doctor` can syntax-check
+// The evaluator is intentionally tiny so `sw plugin doctor` can syntax-check
 // at install time without booting an interpreter, and the daemon refuses
 // to execute a stage whose `until` does not parse.
 

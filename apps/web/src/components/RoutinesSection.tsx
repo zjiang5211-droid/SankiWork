@@ -7,7 +7,7 @@ import type {
   RoutineRun,
   RoutineSchedule,
   Weekday,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import { Icon } from './Icon';
 import { navigate } from '../router';

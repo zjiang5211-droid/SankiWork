@@ -42,13 +42,13 @@ export const API_ERROR_CODES = [
   // Edit that errors "string not found", or the same shell command that keeps
   // exiting non-zero) without making progress. The daemon's tool-loop guard
   // (`tool-loop-guard.ts`) counts consecutive failures and repeats of the same
-  // failing action. Only emitted when OD_TOOL_LOOP_GUARD=halt is enabled: at
+  // failing action. Only emitted when SW_TOOL_LOOP_GUARD=halt is enabled: at
   // the hard ceiling the guard terminates the run so the agent cannot grind
   // through dozens more identical attempts. The default mode is `warn`, which
   // only surfaces a heads-up `tool_loop` event and never emits this error. The
   // caller should re-check the actual target (the file, the element, the
   // command) before retrying rather than resubmitting the same turn.
-  // OD_TOOL_LOOP_GUARD accepts warn|halt|off. Retryable.
+  // SW_TOOL_LOOP_GUARD accepts warn|halt|off. Retryable.
   'TOOL_LOOP_DETECTED',
   // The selected runtime agent def (apps/daemon/src/runtimes/defs/*) has
   // a checked-in field that fails strict source-config validation — e.g.
@@ -69,7 +69,7 @@ export const API_ERROR_CODES = [
   // a prior artifact sharing the same metadata.identifier. Almost always means
   // the agent shipped a placeholder ("see other-file.html in this project",
   // a bare filename string, an empty fallback page) instead of the full
-  // document. Configurable via OD_ARTIFACT_STUB_GUARD (reject|warn|off).
+  // document. Configurable via SW_ARTIFACT_STUB_GUARD (reject|warn|off).
   'ARTIFACT_REGRESSION',
   // The daemon's publication guard found unresolved template placeholders
   // (e.g. pitch-deck `Name to confirm` / `$X.XM`) in an HTML/deck artifact

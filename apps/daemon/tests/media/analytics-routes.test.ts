@@ -95,10 +95,10 @@ describe('media generation analytics', () => {
     delete process.env.HTTP_PROXY;
     delete process.env.HTTPS_PROXY;
     delete process.env.ALL_PROXY;
-    delete process.env.OD_MEDIA_ALLOW_STUBS;
+    delete process.env.SW_MEDIA_ALLOW_STUBS;
 
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('test setup did not provide OD_DATA_DIR');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('test setup did not provide SW_DATA_DIR');
     await writeFile(path.join(dataDir, 'media-config.json'), JSON.stringify({
       providers: {
         'custom-image': {
@@ -273,7 +273,7 @@ function snapshotEnv(): Record<string, string | undefined> {
     'HTTP_PROXY',
     'HTTPS_PROXY',
     'ALL_PROXY',
-    'OD_MEDIA_ALLOW_STUBS',
+    'SW_MEDIA_ALLOW_STUBS',
   ].map((key) => [key, process.env[key]]));
 }
 

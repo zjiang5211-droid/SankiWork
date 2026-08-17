@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import type { Brand } from '@open-design/contracts';
+import type { Brand } from '@sankiwork/contracts';
 
 import { brandToMemoryEntries, reflowBrandToMemory } from '../src/brands/memory.js';
 import { listMemoryEntries, readMemoryEntry, writeMemoryConfig } from '../src/memory.js';

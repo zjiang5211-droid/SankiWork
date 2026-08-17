@@ -171,7 +171,7 @@ describe('buildProjectArchive', () => {
     const zip = await JSZip.loadAsync(buffer);
     const manifestRaw = await zip.file('DESIGN-MANIFEST.json')?.async('string');
     const manifest = JSON.parse(manifestRaw || '{}');
-    expect(manifest.schema).toBe('open-design.design-manifest.v1');
+    expect(manifest.schema).toBe('sankiwork.design-manifest.v1');
     expect(manifest.entryFile).toBe('index.html');
     expect(manifest.sourceFiles.css).toEqual(['src/app.css']);
     expect(manifest.sourceFiles.html).toEqual(['frames/phone.html', 'index.html']);

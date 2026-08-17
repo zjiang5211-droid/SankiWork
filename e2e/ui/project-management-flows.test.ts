@@ -27,7 +27,7 @@ async function stubCatalogsEmpty(page: Page): Promise<void> {
   });
 }
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'sankiwork:config';
 const ACTIVE_ARTIFACT_PREVIEW_SELECTOR = '[data-testid="artifact-preview-frame"]:visible, [data-testid="artifact-preview-frame-url-load"]:visible, [data-testid="artifact-preview-frame-srcdoc"]:visible, [data-testid="live-artifact-preview-frame"]:visible';
 
 function projectDesignSystemTrigger(page: Page): Locator {
@@ -114,7 +114,7 @@ async function stubEmptyProjectsNewProjectData(page: Page): Promise<void> {
 
 async function openNewProjectFromEmptyProjects(page: Page): Promise<void> {
   await page.goto('/projects', { waitUntil: 'domcontentloaded' });
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, { timeout: 15_000 });
+  await expect(page.getByText('Loading SankiWork…')).toHaveCount(0, { timeout: 15_000 });
   await expect(page.locator('.designs-empty-state')).toBeVisible();
   await page.getByTestId('designs-empty-new-project').click();
 
@@ -399,13 +399,13 @@ test('[P0] UI-created Personal project recovers preview and write authority afte
     // not that ephemeral witness — must reconnect the already-ready artifact.
     //
     // Reload only reaches `domcontentloaded` while the dynamic App boot shell
-    // (`Loading Open Design…`) and the project-route workspace-context gate
+    // (`Loading SankiWork…`) and the project-route workspace-context gate
     // (`Loading workspace…`) may still own the page. Wait those out with the
     // suite's long budget before asserting the fail-closed workspace chrome —
     // the default expect timeout is 10s and is too short under CI contention.
     await page.reload({ waitUntil: 'domcontentloaded' });
     await page
-      .getByText('Loading Open Design…')
+      .getByText('Loading SankiWork…')
       .waitFor({ state: 'hidden', timeout: T.long })
       .catch(() => {});
     await expect(page.getByText('Loading workspace…')).toHaveCount(0, { timeout: T.long });
@@ -736,7 +736,7 @@ test('[P1] project detail composer plus menu opens project, local code, Figma he
     await route.fulfill({
       json: {
         project: referenceProject,
-        resolvedDir: '/tmp/open-design/reference-project-context',
+        resolvedDir: '/tmp/sankiwork/reference-project-context',
       },
     });
   });
@@ -763,7 +763,7 @@ test('[P1] project detail composer plus menu opens project, local code, Figma he
     });
   });
   await page.route('**/api/dialog/open-folder', async (route) => {
-    await route.fulfill({ json: { path: '/tmp/open-design/local-code-project' } });
+    await route.fulfill({ json: { path: '/tmp/sankiwork/local-code-project' } });
   });
   await page.route('**/api/dir-exists', async (route) => {
     await route.fulfill({ json: { exists: true } });
@@ -931,7 +931,7 @@ test('[P1] project detail composer sends referenced workspace contexts into the 
     await route.fulfill({
       json: {
         project: referenceProject,
-        resolvedDir: '/tmp/open-design/reference-project-payload',
+        resolvedDir: '/tmp/sankiwork/reference-project-payload',
       },
     });
   });
@@ -954,7 +954,7 @@ test('[P1] project detail composer sends referenced workspace contexts into the 
     await route.fallback();
   });
   await page.route('**/api/dialog/open-folder', async (route) => {
-    await route.fulfill({ json: { path: '/tmp/open-design/local-code-project-payload' } });
+    await route.fulfill({ json: { path: '/tmp/sankiwork/local-code-project-payload' } });
   });
   await page.route('**/api/dir-exists', async (route) => {
     await route.fulfill({ json: { exists: true } });
@@ -990,12 +990,12 @@ test('[P1] project detail composer sends referenced workspace contexts into the 
       expect.objectContaining({
         id: 'project:ref-project-payload',
         label: 'Reference Project Payload',
-        absolutePath: '/tmp/open-design/reference-project-payload',
+        absolutePath: '/tmp/sankiwork/reference-project-payload',
       }),
       expect.objectContaining({
-        id: 'local-code:/tmp/open-design/local-code-project-payload',
+        id: 'local-code:/tmp/sankiwork/local-code-project-payload',
         label: 'local-code-project-payload',
-        absolutePath: '/tmp/open-design/local-code-project-payload',
+        absolutePath: '/tmp/sankiwork/local-code-project-payload',
       }),
     ]),
   );
@@ -1009,7 +1009,7 @@ test('[P1] project detail composer removing local-code context updates metadata 
   await routeComposerPlusFixtures(page);
   await routeSuccessfulRuns(page, { bodies: runRequestBodies, runIdPrefix: 'workspace-context-remove-run' });
   await page.route('**/api/dialog/open-folder', async (route) => {
-    await route.fulfill({ json: { path: '/tmp/open-design/local-code-remove' } });
+    await route.fulfill({ json: { path: '/tmp/sankiwork/local-code-remove' } });
   });
   await page.route('**/api/dir-exists', async (route) => {
     await route.fulfill({ json: { exists: true } });
@@ -1070,7 +1070,7 @@ test('[P1] project detail keeps local-code context when linkedDirs PATCH removal
   await routeComposerPlusFixtures(page);
   await routeSuccessfulRuns(page, { bodies: runRequestBodies, runIdPrefix: 'workspace-context-remove-failure-run' });
   await page.route('**/api/dialog/open-folder', async (route) => {
-    await route.fulfill({ json: { path: '/tmp/open-design/local-code-persist' } });
+    await route.fulfill({ json: { path: '/tmp/sankiwork/local-code-persist' } });
   });
   await page.route('**/api/dir-exists', async (route) => {
     await route.fulfill({ json: { exists: true } });
@@ -1130,7 +1130,7 @@ test('[P1] project detail keeps local-code context when linkedDirs PATCH removal
     expect.arrayContaining([
       expect.objectContaining({
         label: 'local-code-persist',
-        absolutePath: '/tmp/open-design/local-code-persist',
+        absolutePath: '/tmp/sankiwork/local-code-persist',
       }),
     ]),
   );
@@ -1169,18 +1169,18 @@ test('[P1] project detail composer context actions emit analytics event fields',
         enabled: true,
         env: 'e2e',
         key: 'phc_e2e',
-        host: 'https://analytics.open-design.test',
+        host: 'https://analytics.sankiwork.test',
         installationId: 'e2e-installation',
       },
     });
   });
-  await page.route('https://analytics.open-design.test/**', async (route) => {
+  await page.route('https://analytics.sankiwork.test/**', async (route) => {
     analyticsBodies.push(route.request().postData() ?? '');
     await route.fulfill({ status: 200, json: { status: 1 } });
   });
   await routeComposerPlusFixtures(page);
   await page.route('**/api/dialog/open-folder', async (route) => {
-    await route.fulfill({ json: { path: '/tmp/open-design/local-code-analytics' } });
+    await route.fulfill({ json: { path: '/tmp/sankiwork/local-code-analytics' } });
   });
   await page.route('**/api/dir-exists', async (route) => {
     await route.fulfill({ json: { exists: true } });
@@ -1293,7 +1293,7 @@ async function wireTeamRunBalanceFixtures(
     ...AGENTS,
     {
       id: 'amr',
-      name: 'Open Design Cloud',
+      name: 'SankiWork Cloud',
       bin: 'amr',
       available: true,
       version: 'cloud',
@@ -2747,12 +2747,12 @@ test('[P1] project detail fork emits correlated click and result analytics', asy
         enabled: true,
         env: 'e2e',
         key: 'phc_e2e',
-        host: 'https://analytics.open-design.test',
+        host: 'https://analytics.sankiwork.test',
         installationId: 'e2e-installation',
       },
     });
   });
-  await page.route('https://analytics.open-design.test/**', async (route) => {
+  await page.route('https://analytics.sankiwork.test/**', async (route) => {
     analyticsBodies.push(route.request().postData() ?? '');
     await route.fulfill({ status: 200, json: { status: 1 } });
   });
@@ -2878,7 +2878,7 @@ test('[P1] read-only project viewers do not see conversation fork actions', asyn
 
   await page.goto(`/projects/${projectId}/conversations/${conversationId}`);
   await page
-    .getByText('Loading Open Design…')
+    .getByText('Loading SankiWork…')
     .waitFor({ state: 'hidden', timeout: T.long })
     .catch(() => {});
   const showChat = page.getByTestId('workspace-focus-toggle');
@@ -4143,7 +4143,7 @@ async function routeComposerPlusFixtures(page: Page) {
 
 async function expectWorkspaceReady(page: Page) {
   await expect(page).toHaveURL(/\/projects\//);
-  await page.getByText('Loading Open Design…').waitFor({ state: 'hidden', timeout: T.long }).catch(() => {});
+  await page.getByText('Loading SankiWork…').waitFor({ state: 'hidden', timeout: T.long }).catch(() => {});
   await dismissPrivacyDialog(page);
   await expect(page.getByTestId('project-title')).toBeVisible();
   await expect(page.getByTestId('chat-composer')).toBeVisible();
@@ -4191,7 +4191,7 @@ async function openHandoffCliTab(page: Page): Promise<Locator> {
 }
 
 async function dismissPrivacyDialog(page: Page) {
-  const privacyRegion = page.getByRole('region', { name: /Help us improve Open Design/i });
+  const privacyRegion = page.getByRole('region', { name: /Help us improve SankiWork/i });
   if (await privacyRegion.isVisible().catch(() => false)) {
     await privacyRegion.getByRole('button', { name: /I get it|not now|got it/i }).click();
     await expect(privacyRegion).toBeHidden();

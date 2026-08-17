@@ -1,10 +1,10 @@
 // Client for the collab cloud (C-lane §D4): the cross-daemon comment relay +
 // member directory. Mirrors the resource-hub integration shape — a factory with
 // injectable fetch/config/timeout, env-scoped config (this file, not
-// app-config.ts, owns OD_COLLAB_CLOUD_*), and a from-env constructor.
+// app-config.ts, owns SW_COLLAB_CLOUD_*), and a from-env constructor.
 //
 // DEGRADE: unlike the resource-hub client, this factory returns `null` when
-// OD_COLLAB_CLOUD_URL is unset, so every caller is a plain `client?.method()`
+// SW_COLLAB_CLOUD_URL is unset, so every caller is a plain `client?.method()`
 // no-op off-team / unconfigured. Auth is a single bearer token (§D4.4); the real
 // hub verifies B's signed token, this stub presents a shared local token.
 
@@ -12,7 +12,7 @@ import type {
   CollabCloudComment,
   CollabCloudMemberDirectoryEntry,
   CollabMemberRole,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 const DEFAULT_FETCH_TIMEOUT_MS = 8_000;
 
@@ -28,15 +28,15 @@ export interface CollabCloudConfig {
 export function readCollabCloudConfig(
   env: NodeJS.ProcessEnv = process.env,
 ): CollabCloudConfig | null {
-  const baseUrl = env.OD_COLLAB_CLOUD_URL?.trim();
+  const baseUrl = env.SW_COLLAB_CLOUD_URL?.trim();
   if (!baseUrl) return null;
-  return { baseUrl, token: env.OD_COLLAB_CLOUD_TOKEN?.trim() || null };
+  return { baseUrl, token: env.SW_COLLAB_CLOUD_TOKEN?.trim() || null };
 }
 
 export function hasExplicitCollabCloudConfig(
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
-  return Boolean(env.OD_COLLAB_CLOUD_URL?.trim());
+  return Boolean(env.SW_COLLAB_CLOUD_URL?.trim());
 }
 
 export class CollabCloudError extends Error {
@@ -69,7 +69,7 @@ interface CollabCloudClientOptions {
 export function createCollabCloudClient(options: CollabCloudClientOptions = {}) {
   const config = options.config ?? readCollabCloudConfig();
   if (!config) {
-    throw new Error('collab cloud is not configured (OD_COLLAB_CLOUD_URL is unset)');
+    throw new Error('collab cloud is not configured (SW_COLLAB_CLOUD_URL is unset)');
   }
   const fetchImpl = options.fetch ?? fetch;
   const timeoutMs = options.timeoutMs ?? DEFAULT_FETCH_TIMEOUT_MS;

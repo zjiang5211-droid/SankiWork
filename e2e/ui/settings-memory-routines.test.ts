@@ -4,7 +4,7 @@ import { routeAgents } from '@/playwright/mock-factory';
 import { openSettingsDialog, settingsSurface } from '../lib/playwright/amr.js';
 import type { Locator, Page } from '@playwright/test';
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'sankiwork:config';
 const APP_ICON_PATH = fileURLToPath(new URL('../../apps/web/public/app-icon.png', import.meta.url));
 
 test.describe.configure({ timeout: 30_000 });
@@ -89,13 +89,13 @@ async function seedSettingsBase(page: Page) {
 }
 
 async function waitForLoadingToClear(page: Page) {
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, { timeout: 15_000 });
+  await expect(page.getByText('Loading SankiWork…')).toHaveCount(0, { timeout: 15_000 });
 }
 
 async function gotoEntryHome(page: Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await waitForLoadingToClear(page);
-  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve Open Design' });
+  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve SankiWork' });
   if (await privacyDialog.isVisible()) {
     await privacyDialog.getByRole('button', { name: /I get it|not now|got it|don't share/i }).click();
   }
@@ -185,7 +185,7 @@ test.describe('Settings Memory flows', () => {
           entries: [
             {
               id: 'feedback_ui_density',
-              name: 'Open Design plugin authoring flow',
+              name: 'SankiWork plugin authoring flow',
               description: 'Keep plugin setup terse and reproducible.',
               type: 'feedback',
               updatedAt: Date.now(),
@@ -225,8 +225,8 @@ test.describe('Settings Memory flows', () => {
             {
               id: 'feedback_ui_density',
               parentId: 'folder-feedback',
-              path: '/FEEDBACK/open-design-plugin-authoring-flow',
-              name: 'Open Design plugin authoring flow',
+              path: '/FEEDBACK/sankiwork-plugin-authoring-flow',
+              name: 'SankiWork plugin authoring flow',
               description: 'Keep plugin setup terse and reproducible.',
               kind: 'entry',
               type: 'feedback',
@@ -332,7 +332,7 @@ test.describe('Settings Memory flows', () => {
     await expect(memoryTree.getByText('/FEEDBACK', { exact: true })).toBeVisible();
     await expect(memoryTree.getByText('Project', { exact: true })).toBeVisible();
     await expect(memoryTree.getByText('/PROJECT', { exact: true })).toBeVisible();
-    await expect(memoryTree.getByText('Open Design plugin authoring flow')).toBeVisible();
+    await expect(memoryTree.getByText('SankiWork plugin authoring flow')).toBeVisible();
     await expect(memoryTree.getByText('Weekly launch brief')).toBeVisible();
   });
 
@@ -936,7 +936,7 @@ test.describe('Settings Memory flows', () => {
               name: 'Memory context',
               description: 'Connector-derived context',
               type: 'project',
-              body: 'OpenDesign connector memory should focus on design preferences, UI decisions, and visual references from Notion.',
+              body: 'SankiWork connector memory should focus on design preferences, UI decisions, and visual references from Notion.',
               source: {
                 kind: 'connector',
                 connectorId: 'notion',
@@ -1294,7 +1294,7 @@ test.describe('Settings Memory flows', () => {
     githubConnected = true;
     await page.evaluate(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'open-design:connector-connected' },
+        data: { type: 'sankiwork:connector-connected' },
         origin: window.location.origin,
       }));
     });
@@ -1536,7 +1536,7 @@ test.describe('Settings Memory flows', () => {
     githubConnected = true;
     await page.evaluate(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'open-design:connector-connected' },
+        data: { type: 'sankiwork:connector-connected' },
         origin: window.location.origin,
       }));
     });
@@ -1730,7 +1730,7 @@ test.describe('Settings Memory flows', () => {
     statusPhase = 'disconnected';
     await page.evaluate(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'open-design:connector-connected' },
+        data: { type: 'sankiwork:connector-connected' },
         origin: window.location.origin,
       }));
     });
@@ -1744,7 +1744,7 @@ test.describe('Settings Memory flows', () => {
     statusPhase = 'reconnected';
     await page.evaluate(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'open-design:connector-connected' },
+        data: { type: 'sankiwork:connector-connected' },
         origin: window.location.origin,
       }));
     });
@@ -1863,7 +1863,7 @@ test.describe('Settings Memory flows', () => {
               name: 'Memory context',
               description: 'Connector-derived context',
               type: 'project',
-              body: 'OpenDesign connector memory should focus on design preferences, UI decisions, and visual references from Notion.',
+              body: 'SankiWork connector memory should focus on design preferences, UI decisions, and visual references from Notion.',
               source: {
                 kind: 'connector',
                 connectorId: 'notion',

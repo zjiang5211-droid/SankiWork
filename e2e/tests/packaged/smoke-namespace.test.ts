@@ -5,13 +5,13 @@ import { resolvePackagedSmokeNamespace } from '@/vitest/suite';
 describe('packaged smoke namespace resolution', () => {
   test('keeps explicit namespace overrides authoritative', () => {
     expect(resolvePackagedSmokeNamespace('mac', {
-      OD_PACKAGED_E2E_NAMESPACE: 'custom-prerelease',
-      OD_PACKAGED_E2E_RELEASE_CHANNEL: 'prerelease',
+      SW_PACKAGED_E2E_NAMESPACE: 'custom-prerelease',
+      SW_PACKAGED_E2E_RELEASE_CHANNEL: 'prerelease',
     })).toBe('custom-prerelease');
   });
 
   test('derives prerelease namespaces from release channel when no override is set', () => {
-    const env = { OD_PACKAGED_E2E_RELEASE_CHANNEL: 'prerelease' };
+    const env = { SW_PACKAGED_E2E_RELEASE_CHANNEL: 'prerelease' };
 
     expect(resolvePackagedSmokeNamespace('mac', env)).toBe('release-prerelease');
     expect(resolvePackagedSmokeNamespace('win', env)).toBe('release-prerelease-win');

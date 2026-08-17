@@ -11,9 +11,9 @@ describe("planMcpDaemonBootstrap", () => {
       daemonReachable: false,
       explicitDaemonUrl: true,
       env: {
-        OD_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
-        OD_MCP_BOOTSTRAP_ARGS:
-          '["-g","-j","/Applications/Open Design.app","--args","--headless"]',
+        SW_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
+        SW_MCP_BOOTSTRAP_ARGS:
+          '["-g","-j","/Applications/SankiWork.app","--args","--headless"]',
       },
     })).toEqual({
       action: "none",
@@ -27,13 +27,13 @@ describe("planMcpDaemonBootstrap", () => {
       explicitDaemonUrl: false,
       env: {
         ELECTRON_RUN_AS_NODE: "1",
-        OD_DAEMON_URL: "http://127.0.0.1:1",
-        OD_DATA_DIR: "/tmp/open-design-data",
-        OD_SIDECAR_IPC_PATH:
-          "/tmp/open-design/ipc/stable/daemon.sock",
-        OD_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
-        OD_MCP_BOOTSTRAP_ARGS:
-          '["-g","-j","/Applications/Open Design.app","--args","--headless"]',
+        SW_DAEMON_URL: "http://127.0.0.1:1",
+        SW_DATA_DIR: "/tmp/sankiwork-data",
+        SW_SIDECAR_IPC_PATH:
+          "/tmp/sankiwork/ipc/stable/daemon.sock",
+        SW_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
+        SW_MCP_BOOTSTRAP_ARGS:
+          '["-g","-j","/Applications/SankiWork.app","--args","--headless"]',
       },
     });
 
@@ -43,16 +43,16 @@ describe("planMcpDaemonBootstrap", () => {
       args: [
         "-g",
         "-j",
-        "/Applications/Open Design.app",
+        "/Applications/SankiWork.app",
         "--args",
         "--headless",
       ],
     });
     if (plan.action !== "spawn") throw new Error("expected spawn plan");
     expect(plan.env.ELECTRON_RUN_AS_NODE).toBeUndefined();
-    expect(plan.env.OD_DAEMON_URL).toBeUndefined();
-    expect(plan.env.OD_SIDECAR_IPC_PATH).toBeUndefined();
-    expect(plan.env.OD_DATA_DIR).toBe("/tmp/open-design-data");
+    expect(plan.env.SW_DAEMON_URL).toBeUndefined();
+    expect(plan.env.SW_SIDECAR_IPC_PATH).toBeUndefined();
+    expect(plan.env.SW_DATA_DIR).toBe("/tmp/sankiwork-data");
   });
 
   it("refuses a relative or non-headless bootstrap command", () => {
@@ -60,8 +60,8 @@ describe("planMcpDaemonBootstrap", () => {
       daemonReachable: false,
       explicitDaemonUrl: false,
       env: {
-        OD_MCP_BOOTSTRAP_COMMAND: "open-design",
-        OD_MCP_BOOTSTRAP_ARGS: '["--headless"]',
+        SW_MCP_BOOTSTRAP_COMMAND: "sankiwork",
+        SW_MCP_BOOTSTRAP_ARGS: '["--headless"]',
       },
     })).toEqual({
       action: "none",
@@ -71,8 +71,8 @@ describe("planMcpDaemonBootstrap", () => {
       daemonReachable: false,
       explicitDaemonUrl: false,
       env: {
-        OD_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
-        OD_MCP_BOOTSTRAP_ARGS: '["/Applications/Open Design.app"]',
+        SW_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
+        SW_MCP_BOOTSTRAP_ARGS: '["/Applications/SankiWork.app"]',
       },
     })).toEqual({
       action: "none",
@@ -95,11 +95,11 @@ describe("ensureMcpDaemonUrl", () => {
 
     await expect(ensureMcpDaemonUrl({
       env: {
-        OD_SIDECAR_IPC_PATH:
-          "/tmp/open-design/ipc/stable/daemon.sock",
-        OD_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
-        OD_MCP_BOOTSTRAP_ARGS:
-          '["-g","-j","/Applications/Open Design.app","--args","--headless"]',
+        SW_SIDECAR_IPC_PATH:
+          "/tmp/sankiwork/ipc/stable/daemon.sock",
+        SW_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
+        SW_MCP_BOOTSTRAP_ARGS:
+          '["-g","-j","/Applications/SankiWork.app","--args","--headless"]',
       },
       discoverTargetDaemonUrl,
       probeDaemon,
@@ -126,9 +126,9 @@ describe("ensureMcpDaemonUrl", () => {
 
     await expect(ensureMcpDaemonUrl({
       env: {
-        OD_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
-        OD_MCP_BOOTSTRAP_ARGS:
-          '["-g","-j","/Applications/Open Design.app","--args","--headless"]',
+        SW_MCP_BOOTSTRAP_COMMAND: "/usr/bin/open",
+        SW_MCP_BOOTSTRAP_ARGS:
+          '["-g","-j","/Applications/SankiWork.app","--args","--headless"]',
       },
       probeDaemon,
       resolveDaemonUrl,

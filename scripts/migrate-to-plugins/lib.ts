@@ -18,7 +18,7 @@ export const SKILLS_DIR = path.join(REPO_ROOT, 'skills');
 export const DESIGN_SYSTEMS_DIR = path.join(REPO_ROOT, 'design-systems');
 export const PROMPT_TEMPLATES_DIR = path.join(REPO_ROOT, 'prompt-templates');
 
-export const PLUGIN_SCHEMA = 'https://open-design.ai/schemas/plugin.v1.json';
+export const PLUGIN_SCHEMA = 'https://sanki-ai.cloud/schemas/plugin.v1.json';
 export const PLUGIN_VERSION = '0.1.0';
 
 // Generated plugin tiers; each maps to a subfolder under PLUGINS_ROOT.
@@ -214,7 +214,7 @@ export async function pathExists(p: string): Promise<boolean> {
 }
 
 // Write a manifest with a key order that keeps the diff human-readable:
-// identity → metadata → compat → od → end. Inside `od`, we keep the
+// identity → metadata → compat → od → end. Inside `sw`, we keep the
 // taxonomy (kind/taskKind/mode/scenario/surface) first so a reviewer can
 // understand the plugin's category before drilling into pipeline/inputs.
 const TOP_ORDER = [
@@ -231,7 +231,7 @@ const TOP_ORDER = [
   'compat',
   'od',
 ];
-const OD_ORDER = [
+const SW_ORDER = [
   'kind',
   'taskKind',
   'mode',
@@ -279,7 +279,7 @@ export function buildManifest(seed: PluginManifestSeed): Record<string, unknown>
     version: PLUGIN_VERSION,
     ...seed,
   };
-  if (seed.od) base.od = sortKeys(seed.od, OD_ORDER);
+  if (seed.od) base.od = sortKeys(seed.od, SW_ORDER);
   return sortKeys(base, TOP_ORDER);
 }
 

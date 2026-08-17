@@ -5,8 +5,8 @@ import {
   useState,
   type CSSProperties,
 } from 'react';
-import { Button } from '@open-design/components';
-import type { SkillDetail, SkillSummary } from '@open-design/contracts';
+import { Button } from '@sankiwork/components';
+import type { SkillDetail, SkillSummary } from '@sankiwork/contracts';
 import { renderMarkdownToSafeHtml } from '../artifacts/markdown';
 import { useI18n } from '../i18n';
 import {
@@ -56,7 +56,7 @@ function skillInitials(title: string): string {
 
 function skillAuthor(skill: SkillSummary, personalAuthor: string): string {
   return String(skill.source) === 'built-in' || String(skill.source) === 'builtin'
-    ? 'Open Design'
+    ? 'SankiWork'
     : personalAuthor;
 }
 

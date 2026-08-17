@@ -49,7 +49,7 @@ executes every non-visual functional shade in one generically sharded matrix
 own lane): arbitrary P0/P1/P2 interleavings, contiguous shard slices that
 start mid-file, an isolated tools-dev runtime per Playwright worker
 (`nproc / 2`, so two on the `ui_hot` runner) with
-`OD_PLAYWRIGHT_FULLY_PARALLEL=1`, and slow CI runners. It is the only lane
+`SW_PLAYWRIGHT_FULLY_PARALLEL=1`, and slow CI runners. It is the only lane
 that runs the whole non-visual `ui` suite together — every P1/P2 shade, plus
 any P0 case whose file has not been enrolled in `uiP0Groups` or the
 `playwright_critical` file matrix. A `[P0]`/`@critical` tag alone does not
@@ -91,7 +91,7 @@ within the file as well as across files.
   within one shard (it cannot be split across the matrix) and adds
   skip-after-failure, which floors the pool's wall time. Running a file's
   standalone halves — `--shard=1/2` and `--shard=2/2` with
-  `OD_PLAYWRIGHT_FULLY_PARALLEL=1` — checks within-file split-independence, but
+  `SW_PLAYWRIGHT_FULLY_PARALLEL=1` — checks within-file split-independence, but
   each is a fresh process, so it cannot expose the cross-file, same-worker
   carry-over above; run the whole `ui` folder (one worker runtime spans the
   files) to surface that, or the full pool, which additionally stresses it
@@ -202,4 +202,4 @@ Use a specific file path when validating a single case. Do not add root e2e alia
 
 Case-level priority tags use test-name prefixes: `[P0]`, `[P1]`, `[P2]`.
 
-Playwright UI runs use one tools-dev daemon/web/data root per Playwright worker. The single-worker fallback is `--workers=1` (or `OD_PLAYWRIGHT_WORKERS=1`); do not reintroduce a shared daemon/web runtime mode.
+Playwright UI runs use one tools-dev daemon/web/data root per Playwright worker. The single-worker fallback is `--workers=1` (or `SW_PLAYWRIGHT_WORKERS=1`); do not reintroduce a shared daemon/web runtime mode.

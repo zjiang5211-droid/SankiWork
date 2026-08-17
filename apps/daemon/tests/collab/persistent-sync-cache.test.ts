@@ -11,7 +11,7 @@ import {
 } from '../../src/collab/sync-snapshot-store.js';
 import { createPersistentSyncCache } from '../../src/collab/persistent-sync-cache.js';
 import type { SyncDigest, SyncDigestReading } from '../../src/collab/sync-digest.js';
-import type { TeamProject } from '@open-design/contracts';
+import type { TeamProject } from '@sankiwork/contracts';
 
 // The persistent half of the workspace sync design: SSE marks dirty, B's
 // sync-digest hands out opaque comparison tokens, and this layer decides

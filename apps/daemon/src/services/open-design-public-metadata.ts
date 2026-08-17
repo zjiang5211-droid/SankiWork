@@ -1,27 +1,27 @@
-export interface OpenDesignGithubRepoStats {
+export interface SankiWorkGithubRepoStats {
   stargazersCount: number;
   fetchedAt: number;
   stale: boolean;
 }
 
-export interface OpenDesignGithubLatestReleaseInfo {
+export interface SankiWorkGithubLatestReleaseInfo {
   tagName: string;
   htmlUrl: string;
   fetchedAt: number;
   stale: boolean;
 }
 
-export interface OpenDesignDiscordPresence {
+export interface SankiWorkDiscordPresence {
   onlineCount: number;
   memberCount: number;
   fetchedAt: number;
   stale: boolean;
 }
 
-export interface OpenDesignPublicMetadataService {
-  readGithubRepoStats(): Promise<OpenDesignGithubRepoStats>;
-  readLatestReleaseInfo(): Promise<OpenDesignGithubLatestReleaseInfo>;
-  readDiscordPresence(): Promise<OpenDesignDiscordPresence>;
+export interface SankiWorkPublicMetadataService {
+  readGithubRepoStats(): Promise<SankiWorkGithubRepoStats>;
+  readLatestReleaseInfo(): Promise<SankiWorkGithubLatestReleaseInfo>;
+  readDiscordPresence(): Promise<SankiWorkDiscordPresence>;
 }
 
 interface CachedGithubRepoStats {
@@ -61,20 +61,20 @@ interface DiscordInvitePayload {
   profile?: unknown;
 }
 
-export interface OpenDesignPublicMetadataServiceOptions {
+export interface SankiWorkPublicMetadataServiceOptions {
   fetchImpl?: typeof fetch;
   now?: () => number;
 }
 
-const OPEN_DESIGN_GITHUB_REPO_API = 'https://api.github.com/repos/nexu-io/open-design';
-const OPEN_DESIGN_GITHUB_RELEASE_LATEST_API = 'https://api.github.com/repos/nexu-io/open-design/releases/latest';
-const OPEN_DESIGN_GITHUB_CACHE_TTL_MS = 60 * 60 * 1000;
-const OPEN_DESIGN_GITHUB_TIMEOUT_MS = 4_000;
-const OPEN_DESIGN_DISCORD_INVITE_CODE = 'mHAjSMV6gz';
-export const OPEN_DESIGN_DISCORD_INVITE_URL = `https://discord.gg/${OPEN_DESIGN_DISCORD_INVITE_CODE}`;
-const OPEN_DESIGN_DISCORD_INVITE_API = `https://discord.com/api/v10/invites/${OPEN_DESIGN_DISCORD_INVITE_CODE}?with_counts=true`;
-const OPEN_DESIGN_DISCORD_CACHE_TTL_MS = 5 * 60 * 1000;
-const OPEN_DESIGN_DISCORD_TIMEOUT_MS = 4_000;
+const SANKIWORK_GITHUB_REPO_API = 'https://api.github.com/repos/nexu-io/open-design';
+const SANKIWORK_GITHUB_RELEASE_LATEST_API = 'https://api.github.com/repos/nexu-io/open-design/releases/latest';
+const SANKIWORK_GITHUB_CACHE_TTL_MS = 60 * 60 * 1000;
+const SANKIWORK_GITHUB_TIMEOUT_MS = 4_000;
+const SANKIWORK_DISCORD_INVITE_CODE = 'mHAjSMV6gz';
+export const SANKIWORK_DISCORD_INVITE_URL = `https://discord.gg/${SANKIWORK_DISCORD_INVITE_CODE}`;
+const SANKIWORK_DISCORD_INVITE_API = `https://discord.com/api/v10/invites/${SANKIWORK_DISCORD_INVITE_CODE}?with_counts=true`;
+const SANKIWORK_DISCORD_CACHE_TTL_MS = 5 * 60 * 1000;
+const SANKIWORK_DISCORD_TIMEOUT_MS = 4_000;
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -93,22 +93,22 @@ function withFreshness<T extends { fetchedAt: number }>(
   return { ...value, stale };
 }
 
-export function createOpenDesignPublicMetadataService({
+export function createSankiWorkPublicMetadataService({
   fetchImpl = fetch,
   now = () => Date.now(),
-}: OpenDesignPublicMetadataServiceOptions = {}): OpenDesignPublicMetadataService {
+}: SankiWorkPublicMetadataServiceOptions = {}): SankiWorkPublicMetadataService {
   let githubRepoCache: CachedGithubRepoStats | null = null;
-  let githubRepoInflight: Promise<OpenDesignGithubRepoStats> | null = null;
+  let githubRepoInflight: Promise<SankiWorkGithubRepoStats> | null = null;
   let githubLatestReleaseCache: CachedGithubLatestReleaseInfo | null = null;
-  let githubLatestReleaseInflight: Promise<OpenDesignGithubLatestReleaseInfo> | null = null;
+  let githubLatestReleaseInflight: Promise<SankiWorkGithubLatestReleaseInfo> | null = null;
   let discordPresenceCache: CachedDiscordPresence | null = null;
-  let discordPresenceInflight: Promise<OpenDesignDiscordPresence> | null = null;
+  let discordPresenceInflight: Promise<SankiWorkDiscordPresence> | null = null;
 
-  async function readGithubRepoStats(): Promise<OpenDesignGithubRepoStats> {
+  async function readGithubRepoStats(): Promise<SankiWorkGithubRepoStats> {
     const currentTime = now();
     if (
       githubRepoCache &&
-      currentTime - githubRepoCache.fetchedAt < OPEN_DESIGN_GITHUB_CACHE_TTL_MS
+      currentTime - githubRepoCache.fetchedAt < SANKIWORK_GITHUB_CACHE_TTL_MS
     ) {
       return withFreshness(githubRepoCache, false);
     }
@@ -117,12 +117,12 @@ export function createOpenDesignPublicMetadataService({
 
     githubRepoInflight = (async () => {
       const ctrl = new AbortController();
-      const timeout = setTimeout(() => ctrl.abort(), OPEN_DESIGN_GITHUB_TIMEOUT_MS);
+      const timeout = setTimeout(() => ctrl.abort(), SANKIWORK_GITHUB_TIMEOUT_MS);
       try {
-        const response = await fetchImpl(OPEN_DESIGN_GITHUB_REPO_API, {
+        const response = await fetchImpl(SANKIWORK_GITHUB_REPO_API, {
           headers: {
             accept: 'application/vnd.github+json',
-            'user-agent': 'open-design-daemon',
+            'user-agent': 'sankiwork-daemon',
           },
           signal: ctrl.signal,
         });
@@ -148,11 +148,11 @@ export function createOpenDesignPublicMetadataService({
     return githubRepoInflight;
   }
 
-  async function readLatestReleaseInfo(): Promise<OpenDesignGithubLatestReleaseInfo> {
+  async function readLatestReleaseInfo(): Promise<SankiWorkGithubLatestReleaseInfo> {
     const currentTime = now();
     if (
       githubLatestReleaseCache &&
-      currentTime - githubLatestReleaseCache.fetchedAt < OPEN_DESIGN_GITHUB_CACHE_TTL_MS
+      currentTime - githubLatestReleaseCache.fetchedAt < SANKIWORK_GITHUB_CACHE_TTL_MS
     ) {
       return withFreshness(githubLatestReleaseCache, false);
     }
@@ -161,12 +161,12 @@ export function createOpenDesignPublicMetadataService({
 
     githubLatestReleaseInflight = (async () => {
       const ctrl = new AbortController();
-      const timeout = setTimeout(() => ctrl.abort(), OPEN_DESIGN_GITHUB_TIMEOUT_MS);
+      const timeout = setTimeout(() => ctrl.abort(), SANKIWORK_GITHUB_TIMEOUT_MS);
       try {
-        const response = await fetchImpl(OPEN_DESIGN_GITHUB_RELEASE_LATEST_API, {
+        const response = await fetchImpl(SANKIWORK_GITHUB_RELEASE_LATEST_API, {
           headers: {
             accept: 'application/vnd.github+json',
-            'user-agent': 'open-design-daemon',
+            'user-agent': 'sankiwork-daemon',
           },
           signal: ctrl.signal,
         });
@@ -193,11 +193,11 @@ export function createOpenDesignPublicMetadataService({
     return githubLatestReleaseInflight;
   }
 
-  async function readDiscordPresence(): Promise<OpenDesignDiscordPresence> {
+  async function readDiscordPresence(): Promise<SankiWorkDiscordPresence> {
     const currentTime = now();
     if (
       discordPresenceCache &&
-      currentTime - discordPresenceCache.fetchedAt < OPEN_DESIGN_DISCORD_CACHE_TTL_MS
+      currentTime - discordPresenceCache.fetchedAt < SANKIWORK_DISCORD_CACHE_TTL_MS
     ) {
       return withFreshness(discordPresenceCache, false);
     }
@@ -206,12 +206,12 @@ export function createOpenDesignPublicMetadataService({
 
     discordPresenceInflight = (async () => {
       const ctrl = new AbortController();
-      const timeout = setTimeout(() => ctrl.abort(), OPEN_DESIGN_DISCORD_TIMEOUT_MS);
+      const timeout = setTimeout(() => ctrl.abort(), SANKIWORK_DISCORD_TIMEOUT_MS);
       try {
-        const response = await fetchImpl(OPEN_DESIGN_DISCORD_INVITE_API, {
+        const response = await fetchImpl(SANKIWORK_DISCORD_INVITE_API, {
           headers: {
             accept: 'application/json',
-            'user-agent': 'open-design-daemon',
+            'user-agent': 'sankiwork-daemon',
           },
           signal: ctrl.signal,
         });

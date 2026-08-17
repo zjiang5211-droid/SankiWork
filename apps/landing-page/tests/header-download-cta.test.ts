@@ -89,7 +89,7 @@ function runDownloadDirectAssetGate(
     navigator,
     document,
     'Download for',
-    { macArm64: 'https://example.com/open-design-mac-arm64.dmg' },
+    { macArm64: 'https://example.com/sankiwork-mac-arm64.dmg' },
   );
 
   return { hero, attributes, notice };
@@ -137,7 +137,7 @@ describe('mobile download-page guidance', () => {
     assert.match(page, /const narrowViewport = window\.matchMedia\('\(max-width: 767px\)'\)/);
     assert.match(page, /mobileNotice\.hidden = !\(isMobileDevice \|\| narrowViewport\.matches\)/);
     assert.match(page, /narrowViewport\.addEventListener\('change', syncMobileNotice\)/);
-    assert.match(copy, /Open Design 是桌面客户端，请在电脑上下载。/);
+    assert.match(copy, /SankiWork 是桌面客户端，请在电脑上下载。/);
   });
 
   it('treats iPadOS desktop-mode Safari as a mobile device', async () => {

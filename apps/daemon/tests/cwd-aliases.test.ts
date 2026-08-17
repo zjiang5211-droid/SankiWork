@@ -42,10 +42,10 @@ function writeSampleSkill(root: string, folder: string): string {
 
 describe('stageActiveSkill', () => {
   it('exposes the documented alias name so the skill preamble stays in sync', () => {
-    expect(SKILLS_CWD_ALIAS).toBe('.od-skills');
+    expect(SKILLS_CWD_ALIAS).toBe('.sankiwork-skills');
   });
 
-  it('stages a per-project copy under <cwd>/.od-skills/<folder>/', async () => {
+  it('stages a per-project copy under <cwd>/.sankiwork-skills/<folder>/', async () => {
     const fs = fresh();
     const cwd = path.join(fs, 'project');
     const sourceRoot = path.join(fs, 'skills');
@@ -91,7 +91,7 @@ describe('stageActiveSkill', () => {
 
   it('REGRESSION: writes through the staged copy do not mutate the source', async () => {
     // This is the P1 vulnerability lefarcen flagged on PR #435 round 1:
-    // when `.od-skills` was a directory junction, an agent could
+    // when `.sankiwork-skills` was a directory junction, an agent could
     // `Edit`/`Write` through the alias and overwrite the shipped repo
     // resource. The per-project copy is the structural fix; this test
     // pins it down so a future "optimisation" that re-introduces a

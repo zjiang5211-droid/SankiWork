@@ -402,7 +402,7 @@ describe('member-side convergence after an owner unshare (spec 04 §11, known ga
   // resource, so teammates went on seeing a project that no longer existed.
   //
   // Drives the real route with NO request headers and `workspaceContext.lastKnown()`
-  // populated — the `od project delete` shape on a signed-in daemon — and asserts
+  // populated — the `sw project delete` shape on a signed-in daemon — and asserts
   // the hub transition, not a spy call count. Ordering matters as much as
   // occurrence: a local delete that lands while the hub call is skipped leaves
   // exactly the inconsistency this guards, so the hub state is asserted to be

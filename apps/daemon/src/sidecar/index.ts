@@ -1,6 +1,6 @@
-import { APP_KEYS, OPEN_DESIGN_SIDECAR_CONTRACT } from "@open-design/sidecar-proto";
-import { bootstrapSidecarRuntime } from "@open-design/sidecar";
-import { readProcessStamp } from "@open-design/platform";
+import { APP_KEYS, SANKIWORK_SIDECAR_CONTRACT } from "@sankiwork/sidecar-proto";
+import { bootstrapSidecarRuntime } from "@sankiwork/sidecar";
+import { readProcessStamp } from "@sankiwork/platform";
 
 import { startDaemonSidecar } from "./server.js";
 import {
@@ -9,12 +9,12 @@ import {
 } from "./payload-desktop-handoff.js";
 
 async function main(): Promise<void> {
-  const stamp = readProcessStamp(process.argv.slice(2), OPEN_DESIGN_SIDECAR_CONTRACT);
+  const stamp = readProcessStamp(process.argv.slice(2), SANKIWORK_SIDECAR_CONTRACT);
   if (stamp == null) throw new Error("sidecar stamp is required");
 
   const runtime = bootstrapSidecarRuntime(stamp, process.env, {
     app: APP_KEYS.DAEMON,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
   });
   const desktopHandoff = await prepareLegacyPayloadDesktopHandoff({
     namespace: runtime.namespace,

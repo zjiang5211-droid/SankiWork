@@ -147,7 +147,7 @@ describe('AssistantMessage feedback gate', () => {
     );
 
     expect(container.querySelector('[data-user-action-card="plugin-suggestion"]')).toBeTruthy();
-    const contribute = screen.getByRole('button', { name: 'Contribute to open-design' });
+    const contribute = screen.getByRole('button', { name: 'Contribute to sankiwork' });
     expect(contribute).toBeTruthy();
     expect(contribute.classList.contains('plugin-action-button--primary')).toBe(false);
     const toggle = screen.getByRole('button', { name: 'View details' });
@@ -277,7 +277,7 @@ describe('AssistantMessage feedback gate', () => {
     expect(onForkFromMessage).toHaveBeenCalledTimes(1);
   });
 
-  it('reaches Contribute (share to Open Design) through the More -> Share cascade', () => {
+  it('reaches Contribute (share to SankiWork) through the More -> Share cascade', () => {
     const onShare = vi.fn();
 
     render(
@@ -287,7 +287,7 @@ describe('AssistantMessage feedback gate', () => {
         projectId="proj-1"
         isLast
         onFeedback={vi.fn()}
-        onShareToOpenDesign={onShare}
+        onShareToSankiWork={onShare}
       />,
     );
 
@@ -461,7 +461,7 @@ describe('AssistantMessage status badge updates (Bug A)', () => {
               kind: 'status',
               label: 'error',
               detail:
-                'AMR Cloud reported insufficient balance. Top up at https://open-design.ai/amr/dashboard, then retry.',
+                'AMR Cloud reported insufficient balance. Top up at https://sanki-ai.cloud/amr/dashboard, then retry.',
             } as ChatMessage['events'][number],
           ],
         })}
@@ -471,8 +471,8 @@ describe('AssistantMessage status badge updates (Bug A)', () => {
       />,
     );
 
-    const link = screen.getByRole('link', { name: 'https://open-design.ai/amr/dashboard' });
-    expect(link.getAttribute('href')).toBe('https://open-design.ai/amr/dashboard');
+    const link = screen.getByRole('link', { name: 'https://sanki-ai.cloud/amr/dashboard' });
+    expect(link.getAttribute('href')).toBe('https://sanki-ai.cloud/amr/dashboard');
     expect(link.classList.contains('md-link')).toBe(true);
   });
 
@@ -1069,7 +1069,7 @@ describe('AssistantMessage question forms', () => {
     expect(screen.getByText('Editorial narrative')).toBeTruthy();
     expect(screen.getByRole('img', { name: 'Visual tone: Editorial narrative' })).toHaveAttribute(
       'src',
-      'https://repo-assets.open-design.ai/style-catalog/v1/deck-editorial-narrative-v1.webp',
+      'https://repo-assets.sanki-ai.cloud/style-catalog/v1/deck-editorial-narrative-v1.webp',
     );
   });
 
@@ -1077,37 +1077,37 @@ describe('AssistantMessage question forms', () => {
     {
       projectKind: 'web_clone' as const,
       title: 'Quiet SaaS',
-      src: 'https://repo-assets.open-design.ai/style-catalog/v1/prototype-quiet-saas-v1.webp',
+      src: 'https://repo-assets.sanki-ai.cloud/style-catalog/v1/prototype-quiet-saas-v1.webp',
     },
     {
       projectKind: 'wireframe' as const,
       title: 'Quiet SaaS',
-      src: 'https://repo-assets.open-design.ai/style-catalog/v1/prototype-quiet-saas-v1.webp',
+      src: 'https://repo-assets.sanki-ai.cloud/style-catalog/v1/prototype-quiet-saas-v1.webp',
     },
     {
       projectKind: 'live_artifact' as const,
       title: 'Quiet SaaS',
-      src: 'https://repo-assets.open-design.ai/style-catalog/v1/prototype-quiet-saas-v1.webp',
+      src: 'https://repo-assets.sanki-ai.cloud/style-catalog/v1/prototype-quiet-saas-v1.webp',
     },
     {
       projectKind: 'document' as const,
       title: 'Docs reference',
-      src: 'https://repo-assets.open-design.ai/style-catalog/v1/document-docs-reference-v1.webp',
+      src: 'https://repo-assets.sanki-ai.cloud/style-catalog/v1/document-docs-reference-v1.webp',
     },
     {
       projectKind: 'image' as const,
       title: 'Editorial photo',
-      src: 'https://repo-assets.open-design.ai/style-catalog/v1/image-photo-editorial-v1.webp',
+      src: 'https://repo-assets.sanki-ai.cloud/style-catalog/v1/image-photo-editorial-v1.webp',
     },
     {
       projectKind: 'video' as const,
       title: 'Swiss Pulse',
-      src: 'https://repo-assets.open-design.ai/style-catalog/v1/video-swiss-pulse-v1.webp',
+      src: 'https://repo-assets.sanki-ai.cloud/style-catalog/v1/video-swiss-pulse-v1.webp',
     },
     {
       projectKind: 'hyperframes' as const,
       title: 'Swiss Pulse',
-      src: 'https://repo-assets.open-design.ai/style-catalog/v1/video-swiss-pulse-v1.webp',
+      src: 'https://repo-assets.sanki-ai.cloud/style-catalog/v1/video-swiss-pulse-v1.webp',
     },
   ])('keeps selected $projectKind style previews in the answered summary', ({
     projectKind,
@@ -1180,7 +1180,7 @@ describe('AssistantMessage question forms', () => {
     expect(screen.getByRole('img', { name: 'Visual tone: Editorial narrative' })).toBeTruthy();
     expect(screen.getByRole('img', { name: 'Visual tone: Premium pitch' })).toHaveAttribute(
       'src',
-      'https://repo-assets.open-design.ai/style-catalog/v1/deck-premium-pitch-v1.webp',
+      'https://repo-assets.sanki-ai.cloud/style-catalog/v1/deck-premium-pitch-v1.webp',
     );
   });
 

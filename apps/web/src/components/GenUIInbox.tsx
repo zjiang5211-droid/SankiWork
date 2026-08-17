@@ -3,11 +3,11 @@
 // Lists every persisted surface for a project (project / conversation
 // tier) so the user can see what authorizations and confirmations have
 // been remembered, and revoke any of them. Mirrors the
-// `od ui list --project <id>` CLI surface; clicking Revoke calls
+// `sw ui list --project <id>` CLI surface; clicking Revoke calls
 // POST /api/projects/:projectId/genui/:surfaceId/revoke.
 
 import { useCallback, useEffect, useState } from 'react';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { workspaceProjectHeaders } from '../collab/workspace-identity';
 
 interface SurfaceRow {

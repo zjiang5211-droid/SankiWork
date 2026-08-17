@@ -12,21 +12,21 @@ describe('host tools open-in launch plans', () => {
   it('uses the absolute macOS open command to reveal project folders in Finder', async () => {
     if (process.platform !== 'darwin') return;
 
-    const plan = await resolveHostToolLaunchPlan('finder', '/tmp/open-design-project');
+    const plan = await resolveHostToolLaunchPlan('finder', '/tmp/sankiwork-project');
 
     expect(plan.available).toBe(true);
     expect(plan.command).toBe('/usr/bin/open');
-    expect(plan.args).toEqual(['-R', '/tmp/open-design-project']);
+    expect(plan.args).toEqual(['-R', '/tmp/sankiwork-project']);
   });
 
   it('finds macOS system app bundles outside /Applications and launches through absolute open', async () => {
     if (process.platform !== 'darwin') return;
 
-    const plan = await resolveHostToolLaunchPlan('terminal', '/tmp/open-design-project');
+    const plan = await resolveHostToolLaunchPlan('terminal', '/tmp/sankiwork-project');
 
     expect(plan.available).toBe(true);
     expect(plan.command).toBe('/usr/bin/open');
-    expect(plan.args).toEqual(['-a', 'Terminal', '/tmp/open-design-project']);
+    expect(plan.args).toEqual(['-a', 'Terminal', '/tmp/sankiwork-project']);
   });
 });
 
@@ -77,7 +77,7 @@ describe('host tools launch reporting (#3871)', () => {
     // non-zero rather than emitting an `error` event for a missing binary.
     if (process.platform === 'win32') return;
 
-    const result = await launchHostTool('open-design-nonexistent-editor-3871', []);
+    const result = await launchHostTool('sankiwork-nonexistent-editor-3871', []);
 
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toBeTruthy();

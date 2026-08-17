@@ -3,7 +3,7 @@ import path from 'node:path';
 import type {
   InstalledPluginRecord,
   ProjectMetadata,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { load } from 'cheerio';
 import { ensureProject } from '../projects.js';
 

@@ -9,8 +9,8 @@
 
 ## 新增测试文件
 
-- [e2e/ui/entry-topbar.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/ui/entry-topbar.test.ts)
-- [e2e/ui/home-hero-rail.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/ui/home-hero-rail.test.ts)
+- [e2e/ui/entry-topbar.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/entry-topbar.test.ts)
+- [e2e/ui/home-hero-rail.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/home-hero-rail.test.ts)
 
 ## 新增用例
 
@@ -92,7 +92,7 @@
 ## 运行命令
 
 ```bash
-cd /Users/mac/open-design/open-design-home-entry/e2e
+cd /Users/mac/sankiwork/sankiwork-home-entry/e2e
 pnpm exec playwright test -c playwright.config.ts \
   ui/entry-topbar.test.ts \
   ui/home-hero-rail.test.ts

@@ -6,8 +6,8 @@
 // migrations).
 //
 // Used by:
-//   - `od daemon db status` (CLI ops sanity check),
-//   - the `od doctor` aggregator (a future patch can fold the
+//   - `sw daemon db status` (CLI ops sanity check),
+//   - the `sw doctor` aggregator (a future patch can fold the
 //     summary in without re-implementing the SQLite read).
 //
 // Pure relative to its inputs: callers pass the SQLite handle +

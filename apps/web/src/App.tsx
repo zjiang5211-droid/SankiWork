@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { flushSync } from 'react-dom';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { Button } from '@open-design/components';
+import { Button } from '@sankiwork/components';
 import { useAnalytics } from './analytics/provider';
 import {
   trackFileUploadResult,
@@ -18,7 +18,7 @@ import {
   deriveConfigureGlobals,
   projectKindFromMetadataToTracking,
   fidelityToTracking,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import type {
   AmrModelsResponse,
   ChatSessionMode,
@@ -29,8 +29,8 @@ import type {
   WorkspaceInvalidationSsePayload,
   ProjectWorkspaceScope,
   WorkspaceProjectSummary,
-} from '@open-design/contracts';
-import { DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID } from '@open-design/contracts';
+} from '@sankiwork/contracts';
+import { DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID } from '@sankiwork/contracts';
 import { EntryView } from './components/EntryView';
 import type { ProjectTitleHint } from './components/EntryShell';
 import type { IntegrationTab } from './components/IntegrationsView';
@@ -210,7 +210,7 @@ import {
   removeProjectFromDisplaySnapshots,
   writeProjectDisplaySnapshot,
 } from './state/project-display-cache';
-import { getOpenDesignHost, type OpenDesignHostProjectImportSuccess } from '@open-design/host';
+import { getSankiWorkHost, type SankiWorkHostProjectImportSuccess } from '@sankiwork/host';
 import { useI18n } from './i18n';
 import { liveArtifactTabId } from './types';
 import type {
@@ -257,9 +257,9 @@ interface PendingProjectCreation {
   prompt: string;
 }
 
-const APP_CONFIG_CHANGED_EVENT = 'open-design:app-config-changed';
+const APP_CONFIG_CHANGED_EVENT = 'sankiwork:app-config-changed';
 const AMR_AGENT_ID = 'amr';
-const AMR_PROFILE_ENV_KEY = 'OPEN_DESIGN_AMR_PROFILE';
+const AMR_PROFILE_ENV_KEY = 'SANKIWORK_AMR_PROFILE';
 const AGENT_FOCUS_REFRESH_THROTTLE_MS = 10_000;
 
 /**
@@ -853,7 +853,7 @@ function AppInner() {
   const { t } = useI18n();
   const iframeKeepAlivePool = useIframeKeepAlivePool();
   const clientType = useMemo(() => detectClientType(), []);
-  const hostPlatform = useMemo(() => getOpenDesignHost()?.client.platform, []);
+  const hostPlatform = useMemo(() => getSankiWorkHost()?.client.platform, []);
   useModalWindowDragGuard();
   const workspaceContextState = useWorkspaceContext();
   const {
@@ -909,7 +909,7 @@ function AppInner() {
   // Observability marker. `apps/web/src/observability/white-screen.ts`
   // keys its "app actually mounted" success condition on this attribute
   // because the dynamic-import loading shell (`<div class="od-loading-shell">
-  // Loading Open Design…</div>`) is itself >MIN_VISIBLE_TEXT and would
+  // Loading SankiWork…</div>`) is itself >MIN_VISIBLE_TEXT and would
   // otherwise be mistaken for a real mount. Survives subsequent render
   // crashes — once App has mounted at least once, it's no longer a white
   // screen (subsequent failures show up as `$exception`).
@@ -1344,7 +1344,7 @@ function AppInner() {
   // physically aborts the previous stream, not just invalidates its
   // callbacks. Stacked live streams are what deadlocked the packaged app —
   // each navigation/focus refresh opened another slow cold-probe stream,
-  // and once they pinned every upstream connection slot the whole od://
+  // and once they pinned every upstream connection slot the whole sankiwork://
   // proxy starved (see apps/packaged/src/index.ts ignore-connections-limit
   // note for the other half of that fix).
   const beginAgentStreamRequest = useCallback(() => {
@@ -1936,13 +1936,13 @@ function AppInner() {
   }, [applyAmrLoginStatus]);
 
   useEffect(() => {
-    const usesOpenDesignCloud =
+    const usesSankiWorkCloud =
       config.mode === 'daemon'
       && config.agentId === AMR_AGENT_ID;
     const cloudIdentityRejected =
       workspaceContextState.failure === 'reauth-required'
       || (
-        usesOpenDesignCloud
+        usesSankiWorkCloud
         && (
           amrLoginStatus?.loggedIn === false
           || amrLoginStatus?.sessionState === 'reauth_required'
@@ -3058,7 +3058,7 @@ function AppInner() {
         // uploading staged Home attachments. `replaceProjectWorkingDir` changes
         // `metadata.baseDir`, so the project starts reading from the external
         // folder. If we uploaded first, the staged files would land in the
-        // temporary managed `.od/projects/<id>` root and then silently vanish
+        // temporary managed `.sankiwork/projects/<id>` root and then silently vanish
         // from Design Files and the first auto-send context once the working
         // dir flips. Doing the handoff first means the initial upload lands in
         // the final tree.
@@ -3078,7 +3078,7 @@ function AppInner() {
             // handoff fails AFTER the project already exists. Do NOT swallow
             // this and do NOT proceed: uploading staged attachments or
             // auto-sending the first message would target the managed
-            // `.od/projects/<id>` root the user did not choose. Mark the
+            // `.sankiwork/projects/<id>` root the user did not choose. Mark the
             // handoff as failed so the upload + auto-send branches below are
             // skipped, then surface a create-time error so the user can
             // re-pick the working directory from inside the project.
@@ -3467,7 +3467,7 @@ function AppInner() {
   // atomically. The renderer never sees the path, token, or daemon DTO;
   // it receives host-owned project identifiers and refreshes project state
   // through the normal daemon API.
-  const handleImportFolderResponse = useCallback(async (result: OpenDesignHostProjectImportSuccess) => {
+  const handleImportFolderResponse = useCallback(async (result: SankiWorkHostProjectImportSuccess) => {
     rememberLocalProject(result.projectId);
     const importedProjectContext = workspaceContextRef.current;
     const project = await getProject(result.projectId, importedProjectContext);
@@ -4184,7 +4184,7 @@ function AppInner() {
     accountGeneration: number,
   ) => {
     invalidatePluginCatalogCache({ workspaceContext: context, accountGeneration });
-    window.dispatchEvent(new CustomEvent('open-design:plugins-changed'));
+    window.dispatchEvent(new CustomEvent('sankiwork:plugins-changed'));
   }, []);
 
   teamResourceRefreshRefs.current.skill = handleSkillsChanged;
@@ -5210,7 +5210,7 @@ function AppInner() {
           setPendingDesignSystemCreateEntry('design_systems_page');
           navigate({ kind: 'design-system-create' });
         }}
-        onOpenDesignSystem={(id: string) => navigate({ kind: 'design-system-detail', designSystemId: id })}
+        onSankiWorkSystem={(id: string) => navigate({ kind: 'design-system-detail', designSystemId: id })}
         onDesignSystemsRefresh={refreshDesignSystems}
         onPersistComposioKey={handleConfigPersistComposioKey}
         onOpenSettings={openSettings}

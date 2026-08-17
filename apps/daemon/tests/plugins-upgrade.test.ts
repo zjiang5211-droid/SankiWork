@@ -1,4 +1,4 @@
-// Plan §3.Z2 — `od plugin upgrade` re-installs from recorded source.
+// Plan §3.Z2 — `sw plugin upgrade` re-installs from recorded source.
 //
 // Since the upgrade route is a thin wrapper around installPlugin()
 // + a guard for source_kind='bundled', we exercise the wrapper
@@ -58,7 +58,7 @@ afterEach(async () => {
   await rm(tmpRoot, { recursive: true, force: true });
 });
 
-describe('od plugin upgrade — installer round-trip', () => {
+describe('sw plugin upgrade — installer round-trip', () => {
   it('re-installs from the recorded source and bumps the registry version', async () => {
     await drain(installFromLocalFolder(db, { source: sourceFolder, roots: { userPluginsRoot: pluginsRoot } }) as AsyncGenerator<unknown>);
     const before = getInstalledPlugin(db, 'upgrade-fixture');

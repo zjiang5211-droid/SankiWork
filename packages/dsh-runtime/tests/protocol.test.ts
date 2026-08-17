@@ -6,20 +6,20 @@ import { describe, test } from 'vitest';
 import { identityFrame, modelsFrame, parseHostCommand } from '../src/protocol.js';
 import { internals } from '../src/index.js';
 
-describe('@open-design/dsh-runtime protocol', () => {
+describe('@sankiwork/dsh-runtime protocol', () => {
   test('declares a dsh profile bundle patch', () => {
     const manifest = JSON.parse(readFileSync(resolve('package.json'), 'utf8')) as {
       dsh?: { bundle?: { patch?: string } };
     };
     assert.equal(manifest.dsh?.bundle?.patch, './cordis.patch.yml');
-    assert.match(readFileSync(resolve('cordis.patch.yml'), 'utf8'), /@open-design\/dsh-runtime/);
+    assert.match(readFileSync(resolve('cordis.patch.yml'), 'utf8'), /@sankiwork\/dsh-runtime/);
   });
 
   test('emits the strict probe identity', () => {
     assert.deepEqual(identityFrame('probe', 'test'), {
       v: 1,
       type: 'probe',
-      runtime: 'open-design',
+      runtime: 'sankiwork',
       protocol_version: 1,
       plugin_version: 'test',
       capabilities: {
@@ -63,7 +63,7 @@ describe('@open-design/dsh-runtime protocol', () => {
     }]), {
       v: 1,
       type: 'models',
-      runtime: 'open-design',
+      runtime: 'sankiwork',
       models: [{
         provider: 'deepseek-official',
         provider_name: 'DeepSeek',

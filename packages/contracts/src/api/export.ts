@@ -1,7 +1,7 @@
 // Shared DTOs for the programmatic export capability (HTML / PDF / image / PPTX).
 //
 // Both surfaces speak this shape: the web UI's Download menu and the
-// `od export` CLI call the daemon export routes. HTML is bundled headlessly by
+// `sw export` CLI call the daemon export routes. HTML is bundled headlessly by
 // the daemon; visual formats delegate rasterization to the desktop Electron
 // renderer. Keep this file pure TypeScript — no Node, DOM, or runtime deps.
 
@@ -13,7 +13,7 @@ export type ExportFormat = (typeof EXPORT_FORMATS)[number];
 
 // Programmatic image export delegates to the desktop Electron renderer, whose
 // `nativeImage` encoder only supports PNG and JPEG. WebP is intentionally not
-// offered here so `od export --format image --image-format webp` fails fast with
+// offered here so `sw export --format image --image-format webp` fails fast with
 // a clear error rather than silently returning PNG bytes. The web Download
 // menu's own client-side path (canvas.toBlob) still offers WebP independently.
 export const EXPORT_IMAGE_FORMATS = ['png', 'jpeg'] as const;

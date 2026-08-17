@@ -18,7 +18,7 @@ const call = async (url: string, now?: number, env: { LAUNCH_WEEK_PREVIEW_KEY?: 
 };
 
 const at = (iso: string) => Date.parse(iso);
-const ENDPOINT = 'https://open-design.ai/launch-week/drops';
+const ENDPOINT = 'https://sanki-ai.cloud/launch-week/drops';
 
 test('an unopened day is never served', async () => {
   const { body } = await call(ENDPOINT, at('2026-08-10T03:59:00Z'));

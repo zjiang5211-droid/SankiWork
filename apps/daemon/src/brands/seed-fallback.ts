@@ -16,7 +16,7 @@
 // behavior — it never throws. It mirrors `logo-fallback.ts` /
 // `imagery-fallback.ts` and is injectable so tests run offline.
 
-import type { BrandColor, BrandColorRole, BrandFontSpec } from '@open-design/contracts';
+import type { BrandColor, BrandColorRole, BrandFontSpec } from '@sankiwork/contracts';
 
 import { extractColors, extractFonts, normalizeColor, type ColorCandidate } from './prefetch.js';
 import { fetchExternalBrandAsset } from './safe-fetch.js';

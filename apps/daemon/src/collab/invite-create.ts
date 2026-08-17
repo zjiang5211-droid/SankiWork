@@ -1,7 +1,7 @@
 import {
   normalizeWorkspaceInviteCreateErrorCode,
   type WorkspaceInviteRole,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { readVelaControlApiContext } from '../integrations/vela.js';
 
 // Daemon half of the invite CREATE flow (the inviter/host side of the B-C invite

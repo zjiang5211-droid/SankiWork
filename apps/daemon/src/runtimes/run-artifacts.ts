@@ -32,7 +32,7 @@
 // uniform zero on PostHog and made the same funnel useless from the
 // other direction.
 
-import type { TrackingRunResult } from '@open-design/contracts/analytics';
+import type { TrackingRunResult } from '@sankiwork/contracts/analytics';
 import { emittedRenderableQuestionForm } from '../question-form-detect.js';
 
 // Tool names cover Claude-style, Codex-style, and the ACP/MCP shapes
@@ -180,7 +180,7 @@ export function runHadFailedDesignSystemWrapper(
     if (typeof command !== 'string') continue;
     if (
       /\btools\s+design-systems\s+(?:read|resolve|validate)\b/u.test(command)
-      && /(?:OD_NODE_BIN|OD_BIN)/u.test(command)
+      && /(?:SW_NODE_BIN|SW_BIN)/u.test(command)
     ) {
       return true;
     }

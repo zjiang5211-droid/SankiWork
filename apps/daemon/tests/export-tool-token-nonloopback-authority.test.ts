@@ -66,7 +66,7 @@ async function reachableNonLoopbackIpv4(): Promise<string> {
   throw new Error(`no reachable non-loopback IPv4 interface: ${failures.join('; ')}`);
 }
 
-describe('od export non-loopback run-scoped authority', () => {
+describe('sw export non-loopback run-scoped authority', () => {
   let daemon: StartedServer;
   let daemonHost = '';
   let outputDir = '';
@@ -75,8 +75,8 @@ describe('od export non-loopback run-scoped authority', () => {
 
   beforeAll(async () => {
     outputDir = await mkdtemp(path.join(os.tmpdir(), 'od-export-tool-token-nonloopback-'));
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required by the daemon test harness');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required by the daemon test harness');
     const db = openDatabase(process.cwd(), { dataDir });
     const now = Date.now();
     insertProject(db, {
@@ -98,7 +98,7 @@ describe('od export non-loopback run-scoped authority', () => {
     }
 
     daemonHost = await reachableNonLoopbackIpv4();
-    vi.stubEnv('OD_API_TOKEN', daemonApiToken);
+    vi.stubEnv('SW_API_TOKEN', daemonApiToken);
     const started = await startServer({
       port: 0,
       host: daemonHost,
@@ -113,7 +113,7 @@ describe('od export non-loopback run-scoped authority', () => {
     });
     if (!isStartedServer(started)) throw new Error('daemon did not return its server handle');
     daemon = started;
-    vi.stubEnv('OD_API_TOKEN', 'changed-after-server-start');
+    vi.stubEnv('SW_API_TOKEN', 'changed-after-server-start');
   });
 
   afterAll(async () => {
@@ -301,11 +301,11 @@ describe('od export non-loopback run-scoped authority', () => {
     const env: NodeJS.ProcessEnv = {
       ...process.env,
       NODE_OPTIONS: '',
-      OD_DAEMON_URL: daemon.url,
-      OD_PROJECT_ID: requestedProjectId,
-      OD_TOOL_TOKEN: token,
+      SW_DAEMON_URL: daemon.url,
+      SW_PROJECT_ID: requestedProjectId,
+      SW_TOOL_TOKEN: token,
     };
-    delete env.OD_API_TOKEN;
+    delete env.SW_API_TOKEN;
     try {
       const { stdout, stderr } = await execFileP(
         process.execPath,

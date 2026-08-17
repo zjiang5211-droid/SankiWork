@@ -8,7 +8,7 @@ import type {
   InstalledPluginRecord,
   Project,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { sendApiError } from '../src/http/api-errors.js';
 import {
   closeDatabase,

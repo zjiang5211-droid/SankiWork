@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-import { isReleaseChannel, parseReleaseVersion, type ReleaseChannel } from "@open-design/release";
+import { isReleaseChannel, parseReleaseVersion, type ReleaseChannel } from "@sankiwork/release";
 import { parseDocument } from "yaml";
 
 export const RELEASE_NOTE_MEDIA_TYPE = "text/markdown; charset=utf-8";
@@ -27,7 +27,7 @@ export type ReleaseNotePlan = {
   channel: ReleaseChannel;
   defaultLocale: typeof RELEASE_NOTE_DEFAULT_LOCALE;
   entries: ReleaseNotePlanEntry[];
-  kind: "open-design-release-note-plan";
+  kind: "sankiwork-release-note-plan";
   releaseVersion: string;
   sourceDirectory: string;
   state: "absent" | "ready";
@@ -138,7 +138,7 @@ export function discoverReleaseNotePlan(options: DiscoverReleaseNotePlanOptions)
       channel: options.channel,
       defaultLocale: RELEASE_NOTE_DEFAULT_LOCALE,
       entries: [],
-      kind: "open-design-release-note-plan",
+      kind: "sankiwork-release-note-plan",
       releaseVersion: options.releaseVersion,
       sourceDirectory,
       state: "absent",
@@ -182,7 +182,7 @@ export function discoverReleaseNotePlan(options: DiscoverReleaseNotePlanOptions)
     channel: options.channel,
     defaultLocale: RELEASE_NOTE_DEFAULT_LOCALE,
     entries,
-    kind: "open-design-release-note-plan",
+    kind: "sankiwork-release-note-plan",
     releaseVersion: options.releaseVersion,
     sourceDirectory,
     state: entries.length === 0 ? "absent" : "ready",
@@ -191,7 +191,7 @@ export function discoverReleaseNotePlan(options: DiscoverReleaseNotePlanOptions)
 }
 
 export function parseReleaseNotePlan(value: unknown): ReleaseNotePlan {
-  if (!isRecord(value) || value.kind !== "open-design-release-note-plan" || value.version !== 1) {
+  if (!isRecord(value) || value.kind !== "sankiwork-release-note-plan" || value.version !== 1) {
     throw new Error("invalid release note plan header");
   }
   if (!isReleaseChannel(value.channel)) throw new Error(`invalid release note plan channel: ${String(value.channel)}`);
@@ -237,7 +237,7 @@ export function parseReleaseNotePlan(value: unknown): ReleaseNotePlan {
     channel: value.channel,
     defaultLocale: RELEASE_NOTE_DEFAULT_LOCALE,
     entries,
-    kind: "open-design-release-note-plan",
+    kind: "sankiwork-release-note-plan",
     releaseVersion,
     sourceDirectory: requiredString(value.sourceDirectory, "sourceDirectory"),
     state: value.state,

@@ -131,7 +131,7 @@
 
 ### v2.4 真浏览器验收轮(Playwright 驱动隔离实例,2026-07-19)
 
-对运行中的 tools-dev 实例(独立 namespace + OD_DATA_DIR)用 Playwright 驱动完整验收矩阵,20/20 通过:sentinel 证明整个编辑会话 iframe 零重载;文本提交/删除滚动零位移;工具栏选区高亮 aria-pressed 即时生效;删除/Undo/复制原地 + 版本列表语义 label 完整;结构变更后编辑后续兄弟补丁命中正确元素(重标注)。该轮另发现并修复三个真 bug:
+对运行中的 tools-dev 实例(独立 namespace + SW_DATA_DIR)用 Playwright 驱动完整验收矩阵,20/20 通过:sentinel 证明整个编辑会话 iframe 零重载;文本提交/删除滚动零位移;工具栏选区高亮 aria-pressed 即时生效;删除/Undo/复制原地 + 版本列表语义 label 完整;结构变更后编辑后续兄弟补丁命中正确元素(重标注)。该轮另发现并修复三个真 bug:
 
 1. **Home/End 滚底**:Chromium 在 contenteditable 内对 Home/End「光标移动 + 文档平滑滚动」双重生效(caret 消费不抑制页面滚动默认行为),行内编辑中按 End 会把画布拽到页面底部。修复 = 会话 onKey 消费 Home/End,preventDefault 后手动把光标移到内容首/尾(Shift 扩展选区)。定位过程:滚动是原生平滑动画,绕过 scrollTo/scrollIntoView/focus/scrollTop 全部打桩点,靠最小化按键序列二分锁定。
 2. **双击选词被折叠**:同元素二次点击的 `placeCaretFromClick` 把双击词选区折叠回光标;修复 = `clickEvent.detail >= 2` 时跳过(拖选幸免只因移动阈值抑制了 click 事件)。

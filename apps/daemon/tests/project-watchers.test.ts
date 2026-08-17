@@ -81,7 +81,7 @@ function debugEvents(events: ProjectWatchEvent[]): string {
       NODE_ENV: process.env.NODE_ENV,
       CHOKIDAR_USEPOLLING: process.env.CHOKIDAR_USEPOLLING,
       CHOKIDAR_INTERVAL: process.env.CHOKIDAR_INTERVAL,
-      OD_WATCHER_USE_POLLING: process.env.OD_WATCHER_USE_POLLING,
+      SW_WATCHER_USE_POLLING: process.env.SW_WATCHER_USE_POLLING,
     },
     events,
   });
@@ -90,7 +90,7 @@ function debugEvents(events: ProjectWatchEvent[]): string {
 function recordEvent(events: ProjectWatchEvent[]) {
   return (event: ProjectWatchEvent) => {
     events.push(event);
-    if (process.env.OD_WATCHER_TEST_DEBUG === '1') {
+    if (process.env.SW_WATCHER_TEST_DEBUG === '1') {
       console.info(`[watcher-test:event] ${JSON.stringify(event)}`);
     }
   };
@@ -245,13 +245,13 @@ describe('project-watchers (real chokidar)', () => {
     }
   }, REAL_WATCHER_TEST_TIMEOUT_MS);
 
-  it('still emits events when the watch root is itself nested under .od/ (production layout)', async () => {
+  it('still emits events when the watch root is itself nested under .sankiwork/ (production layout)', async () => {
     // Reproduces the layout the daemon actually uses:
-    //   <RUNTIME_DATA_DIR>/.od/projects/<id>/...
+    //   <RUNTIME_DATA_DIR>/.sankiwork/projects/<id>/...
     // The ignore predicate must not match the watch root's ancestor directories,
     // only segments inside the watched tree.
     const dataRoot = await mkdtemp(path.join(tmpdir(), 'od-data-'));
-    const projectsRoot = path.join(dataRoot, '.od', 'projects');
+    const projectsRoot = path.join(dataRoot, '.sankiwork', 'projects');
     const projectId = 'proj-' + Math.random().toString(36).slice(2, 10);
     await mkdir(path.join(projectsRoot, projectId, 'prototype'), { recursive: true });
 
@@ -272,15 +272,15 @@ describe('project-watchers (real chokidar)', () => {
     }
   }, REAL_WATCHER_TEST_TIMEOUT_MS);
 
-  it('ignores files inside .od/ and node_modules/', async () => {
+  it('ignores files inside .sankiwork/ and node_modules/', async () => {
     const { root, projectId } = await makeProjectsRoot();
     const events: ProjectWatchEvent[] = [];
     const sub = subscribe(root, projectId, recordEvent(events), FAST_WATCH_OPTIONS);
     await sub.ready;
 
     try {
-      await mkdir(path.join(root, projectId, '.od'), { recursive: true });
-      await writeFile(path.join(root, projectId, '.od', 'state.json'), '{}');
+      await mkdir(path.join(root, projectId, '.sankiwork'), { recursive: true });
+      await writeFile(path.join(root, projectId, '.sankiwork', 'state.json'), '{}');
       await mkdir(path.join(root, projectId, 'node_modules'), { recursive: true });
       await writeFile(path.join(root, projectId, 'node_modules', 'x.js'), '');
 
@@ -291,7 +291,7 @@ describe('project-watchers (real chokidar)', () => {
       });
 
       const ignored = events.filter(
-        (e) => e.path.startsWith('.od/') || e.path.startsWith('node_modules/'),
+        (e) => e.path.startsWith('.sankiwork/') || e.path.startsWith('node_modules/'),
       );
       expect(ignored).toEqual([]);
     } finally {

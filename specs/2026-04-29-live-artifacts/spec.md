@@ -5,13 +5,13 @@
 **Siblings:** [`docs/skills-protocol.md`](../../docs/skills-protocol.md) · [`docs/agent-adapters.md`](../../docs/agent-adapters.md) · [`docs/modes.md`](../../docs/modes.md)  
 **Reference implementation:** `~/Projects/monet` connectors + live artifacts
 
-This spec defines how to bring Monet's **connectors** and **live artifacts** ideas into Open Design, but implement the agent-facing surface as **file-based agent skills plus daemon-owned local tools**, not as an in-process tool registry or MCP-first integration.
+This spec defines how to bring Monet's **connectors** and **live artifacts** ideas into SankiWork, but implement the agent-facing surface as **file-based agent skills plus daemon-owned local tools**, not as an in-process tool registry or MCP-first integration.
 
 ---
 
 ## 1. Product goal
 
-Open Design should let an agent create previewable artifacts that are not just one-off generated files, but **live, refreshable, auditable views** backed by external or local data sources.
+SankiWork should let an agent create previewable artifacts that are not just one-off generated files, but **live, refreshable, auditable views** backed by external or local data sources.
 
 Examples:
 
@@ -167,7 +167,7 @@ skills/live-artifact/
 ---
 name: live-artifact
 description: |
-  Create refreshable, auditable Open Design artifacts backed by connector or local data.
+  Create refreshable, auditable SankiWork artifacts backed by connector or local data.
   Trigger when the user asks for live dashboards, refreshable reports, synced views, or reusable data-backed artifacts.
 triggers:
   - live artifact
@@ -212,30 +212,30 @@ The skill should instruct the agent to:
 
 ### 5.3 Agent-callable command surface
 
-Prefer a small `od` wrapper command over raw `curl` in the skill body:
+Prefer a small `sw` wrapper command over raw `curl` in the skill body:
 
 ```bash
-od tools live-artifacts create --input artifact.json
-od tools live-artifacts list --format compact
-od tools live-artifacts update --artifact-id "$ID" --input artifact.json
-od tools live-artifacts refresh --artifact-id "$ID"
-od tools connectors list --format compact
-od tools connectors execute --connector github --tool list_releases --input input.json
+sw tools live-artifacts create --input artifact.json
+sw tools live-artifacts list --format compact
+sw tools live-artifacts update --artifact-id "$ID" --input artifact.json
+sw tools live-artifacts refresh --artifact-id "$ID"
+sw tools connectors list --format compact
+sw tools connectors execute --connector github --tool list_releases --input input.json
 ```
 
 The wrapper should be implemented as TypeScript source under `apps/daemon/src` and call daemon endpoints using injected runtime values:
 
-- `OD_DAEMON_URL`
-- `OD_TOOL_TOKEN`
+- `SW_DAEMON_URL`
+- `SW_TOOL_TOKEN`
 
-The daemon injects these into the system prompt or skill preamble at runtime. The agent should not choose or override `projectId`; `/api/tools/*` derives project/run scope from `OD_TOOL_TOKEN`. If standalone JavaScript wrappers are later exposed, they must be generated build output from TypeScript source, not project-owned `.js` source files.
+The daemon injects these into the system prompt or skill preamble at runtime. The agent should not choose or override `projectId`; `/api/tools/*` derives project/run scope from `SW_TOOL_TOKEN`. If standalone JavaScript wrappers are later exposed, they must be generated build output from TypeScript source, not project-owned `.js` source files.
 
 Raw HTTP is for developer debugging only and must include the run-scoped bearer token:
 
 ```bash
-curl -s -X POST "$OD_DAEMON_URL/api/tools/live-artifacts/create" \
+curl -s -X POST "$SW_DAEMON_URL/api/tools/live-artifacts/create" \
   -H 'content-type: application/json' \
-  -H "authorization: Bearer $OD_TOOL_TOKEN" \
+  -H "authorization: Bearer $SW_TOOL_TOKEN" \
   -d @artifact.json
 ```
 
@@ -310,7 +310,7 @@ type ConnectorExecuteResponse =
 
 Execution rules:
 
-- Require a valid `OD_TOOL_TOKEN` bound to the active run/project.
+- Require a valid `SW_TOOL_TOKEN` bound to the active run/project.
 - Reject tools that are not in the connector catalog allowlist.
 - Re-classify tool safety at execution time; catalog metadata alone is not authorization.
 - Reject `write`, `destructive`, and `unknown` tools for `artifact_refresh`.
@@ -340,7 +340,7 @@ POST  /api/live-artifacts/:artifactId/refresh
 GET   /api/live-artifacts/:artifactId/preview
 ```
 
-The `/api/tools/*` endpoints are optimized for agent consumption: compact JSON, concise errors, and explicit machine-readable validation failures. They never accept an arbitrary `projectId`; project/run scope comes from `OD_TOOL_TOKEN`. The `/api/live-artifacts/*` endpoints are optimized for UI state and use the web app's normal project context.
+The `/api/tools/*` endpoints are optimized for agent consumption: compact JSON, concise errors, and explicit machine-readable validation failures. They never accept an arbitrary `projectId`; project/run scope comes from `SW_TOOL_TOKEN`. The `/api/live-artifacts/*` endpoints are optimized for UI state and use the web app's normal project context.
 
 Both endpoint families must call the same service-layer validation and storage code. Only authentication and response verbosity should differ; errors should share the `ApiErrorResponse` envelope from `packages/contracts`.
 
@@ -757,7 +757,7 @@ Exit criteria:
 - Implement project-scoped file storage under `<RUNTIME_DATA_DIR>/projects/<projectId>/.live-artifacts`.
 - Add `/api/tools/live-artifacts/create` and `list`.
 - Add `GET /api/live-artifacts?projectId=...` and `GET /api/live-artifacts/:artifactId`.
-- Add run-scoped `OD_TOOL_TOKEN` for tool endpoints.
+- Add run-scoped `SW_TOOL_TOKEN` for tool endpoints.
 
 Exit criteria:
 
@@ -780,7 +780,7 @@ Exit criteria:
 ### Phase 1C — Built-in skill and wrapper command
 
 - Add built-in `skills/live-artifact/SKILL.md`.
-- Add `od tools live-artifacts ...` and connector command handlers from TypeScript source under `apps/daemon/src`.
+- Add `sw tools live-artifacts ...` and connector command handlers from TypeScript source under `apps/daemon/src`.
 - Inject daemon URL and short-lived tool token into skill preamble.
 
 Exit criteria:
@@ -819,7 +819,7 @@ Exit criteria:
 
 ### Phase 4 — Optional MCP wrapper
 
-- Confirmation after the skill + wrapper path: MCP is not needed for MVP correctness because all supported agents can use `SKILL.md` plus `od tools ...` wrappers, and Phase 1C/Phase 3 command surfaces cover live artifact creation, listing, update, refresh, connector listing, and read-only connector execution. MCP is only worth adding as an additive compatibility layer for agents with mature MCP support and must not replace, weaken, or fork the daemon-owned service/policy path.
+- Confirmation after the skill + wrapper path: MCP is not needed for MVP correctness because all supported agents can use `SKILL.md` plus `sw tools ...` wrappers, and Phase 1C/Phase 3 command surfaces cover live artifact creation, listing, update, refresh, connector listing, and read-only connector execution. MCP is only worth adding as an additive compatibility layer for agents with mature MCP support and must not replace, weaken, or fork the daemon-owned service/policy path.
 - Wrap the daemon's existing live artifact and connector services as an MCP server for agents that support MCP well.
 - Do not make MCP required.
 - Do not mutate global user MCP config automatically.
@@ -831,15 +831,15 @@ The MCP integration, if added, should be a **thin stdio adapter over the existin
 ```text
 MCP-capable agent
   ⇄ stdio MCP protocol
-od mcp live-artifacts          # TypeScript source under apps/daemon/src, built into the od bin
-  ⇄ local HTTP with Authorization: Bearer $OD_TOOL_TOKEN
+sw mcp live-artifacts          # TypeScript source under apps/daemon/src, built into the od bin
+  ⇄ local HTTP with Authorization: Bearer $SW_TOOL_TOKEN
 /api/tools/live-artifacts/* and /api/tools/connectors/*
   ⇄ daemon live artifact, refresh, connector, auth, validation, and policy services
 ```
 
 Design constraints:
 
-- **Single policy path:** the MCP server must call the existing `/api/tools/*` endpoints using `OD_DAEMON_URL` and `OD_TOOL_TOKEN`. It must not import store/service modules to bypass token scoping, connector policy, output redaction, rate limits, or route validation.
+- **Single policy path:** the MCP server must call the existing `/api/tools/*` endpoints using `SW_DAEMON_URL` and `SW_TOOL_TOKEN`. It must not import store/service modules to bypass token scoping, connector policy, output redaction, rate limits, or route validation.
 - **Run scoped:** one MCP server instance is scoped to one agent run and one project through the bearer token. It exits when stdio closes; daemon token expiry/revocation remains authoritative.
 - **Equivalent tools only:** expose MCP tools that mirror the CLI/API surface, with the same schemas and compact results:
   - `od_live_artifacts_create` → `POST /api/tools/live-artifacts/create`
@@ -848,9 +848,9 @@ Design constraints:
   - `od_live_artifacts_refresh` → `POST /api/tools/live-artifacts/refresh`
   - `od_connectors_list` → `GET /api/tools/connectors/list`
   - `od_connectors_execute` → `POST /api/tools/connectors/execute`
-- **No project overrides:** tool input schemas must not accept `projectId`; project/run scope is always derived from `OD_TOOL_TOKEN` by daemon routes.
+- **No project overrides:** tool input schemas must not accept `projectId`; project/run scope is always derived from `SW_TOOL_TOKEN` by daemon routes.
 - **No global config mutation:** OD may display or generate an ephemeral MCP launch descriptor for compatible agents, but must not edit user-level MCP config files automatically.
-- **No primary-path dependency:** `SKILL.md`, `od tools ...`, and raw-token debugging remain unchanged and continue to work when MCP is disabled or unsupported.
+- **No primary-path dependency:** `SKILL.md`, `sw tools ...`, and raw-token debugging remain unchanged and continue to work when MCP is disabled or unsupported.
 - **Typed implementation:** project-owned MCP code should be TypeScript source under `apps/daemon/src` (for example `apps/daemon/src/mcp/live-artifacts-server.ts` plus small CLI dispatch in `apps/daemon/src/cli.ts`). Any JavaScript entrypoint must be generated build output or an explicitly documented compatibility artifact.
 
 MCP tool errors should translate daemon `ApiErrorResponse` values into MCP tool errors without expanding secret-bearing details. Validation field details may be included only when they are already safe to return from the corresponding `/api/tools/*` route.
@@ -912,7 +912,7 @@ Keep the first implementation small: current daemon route handlers live in `apps
 
 ### 13.1 Daemon must enforce
 
-- `/api/tools/*` requires a short-lived bearer `OD_TOOL_TOKEN`.
+- `/api/tools/*` requires a short-lived bearer `SW_TOOL_TOKEN`.
 - Tool tokens are minted per agent run and bind `runId`, `projectId`, allowed endpoints, allowed operations, and expiry.
 - `/api/tools/*` derives project/run scope from the token and rejects request-supplied project overrides.
 - CORS for local daemon tool endpoints is closed by default; UI endpoints use the web app's normal origin/session checks.
@@ -954,7 +954,7 @@ Keep the first implementation small: current daemon route handlers live in `apps
 
 ## 15. Open questions
 
-1. Should `od tools ...` be the only wrapper surface, or should generated per-project wrappers also be provided for easier agent access?
+1. Should `sw tools ...` be the only wrapper surface, or should generated per-project wrappers also be provided for easier agent access?
 2. How should agent adapters advertise `shell` availability for skill gating?
 3. How much refresh history should be retained before compaction?
 4. Should failed refresh attempt payloads be retained in a hidden failed snapshot directory, or only summarized in `refreshes.jsonl`?

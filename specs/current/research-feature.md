@@ -28,7 +28,7 @@ apps/daemon/src/server.ts
         v
 agent runtime
         |
-        | calls "$OD_NODE_BIN" "$OD_BIN" research search ...
+        | calls "$SW_NODE_BIN" "$SW_BIN" research search ...
         v
 apps/daemon/src/cli.ts
         |
@@ -54,15 +54,15 @@ message before rendering the contract.
 The contract tells the agent to use the shell form that matches its runtime:
 
 ```bash
-"$OD_NODE_BIN" "$OD_BIN" research search --query "<search query>" --max-sources 5
+"$SW_NODE_BIN" "$SW_BIN" research search --query "<search query>" --max-sources 5
 ```
 
 ```powershell
-& $env:OD_NODE_BIN $env:OD_BIN research search --query "<search query>" --max-sources 5
+& $env:SW_NODE_BIN $env:SW_BIN research search --query "<search query>" --max-sources 5
 ```
 
 ```cmd
-"%OD_NODE_BIN%" "%OD_BIN%" research search --query "<search query>" --max-sources 5
+"%SW_NODE_BIN%" "%SW_BIN%" research search --query "<search query>" --max-sources 5
 ```
 
 The command output is JSON only:
@@ -119,7 +119,7 @@ chain.
 Tavily credentials are configured through the existing provider credential
 surface and resolved by the daemon from stored config or environment:
 
-- `OD_TAVILY_API_KEY`
+- `SW_TAVILY_API_KEY`
 - `TAVILY_API_KEY`
 
 ## Testing strategy
@@ -143,7 +143,7 @@ surface and resolved by the daemon from stored config or environment:
 ## Reviewer response draft
 
 Thanks for calling out the mismatch. We intentionally narrowed Research v1 to
-the agent-callable `/search` + `od research search` path and removed daemon
+the agent-callable `/search` + `sw research search` path and removed daemon
 pre-generation result injection instead of restoring the old Research toggle.
 That keeps external search text out of the prompt until the agent explicitly
 calls the command, preserves the prompt-injection boundary, and avoids stale

@@ -55,7 +55,7 @@ weread-year-in-review-video-template/
 ```
 
 The rendered MP4 showcase used by `example.html` is hosted at
-`https://repo-assets.open-design.ai/resources/videos/skills/weread-year-in-review-video-template/default-showcase.mp4`.
+`https://repo-assets.sanki-ai.cloud/resources/videos/skills/weread-year-in-review-video-template/default-showcase.mp4`.
 
 ## Workflow
 

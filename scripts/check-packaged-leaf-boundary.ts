@@ -22,12 +22,12 @@ const skippedDirectories = new Set([
   "test-results",
   "vendor",
 ]);
-const leafPackages = ["@open-design/desktop", "@open-design/packaged", "@open-design/tools-pack"] as const;
+const leafPackages = ["@sankiwork/desktop", "@sankiwork/packaged", "@sankiwork/tools-pack"] as const;
 
 const allowedConsumerPrefixes = new Map([
   [
     "tools/dev/",
-    "tools-dev launches the desktop entry; the certain rule keeps @open-design/tools-dev tests armed",
+    "tools-dev launches the desktop entry; the certain rule keeps @sankiwork/tools-dev tests armed",
   ],
 ]);
 
@@ -67,15 +67,15 @@ const allowedConsumers = new Map([
 ]);
 
 const requiredWorkspaceUnitBlock = `if [ "\${{ needs.scopes.outputs.tools_dev_tests_required }}" = "true" ]; then
-            pnpm --filter @open-design/tools-dev test
+            pnpm --filter @sankiwork/tools-dev test
           fi
           if [ "\${{ needs.scopes.outputs.tools_pack_tests_required }}" = "true" ]; then
-            pnpm --filter @open-design/desktop build
-            pnpm --filter @open-design/desktop test
-            pnpm --filter @open-design/packaged test
-            pnpm --filter @open-design/tools-pack test
+            pnpm --filter @sankiwork/desktop build
+            pnpm --filter @sankiwork/desktop test
+            pnpm --filter @sankiwork/packaged test
+            pnpm --filter @sankiwork/tools-pack test
             if [ "\${{ needs.scopes.outputs.run_e2e_vitest }}" != "true" ]; then
-              pnpm --filter @open-design/e2e test tests/packaged-launcher-update-loop.test.ts
+              pnpm --filter @sankiwork/e2e test tests/packaged-launcher-update-loop.test.ts
             fi
           fi`;
 

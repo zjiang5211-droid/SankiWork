@@ -38,9 +38,9 @@ type SubscribeRecord = {
 // The desktop client (apps/web) is served from a localhost daemon and Electron
 // shell, so its Origin differs from the landing domain — list those too.
 const ALLOWED_ORIGINS = [
-  "https://open-design.ai",
-  "https://www.open-design.ai",
-  "od://app",
+  "https://sanki-ai.cloud",
+  "https://www.sanki-ai.cloud",
+  "sankiwork://app",
   "tauri://localhost",
   "http://localhost",
   "http://127.0.0.1",
@@ -51,12 +51,12 @@ const MAX_EMAIL_LENGTH = 254;
 const ALLOWED_SOURCES = new Set(["landing", "client"]);
 const RESEND_CONTACTS_URL = "https://api.resend.com/contacts";
 const RESEND_EMAILS_URL = "https://api.resend.com/emails";
-const DEFAULT_WELCOME_EMAIL_FROM = "Open Design <updates@open-design.ai>";
-const DEFAULT_WELCOME_EMAIL_REPLY_TO = "updates@open-design.ai";
-const WELCOME_EMAIL_SUBJECT = "Welcome to OpenDesign — you're in 🎉";
+const DEFAULT_WELCOME_EMAIL_FROM = "SankiWork <updates@sanki-ai.cloud>";
+const DEFAULT_WELCOME_EMAIL_REPLY_TO = "updates@sanki-ai.cloud";
+const WELCOME_EMAIL_SUBJECT = "Welcome to SankiWork — you're in 🎉";
 const WELCOME_EMAIL_TEXT = `Hi there,
 
-Thanks for subscribing to the OpenDesign newsletter — you're officially on the list.
+Thanks for subscribing to the SankiWork newsletter — you're officially on the list.
 
 Here's what to expect from us:
 
@@ -69,17 +69,17 @@ We send thoughtfully, not often. No spam, no filler — just things we think are
 If you ever have feedback, ideas, or just want to say hi, simply reply to this email. We read every one.
 
 Talk soon,
-The OpenDesign Team
+The SankiWork Team
 
 ---
-You're receiving this because you subscribed at open-design.ai.`;
+You're receiving this because you subscribed at sanki-ai.cloud.`;
 const WELCOME_EMAIL_HTML = `<!doctype html>
 <html>
   <body style="margin:0;padding:0;background:#f7f2e7;color:#171511;font-family:Inter,Arial,sans-serif;">
     <div style="max-width:640px;margin:0 auto;padding:40px 24px;">
-      <h1 style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:32px;line-height:1.15;color:#171511;">Welcome to OpenDesign</h1>
+      <h1 style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:32px;line-height:1.15;color:#171511;">Welcome to SankiWork</h1>
       <p style="margin:0 0 18px;font-size:16px;line-height:1.6;">Hi there,</p>
-      <p style="margin:0 0 18px;font-size:16px;line-height:1.6;">Thanks for subscribing to the OpenDesign newsletter — you're officially on the list.</p>
+      <p style="margin:0 0 18px;font-size:16px;line-height:1.6;">Thanks for subscribing to the SankiWork newsletter — you're officially on the list.</p>
       <p style="margin:0 0 12px;font-size:16px;line-height:1.6;">Here's what to expect from us:</p>
       <ul style="margin:0 0 20px;padding-left:22px;font-size:16px;line-height:1.6;">
         <li><strong>Product updates</strong> — new features, releases, and what we're building next</li>
@@ -88,8 +88,8 @@ const WELCOME_EMAIL_HTML = `<!doctype html>
       </ul>
       <p style="margin:0 0 18px;font-size:16px;line-height:1.6;">We send thoughtfully, not often. No spam, no filler — just things we think are genuinely worth your time.</p>
       <p style="margin:0 0 24px;font-size:16px;line-height:1.6;">If you ever have feedback, ideas, or just want to say hi, simply reply to this email. We read every one.</p>
-      <p style="margin:0 0 28px;font-size:16px;line-height:1.6;">Talk soon,<br>The OpenDesign Team</p>
-      <p style="margin:0;padding-top:20px;border-top:1px solid #d8cfbd;color:#6b6559;font-size:13px;line-height:1.5;">You're receiving this because you subscribed at open-design.ai.</p>
+      <p style="margin:0 0 28px;font-size:16px;line-height:1.6;">Talk soon,<br>The SankiWork Team</p>
+      <p style="margin:0;padding-top:20px;border-top:1px solid #d8cfbd;color:#6b6559;font-size:13px;line-height:1.5;">You're receiving this because you subscribed at sanki-ai.cloud.</p>
     </div>
   </body>
 </html>`;
@@ -394,7 +394,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
   const ip = request.headers.get("cf-connecting-ip") || "";
   const userAgent = request.headers.get("user-agent") || "";
-  const salt = context.env.NEWSLETTER_SALT || "open-design-newsletter";
+  const salt = context.env.NEWSLETTER_SALT || "sankiwork-newsletter";
   const cf = request.cf || {};
   const record: SubscribeRecord = {
     email,

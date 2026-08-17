@@ -4,31 +4,31 @@ Status: active product and protocol contract
 
 Date: 2026-08-14
 
-The selected architecture is not an Open Design-packaged SDK carrier. It uses
-the user's official `dsh` installation plus an Open Design profile bundle.
+The selected architecture is not an SankiWork-packaged SDK carrier. It uses
+the user's official `dsh` installation plus an SankiWork profile bundle.
 
 ## 1. Product outcome
 
-Open Design integrates DeepSeek Harness like Claude Code or Codex: the user
-installs and owns the official coding-agent CLI, while Open Design detects and
+SankiWork integrates DeepSeek Harness like Claude Code or Codex: the user
+installs and owns the official coding-agent CLI, while SankiWork detects and
 launches it.
 
 The desired user experience is:
 
 1. The user installs the official `@deepseek-ai/dsh` package.
-2. Open Design installs or detects an OD-specific profile named `open-design`.
+2. SankiWork installs or detects an OD-specific profile named `sankiwork`.
 3. The user selects **DeepSeek Harness** from the normal coding-agent picker.
 4. Harness creates files in the selected OD project; OD detects, previews, and
    delivers those files through its existing artifact path.
 5. A later OD turn starts a new process, resumes the same Harness session, and
    modifies the existing artifact without replaying the whole transcript.
 
-The stable Open Design runtime identity is:
+The stable SankiWork runtime identity is:
 
 - runtime id: `deepseek-harness`
 - display name: `DeepSeek Harness`
 - executable: user-installed `dsh`, overridable through `DSH_BIN`
-- profile: `open-design`
+- profile: `sankiwork`
 - stream format: `dsh-profile-jsonl`
 - protocol generation: `1`
 
@@ -44,17 +44,17 @@ This adapter remains distinct from the existing `deepseek` TUI adapter.
 - the Harness home and managed credential document;
 - native session record formats and interrupted-tail recovery.
 
-### Open Design owns
+### SankiWork owns
 
 - daemon discovery and launch of the user's `dsh`;
-- the `open-design` profile bundle and its versioned stdio contract;
+- the `sankiwork` profile bundle and its versioned stdio contract;
 - mapping OD conversations to stable Harness session ids;
 - mapping Harness events into OD chat/tool/artifact events;
 - run cancellation and platform process-tree cleanup;
 - product guidance, profile compatibility checks, and explicit one-click
   profile installation or repair.
 
-### Open Design explicitly does not own
+### SankiWork explicitly does not own
 
 - a copy of `dsh`, Node, or the Harness dependency closure;
 - a fork of the Harness agent loop or session format;
@@ -64,9 +64,9 @@ This adapter remains distinct from the existing `deepseek` TUI adapter.
 
 This boundary avoids the approximately 174 MB experimental single-executable
 carrier and avoids turning Windows runtime construction, signing, and updates
-into an Open Design responsibility.
+into an SankiWork responsibility.
 
-## 3. Why an Open Design profile bundle is needed
+## 3. Why an SankiWork profile bundle is needed
 
 Official Harness profiles are supported composition points under the Harness
 home. A bundle is an installable npm package that contributes a Cordis patch
@@ -77,9 +77,9 @@ Conceptually:
 
 ```text
 user-installed official dsh
-  └── profile: open-design
+  └── profile: sankiwork
        ├── official Harness base, agent loop, tools, provider, persistence
-       └── @open-design/dsh-runtime
+       └── @sankiwork/dsh-runtime
             ├── versioned stdio entry point
             ├── cold-resume bridge
             ├── structured event projection
@@ -103,12 +103,12 @@ control contract OD needs.
 The profile bundle is installed into the user's official Harness installation:
 
 ```text
-dsh plugin --profile open-design add <pinned OD bundle package>
+dsh plugin --profile sankiwork add <pinned OD bundle package>
 ```
 
-The source lives in the Open Design repository so the host types, fake runtime,
+The source lives in the SankiWork repository so the host types, fake runtime,
 profile implementation, and protocol fixtures change atomically. Its package
-identity is `@open-design/dsh-runtime`, but end-user setup does not require a
+identity is `@sankiwork/dsh-runtime`, but end-user setup does not require a
 public registry release: each packaged OD build carries an exact packed
 tarball plus a SHA-256 manifest. This couples the host and profile protocol
 versions and avoids an unbounded `latest` install.
@@ -121,7 +121,7 @@ setup-required label. Selecting it opens a confirmation dialog. Only after the
 user confirms does OD invoke:
 
 ```text
-dsh plugin --profile open-design add <embedded pinned tarball>
+dsh plugin --profile sankiwork add <embedded pinned tarball>
 ```
 
 OD verifies the tarball hash before invocation, rescans the profile, selects
@@ -132,7 +132,7 @@ is immediate and no prompt or reinstall occurs. If `dsh` itself is absent,
 DeepSeek Harness remains in the installable-agent group and points users to the
 official installer.
 
-The Web UI and `od agent setup deepseek-harness --json` call the same local-only
+The Web UI and `sw agent setup deepseek-harness --json` call the same local-only
 daemon endpoint. The CLI setup command is explicit rather than being triggered
 by agent selection. Credential setup remains outside this first release.
 
@@ -142,7 +142,7 @@ A bare `dsh` binary is not enough. OD advertises DeepSeek Harness as runnable
 only when both checks succeed:
 
 1. `dsh --version` produces a usable identity.
-2. `dsh --profile open-design --probe` emits a compatible probe frame and exits
+2. `dsh --profile sankiwork --probe` emits a compatible probe frame and exits
    successfully.
 
 The probe frame is one JSON line:
@@ -151,7 +151,7 @@ The probe frame is one JSON line:
 {
   "v": 1,
   "type": "probe",
-  "runtime": "open-design",
+  "runtime": "sankiwork",
   "protocol_version": 1,
   "plugin_version": "<version>",
   "capabilities": {
@@ -182,7 +182,7 @@ server and does not pretend that the stock server supports resume.
 OD launches:
 
 ```text
-dsh --profile open-design --stdio
+dsh --profile sankiwork --stdio
 ```
 
 Every non-empty stdout line is exactly one protocol frame. Diagnostics go to
@@ -254,7 +254,7 @@ run starts one short-lived `dsh` process.
 
 ```text
 first run
-  spawn dsh --profile open-design --stdio
+  spawn dsh --profile sankiwork --stdio
   validate ready
   execute with bootstrap context + current user turn
   receive new session id
@@ -310,7 +310,7 @@ and delivery paths remain authoritative.
 
 OD must not replace `DSH_HOME` to isolate a run. That home is the user's
 official Harness installation boundary and contains the installed
-`open-design` profile, Harness-managed credentials, and native session history.
+`sankiwork` profile, Harness-managed credentials, and native session history.
 OD treats that history as external-tool state and never parses or edits it. OD
 persists only the opaque session id plus compatibility metadata in its own
 database under the daemon's resolved `RUNTIME_DATA_DIR`; clients cannot choose
@@ -325,7 +325,7 @@ The initial product proof is intentionally artifact-oriented:
 
 ## 9. Event normalization
 
-| Profile frame | Open Design event |
+| Profile frame | SankiWork event |
 | --- | --- |
 | `thinking` | `thinking_start`, then `thinking_delta` |
 | `text` | `text_delta` |
@@ -384,7 +384,7 @@ OD receives only:
 
 An environment credential is reported as configured and read-only. The secret
 is never returned, masked, logged, placed in argv, or stored in OD app config.
-The Web UI and `od` CLI will call the same local daemon endpoint; CLI key input
+The Web UI and `sw` CLI will call the same local daemon endpoint; CLI key input
 comes from stdin or an explicit key file.
 
 ## 12. Models and MCP
@@ -448,10 +448,10 @@ malformed-frame, request ownership, resume-id, and terminal-result rules.
 
 The complete design is ready when:
 
-- profile installation/repair is available through both Web and `od` CLI;
+- profile installation/repair is available through both Web and `sw` CLI;
 - a compatible user-installed `dsh` and OD profile are discovered accurately;
 - cold resume, structured events, model discovery, MCP, Todo/subagent status,
   credential delegation, and cancellation pass shared fixtures;
 - macOS, Linux, and Windows pass process-tree and two-process resume smoke;
 - a credentialed two-turn artifact flow succeeds without committing secrets;
-- no Harness runtime is bundled into Open Design.
+- no Harness runtime is bundled into SankiWork.

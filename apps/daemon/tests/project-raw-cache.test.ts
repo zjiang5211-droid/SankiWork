@@ -37,7 +37,7 @@ describe('GET /api/projects/:id/raw/* cache revalidation', () => {
     });
     expect(createResponse.status).toBe(200);
 
-    projectsRoot = path.join(process.env.OD_DATA_DIR!, 'projects');
+    projectsRoot = path.join(process.env.SW_DATA_DIR!, 'projects');
     const dir = path.join(projectsRoot, projectId);
     await mkdir(dir, { recursive: true });
     await writeFile(path.join(dir, 'styles.css'), Buffer.from('body{color:#123456}'));

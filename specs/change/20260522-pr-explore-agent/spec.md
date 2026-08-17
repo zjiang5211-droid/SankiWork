@@ -54,7 +54,7 @@ Out of scope for P1:
   a separate Astro runtime and must not be reported as verified by the
   `apps/web` sandbox. A follow-up should add a separate landing-page
   boot path or a two-pass surface router.
-- `apps/daemon/src/**`, `packages/contracts/**`, and `od` CLI
+- `apps/daemon/src/**`, `packages/contracts/**`, and `sw` CLI
   verification. The browser explorer cannot prove CLI/API contract
   behavior.
 - The older `gh-aw` workflow path and STEP marker extractor. This PR
@@ -148,7 +148,7 @@ skips browser exploration and executes this inside the Docker checkout:
 
 ```bash
 rm -rf apps/web/out apps/web/.next
-OD_WEB_OUTPUT_MODE=server sh -c 'OD_WEB_OUTPUT_MODE= pnpm --filter @open-design/web build && test -d apps/web/out'
+SW_WEB_OUTPUT_MODE=server sh -c 'SW_WEB_OUTPUT_MODE= pnpm --filter @sankiwork/web build && test -d apps/web/out'
 test -f apps/web/out/index.html
 ```
 
@@ -230,7 +230,7 @@ misleading trace timeout steps.
 
 ## R2 Trace Upload
 
-When `OD_TRACE_R2_UPLOAD=1`, the host runner uploads selected artifacts
+When `SW_TRACE_R2_UPLOAD=1`, the host runner uploads selected artifacts
 to Cloudflare R2 using these environment values:
 
 - `R2_ACCOUNT_ID`
@@ -283,7 +283,7 @@ docker info
 
 The runner does not use mutable `expect-cli@latest` by default. If
 `expect-cli` is not preinstalled, operators must either install the
-pinned version above or explicitly set `OD_ALLOW_NPX_EXPECT_CLI=1` for
+pinned version above or explicitly set `SW_ALLOW_NPX_EXPECT_CLI=1` for
 a one-off smoke run using the pinned npx fallback.
 
 ### Manual Local Smoke
@@ -293,11 +293,11 @@ manually:
 
 ```bash
 git clone git@github.com:nexu-io/open-design.git
-cd open-design
+cd sankiwork
 git fetch origin pull/2604/head:agent-pr-explore-sandbox
 git checkout agent-pr-explore-sandbox
 RUNNER_TEMP=/tmp/od-agent-pr-explore-local \
-  OD_EXPECT_TIMEOUT_SECONDS=1200 \
+  SW_EXPECT_TIMEOUT_SECONDS=1200 \
   .github/scripts/agent-pr-explore-local.sh <open-pr-number>
 ```
 

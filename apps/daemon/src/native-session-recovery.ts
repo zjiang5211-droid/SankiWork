@@ -7,7 +7,7 @@ import type {
   NativeSessionRecoveryHandle,
   NativeSessionRecoveryMetadata,
   NativeSessionRecoveryReason,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { ResumeInvalidationReason } from './agent-session-resume.js';
 import {
   runtimeResumesSessionById,

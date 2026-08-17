@@ -2,7 +2,7 @@ import type {
   Brand as ContractBrand,
   BrandColor as ContractBrandColor,
   BrandSeedOverrides,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export const ASSET_KINDS = ['landing', 'deck', 'poster', 'email', 'newsletter', 'form'] as const;
 export type AssetKind = (typeof ASSET_KINDS)[number];

@@ -1,8 +1,8 @@
-# RFC: Agent-ready Open Design — one assistant that can drive the whole app
+# RFC: Agent-ready SankiWork — one assistant that can drive the whole app
 
 **Status:** Draft (umbrella design for review; only slice 1 ships code in the first PR)
 **Author:** @leonaburime-ucla
-**Related:** #5398 (make Open Design agent-ready)
+**Related:** #5398 (make SankiWork agent-ready)
 
 ## Summary
 
@@ -47,18 +47,18 @@ MCP/WebMCP-congruent surface:
 | **Search** | `AgentToolSearchQuery` → `AgentToolSearchResult` (paged, `api` only) | discovery over `tools/list` |
 | **Call — `browser`** | `BrowserActionRequest` (`invocationId`, `runId`, `tool`, `input`) — dispatch toward a live session | `tools/call` (browser surface) |
 | **Result — `browser`** | `BrowserActionResult` (`ok`-discriminated; `result: JsonValue`) | tool result |
-| **Call — `api`** | the tool's own declared `/api/*` route + `od` subcommand (`ApiToolDescriptor.api` / `.cli`) — no round-trip envelope | `tools/call` (api surface) |
+| **Call — `api`** | the tool's own declared `/api/*` route + `sw` subcommand (`ApiToolDescriptor.api` / `.cli`) — no round-trip envelope | `tools/call` (api surface) |
 
 `AgentToolDescriptor` carries `name` (stable, dot-namespaced), `description`
 (model- and catalog-facing), `inputSchema` (JSON Schema as `JsonValue`, so it
 crosses the MCP wire verbatim — WebMCP / MCP-UI / A2UI ready), and a `surface`
 discriminant. A `browser` tool asserts `viewStateOnly: true`; an `api` tool
-carries both its `/api/*` route and its `od` subcommand, so the UI/CLI dual-track
+carries both its `/api/*` route and its `sw` subcommand, so the UI/CLI dual-track
 law is **structural**, not a review checkbox.
 
 **The two surfaces are called through two distinct request paths — the envelope is
 not universal.** An `api` capability is a normal `/api/*` action: the daemon
-invokes its declared route directly (and it is reachable as an `od` subcommand),
+invokes its declared route directly (and it is reachable as an `sw` subcommand),
 so it needs no dispatch-and-await round-trip and does **not** use
 `BrowserActionRequest`. `BrowserActionRequest` / `BrowserActionResult` exist
 **only** for the `browser` surface — the genuinely new inbound seam — because a
@@ -216,12 +216,12 @@ invocation record keyed by `invocationId`:
 
 ## Dual-track exemption
 
-> A tool may be `surface: 'browser'` — and ship without an `od` CLI form — ONLY
+> A tool may be `surface: 'browser'` — and ship without an `sw` CLI form — ONLY
 > if its whole effect is an ephemeral browser view movement (navigate, scroll,
 > focus, panel visibility, current selection) and nothing it produces outlives the
 > browser session. If it creates, mutates, or reads anything that persists beyond
 > the session, or could be meaningfully invoked with no browser attached, it is a
-> capability: `surface: 'api'` with both an `/api/*` route and an `od` subcommand.
+> capability: `surface: 'api'` with both an `/api/*` route and an `sw` subcommand.
 
 Litmus: *"could it be meaningfully invoked with no browser attached?"* must FAIL
 for a browser tool. "Go to Media" fails it (exempt); "export the deck" passes it

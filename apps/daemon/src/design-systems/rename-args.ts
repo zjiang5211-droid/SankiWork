@@ -1,4 +1,4 @@
-// Pure argument parser for `od design-systems rename <id> --title <new>`.
+// Pure argument parser for `sw design-systems rename <id> --title <new>`.
 // Kept out of cli.ts (a top-level dispatch script that runs on import) so it
 // can be unit-tested directly, mirroring research/cli-args.ts.
 //

@@ -8,7 +8,7 @@ import { resolveSigntoolPath } from "../src/win/sign.js";
 
 describe("resolveSigntoolPath", () => {
   it("probes filesystem candidates before falling back to bare signtool", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-sign-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-sign-"));
     const kitSigntool = join(root, "Windows Kits", "signtool.exe");
 
     try {
@@ -22,7 +22,7 @@ describe("resolveSigntoolPath", () => {
   });
 
   it("falls back to bare signtool only after filesystem candidates are exhausted", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-sign-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-sign-"));
 
     try {
       await expect(resolveSigntoolPath("signtool.exe", ["signtool.exe", join(root, "missing.exe")])).resolves.toBe(
@@ -34,7 +34,7 @@ describe("resolveSigntoolPath", () => {
   });
 
   it("keeps an explicit configured signtool path preferred", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-sign-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-sign-"));
     const configuredSigntool = join(root, "configured.exe");
     const kitSigntool = join(root, "kit.exe");
 
@@ -51,7 +51,7 @@ describe("resolveSigntoolPath", () => {
   });
 
   it("uses a filesystem fallback when an explicit configured signtool path is missing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-sign-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-sign-"));
     const kitSigntool = join(root, "kit.exe");
 
     try {

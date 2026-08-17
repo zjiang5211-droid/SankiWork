@@ -1,4 +1,4 @@
-import type { ProjectFile, ProjectMetadata } from '@open-design/contracts';
+import type { ProjectFile, ProjectMetadata } from '@sankiwork/contracts';
 import type { SkillSummary } from '../types';
 
 export const DEFAULT_BRAND_ENRICHMENT_SKILL_IDS = [
@@ -29,7 +29,7 @@ const AI_OPTIMIZE_QUALITY_BAR = [
 ].join('\n');
 
 const FALLBACK_BRAND_ENRICHMENT_PROMPT = [
-  'AI optimize this Open Design design system in place.',
+  'AI optimize this SankiWork design system in place.',
   '',
   'A fast programmatic extraction already produced a usable design system, but it may be thin or approximate. Run a deeper asynchronous extraction pass now and turn it into a production-usable design-system package.',
   '',

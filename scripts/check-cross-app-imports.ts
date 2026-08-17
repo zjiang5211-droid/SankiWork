@@ -22,7 +22,7 @@ const crossAppImportSkippedDirectories = new Set([
 const crossAppImportSourceExtensions = new Set([".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"]);
 
 export type AppDirectoryRegistry = {
-  // app directory name under apps/ (e.g. "daemon") -> package name (e.g. "@open-design/daemon")
+  // app directory name under apps/ (e.g. "daemon") -> package name (e.g. "@sankiwork/daemon")
   packageNameByDirectory: Map<string, string>;
 };
 
@@ -45,7 +45,7 @@ type CrossAppImportAllowlistEntry = {
 const crossAppImportAllowlist: CrossAppImportAllowlistEntry[] = [
   {
     pathPattern: /^apps\/packaged\/(?:src|tests)\//,
-    specifierPattern: /^@open-design\/desktop\/main$/,
+    specifierPattern: /^@sankiwork\/desktop\/main$/,
     reason:
       "apps/packaged is the thin packaged Electron entry that wraps the desktop shell through its declared ./main package export",
   },

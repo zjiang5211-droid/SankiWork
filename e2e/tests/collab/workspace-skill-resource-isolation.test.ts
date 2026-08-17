@@ -309,7 +309,7 @@ describe('workspace-scoped skill resources', () => {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
             FAKE_RESOURCE_LOG_FILE: resourceLogFile,
             FAKE_RESOURCE_STATE_FILE: resourceStateFile,
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: authorityUrl,
             VELA_BIN: velaBin,
             VELA_CONTROL_KEY: 'e2e-skill-resource-control-key',
@@ -334,8 +334,8 @@ describe('workspace-scoped skill resources', () => {
       const commonEnv = {
         FAKE_RESOURCE_LOG_FILE: resourceLogFile,
         FAKE_RESOURCE_STATE_FILE: resourceStateFile,
-        OD_RESOURCE_TRANSPORT: 'vela-cli',
-        OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+        SW_RESOURCE_TRANSPORT: 'vela-cli',
+        SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
         VELA_API_URL: authorityUrl,
         VELA_BIN: velaBin,
       };

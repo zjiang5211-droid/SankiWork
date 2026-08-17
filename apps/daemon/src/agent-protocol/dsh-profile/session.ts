@@ -1,5 +1,5 @@
 /** @module agent-protocol/dsh-profile/session
- * One-run controller for `dsh --profile open-design --stdio`.
+ * One-run controller for `dsh --profile sankiwork --stdio`.
  */
 import type { ChildProcess } from 'node:child_process';
 import { createDshProfileJsonlStream } from './stream.js';
@@ -222,7 +222,7 @@ export function attachDshProfileSession({
           return;
         }
         if (frame.status === 'cancelled' && !aborted) {
-          fail('DeepSeek Harness profile cancelled a run that Open Design did not cancel.');
+          fail('DeepSeek Harness profile cancelled a run that SankiWork did not cancel.');
           return;
         }
         finish(frame.status);

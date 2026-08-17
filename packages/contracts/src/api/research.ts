@@ -1,7 +1,7 @@
 /**
  * Agent-callable research DTOs. The web/composer toggles `enabled`, the
  * daemon injects a command contract, and the agent may call
- * `od research search` to retrieve JSON findings.
+ * `sw research search` to retrieve JSON findings.
  */
 
 export type ResearchDepth = 'shallow' | 'medium' | 'deep';

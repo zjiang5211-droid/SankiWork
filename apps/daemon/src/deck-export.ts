@@ -3,8 +3,8 @@ import path from 'node:path';
 
 import { PDFDocument } from 'pdf-lib';
 import * as PptxGenJSModule from 'pptxgenjs';
-import { injectDeckStageFallback } from '@open-design/contracts/runtime/deck-stage-fallback';
-import type { DesktopRenderSlidesInput } from '@open-design/sidecar-proto';
+import { injectDeckStageFallback } from '@sankiwork/contracts/runtime/deck-stage-fallback';
+import type { DesktopRenderSlidesInput } from '@sankiwork/sidecar-proto';
 
 // pptxgenjs ships a default-export class, but its NodeNext typings resolve the
 // default to the module namespace (no construct signature). At runtime the ESM
@@ -148,10 +148,10 @@ export async function buildScreenshotPptx(
     pptx.layout = 'LAYOUT_16x9';
   } else {
     const height = Number((PPTX_SLIDE_WIDTH_IN / aspect).toFixed(3));
-    pptx.defineLayout({ name: 'OD_DECK', width: PPTX_SLIDE_WIDTH_IN, height });
-    pptx.layout = 'OD_DECK';
+    pptx.defineLayout({ name: 'SW_DECK', width: PPTX_SLIDE_WIDTH_IN, height });
+    pptx.layout = 'SW_DECK';
   }
-  pptx.author = 'Open Design';
+  pptx.author = 'SankiWork';
   if (opts.title) pptx.title = opts.title;
   pptx.subject = 'Screenshot-based PPTX';
   for (const img of images) {

@@ -84,7 +84,7 @@ Do not flip `vars.ENABLE_STABLE_LINUX` until all checklist items are true:
 - Stable Linux workflow has completed successfully with
   `vars.ENABLE_STABLE_LINUX == 'true'`.
 - Linux release artifact bundle contains the expected AppImage, metadata, and
-  uploaded `open-design-release-linux-e2e-report`.
+  uploaded `sankiwork-release-linux-e2e-report`.
 - The report artifact contains:
   - `tools-pack.json`
   - `tools-pack.log`
@@ -123,10 +123,10 @@ Use the focused checks below after Linux packaged-client changes:
 
 ```bash
 corepack pnpm guard
-corepack pnpm --filter @open-design/tools-pack test -- linux.test.ts
-corepack pnpm --filter @open-design/tools-pack typecheck
-corepack pnpm --filter @open-design/e2e test -- tests/linux-helpers.test.ts tests/packaged-smoke-workflow.test.ts
-corepack pnpm --filter @open-design/e2e typecheck
+corepack pnpm --filter @sankiwork/tools-pack test -- linux.test.ts
+corepack pnpm --filter @sankiwork/tools-pack typecheck
+corepack pnpm --filter @sankiwork/e2e test -- tests/linux-helpers.test.ts tests/packaged-smoke-workflow.test.ts
+corepack pnpm --filter @sankiwork/e2e typecheck
 git diff --check
 ```
 

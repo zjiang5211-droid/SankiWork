@@ -18,23 +18,23 @@
 
 | ID | 场景 | Gate | 来源 |
 | --- | --- | --- | --- |
-| DESK-001 | Desktop shell 可以打开当前 API 配置，并展示正确的 provider/model | `OD_DESKTOP_SMOKE=1` | `mac.spec.ts` |
-| DESK-002 | 在桌面端设置里切换 API protocol 时，legacy provider tracking 保持一致 | `OD_DESKTOP_SMOKE=1` | `mac.spec.ts` |
-| DESK-003 | 桌面端外观设置里预览 Dark 模式，并在保存后持久化 | `OD_DESKTOP_SMOKE=1` | `mac.spec.ts` |
-| DESK-004 | Desktop shell 可以打开 Local CLI 设置，并在 BYOK / Local CLI 间切换而不丢失已保存字段 | `OD_DESKTOP_SMOKE=1` | `mac.spec.ts` |
-| DESK-005 | Desktop shell 可以打开 Connectors catalog，并打开、关闭 connector 详情抽屉 | `OD_DESKTOP_SMOKE=1` | `mac.spec.ts` |
-| DESK-006 | Desktop shell 可以打开 Orbit，覆盖主页面、artifact 链接和未配置时跳转 Connectors 的 gate | `OD_DESKTOP_SMOKE=1` | `mac.spec.ts` |
-| DESK-007 | Desktop shell 可以打开 Media providers 并看到 provider controls | `OD_DESKTOP_SMOKE=1` | `mac.spec.ts` |
-| DESK-008 | Desktop shell 可以打开 About，并显示版本详情或 daemon offline 占位 | `OD_DESKTOP_SMOKE=1` | `mac.spec.ts` |
+| DESK-001 | Desktop shell 可以打开当前 API 配置，并展示正确的 provider/model | `SW_DESKTOP_SMOKE=1` | `mac.spec.ts` |
+| DESK-002 | 在桌面端设置里切换 API protocol 时，legacy provider tracking 保持一致 | `SW_DESKTOP_SMOKE=1` | `mac.spec.ts` |
+| DESK-003 | 桌面端外观设置里预览 Dark 模式，并在保存后持久化 | `SW_DESKTOP_SMOKE=1` | `mac.spec.ts` |
+| DESK-004 | Desktop shell 可以打开 Local CLI 设置，并在 BYOK / Local CLI 间切换而不丢失已保存字段 | `SW_DESKTOP_SMOKE=1` | `mac.spec.ts` |
+| DESK-005 | Desktop shell 可以打开 Connectors catalog，并打开、关闭 connector 详情抽屉 | `SW_DESKTOP_SMOKE=1` | `mac.spec.ts` |
+| DESK-006 | Desktop shell 可以打开 Orbit，覆盖主页面、artifact 链接和未配置时跳转 Connectors 的 gate | `SW_DESKTOP_SMOKE=1` | `mac.spec.ts` |
+| DESK-007 | Desktop shell 可以打开 Media providers 并看到 provider controls | `SW_DESKTOP_SMOKE=1` | `mac.spec.ts` |
+| DESK-008 | Desktop shell 可以打开 About，并显示版本详情或 daemon offline 占位 | `SW_DESKTOP_SMOKE=1` | `mac.spec.ts` |
 
 ### 打包运行时 smoke
 
 | ID | 场景 | Gate | 来源 |
 | --- | --- | --- | --- |
-| DESK-101 | 构建出的 mac 安装包可以完成安装、启动、健康检查、停止和卸载 | `OD_PACKAGED_E2E_MAC=1` | `mac.spec.ts` |
-| DESK-102 | 全新 mac 打包应用的 onboarding 会同时呈现 Open Design Cloud、Local CLI 与 BYOK 路径 | `OD_PACKAGED_E2E_MAC=1` + `OD_PACKAGED_E2E_MAC_ONBOARDING_SMOKE=1` | `mac.spec.ts` |
-| DESK-201 | Linux headless 打包运行时可完成安装、启动、status/logs 检查、停止、卸载和 cleanup | `OD_PACKAGED_E2E_LINUX_HEADLESS=1` | `linux.spec.ts` |
-| DESK-202 | Linux AppImage 可完成安装、启动、eval/截图探活、日志检查、停止和卸载 | `OD_PACKAGED_E2E_LINUX_APPIMAGE=1` | `linux.spec.ts` |
+| DESK-101 | 构建出的 mac 安装包可以完成安装、启动、健康检查、停止和卸载 | `SW_PACKAGED_E2E_MAC=1` | `mac.spec.ts` |
+| DESK-102 | 全新 mac 打包应用的 onboarding 会同时呈现 SankiWork Cloud、Local CLI 与 BYOK 路径 | `SW_PACKAGED_E2E_MAC=1` + `SW_PACKAGED_E2E_MAC_ONBOARDING_SMOKE=1` | `mac.spec.ts` |
+| DESK-201 | Linux headless 打包运行时可完成安装、启动、status/logs 检查、停止、卸载和 cleanup | `SW_PACKAGED_E2E_LINUX_HEADLESS=1` | `linux.spec.ts` |
+| DESK-202 | Linux AppImage 可完成安装、启动、eval/截图探活、日志检查、停止和卸载 | `SW_PACKAGED_E2E_LINUX_APPIMAGE=1` | `linux.spec.ts` |
 
 ## 自动化候选
 

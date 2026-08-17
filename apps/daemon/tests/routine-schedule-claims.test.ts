@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import Database from 'better-sqlite3';
-import type { InstalledPluginRecord, PluginManifest } from '@open-design/contracts';
+import type { InstalledPluginRecord, PluginManifest } from '@sankiwork/contracts';
 
 import {
   closeDatabase,
@@ -103,8 +103,8 @@ describe('routine scheduled loser cleanup', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
     const projectId = 'routine-winner-project';
     const routinePlugin = pluginRecord('routine-winner-plugin');
@@ -190,8 +190,8 @@ describe('routine scheduled loser cleanup', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
     const projectId = 'routine-reuse-project';
     const routinePlugin = pluginRecord('routine-plugin');
@@ -276,8 +276,8 @@ describe('routine scheduled loser cleanup', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
     const projectId = 'routine-phantom-loser-project';
     insertProject(db, {
@@ -372,8 +372,8 @@ describe('routine scheduled loser cleanup', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
     const projectId = 'routine-mid-link-rollback-project';
     const routinePlugin = pluginRecord('routine-mid-link-plugin');
@@ -480,8 +480,8 @@ describe('routine scheduled loser cleanup', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
     const projectId = 'routine-rollback-failure-project';
     const routinePlugin = pluginRecord('routine-rollback-plugin');
@@ -563,8 +563,8 @@ describe('routine prepare failure cleanup', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
 
     try {
@@ -653,8 +653,8 @@ describe('routine prepare failure cleanup', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
 
     try {
@@ -714,8 +714,8 @@ describe('routine prepare failure cleanup', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
 
     try {
@@ -810,8 +810,8 @@ describe('routine prepare failure cleanup', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
 
     try {
@@ -901,8 +901,8 @@ describe('routine resource scope', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
     const projectId = 'routine-exact-plugin-project';
     const plugin = pluginRecord('routine-other-member-plugin');
@@ -975,8 +975,8 @@ describe('routine resource scope', () => {
       server: http.Server;
       shutdown?: () => Promise<void> | void;
     };
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(tmp, { dataDir });
     const projectId = 'routine-persisted-design-system-project';
     const routinePlugin = pluginRecord('routine-persisted-design-system-plugin', true);

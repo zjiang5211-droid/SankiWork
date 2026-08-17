@@ -1,9 +1,9 @@
-import { API_ERROR_CODES, type WorkspaceCollabContext } from '@open-design/contracts';
+import { API_ERROR_CODES, type WorkspaceCollabContext } from '@sankiwork/contracts';
 import type {
   TrackingCountBucket,
   TrackingWorkspaceDimensions,
   TrackingWorkspacePage,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 
 /** Convert product context to the bounded, PII-free Workspace dimensions. */
 export function workspaceAnalyticsDimensions(

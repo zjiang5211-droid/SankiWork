@@ -8,7 +8,7 @@ import {
   type CollabMemberRole,
   type PreviewComment,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   closeDatabase,
   insertConversation,

@@ -6,7 +6,7 @@
  * shape for client-side reconciliation and smoke checks.
  *
  * Keep `PRICING_SNAPSHOT` and `public/pricing/plans.json` in lockstep until
- * Open Design Cloud exposes an external JSON contract that can replace this
+ * SankiWork Cloud exposes an external JSON contract that can replace this
  * static landing-page contract.
  */
 
@@ -80,7 +80,7 @@ export interface PricingContract {
 }
 
 /** Production dashboard that owns the authenticated billing-plan dialog. */
-export const CLOUD_BASE_URL = 'https://open-design.ai/cloud/dashboard';
+export const CLOUD_BASE_URL = 'https://sanki-ai.cloud/cloud/dashboard';
 
 /** Public pricing contract served by the landing page. */
 export const PLANS_JSON_URL = '/pricing/plans.json';

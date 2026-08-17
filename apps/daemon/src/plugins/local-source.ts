@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 import {
   readTeamResourceMaterialization,
   teamResourceMaterializationDir,

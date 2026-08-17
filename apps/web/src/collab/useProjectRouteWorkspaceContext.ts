@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import {
   WORKSPACE_CONTEXT_REFRESH_EVENT,
   resolveBoundProjectWorkspaceContext,

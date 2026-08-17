@@ -491,10 +491,10 @@ describe('buildOpenCodeMcpConfigContent', () => {
         allowedDirectories: ['/tmp/od-project'],
         extraConfig: {
           provider: {
-            'open-design-byok': {
-              name: 'Open Design BYOK',
+            'sankiwork-byok': {
+              name: 'SankiWork BYOK',
               npm: '@ai-sdk/openai-compatible',
-              options: { apiKey: '{env:OPEN_DESIGN_BYOK_API_KEY}' },
+              options: { apiKey: '{env:SANKIWORK_BYOK_API_KEY}' },
               models: { 'gpt-4o-mini': { name: 'gpt-4o-mini' } },
             },
           },
@@ -509,8 +509,8 @@ describe('buildOpenCodeMcpConfigContent', () => {
       permission?: { external_directory?: Record<string, string> };
     };
 
-    expect(parsed.provider?.['open-design-byok']).toMatchObject({
-      name: 'Open Design BYOK',
+    expect(parsed.provider?.['sankiwork-byok']).toMatchObject({
+      name: 'SankiWork BYOK',
       npm: '@ai-sdk/openai-compatible',
     });
     expect(parsed.mcp?.['basic-memory']).toBeTruthy();
@@ -696,12 +696,12 @@ describe('buildOpenCodeMcpConfigContent', () => {
 });
 
 describe('isManagedProjectCwd', () => {
-  const projectsDir = '/abs/.od/projects';
+  const projectsDir = '/abs/.sankiwork/projects';
 
   it('accepts a real per-project subdir', () => {
-    expect(isManagedProjectCwd('/abs/.od/projects/abc', projectsDir)).toBe(true);
+    expect(isManagedProjectCwd('/abs/.sankiwork/projects/abc', projectsDir)).toBe(true);
     expect(
-      isManagedProjectCwd('/abs/.od/projects/abc/sub', projectsDir),
+      isManagedProjectCwd('/abs/.sankiwork/projects/abc/sub', projectsDir),
     ).toBe(true);
   });
 
@@ -724,11 +724,11 @@ describe('isManagedProjectCwd', () => {
   });
 
   it('rejects path-prefix collisions (different sibling dir)', () => {
-    // `/abs/.od/projects-other` starts with `/abs/.od/projects` as a string,
-    // but is NOT a child of `/abs/.od/projects/`. Strict-separator check
+    // `/abs/.sankiwork/projects-other` starts with `/abs/.sankiwork/projects` as a string,
+    // but is NOT a child of `/abs/.sankiwork/projects/`. Strict-separator check
     // makes sure we don't accidentally write to an unrelated tree.
     expect(
-      isManagedProjectCwd('/abs/.od/projects-other/x', projectsDir),
+      isManagedProjectCwd('/abs/.sankiwork/projects-other/x', projectsDir),
     ).toBe(false);
   });
 });

@@ -7,7 +7,7 @@ import {
   buildWorkspacePermissions,
   buildWorkspaceSeatSummary,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 /**
  * Presence when the vela-cli collab transport is OFF.
@@ -37,17 +37,17 @@ type ServerModule = {
 };
 
 const MANAGED_ENV = [
-  'OD_DATA_DIR',
-  'OD_COLLAB_TRANSPORT',
-  'OD_TEAM_PROJECTS_TRANSPORT',
-  'OD_RESOURCE_TRANSPORT',
-  'OD_WORKSPACE_CONTEXT_SOURCE',
-  'OD_COLLAB_CLOUD_URL',
-  'OD_DEV_WORKSPACE_CONTEXT',
+  'SW_DATA_DIR',
+  'SW_COLLAB_TRANSPORT',
+  'SW_TEAM_PROJECTS_TRANSPORT',
+  'SW_RESOURCE_TRANSPORT',
+  'SW_WORKSPACE_CONTEXT_SOURCE',
+  'SW_COLLAB_CLOUD_URL',
+  'SW_DEV_WORKSPACE_CONTEXT',
   'VELA_BIN',
-  'OD_TEST_TEAM_PROJECTS_JSON',
-  'OD_TEST_CLOUD_VIEWERS_JSON',
-  'OD_TEST_VELA_LOG',
+  'SW_TEST_TEAM_PROJECTS_JSON',
+  'SW_TEST_CLOUD_VIEWERS_JSON',
+  'SW_TEST_VELA_LOG',
 ] as const;
 
 let started: StartedServer | null = null;
@@ -75,7 +75,7 @@ describe('collab presence with the vela-cli collab transport off', () => {
     // The leanest possible reproduction: no cloud transport, no fixtures. `leave`
     // carries no shared/authorized precondition, so it reaches the cloud branch
     // on any project id.
-    setEnv({ OD_COLLAB_TRANSPORT: 'off' });
+    setEnv({ SW_COLLAB_TRANSPORT: 'off' });
     const api = await startIsolatedServer();
 
     const left = await api.post(`/api/projects/any-local-project/presence/leave`, {
@@ -91,9 +91,9 @@ describe('collab presence with the vela-cli collab transport off', () => {
     // reach the same cloud branch. With the transport off they must answer from
     // the in-process tracker.
     setEnv({
-      OD_COLLAB_TRANSPORT: 'off',
-      OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-      OD_TEST_TEAM_PROJECTS_JSON: JSON.stringify({
+      SW_COLLAB_TRANSPORT: 'off',
+      SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+      SW_TEST_TEAM_PROJECTS_JSON: JSON.stringify({
         projects: [
           {
             projectId: SHARED_PROJECT,
@@ -135,9 +135,9 @@ describe('collab presence with the vela-cli collab transport off', () => {
 describe('collab presence with the vela-cli collab transport on', () => {
   it('still relays presence to the cloud', async () => {
     setEnv({
-      OD_COLLAB_TRANSPORT: 'vela-cli',
-      OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-      OD_TEST_TEAM_PROJECTS_JSON: JSON.stringify({
+      SW_COLLAB_TRANSPORT: 'vela-cli',
+      SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+      SW_TEST_TEAM_PROJECTS_JSON: JSON.stringify({
         projects: [
           {
             projectId: SHARED_PROJECT,
@@ -146,7 +146,7 @@ describe('collab presence with the vela-cli collab transport on', () => {
           },
         ],
       }),
-      OD_TEST_CLOUD_VIEWERS_JSON: JSON.stringify([
+      SW_TEST_CLOUD_VIEWERS_JSON: JSON.stringify([
         { memberId: 'cloud-member', displayName: 'Cloud Member', role: 'member' },
       ]),
     });
@@ -198,7 +198,7 @@ function setEnv(values: Record<string, string>): void {
   // Start from a clean slate so an ambient transport/context in the developer's
   // shell cannot decide what this test exercises.
   for (const key of MANAGED_ENV) delete process.env[key];
-  process.env.OD_DEV_WORKSPACE_CONTEXT = JSON.stringify(devWorkspaceContext());
+  process.env.SW_DEV_WORKSPACE_CONTEXT = JSON.stringify(devWorkspaceContext());
   for (const [key, value] of Object.entries(values)) process.env[key] = value;
 }
 
@@ -252,8 +252,8 @@ async function setupVelaStub(): Promise<void> {
     script,
     `import { appendFileSync } from 'node:fs';
 const args = process.argv.slice(2);
-if (process.env.OD_TEST_VELA_LOG) {
-  appendFileSync(process.env.OD_TEST_VELA_LOG, args.join(' ') + '\\n');
+if (process.env.SW_TEST_VELA_LOG) {
+  appendFileSync(process.env.SW_TEST_VELA_LOG, args.join(' ') + '\\n');
 }
 const [group, ...rest] = args;
 const out = (value) => {
@@ -262,7 +262,7 @@ const out = (value) => {
 };
 if (group === 'team-projects') {
   if (rest[0] === '--help') process.exit(0);
-  const catalog = JSON.parse(process.env.OD_TEST_TEAM_PROJECTS_JSON || '{"projects":[]}');
+  const catalog = JSON.parse(process.env.SW_TEST_TEAM_PROJECTS_JSON || '{"projects":[]}');
   const projects = Array.isArray(catalog.projects) ? catalog.projects : [];
   if (rest[0] === 'list') out({ projects });
   if (rest[0] === 'get') {
@@ -278,7 +278,7 @@ if (group === 'team-projects') {
 if (group === 'resource' && rest[0] === 'shared') {
   // Older CLI builds expose only the resource index; the catalog adapter
   // probes once per process, so answer both shapes for the same catalog.
-  const catalog = JSON.parse(process.env.OD_TEST_TEAM_PROJECTS_JSON || '{"projects":[]}');
+  const catalog = JSON.parse(process.env.SW_TEST_TEAM_PROJECTS_JSON || '{"projects":[]}');
   const projects = Array.isArray(catalog.projects) ? catalog.projects : [];
   out({
     resources: projects.map((project) => ({
@@ -293,7 +293,7 @@ if (group === 'resource' && rest[0] === 'shared') {
   });
 }
 if (group === 'collab' && rest[0] === 'presence') {
-  const viewers = JSON.parse(process.env.OD_TEST_CLOUD_VIEWERS_JSON || '[]');
+  const viewers = JSON.parse(process.env.SW_TEST_CLOUD_VIEWERS_JSON || '[]');
   out({ viewers: rest[1] === 'leave' ? [] : viewers });
 }
 out({});
@@ -304,11 +304,11 @@ out({});
   await writeFile(bin, `#!/bin/sh\nexec ${JSON.stringify(process.execPath)} ${JSON.stringify(script)} "$@"\n`, 'utf8');
   await chmod(bin, 0o755);
   process.env.VELA_BIN = bin;
-  process.env.OD_TEST_VELA_LOG = join(root, 'vela-calls.log');
+  process.env.SW_TEST_VELA_LOG = join(root, 'vela-calls.log');
 }
 
 async function velaCalls(): Promise<string[]> {
-  const log = process.env.OD_TEST_VELA_LOG;
+  const log = process.env.SW_TEST_VELA_LOG;
   if (!log) return [];
   try {
     return (await readFile(log, 'utf8')).split('\n').filter(Boolean);
@@ -330,7 +330,7 @@ async function startIsolatedServer(): Promise<{
   ): Promise<{ status: number; body: Record<string, any> }>;
 }> {
   const root = await ensureScratch();
-  process.env.OD_DATA_DIR = join(root, 'data');
+  process.env.SW_DATA_DIR = join(root, 'data');
   if (!serverModule) {
     vi.resetModules();
     serverModule = (await import('../src/server.js')) as unknown as ServerModule;

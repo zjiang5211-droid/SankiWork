@@ -9,20 +9,20 @@
 import Layout from '../../_components/sub-page-layout.astro';
 import LazyImg from '../../_components/lazy-img.astro';
 import { getLocaleDefinition, localeFromPath, localizedHref } from '../../i18n';
-import { getOpenDesignPluginCopy } from '../../open-design-plugin-i18n';
+import { getSankiWorkPluginCopy } from '../../open-design-plugin-i18n';
 import '../../open-design-pugin.css';
 
-const SITE = Astro.site?.toString() ?? 'https://open-design.ai/';
+const SITE = Astro.site?.toString() ?? 'https://sanki-ai.cloud/';
 const locale = localeFromPath(Astro.url.pathname);
 const localeDefinition = getLocaleDefinition(locale);
 const href = (path: string) => localizedHref(path, locale);
-const copy = getOpenDesignPluginCopy(locale);
+const copy = getSankiWorkPluginCopy(locale);
 const PAGE_URL = new URL(Astro.url.pathname, SITE).toString();
 const REPO = 'https://github.com/nexu-io/open-design-agent-plugins';
 const AGENT_INSTALL_GUIDE = `${REPO}/blob/main/AGENTS.md`;
 const DOWNLOAD = href('/download/');
 const INSTALL_INSTRUCTION =
-  '/goal Read https://open-design.ai/codex-plugin/ to install Open Design for Codex and set up a new task for me.';
+  '/goal Read https://sanki-ai.cloud/codex-plugin/ to install SankiWork for Codex and set up a new task for me.';
 const codexRunFrames = [
   {
     src: '/open-design-pugin/codex-real-plugin-detail.png',
@@ -53,19 +53,19 @@ const codexRunFrames = [
 const promptExamples = [
   {
     prompt:
-      '@open-design Create a tactile product launch page for Oryzo, a sustainable rice-husk material. Use a cutting-mat grid, cork-toned product photography, oversized typography, technical labels, and a warm editorial layout.',
+      '@sankiwork Create a tactile product launch page for Oryzo, a sustainable rice-husk material. Use a cutting-mat grid, cork-toned product photography, oversized typography, technical labels, and a warm editorial layout.',
   },
   {
     prompt:
-      '@open-design Create an event landing page for Open Design Osaka. Lead with a typographic map of Japan, restrained ivory and olive colors, the date and location, speaker details, and a clear registration action.',
+      '@sankiwork Create an event landing page for SankiWork Osaka. Lead with a typographic map of Japan, restrained ivory and olive colors, the date and location, speaker details, and a clear registration action.',
   },
   {
     prompt:
-      '@open-design Create a dark editorial website for Fable 5. Use a near-black canvas, small navigation, a bold serif headline, restrained white typography, and subtle interactive controls.',
+      '@sankiwork Create a dark editorial website for Fable 5. Use a near-black canvas, small navigation, a bold serif headline, restrained white typography, and subtle interactive controls.',
   },
   {
     prompt:
-      '@open-design Create an interactive release story for Open Design 0.9.0. Visualize a model timeline on a bright canvas with floating cards, connecting lines, color-coded labels, and responsive horizontal exploration.',
+      '@sankiwork Create an interactive release story for SankiWork 0.9.0. Visualize a model timeline on a bright canvas with floating cards, connecting lines, color-coded labels, and responsive horizontal exploration.',
   },
 ] as const;
 
@@ -110,7 +110,7 @@ const jsonLd = [
     description: copy.metadata.description,
     url: PAGE_URL,
     inLanguage: localeDefinition.htmlLang,
-    isPartOf: { '@type': 'WebSite', name: 'Open Design', url: new URL(href('/'), SITE).toString() },
+    isPartOf: { '@type': 'WebSite', name: 'SankiWork', url: new URL(href('/'), SITE).toString() },
     about: {
       '@type': 'SoftwareApplication',
       name: copy.schema.applicationName,
@@ -139,7 +139,7 @@ const jsonLd = [
 <Layout
   title={copy.metadata.title}
   description={copy.metadata.description}
-  active="open-design-plugin"
+  active="sankiwork-plugin"
   jsonLd={jsonLd}
   keywords={copy.metadata.keywords}
   mainClassName="sub-main odp-page"
@@ -332,7 +332,7 @@ const jsonLd = [
       <div class="odp-final-panel">
         <div>
           <h2>{copy.final.title}</h2>
-          <p>{copy.final.bodyBeforeMention} <code>@open-design</code>{copy.final.bodyAfterMention}</p>
+          <p>{copy.final.bodyBeforeMention} <code>@sankiwork</code>{copy.final.bodyAfterMention}</p>
         </div>
         <div class="odp-final-actions">
           <button

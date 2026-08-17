@@ -10,7 +10,7 @@ vi.mock('../src/integrations/vela-command.js', () => ({
 
 import { runResource } from '../src/resource-cli.js';
 
-describe('od resource Vela compatibility entry point', () => {
+describe('sw resource Vela compatibility entry point', () => {
   beforeEach(() => {
     process.exitCode = undefined;
     runVelaCommandMock.mockReset();

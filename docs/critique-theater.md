@@ -8,7 +8,7 @@ threshold or the orchestrator gives up.
 The product label is **Design Jury**. The internal feature name (code paths,
 metrics, env vars) stays **Critique Theater**: `apps/daemon/src/critique/`,
 `apps/web/src/components/Theater/`, SSE channels `critique.*`, env vars
-`OD_CRITIQUE_*`. The user-facing label is sourced from a single i18n key,
+`SW_CRITIQUE_*`. The user-facing label is sourced from a single i18n key,
 `critiqueTheater.userFacingName`, so the product name can be renamed without
 touching code.
 
@@ -104,7 +104,7 @@ The feature is gated by a four-tier resolver on the daemon side:
    dedicated **Design Jury** section in `SettingsDialog.tsx` calls this
    project-aware setter for the active project; non-project embeds may
    still call the setter without a `projectId` for session-local UI state.
-3. **`OD_CRITIQUE_ENABLED` env override.** Power-user lane / CI
+3. **`SW_CRITIQUE_ENABLED` env override.** Power-user lane / CI
    fixtures.
 4. **Rollout phase default** (lowest priority). M0 / M1 = `false`,
    M2 = true for `policy: opt-in` skills, M3 = `true` everywhere.
@@ -184,7 +184,7 @@ The orchestrator emits a `degraded` event when one of these happens:
 
 | Reason | Cause | Remediation |
 |---|---|---|
-| `malformed_block` | The adapter emitted a `<CRITIQUE>` block the parser rejects. | Re-run the conformance harness locally (`pnpm --filter @open-design/daemon vitest run tests/critique-conformance.test.ts`) to confirm the adapter's transcript shape. The Phase 12 dashboard surfaces this status as a Prometheus series once that PR lands; until then the harness is the authoritative source. |
+| `malformed_block` | The adapter emitted a `<CRITIQUE>` block the parser rejects. | Re-run the conformance harness locally (`pnpm --filter @sankiwork/daemon vitest run tests/critique-conformance.test.ts`) to confirm the adapter's transcript shape. The Phase 12 dashboard surfaces this status as a Prometheus series once that PR lands; until then the harness is the authoritative source. |
 | `oversize_block` | The block exceeded `parserMaxBlockBytes`. | Usually a runaway model; retry once or raise the budget. |
 | `adapter_unsupported` | The adapter is marked `critique:degraded` for the 24h TTL window. | Wait for the TTL to elapse. The adapter-degraded registry exposes `clearDegraded(adapterId)` from `apps/daemon/src/critique/adapter-degraded.ts` for programmatic resets; a `od adapters clear-degraded <id>` CLI wrapper is planned in a follow-up. |
 | `protocol_version_mismatch` | The adapter is on an older protocol. | Update the adapter or pin protocol negotiation. |

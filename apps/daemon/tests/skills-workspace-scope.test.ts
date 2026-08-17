@@ -18,7 +18,7 @@
 // Follows the same "seed the skill folder directly on disk, alongside the
 // real running server, then bind it via db.ts" pattern as the plugin test:
 // db.ts caches one SQLite instance per resolved data dir, and
-// RUNTIME_DATA_DIR / OD_DATA_DIR agree within one vitest file, so this
+// RUNTIME_DATA_DIR / SW_DATA_DIR agree within one vitest file, so this
 // reuses the server's own connection instead of racing a second one.
 
 import type http from 'node:http';
@@ -53,10 +53,10 @@ beforeAll(async () => {
   shutdown = started.shutdown;
   // Same data root the running server resolved RUNTIME_DATA_DIR from (see
   // server.ts's `USER_SKILLS_DIR = path.join(RUNTIME_DATA_DIR, 'skills')`);
-  // tests/setup.ts pins OD_DATA_DIR to an isolated temp dir before any test
+  // tests/setup.ts pins SW_DATA_DIR to an isolated temp dir before any test
   // imports server.ts, and it is already absolute, so resolveDataDir()
   // returns it unchanged.
-  userSkillsDir = path.join(process.env.OD_DATA_DIR!, 'skills');
+  userSkillsDir = path.join(process.env.SW_DATA_DIR!, 'skills');
 });
 
 afterAll(async () => {
@@ -83,7 +83,7 @@ async function seedSkillFolder(skillId: string): Promise<string> {
 }
 
 function bindSkillToWorkspace(skillId: string, workspaceId: string, createdByWorkspaceMemberId: string) {
-  const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+  const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
   return ensureWorkspaceResource(db, 'skill', workspaceId, skillId, {
     visibility: 'personal',
     resourceState: 'active',
@@ -162,7 +162,7 @@ describe('GET /api/skills — workspace visibility scope', () => {
     const skillId = `wsscope-team-${Date.now()}`;
     await seedSkillFolder(skillId);
     bindSkillToWorkspace(skillId, 'ws-scope-team-shared', 'member-owner');
-    const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+    const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
     updateWorkspaceResource(db, 'skill', 'ws-scope-team-shared', skillId, {
       visibility: 'team',
     });
@@ -284,7 +284,7 @@ describe('DELETE /api/skills/:id — workspace ownership gate', () => {
     expect(existsSync(folder)).toBe(false);
     // The binding row is cleaned up too — no orphan left behind for a future
     // re-import of the same id to find and silently reuse.
-    const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+    const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
     expect(getWorkspaceResourceByResourceId(db, 'skill', skillId)).toBeUndefined();
   });
 
@@ -329,7 +329,7 @@ describe('DELETE /api/skills/:id — workspace ownership gate', () => {
     const skillId = `wsgate-team-${Date.now()}`;
     const folder = await seedSkillFolder(skillId);
     bindSkillToWorkspace(skillId, 'skill-gate-5', 'member-owner');
-    const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+    const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
     updateWorkspaceResource(db, 'skill', 'skill-gate-5', skillId, { visibility: 'team' });
 
     const resp = await fetch(`${baseUrl}/api/skills/${skillId}`, { method: 'DELETE' });
@@ -386,7 +386,7 @@ describe('Team Skill mutation targets', () => {
       expect(materialized.status).toBe('committed');
       const teamFolder = materialized.status === 'committed' ? materialized.targetDir : '';
       const teamBefore = await readFile(path.join(teamFolder, 'SKILL.md'), 'utf8');
-      const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+      const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
       ensureWorkspaceResource(
         db,
         'skill',
@@ -456,7 +456,7 @@ describe('POST /api/skills/install — same-id ownership preflight', () => {
       });
       expect(await readFile(path.join(ownerFolder, 'SKILL.md'), 'utf8')).toBe(ownerBefore);
       expect(existsSync(path.join(userSkillsDir, 'different-folder-name'))).toBe(false);
-      const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+      const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
       expect(getWorkspaceResourceByResourceId(db, 'skill', skillId)).toMatchObject({
         workspaceId: 'skill-install-gate',
         createdByWorkspaceMemberId: 'member-owner',
@@ -483,7 +483,7 @@ describe('GET /api/skills — teamSynced projection', () => {
     const skillId = `wsteamsynced-team-${Date.now()}`;
     await seedSkillFolder(skillId);
     bindSkillToWorkspace(skillId, 'ws-teamsynced-1', 'member-owner');
-    const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+    const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
     updateWorkspaceResource(db, 'skill', 'ws-teamsynced-1', skillId, { visibility: 'team' });
 
     const resp = await fetch(`${baseUrl}/api/skills`, {
@@ -516,7 +516,7 @@ describe('GET /api/skills — teamSynced projection', () => {
     });
     expect(materialized.status).toBe('committed');
     const folder = materialized.status === 'committed' ? materialized.targetDir : '';
-    const db = openDatabase(process.cwd(), { dataDir: process.env.OD_DATA_DIR! });
+    const db = openDatabase(process.cwd(), { dataDir: process.env.SW_DATA_DIR! });
     const bindingId = workspaceTeamSkillBindingResourceId(workspaceId, skillId);
     ensureWorkspaceResource(db, 'skill', workspaceId, bindingId, {
       visibility: 'team',

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import Database from 'better-sqlite3';
-import type { MarketplaceManifest } from '@open-design/contracts';
+import type { MarketplaceManifest } from '@sankiwork/contracts';
 import { StaticRegistryBackend } from '../src/registry/static-backend.js';
 import {
   DatabaseRegistryBackend,
@@ -97,7 +97,7 @@ describe('registry backends', () => {
     };
     const backend = await GithubRegistryBackend.create({
       id: 'official',
-      owner: 'open-design',
+      owner: 'sankiwork',
       repo: 'plugin-registry',
       client,
     });

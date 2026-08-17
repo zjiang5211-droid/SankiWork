@@ -19,36 +19,36 @@ import {
   type LauncherPaths,
   type LauncherRuntimeDescriptor,
   type LauncherVersionPointer,
-} from "@open-design/launcher-proto";
-import { createProcessStampArgs } from "@open-design/platform";
-import { releaseChannelFromNamespace, releaseChannelFromVersion } from "@open-design/release";
+} from "@sankiwork/launcher-proto";
+import { createProcessStampArgs } from "@sankiwork/platform";
+import { releaseChannelFromNamespace, releaseChannelFromVersion } from "@sankiwork/release";
 import {
   readJsonFile,
   requestJsonIpc,
   resolveAppIpcPath,
   writeJsonFile,
-} from "@open-design/sidecar";
+} from "@sankiwork/sidecar";
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_MESSAGES,
   SIDECAR_MODES,
   SIDECAR_SOURCES,
   type DesktopStatusSnapshot,
   type SidecarSource,
   type SidecarStamp,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 
 const HANDOFF_CONFIRM_TIMEOUT_MS = 60_000;
 const HANDOFF_POLL_INTERVAL_MS = 100;
 const HANDOFF_PAYLOAD_WAIT_TIMEOUT_MS = 60_000;
-const PACKAGED_NAMESPACE_BASE_ROOT_ENV = "OD_PACKAGED_NAMESPACE_BASE_ROOT";
+const PACKAGED_NAMESPACE_BASE_ROOT_ENV = "SW_PACKAGED_NAMESPACE_BASE_ROOT";
 const SIDECAR_ONLY_ENV_KEYS = [
   "ELECTRON_RUN_AS_NODE",
-  "OD_SIDECAR_BASE",
-  "OD_SIDECAR_IPC_PATH",
-  "OD_SIDECAR_NAMESPACE",
-  "OD_SIDECAR_SOURCE",
+  "SW_SIDECAR_BASE",
+  "SW_SIDECAR_IPC_PATH",
+  "SW_SIDECAR_NAMESPACE",
+  "SW_SIDECAR_SOURCE",
 ] as const;
 
 type DesktopRootIdentity = {
@@ -262,8 +262,8 @@ export async function prepareLegacyPayloadDesktopHandoff(options: {
     return { kind: "none", reason: "unsupported-platform" };
   }
   const env = options.env ?? process.env;
-  const installationRoot = env.OD_INSTALLATION_DIR;
-  const rawAppVersion = env.OD_APP_VERSION;
+  const installationRoot = env.SW_INSTALLATION_DIR;
+  const rawAppVersion = env.SW_APP_VERSION;
   if (
     installationRoot == null ||
     !isAbsolute(installationRoot) ||
@@ -429,7 +429,7 @@ export async function executeLegacyPayloadDesktopHandoff(
 ): Promise<LegacyPayloadDesktopHandoffResult> {
   const desktopIpcPath = resolveAppIpcPath({
     app: APP_KEYS.DESKTOP,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     namespace: prepared.descriptor.namespace,
   });
   const requestDesktop = options.requestDesktop ?? (async (message) => await requestJsonIpc(
@@ -492,7 +492,7 @@ export async function executeLegacyPayloadDesktopHandoff(
       timeoutMs: HANDOFF_PAYLOAD_WAIT_TIMEOUT_MS,
     }),
     ...buildLauncherHandoffResumeArgs({ handoffId: prepared.descriptor.handoffId }),
-    ...createProcessStampArgs(desktopStamp, OPEN_DESIGN_SIDECAR_CONTRACT),
+    ...createProcessStampArgs(desktopStamp, SANKIWORK_SIDECAR_CONTRACT),
   ];
   let child: ReturnType<typeof spawn>;
   try {

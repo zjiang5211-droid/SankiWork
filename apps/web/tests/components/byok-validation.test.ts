@@ -127,7 +127,7 @@ describe('BYOK draft validation', () => {
   it('treats a syntactically-valid internal-IP base URL as non-blocking, deferring to the daemon (#3225)', () => {
     // The Test / model-fetch actions gate on blockingByokDraftIssues; an
     // internal endpoint must not be blocked here or the operator can never
-    // reach the daemon's OD_ALLOWED_INTERNAL_HOSTS decision.
+    // reach the daemon's SW_ALLOWED_INTERNAL_HOSTS decision.
     const result = validateByokDraft('openai', {
       apiKey: 'sk-internal',
       baseUrl: 'http://10.0.0.5:4000/v1',

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.dev/schemas/image-manifest.v1.json",
+  "$schema": "https://sankiwork.dev/schemas/image-manifest.v1.json",
   "skill": "open-design-landing",
   "design_system": "atelier-zero",
   "default_quality": "high",

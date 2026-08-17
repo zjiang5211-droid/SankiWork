@@ -1,5 +1,5 @@
 import type { ChangeEvent, ClipboardEvent, CSSProperties, PointerEvent as ReactPointerEvent } from 'react';
-import { Button, Textarea } from '@open-design/components';
+import { Button, Textarea } from '@sankiwork/components';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import type { PreviewCommentSnapshot } from '../comments';

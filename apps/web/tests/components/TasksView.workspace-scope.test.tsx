@@ -6,7 +6,7 @@ import {
   buildWorkspaceSeatSummary,
   type Routine,
   type WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 const workspaceState = vi.hoisted(() => ({

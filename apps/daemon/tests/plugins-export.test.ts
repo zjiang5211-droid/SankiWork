@@ -1,4 +1,4 @@
-// Phase 4 / spec §14 — `od plugin export` unit test.
+// Phase 4 / spec §14 — `sw plugin export` unit test.
 //
 // Exercises the three export targets directly through `exportPlugin()`
 // against an in-memory daemon DB. The HTTP route mounted in

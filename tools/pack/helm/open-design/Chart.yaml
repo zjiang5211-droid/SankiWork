@@ -1,23 +1,23 @@
 apiVersion: v2
-name: open-design
+name: sankiwork
 description: |
-  Open Design daemon Helm chart. Spec §15.5 reference deployment for
+  SankiWork daemon Helm chart. Spec §15.5 reference deployment for
   AWS / GCP / Azure / Aliyun / Tencent / Huawei / self-hosted Kubernetes.
   Pairs with `tools/pack/docker-compose.yml` as the docker-only entry
   point.
 type: application
 version: 0.1.0
 appVersion: "0.5.0"
-icon: https://open-design.ai/favicon.png
+icon: https://sanki-ai.cloud/favicon.png
 keywords:
-  - open-design
+  - sankiwork
   - design-agent
   - generative-ui
   - plugins
   - skills
-home: https://open-design.ai
+home: https://sanki-ai.cloud
 sources:
   - https://github.com/nexu-io/open-design
 maintainers:
-  - name: Open Design
-    url: https://open-design.ai
+  - name: SankiWork
+    url: https://sanki-ai.cloud

@@ -2,9 +2,9 @@ import {
   releaseChannelFromNamespace,
   releaseChannelFromVersion,
   releaseInstallIdentity,
-} from "@open-design/release";
+} from "@sankiwork/release";
 
-const DEFAULT_WINDOW_TITLE = "Open Design";
+const DEFAULT_WINDOW_TITLE = "SankiWork";
 
 export function resolvePackagedWindowTitle(config: { appVersion: string | null; namespace: string }): string {
   const channel =

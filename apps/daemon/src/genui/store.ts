@@ -11,7 +11,7 @@
 import type Database from 'better-sqlite3';
 import type {
   GenUISurfaceSpec,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { randomUUID } from 'node:crypto';
 
 type SqliteDb = Database.Database;
@@ -160,7 +160,7 @@ export function respondSurface(db: SqliteDb, input: RespondSurfaceInput): Surfac
   return rowFromDb(row);
 }
 
-// Pre-answer a surface (spec §10.3.4 `od ui prefill`). Writes a row in
+// Pre-answer a surface (spec §10.3.4 `sw ui prefill`). Writes a row in
 // `resolved` state without a prior `pending` row; subsequent
 // `lookupResolved()` will hit the cache and skip the broadcast.
 export function prefillSurface(db: SqliteDb, input: PrefillSurfaceInput): SurfaceRow {

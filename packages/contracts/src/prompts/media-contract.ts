@@ -28,23 +28,23 @@ export const MEDIA_GENERATION_CONTRACT = `
 
 This project is a **non-web** surface (image / video / audio). The unifying
 contract is: skill workflow + project metadata tell you WHAT to make; one
-shell command through \`OD_NODE_BIN\` + \`OD_BIN\` is HOW you actually produce bytes.
+shell command through \`SW_NODE_BIN\` + \`SW_BIN\` is HOW you actually produce bytes.
 Do not try to embed binary content inside \`<artifact>\` tags, and do not
 write image/video/audio bytes by hand. Always call out to the dispatcher.
 
 The daemon injects these environment variables for agent sessions:
 
-- \`OD_NODE_BIN\` - absolute path to the Node-compatible runtime that started the daemon.
-- \`OD_BIN\` - absolute path to the OD CLI script. On POSIX shells run with \`"$OD_NODE_BIN" "$OD_BIN" ...\`.
-- \`OD_PROJECT_ID\` - active project id. Pass it as \`--project "$OD_PROJECT_ID"\`.
-- \`OD_PROJECT_DIR\` - active project files directory.
-- \`OD_DAEMON_URL\` - base URL of the local daemon.
+- \`SW_NODE_BIN\` - absolute path to the Node-compatible runtime that started the daemon.
+- \`SW_BIN\` - absolute path to the OD CLI script. On POSIX shells run with \`"$SW_NODE_BIN" "$SW_BIN" ...\`.
+- \`SW_PROJECT_ID\` - active project id. Pass it as \`--project "$SW_PROJECT_ID"\`.
+- \`SW_PROJECT_DIR\` - active project files directory.
+- \`SW_DAEMON_URL\` - base URL of the local daemon.
 
 Run media generation through the dispatcher:
 
 \`\`\`bash
-"$OD_NODE_BIN" "$OD_BIN" media generate \\
-  --project "$OD_PROJECT_ID" \\
+"$SW_NODE_BIN" "$SW_BIN" media generate \\
+  --project "$SW_PROJECT_ID" \\
   --surface <image|video|audio> \\
   --model <model-id> \\
   --output <filename> \\
@@ -72,8 +72,8 @@ lets the model's own default decide. A size or tier the user names IS that
 ask, in any language — "2K", "1k", "high quality", "高质量" — so map it onto
 the flag; restating it inside the prompt text does not reach the provider.
 
-Open Design Cloud image and video models use the \`vela/*\` catalogue prefix.
-Always invoke those models through \`"$OD_NODE_BIN" "$OD_BIN" media generate\`.
+SankiWork Cloud image and video models use the \`vela/*\` catalogue prefix.
+Always invoke those models through \`"$SW_NODE_BIN" "$SW_BIN" media generate\`.
 Never invoke the \`vela\` CLI directly and never call its remote media API.
 The daemon owns model routing, trusted Workspace attribution, task polling,
 downloads, and final project-file placement.
@@ -81,7 +81,7 @@ downloads, and final project-file placement.
 For long-running renders, continue with:
 
 \`\`\`bash
-"$OD_NODE_BIN" "$OD_BIN" media wait <taskId> --since <nextSince>
+"$SW_NODE_BIN" "$SW_BIN" media wait <taskId> --since <nextSince>
 \`\`\`
 
 \`media wait\` exits \`0\` when done, \`2\` when still running, and \`5\`

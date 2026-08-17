@@ -1,11 +1,11 @@
-export const OPEN_DESIGN_BRIEF_APP_VERSION = 'v8' as const;
+export const SANKIWORK_BRIEF_APP_VERSION = 'v8' as const;
 
 /**
  * Self-contained MCP Apps resource. It intentionally has no remote assets,
  * cookies, or browser persistence: the server-issued draft and immutable
  * confirmation are the only business truth.
  */
-export const OPEN_DESIGN_BRIEF_APP_HTML = String.raw`<!doctype html>
+export const SANKIWORK_BRIEF_APP_HTML = String.raw`<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -526,7 +526,7 @@ export const OPEN_DESIGN_BRIEF_APP_HTML = String.raw`<!doctype html>
         showLoading();
         standardBridgeInitialization = request("ui/initialize", {
           protocolVersion: "2026-01-26",
-          appInfo: { name: "open-design-brief", version: "v8" },
+          appInfo: { name: "sankiwork-brief", version: "v8" },
           appCapabilities: {},
         }).then((result) => {
           standardBridgeReady = true;

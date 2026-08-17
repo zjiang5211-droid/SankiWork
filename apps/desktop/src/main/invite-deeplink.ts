@@ -9,12 +9,12 @@ import {
 
 // Desktop side of the invite hand-off ("桌面唤起", C's lane in the B-C invite
 // contract). The cloud web app accepts the invite, then opens
-// `opendesign://workspace/invite/continue?...&nonce=...` to wake this client. We
+// `sankiwork://workspace/invite/continue?...&nonce=...` to wake this client. We
 // register the scheme and route the deeplink to the daemon, which consumes the
 // one-time continuation on B with the signed-in vela session; the client then
 // focuses and the web re-reads the context to switch into the team workspace.
 //
-// The same scheme also carries `opendesign://workspace/open` — the cloud
+// The same scheme also carries `sankiwork://workspace/open` — the cloud
 // device-activation page's post-sign-in hand-off. That one is payload-free and
 // only refocuses the client (see `isWorkspaceOpenDeeplink`), so the caller's
 // `focus` dep is the whole feature there; it must go through
@@ -59,7 +59,7 @@ export function dispatchInviteDeeplink(url: string | null): void {
 }
 
 /**
- * Register the `opendesign://` scheme and wire the OS deeplink events to
+ * Register the `sankiwork://` scheme and wire the OS deeplink events to
  * {@link continueInviteFromUrl}. macOS delivers via `open-url`; Windows/Linux via
  * a second-instance argv (requires the single-instance lock the app already
  * holds). A cold start through the deeplink carries it in the initial argv.

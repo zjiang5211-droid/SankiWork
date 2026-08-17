@@ -9,7 +9,7 @@ od:
 # Code import
 
 Spec §10 / §21.3.2: a code-migration / tune-collab run starts from a
-real repo (cloned via `od project import` or a path the user
+real repo (cloned via `sw project import` or a path the user
 provided). This atom turns the raw checkout into a normalised
 on-disk record that subsequent atoms (`design-extract`,
 `rewrite-plan`, `patch-edit`) operate against. The point is to
@@ -21,7 +21,7 @@ explicit re-import.
 
 | Source | Required | Notes |
 | --- | --- | --- |
-| `repoPath` | yes | Absolute path to the repo's root, supplied via `od project import` or an upstream `od.context.assets[]` reference |
+| `repoPath` | yes | Absolute path to the repo's root, supplied via `sw project import` or an upstream `od.context.assets[]` reference |
 | `targetStack` | yes | { framework, packageManager, styleSystem, componentLibrary } via the matching `form` GenUI surface |
 
 ## Output

@@ -6,11 +6,11 @@ import { BrowserWindow } from "electron";
 import type {
   DesktopExportArtifactInput,
   DesktopExportArtifactResult,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 
 import { DECK_PAGE_SIZE, DECK_PRINT_CSS, inferPageSize, waitForPrintableContent } from "./pdf-export.js";
 
-// Headless programmatic exporter for the `od export` CLI (PDF / image).
+// Headless programmatic exporter for the `sw export` CLI (PDF / image).
 // The on-screen web Download menu rasterizes client-side; this is the daemon →
 // Electron path so the CLI gets the desktop's bundled Chromium for pixel-perfect
 // output without a print dialog. Renders into an off-screen BrowserWindow, writes

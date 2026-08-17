@@ -8,7 +8,7 @@ const AGENT_INSTALL_LINKS: Record<
     docsUrl: 'https://ampcode.com/manual',
   },
   amr: {
-    installUrl: 'https://open-design.ai/amr',
+    installUrl: 'https://sanki-ai.cloud/amr',
     docsUrl: 'https://github.com/nexu-io/open-design/blob/main/docs/new-agent-runtime-acp.md',
   },
   claude: {
@@ -37,7 +37,7 @@ const AGENT_INSTALL_LINKS: Record<
   },
   kimi: {
     installUrl: 'https://github.com/MoonshotAI/kimi-cli',
-    docsUrl: 'https://www.kimi.com/code/docs/en/kimi-cli/guides/getting-started.html?aff=open-design',
+    docsUrl: 'https://www.kimi.com/code/docs/en/kimi-cli/guides/getting-started.html?aff=sankiwork',
   },
   'cursor-agent': {
     installUrl: 'https://cursor.com/docs/cli/overview',

@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import { installMockSankiWorkHost } from '@sankiwork/host/testing';
 import { detectInitialLocale } from '../../src/i18n';
 
-const LS_KEY = 'open-design:locale';
-const LS_SOURCE_KEY = 'open-design:locale-source';
+const LS_KEY = 'sankiwork:locale';
+const LS_SOURCE_KEY = 'sankiwork:locale-source';
 
 function setStoredLocale(locale: string, source: 'manual' | 'untagged' = 'manual'): void {
   window.localStorage.setItem(LS_KEY, locale);
@@ -28,13 +28,13 @@ function setNavigatorLanguages(languages: readonly string[]): void {
 }
 
 // Track the installed mock so each test can swap it out without leaking
-// state into the next case (installMockOpenDesignHost returns an
+// state into the next case (installMockSankiWorkHost returns an
 // uninstall callback that restores the previous value).
 let uninstallHost: (() => void) | null = null;
 
 function installHostWithOsLocale(value: unknown): void {
   uninstallHost?.();
-  uninstallHost = installMockOpenDesignHost({
+  uninstallHost = installMockSankiWorkHost({
     host: {
       // The mock host's defaultHost() already sets client.type to
       // 'desktop'; we only override the field exercised here.

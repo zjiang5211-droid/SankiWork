@@ -137,7 +137,7 @@ Everything below is *derived* — no token here was hand-authored.
 
 The whole system is regenerated from \`brand.json\` and optional
 \`brand.json.seed\` overrides. Persist authored overrides there, then run
-\`od brand finalize <brand-id>\` — every downstream token, component and artifact
+\`sw brand finalize <brand-id>\` — every downstream token, component and artifact
 follows. Do not edit \`system/seed.json\` directly; finalize replaces it.
 
 - **Change the brand color:** edit the accent role or \`seed.colorPrimary\` in \`brand.json\`.

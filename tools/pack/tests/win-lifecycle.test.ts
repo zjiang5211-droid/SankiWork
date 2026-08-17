@@ -2,17 +2,17 @@ import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promise
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 
-import { SIDECAR_MESSAGES } from "@open-design/sidecar-proto";
+import { SIDECAR_MESSAGES } from "@sankiwork/sidecar-proto";
 import { describe, expect, it, vi } from "vitest";
 
 import type { ToolPackConfig } from "../src/config.js";
 
 const requestJsonIpc = vi.hoisted(() => vi.fn());
 const listProcessSnapshots = vi.hoisted(() =>
-  vi.fn<typeof import("@open-design/platform").listProcessSnapshots>(async () => []),
+  vi.fn<typeof import("@sankiwork/platform").listProcessSnapshots>(async () => []),
 );
 const matchesStampedProcess = vi.hoisted(() =>
-  vi.fn<typeof import("@open-design/platform").matchesStampedProcess>(() => false),
+  vi.fn<typeof import("@sankiwork/platform").matchesStampedProcess>(() => false),
 );
 const spawnBackgroundProcess = vi.hoisted(() => vi.fn(async () => ({ pid: 12345 })));
 const stopProcesses = vi.hoisted(() => vi.fn(async () => undefined));
@@ -24,16 +24,16 @@ const resolveWinRegisteredPaths = vi.hoisted(() =>
   vi.fn<typeof import("../src/win/registry.js").resolveWinRegisteredPaths>(async (_config, paths) => paths),
 );
 
-vi.mock("@open-design/sidecar", async () => {
-  const actual = await vi.importActual<typeof import("@open-design/sidecar")>("@open-design/sidecar");
+vi.mock("@sankiwork/sidecar", async () => {
+  const actual = await vi.importActual<typeof import("@sankiwork/sidecar")>("@sankiwork/sidecar");
   return {
     ...actual,
     requestJsonIpc,
   };
 });
 
-vi.mock("@open-design/platform", async () => {
-  const actual = await vi.importActual<typeof import("@open-design/platform")>("@open-design/platform");
+vi.mock("@sankiwork/platform", async () => {
+  const actual = await vi.importActual<typeof import("@sankiwork/platform")>("@sankiwork/platform");
   return {
     ...actual,
     listProcessSnapshots,
@@ -111,10 +111,10 @@ async function writeFakeUnpackedExe(config: ToolPackConfig): Promise<void> {
 
 describe("installPackedWinApp", () => {
   it("pins the installed portable config to the tools-pack namespace for bare protocol launches", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-lifecycle-"));
     const config = { ...createConfig(root), portable: true };
     const paths = resolveWinPaths(config);
-    const installedConfigPath = join(paths.installDir, "resources", "open-design-config.json");
+    const installedConfigPath = join(paths.installDir, "resources", "sankiwork-config.json");
 
     try {
       await mkdir(dirname(paths.setupPath), { recursive: true });
@@ -145,7 +145,7 @@ describe("installPackedWinApp", () => {
   });
 
   it("creates the exact fresh install directory before invoking transactional NSIS", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-lifecycle-"));
     const config = createConfig(root);
     const paths = resolveWinPaths(config);
 
@@ -155,7 +155,7 @@ describe("installPackedWinApp", () => {
       invokeNsis.mockReset();
       invokeNsis.mockImplementation(async () => {
         await expect(access(paths.installDir)).resolves.toBeUndefined();
-        const installedConfigPath = join(paths.installDir, "resources", "open-design-config.json");
+        const installedConfigPath = join(paths.installDir, "resources", "sankiwork-config.json");
         await mkdir(dirname(installedConfigPath), { recursive: true });
         await writeFile(paths.installedExePath, "", "utf8");
         await writeFile(installedConfigPath, "{}\n", "utf8");
@@ -174,7 +174,7 @@ describe("installPackedWinApp", () => {
 
 describe("inspectPackedWinApp", () => {
   it("returns status and diagnostics when eval IPC times out", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-lifecycle-"));
 
     try {
       requestJsonIpc.mockReset();
@@ -182,7 +182,7 @@ describe("inspectPackedWinApp", () => {
         if (payload.type === SIDECAR_MESSAGES.STATUS) {
           if (ipc.includes("daemon")) return { state: "running", url: "http://127.0.0.1:1234" };
           if (ipc.includes("web")) return { state: "running", url: "http://127.0.0.1:5678" };
-          return { state: "running", url: "od://app/" };
+          return { state: "running", url: "sankiwork://app/" };
         }
         if (payload.type === SIDECAR_MESSAGES.EVAL) {
           throw new Error("IPC request timed out: test-pipe");
@@ -192,7 +192,7 @@ describe("inspectPackedWinApp", () => {
 
       const result = await inspectPackedWinApp(createConfig(root), { expr: "document.title" });
 
-      expect(result.status).toEqual({ state: "running", url: "od://app/" });
+      expect(result.status).toEqual({ state: "running", url: "sankiwork://app/" });
       expect(result.daemonStatus).toEqual({ state: "running", url: "http://127.0.0.1:1234" });
       expect(result.webStatus).toEqual({ state: "running", url: "http://127.0.0.1:5678" });
       expect(result.eval).toEqual({
@@ -207,7 +207,7 @@ describe("inspectPackedWinApp", () => {
   });
 
   it("returns status errors with launcher diagnostics when status IPC fails", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-lifecycle-"));
 
     try {
       requestJsonIpc.mockReset();
@@ -234,7 +234,7 @@ describe("inspectPackedWinApp", () => {
   });
 
   it("polls status diagnostics when requested", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-lifecycle-"));
 
     try {
       requestJsonIpc.mockReset();
@@ -266,9 +266,9 @@ describe("inspectPackedWinApp", () => {
   });
 
   it("diagnoses Windows IPC by polling status during repeated fresh starts", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-lifecycle-"));
     const config = createConfig(root);
-    const previousTrace = process.env.OD_JSON_IPC_TRACE;
+    const previousTrace = process.env.SW_JSON_IPC_TRACE;
 
     try {
       await writeFakeUnpackedExe(config);
@@ -276,12 +276,12 @@ describe("inspectPackedWinApp", () => {
       spawnBackgroundProcess.mockClear();
       stopProcesses.mockClear();
       listProcessSnapshots.mockClear();
-      process.env.OD_JSON_IPC_TRACE = "already-on";
+      process.env.SW_JSON_IPC_TRACE = "already-on";
       requestJsonIpc.mockImplementation(async (ipc: string, payload: { type?: string }) => {
         if (payload.type === SIDECAR_MESSAGES.STATUS) {
           if (ipc.includes("daemon")) return { state: "running", url: "http://127.0.0.1:1234" };
           if (ipc.includes("web")) return { state: "running", url: "http://127.0.0.1:5678" };
-          return { state: "running", url: "od://app/" };
+          return { state: "running", url: "sankiwork://app/" };
         }
         if (payload.type === SIDECAR_MESSAGES.SHUTDOWN) return { accepted: true };
         throw new Error(`unexpected IPC message: ${String(payload.type)}`);
@@ -298,14 +298,14 @@ describe("inspectPackedWinApp", () => {
       expect(result.attempts).toHaveLength(2);
       expect(result.attempts[0]?.start.status).toBeNull();
       expect(result.attempts[0]?.statusPoll.samples).toHaveLength(2);
-      expect(result.attempts[0]?.statusPoll.samples[0]?.status).toEqual({ state: "running", url: "od://app/" });
+      expect(result.attempts[0]?.statusPoll.samples[0]?.status).toEqual({ state: "running", url: "sankiwork://app/" });
       expect(spawnBackgroundProcess).toHaveBeenCalledTimes(2);
-      expect(process.env.OD_JSON_IPC_TRACE).toBe("already-on");
+      expect(process.env.SW_JSON_IPC_TRACE).toBe("already-on");
     } finally {
       if (previousTrace == null) {
-        delete process.env.OD_JSON_IPC_TRACE;
+        delete process.env.SW_JSON_IPC_TRACE;
       } else {
-        process.env.OD_JSON_IPC_TRACE = previousTrace;
+        process.env.SW_JSON_IPC_TRACE = previousTrace;
       }
       await rm(root, { force: true, recursive: true });
     }
@@ -314,7 +314,7 @@ describe("inspectPackedWinApp", () => {
 
 describe("stopPackedWinApp", () => {
   it("waits for a packaged-source payload desktop to exit after graceful shutdown", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-lifecycle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-lifecycle-"));
     const config = createConfig(root);
     const payloadDesktop = { command: "payload-desktop", pid: 4242, ppid: 1 };
 

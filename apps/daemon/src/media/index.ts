@@ -2,7 +2,7 @@
 //
 //   skills + metadata + system-prompt
 //        ↓ (the code agent decides what to make)
-//   `od media generate --surface … --model … --output … --prompt …`
+//   `sw media generate --surface … --model … --output … --prompt …`
 //        ↓ (this module routes to a provider)
 //   bytes written to <projectsRoot>/<projectId>/<output>
 //        ↓
@@ -42,7 +42,7 @@
 //                              /v1/images/generations + /v1/images/edits
 //                              endpoints
 //
-// The fallback stub handlers are gated behind OD_MEDIA_ALLOW_STUBS=1; in
+// The fallback stub handlers are gated behind SW_MEDIA_ALLOW_STUBS=1; in
 // release builds they throw StubProviderDisabledError (mapped to HTTP
 // 503) instead of writing placeholder bytes that look like a successful
 // generation. Real-provider failures still produce a stub byte payload
@@ -56,7 +56,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { Agent as UndiciAgent } from 'undici';
-import { SETTINGS_MEDIA_PROVIDERS_PATH } from '@open-design/contracts';
+import { SETTINGS_MEDIA_PROVIDERS_PATH } from '@sankiwork/contracts';
 import {
   AUDIO_DURATIONS_SEC,
   type AudioKind,
@@ -118,7 +118,7 @@ type MediaContext = {
    * What the provider's request body should carry as `model` (or
    * what gets templated into the URL for Azure-style deployment
    * routing). Equal to `model` when no alias is configured; equal
-   * to the user-supplied alias from `OD_MEDIA_MODEL_ALIASES` /
+   * to the user-supplied alias from `SW_MEDIA_MODEL_ALIASES` /
    * `media-config.json` otherwise. Renderers must use this field
    * for `body.model = ...` and for `providerNote` so users see
    * what was actually sent.
@@ -189,7 +189,7 @@ const AUDIO_KINDS = new Set(['music', 'speech', 'sfx']);
 // the dispatch path is exercisable before real provider integrations
 // land. On a release build that lands as "successful" but functionally
 // empty bytes — confusing to users. We therefore gate the stub renderers
-// behind OD_MEDIA_ALLOW_STUBS=1 and otherwise return a 503 (mapped from
+// behind SW_MEDIA_ALLOW_STUBS=1 and otherwise return a 503 (mapped from
 // the StubProviderDisabledError thrown below) with a clear message.
 class StubProviderDisabledError extends Error {
   code = 'STUB_PROVIDER_DISABLED';
@@ -203,7 +203,7 @@ class StubProviderDisabledError extends Error {
 }
 
 function stubsAllowed() {
-  const v = process.env.OD_MEDIA_ALLOW_STUBS;
+  const v = process.env.SW_MEDIA_ALLOW_STUBS;
   return v === '1' || v === 'true';
 }
 
@@ -311,8 +311,8 @@ function clampWithWarning(value: unknown, allowed: number[], flagName: string): 
  * Generate a media artifact and write it into the project's files dir.
  *
  * @param {Object} args
- * @param {string} args.projectRoot   - Repo root (.od/ lives directly under).
- * @param {string} args.projectsRoot  - Absolute path to <repo>/.od/projects.
+ * @param {string} args.projectRoot   - Repo root (.sankiwork/ lives directly under).
+ * @param {string} args.projectsRoot  - Absolute path to <repo>/.sankiwork/projects.
  * @param {string} args.projectId
  * @param {'image'|'video'|'audio'} args.surface
  * @param {string} args.model
@@ -756,7 +756,7 @@ export async function generateMedia(args: {
       suggestedExt = result.suggestedExt;
     } else {
       // No real renderer wired up for this (provider, surface). Gate the
-      // stub fallback behind OD_MEDIA_ALLOW_STUBS so release builds don't
+      // stub fallback behind SW_MEDIA_ALLOW_STUBS so release builds don't
       // silently write placeholder bytes to disk and confuse the user.
       if (!stubsAllowed()) {
         throw new StubProviderDisabledError(model);
@@ -984,7 +984,7 @@ async function renderOpenAIImage(ctx: MediaContext, credentials: ProviderConfig)
 async function renderImageRouterImage(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
     throw new Error(
-      `no ImageRouter API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_IMAGEROUTER_API_KEY`,
+      `no ImageRouter API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_IMAGEROUTER_API_KEY`,
     );
   }
   const baseUrl = (credentials.baseUrl || IMAGEROUTER_DEFAULT_BASE_URL).trim();
@@ -1019,7 +1019,7 @@ async function renderImageRouterImage(ctx: MediaContext, credentials: ProviderCo
 async function renderImageRouterVideo(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
     throw new Error(
-      `no ImageRouter API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_IMAGEROUTER_API_KEY`,
+      `no ImageRouter API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_IMAGEROUTER_API_KEY`,
     );
   }
   const baseUrl = (credentials.baseUrl || IMAGEROUTER_DEFAULT_BASE_URL).trim();
@@ -1462,7 +1462,7 @@ async function renderVolcengineVideo(ctx: MediaContext, credentials: ProviderCon
   // enough for real Seedance queues: fast t2v often returns in 30-120s,
   // while i2v and busy-region t2v can exceed the old 6-minute ceiling.
   const startedAt = Date.now();
-  const configuredMaxMs = Number(process.env.OD_VOLCENGINE_VIDEO_MAX_POLL_MS);
+  const configuredMaxMs = Number(process.env.SW_VOLCENGINE_VIDEO_MAX_POLL_MS);
   const maxMs =
     Number.isFinite(configuredMaxMs) && configuredMaxMs >= 60_000
       ? configuredMaxMs
@@ -1672,7 +1672,7 @@ async function renderNanoBananaImage(ctx: MediaContext, credentials: ProviderCon
   const apiKey = credentials.apiKey;
   if (!apiKey) {
     throw new Error(
-      `no Nano Banana API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_NANOBANANA_API_KEY`,
+      `no Nano Banana API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_NANOBANANA_API_KEY`,
     );
   }
 
@@ -1820,7 +1820,7 @@ async function renderOpenRouterImage(
   const baseUrl = (credentials.baseUrl || 'https://openrouter.ai/api/v1').replace(/\/$/, '');
 
   // Respect model-alias contract: credentials.model (from stored config)
-  // overrides ctx.wireModel (from OD_MEDIA_MODEL_ALIASES / resolveModelAlias).
+  // overrides ctx.wireModel (from SW_MEDIA_MODEL_ALIASES / resolveModelAlias).
   // Then strip the `openrouter/` catalogue prefix so the wire model name
   // matches OpenRouter's canonical slug.
   const resolved = (credentials.model || ctx.wireModel).trim();
@@ -1860,8 +1860,8 @@ async function renderOpenRouterImage(
     headers: {
       'authorization': `Bearer ${credentials.apiKey}`,
       'content-type': 'application/json',
-      'HTTP-Referer': 'https://opendesign.dev',
-      'X-Title': 'Open Design',
+      'HTTP-Referer': 'https://sanki-ai.cloud',
+      'X-Title': 'SankiWork',
     },
     body: JSON.stringify(body),
     signal: AbortSignal.timeout(Math.max(OPENAI_IMAGE_HEADERS_TIMEOUT_MS, OPENAI_IMAGE_BODY_TIMEOUT_MS)),
@@ -1951,7 +1951,7 @@ async function renderOpenRouterVideo(
   const baseUrl = (credentials.baseUrl || 'https://openrouter.ai/api/v1').replace(/\/$/, '');
 
   // Respect model-alias contract: credentials.model (from stored config)
-  // overrides ctx.wireModel (from OD_MEDIA_MODEL_ALIASES / resolveModelAlias).
+  // overrides ctx.wireModel (from SW_MEDIA_MODEL_ALIASES / resolveModelAlias).
   // Then strip the `openrouter/` catalogue prefix so the wire model name
   // matches OpenRouter's canonical slug (e.g. `bytedance/seedance-2.0`).
   const resolved = (credentials.model || ctx.wireModel).trim();
@@ -2020,8 +2020,8 @@ async function renderOpenRouterVideo(
       'content-type': 'application/json',
       // OpenRouter attribution headers per
       // https://openrouter.ai/docs/app-attribution
-      'HTTP-Referer': 'https://opendesign.dev',
-      'X-Title': 'Open Design',
+      'HTTP-Referer': 'https://sanki-ai.cloud',
+      'X-Title': 'SankiWork',
     },
     body: JSON.stringify(body),
   }));
@@ -2048,12 +2048,12 @@ async function renderOpenRouterVideo(
 
   // ── Step 2: Poll until completion ──────────────────────────────────
   const startedAt = Date.now();
-  const configuredMaxMs = Number(process.env.OD_OPENROUTER_VIDEO_MAX_POLL_MS);
+  const configuredMaxMs = Number(process.env.SW_OPENROUTER_VIDEO_MAX_POLL_MS);
   const maxMs =
     Number.isFinite(configuredMaxMs) && configuredMaxMs >= 60_000
       ? configuredMaxMs
       : 30 * 60 * 1000; // 30 minutes default
-  const configuredPollIntervalMs = Number(process.env.OD_OPENROUTER_VIDEO_POLL_INTERVAL_MS);
+  const configuredPollIntervalMs = Number(process.env.SW_OPENROUTER_VIDEO_POLL_INTERVAL_MS);
   const pollIntervalMs =
     Number.isFinite(configuredPollIntervalMs) && configuredPollIntervalMs >= 0
       ? configuredPollIntervalMs
@@ -2076,8 +2076,8 @@ async function renderOpenRouterVideo(
     const pollResp = await fetch(pollingUrl, withMediaRequestInit(ctx, {
       headers: {
         'authorization': `Bearer ${credentials.apiKey}`,
-        'HTTP-Referer': 'https://opendesign.dev',
-        'X-Title': 'Open Design',
+        'HTTP-Referer': 'https://sanki-ai.cloud',
+        'X-Title': 'SankiWork',
       },
     }));
     const pollText = await pollResp.text();
@@ -2124,7 +2124,7 @@ async function renderOpenRouterVideo(
     throw new Error(
       `openrouter video timed out after ${elapsedSec}s waiting for status=completed `
       + `(last status: ${lastStatus || 'pending'}, ceiling ${ceilingSec}s). `
-      + `If your jobs legitimately need longer, raise OD_OPENROUTER_VIDEO_MAX_POLL_MS.`,
+      + `If your jobs legitimately need longer, raise SW_OPENROUTER_VIDEO_MAX_POLL_MS.`,
     );
   }
 
@@ -2358,7 +2358,7 @@ async function renderGrokVideo(ctx: MediaContext, credentials: ProviderConfig, o
 
   if (!videoUrl && requestId) {
     const startedAt = Date.now();
-    const configuredMaxMs = Number(process.env.OD_GROK_VIDEO_MAX_POLL_MS);
+    const configuredMaxMs = Number(process.env.SW_GROK_VIDEO_MAX_POLL_MS);
     const maxMs =
       Number.isFinite(configuredMaxMs) && configuredMaxMs >= 60_000
         ? configuredMaxMs
@@ -2407,7 +2407,7 @@ async function renderGrokVideo(ctx: MediaContext, credentials: ProviderConfig, o
       throw new Error(
         `grok video timed out after ${elapsedSec}s waiting for status=done `
         + `(last status: ${lastStatus || 'pending'}, ceiling ${ceilingSec}s). `
-        + `If your jobs legitimately need longer, raise OD_GROK_VIDEO_MAX_POLL_MS.`,
+        + `If your jobs legitimately need longer, raise SW_GROK_VIDEO_MAX_POLL_MS.`,
       );
     }
   }
@@ -2570,7 +2570,7 @@ function assertElevenLabsSfxPromptLength(text: string) {
 async function renderElevenLabsTTS(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
     throw new Error(
-      `no ElevenLabs API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_ELEVENLABS_API_KEY`,
+      `no ElevenLabs API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_ELEVENLABS_API_KEY`,
     );
   }
 
@@ -2623,7 +2623,7 @@ async function renderElevenLabsTTS(ctx: MediaContext, credentials: ProviderConfi
 async function renderElevenLabsSfx(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
     throw new Error(
-      `no ElevenLabs API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_ELEVENLABS_API_KEY`,
+      `no ElevenLabs API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_ELEVENLABS_API_KEY`,
     );
   }
 
@@ -2698,7 +2698,7 @@ const MINIMAX_TTS_MODEL_MAP = {
 // separate lets existing TTS users keep their api.minimaxi.chat/v1
 // default while new image users get api.minimax.io without manual
 // configuration. The image renderer resolves baseUrl from
-// OD_MINIMAX_IMAGE_BASE_URL env -> this constant; credentials.baseUrl
+// SW_MINIMAX_IMAGE_BASE_URL env -> this constant; credentials.baseUrl
 // is intentionally ignored for image (see renderMinimaxImage).
 const MINIMAX_IMAGE_DEFAULT_BASE_URL = 'https://api.minimax.io';
 
@@ -2713,7 +2713,7 @@ const MINIMAX_IMAGE_MODEL_MAP = {
 async function renderMinimaxTTS(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
     throw new Error(
-      `no MiniMax API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_MINIMAX_API_KEY`,
+      `no MiniMax API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_MINIMAX_API_KEY`,
     );
   }
   const baseUrl = (credentials.baseUrl || MINIMAX_DEFAULT_BASE_URL).replace(
@@ -2821,11 +2821,11 @@ async function renderMinimaxTTS(ctx: MediaContext, credentials: ProviderConfig):
 async function renderMinimaxImage(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
     throw new Error(
-      `no MiniMax API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_MINIMAX_API_KEY`,
+      `no MiniMax API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_MINIMAX_API_KEY`,
     );
   }
   // Base URL precedence:
-  //   OD_MINIMAX_IMAGE_BASE_URL env var (operator override for proxies)
+  //   SW_MINIMAX_IMAGE_BASE_URL env var (operator override for proxies)
   //   -> MINIMAX_IMAGE_DEFAULT_BASE_URL (api.minimax.io)
   //
   // We deliberately ignore credentials.baseUrl here. The 'minimax' provider
@@ -2836,14 +2836,14 @@ async function renderMinimaxImage(ctx: MediaContext, credentials: ProviderConfig
   // provider schema would be a cleaner long-term fix; until then, image
   // stays pinned to its own host and operators route via the env var.
   const baseUrl = (
-    process.env.OD_MINIMAX_IMAGE_BASE_URL?.trim() || MINIMAX_IMAGE_DEFAULT_BASE_URL
+    process.env.SW_MINIMAX_IMAGE_BASE_URL?.trim() || MINIMAX_IMAGE_DEFAULT_BASE_URL
   ).replace(/\/+$/, '');
   // Resolve the wire model. credentials.model wins if the user pinned a
   // specific deployment name in Settings; otherwise we look up the
   // ctx.wireModel in MINIMAX_IMAGE_MODEL_MAP (which translates our
   // catalog id `minimax-image-01` to MiniMax's wire name `image-01`),
   // falling back to ctx.wireModel itself. The map is keyed off
-  // ctx.wireModel so user aliases (OD_MEDIA_MODEL_ALIASES) pass through
+  // ctx.wireModel so user aliases (SW_MEDIA_MODEL_ALIASES) pass through
   // unchanged when they aren't in the map.
   const wireModel = (
     credentials.model
@@ -2959,7 +2959,7 @@ const SENSEAUDIO_TTS_MODEL_MAP = {
 async function renderSenseAudioTTS(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
     throw new Error(
-      `no SenseAudio API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_SENSEAUDIO_API_KEY`,
+      `no SenseAudio API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_SENSEAUDIO_API_KEY`,
     );
   }
   const baseUrl = (credentials.baseUrl || SENSEAUDIO_DEFAULT_BASE_URL).replace(
@@ -3045,7 +3045,7 @@ async function renderSenseAudioTTS(ctx: MediaContext, credentials: ProviderConfi
 //   * Response: { url: string } pointing at the rendered PNG; we fetch it
 //     once to materialise bytes the dispatcher can write to disk.
 //   * Auth: Authorization: Bearer <API_KEY>; shares the senseaudio provider
-//     slot with the TTS path (OD_SENSEAUDIO_API_KEY / SENSEAUDIO_API_KEY).
+//     slot with the TTS path (SW_SENSEAUDIO_API_KEY / SENSEAUDIO_API_KEY).
 // We default to the /sync endpoint because the chat runtime already streams
 // progress and a single round-trip keeps the dispatcher contract identical
 // to OpenAI / Volcengine image. Switching to /v1/image/async + GET
@@ -3069,7 +3069,7 @@ function senseAudioImageSize(aspect?: string): string {
 async function renderSenseAudioImage(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
     throw new Error(
-      `no SenseAudio API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_SENSEAUDIO_API_KEY`,
+      `no SenseAudio API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_SENSEAUDIO_API_KEY`,
     );
   }
   const baseUrl = (credentials.baseUrl || SENSEAUDIO_DEFAULT_BASE_URL).replace(
@@ -3165,7 +3165,7 @@ async function renderSenseAudioImage(ctx: MediaContext, credentials: ProviderCon
 
 async function renderAIHubMixImage(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
-    throw new Error(`no AIHubMix API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_AIHUBMIX_API_KEY`);
+    throw new Error(`no AIHubMix API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_AIHUBMIX_API_KEY`);
   }
   const baseUrl = credentials.baseUrl || AIHUBMIX_DEFAULT_BASE_URL;
   const wireModel = aihubmixWireModel(credentials.model || ctx.wireModel);
@@ -3239,7 +3239,7 @@ async function renderAIHubMixGeminiImage(
   wireModel: string,
 ): Promise<RenderResult> {
   if (!credentials.apiKey) {
-    throw new Error(`no AIHubMix API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_AIHUBMIX_API_KEY`);
+    throw new Error(`no AIHubMix API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_AIHUBMIX_API_KEY`);
   }
   const aspect = ctx.aspect || '1:1';
   const bytes = await aihubmixGeminiImageBytes(
@@ -3261,7 +3261,7 @@ async function renderAIHubMixGeminiImage(
 
 async function renderAIHubMixTTS(ctx: MediaContext, credentials: ProviderConfig, fileName: string): Promise<RenderResult> {
   if (!credentials.apiKey) {
-    throw new Error(`no AIHubMix API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_AIHUBMIX_API_KEY`);
+    throw new Error(`no AIHubMix API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_AIHUBMIX_API_KEY`);
   }
   const baseUrl = credentials.baseUrl || AIHUBMIX_DEFAULT_BASE_URL;
   const wireModel = aihubmixWireModel(credentials.model || ctx.wireModel);
@@ -3317,7 +3317,7 @@ async function renderAIHubMixVideo(
   onProgress?: ProgressFn,
 ): Promise<RenderResult> {
   if (!credentials.apiKey) {
-    throw new Error(`no AIHubMix API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_AIHUBMIX_API_KEY`);
+    throw new Error(`no AIHubMix API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_AIHUBMIX_API_KEY`);
   }
   const baseUrl = (credentials.baseUrl || AIHUBMIX_DEFAULT_BASE_URL).replace(/\/$/, '');
   const wireModel = aihubmixWireModel(credentials.model || ctx.wireModel);
@@ -3359,7 +3359,7 @@ async function renderAIHubMixVideo(
   // minutes; match the Volcengine ceiling (12 min, env-overridable). Emit a
   // heartbeat each tick so the agent's bash watchdog never marks the call hung.
   const startedAt = Date.now();
-  const configuredMaxMs = Number(process.env.OD_AIHUBMIX_VIDEO_MAX_POLL_MS);
+  const configuredMaxMs = Number(process.env.SW_AIHUBMIX_VIDEO_MAX_POLL_MS);
   const maxMs =
     Number.isFinite(configuredMaxMs) && configuredMaxMs >= 60_000
       ? configuredMaxMs
@@ -3478,7 +3478,7 @@ const FISHAUDIO_TTS_MODEL_MAP = {
 async function renderFishAudioTTS(ctx: MediaContext, credentials: ProviderConfig): Promise<RenderResult> {
   if (!credentials.apiKey) {
     throw new Error(
-      `no FishAudio API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set OD_FISHAUDIO_API_KEY`,
+      `no FishAudio API key — configure it in ${SETTINGS_MEDIA_PROVIDERS_PATH} or set SW_FISHAUDIO_API_KEY`,
     );
   }
   const baseUrl = (credentials.baseUrl || FISHAUDIO_DEFAULT_BASE_URL).replace(
@@ -3677,12 +3677,12 @@ async function falQueueRun(
   throw new Error(
     `fal timed out after ${elapsed}s waiting for COMPLETED ` +
     `(last status: ${lastStatus || 'unknown'}, ceiling ${ceil}s). ` +
-    `Raise OD_FAL_MAX_POLL_MS to extend the ceiling.`,
+    `Raise SW_FAL_MAX_POLL_MS to extend the ceiling.`,
   );
 }
 
 function falMaxPollMs(defaultMs: number): number {
-  const v = Number(process.env.OD_FAL_MAX_POLL_MS);
+  const v = Number(process.env.SW_FAL_MAX_POLL_MS);
   return Number.isFinite(v) && v >= 30_000 ? v : defaultMs;
 }
 
@@ -3825,7 +3825,7 @@ async function renderHyperFramesViaCli(ctx: MediaContext, projectDir: string, on
       'hyperframes-html requires --composition-dir <project-relative-path> ' +
         'pointing at the directory the agent scaffolded with hyperframes.json / ' +
         'meta.json / index.html. The agent should write the composition into ' +
-        '$OD_PROJECT_DIR/.hyperframes-cache/<id>/ and pass that path here.',
+        '$SW_PROJECT_DIR/.hyperframes-cache/<id>/ and pass that path here.',
     );
   }
   // Resolve compositionDir against projectDir and refuse anything that
@@ -3860,7 +3860,7 @@ async function renderHyperFramesViaCli(ctx: MediaContext, projectDir: string, on
     compAbs,
     compRel,
     'hyperframes.json',
-    'Run `npx hyperframes init "$OD_PROJECT_DIR/$COMP_REL" --example blank --skip-skills --non-interactive` before editing the composition.',
+    'Run `npx hyperframes init "$SW_PROJECT_DIR/$COMP_REL" --example blank --skip-skills --non-interactive` before editing the composition.',
   );
   await assertHyperFramesCompositionFile(
     compAbs,
@@ -3875,7 +3875,7 @@ async function renderHyperFramesViaCli(ctx: MediaContext, projectDir: string, on
     'The agent must write index.html (with window.__timelines registration) before dispatch.',
   );
 
-  const tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'open-design-hf-'));
+  const tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sankiwork-hf-'));
   const tmpOutput = path.join(tmpRoot, 'render.mp4');
   try {
     // Pin --workers 1 to keep memory bounded (each worker is a Chrome

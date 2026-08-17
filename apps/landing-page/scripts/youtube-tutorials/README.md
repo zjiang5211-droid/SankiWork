@@ -1,7 +1,7 @@
 # youtube-tutorials
 
 Keeps `app/content/tutorials/*.md` in sync with the latest community YouTube
-tutorials about Open Design, with a human in the loop.
+tutorials about SankiWork, with a human in the loop.
 
 ## Flow
 
@@ -50,10 +50,10 @@ review flow:
 
 ## Why the relevance gate
 
-A YouTube search for "open design" surfaces many lookalikes (OpenCode,
+A YouTube search for "sankiwork" surfaces many lookalikes (OpenCode,
 OpenClaude, a separate small "Open Codesign" repo, generic AI-agent roundups,
 and videos that only mention "Claude Design" in passing). Titles alone are not
-enough, so every candidate passes an LLM relevance gate (`isAboutOpenDesign`)
+enough, so every candidate passes an LLM relevance gate (`isAboutSankiWork`)
 before it ever reaches the digest.
 
 ## Secrets / env

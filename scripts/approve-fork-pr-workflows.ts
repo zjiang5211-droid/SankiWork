@@ -264,7 +264,7 @@ async function github<T>(path: string, init: RequestInit = {}): Promise<T> {
     headers: {
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${getToken()}`,
-      "User-Agent": "open-design-fork-pr-workflow-approver",
+      "User-Agent": "sankiwork-fork-pr-workflow-approver",
       "X-GitHub-Api-Version": "2022-11-28",
       ...init.headers,
     },

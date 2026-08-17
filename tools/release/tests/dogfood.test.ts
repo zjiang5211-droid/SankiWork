@@ -27,13 +27,13 @@ const commandPath = join(packageRoot, "src", "storage", "publish-dogfood.ts");
 
 describe("dogfood destination guard", () => {
   it("accepts only keys inside the dogfood prefix", () => {
-    expect(() => assertDogfoodObjectKey("dogfood/0.15.3-beta.7/1234-1/open-design-setup.exe")).not.toThrow();
+    expect(() => assertDogfoodObjectKey("dogfood/0.15.3-beta.7/1234-1/sankiwork-setup.exe")).not.toThrow();
   });
 
   it("refuses every release channel prefix", () => {
     for (const channel of ["beta", "prerelease", "preview", "stable"]) {
       expect(() => assertDogfoodObjectKey(`${channel}/latest/latest-mac.yml`)).toThrow(/refusing to write outside/);
-      expect(() => assertDogfoodObjectKey(`${channel}/versions/0.15.3/open-design.dmg`)).toThrow(/refusing to write outside/);
+      expect(() => assertDogfoodObjectKey(`${channel}/versions/0.15.3/sankiwork.dmg`)).toThrow(/refusing to write outside/);
       expect(() => assertDogfoodObjectKey(`${channel}/latest/metadata.json`)).toThrow(/refusing to write outside/);
     }
   });
@@ -71,8 +71,8 @@ describe("dogfood destination guard", () => {
 
 describe("dogfood key minting", () => {
   it("pins every minted key under the dogfood root", () => {
-    const objectKey = dogfoodObjectKey({ buildId: "1234-1", fileName: "Open Design-release-beta-win-setup.exe", version: "0.15.3-beta.7" });
-    expect(objectKey).toBe("dogfood/0.15.3-beta.7/1234-1/Open-Design-release-beta-win-setup.exe");
+    const objectKey = dogfoodObjectKey({ buildId: "1234-1", fileName: "SankiWork-release-beta-win-setup.exe", version: "0.15.3-beta.7" });
+    expect(objectKey).toBe("dogfood/0.15.3-beta.7/1234-1/SankiWork-release-beta-win-setup.exe");
     expect(objectKey.startsWith(`${DOGFOOD_ROOT_PREFIX}/`)).toBe(true);
     expect(dogfoodPrefix({ buildId: "1234-1", version: "0.15.3-beta.7" })).toBe("dogfood/0.15.3-beta.7/1234-1");
   });

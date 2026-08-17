@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import type { InstalledPluginRecord, WorkspaceCollabContext } from '@open-design/contracts';
+import type { InstalledPluginRecord, WorkspaceCollabContext } from '@sankiwork/contracts';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const workspace = vi.hoisted(() => ({

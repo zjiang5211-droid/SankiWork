@@ -12,13 +12,13 @@ describe('message center client', () => {
       setItem: (key: string, value: string) => void storage.set(key, value),
       removeItem: (key: string) => void storage.delete(key),
     } as Storage;
-    storage.set('open-design.message-center.anonymous-started-at.v1', '2026-07-16T00:00:00.000Z');
-    storage.set('open-design.message-center.anonymous-messages.v1', '[]');
-    storage.set('open-design.message-center.anonymous-read-ids.v1', '[]');
+    storage.set('sankiwork.message-center.anonymous-started-at.v1', '2026-07-16T00:00:00.000Z');
+    storage.set('sankiwork.message-center.anonymous-messages.v1', '[]');
+    storage.set('sankiwork.message-center.anonymous-read-ids.v1', '[]');
     clearAnonymousState(adapter);
-    expect(storage.has('open-design.message-center.anonymous-started-at.v1')).toBe(false);
-    expect(storage.has('open-design.message-center.anonymous-messages.v1')).toBe(false);
-    expect(storage.has('open-design.message-center.anonymous-read-ids.v1')).toBe(false);
+    expect(storage.has('sankiwork.message-center.anonymous-started-at.v1')).toBe(false);
+    expect(storage.has('sankiwork.message-center.anonymous-messages.v1')).toBe(false);
+    expect(storage.has('sankiwork.message-center.anonymous-read-ids.v1')).toBe(false);
   });
 
   it('follows pagination until the server cursor is exhausted', async () => {

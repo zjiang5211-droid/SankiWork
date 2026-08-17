@@ -1,4 +1,4 @@
-// Under the packaged od:// custom protocol, Chromium's font loader cannot
+// Under the packaged sankiwork:// custom protocol, Chromium's font loader cannot
 // load ANY url()-sourced font: the request dies inside the renderer before
 // it even reaches resource timing (plain fetch() of the same URL returns
 // 200 with byte-identical content). Every CSS-declared FontFace therefore

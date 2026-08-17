@@ -67,12 +67,12 @@ describe('same-run retry orphaned process group', () => {
     delete process.env.LANGFUSE_PUBLIC_KEY;
     delete process.env.LANGFUSE_SECRET_KEY;
     delete process.env.LANGFUSE_BASE_URL;
-    delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+    delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
     // Trip the no-output inactivity watchdog quickly so the first (silent)
     // attempt fails at first_token_wait and the same-run retry fires. Kept
     // comfortably above node cold-start so the retry attempt's own watchdog
     // does not also trip before it emits its first token.
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '1200';
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '1200';
 
     started = await startServer({ port: 0, returnServer: true }) as StartedServer;
     await putConfig(started.url, {
@@ -174,10 +174,10 @@ function snapshotEnv(): Record<string, string | undefined> {
     LANGFUSE_PUBLIC_KEY: process.env.LANGFUSE_PUBLIC_KEY,
     LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
     LANGFUSE_BASE_URL: process.env.LANGFUSE_BASE_URL,
-    OPEN_DESIGN_TELEMETRY_RELAY_URL: process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL,
+    SANKIWORK_TELEMETRY_RELAY_URL: process.env.SANKIWORK_TELEMETRY_RELAY_URL,
     POSTHOG_KEY: process.env.POSTHOG_KEY,
     POSTHOG_HOST: process.env.POSTHOG_HOST,
-    OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS: process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS,
+    SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS: process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS,
   };
 }
 

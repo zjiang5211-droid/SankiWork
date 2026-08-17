@@ -5,7 +5,7 @@ import { join } from "node:path";
 import {
   LAUNCHER_SCHEMA_VERSION,
   resolveLauncherPaths,
-} from "@open-design/launcher-proto";
+} from "@sankiwork/launcher-proto";
 import { describe, expect, it } from "vitest";
 
 import type { ToolPackConfig } from "../src/config.js";
@@ -37,14 +37,14 @@ describe("launcher runtime snapshot", () => {
         handoffId: "4c5ca585-c7a1-4b9a-b725-495d72a5f97b",
         namespace,
         outer: {
-          executablePath: join(root, "installed", "Open Design Beta.exe"),
+          executablePath: join(root, "installed", "SankiWork Beta.exe"),
           pid: 4321,
         },
         payloadExecutablePath: join(
           launcherPaths.versionsRoot,
           "1.2.3-beta.5",
           "payload",
-          "Open Design Beta.exe",
+          "SankiWork Beta.exe",
         ),
         previous: { generation: 0, version: "1.2.3-beta.4" },
         schemaVersion: LAUNCHER_SCHEMA_VERSION,

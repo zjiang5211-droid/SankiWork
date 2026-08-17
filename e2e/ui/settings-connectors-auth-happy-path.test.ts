@@ -3,7 +3,7 @@ import type { Locator, Page } from '@playwright/test';
 import { routeAgents } from '../lib/playwright/mock-factory.js';
 import { T } from '@/timeouts';
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'sankiwork:config';
 test.describe.configure({ timeout: T.xlong });
 
 const CONNECTORS = [
@@ -61,7 +61,7 @@ function connectorCard(scope: Page | Locator, id: string) {
 }
 
 async function waitForLoadingToClear(page: Page) {
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, { timeout: T.long });
+  await expect(page.getByText('Loading SankiWork…')).toHaveCount(0, { timeout: T.long });
 }
 
 async function openConnectorsSettings(

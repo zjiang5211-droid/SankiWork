@@ -20,9 +20,9 @@
 // make every rocket click also toggle the account menu.
 
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
-import type { OpenDesignHostUpdaterStatusSnapshot } from '@open-design/host';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
+import type { SankiWorkHostUpdaterStatusSnapshot } from '@sankiwork/host';
+import { installMockSankiWorkHost } from '@sankiwork/host/testing';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { EntryNavRail, resetWorkspaceDirectoryCache } from '../../src/components/EntryNavRail';
@@ -45,7 +45,7 @@ function teamContext(): WorkspaceCollabContext {
   } as unknown as WorkspaceCollabContext;
 }
 
-function idleStatus(): OpenDesignHostUpdaterStatusSnapshot {
+function idleStatus(): SankiWorkHostUpdaterStatusSnapshot {
   return {
     arch: 'arm64',
     capabilities: {
@@ -64,11 +64,11 @@ function idleStatus(): OpenDesignHostUpdaterStatusSnapshot {
   };
 }
 
-function downloadedStatus(): OpenDesignHostUpdaterStatusSnapshot {
+function downloadedStatus(): SankiWorkHostUpdaterStatusSnapshot {
   return {
     ...idleStatus(),
     availableVersion: '0.16.2-beta.146',
-    downloadPath: '/tmp/open-design-updater/Open Design Beta.dmg',
+    downloadPath: '/tmp/sankiwork-updater/SankiWork Beta.dmg',
     state: 'downloaded',
   };
 }
@@ -121,7 +121,7 @@ afterEach(() => {
 });
 
 async function renderWithDownloadedUpdate(context: WorkspaceCollabContext | null = teamContext()) {
-  restoreHost = installMockOpenDesignHost({
+  restoreHost = installMockSankiWorkHost({
     host: { updater: { status: vi.fn(async () => downloadedStatus()) } },
   });
   const view = renderRail(context);
@@ -174,7 +174,7 @@ describe('updater rocket placement after the account avatar', () => {
   });
 
   it('leaves an empty slot after the avatar while no update is in flight', async () => {
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: { updater: { status: vi.fn(async () => idleStatus()) } },
     });
 

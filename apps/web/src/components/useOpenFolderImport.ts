@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import {
-  isOpenDesignHostAvailable,
+  isSankiWorkHostAvailable,
   pickAndImportHostProject,
-  type OpenDesignHostProjectImportSuccess,
-} from '@open-design/host';
+  type SankiWorkHostProjectImportSuccess,
+} from '@sankiwork/host';
 import { pickLocalFolderPath } from '../state/projects';
 import { resolvedWorkspaceContextForWrite } from '../state/projects';
 import { useWorkspaceContext } from '../collab/useWorkspaceContext';
@@ -12,7 +12,7 @@ import { formatPickAndImportFailure } from '../utils/pickAndImportError';
 interface UseOpenFolderImportArgs {
   skillId?: string | null;
   onImportFolder?: (baseDir: string) => Promise<void> | void;
-  onImportFolderResponse?: (response: OpenDesignHostProjectImportSuccess) => Promise<void> | void;
+  onImportFolderResponse?: (response: SankiWorkHostProjectImportSuccess) => Promise<void> | void;
 }
 
 export function useOpenFolderImport({
@@ -23,7 +23,7 @@ export function useOpenFolderImport({
   const workspaceContextState = useWorkspaceContext();
   const [importing, setImporting] = useState(false);
   const [error, setError] = useState<{ message: string; details?: string } | null>(null);
-  const hasHostPickAndImport = isOpenDesignHostAvailable();
+  const hasHostPickAndImport = isSankiWorkHostAvailable();
   const available = hasHostPickAndImport ? Boolean(onImportFolderResponse) : Boolean(onImportFolder);
 
   const openFolder = useCallback(async () => {

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 //
-// Acceptance: the plan pill on Settings → 本机 CLI → Open Design must name the
+// Acceptance: the plan pill on Settings → 本机 CLI → SankiWork must name the
 // same plan FAMILY as the rail's account-row wordmark.
 //
 // Product ruling (owner): 「团队版的订阅，这里应该都显示 team 的标识」 …… 「产品
@@ -16,7 +16,7 @@
 // See `EntryNavRail.team-plan-badge.test.tsx` for the rail half.
 
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SettingsDialog } from '../../src/components/SettingsDialog';

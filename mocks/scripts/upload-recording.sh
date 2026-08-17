@@ -9,7 +9,7 @@
 # -------
 # - `wrangler login` once (OAuth, no token to manage). The logged-in
 #   account must have access to the powerformer R2 namespace where the
-#   `open-design-mocks` bucket lives.
+#   `sankiwork-mocks` bucket lives.
 # - That's it. Bucket is public-read, manifest is in repo; consumers
 #   pull via `fetch-recordings.sh`.
 #
@@ -31,7 +31,7 @@ HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 MOCKS_DIR="$(cd "$HERE/.." && pwd -P)"
 MANIFEST="$MOCKS_DIR/manifest.json"
 LIB="$HERE/lib/manifest-utils.mjs"
-BUCKET='open-design-mocks'
+BUCKET='sankiwork-mocks'
 KEY_PREFIX='recordings/v1/'
 # powerformer hosts the bucket; pin so wrangler doesn't ask which
 # account in non-interactive mode when the OAuth login spans several.

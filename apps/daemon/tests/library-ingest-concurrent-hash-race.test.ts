@@ -44,7 +44,7 @@ describe('concurrent Library ingest content-hash race', () => {
     const unique = randomUUID();
     const bytes = Buffer.concat([
       Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
-      Buffer.from(`open-design-race-${unique}`, 'utf8'),
+      Buffer.from(`sankiwork-race-${unique}`, 'utf8'),
     ]);
     const dataUrl = `data:image/png;base64,${bytes.toString('base64')}`;
 

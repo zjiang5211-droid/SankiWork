@@ -30,8 +30,8 @@ Run it, then point both daemons at it (the same URL + token):
 ```
 pnpm tools-serve start collab-cloud            # defaults to :18096
 # then, for each daemon:
-export OD_COLLAB_CLOUD_URL=http://127.0.0.1:18096
-export OD_COLLAB_CLOUD_TOKEN=dev-internal-token
+export SW_COLLAB_CLOUD_URL=http://127.0.0.1:18096
+export SW_COLLAB_CLOUD_TOKEN=dev-internal-token
 ```
 
 - **Bearer auth**: every request must carry `Authorization: Bearer <token>`;
@@ -44,5 +44,5 @@ export OD_COLLAB_CLOUD_TOKEN=dev-internal-token
   ETag/`If-None-Match` → 304).
 - **This is disposable.** Once vela `services/collab` is stood up, delete
   `src/collab-cloud-fixture.ts` (and its wiring in `src/index.ts`) and repoint
-  `OD_COLLAB_CLOUD_URL` at the real service. The daemon needs zero code changes.
+  `SW_COLLAB_CLOUD_URL` at the real service. The daemon needs zero code changes.
   `tests/collab-cloud-fixture.test.ts` locks the fixture's half of the contract.

@@ -1,5 +1,5 @@
 /**
- * Unit tests for resolveDataDir, the OD_DATA_DIR path resolver. Covers the
+ * Unit tests for resolveDataDir, the SW_DATA_DIR path resolver. Covers the
  * $HOME / ${HOME} / ~/ shorthands that launchers can pass literally when no
  * shell is in the loop (#390), with both forward and backslash separators so
  * Windows launchers behave the same as Unix ones.
@@ -32,24 +32,24 @@ describe('resolveDataDir', () => {
     await rm(projectRoot, { recursive: true, force: true });
   });
 
-  it('returns <projectRoot>/.od when OD_DATA_DIR is unset', () => {
-    expect(resolveDataDir(undefined, projectRoot)).toBe(path.join(projectRoot, '.od'));
-    expect(resolveDataDir('', projectRoot)).toBe(path.join(projectRoot, '.od'));
+  it('returns <projectRoot>/.sankiwork when SW_DATA_DIR is unset', () => {
+    expect(resolveDataDir(undefined, projectRoot)).toBe(path.join(projectRoot, '.sankiwork'));
+    expect(resolveDataDir('', projectRoot)).toBe(path.join(projectRoot, '.sankiwork'));
   });
 
-  it('requires an explicit OD_DATA_DIR when sandbox mode requires one', () => {
+  it('requires an explicit SW_DATA_DIR when sandbox mode requires one', () => {
     expect(() =>
       resolveDataDir(undefined, projectRoot, { requireExplicit: true }),
-    ).toThrow('OD_DATA_DIR is required when OD_SANDBOX_MODE is enabled');
+    ).toThrow('SW_DATA_DIR is required when SW_SANDBOX_MODE is enabled');
     expect(() => resolveDataDir('', projectRoot, { requireExplicit: true })).toThrow(
-      'OD_DATA_DIR is required when OD_SANDBOX_MODE is enabled',
+      'SW_DATA_DIR is required when SW_SANDBOX_MODE is enabled',
     );
     expect(() =>
       resolveDataDir('   ', projectRoot, { requireExplicit: true }),
-    ).toThrow('OD_DATA_DIR is required when OD_SANDBOX_MODE is enabled');
+    ).toThrow('SW_DATA_DIR is required when SW_SANDBOX_MODE is enabled');
   });
 
-  it('trims OD_DATA_DIR before resolving the storage root', () => {
+  it('trims SW_DATA_DIR before resolving the storage root', () => {
     const out = resolveDataDir('  rel-od  ', projectRoot, { requireExplicit: true });
     expect(out).toBe(path.join(projectRoot, 'rel-od'));
   });

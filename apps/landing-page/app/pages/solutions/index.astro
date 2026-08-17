@@ -15,7 +15,7 @@ import { getSolutionsIndexCopy } from '../../solutions-index-i18n';
 import { getCommonCopy, getHeaderProductMenuCopy, localeFromPath, localizedHref } from '../../i18n';
 import type { SolutionPageKey } from '../../solution-pages-i18n/types';
 
-const SITE = Astro.site?.toString() ?? 'https://open-design.ai/';
+const SITE = Astro.site?.toString() ?? 'https://sanki-ai.cloud/';
 const locale = localeFromPath(Astro.url.pathname);
 const href = (path: string) => localizedHref(path, locale);
 const common = getInfoPageCopy(locale).common;
@@ -81,7 +81,7 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Open Design', item: SITE },
+      { '@type': 'ListItem', position: 1, name: 'SankiWork', item: SITE },
       { '@type': 'ListItem', position: 2, name: page.heading, item: `${SITE}solutions/` },
     ],
   },
@@ -107,7 +107,7 @@ const jsonLd = [
 
 <Layout title={title} description={description} active="solution" jsonLd={jsonLd}>
   <nav class="breadcrumb" aria-label={common.breadcrumbAria}>
-    <a href={href('/')}>Open Design</a>
+    <a href={href('/')}>SankiWork</a>
     <span>/</span>
     <span aria-current="page">{page.heading}</span>
   </nav>

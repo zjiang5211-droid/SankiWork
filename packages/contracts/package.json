@@ -1,9 +1,9 @@
 {
-  "name": "@open-design/contracts",
-  "version": "0.19.2",
+  "name": "@sankiwork/contracts",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Shared pure TypeScript contracts for the Open Design web/daemon boundary.",
+  "description": "Shared pure TypeScript contracts for the SankiWork web/daemon boundary.",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
@@ -85,7 +85,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json --noEmit"
   },
   "dependencies": {
-    "@open-design/release": "workspace:*",
+    "@sankiwork/release": "workspace:*",
     "zod": "3.25.76"
   },
   "devDependencies": {

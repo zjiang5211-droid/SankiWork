@@ -1,4 +1,4 @@
-// Red-spec for the `od files write` / `od files upload` crash:
+// Red-spec for the `sw files write` / `sw files upload` crash:
 // both sub-verbs called the CommonJS `require('node:fs')` inside the ESM
 // cli.ts (`"type": "module"`), so the moment the verb past arg-parsing was
 // reached, Node threw (`require is not defined` under the tsx test runner;
@@ -93,7 +93,7 @@ function runCli(
   });
 }
 
-describe('od files write / upload (ESM require regression)', () => {
+describe('sw files write / upload (ESM require regression)', () => {
   let stub: StubServer;
   let scratchDir: string;
 
@@ -175,7 +175,7 @@ describe('od files write / upload (ESM require regression)', () => {
   });
 
   // Same-pattern site: `safeReadJsonFile` also called `require('node:fs')`,
-  // but inside its own try/catch — so instead of crashing, `od project create
+  // but inside its own try/catch — so instead of crashing, `sw project create
   // --metadata-json <file>` SILENTLY dropped the metadata from the POST body.
   it('`project create --metadata-json` actually sends the file content as metadata', async () => {
     const metadataPath = join(scratchDir, 'metadata.json');

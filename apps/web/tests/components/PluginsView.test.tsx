@@ -2,7 +2,7 @@
 
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { InstalledPluginRecord, PluginSourceKind, TrustTier } from '@open-design/contracts';
+import type { InstalledPluginRecord, PluginSourceKind, TrustTier } from '@sankiwork/contracts';
 import { PluginsView } from '../../src/components/PluginsView';
 import {
   addPluginMarketplace,
@@ -85,7 +85,7 @@ function makePlugin(
   };
   if (sourceKind === 'bundled') {
     record.sourceMarketplaceId = 'official';
-    record.sourceMarketplaceEntryName = `open-design/${id}`;
+    record.sourceMarketplaceEntryName = `sankiwork/${id}`;
     record.sourceMarketplaceEntryVersion = record.version;
     record.marketplaceTrust = 'official';
   }
@@ -127,7 +127,7 @@ beforeEach(() => {
             tags: ['deck'],
           },
           {
-            name: 'open-design/official-plugin',
+            name: 'sankiwork/official-plugin',
             title: 'Official Plugin',
             title_i18n: { 'zh-CN': '官方看板' },
             source: 'github:nexu-io/open-design@main/plugins/_official/examples/official-plugin',
@@ -245,14 +245,14 @@ describe('PluginsView', () => {
     mockedListMarketplaces.mockResolvedValue([
       {
         id: 'official',
-        url: 'https://open-design.ai/marketplace/open-design-marketplace.json',
+        url: 'https://sanki-ai.cloud/marketplace/open-design-marketplace.json',
         trust: 'official',
         manifest: {
-          name: 'Open Design Official',
+          name: 'SankiWork Official',
           version: '1.0.0',
           plugins: [
             {
-              name: 'open-design/official-plugin',
+              name: 'sankiwork/official-plugin',
               title: 'Official Plugin',
               title_i18n: { 'zh-CN': '官方看板' },
               source: 'github:nexu-io/open-design@main/plugins/_official/examples/official-plugin',
@@ -277,7 +277,7 @@ describe('PluginsView', () => {
     expect(await screen.findByText('官方看板')).toBeTruthy();
     expect(screen.queryByText('Remote Plugin')).toBeNull();
 
-    fireEvent.click(screen.getByTestId('plugins-available-install-open-design/official-plugin'));
+    fireEvent.click(screen.getByTestId('plugins-available-install-sankiwork/official-plugin'));
 
     expect(onUsePlugin).toHaveBeenCalledWith(expect.objectContaining({
       id: 'official-plugin',
@@ -298,7 +298,7 @@ describe('PluginsView', () => {
           version: '1.0.0',
           plugins: [
             {
-              name: 'open-design/official-plugin',
+              name: 'sankiwork/official-plugin',
               title: 'Team Official Plugin',
               source: 'github:team/official-plugin',
               version: '2.0.0',
@@ -315,7 +315,7 @@ describe('PluginsView', () => {
     fireEvent.click(await screen.findByTestId('plugins-tab-available'));
     expect(await screen.findByText('Team Official Plugin')).toBeTruthy();
 
-    const install = screen.getByTestId('plugins-available-install-open-design/official-plugin');
+    const install = screen.getByTestId('plugins-available-install-sankiwork/official-plugin');
     expect(install.textContent).toBe('Use');
     fireEvent.click(install);
 
@@ -541,13 +541,13 @@ describe('PluginsView', () => {
       target: { value: '1.1.0' },
     });
     expect(within(dialog).getByTestId('plugins-available-install-command').textContent)
-      .toContain('od plugin install remote-plugin@1.1.0');
+      .toContain('sw plugin install remote-plugin@1.1.0');
     expect(within(dialog).getByTestId('plugins-available-provenance').textContent)
       .toContain('github:owner/repo@v1.1.0 · sha256:previous');
 
     fireEvent.click(within(dialog).getByRole('button', { name: 'Copy install command' }));
     await waitFor(() =>
-      expect(writeText).toHaveBeenCalledWith('od plugin install remote-plugin@1.1.0'),
+      expect(writeText).toHaveBeenCalledWith('sw plugin install remote-plugin@1.1.0'),
     );
 
     fireEvent.click(within(dialog).getByTestId('plugins-available-details-install-remote-plugin'));
@@ -675,7 +675,7 @@ describe('PluginsView', () => {
       'Marketplace Plugin',
     );
     marketplacePlugin.sourceMarketplaceId = 'official';
-    marketplacePlugin.sourceMarketplaceEntryName = 'open-design/official-plugin';
+    marketplacePlugin.sourceMarketplaceEntryName = 'sankiwork/official-plugin';
     marketplacePlugin.sourceMarketplaceEntryVersion = '1.0.0';
     marketplacePlugin.marketplaceTrust = 'official';
     marketplacePlugin.manifest.od = { ...marketplacePlugin.manifest.od, hidden: true };
@@ -685,13 +685,13 @@ describe('PluginsView', () => {
     mockedListMarketplaces.mockResolvedValue([
       {
         id: 'official',
-        url: 'https://open-design.ai/marketplace/open-design-marketplace.json',
+        url: 'https://sanki-ai.cloud/marketplace/open-design-marketplace.json',
         trust: 'official',
         manifest: {
-          name: 'Open Design Official',
+          name: 'SankiWork Official',
           version: '0.1.0',
           plugins: [{
-            name: 'open-design/official-plugin',
+            name: 'sankiwork/official-plugin',
             title: 'Official Plugin',
             source: 'github:nexu-io/open-design@main/plugins/_official/scenarios/official-plugin',
             version: '1.0.0',
@@ -781,14 +781,14 @@ describe('PluginsView', () => {
         'bundled',
         'bundled',
         'Publish Plugin to GitHub',
-        'Creates a public GitHub repository for a local Open Design plugin using the GitHub CLI.',
+        'Creates a public GitHub repository for a local SankiWork plugin using the GitHub CLI.',
       ),
       makePlugin(
         'od-plugin-contribute-open-design',
         'bundled',
         'bundled',
-        'Contribute Plugin to Open Design',
-        'Opens a pull request that adds a local Open Design plugin to the Open Design community catalog.',
+        'Contribute Plugin to SankiWork',
+        'Opens a pull request that adds a local SankiWork plugin to the SankiWork community catalog.',
       ),
     ]);
     const onCreatePluginShareProject = vi.fn(async (): Promise<PluginShareProjectOutcome> => ({

@@ -1,6 +1,6 @@
 {
   "repository": {
-    "name": "open-design",
+    "name": "sankiwork",
     "fullName": "nexu-io/open-design",
     "url": "https://github.com/nexu-io/open-design",
     "description": "Local-first, open-source alternative to Anthropic's Claude Design. 19 Skills · 71 brand-grade Design Systems · Generate web/desktop/mobile prototypes · slides · images · videos",
@@ -124,7 +124,7 @@
     {
       "typeText": "ISSUE",
       "typeClass": "issue",
-      "title": "Fix Open Design not reading the latest model list from Codex CLI",
+      "title": "Fix SankiWork not reading the latest model list from Codex CLI",
       "label": "bug",
       "labelClass": "danger-pill",
       "author": "shangxinyu1",

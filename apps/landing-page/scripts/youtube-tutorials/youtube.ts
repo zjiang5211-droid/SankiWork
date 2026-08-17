@@ -8,10 +8,10 @@ import path from 'node:path';
 import { iso8601ToSeconds, scoreCandidate, type CandidateScore, type VideoInput } from './lib.ts';
 
 export const DEFAULT_QUERIES = [
-  'open design open source claude design alternative',
-  'open design ai design agent github',
-  'open design nexu io design agent',
-  'open design 开源 设计 agent claude',
+  'sankiwork open source claude design alternative',
+  'sankiwork ai design agent github',
+  'sankiwork nexu io design agent',
+  'sankiwork 开源 设计 agent claude',
 ];
 
 export async function loadYoutubeKey(): Promise<string> {
@@ -113,7 +113,7 @@ export interface CandidateResult {
 }
 
 /**
- * Discover Open-Design-relevant tutorial candidates published since
+ * Discover SankiWork-relevant tutorial candidates published since
  * `publishedAfter` (RFC 3339), already filtered against the existing catalogue
  * (caller passes known ids) and the LLM relevance gate. Each kept candidate is
  * scored (completeness + relevance + reach) and the list is sorted by that
@@ -148,7 +148,7 @@ export async function fetchCandidates(
   const videos = await fetchVideoDetails(fresh, key);
   const scored = await mapPool(videos, 4, async (v) => ({ ...v, score: await scoreCandidate(v) }));
   const candidates = scored
-    .filter((c) => c.score.isOpenDesign)
+    .filter((c) => c.score.isSankiWork)
     // Recommended ("worth adding") first, then highest suggested score, then
     // newest — so the actionable picks cluster at the top of the digest.
     .sort(

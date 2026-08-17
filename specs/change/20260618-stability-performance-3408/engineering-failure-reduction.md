@@ -11,7 +11,7 @@ Status: proposed · Parent: #3408 · Upstream background: spec.md · Spec format
 
 ## Sources · Verified facts
 
-- **Repo**: `nexu-io/open-design` (main). `gh repo clone … && git checkout main`. Data: PostHog OpenDesign=420348 (`run_finished`) + Langfuse `us.cloud.langfuse.com`.
+- **Repo**: `nexu-io/open-design` (main). `gh repo clone … && git checkout main`. Data: PostHog SankiWork=420348 (`run_finished`) + Langfuse `us.cloud.langfuse.com`.
 - **process_exit breakdown (7d measured)**: execution_failed 4,489 · terminated_unknown 535 · **agent_config_invalid 382** · fabricated_role_marker 310 · cli_not_installed 260 · agent_protocol_error 255 · exit_code 185 · **spawn_ebadf 66 / spawn_eperm 61 / spawn_enoexec 22** · signal_killed 22 · stdin_write_eof 20.
 - **fix_config root cause (Langfuse measured)**: error `Error loading config.toml: unknown variant `default`, expected `fast` or `flex` in `service_tier``. In other words, the codex app wrote `service_tier="default"`, while the CLI only accepts `fast`/`flex`.
   - The normalizer at `apps/daemon/src/codex-config-normalize.ts:76` has a regex that **only matches `"priority"`** → `default` and other invalid values slip through (the comment at `:52-53` explicitly says unknown values are not handled). All 382/week are on current versions (0.10.1=282/0.10.0=56/0.11.0=42, not old-version noise).

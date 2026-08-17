@@ -10,7 +10,7 @@ import {
   parseCountedReleaseVersion,
   parseReleaseBaseVersion,
   type ReleaseBaseVersionTuple,
-} from "@open-design/release";
+} from "@sankiwork/release";
 
 const execFile = promisify(execFileCallback);
 
@@ -269,9 +269,9 @@ const packagedVersion = await readPackagedVersion();
 const packagedParsed = parseReleaseBaseVersion(packagedVersion) ?? fail(`invalid packaged version: ${packagedVersion}`);
 
 let latestStable: ParsedStableVersion | null = null;
-const stableMetadataUrl = process.env.OPEN_DESIGN_STABLE_METADATA_URL;
+const stableMetadataUrl = process.env.SANKIWORK_STABLE_METADATA_URL;
 if (stableMetadataUrl != null && stableMetadataUrl.length > 0) {
-  validateHttpsUrl(stableMetadataUrl, "OPEN_DESIGN_STABLE_METADATA_URL");
+  validateHttpsUrl(stableMetadataUrl, "SANKIWORK_STABLE_METADATA_URL");
   const stableMetadataJson = await fetchOptionalHttpsText(stableMetadataUrl);
   if (stableMetadataJson == null) {
     fail(`stable metadata.json was not found: ${stableMetadataUrl}`);
@@ -294,11 +294,11 @@ if (latestStable != null && compareReleaseBaseVersions(packagedParsed, latestSta
   fail(`packaged base version ${packagedVersion} must be strictly greater than latest stable ${latestStable.value}`);
 }
 
-const metadataUrl = process.env.OPEN_DESIGN_BETAS_METADATA_URL;
+const metadataUrl = process.env.SANKIWORK_BETAS_METADATA_URL;
 if (metadataUrl == null || metadataUrl.length === 0) {
-  fail("OPEN_DESIGN_BETAS_METADATA_URL is required");
+  fail("SANKIWORK_BETAS_METADATA_URL is required");
 }
-validateHttpsUrl(metadataUrl, "OPEN_DESIGN_BETAS_METADATA_URL");
+validateHttpsUrl(metadataUrl, "SANKIWORK_BETAS_METADATA_URL");
 
 let releaseNumber = 1;
 let latestBetas: ParsedBetasVersion | null = null;
@@ -340,7 +340,7 @@ if (latestBetas != null) {
 const releaseVersion = `${packagedVersion}-betas.${releaseNumber}`;
 const branch = process.env.GITHUB_REF_NAME ?? "";
 const commit = process.env.GITHUB_SHA ?? "";
-const releaseName = `Open Design Betas ${releaseVersion}`;
+const releaseName = `SankiWork Betas ${releaseVersion}`;
 
 console.log(`[release-betas] channel: betas`);
 console.log(`[release-betas] base version: ${packagedVersion}`);

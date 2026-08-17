@@ -6,7 +6,7 @@ import { BrowserWindow, Menu, app, dialog, globalShortcut, shell, type MenuItemC
 
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_ENV,
   SIDECAR_MESSAGES,
   SIDECAR_MODES,
@@ -23,7 +23,7 @@ import {
   type RegisterDesktopAuthResult,
   type SidecarStamp,
   type WebStatusSnapshot,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import { dirname, join } from "node:path";
 
 import {
@@ -35,8 +35,8 @@ import {
   resolveRuntimeNamespaceRoot,
   type JsonIpcServerHandle,
   type SidecarRuntimeContext,
-} from "@open-design/sidecar";
-import { readProcessStamp } from "@open-design/platform";
+} from "@sankiwork/sidecar";
+import { readProcessStamp } from "@sankiwork/platform";
 
 import { createDesktopRuntime, type DesktopRuntime } from "./runtime.js";
 import { dispatchInviteDeeplink, registerInviteDeeplink } from "./invite-deeplink.js";
@@ -104,7 +104,7 @@ export {
 } from "./runtime.js";
 
 const TOOLS_DEV_PARENT_PID_ENV = SIDECAR_ENV.TOOLS_DEV_PARENT_PID;
-const AMR_PROFILE_ENV_KEY = "OPEN_DESIGN_AMR_PROFILE";
+const AMR_PROFILE_ENV_KEY = "SANKIWORK_AMR_PROFILE";
 const AMR_PROFILE_AGENT_ID = "amr";
 const AMR_ENVIRONMENT_PROFILES = ["prod", "test", "feature-test", "local"] as const;
 const APP_CONFIG_CHANGED_IPC_CHANNEL = "od:app-config-changed";
@@ -117,7 +117,7 @@ type DesktopAppConfigPrefs = {
 };
 
 // Argv prefix the preload uses to recover the OS locale main process
-// read at startup. The renderer wires `__od__.client.osLocale` from it.
+// read at startup. The renderer wires `__sankiwork__.client.osLocale` from it.
 export const OS_LOCALE_PRELOAD_ARG_PREFIX = "--od-os-locale=";
 
 /**
@@ -144,8 +144,8 @@ export function applyOsLocaleSwitch(electronApp: Electron.App): string {
 
 /**
  * Lift Chromium's hardcoded 6-connections-per-origin socket cap for the
- * loopback hosts every Open Design renderer talks to (directly in dev,
- * through the od:// proxy's main-process net.fetch when packaged).
+ * loopback hosts every SankiWork renderer talks to (directly in dev,
+ * through the sankiwork:// proxy's main-process net.fetch when packaged).
  *
  * Long-lived SSE streams pin pool slots, and once the pool saturates,
  * queued requests cannot even be aborted before a Response exists
@@ -169,7 +169,7 @@ export type DesktopMainOptions = {
   discoverWebUrl?: () => Promise<string | null>;
   /**
    * Round-7 (lefarcen P2 @ runtime.ts:336): packaged builds report the
-   * renderer URL (`od://app/`) over `discoverWebUrl`, but Node-side
+   * renderer URL (`sankiwork://app/`) over `discoverWebUrl`, but Node-side
    * fetch can't resolve a custom Electron protocol. Optional. When
    * provided, runtime API calls (`/api/import/folder`,
    * `/api/projects/:id`) target this URL instead. tools-dev callers
@@ -177,7 +177,7 @@ export type DesktopMainOptions = {
    * Node fetch can hit.
    */
   discoverDaemonUrl?: () => Promise<string | null>;
-  /** Stable installed launcher used for Windows opendesign:// registration. */
+  /** Stable installed launcher used for Windows sankiwork:// registration. */
   inviteProtocolClientPath?: string | null;
   preloadPath?: string;
   windowTitle?: string;
@@ -242,7 +242,7 @@ function createWebDiscovery(runtime: SidecarRuntimeContext<SidecarStamp>): () =>
   return async () => {
     const webIpc = resolveAppIpcPath({
       app: APP_KEYS.WEB,
-      contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+      contract: SANKIWORK_SIDECAR_CONTRACT,
       namespace: runtime.namespace,
     });
     const web = await requestJsonIpc<WebStatusSnapshot>(webIpc, { type: SIDECAR_MESSAGES.STATUS }, { timeoutMs: 600 }).catch(() => null);
@@ -604,7 +604,7 @@ function installDesktopMenu(
   });
   const registered = globalShortcut.register(developMenuAccelerator, toggleDevelopMenu);
   if (!registered) {
-    console.warn("[open-design desktop] develop menu shortcut unavailable", { accelerator: developMenuAccelerator });
+    console.warn("[sankiwork desktop] develop menu shortcut unavailable", { accelerator: developMenuAccelerator });
   }
   return {
     dispose() {
@@ -663,7 +663,7 @@ async function registerDesktopAuthWithDaemon(
 ): Promise<boolean> {
   const daemonIpc = resolveAppIpcPath({
     app: APP_KEYS.DAEMON,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     namespace: runtime.namespace,
   });
   const message = {
@@ -738,7 +738,7 @@ export async function runDesktopMain(
   const registered = await registerDesktopAuthWithDaemon(runtime, desktopAuthSecret);
   if (!registered) {
     console.warn(
-      "[open-design desktop] initial import-token handshake with daemon did not complete; " +
+      "[sankiwork desktop] initial import-token handshake with daemon did not complete; " +
         "first folder-import attempt will lazily retry registration before failing",
     );
   }
@@ -766,13 +766,13 @@ export async function runDesktopMain(
   // reader never looks in. Keeping both sides on `resolveRuntimeNamespaceRoot`
   // co-locates renderer.log with the desktop log dir AND keeps it captured.
   const namespaceRoot = resolveRuntimeNamespaceRoot({
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     runtime,
     runtimeMode: SIDECAR_MODES.RUNTIME,
   });
   const desktopLogPath = resolveLogFilePath({
     app: APP_KEYS.DESKTOP,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
     runtimeRoot: namespaceRoot,
   });
   const rendererLogPath = join(dirname(desktopLogPath), "renderer.log");
@@ -870,14 +870,14 @@ export async function runDesktopMain(
     void shutdown().finally(() => process.exit(0));
   }
 
-  console.info("[open-design desktop] starting desktop IPC server", { ipc: runtime.ipc });
+  console.info("[sankiwork desktop] starting desktop IPC server", { ipc: runtime.ipc });
   ipcServer = await createJsonIpcServer({
     socketPath: runtime.ipc,
     handler: async (message: unknown) => {
       const request = normalizeDesktopSidecarMessage(message);
       const startedAt = Date.now();
       const input = "input" in request ? summarizeDesktopIpcInput(request.input) : null;
-      console.info("[open-design desktop] desktop IPC request start", { input, type: request.type });
+      console.info("[sankiwork desktop] desktop IPC request start", { input, type: request.type });
       try {
         const activeDesktop = desktop;
         switch (request.type) {
@@ -916,21 +916,21 @@ export async function runDesktopMain(
             return await updater.handle((request.input as DesktopUpdateInput).action);
         }
       } catch (error) {
-        console.error("[open-design desktop] desktop IPC request failed", {
+        console.error("[sankiwork desktop] desktop IPC request failed", {
           durationMs: Date.now() - startedAt,
           error: error instanceof Error ? error.message : String(error),
           type: request.type,
         });
         throw error;
       } finally {
-        console.info("[open-design desktop] desktop IPC request end", {
+        console.info("[sankiwork desktop] desktop IPC request end", {
           durationMs: Date.now() - startedAt,
           type: request.type,
         });
       }
     },
   });
-  console.info("[open-design desktop] desktop IPC server listening", { ipc: runtime.ipc });
+  console.info("[sankiwork desktop] desktop IPC server listening", { ipc: runtime.ipc });
 
   const menuController = installDesktopMenu(runtime, {
     ...options,
@@ -945,7 +945,7 @@ export async function runDesktopMain(
   });
   disposeMenu = menuController.dispose;
 
-  console.info("[open-design desktop] creating desktop runtime");
+  console.info("[sankiwork desktop] creating desktop runtime");
   desktop = await createDesktopRuntime({
     desktopAuthSecret,
     discoverUrl: options.discoverWebUrl ?? createWebDiscovery(runtime),
@@ -976,7 +976,7 @@ export async function runDesktopMain(
     pendingUpdateDialogRequest = false;
     desktop.openUpdateDialog({ source: "mac-app-menu" });
   }
-  console.info("[open-design desktop] desktop runtime created");
+  console.info("[sankiwork desktop] desktop runtime created");
   options.onDesktopReady?.({
     dispatchInviteDeeplink,
     show: () => {
@@ -989,7 +989,7 @@ export async function runDesktopMain(
   // it (best-effort; the events carry no user content). Each is dropped from the
   // queue only once the daemon acks it, so a failed report is retried next launch.
   if (previousUncleanSessions.length > 0) {
-    console.warn("[open-design desktop] prior session(s) ended abnormally (no clean shutdown)", {
+    console.warn("[sankiwork desktop] prior session(s) ended abnormally (no clean shutdown)", {
       count: previousUncleanSessions.length,
     });
     void reportPriorDesktopUncleanExits({
@@ -1010,12 +1010,12 @@ export async function runDesktopMain(
   removeDiagnosticsIpc = registerDesktopDiagnosticsIpc({
     discoverDaemonBaseUrl: resolveDaemonBaseUrl(runtime, options),
   });
-  // Route opendesign:// team-invite deeplinks to the daemon (desktop wake-up).
+  // Route sankiwork:// team-invite deeplinks to the daemon (desktop wake-up).
   registerInviteDeeplink({
     resolveDaemonBaseUrl: resolveDaemonBaseUrl(runtime, options),
     focus: () => focusDesktopForDeeplink(desktop),
     onCompleted: (outcome) => {
-      console.info("[open-design desktop] invite deeplink continuation completed", outcome);
+      console.info("[sankiwork desktop] invite deeplink continuation completed", outcome);
     },
     protocolClientPath: options.inviteProtocolClientPath,
   });
@@ -1066,12 +1066,12 @@ export async function runDesktopMain(
 }
 
 if (isDirectEntry()) {
-  const stamp = readProcessStamp(process.argv.slice(2), OPEN_DESIGN_SIDECAR_CONTRACT);
+  const stamp = readProcessStamp(process.argv.slice(2), SANKIWORK_SIDECAR_CONTRACT);
   if (stamp == null) throw new Error("sidecar stamp is required");
 
   const runtime = bootstrapSidecarRuntime(stamp, process.env, {
     app: APP_KEYS.DESKTOP,
-    contract: OPEN_DESIGN_SIDECAR_CONTRACT,
+    contract: SANKIWORK_SIDECAR_CONTRACT,
   });
 
   void runDesktopMain(runtime).catch((error: unknown) => {

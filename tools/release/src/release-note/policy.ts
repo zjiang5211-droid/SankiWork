@@ -1,4 +1,4 @@
-import type { ReleaseChannel } from "@open-design/release";
+import type { ReleaseChannel } from "@sankiwork/release";
 
 import type { ReleaseNotePlan } from "./source.ts";
 

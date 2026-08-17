@@ -45,7 +45,7 @@ No additional notes provided.
 - DESIGN.md is the canonical source of truth.
 - Use the canonical design-system title above for headings, README/SKILL names, preview labels, and UI-kit copy unless inspected evidence proves a more accurate product name. Never title the system from URL protocol text such as `https`.
 - colors_and_type.css should hold concrete reusable tokens when the source evidence supports them; if fonts/ contains preserved font files, colors_and_type.css must bind those files with @font-face, @import, or url(...) references so typography does not fall back to substitute fonts.
-- README.md and SKILL.md should make the extracted system reusable as a real Open Design design-system package.
+- README.md and SKILL.md should make the extracted system reusable as a real SankiWork design-system package.
 - README.md should include a source-backed Product Overview/Product Context section, source repository or source folder references, package contents, a concrete `## Preview Manifest` listing every generated `preview/*.html` card, and reuse workflow, similar to Claude Design exports.
 - SKILL.md should include YAML frontmatter with `name`, `description`, and `user-invocable`, plus Claude-style reusable skill sections: What is inside, Source context, When to use this skill, How to use, and Design system highlights. The usage guidance should point agents at README.md, DESIGN.md, colors_and_type.css, preview/, assets/, build/, fonts/, source_examples/, and ui_kits/app/.
 - README.md, SKILL.md, DESIGN.md, and ui_kits/app/README.md must describe the final focused preview cards and `ui_kits/app/` paths, not old scaffold names such as `preview/typography-scale.html` or `ui_kits/generated_interface/`.
@@ -85,9 +85,9 @@ Claude-style build asset contract:
 - preview/brand-assets.html should visibly reference preserved files from assets/ or build/ instead of recreating logos/icons as inline placeholder drawings.
 - GitHub evidence must come from the bounded `github-design-context` command, not direct connector tree/content/raw tool calls. The command tries this-device git first, authenticated GitHub CLI second, and connector-platform fallback only when local access cannot read the repository.
 - Linked local folder evidence should come from the bounded `local-design-context` command, which writes a local evidence note and snapshots under `context/local-code/` before final design-system rules are drafted.
-- Before marking the design system ready, run `"$OD_NODE_BIN" "$OD_BIN" tools connectors design-system-package-audit --path . --fail-on-warnings` and fix every reported error or warning.
+- Before marking the design system ready, run `"$SW_NODE_BIN" "$SW_BIN" tools connectors design-system-package-audit --path . --fail-on-warnings` and fix every reported error or warning.
 - Draft design systems cannot be used by other projects until published.
 
 ## Provenance
 
-Formalized by Open Design from candidate 242e9a72-9a69-4de5-91a4-67563dcf7db1.
+Formalized by SankiWork from candidate 242e9a72-9a69-4de5-91a4-67563dcf7db1.

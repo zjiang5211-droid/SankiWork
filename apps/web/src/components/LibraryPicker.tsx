@@ -11,8 +11,8 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
-import type { LibraryAsset } from '@open-design/contracts';
-import { Button, Input } from '@open-design/components';
+import type { LibraryAsset } from '@sankiwork/contracts';
+import { Button, Input } from '@sankiwork/components';
 import { useT } from '../i18n';
 import { modalOverlay, modalContent } from '../motion';
 import { fetchLibraryAssets, libraryAssetRawUrl } from '../providers/registry';

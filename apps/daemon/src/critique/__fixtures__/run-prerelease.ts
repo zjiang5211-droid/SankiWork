@@ -41,14 +41,14 @@ const ADAPTERS: readonly PrereleaseAdapter[] = [
 ];
 
 /**
- * Anchor the run at the project's `.od/` data dir by default; the
+ * Anchor the run at the project's `.sankiwork/` data dir by default; the
  * Home Manager / NixOS / Playwright runtimes that already set
- * `OD_DATA_DIR` keep their isolation here too.
+ * `SW_DATA_DIR` keep their isolation here too.
  */
 function resolveDataDir(): string {
-  const override = process.env.OD_DATA_DIR;
+  const override = process.env.SW_DATA_DIR;
   if (override && override.length > 0) return path.resolve(override);
-  return path.resolve(process.cwd(), '.od');
+  return path.resolve(process.cwd(), '.sankiwork');
 }
 
 function isoDay(d: Date): string {

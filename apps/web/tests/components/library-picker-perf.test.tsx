@@ -10,7 +10,7 @@
 
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { LibraryAsset } from '@open-design/contracts';
+import type { LibraryAsset } from '@sankiwork/contracts';
 
 let lazyInView = true;
 vi.mock('../../src/components/plugins-home/useInView', () => ({

@@ -2,7 +2,7 @@ import {
   assertTeamResourceCopyAllowed,
   type TeamResourceCopyTarget,
   type TeamResourceState,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 // Team-resource state seam (D1 state model). Reports whether a design system /
 // plugin / skill is a team resource and its lifecycle state, so the copy

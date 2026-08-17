@@ -7,7 +7,7 @@ import { promisify } from "node:util";
 import {
   LAUNCHER_SCHEMA_VERSION,
   resolveLauncherVersionPaths,
-} from "@open-design/launcher-proto";
+} from "@sankiwork/launcher-proto";
 
 import { hashJson, hashPath, type ToolPackCache } from "../cache.js";
 import type { ToolPackConfig } from "../config.js";
@@ -29,7 +29,7 @@ export type WinLauncherPayloadManifest = {
   channel: string;
   entry: {
     cwd: "payload";
-    executable: "payload/Open Design.exe";
+    executable: "payload/SankiWork.exe";
   };
   namespace: string;
   payloadRoot: "payload";
@@ -47,7 +47,7 @@ export function buildWinLauncherPayloadManifest(input: {
     channel: input.channel,
     entry: {
       cwd: "payload",
-      executable: "payload/Open Design.exe",
+      executable: "payload/SankiWork.exe",
     },
     namespace: input.namespace,
     payloadRoot: "payload",
@@ -124,10 +124,10 @@ export async function buildWinLauncherPayloadArchive(
     await mkdir(join(overlayRoot, "payload", "resources"), { recursive: true });
     await writeFile(join(overlayRoot, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
     if (input.includeExecutable) {
-      await cp(join(builtApp.unpackedRoot, "Open Design.exe"), join(overlayRoot, "payload", "Open Design.exe"));
+      await cp(join(builtApp.unpackedRoot, "SankiWork.exe"), join(overlayRoot, "payload", "SankiWork.exe"));
     }
     await writeFile(
-      join(overlayRoot, "payload", "resources", "open-design-config.json"),
+      join(overlayRoot, "payload", "resources", "sankiwork-config.json"),
       await readFile(paths.packagedConfigPath),
     );
     const packageJsonPath = join(builtApp.unpackedRoot, "resources", "app", "package.json");
@@ -328,10 +328,10 @@ export async function validateWinLauncherPayloadArchive(input: {
     requirePayloadManifestValue(manifest.platform, "platform", "win32");
     requirePayloadManifestValue(manifest.payloadRoot, "payloadRoot", "payload");
     requirePayloadManifestValue(manifest.entry?.cwd, "entry.cwd", "payload");
-    requirePayloadManifestValue(manifest.entry?.executable, "entry.executable", "payload/Open Design.exe");
+    requirePayloadManifestValue(manifest.entry?.executable, "entry.executable", "payload/SankiWork.exe");
 
-    await stat(join(extractRoot, archiveRelativePath("payload/Open Design.exe")));
-    await stat(join(extractRoot, archiveRelativePath("payload/resources/open-design-config.json")));
+    await stat(join(extractRoot, archiveRelativePath("payload/SankiWork.exe")));
+    await stat(join(extractRoot, archiveRelativePath("payload/resources/sankiwork-config.json")));
     return { manifest, payloadPath, valid: true };
   } finally {
     await rm(extractRoot, { force: true, recursive: true });

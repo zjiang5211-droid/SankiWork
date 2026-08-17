@@ -285,7 +285,7 @@ describe('daemon origin validation middleware', () => {
   });
 
   it('blocks local guarded routes without Origin when Host only matches a configured deployment origin', async () => {
-    process.env.OD_ALLOWED_ORIGINS = 'https://od.example.com';
+    process.env.SW_ALLOWED_ORIGINS = 'https://od.example.com';
     try {
       const res = await request(port, 'POST', '/api/active', {
         headers: {
@@ -295,12 +295,12 @@ describe('daemon origin validation middleware', () => {
       });
       expect(res.status).toBe(403);
     } finally {
-      delete process.env.OD_ALLOWED_ORIGINS;
+      delete process.env.SW_ALLOWED_ORIGINS;
     }
   });
 
   it('allows local guarded routes from a matching configured deployment origin', async () => {
-    process.env.OD_ALLOWED_ORIGINS = 'https://od.example.com';
+    process.env.SW_ALLOWED_ORIGINS = 'https://od.example.com';
     try {
       const res = await request(port, 'POST', '/api/active', {
         origin: 'https://od.example.com',
@@ -311,13 +311,13 @@ describe('daemon origin validation middleware', () => {
       });
       expect(res.status).toBe(200);
     } finally {
-      delete process.env.OD_ALLOWED_ORIGINS;
+      delete process.env.SW_ALLOWED_ORIGINS;
     }
   });
 
   it('allows local guarded routes without Origin when Host matches a configured non-loopback IP origin', async () => {
     const lanHost = `100.86.154.169:${port}`;
-    process.env.OD_ALLOWED_ORIGINS = `http://${lanHost}`;
+    process.env.SW_ALLOWED_ORIGINS = `http://${lanHost}`;
     try {
       const res = await request(port, 'POST', '/api/active', {
         headers: {
@@ -327,7 +327,7 @@ describe('daemon origin validation middleware', () => {
       });
       expect(res.status).toBe(200);
     } finally {
-      delete process.env.OD_ALLOWED_ORIGINS;
+      delete process.env.SW_ALLOWED_ORIGINS;
     }
   });
 
@@ -380,14 +380,14 @@ describe('daemon origin validation middleware', () => {
   });
 
   it('allows explicitly configured deployment origins', async () => {
-    process.env.OD_ALLOWED_ORIGINS = `https://od.example.com,http://203.0.113.10:${port}`;
+    process.env.SW_ALLOWED_ORIGINS = `https://od.example.com,http://203.0.113.10:${port}`;
     try {
       const res = await request(port, 'GET', '/api/projects', {
         origin: 'https://od.example.com',
       });
       expect(res.status).toBe(200);
     } finally {
-      delete process.env.OD_ALLOWED_ORIGINS;
+      delete process.env.SW_ALLOWED_ORIGINS;
     }
   });
 
@@ -416,24 +416,24 @@ describe('daemon origin validation middleware', () => {
     expect(res.status).toBe(403);
   });
 
-  // --- OD_WEB_PORT (split-port proxy) ---
+  // --- SW_WEB_PORT (split-port proxy) ---
 
-  it('allows requests from OD_WEB_PORT (web proxy port)', async () => {
+  it('allows requests from SW_WEB_PORT (web proxy port)', async () => {
     const webPort = nearbyValidPort(port);
-    process.env.OD_WEB_PORT = String(webPort);
+    process.env.SW_WEB_PORT = String(webPort);
     try {
       const res = await request(port, 'GET', '/api/projects', {
         origin: `http://127.0.0.1:${webPort}`,
       });
       expect(res.status).toBe(200);
     } finally {
-      delete process.env.OD_WEB_PORT;
+      delete process.env.SW_WEB_PORT;
     }
   });
 
-  it('blocks requests from unknown ports even with OD_WEB_PORT set', async () => {
+  it('blocks requests from unknown ports even with SW_WEB_PORT set', async () => {
     const webPort = nearbyValidPort(port);
-    process.env.OD_WEB_PORT = String(webPort);
+    process.env.SW_WEB_PORT = String(webPort);
     try {
       const unknownPort = differentValidPort(port);
       const res = await request(port, 'GET', '/api/projects', {
@@ -441,7 +441,7 @@ describe('daemon origin validation middleware', () => {
       });
       expect(res.status).toBe(403);
     } finally {
-      delete process.env.OD_WEB_PORT;
+      delete process.env.SW_WEB_PORT;
     }
   });
 
@@ -630,28 +630,28 @@ describe('origin validation: non-loopback bind host', () => {
 // proxy (Nginx, Caddy, Traefik, …), the Host header the daemon observes
 // is the proxy upstream's address, not the browser-visible origin. The
 // host check inside isLocalSameOrigin therefore rejects requests whose
-// browser origin is explicitly listed in OD_ALLOWED_ORIGINS, because
+// browser origin is explicitly listed in SW_ALLOWED_ORIGINS, because
 // the Host header doesn't carry that origin's host. Trusting the Origin
 // header when it matches an explicit allow-list entry restores the
-// documented escape-hatch behavior of OD_ALLOWED_ORIGINS.
-describe('isLocalSameOrigin: OD_ALLOWED_ORIGINS bypass for reverse-proxy deployments', () => {
+// documented escape-hatch behavior of SW_ALLOWED_ORIGINS.
+describe('isLocalSameOrigin: SW_ALLOWED_ORIGINS bypass for reverse-proxy deployments', () => {
   const ALLOWED = 'http://192.168.8.168:7457';
-  const previousAllowedOrigins = process.env.OD_ALLOWED_ORIGINS;
+  const previousAllowedOrigins = process.env.SW_ALLOWED_ORIGINS;
   const env: NodeJS.ProcessEnv = {
     ...process.env,
-    OD_ALLOWED_ORIGINS: ALLOWED,
-    OD_BIND_HOST: '0.0.0.0',
+    SW_ALLOWED_ORIGINS: ALLOWED,
+    SW_BIND_HOST: '0.0.0.0',
   };
 
   beforeAll(() => {
-    process.env.OD_ALLOWED_ORIGINS = ALLOWED;
+    process.env.SW_ALLOWED_ORIGINS = ALLOWED;
   });
   afterAll(() => {
-    if (previousAllowedOrigins === undefined) delete process.env.OD_ALLOWED_ORIGINS;
-    else process.env.OD_ALLOWED_ORIGINS = previousAllowedOrigins;
+    if (previousAllowedOrigins === undefined) delete process.env.SW_ALLOWED_ORIGINS;
+    else process.env.SW_ALLOWED_ORIGINS = previousAllowedOrigins;
   });
 
-  it('accepts a request whose Origin matches OD_ALLOWED_ORIGINS even when the Host header is the proxy upstream', () => {
+  it('accepts a request whose Origin matches SW_ALLOWED_ORIGINS even when the Host header is the proxy upstream', () => {
     const req = {
       headers: {
         host: '172.18.0.5:7457', // typical Nginx → daemon upstream (container IP)
@@ -661,7 +661,7 @@ describe('isLocalSameOrigin: OD_ALLOWED_ORIGINS bypass for reverse-proxy deploym
     expect(isLocalSameOrigin(req, 7457, env)).toBe(true);
   });
 
-  it('still rejects a request whose Origin is not in OD_ALLOWED_ORIGINS', () => {
+  it('still rejects a request whose Origin is not in SW_ALLOWED_ORIGINS', () => {
     const req = {
       headers: {
         host: '172.18.0.5:7457',
@@ -703,30 +703,30 @@ describe('isLocalSameOrigin: OD_ALLOWED_ORIGINS bypass for reverse-proxy deploym
 
 // Firefox and Chrome omit the Origin header on same-origin GET requests per
 // the Fetch spec. When the daemon runs behind a remote-access proxy whose
-// public hostname is listed in OD_ALLOWED_ORIGINS, those legitimate
+// public hostname is listed in SW_ALLOWED_ORIGINS, those legitimate
 // same-origin GETs (e.g. /api/app-config) get rejected by the no-Origin
-// host check because hostname entries in OD_ALLOWED_ORIGINS are only
+// host check because hostname entries in SW_ALLOWED_ORIGINS are only
 // honored via the IP-literal subset in that branch. Sec-Fetch-Site is set
 // by the browser and cannot be modified by JavaScript, so a value of
 // "same-origin" is a trustworthy substitute for the missing Origin header.
 describe('isLocalSameOrigin: Sec-Fetch-Site fallback for no-Origin same-origin GETs', () => {
   const ALLOWED = 'https://nas.example.ts.net';
-  const previousAllowedOrigins = process.env.OD_ALLOWED_ORIGINS;
+  const previousAllowedOrigins = process.env.SW_ALLOWED_ORIGINS;
   const env: NodeJS.ProcessEnv = {
     ...process.env,
-    OD_ALLOWED_ORIGINS: ALLOWED,
-    OD_BIND_HOST: '127.0.0.1',
+    SW_ALLOWED_ORIGINS: ALLOWED,
+    SW_BIND_HOST: '127.0.0.1',
   };
 
   beforeAll(() => {
-    process.env.OD_ALLOWED_ORIGINS = ALLOWED;
+    process.env.SW_ALLOWED_ORIGINS = ALLOWED;
   });
   afterAll(() => {
-    if (previousAllowedOrigins === undefined) delete process.env.OD_ALLOWED_ORIGINS;
-    else process.env.OD_ALLOWED_ORIGINS = previousAllowedOrigins;
+    if (previousAllowedOrigins === undefined) delete process.env.SW_ALLOWED_ORIGINS;
+    else process.env.SW_ALLOWED_ORIGINS = previousAllowedOrigins;
   });
 
-  it('accepts a no-Origin request whose Host matches OD_ALLOWED_ORIGINS when Sec-Fetch-Site is same-origin', () => {
+  it('accepts a no-Origin request whose Host matches SW_ALLOWED_ORIGINS when Sec-Fetch-Site is same-origin', () => {
     const req = {
       headers: {
         host: 'nas.example.ts.net',
@@ -776,15 +776,15 @@ describe('isLocalSameOrigin: Sec-Fetch-Site fallback for no-Origin same-origin G
   });
 });
 
-describe('configuredAllowedInternalHosts: OD_ALLOWED_INTERNAL_HOSTS parsing (issue #3225)', () => {
+describe('configuredAllowedInternalHosts: SW_ALLOWED_INTERNAL_HOSTS parsing (issue #3225)', () => {
   it('returns [] when the env var is unset or blank', () => {
     expect(configuredAllowedInternalHosts({})).toEqual([]);
-    expect(configuredAllowedInternalHosts({ OD_ALLOWED_INTERNAL_HOSTS: '   ' })).toEqual([]);
+    expect(configuredAllowedInternalHosts({ SW_ALLOWED_INTERNAL_HOSTS: '   ' })).toEqual([]);
   });
 
   it('splits on commas and whitespace and keeps only the hostname', () => {
     const env = {
-      OD_ALLOWED_INTERNAL_HOSTS: '10.0.0.5, litellm.internal:4000  https://gw.corp/v1',
+      SW_ALLOWED_INTERNAL_HOSTS: '10.0.0.5, litellm.internal:4000  https://gw.corp/v1',
     };
     expect(configuredAllowedInternalHosts(env)).toEqual([
       '10.0.0.5',
@@ -794,22 +794,22 @@ describe('configuredAllowedInternalHosts: OD_ALLOWED_INTERNAL_HOSTS parsing (iss
   });
 
   it('lowercases and strips brackets from IPv6 literal entries', () => {
-    const env = { OD_ALLOWED_INTERNAL_HOSTS: '[FD00::1]:4000' };
+    const env = { SW_ALLOWED_INTERNAL_HOSTS: '[FD00::1]:4000' };
     expect(configuredAllowedInternalHosts(env)).toEqual(['fd00::1']);
   });
 
   it('warns and skips a malformed entry instead of silently trusting it', () => {
     const warnings: string[] = [];
-    const env = { OD_ALLOWED_INTERNAL_HOSTS: '10.0.0.5, http://, good.internal' };
+    const env = { SW_ALLOWED_INTERNAL_HOSTS: '10.0.0.5, http://, good.internal' };
     const hosts = configuredAllowedInternalHosts(env, (m) => warnings.push(m));
     expect(hosts).toEqual(['10.0.0.5', 'good.internal']);
     expect(warnings).toHaveLength(1);
-    expect(warnings[0]).toMatch(/OD_ALLOWED_INTERNAL_HOSTS/);
+    expect(warnings[0]).toMatch(/SW_ALLOWED_INTERNAL_HOSTS/);
   });
 
   it('warns and skips a CIDR entry rather than silently narrowing it to one host', () => {
     const warnings: string[] = [];
-    const env = { OD_ALLOWED_INTERNAL_HOSTS: '10.0.0.0/24, 10.0.0.5' };
+    const env = { SW_ALLOWED_INTERNAL_HOSTS: '10.0.0.0/24, 10.0.0.5' };
     const hosts = configuredAllowedInternalHosts(env, (m) => warnings.push(m));
     expect(hosts).toEqual(['10.0.0.5']);
     expect(warnings).toHaveLength(1);

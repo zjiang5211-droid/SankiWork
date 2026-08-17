@@ -34,7 +34,7 @@ The agent should:
    protocol, then register the artifact through the daemon wrapper:
 
    ```bash
-   "$OD_NODE_BIN" "$OD_BIN" tools live-artifacts create --input artifact.json
+   "$SW_NODE_BIN" "$SW_BIN" tools live-artifacts create --input artifact.json
    ```
 
 4. The daemon renders `template.html + data.json` into the preview

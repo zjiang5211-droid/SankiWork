@@ -103,7 +103,7 @@ async function runCli(args: string[]) {
   }
 }
 
-describe('od design-systems exact workspace transport', () => {
+describe('sw design-systems exact workspace transport', () => {
   it.each([
     ['list', ['list', '--json']],
     ['show', ['show', 'user:brand', '--json']],

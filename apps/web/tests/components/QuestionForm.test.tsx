@@ -919,12 +919,12 @@ describe('QuestionFormView', () => {
       (screen.getByAltText(
         'Editorial narrative deck style preview.',
       ) as HTMLImageElement).getAttribute('src'),
-    ).toBe('https://repo-assets.open-design.ai/style-catalog/v1/deck-editorial-narrative-v1.webp');
+    ).toBe('https://repo-assets.sanki-ai.cloud/style-catalog/v1/deck-editorial-narrative-v1.webp');
     expect(
       (screen.getByAltText(
         'Product keynote deck style preview.',
       ) as HTMLImageElement).getAttribute('src'),
-    ).toBe('https://repo-assets.open-design.ai/style-catalog/v1/deck-product-keynote-v1.webp');
+    ).toBe('https://repo-assets.sanki-ai.cloud/style-catalog/v1/deck-product-keynote-v1.webp');
     expect(document.querySelector('[data-artifact-type="deck"]')).toBeTruthy();
 
     fireEvent.click(screen.getByLabelText('Editorial narrative'));
@@ -1049,7 +1049,7 @@ describe('QuestionFormView', () => {
     expect(dialog.querySelectorAll('.qf-visual-card input')).toHaveLength(25);
     expect(
       dialog.querySelector(
-        'img[src="https://repo-assets.open-design.ai/style-catalog/v1/deck-editorial-narrative-v1.webp"]',
+        'img[src="https://repo-assets.sanki-ai.cloud/style-catalog/v1/deck-editorial-narrative-v1.webp"]',
       ),
     ).toBeTruthy();
     expect(dialog.querySelector('[aria-label="Bento modular"]')).toBeTruthy();
@@ -1107,19 +1107,19 @@ describe('QuestionFormView', () => {
     expect(imageCards).toHaveLength(22);
     expect(videoCards).toHaveLength(12);
     expect(deckCards.find((card) => card.value === 'deck-academic-research')?.preview.src).toBe(
-      'https://repo-assets.open-design.ai/style-catalog/v1/deck-academic-research-v1.webp',
+      'https://repo-assets.sanki-ai.cloud/style-catalog/v1/deck-academic-research-v1.webp',
     );
     expect(
       prototypeCards.find((card) => card.value === 'prototype-y2k-chrome')?.preview.src,
-    ).toBe('https://repo-assets.open-design.ai/style-catalog/v1/prototype-y2k-chrome-v1.webp');
+    ).toBe('https://repo-assets.sanki-ai.cloud/style-catalog/v1/prototype-y2k-chrome-v1.webp');
     expect(
       documentCards.find((card) => card.value === 'document-academic-paper')?.preview.src,
-    ).toBe('https://repo-assets.open-design.ai/style-catalog/v1/document-academic-paper-v1.webp');
+    ).toBe('https://repo-assets.sanki-ai.cloud/style-catalog/v1/document-academic-paper-v1.webp');
     expect(
       imageCards.find((card) => card.value === 'image-chrome-3d')?.preview.src,
-    ).toBe('https://repo-assets.open-design.ai/style-catalog/v1/image-chrome-3d-v1.webp');
+    ).toBe('https://repo-assets.sanki-ai.cloud/style-catalog/v1/image-chrome-3d-v1.webp');
     expect(
       videoCards.find((card) => card.value === 'video-kinetic-type')?.preview.src,
-    ).toBe('https://repo-assets.open-design.ai/style-catalog/v1/video-kinetic-type-v1.webp');
+    ).toBe('https://repo-assets.sanki-ai.cloud/style-catalog/v1/video-kinetic-type-v1.webp');
   });
 });

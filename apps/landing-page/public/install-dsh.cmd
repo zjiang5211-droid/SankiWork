@@ -7,14 +7,14 @@ if errorlevel 1 (
   exit /b 1
 )
 
-set "OD_DSH_PS1=%TEMP%\open-design-install-dsh-%RANDOM%-%RANDOM%.ps1"
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -Command "$ProgressPreference='SilentlyContinue'; Invoke-WebRequest -UseBasicParsing 'https://open-design.ai/install-dsh.ps1?version=1' -OutFile $env:OD_DSH_PS1"
+set "SW_DSH_PS1=%TEMP%\sankiwork-install-dsh-%RANDOM%-%RANDOM%.ps1"
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -Command "$ProgressPreference='SilentlyContinue'; Invoke-WebRequest -UseBasicParsing 'https://sanki-ai.cloud/install-dsh.ps1?version=1' -OutFile $env:SW_DSH_PS1"
 if errorlevel 1 (
   echo DeepSeek Harness installer: could not download install-dsh.ps1. 1>&2
   exit /b 1
 )
 
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%OD_DSH_PS1%" %*
-set "OD_DSH_EXIT=%ERRORLEVEL%"
-del /q "%OD_DSH_PS1%" >nul 2>nul
-exit /b %OD_DSH_EXIT%
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%SW_DSH_PS1%" %*
+set "SW_DSH_EXIT=%ERRORLEVEL%"
+del /q "%SW_DSH_PS1%" >nul 2>nul
+exit /b %SW_DSH_EXIT%

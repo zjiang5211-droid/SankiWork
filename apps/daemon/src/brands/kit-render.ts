@@ -6,12 +6,12 @@
 // deterministic and never agent-authored: the agent only writes brand.json and
 // asks the daemon to (re)render, so the user watches a real, on-brand kit fill
 // in instead of just a scrolling chat. While `status === 'extracting'` the page
-// soft-reloads itself, so each `od brand preview` pass shows up live.
+// soft-reloads itself, so each `sw brand preview` pass shows up live.
 
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { ProjectMetadata } from '@open-design/contracts';
+import type { ProjectMetadata } from '@sankiwork/contracts';
 
 import { resolveProjectDir, writeProjectFile } from '../projects.js';
 import { fontFaceCss, readFontManifest } from './fonts.js';
@@ -23,10 +23,10 @@ const BRAND_KIT_TEMPLATE_REL = path.join('brand-extract', 'templates', 'brand-ki
 /** The file the rendered kit is written to inside the extraction project. */
 export const BRAND_KIT_FILE = 'brand.html';
 
-const PAYLOAD_TOKEN = '__OD_BRAND_PAYLOAD__';
-const FONTFACE_TOKEN = '__OD_BRAND_FONTFACE__';
-const LANG_TOKEN = '__OD_BRAND_LANG__';
-const TITLE_TOKEN = '__OD_BRAND_TITLE__';
+const PAYLOAD_TOKEN = '__SW_BRAND_PAYLOAD__';
+const FONTFACE_TOKEN = '__SW_BRAND_FONTFACE__';
+const LANG_TOKEN = '__SW_BRAND_LANG__';
+const TITLE_TOKEN = '__SW_BRAND_TITLE__';
 
 /** Token-engine fields the kit page surfaces as design-system chips. */
 interface BrandKitTokenSubset {

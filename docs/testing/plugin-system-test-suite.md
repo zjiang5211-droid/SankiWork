@@ -14,7 +14,7 @@
 | Daemon install / apply / snapshot | 完成 | `apps/daemon/src/plugins/{installer,apply,snapshots,resolve-snapshot}.ts`、`apps/daemon/tests/plugins-dod-e2e.test.ts` | v1 主路径可验收 |
 | Pipeline / GenUI / devloop | 完成主路径 | `apps/daemon/src/plugins/{pipeline,pipeline-runner,until}.ts`、`apps/daemon/src/genui/*` | 需要继续跑事件流回归 |
 | First-party atoms and scenarios | Phase 6/7/8 已落地 | `apps/daemon/src/plugins/atoms/*`、`plugins/_official/scenarios/*`、对应 `plugins-*-e2e.test.ts` | 需要按场景抽样验收 |
-| Headless CLI loop | 主路径完成 | `od plugin install/run`、`od project create`、`od run start/watch`、`apps/daemon/tests/plugins-headless-run.test.ts` | v1 必测 |
+| Headless CLI loop | 主路径完成 | `sw plugin install/run`、`sw project create`、`sw run start/watch`、`apps/daemon/tests/plugins-headless-run.test.ts` | v1 必测 |
 | Federated registry | P0/P1/P3/P4 大多完成 | `packages/registry-protocol`、`apps/daemon/src/registry/*`、`apps/daemon/tests/registry-backends.test.ts` | DoD 仍有开放项 |
 | Web Plugins UI | Installed / Available / Sources 可用，Team 未完成 | `apps/web/src/components/PluginsView.tsx`、`apps/web/tests/components/PluginsView.test.tsx` | 需要 UI 手工验收 |
 | Plugin detail surface | 已有详情 modal、provenance、capabilities、share menu | `PluginDetailsModal.tsx`、`plugin-details/*` | P2.5 的 version dropdown 仍需补 |
@@ -42,17 +42,17 @@
 ```bash
 pnpm guard
 pnpm typecheck
-pnpm --filter @open-design/contracts test
-pnpm --filter @open-design/plugin-runtime test
-pnpm --filter @open-design/registry-protocol test
-pnpm --filter @open-design/daemon test
-pnpm --filter @open-design/web test
+pnpm --filter @sankiwork/contracts test
+pnpm --filter @sankiwork/plugin-runtime test
+pnpm --filter @sankiwork/registry-protocol test
+pnpm --filter @sankiwork/daemon test
+pnpm --filter @sankiwork/web test
 ```
 
 验收标准：
 
 - 所有命令退出码为 `0`。
-- 如 `@open-design/daemon test` 出现非插件相关历史失败，必须在发布记录里列出文件名、失败用例、是否已知，不能只写“daemon failed”。
+- 如 `@sankiwork/daemon test` 出现非插件相关历史失败，必须在发布记录里列出文件名、失败用例、是否已知，不能只写“daemon failed”。
 
 ### 2.2 插件聚焦回归
 
@@ -94,7 +94,7 @@ pnpm --dir apps/web exec vitest run -c vitest.config.ts \
 ```
 
 ```bash
-pnpm --filter @open-design/landing-page build
+pnpm --filter @sankiwork/landing-page build
 ```
 
 验收标准：
@@ -178,9 +178,9 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 | ID | 场景 | 核心断言 | 覆盖 |
 | --- | --- | --- | --- |
 | PS-D01 | Headless install -> project -> run | HTTP/CLI 路径都 pin `appliedPluginSnapshotId` | `apps/daemon/tests/plugins-headless-run.test.ts` |
-| PS-D02 | CLI prompt injection | `od plugin run` 把 query、inputs、local SKILL.md 注入 agent prompt | `apps/daemon/tests/plugins-headless-run.test.ts` |
-| PS-D03 | Project/run/files basics | `od project create`、`od run start/watch/cancel/list/info`、`od files read` 可用 | `apps/daemon/tests/plugins-headless-run.test.ts` + CLI tests |
-| PS-D04 | Marketplace CLI | `od marketplace plugins/search/doctor/login` 输出稳定，login 只调用 `gh` | `apps/daemon/tests/plugins-headless-run.test.ts`、`plugins-marketplace-doctor.test.ts` |
+| PS-D02 | CLI prompt injection | `sw plugin run` 把 query、inputs、local SKILL.md 注入 agent prompt | `apps/daemon/tests/plugins-headless-run.test.ts` |
+| PS-D03 | Project/run/files basics | `sw project create`、`sw run start/watch/cancel/list/info`、`sw files read` 可用 | `apps/daemon/tests/plugins-headless-run.test.ts` + CLI tests |
+| PS-D04 | Marketplace CLI | `sw marketplace plugins/search/doctor/login` 输出稳定，login 只调用 `gh` | `apps/daemon/tests/plugins-headless-run.test.ts`、`plugins-marketplace-doctor.test.ts` |
 | PS-D05 | Plugin publish/share | user plugin 进入 publish/contribute workflow，GitHub PR payload 稳定 | `apps/daemon/tests/plugins-headless-run.test.ts`、`plugins-publish.test.ts` |
 | PS-D06 | Plugin upgrade/yank | upgrade 遵守 policy/lockfile，yank 不硬删版本 | `apps/daemon/tests/plugins-upgrade.test.ts`、`plugins-publish.test.ts` |
 
@@ -195,7 +195,7 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 | PS-E05 | Provenance | marketplace install 保留 sourceMarketplaceId、entry name/version、resolved ref、integrity | `apps/daemon/tests/plugins-installer.test.ts` |
 | PS-E06 | Lockfile replay | daemon-managed plugin lockfile 可以重放 exact install；测试文档不得定义 daemon 数据路径，必须阅读 root `AGENTS.md` → **Daemon data directory contract** | `apps/daemon/tests/plugins-lockfile.test.ts` |
 | PS-E07 | Marketplace doctor | invalid name/source/capability/license/yank reason 被报告 | `apps/daemon/tests/plugins-marketplace-doctor.test.ts` |
-| PS-E08 | Public site renderer | `/plugins`、detail route、`/plugins/search.json` build 通过 | `pnpm --filter @open-design/landing-page build` |
+| PS-E08 | Public site renderer | `/plugins`、detail route、`/plugins/search.json` build 通过 | `pnpm --filter @sankiwork/landing-page build` |
 
 ### F. Pipeline, GenUI, Atoms
 
@@ -218,7 +218,7 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 | PS-G02 | Tool token revalidation | 泄漏 token 也不能绕过 connector gate | `apps/daemon/tests/plugins-tool-token-gate.test.ts` |
 | PS-G03 | Capability grant/revoke | trust endpoint 可授予/撤销 capability，非法 capability 被拒 | `apps/daemon/tests/plugins-trust.test.ts` |
 | PS-G04 | Asset sandbox | plugin asset route 不允许路径穿越，返回合适 CSP/content-type | `apps/daemon/tests/plugins-asset-route.test.ts` |
-| PS-G05 | API token guard | public bind 没有 `OD_API_TOKEN` 被拒，loopback 跳过 bearer | `apps/daemon/tests/api-token-guard.test.ts` |
+| PS-G05 | API token guard | public bind 没有 `SW_API_TOKEN` 被拒，loopback 跳过 bearer | `apps/daemon/tests/api-token-guard.test.ts` |
 | PS-G06 | Origin/CORS | daemon route origin validation 不放宽 | `apps/daemon/tests/origin-validation.test.ts`、`server-cors.test.ts` |
 
 ### H. Web Product Surface
@@ -243,7 +243,7 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 | --- | --- | --- |
 | MAN-001 | 打开一个 official scenario plugin 详情 | 标题、版本、trust、source、workflow、capabilities 都可读 |
 | MAN-002 | 打开一个 marketplace-installed plugin 详情 | provenance 显示 sourceMarketplaceId / entry name / source kind |
-| MAN-003 | 打开 Share 菜单，复制 install command | 剪贴板内容为 `od plugin install <plugin-or-source>`，不是 marketplace id 误当 plugin id |
+| MAN-003 | 打开 Share 菜单，复制 install command | 剪贴板内容为 `sw plugin install <plugin-or-source>`，不是 marketplace id 误当 plugin id |
 | MAN-004 | 打开带 inputs 的 plugin | inputs 类型、required、default、options 都显示 |
 | MAN-005 | 尝试查找 version dropdown | 当前预期：缺失，记录为 P2.5 未完成 |
 
@@ -261,20 +261,20 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 
 | ID | 命令 | 期望 |
 | --- | --- | --- |
-| MAN-011 | `od plugin install <local-plugin>` | 输出 ok，`od plugin list --json` 能看到新 plugin |
-| MAN-012 | `od plugin doctor <id> --json` | valid plugin 无 error，metadata-only plugin 有明确 non-runnable 诊断 |
-| MAN-013 | `od project create --plugin <id> --inputs '{"topic":"qa"}' --json` | 返回 project id 和 `appliedPluginSnapshotId` |
-| MAN-014 | `od plugin run <id> --project <projectId> --follow` | 事件流包含 pipeline stage、agent events、end status |
-| MAN-015 | `od marketplace search "<query>" --json` | 搜索 configured catalog，不依赖 web UI |
+| MAN-011 | `sw plugin install <local-plugin>` | 输出 ok，`sw plugin list --json` 能看到新 plugin |
+| MAN-012 | `sw plugin doctor <id> --json` | valid plugin 无 error，metadata-only plugin 有明确 non-runnable 诊断 |
+| MAN-013 | `sw project create --plugin <id> --inputs '{"topic":"qa"}' --json` | 返回 project id 和 `appliedPluginSnapshotId` |
+| MAN-014 | `sw plugin run <id> --project <projectId> --follow` | 事件流包含 pipeline stage、agent events、end status |
+| MAN-015 | `sw marketplace search "<query>" --json` | 搜索 configured catalog，不依赖 web UI |
 
 ### 4.4 Public registry / self-host
 
 | ID | 步骤 | 期望 |
 | --- | --- | --- |
-| MAN-016 | `pnpm --filter @open-design/landing-page build` | 静态 `/plugins` 和 `search.json` 生成成功 |
+| MAN-016 | `pnpm --filter @sankiwork/landing-page build` | 静态 `/plugins` 和 `search.json` 生成成功 |
 | MAN-017 | 复制 `plugins/registry/community/open-design-marketplace.json` 到临时 URL 或本地 fixture server | daemon 能 add/search/install |
 | MAN-018 | 按 `docs/self-hosting-a-registry.md` 新建第三方 catalog | 只需替换 catalog name/url/source 两类配置，不改 daemon/web 代码 |
-| MAN-019 | 用 `od plugin publish --to marketplace-json --catalog <path>` | catalog 稳定 upsert，source 可复现 |
+| MAN-019 | 用 `sw plugin publish --to marketplace-json --catalog <path>` | catalog 稳定 upsert，source 可复现 |
 
 ## 5. 发布通过标准
 
@@ -291,7 +291,7 @@ Registry v1 只有在以下额外条件满足后才能标为“fully done”：
 1. `plugin-registry.md` §4 DoD 全部勾选。
 2. 有一个 e2e fixture catalog 验证第三方 fork/self-host source。
 3. UI Sources/Available 的每个动作都有等价 CLI 命令，并有 parity 测试或脚本证明。
-4. 至少一次真实第三方 publisher 通过 `od plugin publish` 发起发布流程，没有手写 JSON。
+4. 至少一次真实第三方 publisher 通过 `sw plugin publish` 发起发布流程，没有手写 JSON。
 
 ## 6. 失败排查顺序
 

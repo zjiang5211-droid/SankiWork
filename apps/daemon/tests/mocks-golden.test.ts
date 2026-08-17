@@ -10,7 +10,7 @@
 // fails this test loudly.
 //
 // Update flow when a parser change is INTENTIONAL:
-//   MOCKS_GOLDEN_UPDATE=1 pnpm --filter @open-design/daemon test mocks-golden
+//   MOCKS_GOLDEN_UPDATE=1 pnpm --filter @sankiwork/daemon test mocks-golden
 // then `git diff mocks/golden/` and commit the new shapes.
 //
 // Auto-skips when the recording corpus hasn't been fetched yet (see
@@ -61,7 +61,7 @@ function runMockAndCollectEvents(agent: string, trace: string): unknown[] {
     process.execPath,
     [MOCK_AGENT, '--as', agent, '--no-delay'],
     {
-      env: { ...process.env, OD_MOCKS_TRACE: trace, OD_MOCKS_NO_DELAY: '1' },
+      env: { ...process.env, SW_MOCKS_TRACE: trace, SW_MOCKS_NO_DELAY: '1' },
       input: 'golden-test-prompt',
       encoding: 'utf-8',
       timeout: 30_000,

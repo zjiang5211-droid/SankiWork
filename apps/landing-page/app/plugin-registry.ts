@@ -396,7 +396,7 @@ const entryFromMarketplace = (
     explicitLocalizedString(
       rawEntry.description as Parameters<typeof explicitLocalizedString>[0],
       locale,
-    ) ?? 'Agent-native Open Design workflow packaged as a portable plugin.';
+    ) ?? 'Agent-native SankiWork workflow packaged as a portable plugin.';
   const localized = localizePluginText({
     id,
     title: rawTitle,
@@ -424,8 +424,8 @@ const entryFromMarketplace = (
     sourceUrl: sourceUrlFromSource(source),
     registryUrl: registryUrlFor(registryId),
     detailHref,
-    installCommand: `od plugin install ${id}`,
-    directInstallCommand: `od plugin install ${source}`,
+    installCommand: `sw plugin install ${id}`,
+    directInstallCommand: `sw plugin install ${source}`,
     tags,
     capabilities,
     publisher,
@@ -524,7 +524,7 @@ const officialEntryFromManifest = (
   const copy = getLandingUiCopy(locale).plugins;
   const manifest = readJson<RawPluginManifest>(manifestPath);
   const pluginName = asString(manifest?.name) ?? path.basename(path.dirname(manifestPath));
-  const id = `open-design/${pluginName}`;
+  const id = `sankiwork/${pluginName}`;
   const pluginDir = path.dirname(manifestPath);
   const repoPath = toPosix(path.relative(REPO_ROOT, pluginDir));
   const source = `github:nexu-io/open-design@main/${repoPath}`;
@@ -545,7 +545,7 @@ const officialEntryFromManifest = (
     explicitLocalizedString(
       manifest?.description as Parameters<typeof explicitLocalizedString>[0],
       locale,
-    ) ?? 'First-party Open Design workflow packaged as a portable plugin.';
+    ) ?? 'First-party SankiWork workflow packaged as a portable plugin.';
   const localized = localizePluginText({
     id,
     title: rawTitle,
@@ -577,8 +577,8 @@ const officialEntryFromManifest = (
     sourceUrl: `${REPO}/tree/main/${repoPath}`,
     registryUrl: registryUrlFor('official'),
     detailHref,
-    installCommand: `od plugin install ${id}`,
-    directInstallCommand: `od plugin install ${source}`,
+    installCommand: `sw plugin install ${id}`,
+    directInstallCommand: `sw plugin install ${source}`,
     tags,
     capabilities,
     publisher: undefined,

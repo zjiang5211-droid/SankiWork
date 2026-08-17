@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { createEnforceWorkspaceProjectMutation } from '../../src/routes/project/index.js';
 import type { WorkspaceResourceAccessInput } from '../../src/collab/workspace-resource-mutation.js';
 

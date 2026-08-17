@@ -1,12 +1,12 @@
-// Gap-fill spec — `od media generate` must accept --prompt-file <path|->.
+// Gap-fill spec — `sw media generate` must accept --prompt-file <path|->.
 //
 // AGENTS.md (Capability exposure / UI-CLI dual-track):
 //   "The CLI form must ... accept long-form prompts via --prompt-file <path|->,
 //    so jobs that pipe through xargs, jq, and <heredoc stay clean."
 //
-// Every other prompt-taking `od` action (run redesign, brand create, automation
+// Every other prompt-taking `sw` action (run redesign, brand create, automation
 // create, files version-create) already routes through readPromptFromFlags,
-// which supports --prompt / --prompt-file / stdin. `od media generate` was the
+// which supports --prompt / --prompt-file / stdin. `sw media generate` was the
 // only prompt-taking action reading `flags.prompt` directly, so a long-form
 // prompt could not be supplied from a file or a heredoc. This pins the fill.
 //
@@ -72,7 +72,7 @@ async function runCli(args: string[], input?: string): Promise<void> {
   const { code, stderr } = await new Promise<{ code: number; stderr: string }>((resolve, reject) => {
     const child = spawn(process.execPath, ['--import', 'tsx', cliEntry, ...args], {
       cwd: daemonRoot,
-      env: { ...process.env, OD_PROJECT_ID: 'p1' },
+      env: { ...process.env, SW_PROJECT_ID: 'p1' },
       stdio: ['pipe', 'ignore', 'pipe'],
     });
     let stderr = '';
@@ -88,10 +88,10 @@ async function runCli(args: string[], input?: string): Promise<void> {
   // stderr) so a non-zero exit AFTER the POST — a failure during polling or
   // result handling — fails the spec instead of passing on the recorded request
   // alone.
-  expect(code, `od media generate exited ${code}; stderr:\n${stderr}`).toBe(0);
+  expect(code, `sw media generate exited ${code}; stderr:\n${stderr}`).toBe(0);
 }
 
-describe('od media generate --prompt-file', () => {
+describe('sw media generate --prompt-file', () => {
   it('reads a long-form prompt from a file and posts it to media/generate', async () => {
     const promptFile = path.join(tmp, 'prompt.txt');
     await writeFile(promptFile, LONG_PROMPT, 'utf8');

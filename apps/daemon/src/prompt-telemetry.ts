@@ -63,7 +63,7 @@ export interface PromptStackTelemetry {
 }
 
 export interface StructuredPromptStackInput {
-  type: 'open-design.prompt-stack';
+  type: 'sankiwork.prompt-stack';
   redactionVersion: typeof PROMPT_STACK_REDACTION_VERSION;
   promptFingerprint: string;
   stackFingerprint: string;
@@ -160,7 +160,7 @@ function redactPromptText(input: string): string {
 function stripRuntimeToolPromptTokens(input: string): string {
   return input
     .split(/\r?\n/)
-    .filter((line) => !line.includes('OD_TOOL_TOKEN'))
+    .filter((line) => !line.includes('SW_TOOL_TOKEN'))
     .join('\n');
 }
 
@@ -369,7 +369,7 @@ export function structuredPromptStackInput(
   telemetry: PromptStackTelemetry,
 ): StructuredPromptStackInput {
   return {
-    type: 'open-design.prompt-stack',
+    type: 'sankiwork.prompt-stack',
     redactionVersion: telemetry.redactionVersion,
     promptFingerprint: telemetry.promptFingerprint,
     stackFingerprint: telemetry.stackFingerprint,

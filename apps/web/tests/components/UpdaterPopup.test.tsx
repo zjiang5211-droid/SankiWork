@@ -3,13 +3,13 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import type { OpenDesignHostUpdaterStatusListener, OpenDesignHostUpdaterStatusSnapshot } from '@open-design/host';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import type { SankiWorkHostUpdaterStatusListener, SankiWorkHostUpdaterStatusSnapshot } from '@sankiwork/host';
+import { installMockSankiWorkHost } from '@sankiwork/host/testing';
 
 import { UpdaterPopup } from '../../src/components/UpdaterPopup';
 import { I18nProvider } from '../../src/i18n';
 
-function idleStatus(): OpenDesignHostUpdaterStatusSnapshot {
+function idleStatus(): SankiWorkHostUpdaterStatusSnapshot {
   return {
     arch: 'arm64',
     capabilities: {
@@ -28,20 +28,20 @@ function idleStatus(): OpenDesignHostUpdaterStatusSnapshot {
   };
 }
 
-function downloadedStatus(overrides: Partial<OpenDesignHostUpdaterStatusSnapshot> = {}): OpenDesignHostUpdaterStatusSnapshot {
+function downloadedStatus(overrides: Partial<SankiWorkHostUpdaterStatusSnapshot> = {}): SankiWorkHostUpdaterStatusSnapshot {
   return {
     ...idleStatus(),
     availableVersion: '1.2.3-beta.4',
-    downloadPath: '/tmp/open-design-updater/Open Design Beta.dmg',
+    downloadPath: '/tmp/sankiwork-updater/SankiWork Beta.dmg',
     state: 'downloaded',
     ...overrides,
   };
 }
 
-function payloadDownloadedStatus(overrides: Partial<OpenDesignHostUpdaterStatusSnapshot> = {}): OpenDesignHostUpdaterStatusSnapshot {
+function payloadDownloadedStatus(overrides: Partial<SankiWorkHostUpdaterStatusSnapshot> = {}): SankiWorkHostUpdaterStatusSnapshot {
   return downloadedStatus({
     artifact: {
-      name: 'open-design-1.2.3-beta.4-mac-arm64-payload.zip',
+      name: 'sankiwork-1.2.3-beta.4-mac-arm64-payload.zip',
       platformKey: 'mac',
       size: 1024,
       type: 'payload',
@@ -53,7 +53,7 @@ function payloadDownloadedStatus(overrides: Partial<OpenDesignHostUpdaterStatusS
       canOpenInstaller: false,
       requiresManualInstall: false,
     },
-    downloadPath: '/tmp/open-design-updater/open-design-1.2.3-beta.4-mac-arm64-payload.zip',
+    downloadPath: '/tmp/sankiwork-updater/sankiwork-1.2.3-beta.4-mac-arm64-payload.zip',
     ...overrides,
   });
 }
@@ -87,7 +87,7 @@ describe('UpdaterPopup', () => {
         state: 'error',
       }),
     ]) {
-      restoreHost = installMockOpenDesignHost({
+      restoreHost = installMockSankiWorkHost({
         host: {
           updater: {
             status: vi.fn(async () => status),
@@ -109,7 +109,7 @@ describe('UpdaterPopup', () => {
   });
 
   it('shows only the ready indicator until the user opens the install prompt', async () => {
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus()),
@@ -128,14 +128,14 @@ describe('UpdaterPopup', () => {
     const dialog = await screen.findByRole('dialog', { name: 'Update ready' });
     expect(dialog).toBeTruthy();
     expect(dialog.className).toBe('updater-popup is-ready');
-    expect(screen.getByText('Open Design 1.2.3-beta.4 is ready. Open Design will close and open the installer.')).toBeTruthy();
+    expect(screen.getByText('SankiWork 1.2.3-beta.4 is ready. SankiWork will close and open the installer.')).toBeTruthy();
     expect(screen.getByTestId('updater-silent-update-checkbox')).toBeChecked();
     expect(screen.getByTestId('updater-install-button').textContent).toBe('Install update');
     expect(screen.queryByRole('button', { name: 'Collapse' })).toBeNull();
   });
 
   it('uses reinstall copy and the learn-more link for forced installer reinstalls', async () => {
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus({
@@ -156,13 +156,13 @@ describe('UpdaterPopup', () => {
 
     await screen.findByRole('dialog', { name: 'Update ready' });
     expect(
-      screen.getByText('Open Design 1.2.3-beta.4 requires a full reinstall. Open Design will close and open the installer.'),
+      screen.getByText('SankiWork 1.2.3-beta.4 requires a full reinstall. SankiWork will close and open the installer.'),
     ).toBeTruthy();
     expect(screen.getByTestId('updater-reinstall-learn-more')).toBeTruthy();
   });
 
   it('omits the learn-more link when the reinstall requirement carries no url', async () => {
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus({
@@ -178,13 +178,13 @@ describe('UpdaterPopup', () => {
 
     await screen.findByRole('dialog', { name: 'Update ready' });
     expect(
-      screen.getByText('Open Design 1.2.3-beta.4 requires a full reinstall. Open Design will close and open the installer.'),
+      screen.getByText('SankiWork 1.2.3-beta.4 requires a full reinstall. SankiWork will close and open the installer.'),
     ).toBeTruthy();
     expect(screen.queryByTestId('updater-reinstall-learn-more')).toBeNull();
   });
 
   it('uses localized ready prompt copy from the app i18n provider', async () => {
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus()),
@@ -202,11 +202,11 @@ describe('UpdaterPopup', () => {
 
     expect(await screen.findByRole('dialog', { name: '更新已就绪' })).toBeTruthy();
     expect(screen.getByTestId('updater-install-button').textContent).toBe('安装更新');
-    expect(screen.getByText('Open Design 1.2.3-beta.4 已就绪。Open Design 会关闭并打开安装器。')).toBeTruthy();
+    expect(screen.getByText('SankiWork 1.2.3-beta.4 已就绪。SankiWork 会关闭并打开安装器。')).toBeTruthy();
   });
 
   it('uses install-and-restart copy for payload updates', async () => {
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => payloadDownloadedStatus()),
@@ -226,12 +226,12 @@ describe('UpdaterPopup', () => {
 
     expect(await screen.findByRole('dialog', { name: '更新已就绪' })).toBeTruthy();
     expect(screen.getByTestId('updater-install-button').textContent).toBe('安装并重启');
-    expect(screen.getByText('Open Design 1.2.3-beta.4 已就绪。Open Design 会关闭并自动重启。')).toBeTruthy();
+    expect(screen.getByText('SankiWork 1.2.3-beta.4 已就绪。SankiWork 会关闭并自动重启。')).toBeTruthy();
   });
 
   it('seeds the default silent-update preference only after a successful daemon GET', async () => {
     const persistSilentUpdates = vi.fn(async () => undefined);
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus()),
@@ -259,7 +259,7 @@ describe('UpdaterPopup', () => {
 
   it('does not seed when daemon GET failed (ready=false) even if bootstrap finished', async () => {
     const persistSilentUpdates = vi.fn(async () => undefined);
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus()),
@@ -285,7 +285,7 @@ describe('UpdaterPopup', () => {
 
   it('does not seed true over a daemon opt-out that was temporarily undefined during hydration', async () => {
     const persistSilentUpdates = vi.fn(async () => undefined);
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus()),
@@ -321,7 +321,7 @@ describe('UpdaterPopup', () => {
         resolveSave = resolve;
       }),
     );
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus()),
@@ -368,7 +368,7 @@ describe('UpdaterPopup', () => {
       await Promise.reject(new Error('daemon offline'));
       appConfig = { allowSilentUpdates: value };
     });
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus()),
@@ -402,7 +402,7 @@ describe('UpdaterPopup', () => {
   });
 
   it('renders an explicit disabled silent update preference as unchecked', async () => {
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus()),
@@ -417,7 +417,7 @@ describe('UpdaterPopup', () => {
   });
 
   it('dismisses the confirmation prompt before installation starts', async () => {
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => downloadedStatus()),
@@ -439,14 +439,14 @@ describe('UpdaterPopup', () => {
 
   it('keeps the prompt in handoff loading after opening the installer', async () => {
     let status = downloadedStatus();
-    let resolveInstall: (status: OpenDesignHostUpdaterStatusSnapshot) => void = () => undefined;
-    const install = vi.fn(() => new Promise<OpenDesignHostUpdaterStatusSnapshot>((resolve) => {
+    let resolveInstall: (status: SankiWorkHostUpdaterStatusSnapshot) => void = () => undefined;
+    const install = vi.fn(() => new Promise<SankiWorkHostUpdaterStatusSnapshot>((resolve) => {
       resolveInstall = resolve;
     }));
     const quit = vi.fn()
       .mockResolvedValueOnce({ ok: true as const })
       .mockImplementationOnce(() => new Promise<never>(() => undefined));
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           install,
@@ -471,7 +471,7 @@ describe('UpdaterPopup', () => {
         installResult: {
           dryRun: true,
           openedAt: '2026-05-19T00:00:00.000Z',
-          path: '/tmp/open-design-updater/Open Design Beta.dmg',
+          path: '/tmp/sankiwork-updater/SankiWork Beta.dmg',
         },
       });
       resolveInstall(status);
@@ -491,11 +491,11 @@ describe('UpdaterPopup', () => {
       installResult: {
         dryRun: true,
         openedAt: '2026-05-19T00:00:00.000Z',
-        path: '/tmp/open-design-updater/Open Design Beta.dmg',
+        path: '/tmp/sankiwork-updater/SankiWork Beta.dmg',
       },
     }));
     const quit = vi.fn(async () => ({ ok: true as const }));
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           install,
@@ -524,7 +524,7 @@ describe('UpdaterPopup', () => {
       });
 
       expect(screen.getByRole('dialog', { name: 'Could not quit' })).toBeTruthy();
-      expect(screen.getByTestId('updater-install-button').textContent).toBe('Quit Open Design');
+      expect(screen.getByTestId('updater-install-button').textContent).toBe('Quit SankiWork');
       expect(screen.getByTestId('updater-install-button').getAttribute('disabled')).toBeNull();
       fireEvent.click(screen.getByTestId('updater-install-button'));
 
@@ -555,7 +555,7 @@ describe('UpdaterPopup', () => {
       },
       state: 'error',
     }));
-    restoreHost = installMockOpenDesignHost({
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           install,
@@ -576,8 +576,8 @@ describe('UpdaterPopup', () => {
   });
 
   it('reacts to updater subscription events by showing the ready indicator only', async () => {
-    const listeners = new Set<OpenDesignHostUpdaterStatusListener>();
-    restoreHost = installMockOpenDesignHost({
+    const listeners = new Set<SankiWorkHostUpdaterStatusListener>();
+    restoreHost = installMockSankiWorkHost({
       host: {
         updater: {
           status: vi.fn(async () => idleStatus()),

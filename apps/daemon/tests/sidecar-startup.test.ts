@@ -9,8 +9,8 @@ import {
   SIDECAR_MESSAGES,
   SIDECAR_MODES,
   SIDECAR_SOURCES,
-} from '@open-design/sidecar-proto';
-import { requestJsonIpc } from '@open-design/sidecar';
+} from '@sankiwork/sidecar-proto';
+import { requestJsonIpc } from '@sankiwork/sidecar';
 
 const stopRuntime = vi.fn(async () => undefined);
 const startDaemonRuntime = vi.fn(async () => ({
@@ -25,7 +25,7 @@ vi.mock('../src/daemon-startup.js', () => ({
 describe('daemon sidecar startup', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
-    delete process.env.OD_WEB_PORT;
+    delete process.env.SW_WEB_PORT;
     const { resetDesktopAuthForTests } = await import('../src/desktop-auth.js');
     resetDesktopAuthForTests();
   });
@@ -33,7 +33,7 @@ describe('daemon sidecar startup', () => {
   afterEach(async () => {
     const { resetDesktopAuthForTests } = await import('../src/desktop-auth.js');
     resetDesktopAuthForTests();
-    delete process.env.OD_WEB_PORT;
+    delete process.env.SW_WEB_PORT;
   });
 
   it('starts through the shared daemon startup path and reports live auth state', async () => {
@@ -94,7 +94,7 @@ describe('daemon sidecar startup', () => {
         },
         { timeoutMs: 1_000 },
       );
-      expect(process.env.OD_WEB_PORT).toBe('64248');
+      expect(process.env.SW_WEB_PORT).toBe('64248');
       expect((await handle.status()).trustedWebOriginPort).toBe(64248);
 
       await requestJsonIpc(
@@ -105,7 +105,7 @@ describe('daemon sidecar startup', () => {
         },
         { timeoutMs: 1_000 },
       );
-      expect(process.env.OD_WEB_PORT).toBe('53421');
+      expect(process.env.SW_WEB_PORT).toBe('53421');
       expect((await handle.status()).trustedWebOriginPort).toBe(53421);
     } finally {
       await handle.stop();

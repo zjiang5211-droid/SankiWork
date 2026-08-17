@@ -1,9 +1,9 @@
 import { spawn } from "node:child_process";
 import { dirname } from "node:path";
 
-import { buildLauncherAfterQuitArgs, buildLauncherDelegatedArgs } from "@open-design/launcher-proto";
-import { createProcessStampArgs } from "@open-design/platform";
-import { OPEN_DESIGN_SIDECAR_CONTRACT, type SidecarStamp } from "@open-design/sidecar-proto";
+import { buildLauncherAfterQuitArgs, buildLauncherDelegatedArgs } from "@sankiwork/launcher-proto";
+import { createProcessStampArgs } from "@sankiwork/platform";
+import { SANKIWORK_SIDECAR_CONTRACT, type SidecarStamp } from "@sankiwork/sidecar-proto";
 
 import {
   armPackagedLauncherRuntimeAttempt,
@@ -14,7 +14,7 @@ import {
 const DEFAULT_DELEGATION_TIMEOUT_MS = 60_000;
 
 export function findPackagedDeeplinkArg(argv: readonly string[]): string | null {
-  return argv.find((arg) => arg.startsWith("opendesign://")) ?? null;
+  return argv.find((arg) => arg.startsWith("sankiwork://")) ?? null;
 }
 
 export type PackagedPayloadDesktopLaunchPlan = {
@@ -54,9 +54,9 @@ export function planPackagedPayloadDesktopDelegation(
       // process first; preserve only this explicit protocol argument when the
       // outer delegates to the versioned payload.
       ...(options.forwardedArgs ?? process.argv).filter((arg) =>
-        arg.startsWith("opendesign://")
+        arg.startsWith("sankiwork://")
       ),
-      ...createProcessStampArgs(stamp, OPEN_DESIGN_SIDECAR_CONTRACT),
+      ...createProcessStampArgs(stamp, SANKIWORK_SIDECAR_CONTRACT),
     ],
     command: runtime.desktopExecutablePath,
     cwd: dirname(runtime.desktopExecutablePath),

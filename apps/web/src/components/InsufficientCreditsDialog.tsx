@@ -12,7 +12,7 @@
 // (`POST /api/workspace/billing/checkout`).
 
 import { useEffect, useMemo, useState } from 'react';
-import type { WorkspaceBillingCatalog, WorkspaceTeamBillingPlanId } from '@open-design/contracts';
+import type { WorkspaceBillingCatalog, WorkspaceTeamBillingPlanId } from '@sankiwork/contracts';
 import { Icon } from './Icon';
 import { useT } from '../i18n';
 

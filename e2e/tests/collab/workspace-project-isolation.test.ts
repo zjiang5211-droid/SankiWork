@@ -266,7 +266,7 @@ describe('workspace project isolation', () => {
         },
         {
           env: {
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: directoryUrl,
             VELA_CONTROL_KEY: 'e2e-workspace-isolation-control-key',
           },
@@ -297,7 +297,7 @@ describe('workspace project isolation', () => {
         },
         {
           env: {
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: directoryUrl,
             VELA_CONTROL_KEY: 'e2e-workspace-isolation-filters-control-key',
           },

@@ -15,7 +15,7 @@
 import type {
   InstalledPluginRecord,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { createPortal } from 'react-dom';
 import { useT } from '../i18n';
 import type { Dict, Locale } from '../i18n/types';
@@ -331,7 +331,7 @@ function templatePreviewHtml(template: TemplateDemo): string {
     <section class="sections">
       <div class="section"><b>Structure</b><span>Ready-made sections and hierarchy.</span></div>
       <div class="section"><b>Visual System</b><span>Color, type, rhythm, and reusable blocks.</span></div>
-      <div class="section"><b>Editable</b><span>Remix into a real Open Design project.</span></div>
+      <div class="section"><b>Editable</b><span>Remix into a real SankiWork project.</span></div>
     </section>
   </main>
 </body>

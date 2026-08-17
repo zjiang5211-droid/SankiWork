@@ -18,15 +18,15 @@ import {
   type DesktopRenderSlidesInput,
   type DesktopRenderSlidesResult,
   type DesktopUpdateStatusSnapshot,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import type {
-  OpenDesignHostActionResult,
-  OpenDesignHostCaptureResult,
-  OpenDesignHostProjectImportInit,
-  OpenDesignHostUpdaterActionOptions,
-  OpenDesignHostUpdaterMenuLabels,
-  OpenDesignHostUpdaterOpenDialogRequest,
-} from "@open-design/host";
+  SankiWorkHostActionResult,
+  SankiWorkHostCaptureResult,
+  SankiWorkHostProjectImportInit,
+  SankiWorkHostUpdaterActionOptions,
+  SankiWorkHostUpdaterMenuLabels,
+  SankiWorkHostUpdaterOpenDialogRequest,
+} from "@sankiwork/host";
 
 import { renderDeckSlides } from "./deck-capture.js";
 import { openFirstPartyMailto } from "./mailto-open.js";
@@ -243,7 +243,7 @@ export function signDesktopImportToken(
  * An HTTP 5xx main-frame document is a failed load. Electron resolves
  * `loadURL` for any response that carries a body — `did-fail-load` fires
  * only for net::ERR_* failures — so an error document (e.g. the packaged
- * od:// proxy's synthetic 502) parks the renderer on a dead page the
+ * sankiwork:// proxy's synthetic 502) parks the renderer on a dead page the
  * recovery loop never sees. Route it into the same renderer-failed
  * reload path as a network failure. Electron reports non-HTTP
  * navigations with 0 / -1, which must never trip this.
@@ -264,7 +264,7 @@ const MIN_SPLASH_MS = 2000;
 // While the splash is up, the real web app loads in a hidden main window. We
 // reveal it only once the web bundle reports it has actually mounted (it sets
 // `data-od-app-mounted="1"` on first paint of the real UI), so the user never
-// sees the web's own "Loading Open Design…" shell flash between the splash and
+// sees the web's own "Loading SankiWork…" shell flash between the splash and
 // the app. Poll cadence + a hard ceiling so a missing mount signal can never
 // strand the user on the splash forever.
 const WEB_MOUNT_POLL_MS = 80;
@@ -281,7 +281,7 @@ const DESKTOP_PET_WINDOW_HEIGHT = 300;
 const DESKTOP_PET_WINDOW_MARGIN = 24;
 const UPDATER_STATUS_EVENT = "od:update:status-changed";
 const UPDATER_OPEN_DIALOG_EVENT = "od:update:open-dialog";
-const DESIGN_BROWSER_PARTITION = "persist:open-design-design-browser";
+const DESIGN_BROWSER_PARTITION = "persist:sankiwork-design-browser";
 const UPDATER_IPC_CHANNELS = [
   "od:update:status",
   "od:update:check",
@@ -355,7 +355,7 @@ export type DesktopRuntime = {
   eval(input: DesktopEvalInput): Promise<DesktopEvalResult>;
   exportArtifact(input: DesktopExportArtifactInput): Promise<DesktopExportArtifactResult>;
   exportPdf(input: DesktopExportPdfInput): Promise<DesktopExportPdfResult>;
-  openUpdateDialog(request: OpenDesignHostUpdaterOpenDialogRequest): void;
+  openUpdateDialog(request: SankiWorkHostUpdaterOpenDialogRequest): void;
   renderSlides(input: DesktopRenderSlidesInput): Promise<DesktopRenderSlidesResult>;
   screenshot(input: DesktopScreenshotInput): Promise<DesktopScreenshotResult>;
   show(): void;
@@ -374,7 +374,7 @@ export type DesktopRuntimeOptions = {
   discoverUrl(): Promise<string | null>;
   /**
    * Round-7 (lefarcen P2 @ runtime.ts:336): packaged desktop loads the
-   * renderer from `od://app/`, which only resolves through Electron's
+   * renderer from `sankiwork://app/`, which only resolves through Electron's
    * registered protocol handler in the renderer context. Main-process
    * `globalThis.fetch` (Node/undici) ignores that handler, so any
    * `fetch(webUrl + '/api/...')` from main fails in packaged builds.
@@ -388,7 +388,7 @@ export type DesktopRuntimeOptions = {
   /**
    * BCP-47 locale string read from the OS by main process, forwarded
    * to the preload via `webPreferences.additionalArguments` so the
-   * renderer can mirror it onto `__od__.client.osLocale`. Optional;
+   * renderer can mirror it onto `__sankiwork__.client.osLocale`. Optional;
    * when omitted the renderer falls back to navigator/localStorage.
    */
   osLocale?: string;
@@ -442,7 +442,7 @@ export type DesktopRuntimeOptions = {
    * as having reached running for abnormal-exit detection.
    */
   onRevealed?: () => void;
-  onUpdateMenuLabels?: (labels: OpenDesignHostUpdaterMenuLabels) => void;
+  onUpdateMenuLabels?: (labels: SankiWorkHostUpdaterMenuLabels) => void;
 };
 
 const DESKTOP_IMPORT_TOKEN_HEADER = "x-od-desktop-import-token";
@@ -477,7 +477,7 @@ export type PickAndImportFolderDeps = {
   /**
    * Round-7 (lefarcen P2 @ runtime.ts:336): the helper now POSTs to the
    * sidecar daemon's real `http://127.0.0.1:<port>` URL rather than the
-   * renderer-only `od://app/` webUrl. Renamed from `webUrl` to make the
+   * renderer-only `sankiwork://app/` webUrl. Renamed from `webUrl` to make the
    * boundary explicit — main-process Node fetch must hit a real http
    * URL, never a custom Electron protocol scheme. tools-dev callers
    * pass the same value they used to pass for `webUrl` (its web URL is
@@ -487,7 +487,7 @@ export type PickAndImportFolderDeps = {
   baseDir: string;
   desktopAuthSecret: Buffer;
   fetchImpl?: typeof globalThis.fetch;
-  init?: OpenDesignHostProjectImportInit;
+  init?: SankiWorkHostProjectImportInit;
   /** Round-5: lazy re-registration hook. Called once on 503. */
   registerDesktopAuth?: () => Promise<boolean>;
   /** Injected for tests; defaults to the production HMAC mint. */
@@ -906,7 +906,7 @@ function createPendingHtml(): string {
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Open Design</title>
+    <title>SankiWork</title>
     <style>
       html,
       body {
@@ -1061,7 +1061,7 @@ interface RendererCrashScreenContext {
 }
 
 const CRASH_REPORT_ISSUES_URL = "https://github.com/nexu-io/open-design/issues/new";
-const SUPPORT_EMAIL = "support@open-design.ai";
+const SUPPORT_EMAIL = "support@sanki-ai.cloud";
 // Every address the app is allowed to hand to the OS mail client. Keep this in
 // sync with the renderer's own contact affordances (`CONTACT_EMAIL_URL` in
 // `apps/web/src/components/EntryNavRail.tsx`); an address that is not listed
@@ -1071,8 +1071,8 @@ const FIRST_PARTY_EMAILS = new Set([SUPPORT_EMAIL, "contact@open.design"]);
 // Narrow allowlist for the crash screen's "Email us" action: only a mailto
 // addressed to our own support address, carrying nothing but the crash-screen's
 // own `subject`/`body`, opens. Validating just protocol+pathname is not enough —
-// `mailto:support@open-design.ai?bcc=attacker@example.com` (or `?to=`/`?cc=`)
-// keeps `pathname === "support@open-design.ai"` yet smuggles extra recipients
+// `mailto:support@sanki-ai.cloud?bcc=attacker@example.com` (or `?to=`/`?cc=`)
+// keeps `pathname === "support@sanki-ai.cloud"` yet smuggles extra recipients
 // and headers through to `shell.openExternal`. Because this predicate widens the
 // renderer-exposed `shell:open-external` bridge past http, a compromised
 // renderer could otherwise launch the mail client with arbitrary recipients, so
@@ -1133,7 +1133,7 @@ function buildCrashReportUrl(ctx: RendererCrashScreenContext): string {
   const title = `Desktop app keeps crashing (renderer ${ctx.reason})`;
   const body = [
     "**What happened**",
-    "The Open Design desktop window crashed several times in a row and showed the recovery screen.",
+    "The SankiWork desktop window crashed several times in a row and showed the recovery screen.",
     "",
     "**What I was doing when it started** (please add any detail):",
     "",
@@ -1152,9 +1152,9 @@ function buildCrashReportUrl(ctx: RendererCrashScreenContext): string {
 // Prefilled mailto for the "Email us" action — same auto-filled diagnostics as
 // the issue, for users who'd rather email than open a GitHub account.
 function buildCrashMailtoUrl(ctx: RendererCrashScreenContext): string {
-  const subject = `Open Design keeps crashing (renderer ${ctx.reason})`;
+  const subject = `SankiWork keeps crashing (renderer ${ctx.reason})`;
   const body = [
-    "The Open Design desktop app crashed several times in a row on my device.",
+    "The SankiWork desktop app crashed several times in a row on my device.",
     "",
     "(If possible, attach the diagnostics file you saved with the “Save logs…” button.)",
     "",
@@ -1172,7 +1172,7 @@ function createRendererCrashHtml(ctx: RendererCrashScreenContext): string {
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Open Design</title>
+    <title>SankiWork</title>
     <style>
       /* Palette mirrors the app's neutral design tokens (apps/web tokens.css):
          warm off-white + near-black, no accent color — matching the black/white
@@ -1268,7 +1268,7 @@ function createRendererCrashHtml(ctx: RendererCrashScreenContext): string {
   </head>
   <body>
     <div class="panel">
-      <p class="title">Open Design keeps closing on this device</p>
+      <p class="title">SankiWork keeps closing on this device</p>
       <p class="body">The app window crashed several times in a row, so it has paused to avoid getting stuck reloading.</p>
       <p class="body">It will try to recover on its own in a few minutes.</p>
       <div class="actions">
@@ -1278,14 +1278,14 @@ function createRendererCrashHtml(ctx: RendererCrashScreenContext): string {
       <p class="hint" id="diag-note">Saved logs include a crash memory snapshot so we can find the cause. Nothing is sent unless you choose to share it.</p>
       <p class="status" id="status" aria-live="polite"></p>
       <p class="email" id="email-line">Prefer email? <a href="#" id="email">Contact ${SUPPORT_EMAIL}</a></p>
-      <p class="hint">If this keeps happening, quitting and reinstalling Open Design usually resolves it.</p>
+      <p class="hint">If this keeps happening, quitting and reinstalling SankiWork usually resolves it.</p>
     </div>
     <script>
       (function () {
         var issueUrl = ${JSON.stringify(issueUrl)};
         var mailtoUrl = ${JSON.stringify(mailtoUrl)};
-        var host = window.__od__;
-        var diag = window.openDesignDesktop;
+        var host = window.__sankiwork__;
+        var diag = window.sankiWorkDesktop;
         var report = document.getElementById("report");
         var logs = document.getElementById("logs");
         var emailLine = document.getElementById("email-line");
@@ -1366,7 +1366,7 @@ const SPLASH_STAGE_SEQUENCE: readonly SplashBootStage[] = [
 ];
 
 const SPLASH_STAGE_LABELS: Record<SplashBootStage, string> = {
-  starting: "Starting Open Design",
+  starting: "Starting SankiWork",
   engine: "Starting the local engine",
   engineReady: "Local engine ready",
   interface: "Preparing the interface",
@@ -1493,7 +1493,7 @@ export function pinNativeAppearanceToLight(): void {
  * + matching size so the reveal swap reads as a single window, never a flash.
  */
 export function createSplashWindow(): SplashWindowHandle {
-  // Open Design ships light-only (the theme setting was removed), so pin the
+  // SankiWork ships light-only (the theme setting was removed), so pin the
   // native appearance before the first window exists. Electron defaults
   // `themeSource` to `system`, which paints the macOS vibrancy glass and the
   // native chrome dark on a dark-mode Mac — visible on the splash and again in
@@ -1508,7 +1508,7 @@ export function createSplashWindow(): SplashWindowHandle {
     height: 900,
     resizable: false,
     show: true,
-    title: "Open Design",
+    title: "SankiWork",
     width: 1280,
     webPreferences: {
       contextIsolation: true,
@@ -1579,7 +1579,7 @@ export function isAllowedChildWindowUrl(url: string): boolean {
     // `od:` is the packaged Electron entry's privileged scheme
     // registered by `apps/packaged/src/protocol.ts` and proxied to the
     // local web sidecar. Without this branch, any in-app
-    // `<a target="_blank" href="/api/...">` resolves to `od://app/...`
+    // `<a target="_blank" href="/api/...">` resolves to `sankiwork://app/...`
     // in packaged builds, falls through `setWindowOpenHandler` to
     // `{ action: "deny" }`, and the click is silently dropped — that
     // was the Orbit "Open artifact" no-op reported in #911. Allowing
@@ -1922,7 +1922,7 @@ function unavailableUpdaterStatus(): DesktopUpdateStatusSnapshot {
 }
 
 function checkOptionsFromHost(options: unknown): { autoDownload?: boolean } | undefined {
-  const input = options as OpenDesignHostUpdaterActionOptions | null | undefined;
+  const input = options as SankiWorkHostUpdaterActionOptions | null | undefined;
   const payload = input?.payload;
   if (payload == null || typeof payload.autoDownload !== "boolean") return undefined;
   return { autoDownload: payload.autoDownload };
@@ -1945,7 +1945,7 @@ async function reportRendererCrash(
     // discoverDaemonUrl returns the real http://127.0.0.1:<port> URL the
     // sidecar daemon listens on. In tools-dev callers omit it and fall back
     // to discoverUrl (which is also http in dev). In packaged builds it's
-    // mandatory because the renderer-only `od://app/` scheme isn't
+    // mandatory because the renderer-only `sankiwork://app/` scheme isn't
     // reachable from main-process Node fetch.
     const baseUrl = (await (options.discoverDaemonUrl?.() ?? options.discoverUrl())) ?? null;
     if (!baseUrl) return;
@@ -2044,7 +2044,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
   // import boundary while leaving web-only deployments untouched.
   ipcMain.handle(
     "dialog:pick-and-import",
-    async (event, init?: OpenDesignHostProjectImportInit) => {
+    async (event, init?: SankiWorkHostProjectImportInit) => {
       // Defensive failsafe for non-production runtimes (test harnesses
       // that construct createDesktopRuntime without a secret). Round-5
       // production wiring in runDesktopMain ALWAYS passes the per-process
@@ -2056,7 +2056,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
         return { ok: false, reason: "desktop auth secret not registered" };
       }
       // Round-7 (lefarcen P2): packaged builds report the renderer URL
-      // (`od://app/`) over `discoverUrl`, but Node-side fetch can't
+      // (`sankiwork://app/`) over `discoverUrl`, but Node-side fetch can't
       // resolve a custom Electron protocol scheme. Prefer the daemon
       // sidecar's real http URL when packaged exposes it; tools-dev
       // omits `discoverDaemonUrl` and we fall back to the web URL
@@ -2172,7 +2172,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
   // openPath(projectId) for projects whose resolvedDir came from that
   // trusted flow."
   ipcMain.handle("shell:open-path", async (_event, projectId: string) => {
-    // Round-7 (lefarcen P2): same packaged od:// → daemon URL pivot as
+    // Round-7 (lefarcen P2): same packaged sankiwork:// → daemon URL pivot as
     // the dialog:pick-and-import handler above.
     const apiBaseUrl =
       (options.discoverDaemonUrl ? await options.discoverDaemonUrl() : null) ??
@@ -2225,7 +2225,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
 
   const consoleEntries: DesktopConsoleEntry[] = [];
   const petWindow = createDesktopPetWindow(preloadPath, options.osLocale);
-  const windowTitle = options.windowTitle ?? "Open Design";
+  const windowTitle = options.windowTitle ?? "SankiWork";
   const window = new BrowserWindow({
     height: 900,
     icon: resolveDesktopIconPath(),
@@ -2238,7 +2238,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     // Starts hidden: the splash window is what the user sees while the real web
     // app loads in here. We reveal this window only once the app has actually
     // mounted (see `revealWhenReady` below), so there is never a flash of the
-    // web's own "Loading Open Design…" shell.
+    // web's own "Loading SankiWork…" shell.
     show: false,
     title: windowTitle,
     autoHideMenuBar: true,
@@ -2262,25 +2262,25 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     window.setTitle(windowTitle);
   });
   window.webContents.on("did-start-loading", () => {
-    console.info("[open-design desktop] main window did-start-loading", {
+    console.info("[sankiwork desktop] main window did-start-loading", {
       pendingUrl,
       url: window.webContents.getURL(),
     });
   });
   window.webContents.on("dom-ready", () => {
-    console.info("[open-design desktop] main window dom-ready", {
+    console.info("[sankiwork desktop] main window dom-ready", {
       title: window.getTitle(),
       url: window.webContents.getURL(),
     });
   });
   window.webContents.on("did-finish-load", () => {
-    console.info("[open-design desktop] main window did-finish-load", {
+    console.info("[sankiwork desktop] main window did-finish-load", {
       title: window.getTitle(),
       url: window.webContents.getURL(),
     });
   });
   window.webContents.on("did-fail-load", (_event, errorCode, errorDescription, validatedURL, isMainFrame) => {
-    console.error("[open-design desktop] main window did-fail-load", {
+    console.error("[sankiwork desktop] main window did-fail-load", {
       errorCode,
       errorDescription,
       isMainFrame,
@@ -2290,13 +2290,13 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     });
   });
   window.on("unresponsive", () => {
-    console.error("[open-design desktop] main window unresponsive", {
+    console.error("[sankiwork desktop] main window unresponsive", {
       pendingUrl,
       url: window.webContents.getURL(),
     });
   });
   window.on("responsive", () => {
-    console.info("[open-design desktop] main window responsive", {
+    console.info("[sankiwork desktop] main window responsive", {
       pendingUrl,
       url: window.webContents.getURL(),
     });
@@ -2316,7 +2316,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     // guard the same way `sendUpdaterStatus` does below and skip crash-report /
     // recovery work once the window is already on its way out.
     const gone = window.isDestroyed() || window.webContents.isDestroyed();
-    console.error("[open-design desktop] main window render-process-gone", {
+    console.error("[sankiwork desktop] main window render-process-gone", {
       exitCode: details.exitCode,
       reason: details.reason,
       url: gone ? null : window.webContents.getURL(),
@@ -2349,7 +2349,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
       // one passive recovery reload after a quiet cooldown.
       if (outcome.justOpened) {
         console.warn(
-          "[open-design desktop] renderer crash-loop breaker OPEN — parking; will attempt recovery after cooldown",
+          "[sankiwork desktop] renderer crash-loop breaker OPEN — parking; will attempt recovery after cooldown",
           { reason: details.reason, exitCode: details.exitCode },
         );
         showRendererCrashScreen({
@@ -2372,13 +2372,13 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
   });
   // `did-fail-load` never fires for an HTTP error *document* — a 5xx response
   // with a body is a successful load to Electron — so a 502 page (e.g. the
-  // packaged od:// proxy's exhaustion fallback) would otherwise sit on screen
+  // packaged sankiwork:// proxy's exhaustion fallback) would otherwise sit on screen
   // until a manual reload. `did-navigate` is main-frame-only and carries the
   // HTTP status (-1 for non-HTTP navigations); in-page SPA routing emits
   // `did-navigate-in-page` instead, so app navigation never trips this.
   window.webContents.on("did-navigate", (_event, url, httpResponseCode) => {
     if (!isRendererFailureHttpStatus(httpResponseCode)) return;
-    console.error("[open-design desktop] main window loaded an HTTP error document", {
+    console.error("[sankiwork desktop] main window loaded an HTTP error document", {
       httpResponseCode,
       url,
     });
@@ -2392,7 +2392,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
   const unsubscribeUpdater = options.updater?.subscribe(() => sendUpdaterStatus()) ?? (() => undefined);
   const requireMainWindowSender = (event: Electron.IpcMainInvokeEvent): void => {
     if (event.sender !== window.webContents) {
-      throw new Error("host IPC is only available to the main Open Design window");
+      throw new Error("host IPC is only available to the main SankiWork window");
     }
   };
   const discoverUpdateDaemonBaseUrl = async (): Promise<string> => {
@@ -2437,7 +2437,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     guestWebContents.on("will-redirect", blockDisallowed);
     guestWebContents.setWindowOpenHandler(() => ({ action: "deny" }));
   });
-  ipcMain.handle("browser:clear-data", async (event, rawOptions: unknown): Promise<OpenDesignHostActionResult> => {
+  ipcMain.handle("browser:clear-data", async (event, rawOptions: unknown): Promise<SankiWorkHostActionResult> => {
     requireMainWindowSender(event);
     const optionsRecord = rawOptions != null && typeof rawOptions === "object"
       ? rawOptions as { cookies?: unknown; storage?: unknown }
@@ -2507,7 +2507,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     sendUpdaterStatus(status);
     return status;
   });
-  ipcMain.handle("od:update:quit", async (event, updaterOptions: unknown): Promise<OpenDesignHostActionResult> => {
+  ipcMain.handle("od:update:quit", async (event, updaterOptions: unknown): Promise<SankiWorkHostActionResult> => {
     requireMainWindowSender(event);
     const blocked = await guardedUpdaterStatus(updaterOptions);
     if (blocked?.error != null) {
@@ -2523,7 +2523,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     setTimeout(() => options.requestQuit?.(), 0);
     return { ok: true };
   });
-  ipcMain.handle("od:update:set-menu-labels", async (event, rawLabels: unknown): Promise<OpenDesignHostActionResult> => {
+  ipcMain.handle("od:update:set-menu-labels", async (event, rawLabels: unknown): Promise<SankiWorkHostActionResult> => {
     requireMainWindowSender(event);
     const labels = parseDesktopUpdateMenuLabels(rawLabels);
     if (labels == null) return { ok: false, reason: "invalid updater menu labels" };
@@ -2578,7 +2578,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
   });
 
   ipcMain.removeHandler('od:capture-page');
-  ipcMain.handle('od:capture-page', async (event, rawOptions: unknown): Promise<OpenDesignHostCaptureResult> => {
+  ipcMain.handle('od:capture-page', async (event, rawOptions: unknown): Promise<SankiWorkHostCaptureResult> => {
     if (event.sender !== window.webContents) {
       return { ok: false, reason: 'capture sender not allowed' };
     }
@@ -2722,7 +2722,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     splashStartedAt = created.startedAt;
   }
 
-  let pendingUpdateDialogRequest: OpenDesignHostUpdaterOpenDialogRequest | null = null;
+  let pendingUpdateDialogRequest: SankiWorkHostUpdaterOpenDialogRequest | null = null;
   let revealed = false;
   let revealing = false;
 
@@ -2749,7 +2749,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
 
   // Hold the splash until BOTH (a) the web bundle reports it has mounted — it
   // sets `data-od-app-mounted="1"` on first paint of the real UI — so we never
-  // reveal the web's own dark "Loading Open Design…" shell, and (b) the splash
+  // reveal the web's own dark "Loading SankiWork…" shell, and (b) the splash
   // has been up at least MIN_SPLASH_MS so the brand clip plays through. A hard
   // ceiling guarantees the user is never stranded on the splash if the mount
   // signal never arrives.
@@ -2855,7 +2855,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
         if (rendererCrashLoop.rearmIfCooledDown(Date.now())) {
           rendererRecoveryAttempts += 1;
           console.info(
-            "[open-design desktop] renderer crash-loop cooldown elapsed — attempting recovery reload",
+            "[sankiwork desktop] renderer crash-loop cooldown elapsed — attempting recovery reload",
             { attempt: rendererRecoveryAttempts },
           );
           void reportRendererCrash(options, {
@@ -2883,9 +2883,9 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
         rendererFailed = false;
         // Load the web app into the still-hidden main window as soon as it is
         // discovered; it mounts behind the splash so the swap is instant.
-        console.info("[open-design desktop] main window loadURL start", { currentUrl, url });
+        console.info("[sankiwork desktop] main window loadURL start", { currentUrl, url });
         await window.loadURL(url);
-        console.info("[open-design desktop] main window loadURL success", { url });
+        console.info("[sankiwork desktop] main window loadURL success", { url });
         currentUrl = url;
         pendingUrl = null;
         const nextPetUrl = desktopPetUrl(url);
@@ -2953,14 +2953,14 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     async eval(input) {
       if (window.isDestroyed()) return { error: "desktop window is destroyed", ok: false };
       const startedAt = Date.now();
-      console.info("[open-design desktop] eval executeJavaScript start", {
+      console.info("[sankiwork desktop] eval executeJavaScript start", {
         ...summarizeExpression(input.expression),
         statusUrl: resolveDesktopStatusUrl(currentUrl, pendingUrl),
         webContentsUrl: window.webContents.getURL(),
       });
       try {
         const value = await window.webContents.executeJavaScript(input.expression, true);
-        console.info("[open-design desktop] eval executeJavaScript success", {
+        console.info("[sankiwork desktop] eval executeJavaScript success", {
           durationMs: Date.now() - startedAt,
           statusUrl: resolveDesktopStatusUrl(currentUrl, pendingUrl),
           valueType: typeof value,
@@ -2968,7 +2968,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
         });
         return { ok: true, value };
       } catch (error) {
-        console.error("[open-design desktop] eval executeJavaScript failed", {
+        console.error("[sankiwork desktop] eval executeJavaScript failed", {
           durationMs: Date.now() - startedAt,
           error: error instanceof Error ? error.message : String(error),
           statusUrl: resolveDesktopStatusUrl(currentUrl, pendingUrl),

@@ -39,7 +39,7 @@ import type {
   MemoryExtractionMaskedConfig,
   MemoryExtractionProvider,
   MemoryListResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import type { AgentModelOption, ApiProtocol, ExecMode } from '../types';
 import {
   SUGGESTED_MODELS_BY_PROTOCOL,

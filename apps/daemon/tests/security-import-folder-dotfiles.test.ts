@@ -6,7 +6,7 @@
 //   POST /api/import/folder { baseDir }          (src/import-export-routes.ts:241)
 //     - validates only: absolute path, realpath, isDirectory, not fs-root,
 //       not RUNTIME_DATA_DIR, sandbox-mode allowlist (no-op unless
-//       OD_SANDBOX_MODE is on). NO sensitive-dir blocklist ($HOME, ~/.ssh,
+//       SW_SANDBOX_MODE is on). NO sensitive-dir blocklist ($HOME, ~/.ssh,
 //       ~/.aws, ...) — the existing BLOCKED_CANONICAL list in
 //       src/linked-dirs.ts is never consulted on this route — and no dotfile
 //       rule. baseDir is persisted into project metadata.
@@ -57,7 +57,7 @@ const AWS_CREDS = path.join('.aws', 'credentials');
 const SENTINEL_KEY = 'SENTINEL-PRIVATE-KEY-do-not-leak-7f3a';
 const SENTINEL_CREDS = 'SENTINEL-AWS-CREDS-do-not-leak-9b21';
 
-const PREV_DATA_DIR = process.env.OD_DATA_DIR;
+const PREV_DATA_DIR = process.env.SW_DATA_DIR;
 
 beforeEach(async () => {
   // Sentinel "home directory". Everything the daemon touches lives under this
@@ -71,9 +71,9 @@ beforeEach(async () => {
   await writeFile(path.join(fakeHome, 'docs', 'keep.txt'), 'precious');
 
   dataDir = await mkdtemp(path.join(os.tmpdir(), 'od-importsec-'));
-  process.env.OD_DATA_DIR = dataDir;
+  process.env.SW_DATA_DIR = dataDir;
 
-  // Dynamic import AFTER OD_DATA_DIR is set: RUNTIME_DATA_DIR is resolved at
+  // Dynamic import AFTER SW_DATA_DIR is set: RUNTIME_DATA_DIR is resolved at
   // module-eval time, so a static import would pin the real data dir.
   const { startServer } = await import('../src/server.js');
   const started = (await startServer({ port: 0, host: '127.0.0.1', returnServer: true })) as {
@@ -99,8 +99,8 @@ afterEach(async () => {
   daemonShutdown = undefined;
   await rm(dataDir, { recursive: true, force: true }).catch(() => {});
   await rm(fakeHome, { recursive: true, force: true }).catch(() => {});
-  if (PREV_DATA_DIR === undefined) delete process.env.OD_DATA_DIR;
-  else process.env.OD_DATA_DIR = PREV_DATA_DIR;
+  if (PREV_DATA_DIR === undefined) delete process.env.SW_DATA_DIR;
+  else process.env.SW_DATA_DIR = PREV_DATA_DIR;
 }, 15000);
 
 // Import the sentinel home dir through the real HTTP boundary, exactly as an

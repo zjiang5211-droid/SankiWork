@@ -14,7 +14,7 @@ export async function GET(context: { site: URL; params: { locale?: string } }) {
 
   const xml = await response.text();
   return new Response(
-    xml.replaceAll('https://open-design.ai/blog/', new URL(localePath('/blog/', locale, { prefixDefault: true }), context.site).toString()),
+    xml.replaceAll('https://sanki-ai.cloud/blog/', new URL(localePath('/blog/', locale, { prefixDefault: true }), context.site).toString()),
     {
       headers: response.headers,
       status: response.status,

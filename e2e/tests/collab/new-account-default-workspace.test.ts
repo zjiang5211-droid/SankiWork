@@ -93,7 +93,7 @@ process.exit(1);
 
 describe('new account default workspace bootstrap', () => {
   test(
-    'uses nickname workspace as the default personal free workspace with zero Open Design Cloud balance',
+    'uses nickname workspace as the default personal free workspace with zero SankiWork Cloud balance',
     { timeout: 240_000 },
     async () => {
       const suite = await createSmokeSuite('collab-new-account-default-workspace');
@@ -174,7 +174,7 @@ describe('new account default workspace bootstrap', () => {
         {
           env: {
             AMR_HOME: join(suite.scratchDir, 'empty-amr-home'),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-new-account-control-key',
             VELA_BIN: velaBin,

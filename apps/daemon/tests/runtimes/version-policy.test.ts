@@ -41,7 +41,7 @@ function writeProfileBin(dir: string, compatible: boolean): string {
   const probe = JSON.stringify({
     v: 1,
     type: 'probe',
-    runtime: 'open-design',
+    runtime: 'sankiwork',
     protocol_version: 1,
     plugin_version: '0.1.0',
     capabilities: {
@@ -112,7 +112,7 @@ describe('runtime version policy', () => {
       const def: RuntimeAgentDef = {
         ...versionedDef,
         compatibilityProbe: {
-          args: ['--profile', 'open-design', '--probe'],
+          args: ['--profile', 'sankiwork', '--probe'],
           preflight: () => compatible,
           parse: (stdout) => {
             const value = JSON.parse(stdout) as { plugin_version?: unknown };

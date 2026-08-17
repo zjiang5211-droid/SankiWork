@@ -1,8 +1,8 @@
 import {
-  OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+  SANKIWORK_PLUGIN_SPEC_VERSION,
   type InputField,
   type PluginManifest,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { parseFrontmatter, type FrontmatterObject, type FrontmatterValue } from '../parsers/frontmatter.js';
 
 // Adapter from a portable SKILL.md (with optional `od:` frontmatter, see
@@ -86,7 +86,7 @@ export function adaptAgentSkill(
     : undefined;
 
   const manifest: PluginManifest = {
-    specVersion: OPEN_DESIGN_PLUGIN_SPEC_VERSION,
+    specVersion: SANKIWORK_PLUGIN_SPEC_VERSION,
     name,
     title,
     title_i18n: titleI18n,

@@ -48,7 +48,7 @@ import { describe, expect, it } from 'vitest';
  *   which arms it too.
  * - That wiring cannot rot silently. The `daemon core boundary` guard
  *   (`scripts/lib/guard/scope.ts`) asserts `ci.yml` still contains both
- *   `run_e2e_vitest == 'true'` and `pnpm --filter @open-design/e2e test`, and
+ *   `run_e2e_vitest == 'true'` and `pnpm --filter @sankiwork/e2e test`, and
  *   it runs in the always-on policy floor.
  *
  * The placement also follows the root `AGENTS.md` boundary rule — cross-app and

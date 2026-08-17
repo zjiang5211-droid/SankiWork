@@ -15,7 +15,7 @@ import { GenUISurfaceRenderer } from '../../src/components/GenUISurfaceRenderer'
 import type {
   GenUISurfaceSpec,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 afterEach(() => cleanup());
 

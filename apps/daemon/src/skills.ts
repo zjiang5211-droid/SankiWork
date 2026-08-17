@@ -535,13 +535,13 @@ export function splitDerivedSkillId(id: unknown): DerivedSkillIdParts | null {
 // Skills that ship side files (e.g. `assets/template.html`, `references/*.md`)
 // need the agent to know where the skill lives on disk — relative paths in the
 // SKILL.md body would otherwise resolve against the agent's CWD, which is the
-// project folder (`.od/projects/<id>/`), not the skill folder.
+// project folder (`.sankiwork/projects/<id>/`), not the skill folder.
 //
 // We prepend a short preamble that advertises two paths:
 //
-//   1. A CWD-relative alias path (`.od-skills/<folder>/`) — the primary one.
+//   1. A CWD-relative alias path (`.sankiwork-skills/<folder>/`) — the primary one.
 //      Before spawning the agent the chat handler copies the active skill
-//      into `<cwd>/.od-skills/<folder>/` (see `cwd-aliases.ts`), so this
+//      into `<cwd>/.sankiwork-skills/<folder>/` (see `cwd-aliases.ts`), so this
 //      path is inside the agent's working directory on every CLI and is
 //      not blocked by directory-access policies (issue #430).
 //   2. The absolute repo path — a fallback for the cases the staged copy

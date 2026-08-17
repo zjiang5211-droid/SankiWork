@@ -3,7 +3,7 @@
   "generated_at": "2026-05-29T06:21:39.088Z",
   "storage": {
     "provider": "cloudflare-r2",
-    "bucket": "open-design-mocks",
+    "bucket": "sankiwork-mocks",
     "public_url_base": "https://pub-89c3624d8b4a48018c37b212dbc4b945.r2.dev",
     "object_prefix": "recordings/v1/"
   },
@@ -261,7 +261,7 @@
         "default"
       ],
       "session_id": "ef1df4e9-1bb0-4e81-a16d-72846d90348a",
-      "user_input_preview": "# 📱 TASKORA — COMPLETE OPEN DESIGN UI MASTER DOCUMENT # 🎯 MAIN DESIGN GOAL Design style must feel like: ✅ Smart productivity workspace ✅ Interactive timeline dashboard ✅ Floating modern utility s",
+      "user_input_preview": "# 📱 TASKORA — COMPLETE SANKIWORK UI MASTER DOCUMENT # 🎯 MAIN DESIGN GOAL Design style must feel like: ✅ Smart productivity workspace ✅ Interactive timeline dashboard ✅ Floating modern utility s",
       "multi_turn": true,
       "captured_at": "2026-05-28T18:33:57.359Z",
       "cli_version": null,
@@ -1541,7 +1541,7 @@
         "default"
       ],
       "session_id": "e68b32d2-709e-4ffd-a571-7169f059b32b",
-      "user_input_preview": "# 📱 TASKORA — COMPLETE OPEN DESIGN UI MASTER DOCUMENT # 🎯 MAIN DESIGN GOAL Design style must feel like: ✅ Smart productivity workspace ✅ Interactive timeline dashboard ✅ Floating modern utility s",
+      "user_input_preview": "# 📱 TASKORA — COMPLETE SANKIWORK UI MASTER DOCUMENT # 🎯 MAIN DESIGN GOAL Design style must feel like: ✅ Smart productivity workspace ✅ Interactive timeline dashboard ✅ Floating modern utility s",
       "multi_turn": false,
       "captured_at": "2026-05-28T18:31:55.503Z",
       "cli_version": null,
@@ -3421,7 +3421,7 @@
         "default"
       ],
       "session_id": "6157971e-bc71-44e3-be76-8287fdcc3c3d",
-      "user_input_preview": "# 📱 TASKORA — COMPLETE OPEN DESIGN UI MASTER DOCUMENT # 🎯 MAIN DESIGN GOAL Design style must feel like: ✅ Smart productivity workspace ✅ Interactive timeline dashboard ✅ Floating modern utility s",
+      "user_input_preview": "# 📱 TASKORA — COMPLETE SANKIWORK UI MASTER DOCUMENT # 🎯 MAIN DESIGN GOAL Design style must feel like: ✅ Smart productivity workspace ✅ Interactive timeline dashboard ✅ Floating modern utility s",
       "multi_turn": false,
       "captured_at": "2026-05-28T18:26:15.786Z",
       "cli_version": null,

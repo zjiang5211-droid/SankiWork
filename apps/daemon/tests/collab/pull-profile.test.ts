@@ -74,7 +74,7 @@ describe('shared project pull profiling', () => {
     ].join('\n');
 
     emitVelaResourcePullProfile(stderr, {
-      OD_COLLAB_PULL_PROFILE: '1',
+      SW_COLLAB_PULL_PROFILE: '1',
     });
 
     expect(info).toHaveBeenCalledTimes(1);

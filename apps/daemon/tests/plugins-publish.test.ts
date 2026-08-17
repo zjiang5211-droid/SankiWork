@@ -1,4 +1,4 @@
-// Phase 4 / spec §14.1 — `od plugin publish` URL builder unit test.
+// Phase 4 / spec §14.1 — `sw plugin publish` URL builder unit test.
 //
 // The PR-template launcher is purely string assembly; we lock the
 // public contract here so a future spec patch that retargets a
@@ -14,7 +14,7 @@ import {
 } from '../src/plugins/publish.js';
 
 const META = {
-  pluginId:          'open-design/sample-plugin',
+  pluginId:          'sankiwork/sample-plugin',
   pluginVersion:     '1.0.0',
   pluginTitle:       'Sample Plugin',
   pluginDescription: 'A fixture for the publish flow.',
@@ -27,7 +27,7 @@ describe('buildPublishLink', () => {
       'anthropics-skills',
       'awesome-agent-skills',
       'clawhub',
-      'open-design',
+      'sankiwork',
       'skills-sh',
     ].sort());
   });
@@ -59,13 +59,13 @@ describe('buildPublishLink', () => {
     expect(link.prBody).toContain('npx skills add open-design/sample-plugin');
   });
 
-  it('builds an Open Design registry submission URL', () => {
-    // The dedicated `open-design/plugin-registry` repo per
+  it('builds an SankiWork registry submission URL', () => {
+    // The dedicated `sankiwork/plugin-registry` repo per
     // docs/plans/plugin-registry.md §1.2 is the long-term target; until that
     // operational launch step happens, submissions land in `nexu-io/open-design`
     // (plugins/community/<plugin-name>/), keeping contribution where stars and
     // PR traffic already are.
-    const link = buildPublishLink({ catalog: 'open-design', meta: META });
+    const link = buildPublishLink({ catalog: 'sankiwork', meta: META });
     expect(link.catalogLabel).toBe('nexu-io/open-design');
     expect(link.url).toMatch(/^https:\/\/github\.com\/nexu-io\/open-design\/issues\/new\?/);
     expect(link.prBody).toContain('plugins/community/<plugin-name>/open-design.json');
@@ -100,12 +100,12 @@ describe('upsertMarketplaceJsonEntry', () => {
 
     expect(outcome.inserted).toBe(true);
     expect(outcome.entry).toMatchObject({
-      name: 'open-design/sample-plugin',
+      name: 'sankiwork/sample-plugin',
       source: 'github:open-design/sample-plugin',
       version: '1.0.0',
       title: 'Sample Plugin',
       publisher: {
-        github: 'open-design',
+        github: 'sankiwork',
       },
     });
     expect(outcome.manifest.plugins).toHaveLength(1);
@@ -122,7 +122,7 @@ describe('upsertMarketplaceJsonEntry', () => {
         extra: true,
         plugins: [
           {
-            name: 'open-design/sample-plugin',
+            name: 'sankiwork/sample-plugin',
             source: 'github:open-design/sample-plugin@old',
             version: '0.9.0',
             tags: ['kept'],
@@ -139,7 +139,7 @@ describe('upsertMarketplaceJsonEntry', () => {
     expect(outcome.inserted).toBe(false);
     expect(outcome.manifest.extra).toBe(true);
     expect(outcome.manifest.plugins[0]).toMatchObject({
-      name: 'open-design/sample-plugin',
+      name: 'sankiwork/sample-plugin',
       source: 'github:open-design/sample-plugin@main/plugins/sample',
       version: '1.1.0',
       tags: ['kept'],

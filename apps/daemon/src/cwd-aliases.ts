@@ -1,6 +1,6 @@
 // Stage the active skill into the agent's project cwd so its side files
 // (assets/, references/) are reachable through a cwd-relative path
-// (`.od-skills/<folder>/...`). The chat handler invokes
+// (`.sankiwork-skills/<folder>/...`). The chat handler invokes
 // `stageActiveSkill()` once per turn before spawning the agent; the
 // skill preamble emitted by `withSkillRootPreamble()` advertises both
 // the cwd-relative alias path (primary) and the absolute repo path
@@ -12,9 +12,9 @@
 // link pointing at the repository's live `skills/` tree. Reviewers
 // flagged that as a write-amplification vulnerability: agents have
 // write access to their cwd, and a `Write`/`Edit`/`Bash` call against
-// `.od-skills/<id>/SKILL.md` resolves through the symlink and mutates
+// `.sankiwork-skills/<id>/SKILL.md` resolves through the symlink and mutates
 // the shipped resource itself. Per-project copies eliminate that
-// channel — every byte under `.od-skills/` is a private working copy,
+// channel — every byte under `.sankiwork-skills/` is a private working copy,
 // and corrupting it has no effect on other projects or on the source.
 //
 // Cost. We only stage the *active* skill, not the entire SKILLS_DIR;
@@ -34,7 +34,7 @@ import { chmod, cp, lstat, mkdir, readdir, rm, stat, utimes } from 'node:fs/prom
 import path from 'node:path';
 import { pipeline } from 'node:stream/promises';
 
-export const SKILLS_CWD_ALIAS = '.od-skills';
+export const SKILLS_CWD_ALIAS = '.sankiwork-skills';
 
 export type SkillStagingLogger = (message: string) => void;
 
@@ -70,7 +70,7 @@ type SkillCopyFn = (
 // Recursive copy that mirrors `cp({ dereference: true })` without going
 // through copy_file_range. `stat()` (not `lstat`) follows symlinks, so
 // every staged entry lands as a real directory or regular file — keeping
-// `.od-skills/` a self-contained write barrier even on the fallback path.
+// `.sankiwork-skills/` a self-contained write barrier even on the fallback path.
 async function copyTreeDereferenced(srcDir: string, destDir: string): Promise<void> {
   await mkdir(destDir, { recursive: true });
   for (const entry of await readdir(srcDir, { withFileTypes: true })) {
@@ -95,7 +95,7 @@ async function copyTreeDereferenced(srcDir: string, destDir: string): Promise<vo
 }
 
 /**
- * Copy `<sourceDir>` to `<cwd>/.od-skills/<folderName>/` so an agent can
+ * Copy `<sourceDir>` to `<cwd>/.sankiwork-skills/<folderName>/` so an agent can
  * reach skill side files via a cwd-relative path. Idempotent and
  * non-throwing — failures are logged and surfaced via the result so the
  * caller falls back to absolute-path delivery (`--add-dir` for
@@ -176,7 +176,7 @@ export async function stageActiveSkill(
         // Resolve every symlink we find inside the skill so the staged
         // copy is a fully self-contained set of regular files. This is
         // what makes the copy a true write barrier — no entry under
-        // `.od-skills/...` can resolve back to a real file outside the
+        // `.sankiwork-skills/...` can resolve back to a real file outside the
         // project cwd.
         dereference: true,
         preserveTimestamps: true,

@@ -1,4 +1,4 @@
-import type { AudioVoiceOption } from '@open-design/contracts';
+import type { AudioVoiceOption } from '@sankiwork/contracts';
 
 type JsonRecord = Record<string, unknown>;
 

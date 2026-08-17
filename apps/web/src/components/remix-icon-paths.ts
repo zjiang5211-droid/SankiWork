@@ -1,6 +1,6 @@
 // Inline SVG path data for every Remix Icon glyph the app uses, extracted
 // from remixicon@4.9.1 (same version as the vendored icon font). Icon fonts
-// cannot load at all under the packaged od:// protocol (Chromium's font
+// cannot load at all under the packaged sankiwork:// protocol (Chromium's font
 // loader rejects every url() font on custom-scheme documents), which left
 // glyphs as tofu squares — inlining the vector data removes the network/font
 // dependency entirely. All glyphs share the 24x24 viewBox and render with

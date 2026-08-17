@@ -1,12 +1,12 @@
 /** @module agent-protocol/dsh-profile/types
- * Generation-1 wire contract for the Open Design DeepSeek Harness profile.
+ * Generation-1 wire contract for the SankiWork DeepSeek Harness profile.
  * The user's official `dsh` owns the runtime; this protocol is the thin stdio
- * seam exposed by the installed `open-design` profile bundle.
+ * seam exposed by the installed `sankiwork` profile bundle.
  */
 
 export const DSH_PROFILE_PROTOCOL_VERSION = 1 as const;
-export const DSH_PROFILE_RUNTIME = 'open-design' as const;
-export const DSH_PROFILE_NAME = 'open-design' as const;
+export const DSH_PROFILE_RUNTIME = 'sankiwork' as const;
+export const DSH_PROFILE_NAME = 'sankiwork' as const;
 
 export type DshProfileCapabilities = {
   session_resume: true;
@@ -30,7 +30,7 @@ export type DshProfileModelCatalogEntry = {
 export type DshProfileModelsFrame = {
   v: 1;
   type: 'models';
-  runtime: 'open-design';
+  runtime: 'sankiwork';
   models: DshProfileModelCatalogEntry[];
 };
 
@@ -59,7 +59,7 @@ export type DshProfileHostCommand =
 export type DshProfileProbeFrame = {
   v: 1;
   type: 'probe';
-  runtime: 'open-design';
+  runtime: 'sankiwork';
   protocol_version: 1;
   plugin_version: string;
   capabilities: DshProfileCapabilities;
@@ -68,7 +68,7 @@ export type DshProfileProbeFrame = {
 export type DshProfileReadyFrame = {
   v: 1;
   type: 'ready';
-  runtime: 'open-design';
+  runtime: 'sankiwork';
   protocol_version: 1;
   plugin_version: string;
   capabilities: DshProfileCapabilities;

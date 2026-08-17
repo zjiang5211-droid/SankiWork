@@ -2,7 +2,7 @@ import type {
   TeamProject,
   WorkspaceCollabContext,
   WorkspaceProjectSummary,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 import { workspaceIdentityCacheKey } from './workspace-identity';
 

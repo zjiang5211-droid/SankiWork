@@ -1,4 +1,4 @@
-import type { WorkspaceBillingSummary, WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceBillingSummary, WorkspaceCollabContext } from '@sankiwork/contracts';
 
 /**
  * Whether a raw vela plan id is a TEAM plan.

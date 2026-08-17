@@ -1,7 +1,7 @@
 /*
  * youtube-tutorials/lib — shared core for backfilling and the daily cron that
  * keeps `app/content/tutorials/*.md` in sync with the latest community YouTube
- * tutorials about Open Design.
+ * tutorials about SankiWork.
  *
  * Two entry points consume this module:
  *   - backfill-tutorials.ts      one-off, reads pre-fetched yt-dlp JSON lines
@@ -90,7 +90,7 @@ export function kebab(input: string): string {
 /** Build a unique slug, falling back to the video id if topic+author collide. */
 export function buildSlug(slugTopic: string, author: string, taken: Set<string>, videoId: string): string {
   const authorPart = kebab(author) || 'community';
-  let base = `open-design-${kebab(slugTopic) || 'tutorial'}-${authorPart}`.replace(/-{2,}/g, '-');
+  let base = `sankiwork-${kebab(slugTopic) || 'tutorial'}-${authorPart}`.replace(/-{2,}/g, '-');
   let slug = base;
   if (taken.has(slug)) slug = `${base}-${videoId.toLowerCase().slice(0, 6)}`;
   let n = 2;
@@ -177,28 +177,28 @@ function extractJson(text: string): unknown {
 }
 
 /**
- * Relevance gate for the cron. YouTube search for "open design" surfaces many
+ * Relevance gate for the cron. YouTube search for "sankiwork" surfaces many
  * lookalikes (OpenCode, OpenClaude, a separate "Open Codesign" repo, generic
  * AI-agent roundups). Returns true only when the video is specifically about
- * nexu-io's Open Design product.
+ * nexu-io's SankiWork product.
  */
-export async function isAboutOpenDesign(video: VideoInput): Promise<boolean> {
+export async function isAboutSankiWork(video: VideoInput): Promise<boolean> {
   const system =
-    'You decide whether a YouTube video is specifically about the open-source product "Open Design" ' +
+    'You decide whether a YouTube video is specifically about the open-source product "SankiWork" ' +
     'by nexu-io (github.com/nexu-io/open-design) — a self-evolving design agent that runs on coding ' +
     'agents (Claude Code, Codex, etc.) and is positioned as a free/open-source alternative to Claude Design. ' +
     'It has ~50k GitHub stars. Reject videos that are actually about different products that merely sound ' +
     'similar: "OpenCode", "OpenClaude", a smaller "Open Codesign" repo (a few thousand stars), Google Stitch, ' +
-    'Figma, or generic "AI agents / AI coding" roundups that do not focus on Open Design. ' +
-    'Reply with strict JSON: {"isOpenDesign": boolean, "reason": string}.';
+    'Figma, or generic "AI agents / AI coding" roundups that do not focus on SankiWork. ' +
+    'Reply with strict JSON: {"isSankiWork": boolean, "reason": string}.';
   const user = JSON.stringify({
     title: video.title,
     channel: video.author,
     description: video.description.slice(0, 1500),
   });
   try {
-    const out = extractJson(await callLLM(system, user, 256)) as { isOpenDesign?: boolean };
-    return out.isOpenDesign === true;
+    const out = extractJson(await callLLM(system, user, 256)) as { isSankiWork?: boolean };
+    return out.isSankiWork === true;
   } catch {
     // On parse/LLM failure, be conservative and exclude.
     return false;
@@ -206,12 +206,12 @@ export async function isAboutOpenDesign(video: VideoInput): Promise<boolean> {
 }
 
 export interface CandidateScore {
-  isOpenDesign: boolean;
+  isSankiWork: boolean;
   /** Suggested 0-100 priority score (completeness 40 + relevance 40 + reach 20). */
   overall: number;
   /** Is it a complete, followable tutorial (5) vs a short/teaser/mention (0-1). */
   completeness: number; // 0-5
-  /** How precisely the video is about Open Design specifically. */
+  /** How precisely the video is about SankiWork specifically. */
   relevance: number; // 0-5
   /** Audience reach tier derived from view count. */
   reach: number; // 0-5
@@ -223,7 +223,7 @@ export interface CandidateScore {
 
 /**
  * Suggested "add it" verdict: a candidate is worth recommending only when it is
- * an actual (at least partial) tutorial that is squarely about Open Design.
+ * an actual (at least partial) tutorial that is squarely about SankiWork.
  * Filters out teasers/Shorts (low completeness) and passing mentions (low
  * relevance) regardless of view count. Reach never rescues a non-tutorial.
  */
@@ -249,48 +249,48 @@ const clamp05 = (n: unknown): number => {
 
 /**
  * Gate + score a candidate in a single LLM call. The model judges relevance
- * (is it Open Design) plus two 0-5 axes — completeness (is it a real, followable
- * tutorial) and relevance precision (how squarely it's about Open Design). The
+ * (is it SankiWork) plus two 0-5 axes — completeness (is it a real, followable
+ * tutorial) and relevance precision (how squarely it's about SankiWork). The
  * reach axis is computed from view count, not the model. The 0-100 overall is a
  * suggestion to help a maintainer prioritise; final say stays human.
  */
 export async function scoreCandidate(video: VideoInput): Promise<CandidateScore> {
   const system =
-    'You gate and score a YouTube video for the Open Design tutorials catalogue. ' +
-    'Open Design (github.com/nexu-io/open-design, ~50k stars) is an open-source self-evolving design ' +
+    'You gate and score a YouTube video for the SankiWork tutorials catalogue. ' +
+    'SankiWork (github.com/nexu-io/open-design, ~50k stars) is an open-source self-evolving design ' +
     'agent that runs on coding agents (Claude Code, Codex, etc.), positioned as a free/open-source ' +
     'alternative to Claude Design. Reject lookalikes that merely sound similar: OpenCode, OpenClaude, a ' +
     'smaller "Open Codesign" repo, Google Stitch, Figma, or generic AI-agent/AI-coding roundups not ' +
-    'focused on Open Design. Score two axes 0-5: ' +
+    'focused on SankiWork. Score two axes 0-5: ' +
     '"completeness" = is this a complete, followable tutorial (5 = full step-by-step setup/walkthrough/demo; ' +
     '3 = partial or overview; 1 = short/teaser/Shorts/news mention; 0 = not instructional); ' +
-    '"relevance" = how squarely the video is specifically about Open Design (5 = dedicated to it; ' +
+    '"relevance" = how squarely the video is specifically about SankiWork (5 = dedicated to it; ' +
     '3 = significant segment; 1 = passing mention). ' +
-    'Reply with STRICT JSON: {"isOpenDesign": boolean, "completeness": 0-5, "relevance": 0-5, "reason": string (<=120 chars)}.';
+    'Reply with STRICT JSON: {"isSankiWork": boolean, "completeness": 0-5, "relevance": 0-5, "reason": string (<=120 chars)}.';
   const user = JSON.stringify({
     title: video.title,
     channel: video.author,
     durationSeconds: video.durationSeconds,
     description: video.description.slice(0, 1800),
   });
-  let isOpenDesign = false;
+  let isSankiWork = false;
   let completeness = 0;
   let relevance = 0;
   let reason = '';
   try {
     const out = extractJson(await callLLM(system, user, 320)) as Partial<CandidateScore>;
-    isOpenDesign = out.isOpenDesign === true;
+    isSankiWork = out.isSankiWork === true;
     completeness = clamp05(out.completeness);
     relevance = clamp05(out.relevance);
     reason = (out.reason ?? '').toString().trim().slice(0, 160);
   } catch {
     // On parse/LLM failure, be conservative: exclude and zero the score.
-    return { isOpenDesign: false, overall: 0, completeness: 0, relevance: 0, reach: 0, recommend: false, reason: 'score failed' };
+    return { isSankiWork: false, overall: 0, completeness: 0, relevance: 0, reach: 0, recommend: false, reason: 'score failed' };
   }
   const reach = reachScore(video.viewCount);
   const overall = completeness * 8 + relevance * 8 + reach * 4; // 0-100
   const recommend = isRecommended({ completeness, relevance });
-  return { isOpenDesign, overall, completeness, relevance, reach, recommend, reason };
+  return { isSankiWork, overall, completeness, relevance, reach, recommend, reason };
 }
 
 /**
@@ -330,8 +330,8 @@ export function extractYouTubeId(text: string): string | null {
  */
 export async function generateCopy(video: VideoInput): Promise<GeneratedCopy> {
   const system =
-    'You write catalogue entries for the Open Design tutorials page (open-design.ai/tutorials). ' +
-    'Open Design is an open-source self-evolving design agent by nexu-io. Each entry describes one ' +
+    'You write catalogue entries for the SankiWork tutorials page (sanki-ai.cloud/tutorials). ' +
+    'SankiWork is an open-source self-evolving design agent by nexu-io. Each entry describes one ' +
     'community YouTube video. Match this editorial voice: factual, concise, no hype, no first/second ' +
     'person, no "in this video". Write the summary and body in the SAME language as the video title ' +
     '(English title -> English; Chinese -> Chinese; Portuguese -> Portuguese; etc.). ' +

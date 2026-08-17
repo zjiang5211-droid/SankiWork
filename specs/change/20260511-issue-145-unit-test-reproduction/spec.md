@@ -40,7 +40,7 @@ created: '2026-05-11'
 
 ### Constraints & Dependencies
 - App tests belong under `apps/web/tests/`, not under `apps/web/src/`. Source: `apps/AGENTS.md#Test layout`.
-- The repository prefers package-scoped validation, including `pnpm --filter @open-design/web test`. Source: `AGENTS.md#Common commands`.
+- The repository prefers package-scoped validation, including `pnpm --filter @sankiwork/web test`. Source: `AGENTS.md#Common commands`.
 - The current requested scope is reproduction via unit test; implementation fix can follow after the failing/pinning test is in place. Source: conversation.
 
 ### Key References
@@ -77,7 +77,7 @@ flowchart LR
 
 ### Test Strategy
 - Add a Vitest/Testing Library component test in `apps/web/tests/components/assistant-message-tool-status.test.tsx`. Validation: render a completed assistant message with an unpaired `Write` tool and assert the completed message does not show `Running`. Source: `apps/web/src/components/AssistantMessage.tsx:56-67`; `apps/web/src/components/ToolCard.tsx:330-334`.
-- Run `pnpm --filter @open-design/web test` after adding the test. Source: `AGENTS.md#Common commands`.
+- Run `pnpm --filter @sankiwork/web test` after adding the test. Source: `AGENTS.md#Common commands`.
 
 ### Pseudocode
 
@@ -132,6 +132,6 @@ expect(screen.getByText(/done/i)).toBeInTheDocument();
 ### Verification
 
 - Reproduction confirmed before the fix: the new component test failed because a completed run without `tool_result` rendered `running…` instead of `Done`.
-- Passed: `pnpm --filter @open-design/web test -- tests/components/assistant-message-tool-status.test.tsx tests/runtime/tool-renderers.test.tsx` (`84` files, `751` tests).
-- Passed: `pnpm --filter @open-design/web typecheck`.
+- Passed: `pnpm --filter @sankiwork/web test -- tests/components/assistant-message-tool-status.test.tsx tests/runtime/tool-renderers.test.tsx` (`84` files, `751` tests).
+- Passed: `pnpm --filter @sankiwork/web typecheck`.
 - Final code review found no blocking issues.

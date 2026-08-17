@@ -109,8 +109,8 @@ describe('team mirror read revocation', () => {
     // revocation must not add a second lookup. Comments need no project row
     // at all. Check both normal and revoked projects so the optimization
     // cannot accidentally become a revoked-only shortcut.
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for this test');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for this test');
     const db = openDatabase(process.cwd(), { dataDir });
     const prepareSpy = vi.spyOn(db, 'prepare');
     const projectMetadataReads = () =>

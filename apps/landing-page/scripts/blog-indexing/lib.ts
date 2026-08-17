@@ -28,8 +28,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const SITE = 'https://open-design.ai';
-export const GSC_SITE_URL = 'sc-domain:open-design.ai';
+export const SITE = 'https://sanki-ai.cloud';
+export const GSC_SITE_URL = 'sc-domain:sanki-ai.cloud';
 export const SITEMAP_URL = `${SITE}/sitemap-index.xml`;
 export const SITEMAP_CHILD_URL = `${SITE}/sitemap-0.xml`;
 export const INDEXNOW_KEY = '96b0928121e24fd7b4ef85ae0f8bf1d8';

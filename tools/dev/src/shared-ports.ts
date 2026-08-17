@@ -1,5 +1,5 @@
-import { allocatePort } from "@open-design/sidecar";
-import { APP_KEYS } from "@open-design/sidecar-proto";
+import { allocatePort } from "@sankiwork/sidecar";
+import { APP_KEYS } from "@sankiwork/sidecar-proto";
 
 import { parsePortOption, type ToolDevAppName, type ToolDevOptions } from "./config.js";
 

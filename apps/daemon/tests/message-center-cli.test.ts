@@ -98,7 +98,7 @@ async function runCli(args: string[]): Promise<{ stdout: string; stderr: string;
   }
 }
 
-describe('od message-center CLI', () => {
+describe('sw message-center CLI', () => {
   let stub: StubServer;
 
   beforeAll(async () => {
@@ -114,10 +114,10 @@ describe('od message-center CLI', () => {
     stub.setResponder(() => ({ status: 200, body: { ok: true } }));
   });
 
-  it('prints usage on `od message-center help` and exits 0', async () => {
+  it('prints usage on `sw message-center help` and exits 0', async () => {
     const result = await runCli(['message-center', 'help']);
     expect(result.code).toBe(0);
-    expect(result.stdout).toMatch(/od message-center/);
+    expect(result.stdout).toMatch(/sw message-center/);
     expect(result.stdout).toMatch(/read-all/);
     expect(stub.requests).toHaveLength(0);
   });
@@ -132,7 +132,7 @@ describe('od message-center CLI', () => {
               {
                 id: 'release',
                 typeName: 'Product update',
-                title: 'Open Design 0.14 is available',
+                title: 'SankiWork 0.14 is available',
                 publishedAt: '2026-07-16T12:00:00.000Z',
                 readAt: null,
               },
@@ -164,7 +164,7 @@ describe('od message-center CLI', () => {
       method: 'GET',
       url: '/api/integrations/vela/message-center/messages?locale=en-US&filter=unread&limit=50',
     });
-    expect(result.stdout).toContain('release\tunread\tProduct update\t2026-07-16T12:00:00.000Z\tOpen Design 0.14 is available');
+    expect(result.stdout).toContain('release\tunread\tProduct update\t2026-07-16T12:00:00.000Z\tSankiWork 0.14 is available');
     expect(result.stdout).toContain('unreadCount\t1');
   });
 
@@ -243,6 +243,6 @@ describe('od message-center CLI', () => {
     const result = await runCli(['message-center', 'read', '--daemon-url', stub.baseUrl]);
     expect(result.code).toBe(2);
     expect(stub.requests).toHaveLength(0);
-    expect(result.stderr).toMatch(/Usage: od message-center read/);
+    expect(result.stderr).toMatch(/Usage: sw message-center read/);
   });
 });

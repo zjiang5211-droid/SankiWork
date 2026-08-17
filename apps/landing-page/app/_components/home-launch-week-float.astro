@@ -79,7 +79,7 @@ const eventEndAtExclusive = '2026-08-14T16:00:00Z';
       String(shanghaiNow.getUTCMonth() + 1).padStart(2, '0'),
       String(shanghaiNow.getUTCDate()).padStart(2, '0'),
     ].join('-');
-    const dismissKey = `open-design:home-launch-week-float:dismissed:${dayKey}`;
+    const dismissKey = `sankiwork:home-launch-week-float:dismissed:${dayKey}`;
     let dismissed = false;
     try { dismissed = window.localStorage.getItem(dismissKey) === '1'; } catch {}
     if (dismissed && !forcePreview) return;

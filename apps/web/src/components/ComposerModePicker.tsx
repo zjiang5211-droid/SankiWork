@@ -22,7 +22,7 @@ import {
   type ReactElement,
 } from 'react';
 import { createPortal } from 'react-dom';
-import type { ChatSessionMode } from '@open-design/contracts';
+import type { ChatSessionMode } from '@sankiwork/contracts';
 import { useT } from '../i18n';
 import { Icon } from './Icon';
 

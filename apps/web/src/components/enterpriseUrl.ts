@@ -7,7 +7,7 @@
 const ENTERPRISE_BASE =
   process.env.NODE_ENV === 'development'
     ? 'http://127.0.0.1:17574'
-    : 'https://open-design.ai';
+    : 'https://sanki-ai.cloud';
 
 // Map the client's active locale to an active landing-page locale segment so
 // the enterprise page opens in the same language the user is already reading.

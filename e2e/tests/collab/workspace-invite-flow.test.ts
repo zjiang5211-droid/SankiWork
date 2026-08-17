@@ -245,7 +245,7 @@ describe('workspace invite create and acceptance handoff', () => {
             {
               env: {
                 AMR_HOME: joinScratchHome(inviteeSuite.scratchDir),
-                OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+                SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
                 VELA_API_URL: authorityUrl,
                 VELA_CONTROL_KEY: 'e2e-invitee-control-key',
               },
@@ -266,7 +266,7 @@ describe('workspace invite create and acceptance handoff', () => {
         {
           env: {
             AMR_HOME: joinScratchHome(ownerSuite.scratchDir),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-invite-owner-control-key',
           },

@@ -6,9 +6,9 @@ import { fulfillAgentsRoute } from './mock-factory.js';
 import { openSettingsDialog } from './amr.js';
 import { T } from '@/timeouts';
 
-const STORAGE_KEY = 'open-design:config';
-const GITHUB_STARS_STORAGE_KEY = 'open-design:gh-stars';
-const VISUAL_STABILITY_STORAGE_KEY = 'open-design:visual-stability';
+const STORAGE_KEY = 'sankiwork:config';
+const GITHUB_STARS_STORAGE_KEY = 'sankiwork:gh-stars';
+const VISUAL_STABILITY_STORAGE_KEY = 'sankiwork:visual-stability';
 const VISUAL_STYLE_ID = 'od-visual-stability-style';
 // Keep this exact-route mock narrow so unrelated GitHub UI still behaves normally.
 const VISUAL_GITHUB_REPO_API = 'https://api.github.com/repos/nexu-io/open-design';
@@ -99,7 +99,7 @@ export const VISUAL_CLI_AGENTS = [
 
 export const VISUAL_AMR_AGENT = {
   id: 'amr',
-  name: 'Open Design',
+  name: 'SankiWork',
   bin: 'vela',
   available: true,
   version: '0.1.0',
@@ -224,7 +224,7 @@ const VISUAL_PLUGINS = [
   makeVisualPlugin({
     id: 'visual-figma-importer',
     title: 'Figma Importer',
-    description: 'Migrate a Figma frame into an editable Open Design project.',
+    description: 'Migrate a Figma frame into an editable SankiWork project.',
     mode: 'prototype',
     taskKind: 'figma-migration',
     tags: ['migration'],
@@ -691,7 +691,7 @@ export async function mockSignedInVelaAccount(
 }
 
 export async function waitForVisualReady(page: Page): Promise<void> {
-  await page.getByText('Loading Open Design…').waitFor({ state: 'hidden', timeout: T.xlong });
+  await page.getByText('Loading SankiWork…').waitFor({ state: 'hidden', timeout: T.xlong });
   await expect(page.getByTestId('home-hero')).toBeVisible({ timeout: T.medium });
   await expect(page.getByTestId('home-hero-input')).toBeVisible({ timeout: T.medium });
   await page.evaluate(async () => {
@@ -721,7 +721,7 @@ export async function gotoVisualWorkspace(page: Page): Promise<void> {
   // leave the route guard and deep-link bootstrap racing the mocked list.
   await waitForVisualProjects(page, VISUAL_PROJECTS);
   await page.goto('/projects/visual-project-launchpad', { waitUntil: 'domcontentloaded' });
-  await page.getByText('Loading Open Design…').waitFor({ state: 'hidden', timeout: T.long });
+  await page.getByText('Loading SankiWork…').waitFor({ state: 'hidden', timeout: T.long });
   await expect(page).toHaveURL(/\/projects\/visual-project-launchpad/, { timeout: T.medium });
   await expect(page.getByTestId('chat-composer')).toBeVisible({ timeout: T.medium });
   await expect(page.getByTestId('chat-composer-input')).toBeVisible({ timeout: T.medium });
@@ -786,8 +786,8 @@ export async function prepareVisualWorkspacePreview(page: Page): Promise<void> {
 export async function prepareVisualAvatarMenu(page: Page): Promise<Locator> {
   await prepareVisualWorkspaceFileList(page);
   const menu = await openAvatarMenu(page);
-  // The composer popover is a model picker: the Open Design account card is
-  // conditional (Open Design has to be installed), so gate on the model list.
+  // The composer popover is a model picker: the SankiWork account card is
+  // conditional (SankiWork has to be installed), so gate on the model list.
   await expect(menu.locator('.avatar-model-section').first()).toBeVisible();
   await expect(page.getByTestId('design-files-tab')).toHaveAttribute('aria-selected', 'true');
   await expect(menu.locator('.avatar-item').first()).toBeVisible();
@@ -856,7 +856,7 @@ export async function resetVisualScroll(page: Page): Promise<void> {
 }
 
 export async function captureVisual(page: Page, name: string): Promise<string> {
-  const outputDir = path.resolve(process.env.OD_VISUAL_OUTPUT_DIR || 'ui/reports/visual-screenshots');
+  const outputDir = path.resolve(process.env.SW_VISUAL_OUTPUT_DIR || 'ui/reports/visual-screenshots');
   const safeName = sanitizeVisualName(name);
   const outputPath = path.join(outputDir, `${safeName}.png`);
   await mkdir(outputDir, { recursive: true });
@@ -871,7 +871,7 @@ export async function captureVisualTarget(
   target: Locator | readonly Locator[],
   options: { padding?: number } = {},
 ): Promise<string> {
-  const outputDir = path.resolve(process.env.OD_VISUAL_OUTPUT_DIR || 'ui/reports/visual-screenshots');
+  const outputDir = path.resolve(process.env.SW_VISUAL_OUTPUT_DIR || 'ui/reports/visual-screenshots');
   const safeName = sanitizeVisualName(name);
   const outputPath = path.join(outputDir, `${safeName}.png`);
   const targets = Array.isArray(target) ? target : [target];

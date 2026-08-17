@@ -1,7 +1,7 @@
 import { net, protocol } from "electron";
 
-const OD_SCHEME = "od";
-const OD_ENTRY_URL = `${OD_SCHEME}://app/`;
+const SW_SCHEME = "od";
+const SW_ENTRY_URL = `${SW_SCHEME}://app/`;
 type OdProtocolFetch = (request: Request) => Promise<Response>;
 
 /**
@@ -33,12 +33,12 @@ protocol.registerSchemesAsPrivileged([
       stream: true,
       supportFetchAPI: true,
     },
-    scheme: OD_SCHEME,
+    scheme: SW_SCHEME,
   },
 ]);
 
 /**
- * Rewrite an incoming `od://` request onto the web sidecar's current address,
+ * Rewrite an incoming `sankiwork://` request onto the web sidecar's current address,
  * or report that there is nothing to rewrite onto.
  *
  * Returns `null` — rather than throwing — for both "no address" and "address
@@ -63,7 +63,7 @@ function toWebRuntimeUrl(webRuntimeUrl: OdProtocolTarget, requestUrl: string): s
   return target.toString();
 }
 
-const OD_PROXY_RETRYABLE_METHODS = new Set(["GET", "HEAD"]);
+const SW_PROXY_RETRYABLE_METHODS = new Set(["GET", "HEAD"]);
 
 /**
  * Error tokens that mean the LOCAL machine is out of network resources —
@@ -71,7 +71,7 @@ const OD_PROXY_RETRYABLE_METHODS = new Set(["GET", "HEAD"]);
  * explicit whitelist: everything not listed here retains the proxy's normal
  * resilience behavior (undici fallback, transient retry).
  */
-const OD_RESOURCE_EXHAUSTION_ERROR_TOKENS: readonly string[] = [
+const SW_RESOURCE_EXHAUSTION_ERROR_TOKENS: readonly string[] = [
   "ERR_INSUFFICIENT_RESOURCES",
   "EMFILE",
   "ENFILE",
@@ -101,12 +101,12 @@ const OD_RESOURCE_EXHAUSTION_ERROR_TOKENS: readonly string[] = [
 function isLocalResourceExhaustionError(error: unknown): boolean {
   if (!(error instanceof Error)) return false;
   const code = (error as NodeJS.ErrnoException).code;
-  return OD_RESOURCE_EXHAUSTION_ERROR_TOKENS.some(
+  return SW_RESOURCE_EXHAUSTION_ERROR_TOKENS.some(
     (token) => code === token || error.message.includes(token),
   );
 }
-const OD_PROXY_RETRY_ATTEMPTS = 3;
-const OD_PROXY_RETRY_BACKOFF_MS = 150; // 150ms, 300ms — throw path only, ~450ms worst-case added
+const SW_PROXY_RETRY_ATTEMPTS = 3;
+const SW_PROXY_RETRY_BACKOFF_MS = 150; // 150ms, 300ms — throw path only, ~450ms worst-case added
 
 type OdProxyRetryOptions = {
   attempts?: number;
@@ -125,7 +125,7 @@ const defaultRetryDelay = (ms: number): Promise<void> =>
  * window renders: undici can throw mid-fetch from socket internals (the
  * `setTypeOfService EINVAL` family of issue #895) even while the web
  * sidecar is healthy, and when that happens on the top navigation
- * (`od://app/`) the synthetic 502 from `buildProxyErrorResponse` IS the
+ * (`sankiwork://app/`) the synthetic 502 from `buildProxyErrorResponse` IS the
  * whole window — the React app never mounts and nothing reloads it.
  * GET/HEAD carry no body, so re-issuing the Request per attempt is safe;
  * non-idempotent methods keep single-attempt semantics. Responses that
@@ -141,7 +141,7 @@ const defaultRetryDelay = (ms: number): Promise<void> =>
  * origin connection pool made this load-bearing: an EventSource the renderer
  * closes (or a fetch it aborts) MUST release the upstream net.fetch connection,
  * or long-lived streams (workspace/collab SSE, chat run streams) leak pool
- * slots until every od:// request in the app hangs forever — tofu icons,
+ * slots until every sankiwork:// request in the app hangs forever — tofu icons,
  * dead fetches, the works. Electron's protocol.handle does not reliably
  * propagate client disconnects to the handler's Response, so we wire BOTH
  * paths ourselves:
@@ -161,7 +161,7 @@ const defaultRetryDelay = (ms: number): Promise<void> =>
  *    same TTF returned 200 — the fetch path never re-decodes. Classic
  *    protocol.handle-proxy pitfall.
  * 2. Stamp `Access-Control-Allow-Origin: *`. Font loads are CORS-mode
- *    requests per the CSS Fonts spec; od:// is reachable only from this
+ *    requests per the CSS Fonts spec; sankiwork:// is reachable only from this
  *    app's own renderer, so the wildcard leaks nothing.
  */
 function sanitizeProxyResponseHeaders(headers: Headers): Headers {
@@ -248,7 +248,7 @@ function isClientCancelled(request: Request): boolean {
   return request.signal?.aborted === true;
 }
 
-const OD_CLIENT_CANCELLED_STATUS = 499; // nginx's "Client Closed Request"
+const SW_CLIENT_CANCELLED_STATUS = 499; // nginx's "Client Closed Request"
 
 /**
  * A cancelled request still needs SOME response — rejecting would bubble to
@@ -258,9 +258,9 @@ const OD_CLIENT_CANCELLED_STATUS = 499; // nginx's "Client Closed Request"
  */
 function buildClientCancelledResponse(target: string): Response {
   return new Response(
-    JSON.stringify({ error: "OD_PROTOCOL_CLIENT_ABORTED", target }),
+    JSON.stringify({ error: "SW_PROTOCOL_CLIENT_ABORTED", target }),
     {
-      status: OD_CLIENT_CANCELLED_STATUS,
+      status: SW_CLIENT_CANCELLED_STATUS,
       headers: {
         "content-type": "application/json",
         "access-control-allow-origin": "*",
@@ -269,7 +269,7 @@ function buildClientCancelledResponse(target: string): Response {
   );
 }
 
-const OD_TARGET_UNAVAILABLE_STATUS = 503; // Service Unavailable
+const SW_TARGET_UNAVAILABLE_STATUS = 503; // Service Unavailable
 
 /**
  * Answer for a request that has nowhere to go: the web sidecar reported no
@@ -286,7 +286,7 @@ const OD_TARGET_UNAVAILABLE_STATUS = 503; // Service Unavailable
 function buildTargetUnavailableResponse(request: Request, address: OdProtocolTarget): Response {
   return new Response(
     JSON.stringify({
-      error: "OD_PROTOCOL_TARGET_UNAVAILABLE",
+      error: "SW_PROTOCOL_TARGET_UNAVAILABLE",
       message:
         address == null || address.length === 0
           ? "web sidecar reported no address"
@@ -295,7 +295,7 @@ function buildTargetUnavailableResponse(request: Request, address: OdProtocolTar
       requested: request.url,
     }),
     {
-      status: OD_TARGET_UNAVAILABLE_STATUS,
+      status: SW_TARGET_UNAVAILABLE_STATUS,
       headers: {
         "content-type": "application/json",
         // Same rationale as the 502 path: keep the failure readable from
@@ -312,10 +312,10 @@ async function fetchOdTargetWithTransientRetry(
   fetchImpl: OdProtocolFetch,
   options: OdProxyRetryOptions,
 ): Promise<Response> {
-  const attempts = OD_PROXY_RETRYABLE_METHODS.has(request.method)
-    ? (options.attempts ?? OD_PROXY_RETRY_ATTEMPTS)
+  const attempts = SW_PROXY_RETRYABLE_METHODS.has(request.method)
+    ? (options.attempts ?? SW_PROXY_RETRY_ATTEMPTS)
     : 1;
-  const backoffMs = options.backoffMs ?? OD_PROXY_RETRY_BACKOFF_MS;
+  const backoffMs = options.backoffMs ?? SW_PROXY_RETRY_BACKOFF_MS;
   const delay = options.delay ?? defaultRetryDelay;
   let lastError: unknown;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
@@ -335,7 +335,7 @@ async function fetchOdTargetWithTransientRetry(
       const waitMs = backoffMs * attempt;
       // Main-process console output lands in the packaged desktop logs, so
       // real-world transient frequency stays diagnosable.
-      console.warn("[open-design packaged] od:// proxy fetch failed; retrying", {
+      console.warn("[sankiwork packaged] sankiwork:// proxy fetch failed; retrying", {
         attempt,
         attempts,
         message: error instanceof Error ? error.message : String(error),
@@ -356,7 +356,7 @@ function buildProxyErrorResponse(error: unknown, target: string): Response {
       : null;
   return new Response(
     JSON.stringify({
-      error: "OD_PROTOCOL_PROXY_FAILED",
+      error: "SW_PROTOCOL_PROXY_FAILED",
       message,
       ...(code === null ? {} : { code }),
       target,
@@ -374,7 +374,7 @@ function buildProxyErrorResponse(error: unknown, target: string): Response {
 }
 
 /**
- * Inner request handler for the `od://` Electron protocol — every
+ * Inner request handler for the `sankiwork://` Electron protocol — every
  * renderer fetch flows through here and gets proxied to the local web
  * sidecar via Node's global `fetch` (which is undici under the hood).
  *
@@ -417,11 +417,11 @@ export async function handleOdRequest(
 }
 
 export function packagedEntryUrl(): string {
-  return OD_ENTRY_URL;
+  return SW_ENTRY_URL;
 }
 
 /**
- * Route the od:// proxy through Electron's `net.fetch` (Chromium's network
+ * Route the sankiwork:// proxy through Electron's `net.fetch` (Chromium's network
  * stack, ~6 pooled connections per origin like a browser tab) instead of Node's
  * global `fetch` (undici), which caps a single origin far lower. Proxying every
  * renderer request through undici serialized them: a project-open request burst
@@ -437,18 +437,18 @@ export function packagedEntryUrl(): string {
  * that transport-level rejection. Those methods are safe to replay; write
  * requests deliberately stay on a single transport.
  *
- * Set OD_OD_PROXY_FETCH=undici to force the old path for all requests if
+ * Set SW_SW_PROXY_FETCH=undici to force the old path for all requests if
  * `net.fetch` regresses a broader streaming edge on a specific Electron/OS
  * combo.
  */
 function resolveOdProxyFetch(): OdProtocolFetch {
-  if (process.env.OD_OD_PROXY_FETCH === "undici") return fetch;
+  if (process.env.SW_SW_PROXY_FETCH === "undici") return fetch;
   const undiciFetch = fetch;
   return async (request) => {
     try {
       return await net.fetch(request);
     } catch (error) {
-      if (!OD_PROXY_RETRYABLE_METHODS.has(request.method) || isClientCancelled(request)) {
+      if (!SW_PROXY_RETRYABLE_METHODS.has(request.method) || isClientCancelled(request)) {
         throw error;
       }
       // The fallback exists to rescue Electron-specific transport rejections
@@ -457,7 +457,7 @@ function resolveOdProxyFetch(): OdProtocolFetch {
       // machine, so replaying there only doubles the failing load. Rethrow and
       // let the handler answer 502 at once. See isLocalResourceExhaustionError.
       if (isLocalResourceExhaustionError(error)) throw error;
-      console.warn("[open-design packaged] net.fetch failed; falling back to undici", {
+      console.warn("[sankiwork packaged] net.fetch failed; falling back to undici", {
         message: error instanceof Error ? error.message : String(error),
         method: request.method,
         target: request.url,
@@ -468,7 +468,7 @@ function resolveOdProxyFetch(): OdProtocolFetch {
 }
 
 /**
- * Install the `od://` handler, resolving the proxy target through
+ * Install the `sankiwork://` handler, resolving the proxy target through
  * `resolveWebRuntimeUrl` on EVERY request.
  *
  * See `OdProtocolTargetResolver` for why this takes a provider rather than the
@@ -476,7 +476,7 @@ function resolveOdProxyFetch(): OdProtocolFetch {
  */
 export function registerOdProtocol(resolveWebRuntimeUrl: OdProtocolTargetResolver): void {
   const fetchImpl = resolveOdProxyFetch();
-  protocol.handle(OD_SCHEME, async (request) => {
+  protocol.handle(SW_SCHEME, async (request) => {
     return await handleOdRequest(request, resolveWebRuntimeUrl(), fetchImpl);
   });
 }

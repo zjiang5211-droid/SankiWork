@@ -1,7 +1,7 @@
 import type {
   WorkspaceDirectoryItem,
   WorkspaceDirectoryResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 /**
  * Workspace-aware request context for the MCP stdio bridge (#6569).

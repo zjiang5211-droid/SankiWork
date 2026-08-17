@@ -3,7 +3,7 @@
 // the in-app Plugins home displays. Authoritative source of truth for
 // the marketing site's `/plugins/...` routes; mirroring it keeps the
 // landing-page counts in lockstep with what visitors see when they
-// open Open Design.
+// open SankiWork.
 //
 // Why a parallel loader instead of extending `catalog.ts`:
 //   - Catalog reads SKILL.md frontmatter through Astro Content
@@ -58,7 +58,7 @@ function communityRoot(): string | null {
 // points at the public R2 origin so plugin cards + detail pages get a real
 // preview (with hover-autoplay) even when the manifest carries no authored
 // poster/video. Authored `od.preview.video` always wins over the baked clip.
-const PLUGIN_PREVIEWS_BASE_URL = 'https://repo-assets.open-design.ai/plugin-previews';
+const PLUGIN_PREVIEWS_BASE_URL = 'https://repo-assets.sanki-ai.cloud/plugin-previews';
 
 const BAKED_PREVIEW_MANIFEST_ROOTS = [
   path.resolve(process.cwd(), 'data/plugin-previews/manifest.json'),

@@ -14,7 +14,7 @@
 import {
   parsePreviewObservabilityMessage,
   type PreviewObservabilityMessage,
-} from '@open-design/contracts/runtime/preview-observability';
+} from '@sankiwork/contracts/runtime/preview-observability';
 import { reportSafetyEvent } from '../analytics/error-tracking';
 import { scrubFilePath } from '../analytics/scrub';
 

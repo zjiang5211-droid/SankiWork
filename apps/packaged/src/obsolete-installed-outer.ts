@@ -7,7 +7,7 @@ import {
   processCommandExactlyRunsExecutable,
   stopProcesses,
   type StopProcessesResult,
-} from "@open-design/platform";
+} from "@sankiwork/platform";
 
 type RetirementLogger = {
   info(message: string, meta?: Record<string, unknown>): void;

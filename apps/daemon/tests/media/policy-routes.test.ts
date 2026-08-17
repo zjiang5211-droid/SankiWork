@@ -29,11 +29,11 @@ describe('run-scoped media policy routes', () => {
     tempDir = await mkdtemp(path.join(os.tmpdir(), 'od-media-policy-route-'));
     binDir = await mkdtemp(path.join(os.tmpdir(), 'od-media-policy-bin-'));
     oldPath = process.env.PATH;
-    oldCapture = process.env.OD_CAPTURE_MEDIA_RESPONSE;
+    oldCapture = process.env.SW_CAPTURE_MEDIA_RESPONSE;
     process.env.PATH = `${binDir}${path.delimiter}${oldPath ?? ''}`;
     const memoryConfig = memoryConfigPath();
     oldMemoryConfigRaw = await readFile(memoryConfig, 'utf8').catch(() => null);
-    await writeMemoryConfig(process.env.OD_DATA_DIR!, {
+    await writeMemoryConfig(process.env.SW_DATA_DIR!, {
       chatExtractionEnabled: false,
       extraction: null,
     });
@@ -48,8 +48,8 @@ describe('run-scoped media policy routes', () => {
     }
     if (oldPath === undefined) delete process.env.PATH;
     else process.env.PATH = oldPath;
-    if (oldCapture === undefined) delete process.env.OD_CAPTURE_MEDIA_RESPONSE;
-    else process.env.OD_CAPTURE_MEDIA_RESPONSE = oldCapture;
+    if (oldCapture === undefined) delete process.env.SW_CAPTURE_MEDIA_RESPONSE;
+    else process.env.SW_CAPTURE_MEDIA_RESPONSE = oldCapture;
     const memoryConfig = memoryConfigPath();
     if (oldMemoryConfigRaw === null) {
       await rm(memoryConfig, { force: true });
@@ -556,7 +556,7 @@ describe('run-scoped media policy routes', () => {
   }
 
   function memoryConfigPath(): string {
-    return path.join(memoryDir(process.env.OD_DATA_DIR!), '.config.json');
+    return path.join(memoryDir(process.env.SW_DATA_DIR!), '.config.json');
   }
 
   async function writeFakeAgent(
@@ -583,13 +583,13 @@ const attachToken = ${JSON.stringify(attachToken)};
   if (process.argv[2] !== 'run') {
     return;
   }
-  const token = process.env.OD_TOOL_TOKEN;
-  const daemonUrl = process.env.OD_DAEMON_URL;
+  const token = process.env.SW_TOOL_TOKEN;
+  const daemonUrl = process.env.SW_DAEMON_URL;
   if (!token || !daemonUrl) {
     console.log(JSON.stringify({ type: 'text', part: { text: 'media policy skipped' } }));
     return;
   }
-  const projectId = process.env.OD_PROJECT_ID;
+  const projectId = process.env.SW_PROJECT_ID;
   const url = endpoint === 'legacy'
     ? daemonUrl + '/api/projects/' + encodeURIComponent(projectId || '') + '/media/generate'
     : daemonUrl + '/api/tools/media/generate';
@@ -609,7 +609,7 @@ const attachToken = ${JSON.stringify(attachToken)};
   } catch {
     body = { raw: text };
   }
-  fs.writeFileSync(process.env.OD_CAPTURE_MEDIA_RESPONSE, JSON.stringify({
+  fs.writeFileSync(process.env.SW_CAPTURE_MEDIA_RESPONSE, JSON.stringify({
     status: response.status,
     tokenAvailable: Boolean(token),
     tokenAttached: Boolean(attachToken && token),
@@ -619,10 +619,10 @@ const attachToken = ${JSON.stringify(attachToken)};
   }));
   console.log(JSON.stringify({ type: 'text', part: { text: 'media policy checked' } }));
 })().catch((error) => {
-  fs.writeFileSync(process.env.OD_CAPTURE_MEDIA_RESPONSE, JSON.stringify({
+  fs.writeFileSync(process.env.SW_CAPTURE_MEDIA_RESPONSE, JSON.stringify({
     status: 0,
-    tokenAvailable: Boolean(process.env.OD_TOOL_TOKEN),
-    tokenAttached: Boolean(attachToken && process.env.OD_TOOL_TOKEN),
+    tokenAvailable: Boolean(process.env.SW_TOOL_TOKEN),
+    tokenAttached: Boolean(attachToken && process.env.SW_TOOL_TOKEN),
     endpoint,
     body: { error: String(error && error.message ? error.message : error) },
   }));
@@ -641,7 +641,7 @@ const attachToken = ${JSON.stringify(attachToken)};
       await writeFile(bin, source);
       await chmod(bin, 0o755);
     }
-    process.env.OD_CAPTURE_MEDIA_RESPONSE = capturePath;
+    process.env.SW_CAPTURE_MEDIA_RESPONSE = capturePath;
   }
 
   async function waitForCapturedMediaResponse(capturePath: string): Promise<{

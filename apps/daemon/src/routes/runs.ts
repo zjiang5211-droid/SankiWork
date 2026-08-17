@@ -13,7 +13,7 @@ import {
   type ChatRunStatusResponse,
   type ProjectMetadata as ContractProjectMetadata,
   type RunResultPackageResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   buildRunCreatedV4Aliases,
   buildRunFinishedV4Aliases,
@@ -25,8 +25,8 @@ import {
   type TrackingDesignSystemEditSurface,
   type RunTaskLineageProps,
   type TrackingRunRecoveryActionType,
-} from '@open-design/contracts/analytics';
-import type { OdNativeEvent } from '@open-design/agui-adapter';
+} from '@sankiwork/contracts/analytics';
+import type { OdNativeEvent } from '@sankiwork/agui-adapter';
 import { newInsertId, readAnalyticsContext } from '../analytics.js';
 import type { AnalyticsContext } from '../analytics.js';
 import { spawnEnvForAgent } from '../agents.js';
@@ -62,7 +62,7 @@ import { parseMediaExecutionPolicyInput } from '../media/policy.js';
 import { isManagedProjectCwd } from '../mcp-config.js';
 import {
   normalizeExternalPluginRunAnalyticsHints,
-  OPEN_DESIGN_PLUGIN_ID,
+  SANKIWORK_PLUGIN_ID,
   resolvePluginGenerationSloWindowMs,
   validatePluginWorkflowId,
 } from '../mcp-observability.js';
@@ -878,8 +878,8 @@ function externalPluginAttributionMismatch(
       ? (incoming as Record<string, unknown>)
       : null;
   const existingIsPlugin =
-    existing?.externalPluginId === OPEN_DESIGN_PLUGIN_ID;
-  const nextIsPlugin = next?.externalPluginId === OPEN_DESIGN_PLUGIN_ID;
+    existing?.externalPluginId === SANKIWORK_PLUGIN_ID;
+  const nextIsPlugin = next?.externalPluginId === SANKIWORK_PLUGIN_ID;
   if (!existingIsPlugin && !nextIsPlugin) return false;
   if (!existingIsPlugin || !nextIsPlugin) return true;
   return EXTERNAL_PLUGIN_ANALYTICS_KEYS.some(
@@ -1515,7 +1515,7 @@ export function registerRunRoutes(app: Express, ctx: RegisterRunRoutesDeps) {
         ...normalizedExternalPluginHints,
         generationSloWindowMs: resolvePluginGenerationSloWindowMs({
           inactivityTimeoutMs,
-          configuredValue: process.env.OD_PLUGIN_GENERATION_SLO_WINDOW_MS,
+          configuredValue: process.env.SW_PLUGIN_GENERATION_SLO_WINDOW_MS,
         }),
       };
       const existingWorkflowRun = design.runs.findByPluginWorkflowId(
@@ -1826,7 +1826,7 @@ export function registerRunRoutes(app: Express, ctx: RegisterRunRoutesDeps) {
           res,
           409,
           'RUN_NOT_RECHARGE_RESUMABLE',
-          'Only a failed Open Design Cloud run waiting for recharge can be resumed with the same request',
+          'Only a failed SankiWork Cloud run waiting for recharge can be resumed with the same request',
         );
       }
       // Claim BEFORE arming the restart. On a conflict the reused run stays
@@ -1850,7 +1850,7 @@ export function registerRunRoutes(app: Express, ctx: RegisterRunRoutesDeps) {
           res,
           409,
           'RUN_NOT_RECHARGE_RESUMABLE',
-          'Only a failed Open Design Cloud run waiting for recharge can be resumed with the same request',
+          'Only a failed SankiWork Cloud run waiting for recharge can be resumed with the same request',
         );
       }
       resumed = true;
@@ -2404,7 +2404,7 @@ export function registerRunRoutes(app: Express, ctx: RegisterRunRoutesDeps) {
               const sessionId = codexSessionIdFromRunEvents(run.events);
               const codexHome = spawnEnvForAgent(
                 'codex',
-                { ...process.env, OD_DATA_DIR: RUNTIME_DATA_DIR },
+                { ...process.env, SW_DATA_DIR: RUNTIME_DATA_DIR },
                 agentCliEnvForAgent(
                   (appCfgAtFinish as { agentCliEnv?: AgentCliEnv }).agentCliEnv,
                   'codex',
@@ -2844,7 +2844,7 @@ export function registerRunRoutes(app: Express, ctx: RegisterRunRoutesDeps) {
     const analytics =
       run?.externalPluginAnalytics
       && run.externalPluginAnalytics.externalPluginId
-        === OPEN_DESIGN_PLUGIN_ID
+        === SANKIWORK_PLUGIN_ID
         ? run.externalPluginAnalytics
         : null;
     if (!run || !analytics) {
@@ -3026,7 +3026,7 @@ export function registerRunRoutes(app: Express, ctx: RegisterRunRoutesDeps) {
       run,
       { mode: 'read', allowNavigationQuery: true },
     )) return;
-    const { encodeOdEventForAgui } = await import('@open-design/agui-adapter');
+    const { encodeOdEventForAgui } = await import('@sankiwork/agui-adapter');
     const sse = createSseResponse(res);
     const lastEventId = Number(req.get('Last-Event-ID') || req.query.after || 0);
     const emitMapped = (record: RunEventRecord) => {

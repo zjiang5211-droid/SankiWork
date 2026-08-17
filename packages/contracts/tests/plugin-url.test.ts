@@ -6,7 +6,7 @@
 
 import { describe, expect, it } from 'vitest';
 import {
-  OPEN_DESIGN_SITE_ORIGIN,
+  SANKIWORK_SITE_ORIGIN,
   pluginSlug,
   pluginSlugSegment,
   pluginDetailSlug,
@@ -28,7 +28,7 @@ describe('pluginSlugSegment', () => {
 
 describe('pluginDetailSlug (single segment = last id segment)', () => {
   it('takes the slugified last segment, dropping any namespace', () => {
-    expect(pluginDetailSlug('open-design/Hero Deck')).toBe('hero-deck');
+    expect(pluginDetailSlug('sankiwork/Hero Deck')).toBe('hero-deck');
     expect(pluginDetailSlug('community/registry-starter')).toBe('registry-starter');
     expect(pluginDetailSlug('live-dashboard')).toBe('live-dashboard');
   });
@@ -36,27 +36,27 @@ describe('pluginDetailSlug (single segment = last id segment)', () => {
 
 describe('pluginSlug (multi-segment, namespace preserved)', () => {
   it('slugifies each segment and keeps / as a separator', () => {
-    expect(pluginSlug('open-design/Hero Deck')).toBe('open-design/hero-deck');
+    expect(pluginSlug('sankiwork/Hero Deck')).toBe('sankiwork/hero-deck');
   });
 });
 
 describe('pluginDetailPath / pluginPreviewPath', () => {
   it('detail path is single-segment with trailing slash', () => {
-    expect(pluginDetailPath('open-design/Hero Deck')).toBe('/plugins/hero-deck/');
+    expect(pluginDetailPath('sankiwork/Hero Deck')).toBe('/plugins/hero-deck/');
     expect(pluginDetailPath('live-dashboard')).toBe('/plugins/live-dashboard/');
   });
   it('preview path keeps the namespace', () => {
-    expect(pluginPreviewPath('open-design/Hero Deck')).toBe(
-      '/plugins/previews/open-design/hero-deck/',
+    expect(pluginPreviewPath('sankiwork/Hero Deck')).toBe(
+      '/plugins/previews/sankiwork/hero-deck/',
     );
   });
 });
 
 describe('pluginShareUrl', () => {
-  it('defaults to the public open-design.ai origin, single-segment path', () => {
-    expect(OPEN_DESIGN_SITE_ORIGIN).toBe('https://open-design.ai');
-    expect(pluginShareUrl('open-design/live-dashboard')).toBe(
-      'https://open-design.ai/plugins/live-dashboard/',
+  it('defaults to the public sanki-ai.cloud origin, single-segment path', () => {
+    expect(SANKIWORK_SITE_ORIGIN).toBe('https://sanki-ai.cloud');
+    expect(pluginShareUrl('sankiwork/live-dashboard')).toBe(
+      'https://sanki-ai.cloud/plugins/live-dashboard/',
     );
   });
   it('honours an explicit origin and trims a trailing slash on it', () => {

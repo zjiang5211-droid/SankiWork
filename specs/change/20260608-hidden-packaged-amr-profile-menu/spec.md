@@ -9,7 +9,7 @@ created: '2026-06-08'
 
 ### Problem Statement
 
-Packaged Open Design needs a hidden desktop Develop menu for AMR testing.
+Packaged SankiWork needs a hidden desktop Develop menu for AMR testing.
 Testers should be able to switch the packaged runtime's AMR Environment
 Profile among `local`, `test`, and `prod` while reusing the same bundled Vela
 / AMR CLI binary.
@@ -26,7 +26,7 @@ Profile among `local`, `test`, and `prod` while reusing the same bundled Vela
 ### Non-Goals
 
 - Do not change the AMR CLI binary selection model.
-- Do not redefine Open Design release channels as AMR environments.
+- Do not redefine SankiWork release channels as AMR environments.
 - Do not change AMR account login semantics.
 - Do not add mock or placeholder profile behavior.
 
@@ -58,7 +58,7 @@ Profile among `local`, `test`, and `prod` while reusing the same bundled Vela
   `apps/desktop/src/main/index.ts:233-245`.
 - Packaged desktop passes a real daemon HTTP URL to desktop main through
   `discoverDaemonUrl`; comments state Node-side fetch must target the daemon
-  sidecar HTTP URL, not the `od://app/` renderer URL. Source:
+  sidecar HTTP URL, not the `sankiwork://app/` renderer URL. Source:
   `apps/packaged/src/index.ts:148-156`.
 - `DesktopMainOptions` already models `discoverDaemonUrl` for packaged
   main-process API calls. Source: `apps/desktop/src/main/index.ts:105-117`.
@@ -71,7 +71,7 @@ Profile among `local`, `test`, and `prod` while reusing the same bundled Vela
 - `agentCliEnv` is the shared app-config shape for per-agent environment
   settings. Source: `packages/contracts/src/api/app-config.ts:6,28-32`.
 - The app-config env allowlist permits AMR keys including
-  `OPEN_DESIGN_AMR_PROFILE` and other AMR overrides such as `VELA_BIN`,
+  `SANKIWORK_AMR_PROFILE` and other AMR overrides such as `VELA_BIN`,
   `VELA_LINK_URL`, `VELA_RUNTIME_KEY`, and `VELA_OPENCODE_BIN`. Source:
   `apps/daemon/src/app-config.ts:157-165`.
 - Packaged launch configuration already accepts AMR profile values
@@ -79,17 +79,17 @@ Profile among `local`, `test`, and `prod` while reusing the same bundled Vela
 - Packaged config validation rejects unsupported packaged AMR profile values.
   Source: `apps/packaged/src/config.ts:118-122`.
 - Packaged daemon spawn env forwards a baked packaged `amrProfile` as
-  `OPEN_DESIGN_AMR_PROFILE` when present. Source:
+  `SANKIWORK_AMR_PROFILE` when present. Source:
   `apps/packaged/src/sidecars.ts:320-327`.
 - Runtime AMR profile resolution defaults to `prod`; allowed runtime values
   are `prod`, `test`, and `local`; invalid values warn and fall back to
   `prod`. Source: `apps/daemon/src/integrations/vela-profile.ts:1-16`.
-- AMR runtime env assembly maps `OPEN_DESIGN_AMR_PROFILE` into
+- AMR runtime env assembly maps `SANKIWORK_AMR_PROFILE` into
   Vela-facing profile env for AMR runs. Source:
   `apps/daemon/src/runtimes/env.ts:88-98`.
 - The AMR model endpoint resolves its probe by reading app config inside the
   request path, then builds a cache key that includes
-  `OPEN_DESIGN_AMR_PROFILE`, `VELA_PROFILE`, credentials, and launch path.
+  `SANKIWORK_AMR_PROFILE`, `VELA_PROFILE`, credentials, and launch path.
   Source: `apps/daemon/src/server.ts:6454-6494`.
 - AMR status, login, and logout routes each read app config inside the route
   handler before resolving AMR env. Source:
@@ -110,17 +110,17 @@ Profile among `local`, `test`, and `prod` while reusing the same bundled Vela
 
 - Handoff conclusion says no AMR runtime core change appears necessary; the
   menu can override AMR profile through app config using
-  `agentCliEnv.amr.OPEN_DESIGN_AMR_PROFILE`. Source:
-  `/private/tmp/open-design-amr-profile-packaged-handoff.md`.
+  `agentCliEnv.amr.SANKIWORK_AMR_PROFILE`. Source:
+  `/private/tmp/sankiwork-amr-profile-packaged-handoff.md`.
 - Handoff recommends desktop menu changes call daemon `GET /api/app-config`,
-  merge `agentCliEnv.amr.OPEN_DESIGN_AMR_PROFILE`, and then call
+  merge `agentCliEnv.amr.SANKIWORK_AMR_PROFILE`, and then call
   `PUT /api/app-config`; it explicitly recommends not writing
   `app-config.json` directly from Electron main. Source:
-  `/private/tmp/open-design-amr-profile-packaged-handoff.md`.
-- Handoff notes `od config set agentCliEnv` replaces the whole top-level
+  `/private/tmp/sankiwork-amr-profile-packaged-handoff.md`.
+- Handoff notes `sw config set agentCliEnv` replaces the whole top-level
   `agentCliEnv` object, so callers must merge existing `agentCliEnv` before
   writing. Source:
-  `/private/tmp/open-design-amr-profile-packaged-handoff.md`.
+  `/private/tmp/sankiwork-amr-profile-packaged-handoff.md`.
 
 ### Constraints & Dependencies
 
@@ -138,7 +138,7 @@ Profile among `local`, `test`, and `prod` while reusing the same bundled Vela
 ### Key References
 
 - `CONTEXT.md`
-- `/private/tmp/open-design-amr-profile-packaged-handoff.md`
+- `/private/tmp/sankiwork-amr-profile-packaged-handoff.md`
 - `apps/desktop/src/main/index.ts`
 - `apps/packaged/src/index.ts`
 - `apps/packaged/src/config.ts`
@@ -160,7 +160,7 @@ shared path keeps development and packaged testing on the same implementation
 surface instead of adding a packaged-only branch.
 
 The menu persists the selected profile through the daemon app-config API by
-merging `agentCliEnv.amr.OPEN_DESIGN_AMR_PROFILE` into the existing config.
+merging `agentCliEnv.amr.SANKIWORK_AMR_PROFILE` into the existing config.
 It does not change release channel identity, app identity, AMR account status,
 or the Vela / AMR CLI binary.
 
@@ -213,7 +213,7 @@ or the Vela / AMR CLI binary.
   settings, and AMR currently has other allowed keys that must survive a
   profile switch. Source: `packages/contracts/src/api/app-config.ts:6,28-32`;
   `apps/daemon/src/app-config.ts:157-165`;
-  `/private/tmp/open-design-amr-profile-packaged-handoff.md`.
+  `/private/tmp/sankiwork-amr-profile-packaged-handoff.md`.
 - Decision: The menu exposes only the explicit profiles `prod`, `test`, and
   `local`; it does not expose a separate clear/default action. Runtime default
   semantics already treat a missing profile as `prod`, and a hidden testing
@@ -248,15 +248,15 @@ or the Vela / AMR CLI binary.
   checked state unchanged.
 - Showing the Develop menu first reads `GET /api/app-config`; if the read
   fails, show a native error dialog and keep the menu hidden.
-- Missing `agentCliEnv.amr.OPEN_DESIGN_AMR_PROFILE` displays as `prod`, matching
+- Missing `agentCliEnv.amr.SANKIWORK_AMR_PROFILE` displays as `prod`, matching
   AMR runtime default semantics.
 - Writing a selected profile performs `GET /api/app-config`, merges
-  `agentCliEnv.amr.OPEN_DESIGN_AMR_PROFILE`, then sends `PUT /api/app-config`.
+  `agentCliEnv.amr.SANKIWORK_AMR_PROFILE`, then sends `PUT /api/app-config`.
 - The write must preserve other AMR env keys, other agent env entries, and
   unrelated app-config fields.
 - The menu implementation does not use a replace-whole-object config command
   path for `agentCliEnv`.
-- Selecting `prod` writes `OPEN_DESIGN_AMR_PROFILE: "prod"` explicitly instead
+- Selecting `prod` writes `SANKIWORK_AMR_PROFILE: "prod"` explicitly instead
   of deleting the key.
 - The menu validates choices against `prod | test | local` before writing.
 - Menu structure is `Develop` -> `AMR Profile` -> `prod`, `test`,
@@ -304,7 +304,7 @@ sequenceDiagram
 
   Tester->>Desktop: select test/local/prod
   Desktop->>Daemon: GET /api/app-config
-  Desktop->>Daemon: PUT merged agentCliEnv.amr.OPEN_DESIGN_AMR_PROFILE
+  Desktop->>Daemon: PUT merged agentCliEnv.amr.SANKIWORK_AMR_PROFILE
   alt write succeeds
     Daemon-->>Desktop: merged config
     Desktop->>Desktop: rebuild checked radio state
@@ -436,7 +436,7 @@ Depends on: Step 1, Step 2, Step 3
     items.
   - Reads current profile from `/api/app-config` before showing the menu.
   - Writes selected profile by merging
-    `agentCliEnv.amr.OPEN_DESIGN_AMR_PROFILE`, preserving other app config and
+    `agentCliEnv.amr.SANKIWORK_AMR_PROFILE`, preserving other app config and
     AMR env overrides.
   - Surfaces daemon URL, read, write, invalid response, and shortcut
     registration failures through native error dialogs.
@@ -458,14 +458,14 @@ Depends on: Step 1, Step 2, Step 3
   from `apps/daemon`: passed.
 - `pnpm exec vitest run -c vitest.config.ts tests/main/amr-environment-profile-menu.test.ts`
   from `apps/desktop`: passed.
-- `pnpm --filter @open-design/daemon typecheck`: passed.
-- `pnpm --filter @open-design/desktop typecheck`: passed.
+- `pnpm --filter @sankiwork/daemon typecheck`: passed.
+- `pnpm --filter @sankiwork/desktop typecheck`: passed.
 - `pnpm typecheck`: passed.
 - `pnpm guard`: failed on the pre-existing `tools/pr/` top-level tools
   allowlist violation. The initial sandbox run also failed before checks with
   `listen EPERM` from `tsx`; the elevated rerun reached repository checks and
   failed only on `tools/pr/`.
-- An accidental broad `pnpm --filter @open-design/daemon test --
+- An accidental broad `pnpm --filter @sankiwork/daemon test --
   tests/runtimes/resolve-model.test.ts` run invoked the wider daemon suite and
   reported unrelated existing failures/timeouts; focused daemon coverage above
   passed with the direct Vitest command.

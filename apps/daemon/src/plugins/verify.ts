@@ -1,4 +1,4 @@
-// Phase 4 / spec §11.5 / plan §3.FF1 — `od plugin verify` orchestrator.
+// Phase 4 / spec §11.5 / plan §3.FF1 — `sw plugin verify` orchestrator.
 //
 // Pure helper that aggregates three independent checks into one
 // CI-friendly pass/fail report:
@@ -28,7 +28,7 @@ export interface VerifyConfig {
   // Subset of checks to run. Default: all.
   enabled?: ReadonlyArray<VerifyCheckId>;
   // Plan §3.HH1 — when true, doctor warnings count as failures.
-  // Mirrors `od plugin doctor --strict`. Default false.
+  // Mirrors `sw plugin doctor --strict`. Default false.
   strict?: boolean;
   // Optional simulate inputs — if absent, simulate is skipped (the
   // verify config doesn't auto-build a default signal map; the

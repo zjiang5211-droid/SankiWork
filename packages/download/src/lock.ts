@@ -11,7 +11,7 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 
-import { isProcessAlive } from "@open-design/platform";
+import { isProcessAlive } from "@sankiwork/platform";
 
 import { PID_REUSE_GRACE_MS, PROCESS_STARTED_AT_MS } from "./constants.js";
 import { MANAGED_DOWNLOAD_ERROR_CODES, ManagedDownloadError } from "./errors.js";

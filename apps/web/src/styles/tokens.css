@@ -1,8 +1,8 @@
 /* ============================================================
-   Open Design — neutral product workspace
+   SankiWork — neutral product workspace
    ============================================================ */
 :root {
-  /* OpenDesign system palette. Neutrals carry the interface; brand green is
+  /* SankiWork system palette. Neutrals carry the interface; brand green is
      reserved for sparse feedback, selected assists, and brand emphasis. */
   --bg: #fff;
   --bg-app: #fff;

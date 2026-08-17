@@ -14,56 +14,56 @@ describe('minimax image generation', () => {
   let projectRoot: string;
   let projectsRoot: string;
   const realFetch = globalThis.fetch;
-  const originalMediaConfigDir = process.env.OD_MEDIA_CONFIG_DIR;
-  const originalDataDir = process.env.OD_DATA_DIR;
-  const originalMinimaxApiKey = process.env.OD_MINIMAX_API_KEY;
-  const originalImageBaseUrl = process.env.OD_MINIMAX_IMAGE_BASE_URL;
-  const originalMediaModelAliases = process.env.OD_MEDIA_MODEL_ALIASES;
+  const originalMediaConfigDir = process.env.SW_MEDIA_CONFIG_DIR;
+  const originalDataDir = process.env.SW_DATA_DIR;
+  const originalMinimaxApiKey = process.env.SW_MINIMAX_API_KEY;
+  const originalImageBaseUrl = process.env.SW_MINIMAX_IMAGE_BASE_URL;
+  const originalMediaModelAliases = process.env.SW_MEDIA_MODEL_ALIASES;
 
   beforeEach(async () => {
     root = await mkdtemp(path.join(tmpdir(), 'od-minimax-image-'));
     projectRoot = path.join(root, 'project-root');
-    projectsRoot = path.join(projectRoot, '.od', 'projects');
+    projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });
-    delete process.env.OD_MEDIA_CONFIG_DIR;
-    delete process.env.OD_DATA_DIR;
-    delete process.env.OD_MINIMAX_IMAGE_BASE_URL;
-    delete process.env.OD_MEDIA_MODEL_ALIASES;
-    process.env.OD_MINIMAX_API_KEY = 'minimax-test-key';
+    delete process.env.SW_MEDIA_CONFIG_DIR;
+    delete process.env.SW_DATA_DIR;
+    delete process.env.SW_MINIMAX_IMAGE_BASE_URL;
+    delete process.env.SW_MEDIA_MODEL_ALIASES;
+    process.env.SW_MINIMAX_API_KEY = 'minimax-test-key';
   });
 
   afterEach(async () => {
     globalThis.fetch = realFetch;
     if (originalMinimaxApiKey == null) {
-      delete process.env.OD_MINIMAX_API_KEY;
+      delete process.env.SW_MINIMAX_API_KEY;
     } else {
-      process.env.OD_MINIMAX_API_KEY = originalMinimaxApiKey;
+      process.env.SW_MINIMAX_API_KEY = originalMinimaxApiKey;
     }
     if (originalMediaConfigDir == null) {
-      delete process.env.OD_MEDIA_CONFIG_DIR;
+      delete process.env.SW_MEDIA_CONFIG_DIR;
     } else {
-      process.env.OD_MEDIA_CONFIG_DIR = originalMediaConfigDir;
+      process.env.SW_MEDIA_CONFIG_DIR = originalMediaConfigDir;
     }
     if (originalDataDir == null) {
-      delete process.env.OD_DATA_DIR;
+      delete process.env.SW_DATA_DIR;
     } else {
-      process.env.OD_DATA_DIR = originalDataDir;
+      process.env.SW_DATA_DIR = originalDataDir;
     }
     if (originalImageBaseUrl == null) {
-      delete process.env.OD_MINIMAX_IMAGE_BASE_URL;
+      delete process.env.SW_MINIMAX_IMAGE_BASE_URL;
     } else {
-      process.env.OD_MINIMAX_IMAGE_BASE_URL = originalImageBaseUrl;
+      process.env.SW_MINIMAX_IMAGE_BASE_URL = originalImageBaseUrl;
     }
     if (originalMediaModelAliases == null) {
-      delete process.env.OD_MEDIA_MODEL_ALIASES;
+      delete process.env.SW_MEDIA_MODEL_ALIASES;
     } else {
-      process.env.OD_MEDIA_MODEL_ALIASES = originalMediaModelAliases;
+      process.env.SW_MEDIA_MODEL_ALIASES = originalMediaModelAliases;
     }
     await rm(root, { recursive: true, force: true });
   });
 
   async function writeConfig(data: unknown) {
-    const file = path.join(projectRoot, '.od', 'media-config.json');
+    const file = path.join(projectRoot, '.sankiwork', 'media-config.json');
     await mkdir(path.dirname(file), { recursive: true });
     await writeFile(file, JSON.stringify(data), 'utf8');
   }
@@ -246,7 +246,7 @@ describe('minimax image generation', () => {
   it('uses the image-specific default base URL and wire model when no config is provided', async () => {
     // No writeConfig() call — the provider slot exists but has no stored
     // config. resolveProviderConfig still returns apiKey from
-    // OD_MINIMAX_API_KEY, but baseUrl and model come from the renderer's
+    // SW_MINIMAX_API_KEY, but baseUrl and model come from the renderer's
     // image-specific defaults.
     const fetchMock = vi.fn(async (input: unknown, init?: RequestInit) => {
       // Default image base URL is the api.minimax.io host, distinct from
@@ -318,11 +318,11 @@ describe('minimax image generation', () => {
     })).resolves.toMatchObject({ providerId: 'minimax' });
   });
 
-  it('honors OD_MINIMAX_IMAGE_BASE_URL as an operator override', async () => {
+  it('honors SW_MINIMAX_IMAGE_BASE_URL as an operator override', async () => {
     // Operators running a proxy or staging gateway can pin the image
-    // endpoint via OD_MINIMAX_IMAGE_BASE_URL. Stored credentials.baseUrl
+    // endpoint via SW_MINIMAX_IMAGE_BASE_URL. Stored credentials.baseUrl
     // is ignored either way; only the env var wins over the default.
-    process.env.OD_MINIMAX_IMAGE_BASE_URL = 'https://minimax-gateway.example.test';
+    process.env.SW_MINIMAX_IMAGE_BASE_URL = 'https://minimax-gateway.example.test';
     await writeConfig({
       providers: { minimax: { baseUrl: TEST_MINIMAX_TTS_BASE_URL } },
     });
@@ -357,7 +357,7 @@ describe('minimax image generation', () => {
     // when credentials.apiKey is missing — otherwise the user gets a
     // confusing 401 from MiniMax instead of the actionable "configure
     // it in Settings" message that matches every other renderer.
-    delete process.env.OD_MINIMAX_API_KEY;
+    delete process.env.SW_MINIMAX_API_KEY;
     await writeConfig({ providers: { minimax: {} } });
 
     // No fetch mock needed: the renderer must short-circuit before
@@ -382,13 +382,13 @@ describe('minimax image generation', () => {
 
   it('passes an aliased wireModel through unchanged when not in the catalog map', async () => {
     // The map MINIMAX_IMAGE_MODEL_MAP is keyed off the catalog id, but
-    // ctx.wireModel may have been rewritten by OD_MEDIA_MODEL_ALIASES.
+    // ctx.wireModel may have been rewritten by SW_MEDIA_MODEL_ALIASES.
     // When the alias is *not* in the map, the renderer must use the
     // aliased name as-is rather than silently substituting the catalog
     // map value or the bare catalog id. Anchors the alias passthrough
     // contract so a future refactor that re-keys the map off ctx.model
     // would fail this test instead of silently breaking aliases.
-    process.env.OD_MEDIA_MODEL_ALIASES = JSON.stringify({
+    process.env.SW_MEDIA_MODEL_ALIASES = JSON.stringify({
       'minimax-image-01': 'image-01-pro',
     });
     await writeConfig({ providers: { minimax: {} } });

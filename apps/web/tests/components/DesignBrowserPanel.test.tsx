@@ -163,14 +163,14 @@ describe('inspiration action prompts', () => {
     const prompt = browserUsePrompt(action!, {
       browserFilePath: 'browser:https://example.com',
       projectId: 'proj-1',
-      resolvedDir: '/tmp/open-design/project',
+      resolvedDir: '/tmp/sankiwork/project',
       tabLabel: 'Example landing',
       title: 'Example',
       url: 'https://example.com',
     });
 
     expect(prompt).toContain('@agent-browser');
-    expect(prompt).toContain('Use the selected Open Design Browser tab as the bound target.');
+    expect(prompt).toContain('Use the selected SankiWork Browser tab as the bound target.');
     expect(prompt).toContain('- tab: Example landing');
     expect(prompt).toContain('- url: https://example.com');
     expect(prompt).toContain('Operation: extract_colors');

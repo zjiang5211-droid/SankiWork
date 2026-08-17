@@ -169,15 +169,15 @@ Then add slot-specific instructions:
 
 ### Step 4 - Dispatch through the media contract
 
-Use the unified Open Design media dispatcher. Do not call provider APIs or
+Use the unified SankiWork media dispatcher. Do not call provider APIs or
 custom model commands directly.
 
 For each slot, run the standard generate/wait loop:
 
 ```bash
 # POSIX bash. Do not call provider APIs directly.
-out=$("$OD_NODE_BIN" "$OD_BIN" media generate \
-  --project "$OD_PROJECT_ID" \
+out=$("$SW_NODE_BIN" "$SW_BIN" media generate \
+  --project "$SW_PROJECT_ID" \
   --surface image \
   --model "<imageModel from metadata>" \
   --aspect "<slot aspect or imageAspect from metadata>" \
@@ -195,7 +195,7 @@ since=$(printf '%s\n' "$last" |
 since="${since:-0}"
 
 while [ -n "$task_id" ]; do
-  out=$("$OD_NODE_BIN" "$OD_BIN" media wait "$task_id" --since "$since")
+  out=$("$SW_NODE_BIN" "$SW_BIN" media wait "$task_id" --since "$since")
   ec=$?
   last=$(printf '%s\n' "$out" | tail -1)
   since=$(printf '%s\n' "$last" |
@@ -291,7 +291,7 @@ Do not emit an `<artifact>` tag.
 - Preserve the product; do not redesign it.
 - Do not invent claims, certifications, measurements, ingredients, or
   performance data.
-- Use `"$OD_NODE_BIN" "$OD_BIN" media generate`; do not call provider APIs
+- Use `"$SW_NODE_BIN" "$SW_BIN" media generate`; do not call provider APIs
   directly.
 - Always create `image-manifest.json` after generation.
 - Run `references/checklist.md` before handoff.

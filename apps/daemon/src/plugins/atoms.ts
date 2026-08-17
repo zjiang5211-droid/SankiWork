@@ -1,6 +1,6 @@
 // First-party atom catalog. Phase 1 ships a static list mirroring spec
 // §10's "implemented today" column. Planned atoms are surfaced with
-// `status: 'planned'` so `od plugin doctor` can warn rather than reject
+// `status: 'planned'` so `sw plugin doctor` can warn rather than reject
 // when a plugin references a not-yet-implemented atom.
 
 export type AtomStatus = 'implemented' | 'planned';

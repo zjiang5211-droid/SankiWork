@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { Icon } from './Icon';
 import { useI18n } from '../i18n';
 import { navigate } from '../router';

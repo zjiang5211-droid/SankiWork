@@ -4,7 +4,7 @@ import {
   _listMcpResources,
   _readMcpResource,
   createMcpDaemonTarget,
-  OPEN_DESIGN_BRIEF_APP_RESOURCE,
+  SANKIWORK_BRIEF_APP_RESOURCE,
 } from '../src/mcp.js';
 import { _resetMcpWorkspaceContextCacheForTests } from '../src/mcp-workspace-context.js';
 
@@ -89,8 +89,8 @@ describe('MCP workspace-scoped resource handlers (#6770)', () => {
 
     // the personal design system actually shows up
     const uris = result.resources.map((r) => r.uri);
-    expect(uris).toContain('od://skills/deck/SKILL.md');
-    expect(uris).toContain('od://design-systems/brand-1/DESIGN.md');
+    expect(uris).toContain('sankiwork://skills/deck/SKILL.md');
+    expect(uris).toContain('sankiwork://design-systems/brand-1/DESIGN.md');
   });
 
   it('list_resources falls back to headerless behavior when no workspace context resolves', async () => {
@@ -118,8 +118,8 @@ describe('MCP workspace-scoped resource handlers (#6770)', () => {
     expect(skillCall?.init?.headers).toBeUndefined();
     expect(dsCall?.init?.headers).toBeUndefined();
     // Built-in resources still listed.
-    expect(result.resources.some((r) => r.uri === OPEN_DESIGN_BRIEF_APP_RESOURCE)).toBe(true);
-    expect(result.resources.some((r) => r.uri === 'od://focus/active')).toBe(true);
+    expect(result.resources.some((r) => r.uri === SANKIWORK_BRIEF_APP_RESOURCE)).toBe(true);
+    expect(result.resources.some((r) => r.uri === 'sankiwork://focus/active')).toBe(true);
   });
 
   it('read_resource forwards workspace headers when reading a Personal design system', async () => {
@@ -142,7 +142,7 @@ describe('MCP workspace-scoped resource handlers (#6770)', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    const result = await _readMcpResource(target(), 'od://design-systems/brand-1/DESIGN.md');
+    const result = await _readMcpResource(target(), 'sankiwork://design-systems/brand-1/DESIGN.md');
 
     const read = calls.find((c) => c.url.endsWith('/api/design-systems/brand-1'));
     expect(read).toBeTruthy();
@@ -159,7 +159,7 @@ describe('MCP workspace-scoped resource handlers (#6770)', () => {
     const fetchMock = vi.fn(async () => new Response('should-not-be-called', { status: 500 }));
     vi.stubGlobal('fetch', fetchMock);
 
-    const result = await _readMcpResource(target(), OPEN_DESIGN_BRIEF_APP_RESOURCE);
+    const result = await _readMcpResource(target(), SANKIWORK_BRIEF_APP_RESOURCE);
 
     expect(fetchMock).not.toHaveBeenCalled();
     expect(result.contents[0]?.mimeType).toBe('text/html;profile=mcp-app');
@@ -169,7 +169,7 @@ describe('MCP workspace-scoped resource handlers (#6770)', () => {
     vi.stubGlobal('fetch', vi.fn(async () => new Response('', { status: 200 })));
 
     await expect(
-      _readMcpResource(target(), 'od://unknown/foo/bar'),
+      _readMcpResource(target(), 'sankiwork://unknown/foo/bar'),
     ).rejects.toThrow(/unsupported resource URI/u);
   });
 });

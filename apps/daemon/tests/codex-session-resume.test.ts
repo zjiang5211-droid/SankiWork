@@ -63,14 +63,14 @@ describe('codex native session resume', () => {
     binDir = null;
     restoreEnv(originalEnv);
     // The MCP-directive red-spec below writes an authenticated `github` server
-    // into the process-wide OD_DATA_DIR (tests/setup.ts shares one root for the
+    // into the process-wide SW_DATA_DIR (tests/setup.ts shares one root for the
     // whole daemon Vitest run). Reset it after every test so that state cannot
     // leak into later test files and make them suite-order dependent.
     // `writeMcpConfig` unconditionally overwrites to an empty server list and
     // `clearToken` is a documented no-op when the entry is absent, so neither
     // needs to tolerate "nothing was written" — let a real teardown failure
     // surface instead of silently degrading the isolation guarantee.
-    const dataDir = process.env.OD_DATA_DIR;
+    const dataDir = process.env.SW_DATA_DIR;
     if (dataDir) {
       await writeMcpConfig(dataDir, { servers: [] });
       await clearToken(dataDir, 'github');
@@ -213,7 +213,7 @@ describe('codex native session resume', () => {
       // boundary. The run-scoped OD wrapper variables below are supplied by
       // the daemon and are the only non-baseline values the wrapper needs.
       process.env.SHOULD_NOT_LEAK = 'unrelated-secret';
-      process.env.OD_API_TOKEN = 'unrelated-api-token';
+      process.env.SW_API_TOKEN = 'unrelated-api-token';
       clearTelemetryEnv();
       started = (await startServer({ port: 0, returnServer: true })) as StartedServer;
       await putConfig(started.url, {
@@ -239,10 +239,10 @@ describe('codex native session resume', () => {
       const includeOnly = invocation?.argv.find((arg) =>
         arg.startsWith('shell_environment_policy.include_only='),
       );
-      expect(includeOnly).toContain('"OD_NODE_BIN"');
-      expect(includeOnly).toContain('"OD_BIN"');
-      expect(includeOnly).toContain('"OD_TOOL_TOKEN"');
-      expect(includeOnly).not.toContain('OD_API_TOKEN');
+      expect(includeOnly).toContain('"SW_NODE_BIN"');
+      expect(includeOnly).toContain('"SW_BIN"');
+      expect(includeOnly).toContain('"SW_TOOL_TOKEN"');
+      expect(includeOnly).not.toContain('SW_API_TOKEN');
       const events = await readRunEvents(run.eventsLogPath);
       expect(runHadFailedDesignSystemWrapper(events)).toBe(false);
       expect(JSON.stringify(events)).toContain('account.settings');
@@ -353,8 +353,8 @@ describe('codex native session resume', () => {
     // A connected external MCP server = enabled config + a live (non-expired)
     // OAuth Bearer. That is exactly what makes the daemon render the
     // "already authenticated" directive.
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for the MCP directive test');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for the MCP directive test');
     await writeMcpConfig(dataDir, {
       servers: [
         {
@@ -519,7 +519,7 @@ async function writeFailedDesignSystemWrapperCodex(
     fakeCodexSource({
       logPath,
       body: `
-  const command = '\"$OD_NODE_BIN\" \"$OD_BIN\" tools design-systems resolve --intent account.settings';
+  const command = '\"$SW_NODE_BIN\" \"$SW_BIN\" tools design-systems resolve --intent account.settings';
   console.log(JSON.stringify({ type: 'thread.started', thread_id: THREAD }));
   console.log(JSON.stringify({ type: 'turn.started' }));
   console.log(JSON.stringify({ type: 'item.started', item: { id: 'resolve-1', type: 'command_execution', command } }));
@@ -548,8 +548,8 @@ async function writeExecutingDesignSystemWrapperCodex(
   const includeOnly = argv.find((arg) => arg.startsWith('shell_environment_policy.include_only='));
   const includedKeys = new Set([...(includeOnly || '').matchAll(/"([A-Z][A-Z0-9_]*)"/g)].map((match) => match[1]));
   const toolEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => includedKeys.has(key)));
-  const unrelatedCredentialPresent = Boolean(toolEnv.OPENAI_API_KEY || toolEnv.OD_API_TOKEN || toolEnv.SHOULD_NOT_LEAK);
-  const command = '"$OD_NODE_BIN" "$OD_BIN" tools design-systems resolve --intent account.settings';
+  const unrelatedCredentialPresent = Boolean(toolEnv.OPENAI_API_KEY || toolEnv.SW_API_TOKEN || toolEnv.SHOULD_NOT_LEAK);
+  const command = '"$SW_NODE_BIN" "$SW_BIN" tools design-systems resolve --intent account.settings';
   const result = require('node:child_process').spawnSync('/bin/sh', ['-c', command], {
     env: toolEnv,
     encoding: 'utf8',
@@ -612,10 +612,10 @@ function snapshotEnv(): Record<string, string | undefined> {
     LANGFUSE_PUBLIC_KEY: process.env.LANGFUSE_PUBLIC_KEY,
     LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
     LANGFUSE_BASE_URL: process.env.LANGFUSE_BASE_URL,
-    OPEN_DESIGN_TELEMETRY_RELAY_URL: process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL,
+    SANKIWORK_TELEMETRY_RELAY_URL: process.env.SANKIWORK_TELEMETRY_RELAY_URL,
     POSTHOG_KEY: process.env.POSTHOG_KEY,
     POSTHOG_HOST: process.env.POSTHOG_HOST,
-    OD_API_TOKEN: process.env.OD_API_TOKEN,
+    SW_API_TOKEN: process.env.SW_API_TOKEN,
     SHOULD_NOT_LEAK: process.env.SHOULD_NOT_LEAK,
   };
 }
@@ -633,7 +633,7 @@ function clearTelemetryEnv(): void {
   delete process.env.LANGFUSE_PUBLIC_KEY;
   delete process.env.LANGFUSE_SECRET_KEY;
   delete process.env.LANGFUSE_BASE_URL;
-  delete process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL;
+  delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
 }
 
 async function putConfig(url: string, patch: Record<string, unknown>): Promise<void> {

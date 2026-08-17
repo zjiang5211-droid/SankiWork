@@ -7,7 +7,7 @@ import {
   type CSSProperties,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { Button } from '@open-design/components';
+import { Button } from '@sankiwork/components';
 import { Icon, type IconName } from './Icon';
 import { ConnectorLogo, useResolvedTheme } from './ConnectorLogo';
 import { useT } from '../i18n';
@@ -31,7 +31,7 @@ import type {
   MemoryTreeNode,
   MemorySuggestion,
   MemoryType,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   connectConnector,
   fetchConnectorStatuses,
@@ -134,7 +134,7 @@ const MEMORY_CONNECTOR_APP_LABELS: Record<string, string> = {
 type ConnectorMemoryAttempt = ConnectorMemorySuggestionResponse['connectors'][number];
 type ConnectorStatusMap = ConnectorStatusResponse['statuses'];
 
-const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'open-design:connector-connected';
+const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'sankiwork:connector-connected';
 const MEMORY_CONNECTOR_PENDING_AUTH_STORAGE_KEY = 'od:memory:pending-connector-auth';
 
 function isTrustedConnectorCallbackOrigin(origin: string): boolean {
@@ -1678,7 +1678,7 @@ export function MemorySection({
             <span>{t('settings.memory')}</span>
             {/*
               Storage path used to render as a permanently-visible
-              <code>/Users/.../.od/memory</code> line in the body. Most
+              <code>/Users/.../.sankiwork/memory</code> line in the body. Most
               users only need this once (to peek at the markdown files)
               and then never again, so the line was pure noise after the
               first glance. We tucked it behind an info button next to

@@ -1,4 +1,4 @@
-// `od tools directions` is called directly by agents following the slim
+// `sw tools directions` is called directly by agents following the slim
 // prompt contract, so malformed invocations must fail fast (reviewer finding
 // on #5603): a missing `--id` value used to fall through to the full-list
 // output, and `--id --json` swallowed `--json` as the id — both exiting 0
@@ -33,7 +33,7 @@ async function runDirections(args: string[]): Promise<{
   }
 }
 
-describe('od tools directions flag validation', () => {
+describe('sw tools directions flag validation', () => {
   it('resolves a valid --id (happy path stays intact)', async () => {
     const result = await runDirections(['--id', 'editorial-monocle']);
     expect(result.code).toBe(0);

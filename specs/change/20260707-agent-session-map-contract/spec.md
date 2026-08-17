@@ -56,7 +56,7 @@ truth.
 ## Contract Types
 
 The typed contract lives in `packages/contracts/src/api/agent-sessions.ts` and
-is exported from `@open-design/contracts`.
+is exported from `@sankiwork/contracts`.
 
 Core enums:
 

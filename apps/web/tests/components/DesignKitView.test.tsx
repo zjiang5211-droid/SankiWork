@@ -7,7 +7,7 @@ import { DesignKitView, useBrandFonts } from '../../src/components/DesignKitView
 import { PreviewModal } from '../../src/components/PreviewModal';
 import { I18nProvider } from '../../src/i18n';
 import type { DesignKit } from '../../src/runtime/design-kit';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 function previewKit(): DesignKit {
   return {

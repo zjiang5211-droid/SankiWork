@@ -2,7 +2,7 @@ import type {
   WorkspaceCollabContext,
   WorkspaceDirectoryItem,
   WorkspaceDirectoryResponse,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 /**
  * A complete `WorkspaceCollabContext` whose workspace + member identity the

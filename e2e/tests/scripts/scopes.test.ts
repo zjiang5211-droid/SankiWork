@@ -12,7 +12,7 @@ import { uiP0CiMatrix, visualCiMatrix } from "../../lib/playwright/suites.ts";
 // Characterization goldens for scripts/scopes.ts.
 //
 // These tests run the script exactly the way ci.yml does (subprocess, real env
-// contract, gh stubbed through the existing OPEN_DESIGN_GH_NODE_SCRIPT seam)
+// contract, gh stubbed through the existing SANKIWORK_GH_NODE_SCRIPT seam)
 // and pin the complete output plan for a matrix of changed-file sets × event
 // contexts. They are implementation-independent on purpose: any internal
 // restructuring of scopes.ts must keep every golden byte-for-byte identical.
@@ -22,20 +22,20 @@ const repoRoot = path.dirname(e2eRoot);
 const scopesScript = path.join(repoRoot, "scripts", "scopes.ts");
 
 // Hermetic gh stand-in, materialized per run: prints the changed-file list
-// provided via OD_SCOPES_STUB_FILES regardless of which endpoint is asked for.
+// provided via SW_SCOPES_STUB_FILES regardless of which endpoint is asked for.
 const GH_STUB_SOURCE = `if (process.argv[2] !== "api") {
   console.error("gh-stub expected an \\"api\\" invocation, got: " + process.argv.slice(2).join(" "));
   process.exit(1);
 }
-if (process.env.OD_SCOPES_STUB_FAIL === "1") {
+if (process.env.SW_SCOPES_STUB_FAIL === "1") {
   console.error("gh-stub simulated API failure");
   process.exit(1);
 }
-const files = process.env.OD_SCOPES_STUB_FILES ?? "";
-const renameEachFromPrefix = process.env.OD_SCOPES_STUB_RENAME_EACH_FROM_PREFIX ?? "";
+const files = process.env.SW_SCOPES_STUB_FILES ?? "";
+const renameEachFromPrefix = process.env.SW_SCOPES_STUB_RENAME_EACH_FROM_PREFIX ?? "";
 const jqIndex = process.argv.indexOf("--jq");
 const jq = jqIndex >= 0 ? process.argv[jqIndex + 1] ?? "" : "";
-const previousFilename = process.env.OD_SCOPES_STUB_RENAMED_FROM ?? "";
+const previousFilename = process.env.SW_SCOPES_STUB_RENAMED_FROM ?? "";
 const fileLines = files.split("\\n").filter((line) => line.length > 0);
 if (jq.length === 0) {
   console.log(JSON.stringify({
@@ -130,8 +130,8 @@ function runScopes(
     // Keep subprocess trace emission out of the real CI step summary when the
     // test suite itself runs inside GitHub Actions.
     GITHUB_STEP_SUMMARY: "",
-    OPEN_DESIGN_GH_NODE_SCRIPT: ghStubPath,
-    OD_SCOPES_STUB_FILES: files.join("\n"),
+    SANKIWORK_GH_NODE_SCRIPT: ghStubPath,
+    SW_SCOPES_STUB_FILES: files.join("\n"),
     ...extraEnv,
   };
 
@@ -560,7 +560,7 @@ for (const goldenCase of GOLDEN_CASES) {
 }
 
 test("merge_group changed-file resolution failure fails open to the full plan", () => {
-  const run = runScopes("print", { eventName: "merge_group" }, ["README.md"], { OD_SCOPES_STUB_FAIL: "1" });
+  const run = runScopes("print", { eventName: "merge_group" }, ["README.md"], { SW_SCOPES_STUB_FAIL: "1" });
   try {
     assertPlan(JSON.parse(run.stdout) as Record<string, unknown>, FULL_PLAN);
   } finally {
@@ -581,7 +581,7 @@ test("merge_group compare result at GitHub's 300-file ceiling fails open to the 
 test("merge_group counts rename records rather than flattened paths at the 300-file ceiling", () => {
   const files = Array.from({ length: 150 }, (_, index) => `docs/renamed-${index}.md`);
   const run = runScopes("print", { eventName: "merge_group" }, files, {
-    OD_SCOPES_STUB_RENAME_EACH_FROM_PREFIX: "docs/original-",
+    SW_SCOPES_STUB_RENAME_EACH_FROM_PREFIX: "docs/original-",
   });
   try {
     assertPlan(JSON.parse(run.stdout) as Record<string, unknown>, expectedPlan({ ciMode: "full" }));
@@ -592,7 +592,7 @@ test("merge_group counts rename records rather than flattened paths at the 300-f
 
 test("pull_request changed-file resolution failure still fails the run", () => {
   assert.throws(() => {
-    const run = runScopes("print", PR, ["README.md"], { OD_SCOPES_STUB_FAIL: "1" });
+    const run = runScopes("print", PR, ["README.md"], { SW_SCOPES_STUB_FAIL: "1" });
     run.cleanup();
   });
 });
@@ -614,7 +614,7 @@ for (const renameCase of [
 ] as const) {
   test(`${renameCase.name} rename keeps validation scopes from the previous filename`, () => {
     const run = runScopes("print", renameCase.context, [renameCase.filename], {
-      OD_SCOPES_STUB_RENAMED_FROM: "apps/daemon/tests/server-identifier-scope.test.ts",
+      SW_SCOPES_STUB_RENAMED_FROM: "apps/daemon/tests/server-identifier-scope.test.ts",
     });
     try {
       assertPlan(
@@ -760,7 +760,7 @@ test("packaged-leaf consumption collector resolves imports, packages, and static
   const violations = collectPackagedLeafConsumptionFromSource(
     "packages/example/src/index.ts",
     [
-      `import "@open-design/desktop/main";`,
+      `import "@sankiwork/desktop/main";`,
       `await import("../../../apps/packaged/src/index.ts");`,
       `const source = path.join(repoRoot, "tools", "pack", "src", "index.ts");`,
       `const prose = "desktop behavior is packaged elsewhere";`,

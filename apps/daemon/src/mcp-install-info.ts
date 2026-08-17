@@ -6,9 +6,9 @@
 // silently misses the sidecar transport endpoint.
 //
 // Side effects (the fs.existsSync probes, process.execPath, the
-// ELECTRON_RUN_AS_NODE env read, OD_DATA_DIR resolution, sidecar IPC
+// ELECTRON_RUN_AS_NODE env read, SW_DATA_DIR resolution, sidecar IPC
 // detection) all stay in the caller. This module is intentionally pure
-// and free of @open-design/sidecar-proto so it can be unit-tested
+// and free of @sankiwork/sidecar-proto so it can be unit-tested
 // without booting the daemon.
 
 export interface BuildMcpInstallPayloadInputs {
@@ -21,14 +21,14 @@ export interface BuildMcpInstallPayloadInputs {
   dataDir: string;
   electronAsNode: boolean;
   /** True when the daemon was bootstrapped as a sidecar and the
-   *  spawned `od mcp` should discover the live URL via the IPC
+   *  spawned `sw mcp` should discover the live URL via the IPC
    *  status socket instead of a baked --daemon-url. */
   isSidecarMode: boolean;
   /** Already-filtered sidecar transport env entries the
    *  caller wants propagated into the snippet. The caller decides
    *  what's worth propagating; this builder just merges. */
   sidecarEnv: Record<string, string>;
-  /** Browser-facing Open Design studio base URL (e.g.
+  /** Browser-facing SankiWork studio base URL (e.g.
    *  `http://127.0.0.1:65321`). Used by MCP clients to build deep
    *  links to `/projects/.../conversations/.../files/...` so the
    *  outer agent can suggest a URL that shows both the file preview
@@ -58,30 +58,30 @@ export function buildMcpInstallPayload(
   const hints: string[] = [];
   if (!inputs.cliExists) {
     hints.push(
-      `Open Design CLI entry is missing at ${inputs.cliPath}. Rebuild the daemon or packaged app and refresh.`,
+      `SankiWork CLI entry is missing at ${inputs.cliPath}. Rebuild the daemon or packaged app and refresh.`,
     );
   }
   if (!inputs.nodeExists) {
     hints.push(
-      `Node-compatible runtime at ${inputs.execPath} no longer exists. Reinstall Open Design or Node and restart the daemon.`,
+      `Node-compatible runtime at ${inputs.execPath} no longer exists. Reinstall SankiWork or Node and restart the daemon.`,
     );
   }
-  // Pin OD_DATA_DIR to the daemon's resolved data root so the spawned
+  // Pin SW_DATA_DIR to the daemon's resolved data root so the spawned
   // MCP process writes to the same directory the daemon already uses
   // even when the IDE that launched it (Antigravity, VS Code, etc.)
   // does not inherit the packaged app's environment. Without this,
-  // `od mcp` falls back to `<cwd>/.od/...` which is the read-only
+  // `sw mcp` falls back to `<cwd>/.sankiwork/...` which is the read-only
   // macOS app bundle for packaged installs and trips EPERM. Issue #848.
   const env: Record<string, string> = {
-    OD_DATA_DIR: inputs.dataDir,
+    SW_DATA_DIR: inputs.dataDir,
     ...inputs.sidecarEnv,
   };
   if (inputs.electronAsNode) {
     env.ELECTRON_RUN_AS_NODE = '1';
   }
-  // Sidecar mode: omit --daemon-url so the spawned `od mcp` discovers
+  // Sidecar mode: omit --daemon-url so the spawned `sw mcp` discovers
   // the live URL via the IPC status socket on every spawn, surviving
-  // ephemeral-port restarts. Direct `od --port X` launches have no
+  // ephemeral-port restarts. Direct `sw --port X` launches have no
   // socket and need the URL baked.
   const args = inputs.isSidecarMode
     ? [inputs.cliPath, 'mcp']

@@ -5,7 +5,7 @@
  *
  * Before this fix, every `<a>` rendered from chat markdown carried
  * `target="_blank"` with no `onClick`. In Electron that hits the desktop
- * `setWindowOpenHandler` and creates a new `od://` BrowserWindow; relative
+ * `setWindowOpenHandler` and creates a new `sankiwork://` BrowserWindow; relative
  * hrefs like `template.html` have no base so the new window can't resolve
  * them and the user lands on the home screen. The fix detects in-project
  * file paths in chat markdown and routes them through the existing
@@ -121,7 +121,7 @@ describe('AssistantMessage — chat file-link routing (#1239)', () => {
     const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
     anchor!.dispatchEvent(clickEvent);
 
-    // Not the current workspace's file — but it IS an Open Design file, so
+    // Not the current workspace's file — but it IS an SankiWork file, so
     // the click must route to the owning project in the SAME window rather
     // than falling through to Electron's window-open handler (which lands a
     // chrome-less child window on the home screen).
@@ -140,12 +140,12 @@ describe('AssistantMessage — chat file-link routing (#1239)', () => {
     const { container } = render(
       <AssistantMessage
         message={messageWithText(
-          '只有一个文件：[deck-outline.md](/Users/mac/.open-design/data/projects/other-project/deck-outline.md)。',
+          '只有一个文件：[deck-outline.md](/Users/mac/.sankiwork/data/projects/other-project/deck-outline.md)。',
         )}
         streaming={false}
         projectId="project-1"
         projectFileNames={new Set(['unrelated.html'])}
-        projectResolvedDir="/Users/mac/.open-design/data/projects/project-1"
+        projectResolvedDir="/Users/mac/.sankiwork/data/projects/project-1"
         onRequestOpenFile={onRequestOpenFile}
       />,
     );
@@ -349,7 +349,7 @@ describe('AssistantMessage — chat file-link routing (#1239)', () => {
     const { container } = render(
       <AssistantMessage
         message={messageWithText(
-          '已完成单文件原型：[index.html](/Users/mac/open-design/open-design-preview-0.10.0/projects/Web%20Prototype/index.html)。',
+          '已完成单文件原型：[index.html](/Users/mac/sankiwork/sankiwork-preview-0.10.0/projects/Web%20Prototype/index.html)。',
         )}
         streaming={false}
         projectId="project-1"
@@ -516,7 +516,7 @@ describe('AssistantMessage — chat file-link routing (#1239)', () => {
     const { container } = render(
       <AssistantMessage
         message={messageWithText(
-          '成稿在 [index.html](/Users/mac/.open-design/data/projects/other-project/index.html)。',
+          '成稿在 [index.html](/Users/mac/.sankiwork/data/projects/other-project/index.html)。',
         )}
         streaming={false}
         projectId="project-1"

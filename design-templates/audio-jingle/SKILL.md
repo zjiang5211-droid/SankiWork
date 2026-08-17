@@ -98,8 +98,8 @@ API parameter directly; never put "make it 30 seconds" in prose.
 Use the unified dispatcher — do **not** call provider APIs by hand:
 
 ```bash
-"$OD_NODE_BIN" "$OD_BIN" media generate \
-  --project "$OD_PROJECT_ID" \
+"$SW_NODE_BIN" "$SW_BIN" media generate \
+  --project "$SW_PROJECT_ID" \
   --surface audio \
   --audio-kind "<music|speech|sfx>" \
   --model "<audioModel from metadata>" \

@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 
-export const PLAYWRIGHT_RUN_NAMESPACE_ENV = 'OD_E2E_RUN_NAMESPACE';
+export const PLAYWRIGHT_RUN_NAMESPACE_ENV = 'SW_E2E_RUN_NAMESPACE';
 
 type Environment = Record<string, string | undefined>;
 
@@ -11,7 +11,7 @@ export function initializePlaywrightRunNamespace(
   const existingNamespace = env[PLAYWRIGHT_RUN_NAMESPACE_ENV]?.trim();
   if (existingNamespace) return sanitizeSegment(existingNamespace);
 
-  const namespacePrefix = env.OD_E2E_NAMESPACE?.trim() || 'playwright';
+  const namespacePrefix = env.SW_E2E_NAMESPACE?.trim() || 'playwright';
   const namespace = sanitizeSegment(`${namespacePrefix}-${createToken()}`);
   env[PLAYWRIGHT_RUN_NAMESPACE_ENV] = namespace;
   return namespace;

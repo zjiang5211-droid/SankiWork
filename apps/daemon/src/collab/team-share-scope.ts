@@ -28,7 +28,7 @@
 // guard only ever fires on positive evidence that the target is personal, so it
 // can never break a legitimate scope it simply has not learned about yet.
 
-import type { WorkspaceType } from '@open-design/contracts';
+import type { WorkspaceType } from '@sankiwork/contracts';
 import { resolveWorkspaceScope, type WorkspaceScope } from './workspace-scope.js';
 
 /** Why a workspace cannot host a team share. Null means "no evidence against". */

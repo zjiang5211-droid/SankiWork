@@ -18,7 +18,7 @@ devloop's `until` evaluator reads.
 
 - The active target stack (recorded in `code/index.json` +
   `plan.md`'s targetStack block).
-- The user's optional override (`od plugin run --input
+- The user's optional override (`sw plugin run --input
   testCommand='pnpm test'`).
 
 ## Default commands by framework

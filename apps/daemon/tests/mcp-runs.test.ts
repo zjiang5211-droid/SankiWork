@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { buildProjectRawFileUrl } from '@open-design/contracts';
+import { buildProjectRawFileUrl } from '@sankiwork/contracts';
 
 import { handleMcpToolCall, localMcpToolDefinitions } from '../src/mcp.js';
 import { _resetMcpWorkspaceContextCacheForTests } from '../src/mcp-workspace-context.js';
@@ -332,7 +332,7 @@ describe('public MCP discovery + generation tools', () => {
     expect(parsed).toMatchObject({
       status: 'failed',
       failureAction: 'recharge',
-      rechargeUrl: 'https://open-design.ai/amr/dashboard?source=open_design',
+      rechargeUrl: 'https://sanki-ai.cloud/amr/dashboard?source=sankiwork',
     });
     expect(parsed.hint).toContain('same requestId');
     expect(parsed.hint).toContain('resume:true');
@@ -555,14 +555,14 @@ describe('public MCP discovery + generation tools', () => {
       id: 'run-99',
       status: 'running',
       projectId: 'project-1',
-      eventsLogPath: '/Users/x/.od/runs/run-99/events.jsonl',
+      eventsLogPath: '/Users/x/.sankiwork/runs/run-99/events.jsonl',
     }), { status: 200 }));
     vi.stubGlobal('fetch', withDirectory(fetchMock));
 
     const result = await handleMcpToolCall('http://127.0.0.1:17456', 'get_run', { runId: 'run-99' });
     const parsed = JSON.parse(firstText(result));
     expect(parsed.status).toBe('running');
-    expect(parsed.eventsLogPath).toBe('/Users/x/.od/runs/run-99/events.jsonl');
+    expect(parsed.eventsLogPath).toBe('/Users/x/.sankiwork/runs/run-99/events.jsonl');
     expect(parsed.hint).toMatch(/tail/i);
     expect(parsed.hint).toContain('events.jsonl');
   });
@@ -724,7 +724,7 @@ describe('public MCP discovery + generation tools', () => {
     expect(parsed.previewUrl).toBeUndefined();
   });
 
-  // Discovery-stage / clarifying-question fallback: when Open Design's
+  // Discovery-stage / clarifying-question fallback: when SankiWork's
   // inner agent does NOT write files (e.g. it asks back with a discovery
   // form), the run still terminates "succeeded" but the only output
   // lives in the SSE event stream as text_delta chunks. get_run must
@@ -852,7 +852,7 @@ describe('public MCP discovery + generation tools', () => {
     expect(parsed.hint).not.toMatch(/project defaults to this run/i);
   });
 
-  // #2: MCP-driven projects skip Open Design's interactive discovery
+  // #2: MCP-driven projects skip SankiWork's interactive discovery
   // stage. The outer agent (Codex, Cursor, …) IS the user-facing surface;
   // having OD ask a discovery form back through MCP creates a confusing
   // nested-clarification loop where the form ends up dropped because no

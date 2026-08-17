@@ -10,7 +10,7 @@ import {
   parseCountedReleaseVersion,
   parseReleaseBaseVersion,
   type ReleaseBaseVersionTuple,
-} from "@open-design/release";
+} from "@sankiwork/release";
 
 const execFile = promisify(execFileCallback);
 
@@ -68,12 +68,12 @@ function resolvePreviewBaseVersion(branch: string, inputValue: string | undefine
           source: "GITHUB_REF_NAME",
           value: branchMatch[1],
         } satisfies ParsedStableVersion);
-  const inputVersion = parsePreviewBaseVersionInput(inputValue, "OPEN_DESIGN_PREVIEW_VERSION");
+  const inputVersion = parsePreviewBaseVersionInput(inputValue, "SANKIWORK_PREVIEW_VERSION");
 
   if (branchVersion != null) {
     if (inputVersion != null && inputVersion.value !== branchVersion.value) {
       fail(
-        `OPEN_DESIGN_PREVIEW_VERSION ${inputVersion.value} must match preview branch version ${branchVersion.value} when both are provided`,
+        `SANKIWORK_PREVIEW_VERSION ${inputVersion.value} must match preview branch version ${branchVersion.value} when both are provided`,
       );
     }
     return branchVersion;
@@ -262,7 +262,7 @@ function setOutput(name: string, value: string): void {
 
 const packagedVersion = await readPackagedVersion();
 const branch = process.env.GITHUB_REF_NAME ?? "";
-const previewBaseVersion = resolvePreviewBaseVersion(branch, process.env.OPEN_DESIGN_PREVIEW_VERSION, packagedVersion);
+const previewBaseVersion = resolvePreviewBaseVersion(branch, process.env.SANKIWORK_PREVIEW_VERSION, packagedVersion);
 const packagedParsed = previewBaseVersion.parsed;
 if (previewBaseVersion.value !== packagedVersion) {
   fail(
@@ -285,11 +285,11 @@ if (latestStable != null && compareReleaseBaseVersions(packagedParsed, latestSta
   fail(`packaged base version ${packagedVersion} must be strictly greater than latest stable ${latestStable.value}`);
 }
 
-const metadataUrl = process.env.OPEN_DESIGN_PREVIEW_METADATA_URL;
+const metadataUrl = process.env.SANKIWORK_PREVIEW_METADATA_URL;
 if (metadataUrl == null || metadataUrl.length === 0) {
-  fail("OPEN_DESIGN_PREVIEW_METADATA_URL is required");
+  fail("SANKIWORK_PREVIEW_METADATA_URL is required");
 }
-validateHttpsUrl(metadataUrl, "OPEN_DESIGN_PREVIEW_METADATA_URL");
+validateHttpsUrl(metadataUrl, "SANKIWORK_PREVIEW_METADATA_URL");
 
 let previewNumber = 1;
 let latestPreview: ParsedPreviewVersion | null = null;
@@ -327,7 +327,7 @@ if (latestPreview != null) {
 
 const previewVersion = `${packagedVersion}-preview.${previewNumber}`;
 const commit = process.env.GITHUB_SHA ?? "";
-const releaseName = `Open Design Preview ${previewVersion}`;
+const releaseName = `SankiWork Preview ${previewVersion}`;
 
 console.log("[release-preview] channel: preview");
 console.log(`[release-preview] base version: ${packagedVersion}`);

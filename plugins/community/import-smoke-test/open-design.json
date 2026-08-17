@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://sanki-ai.cloud/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "community-import-smoke-test",
   "title": "Community Import Smoke Test",
@@ -7,8 +7,8 @@
   "description": "A portable community plugin used to verify folder, zip, GitHub subpath, and marketplace import flows.",
   "license": "MIT",
   "author": {
-    "name": "Open Design Community",
-    "url": "https://open-design.ai/marketplace/community"
+    "name": "SankiWork Community",
+    "url": "https://sanki-ai.cloud/marketplace/community"
   },
   "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/community/import-smoke-test",
   "plugin": {

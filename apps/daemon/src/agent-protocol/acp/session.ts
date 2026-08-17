@@ -7,7 +7,7 @@
  * connectionTest.ts and server.ts (via the acp/ barrel).
  */
 import path from 'node:path';
-import type { ExecutionProfile } from '@open-design/contracts';
+import type { ExecutionProfile } from '@sankiwork/contracts';
 import {
   createDsmlArtifactTextSuppressor,
   createToolCallTextSuppressor,
@@ -133,7 +133,7 @@ export function attachAcpSession({
   mcpServers,
   envFormat = 'array',
   send,
-  clientName = 'open-design',
+  clientName = 'sankiwork',
   clientVersion = 'runtime-adapter',
   stageTimeoutMs = DEFAULT_STAGE_TIMEOUT_MS,
   executionProfile = 'filesystem',
@@ -278,7 +278,7 @@ export function attachAcpSession({
     if (stageTimer) clearTimeout(stageTimer);
     // `stageTimeoutMs <= 0` disables the watchdog. Mirrors the outer chat
     // inactivity watchdog escape hatch (see server.ts → inactivityTimer).
-    // Without this, an operator setting `OD_ACP_STAGE_TIMEOUT_MS=0` would
+    // Without this, an operator setting `SW_ACP_STAGE_TIMEOUT_MS=0` would
     // schedule a 0ms timeout that fires on the next tick and kills the
     // session immediately.
     if (stageWatchdogDisabled) return;
@@ -613,7 +613,7 @@ export function attachAcpSession({
     clearStageTimer();
     stdin.end();
     // Some ACP agents keep the child process alive after stdin closes,
-    // waiting for another prompt. Each Open Design run owns one process per
+    // waiting for another prompt. Each SankiWork run owns one process per
     // turn, so close it once this prompt is cleanly complete.
     const cleanExitTimer = setTimeout(() => {
       if (!child.killed) child.kill('SIGTERM');

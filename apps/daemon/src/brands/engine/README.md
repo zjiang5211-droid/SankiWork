@@ -120,7 +120,7 @@ decoded to real bytes by `writeBrandSystem` / `write: true`.
 
 **Change the brand color.** Set `seed.colorPrimary` or edit the `accent` color
 role in the Brand. For registered brand projects, persist overrides in
-`brand.json.seed`, then run `od brand finalize <brand-id>`. Do not edit
+`brand.json.seed`, then run `sw brand finalize <brand-id>`. Do not edit
 `system/seed.json` directly; finalize regenerates it. The 10-step palette, every
 interaction state, the primary background/border, and every component referencing
 `var(--brand-color-primary)` update together.

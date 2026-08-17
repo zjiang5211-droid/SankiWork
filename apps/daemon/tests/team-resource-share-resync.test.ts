@@ -108,7 +108,7 @@ describe('team resource re-share (the "Sync to team" backend path)', () => {
       resolveDir: () => currentDir,
       describeResource: () => ({ localId: 'user:ds-1', title: 'Ds 1' }),
       run: hub.run,
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
 
     const app = express();
@@ -167,7 +167,7 @@ describe('team resource re-share (the "Sync to team" backend path)', () => {
       resolveDir: () => '/tmp/skill-1',
       describeResource: () => ({ localId: 'my-skill' }),
       run: hub.run,
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
     });
     const resolveScope = async () => {
         shareChecks += 1;

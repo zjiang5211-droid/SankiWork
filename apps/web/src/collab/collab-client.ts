@@ -11,7 +11,7 @@ import type {
   ProjectContentTransferState,
   ProjectSyncState,
   WorkspaceCollabContext,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 // Presence identity is the shared contract DTO; re-export so collab consumers
 // keep importing it from the client module.

@@ -5,7 +5,7 @@
  * server that decodes one JSON frame per connection (UTF-8 safe across chunk
  * boundaries), runs a handler, and replies `{ok,result}`/`{ok:false,error}`, plus
  * a client request with timeout. Includes opt-in structured tracing (gated by
- * `OD_JSON_IPC_TRACE`) and stale-socket cleanup before binding. The trace
+ * `SW_JSON_IPC_TRACE`) and stale-socket cleanup before binding. The trace
  * sequence counter is module-private singleton state. Depends on `node:fs`,
  * `node:net`, `node:path`, `node:string_decoder`, the shared net close helper,
  * the IPC-path recognizer, and the public IPC types.
@@ -24,10 +24,10 @@ import type { JsonIpcHandler, JsonIpcServerHandle } from "./types.js";
 let jsonIpcTraceSeq = 0;
 
 /**
- * @internal Whether JSON-IPC tracing is enabled via `OD_JSON_IPC_TRACE`.
+ * @internal Whether JSON-IPC tracing is enabled via `SW_JSON_IPC_TRACE`.
  */
 function jsonIpcTraceEnabled(): boolean {
-  const value = process.env.OD_JSON_IPC_TRACE;
+  const value = process.env.SW_JSON_IPC_TRACE;
   return value === "1" || value === "true" || value === "yes";
 }
 
@@ -69,7 +69,7 @@ function summarizeJsonIpcMessage(message: unknown): Record<string, unknown> {
  */
 function traceJsonIpc(event: string, details: Record<string, unknown>): void {
   if (!jsonIpcTraceEnabled()) return;
-  console.error("[open-design sidecar] json ipc trace", { event, ...details });
+  console.error("[sankiwork sidecar] json ipc trace", { event, ...details });
 }
 
 /**

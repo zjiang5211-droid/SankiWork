@@ -9,7 +9,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 
 import {
   buildPluginShareUrl,
@@ -128,13 +128,13 @@ describe('PluginShareMenu', () => {
         sourceKind: 'github',
         source: 'github:open-design/plugins/mp-plugin',
         marketplaceId: 'official',
-        marketplaceEntryName: 'open-design/mp-plugin',
+        marketplaceEntryName: 'sankiwork/mp-plugin',
       }),
     );
     openPopover();
     clickItem('Copy install command');
     await Promise.resolve();
-    expect(writes).toContain('od plugin install open-design/mp-plugin');
+    expect(writes).toContain('sw plugin install sankiwork/mp-plugin');
   });
 
   it('copies the github source string for github-installed plugins', async () => {
@@ -148,7 +148,7 @@ describe('PluginShareMenu', () => {
     openPopover();
     clickItem('Copy install command');
     await Promise.resolve();
-    expect(writes).toContain('od plugin install github:owner/repo@main/sub');
+    expect(writes).toContain('sw plugin install github:owner/repo@main/sub');
   });
 
   it('does not duplicate the template share link action', () => {
@@ -173,14 +173,14 @@ describe('PluginShareMenu', () => {
       id: 'badge-plugin',
       title: 'Badge Plugin',
       marketplaceId: 'official',
-      marketplaceEntryName: 'open-design/badge-plugin',
+      marketplaceEntryName: 'sankiwork/badge-plugin',
     }));
     openPopover();
     clickItem('Copy README badge');
     await Promise.resolve();
     expect(writes.some((value) => (
       value.includes('Badge Plugin') &&
-      value.includes('https://open-design.ai/plugins/badge-plugin')
+      value.includes('https://sanki-ai.cloud/plugins/badge-plugin')
     ))).toBe(true);
   });
 
@@ -225,7 +225,7 @@ describe('PluginShareMenu', () => {
         sourceKind: 'github',
         source: 'github:owner/repo',
         marketplaceId: 'official',
-        marketplaceEntryName: 'open-design/zh-plugin',
+        marketplaceEntryName: 'sankiwork/zh-plugin',
         homepage: 'https://example.test/plugin-home',
       }),
       'zh-CN',
@@ -243,7 +243,7 @@ describe('PluginShareMenu', () => {
     expect(labels.some((label) => label.includes('Copy install command'))).toBe(false);
   });
 
-  it('points Open in marketplace at the public open-design.ai page for bundled plugins', () => {
+  it('points Open in marketplace at the public sanki-ai.cloud page for bundled plugins', () => {
     renderMenu(make({ id: 'plain' }));
     openPopover();
     const items = Array.from(
@@ -256,19 +256,19 @@ describe('PluginShareMenu', () => {
       container.querySelectorAll<HTMLAnchorElement>('a.plugin-share-item'),
     ).find((link) => link.textContent?.includes('Open in marketplace'));
     // Bundled plugins have a public detail page, so the link is the public
-    // open-design.ai URL — not a local /marketplace path.
+    // sanki-ai.cloud URL — not a local /marketplace path.
     expect(marketplaceLink?.getAttribute('href')).toBe(
-      'https://open-design.ai/plugins/plain/',
+      'https://sanki-ai.cloud/plugins/plain/',
     );
   });
 
-  it('builds a public open-design.ai share link for bundled plugins', () => {
+  it('builds a public sanki-ai.cloud share link for bundled plugins', () => {
     expect(buildPluginShareUrl(make({ id: 'simple-deck' }))).toBe(
-      'https://open-design.ai/plugins/simple-deck/',
+      'https://sanki-ai.cloud/plugins/simple-deck/',
     );
   });
 
-  it('builds a public open-design.ai share link for community marketplace plugins', () => {
+  it('builds a public sanki-ai.cloud share link for community marketplace plugins', () => {
     // Community manifest names carry a `community-` prefix, but the landing
     // page routes are keyed on the folder name via routeId=`community/<folder>`.
     // buildPluginShareUrl must use sourceMarketplaceEntryName so pluginDetailSlug
@@ -283,7 +283,7 @@ describe('PluginShareMenu', () => {
           marketplaceEntryName: 'community/registry-starter',
         }),
       ),
-    ).toBe('https://open-design.ai/plugins/registry-starter/');
+    ).toBe('https://sanki-ai.cloud/plugins/registry-starter/');
   });
 
   it('copies a README badge for community marketplace plugins', async () => {
@@ -304,7 +304,7 @@ describe('PluginShareMenu', () => {
       writes.some(
         (value) =>
           value.includes('Community Registry Starter') &&
-          value.includes('https://open-design.ai/plugins/registry-starter/'),
+          value.includes('https://sanki-ai.cloud/plugins/registry-starter/'),
       ),
     ).toBe(true);
   });
@@ -324,7 +324,7 @@ describe('PluginShareMenu', () => {
       container.querySelectorAll<HTMLAnchorElement>('a.plugin-share-item'),
     ).find((link) => link.textContent?.includes('Open in marketplace'));
     expect(marketplaceLink?.getAttribute('href')).toBe(
-      'https://open-design.ai/plugins/registry-starter/',
+      'https://sanki-ai.cloud/plugins/registry-starter/',
     );
   });
 

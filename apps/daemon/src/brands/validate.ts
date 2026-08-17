@@ -7,7 +7,7 @@ import {
   type BrandColorRole,
   type BrandFontSpec,
   type BrandImagerySample,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import { sanitizeSeedOverrides, type Brand } from './schema.js';
 
 const isStr = (v: unknown): v is string => typeof v === 'string';

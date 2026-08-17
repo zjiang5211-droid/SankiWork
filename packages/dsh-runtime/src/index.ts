@@ -26,9 +26,9 @@ import {
   type ModelCatalogEntry,
 } from './protocol.js';
 
-export const name = 'open-design-runtime';
+export const name = 'sankiwork-runtime';
 export const inject = [
-  'openDesignStartup',
+  'sankiWorkStartup',
   'agentDefaultModel',
   'agents',
   'llm',
@@ -199,7 +199,7 @@ async function listModelCatalog(ctx: Context): Promise<ModelCatalogEntry[]> {
         });
       }
     } catch {
-      ctx.logger.warn(`open-design-runtime: could not list models for provider "${provider.id}"`);
+      ctx.logger.warn(`sankiwork-runtime: could not list models for provider "${provider.id}"`);
     }
   }
   return catalog;
@@ -411,7 +411,7 @@ async function serve(
           type: 'protocol_error',
           ...(requestId ? { request_id: requestId } : {}),
           code: 'DSH_PROFILE_INVALID_COMMAND',
-          message: 'Open Design sent an invalid profile command.',
+          message: 'SankiWork sent an invalid profile command.',
         });
         return;
       }
@@ -449,9 +449,9 @@ async function serve(
 }
 
 export function apply(ctx: Context): void {
-  const startup = ctx.openDesignStartup;
+  const startup = ctx.sankiWorkStartup;
   const exit = ctx.get('appExit');
-  if (!startup || !exit) throw new Error('open-design-runtime requires startup and appExit services');
+  if (!startup || !exit) throw new Error('sankiwork-runtime requires startup and appExit services');
   if (startup.mode === 'probe') {
     writeFrame(process.stdout, identityFrame('probe', PLUGIN_VERSION));
     exit(0);
@@ -465,7 +465,7 @@ export function apply(ctx: Context): void {
     }
     await serve(ctx, process.stdout, exit);
   }).catch((error: unknown) => {
-    process.stderr.write(`open-design-runtime: ${error instanceof Error ? error.message : String(error)}\n`);
+    process.stderr.write(`sankiwork-runtime: ${error instanceof Error ? error.message : String(error)}\n`);
     exit(1);
   });
 }

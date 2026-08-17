@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://sanki-ai.cloud/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "image-template-profile-avatar-realistically-imperfect-ai-selfie",
   "title": "Profile / Avatar - Realistically Imperfect AI Selfie",

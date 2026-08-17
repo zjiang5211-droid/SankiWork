@@ -3,15 +3,15 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 
-import { parseLauncherAfterQuitArgs, parseLauncherDelegatedArgs } from "@open-design/launcher-proto";
-import { readProcessStamp } from "@open-design/platform";
+import { parseLauncherAfterQuitArgs, parseLauncherDelegatedArgs } from "@sankiwork/launcher-proto";
+import { readProcessStamp } from "@sankiwork/platform";
 import {
   APP_KEYS,
-  OPEN_DESIGN_SIDECAR_CONTRACT,
+  SANKIWORK_SIDECAR_CONTRACT,
   SIDECAR_MODES,
   SIDECAR_SOURCES,
   type SidecarStamp,
-} from "@open-design/sidecar-proto";
+} from "@sankiwork/sidecar-proto";
 import { describe, expect, it, vi } from "vitest";
 
 import type { PackagedLauncherRuntime } from "../src/launcher-runtime.js";
@@ -23,7 +23,7 @@ import {
 
 const stamp: SidecarStamp = {
   app: APP_KEYS.DESKTOP,
-  ipc: "/tmp/open-design/ipc/release-beta/desktop.sock",
+  ipc: "/tmp/sankiwork/ipc/release-beta/desktop.sock",
   mode: SIDECAR_MODES.RUNTIME,
   namespace: "release-beta",
   source: SIDECAR_SOURCES.PACKAGED,
@@ -32,10 +32,10 @@ const stamp: SidecarStamp = {
 function fakeRuntime(payloadDesktopProcess: boolean): PackagedLauncherRuntime {
   return {
     config: {} as PackagedLauncherRuntime["config"],
-    desktopExecutablePath: "/tmp/payload/Open Design Beta.app/Contents/MacOS/Open Design Beta",
+    desktopExecutablePath: "/tmp/payload/SankiWork Beta.app/Contents/MacOS/SankiWork Beta",
     descriptor: {} as PackagedLauncherRuntime["descriptor"],
     electronNodeCommand: null,
-    installedLaunchPath: "/Applications/Open Design Beta.app",
+    installedLaunchPath: "/Applications/SankiWork Beta.app",
     launcherPaths: {} as PackagedLauncherRuntime["launcherPaths"],
     paths: {} as PackagedLauncherRuntime["paths"],
     payloadDesktopProcess,
@@ -65,7 +65,7 @@ describe("payload desktop delegation", () => {
       targetPid: 4321,
       timeoutMs: 60_000,
     });
-    expect(readProcessStamp(plan?.args ?? [], OPEN_DESIGN_SIDECAR_CONTRACT)).toEqual(stamp);
+    expect(readProcessStamp(plan?.args ?? [], SANKIWORK_SIDECAR_CONTRACT)).toEqual(stamp);
   });
 
   it("carries the delegated pointer for a normal active delegation", () => {
@@ -80,12 +80,12 @@ describe("payload desktop delegation", () => {
   });
 
   it("forwards only the OS invite URL across an outer-to-payload cold start", () => {
-    const deeplink = "opendesign://workspace/invite/continue?nonce=payload-cold-start";
-    expect(findPackagedDeeplinkArg(["Open Design.exe", "--unrelated", deeplink])).toBe(deeplink);
-    expect(findPackagedDeeplinkArg(["Open Design.exe", "--unrelated"])).toBeNull();
+    const deeplink = "sankiwork://workspace/invite/continue?nonce=payload-cold-start";
+    expect(findPackagedDeeplinkArg(["SankiWork.exe", "--unrelated", deeplink])).toBe(deeplink);
+    expect(findPackagedDeeplinkArg(["SankiWork.exe", "--unrelated"])).toBeNull();
     const plan = planPackagedPayloadDesktopDelegation(fakeRuntime(false), stamp, {
       currentPid: 4321,
-      forwardedArgs: ["Open Design.exe", "--unrelated", deeplink],
+      forwardedArgs: ["SankiWork.exe", "--unrelated", deeplink],
       timeoutMs: 60_000,
     });
 

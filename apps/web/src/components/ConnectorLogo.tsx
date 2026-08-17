@@ -3,7 +3,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import type { ConnectorDetail } from '@open-design/contracts';
+import type { ConnectorDetail } from '@sankiwork/contracts';
 
 const COMPOSIO_LOGO_SLUG_OVERRIDES: Record<string, string> = {
   google_drive: 'googledrive',

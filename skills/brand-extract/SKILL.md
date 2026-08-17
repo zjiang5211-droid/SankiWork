@@ -45,7 +45,7 @@ harvested logo, an approximate palette, font families, and a few cover images �
 so it is NOT all-skeleton when it opens. Your job is to **replace that seed with
 measured truth** and fill in the rest, **progressively**, so the user watches it
 complete module by module. You never hand-edit it: you write `brand.json`, then
-run `od brand preview <brandId>` and the daemon re-renders the page (the page
+run `sw brand preview <brandId>` and the daemon re-renders the page (the page
 soft-reloads itself while extracting). Optimize for **fast first paint and
 progressive fill-in** — write a partial `brand.json` and preview it the moment
 you have a name, a couple of colors, and a logo, then preview again after each
@@ -136,14 +136,14 @@ Write `brand.json` into the project **as soon as you have the name, a couple of
 colors, and a logo candidate** — do not wait for everything. Then run:
 
 ```bash
-od brand preview <brandId>
+sw brand preview <brandId>
 ```
 
 This re-renders `brand.html` so the user immediately sees a real, on-brand page
 forming. Then **preview after each field group, do not batch to the end** —
 after you measure and add each of (a) colors, (b) typography/fonts, (c) logo
 candidates, (d) cover/hero imagery samples, (e) voice & tone, (f) imagery /
-layout posture, update `brand.json` and re-run `od brand preview`. Partial data
+layout posture, update `brand.json` and re-run `sw brand preview`. Partial data
 renders the filled modules with skeletons for the rest, which is exactly the
 progressive "filling in" experience the user should watch.
 
@@ -209,7 +209,7 @@ poster, email, newsletter, form), and registers the brand as a reusable
 `user:<id>` design system so it is selectable everywhere:
 
 ```bash
-od brand finalize <brandId> --json
+sw brand finalize <brandId> --json
 ```
 
 This self-hosts any Google Fonts you declared (so the **Fonts** specimen tiles —

@@ -7,7 +7,7 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
-import { InstalledPluginRecordSchema } from '@open-design/contracts';
+import { InstalledPluginRecordSchema } from '@sankiwork/contracts';
 
 import { ExtensionsMarketplace } from '../../src/components/PluginsView';
 import { MarketplaceView } from '../../src/components/MarketplaceView';
@@ -39,7 +39,7 @@ const INSTALLED_OFFICIAL = InstalledPluginRecordSchema.parse({
   sourceKind: 'bundled',
   source: '/plugins/_official/build-test',
   sourceMarketplaceId: 'official',
-  sourceMarketplaceEntryName: 'open-design/build-test',
+  sourceMarketplaceEntryName: 'sankiwork/build-test',
   trust: 'bundled',
   capabilitiesGranted: [],
   manifest: {
@@ -57,14 +57,14 @@ const INSTALLED_OFFICIAL = InstalledPluginRecordSchema.parse({
 const MARKETPLACES = [
   {
     id: 'official',
-    url: 'https://open-design.ai/marketplace/open-design-marketplace.json',
+    url: 'https://sanki-ai.cloud/marketplace/open-design-marketplace.json',
     trust: 'official',
     manifest: {
-      name: 'Open Design Official',
+      name: 'SankiWork Official',
       version: '1.0.0',
       plugins: [
         {
-          name: 'open-design/build-test',
+          name: 'sankiwork/build-test',
           title: 'Build test',
           source: 'github:nexu-io/open-design@main/plugins/_official/build-test',
           version: '0.1.0',
@@ -75,7 +75,7 @@ const MARKETPLACES = [
   },
   {
     id: 'community',
-    url: 'https://open-design.ai/marketplace/community.json',
+    url: 'https://sanki-ai.cloud/marketplace/community.json',
     trust: 'restricted',
     manifest: {
       name: 'Community',
@@ -149,7 +149,7 @@ describe('ExtensionsMarketplace installed plugin detail entry', () => {
 
     fireEvent.click(
       await screen.findByTestId(
-        'plugins-card-official:open-design/build-test:0.1.0',
+        'plugins-card-official:sankiwork/build-test:0.1.0',
       ),
     );
 
@@ -165,7 +165,7 @@ describe('ExtensionsMarketplace installed plugin detail entry', () => {
     await waitFor(() => {
       expect(window.location.pathname).toBe('/plugins');
       expect(screen.getByTestId(
-        'plugins-card-official:open-design/build-test:0.1.0',
+        'plugins-card-official:sankiwork/build-test:0.1.0',
       )).toBeTruthy();
     });
     expect(screen.queryByTestId('plugin-detail')).toBeNull();

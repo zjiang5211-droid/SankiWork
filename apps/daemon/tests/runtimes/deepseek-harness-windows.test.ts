@@ -23,7 +23,7 @@ import {
   createCommandInvocation,
   listProcessSnapshots,
   stopProcesses,
-} from '@open-design/platform';
+} from '@sankiwork/platform';
 
 const require = createRequire(import.meta.url);
 
@@ -49,7 +49,7 @@ function writeFakeDshCarrier(dir: string): string {
 
 function createProfileHome(dir: string): string {
   const home = path.join(dir, 'dsh-home');
-  const profile = path.join(home, 'profiles', 'open-design');
+  const profile = path.join(home, 'profiles', 'sankiwork');
   mkdirSync(profile, { recursive: true });
   writeFileSync(path.join(profile, 'package.json'), '{}\n');
   return home;
@@ -70,7 +70,7 @@ describe('DeepSeek Harness Windows carrier', () => {
       expect(detected.available).toBe(true);
       expect(detected.version).toBe('0.1.0-rc.6');
       expect(getDetectedRuntimeVersions('deepseek-harness')).toMatchObject({
-        runtimeCompanionName: '@open-design/dsh-runtime',
+        runtimeCompanionName: '@sankiwork/dsh-runtime',
         runtimeCompanionVersion: 'fixture-1',
       });
     } finally {
@@ -85,7 +85,7 @@ describe('DeepSeek Harness Windows carrier', () => {
       const detected = await detectAgent(deepseekHarnessAgentDef, {
         DSH_BIN: carrier,
         DSH_HOME: createProfileHome(dir),
-        OD_DSH_FAKE_MODE: 'bad-identity',
+        SW_DSH_FAKE_MODE: 'bad-identity',
       });
       expect(detected.available).toBe(false);
       expect(detected.path).toBe(carrier);
@@ -157,15 +157,15 @@ describe('DeepSeek Harness Windows carrier', () => {
     const previous = {
       PATH: process.env.PATH,
       DSH_HOME: process.env.DSH_HOME,
-      OD_DSH_FAKE_MODE: process.env.OD_DSH_FAKE_MODE,
-      OD_DSH_FAKE_SESSION_ROOT: process.env.OD_DSH_FAKE_SESSION_ROOT,
+      SW_DSH_FAKE_MODE: process.env.SW_DSH_FAKE_MODE,
+      SW_DSH_FAKE_SESSION_ROOT: process.env.SW_DSH_FAKE_SESSION_ROOT,
     };
     try {
       writeFakeDshCarrier(dir);
       process.env.PATH = `${dir}${delimiter}${previous.PATH ?? ''}`;
       process.env.DSH_HOME = createProfileHome(dir);
-      process.env.OD_DSH_FAKE_MODE = 'missing-credential';
-      process.env.OD_DSH_FAKE_SESSION_ROOT = dir;
+      process.env.SW_DSH_FAKE_MODE = 'missing-credential';
+      process.env.SW_DSH_FAKE_SESSION_ROOT = dir;
 
       const result = await testAgentConnection({ agentId: 'deepseek-harness' });
 
@@ -192,10 +192,10 @@ describe('DeepSeek Harness Windows carrier', () => {
       let child: ReturnType<typeof spawn> | undefined;
       try {
         const carrier = writeFakeDshCarrier(dir);
-        const env = { ...process.env, OD_DSH_FAKE_SESSION_ROOT: dir };
+        const env = { ...process.env, SW_DSH_FAKE_SESSION_ROOT: dir };
         const invocation = createCommandInvocation({
           command: carrier,
-          args: ['--profile', 'open-design', '--stdio'],
+          args: ['--profile', 'sankiwork', '--stdio'],
           env,
         });
         child = spawn(invocation.command, invocation.args, {

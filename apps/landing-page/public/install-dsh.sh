@@ -9,7 +9,7 @@ NO_LAUNCH=0
 
 usage() {
   cat <<'EOF'
-Install the DeepSeek Harness toolchain supported by Open Design.
+Install the DeepSeek Harness toolchain supported by SankiWork.
 
 Usage:
   install-dsh.sh [--no-launch]
@@ -40,10 +40,10 @@ done
 
 [ -n "${HOME:-}" ] || fail 'HOME is not set.'
 
-INSTALL_ROOT=${OD_DSH_INSTALL_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}/open-design/toolchains/dsh}
-BIN_DIR=${OD_DSH_INSTALL_BIN_DIR:-$HOME/.local/bin}
+INSTALL_ROOT=${SW_DSH_INSTALL_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}/sankiwork/toolchains/dsh}
+BIN_DIR=${SW_DSH_INSTALL_BIN_DIR:-$HOME/.local/bin}
 LAUNCHER=$BIN_DIR/dsh
-DIST_BASE=${OD_DSH_INSTALL_DIST_BASE:-https://nodejs.org/dist/v$NODE_VERSION}
+DIST_BASE=${SW_DSH_INSTALL_DIST_BASE:-https://nodejs.org/dist/v$NODE_VERSION}
 NODE_TARGET_BASE=$INSTALL_ROOT/node-v$NODE_VERSION
 RUNTIME_TARGET=$INSTALL_ROOT/runtime-dsh-$DSH_VERSION
 
@@ -107,7 +107,7 @@ finish() {
   label=$1
   info "DeepSeek Harness $DSH_VERSION is ready ($label)."
   info "Command: $LAUNCHER"
-  info 'Open Design can discover this command without editing your shell profile.'
+  info 'SankiWork can discover this command without editing your shell profile.'
   if [ "$NO_LAUNCH" -eq 1 ]; then
     return 0
   fi
@@ -116,8 +116,8 @@ finish() {
 }
 
 managed_node_dir=''
-if [ -n "${OD_DSH_INSTALL_PLATFORM:-}" ]; then
-  platform=$OD_DSH_INSTALL_PLATFORM
+if [ -n "${SW_DSH_INSTALL_PLATFORM:-}" ]; then
+  platform=$SW_DSH_INSTALL_PLATFORM
 else
   os=$(uname -s 2>/dev/null || true)
   arch=$(uname -m 2>/dev/null || true)
@@ -222,7 +222,7 @@ fi
 
 runtime_staging=$INSTALL_ROOT/.runtime-dsh-$DSH_VERSION.$$
 mkdir -p "$runtime_staging"
-info "Installing dsh $DSH_VERSION and pnpm $PNPM_VERSION in Open Design's user toolchain..."
+info "Installing dsh $DSH_VERSION and pnpm $PNPM_VERSION in SankiWork's user toolchain..."
 PATH="$managed_node_dir/bin:${PATH:-}" "$managed_node_dir/bin/npm" install \
   --prefix "$runtime_staging" \
   --no-save \

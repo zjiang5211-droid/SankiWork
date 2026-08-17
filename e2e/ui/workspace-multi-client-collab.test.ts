@@ -43,10 +43,10 @@ const MEMBER = {
 };
 
 const ADAPTIVE_AUTHORITY_HEALTHY_SERIES =
-  'open_design_workspace_authority_decisions_total' +
+  'sankiwork_workspace_authority_decisions_total' +
   '{mode="adaptive",source="sse",reason="healthy",outcome="allow"}';
 const ADAPTIVE_AUTHORITY_UNHEALTHY_SERIES =
-  'open_design_workspace_authority_decisions_total' +
+  'sankiwork_workspace_authority_decisions_total' +
   '{mode="adaptive",source="sse",reason="unhealthy",outcome="fallback"}';
 
 test.describe.configure({ timeout: T.xlong * 5 });
@@ -65,11 +65,11 @@ test('[P0] strict SSE health suppresses authority reads and bounds event storms 
   });
   const velaBin = await hub.writeVelaBin(testInfo.outputPath('fake-vela-authority-cache'));
   const commonEnv = {
-    OD_COLLAB_TRANSPORT: 'vela-cli',
-    OD_RESOURCE_TRANSPORT: 'vela-cli',
-    OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-    OD_WORKSPACE_AUTHORITY_CACHE_MODE: 'adaptive',
-    OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+    SW_COLLAB_TRANSPORT: 'vela-cli',
+    SW_RESOURCE_TRANSPORT: 'vela-cli',
+    SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+    SW_WORKSPACE_AUTHORITY_CACHE_MODE: 'adaptive',
+    SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
     VELA_API_URL: hub.url,
     VELA_BIN: velaBin,
   };
@@ -340,10 +340,10 @@ test('[P0] two isolated clients converge live content, presence, and owner unsha
   });
   const velaBin = await hub.writeVelaBin(testInfo.outputPath('fake-vela-collab'));
   const commonEnv = {
-    OD_COLLAB_TRANSPORT: 'vela-cli',
-    OD_RESOURCE_TRANSPORT: 'vela-cli',
-    OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-    OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+    SW_COLLAB_TRANSPORT: 'vela-cli',
+    SW_RESOURCE_TRANSPORT: 'vela-cli',
+    SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+    SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
     VELA_API_URL: hub.url,
     VELA_BIN: velaBin,
   };
@@ -696,10 +696,10 @@ test('[P0] two active clients converge when a member gains then loses admin acce
   });
   const velaBin = await hub.writeVelaBin(testInfo.outputPath('fake-vela-role-change'));
   const commonEnv = {
-    OD_COLLAB_TRANSPORT: 'vela-cli',
-    OD_RESOURCE_TRANSPORT: 'vela-cli',
-    OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-    OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+    SW_COLLAB_TRANSPORT: 'vela-cli',
+    SW_RESOURCE_TRANSPORT: 'vela-cli',
+    SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+    SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
     VELA_API_URL: hub.url,
     VELA_BIN: velaBin,
   };
@@ -798,10 +798,10 @@ test('[P0] two isolated clients converge shared plugins and skills without scope
   });
   const velaBin = await hub.writeVelaBin(testInfo.outputPath('fake-vela-team-extensions'));
   const commonEnv = {
-    OD_COLLAB_TRANSPORT: 'vela-cli',
-    OD_RESOURCE_TRANSPORT: 'vela-cli',
-    OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-    OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+    SW_COLLAB_TRANSPORT: 'vela-cli',
+    SW_RESOURCE_TRANSPORT: 'vela-cli',
+    SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+    SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
     VELA_API_URL: hub.url,
     VELA_BIN: velaBin,
   };
@@ -844,7 +844,7 @@ test('[P0] two isolated clients converge shared plugins and skills without scope
       projectId,
       'plugin-source/open-design.json',
       JSON.stringify({
-        $schema: 'https://open-design.ai/schemas/plugin.v1.json',
+        $schema: 'https://sanki-ai.cloud/schemas/plugin.v1.json',
         name: pluginId,
         title: 'Realtime Shared Plugin',
         version: '0.1.0',
@@ -1061,7 +1061,7 @@ async function pinWorkspace(page: Page, workspaceMemberId: string): Promise<void
 async function openHome(page: Page): Promise<void> {
   await page.bringToFront();
   await page.goto('/', { waitUntil: 'domcontentloaded', timeout: T.xlong });
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, {
+  await expect(page.getByText('Loading SankiWork…')).toHaveCount(0, {
     timeout: T.xlong,
   });
   // Do not wait on the long-lived SSE response itself: Chromium may not emit
@@ -1069,7 +1069,7 @@ async function openHome(page: Page): Promise<void> {
   // convergence assertions below are the actual connection contract.
   const privacyDialog = page
     .getByRole('dialog')
-    .filter({ hasText: 'Help us improve Open Design' });
+    .filter({ hasText: 'Help us improve SankiWork' });
   if (await privacyDialog.isVisible().catch(() => false)) {
     await privacyDialog
       .getByRole('button', { name: /I get it|not now|got it|don't share/i })

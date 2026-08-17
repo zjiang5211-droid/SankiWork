@@ -7,7 +7,7 @@ import { runArtifactsCli } from '../src/artifacts-cli.js';
 
 const ORIGINAL_ENV = { ...process.env };
 
-describe('od artifacts CLI', () => {
+describe('sw artifacts CLI', () => {
   let stdoutWrite: { mockRestore: () => void };
   let stderrWrite: { mockRestore: () => void };
   let stdoutOutput: string[];

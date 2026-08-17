@@ -89,9 +89,9 @@ Expected setup:
 | AMR-037 | Session/set_model failure | Use a stub or environment that forces `session/set_model` error | Send a prompt | User-visible run failure occurs; no partial success |
 | AMR-038 | Session/prompt failure | Use a stub or environment that forces `session/prompt` error | Send a prompt | User-visible run failure occurs; run finalizes cleanly |
 | AMR-039 | Silent child timeout | Use a stub that accepts spawn but never responds | Send a prompt | Run fails by timeout instead of hanging indefinitely |
-| AMR-040 | Profile precedence | Set `OPEN_DESIGN_AMR_PROFILE=test` and `VELA_PROFILE=local` | Check status and login | AMR resolves `test`; lower-priority `VELA_PROFILE` does not win |
+| AMR-040 | Profile precedence | Set `SANKIWORK_AMR_PROFILE=test` and `VELA_PROFILE=local` | Check status and login | AMR resolves `test`; lower-priority `VELA_PROFILE` does not win |
 | AMR-041 | Profile isolation | Multiple profiles exist in `~/.vela/config.json` | Login, status, logout against one profile | Actions only affect resolved profile; unrelated profiles remain intact |
-| AMR-042 | Packaged env propagation | Packaged build with AMR profile configured | Launch packaged app and inspect daemon env behavior | `OPEN_DESIGN_AMR_PROFILE` is forwarded into daemon spawn env |
+| AMR-042 | Packaged env propagation | Packaged build with AMR profile configured | Launch packaged app and inspect daemon env behavior | `SANKIWORK_AMR_PROFILE` is forwarded into daemon spawn env |
 | AMR-043 | Vela bundling | Beta mac arm64 packaging path | Build package in strict mode | Vela binary is bundled into packaged resources; build fails clearly when required binary is unavailable |
 | AMR-044 | Non-strict packaging | Non-strict platform or build path | Build package without available Vela binary | Build does not fail solely due to missing Vela binary |
 
@@ -144,7 +144,7 @@ When filing bugs, capture:
 - current `agentCliEnv.amr` config
 - relevant daemon log lines
 - relevant desktop or renderer log lines
-- active `OPEN_DESIGN_AMR_PROFILE` value
+- active `SANKIWORK_AMR_PROFILE` value
 - whether fake or real `vela` was used
 
 ## Notes

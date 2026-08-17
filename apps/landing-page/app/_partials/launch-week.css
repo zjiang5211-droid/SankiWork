@@ -25,7 +25,7 @@
 }
 
 /* ============================================================
-   Open Design Launch Week — mockup v1
+   SankiWork Launch Week — mockup v1
    Direction C: pinned campaign cabin (left) + scrolling drops rail (right)
    Desktop-first. Assets referenced from ../assets/.
    ============================================================ */
@@ -39,7 +39,7 @@
   --olive: #6b6b1f;
 
   /* Four locked colour layers — never cross these:
-     acid  = Open Design / LIVE / CTA / selection / decisive action
+     acid  = SankiWork / LIVE / CTA / selection / decisive action
      red   = KILL, verdicts, danger
      ink   = CLASSIFIED, withheld
      day-* = chapter identity ONLY (paint strokes, day numeral, hairline rules).
@@ -146,7 +146,7 @@ html:has(main.lw) {
     var(--paper);
 }
 /* the hero reads as an artboard, not a sheet of paper: a drawing grid over the
-   washed paint (house move — open-design.ai builds its hero the same way) */
+   washed paint (house move — sanki-ai.cloud builds its hero the same way) */
 .lw .lw-wash {
   position: absolute;
   inset: 0;
@@ -304,7 +304,7 @@ html:has(main.lw) {
   clip-path: var(--torn-marker);
   transform: rotate(-.6deg);
 }
-/* selection marquee — Open Design's own canvas UI, borrowed as house furniture.
+/* selection marquee — SankiWork's own canvas UI, borrowed as house furniture.
    Also the layer that makes this read as a product page, not a printed poster. */
 .lw .hero-brand { position: relative; width: fit-content; max-width: 100%; margin: 0 auto;
 }
@@ -526,7 +526,7 @@ html:has(main.lw) {
 .lw .killticker { animation-delay: .5s;
 }
 }
-/* house entrance: blur-in, matching open-design.ai's .blur-word */
+/* house entrance: blur-in, matching sanki-ai.cloud's .blur-word */
 .lw @keyframes rise {.lw 0% { opacity: 0; filter: blur(10px); transform: translateY(-26px);
 }
 .lw 50% { opacity: .5; filter: blur(5px); transform: translateY(4px);
@@ -534,7 +534,7 @@ html:has(main.lw) {
 .lw 100% { opacity: 1; filter: blur(0); transform: translateY(0);
 }
 }
-/* the page sits inside the open-design.ai site header — no in-page nav bar */
+/* the page sits inside the sanki-ai.cloud site header — no in-page nav bar */
 .lw #drops, .lw #inside, .lw #open-call, .lw #community, .lw .drop[id] { scroll-margin-top: 24px;
 }
 /* ---------- dual rail ---------- */

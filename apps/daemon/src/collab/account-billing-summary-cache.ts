@@ -1,4 +1,4 @@
-import type { WorkspaceBillingSummary } from '@open-design/contracts';
+import type { WorkspaceBillingSummary } from '@sankiwork/contracts';
 import { createPartitionedRefreshCache } from '../services/partitioned-refresh-cache.js';
 
 export interface AccountBillingSummaryCacheOptions {

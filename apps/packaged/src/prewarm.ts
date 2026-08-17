@@ -283,7 +283,7 @@ export async function prewarmPackagedFiles(
     const { files: done, bytes } = await prewarmFiles(files);
     const durationMs = Date.now() - startedAt;
     options.log?.(
-      `[open-design packaged] prewarm complete files=${done}/${files.length} bytes=${bytes} durationMs=${durationMs}`,
+      `[sankiwork packaged] prewarm complete files=${done}/${files.length} bytes=${bytes} durationMs=${durationMs}`,
     );
     return { skipped: false, files: done, bytes, durationMs };
   } catch (error) {

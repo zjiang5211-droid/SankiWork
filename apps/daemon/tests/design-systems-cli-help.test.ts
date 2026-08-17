@@ -5,7 +5,7 @@ import {
   isDesignSystemsHelpArg,
 } from '../src/cli-help/index.js';
 
-describe('od design-systems help surface', () => {
+describe('sw design-systems help surface', () => {
   it('routes help, --help, and -h to the usage text', () => {
     expect(isDesignSystemsHelpArg('help')).toBe(true);
     expect(isDesignSystemsHelpArg('--help')).toBe(true);

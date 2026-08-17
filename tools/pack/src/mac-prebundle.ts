@@ -38,13 +38,13 @@ export const MAC_PREBUNDLE_COPIED_RUNTIME_DEPENDENCIES = {
 } as const;
 
 export const MAC_STANDALONE_PREBUNDLE_EXCLUDED_INTERNAL_PACKAGES = [
-  "@open-design/daemon",
-  "@open-design/desktop",
-  "@open-design/launcher-proto",
-  "@open-design/packaged",
-  "@open-design/sidecar",
-  "@open-design/sidecar-proto",
-  "@open-design/web",
+  "@sankiwork/daemon",
+  "@sankiwork/desktop",
+  "@sankiwork/launcher-proto",
+  "@sankiwork/packaged",
+  "@sankiwork/sidecar",
+  "@sankiwork/sidecar-proto",
+  "@sankiwork/web",
 ] as const;
 
 export const MAC_PREBUNDLE_POLICIES = {
@@ -52,7 +52,7 @@ export const MAC_PREBUNDLE_POLICIES = {
     externals: ["electron"],
     forbiddenInputs: [
       "/apps/web/",
-      "/node_modules/@open-design/web/",
+      "/node_modules/@sankiwork/web/",
       "/node_modules/next/",
       "/node_modules/openai/",
       "/node_modules/react/",
@@ -63,7 +63,7 @@ export const MAC_PREBUNDLE_POLICIES = {
   daemonCli: {
     externals: ["better-sqlite3", "blake3-wasm", "fsevents", "node-pty"],
     forbiddenInputs: [
-      "/node_modules/@open-design/daemon/",
+      "/node_modules/@sankiwork/daemon/",
       "/node_modules/better-sqlite3/",
       "/node_modules/blake3-wasm/",
       "/node_modules/electron/",
@@ -79,7 +79,7 @@ export const MAC_PREBUNDLE_POLICIES = {
   daemonSidecar: {
     externals: ["better-sqlite3", "blake3-wasm", "fsevents", "node-pty"],
     forbiddenInputs: [
-      "/node_modules/@open-design/daemon/",
+      "/node_modules/@sankiwork/daemon/",
       "/node_modules/better-sqlite3/",
       "/node_modules/blake3-wasm/",
       "/node_modules/electron/",
@@ -151,5 +151,5 @@ export async function assertMacPrebundleMetafile(options: {
 export function renderMacPackagedMainEntry(usePrebundle: boolean): string {
   return usePrebundle
     ? 'import("./prebundled/packaged-main.mjs").catch((error) => {\n  console.error("packaged entry failed", error);\n  process.exit(1);\n});\n'
-    : 'import("@open-design/packaged").catch((error) => {\n  console.error("packaged entry failed", error);\n  process.exit(1);\n});\n';
+    : 'import("@sankiwork/packaged").catch((error) => {\n  console.error("packaged entry failed", error);\n  process.exit(1);\n});\n';
 }

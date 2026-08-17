@@ -93,12 +93,12 @@ describe('/api/chat', () => {
   let baseUrl: string;
   let originalMemoryConfig: Awaited<ReturnType<typeof readMemoryConfig>> | null = null;
   const originalPath = process.env.PATH;
-  const originalAgentHome = process.env.OD_AGENT_HOME;
+  const originalAgentHome = process.env.SW_AGENT_HOME;
   const tempDirs: string[] = [];
 
   async function createPersonalWorkspaceBoundProjectFixture(label: string) {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for AMR Workspace scope tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for AMR Workspace scope tests');
     }
     const projectId = `proj-${randomUUID()}`;
     const workspaceId = `personal-ws-${randomUUID()}`;
@@ -110,7 +110,7 @@ describe('/api/chat', () => {
     });
     expect(createProjectResponse.ok).toBe(true);
 
-    const sqlite = new Database(resolve(process.env.OD_DATA_DIR, 'app.sqlite'));
+    const sqlite = new Database(resolve(process.env.SW_DATA_DIR, 'app.sqlite'));
     try {
       ensureWorkspaceProject(sqlite as never, {
         projectId,
@@ -167,9 +167,9 @@ describe('/api/chat', () => {
   }
 
   beforeAll(async () => {
-    if (process.env.OD_DATA_DIR) {
-      originalMemoryConfig = await readMemoryConfig(process.env.OD_DATA_DIR);
-      await writeMemoryConfig(process.env.OD_DATA_DIR, {
+    if (process.env.SW_DATA_DIR) {
+      originalMemoryConfig = await readMemoryConfig(process.env.SW_DATA_DIR);
+      await writeMemoryConfig(process.env.SW_DATA_DIR, {
         enabled: false,
         extraction: null,
       });
@@ -192,9 +192,9 @@ describe('/api/chat', () => {
       process.env.PATH = originalPath;
     }
     if (originalAgentHome == null) {
-      delete process.env.OD_AGENT_HOME;
+      delete process.env.SW_AGENT_HOME;
     } else {
-      process.env.OD_AGENT_HOME = originalAgentHome;
+      process.env.SW_AGENT_HOME = originalAgentHome;
     }
   });
 
@@ -205,8 +205,8 @@ describe('/api/chat', () => {
     if (server) {
       await new Promise<void>((resolve) => server.close(() => resolve()));
     }
-    if (process.env.OD_DATA_DIR && originalMemoryConfig) {
-      await writeMemoryConfig(process.env.OD_DATA_DIR, {
+    if (process.env.SW_DATA_DIR && originalMemoryConfig) {
+      await writeMemoryConfig(process.env.SW_DATA_DIR, {
         enabled: originalMemoryConfig.enabled,
         extraction: originalMemoryConfig.extraction,
       });
@@ -217,7 +217,7 @@ describe('/api/chat', () => {
     process.env.PATH = '';
     const emptyAgentHome = mkdtempSync(join(tmpdir(), 'od-empty-agent-home-'));
     tempDirs.push(emptyAgentHome);
-    process.env.OD_AGENT_HOME = emptyAgentHome;
+    process.env.SW_AGENT_HOME = emptyAgentHome;
 
     const response = await fetch(`${baseUrl}/api/chat`, {
       method: 'POST',
@@ -378,8 +378,8 @@ process.exit(0);
   });
 
   it('passes OPENCODE_CONFIG_CONTENT external_directory rules for the managed project cwd', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for OpenCode cwd permission tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for OpenCode cwd permission tests');
     }
 
     const projectId = `proj-${randomUUID()}`;
@@ -449,8 +449,8 @@ process.stdin.on('end', () => {
   });
 
   it('passes BYOK provider config to the daemon-backed OpenCode runtime', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for BYOK OpenCode config tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for BYOK OpenCode config tests');
     }
 
     const projectId = `proj-${randomUUID()}`;
@@ -474,7 +474,7 @@ const fs = require('node:fs');
 process.stdin.resume();
 process.stdin.on('end', () => {
   fs.writeFileSync(${JSON.stringify(envFile)}, process.env.OPENCODE_CONFIG_CONTENT || '');
-  fs.writeFileSync(${JSON.stringify(keyFile)}, process.env.OPEN_DESIGN_BYOK_API_KEY || '');
+  fs.writeFileSync(${JSON.stringify(keyFile)}, process.env.SANKIWORK_BYOK_API_KEY || '');
   fs.writeFileSync(${JSON.stringify(argsFile)}, JSON.stringify(process.argv.slice(2)));
   console.log(JSON.stringify({ type: 'step_start' }));
   console.log(JSON.stringify({ type: 'text', part: { text: 'byok-opencode-ok' } }));
@@ -512,7 +512,7 @@ process.stdin.on('end', () => {
           '--dir',
           expect.stringContaining(projectId),
           '-m',
-          'open-design-byok/deepseek-v4-flash',
+          'sankiwork-byok/deepseek-v4-flash',
         ]);
         const parsed = JSON.parse(await fsp.readFile(envFile, 'utf8')) as {
           provider?: Record<string, {
@@ -521,12 +521,12 @@ process.stdin.on('end', () => {
             models?: Record<string, unknown>;
           }>;
         };
-        const provider = parsed.provider?.['open-design-byok'];
+        const provider = parsed.provider?.['sankiwork-byok'];
         expect(provider).toMatchObject({
           npm: '@ai-sdk/openai-compatible',
           options: {
             baseURL: 'https://api.senseaudio.cn',
-            apiKey: '{env:OPEN_DESIGN_BYOK_API_KEY}',
+            apiKey: '{env:SANKIWORK_BYOK_API_KEY}',
           },
         });
         expect(provider?.models?.['deepseek-v4-flash']).toEqual({
@@ -542,8 +542,8 @@ process.stdin.on('end', () => {
   });
 
   it('passes keyless BYOK provider config without auth fields to OpenCode', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for BYOK OpenCode config tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for BYOK OpenCode config tests');
     }
 
     const projectId = `proj-${randomUUID()}`;
@@ -567,7 +567,7 @@ const fs = require('node:fs');
 process.stdin.resume();
 process.stdin.on('end', () => {
   fs.writeFileSync(${JSON.stringify(envFile)}, process.env.OPENCODE_CONFIG_CONTENT || '');
-  fs.writeFileSync(${JSON.stringify(keyFile)}, process.env.OPEN_DESIGN_BYOK_API_KEY || '');
+  fs.writeFileSync(${JSON.stringify(keyFile)}, process.env.SANKIWORK_BYOK_API_KEY || '');
   fs.writeFileSync(${JSON.stringify(argsFile)}, JSON.stringify(process.argv.slice(2)));
   console.log(JSON.stringify({ type: 'step_start' }));
   console.log(JSON.stringify({ type: 'text', part: { text: 'byok-opencode-keyless-ok' } }));
@@ -606,7 +606,7 @@ process.stdin.on('end', () => {
           '--dir',
           expect.stringContaining(projectId),
           '-m',
-          'open-design-byok/model',
+          'sankiwork-byok/model',
         ]);
         const rawConfig = await fsp.readFile(envFile, 'utf8');
         const parsed = JSON.parse(rawConfig) as {
@@ -616,7 +616,7 @@ process.stdin.on('end', () => {
             models?: Record<string, unknown>;
           }>;
         };
-        const provider = parsed.provider?.['open-design-byok'];
+        const provider = parsed.provider?.['sankiwork-byok'];
         expect(provider).toMatchObject({
           npm: '@ai-sdk/openai-compatible',
           options: {
@@ -624,14 +624,14 @@ process.stdin.on('end', () => {
           },
         });
         expect(provider?.options).not.toHaveProperty('apiKey');
-        expect(rawConfig).not.toContain('OPEN_DESIGN_BYOK_API_KEY');
+        expect(rawConfig).not.toContain('SANKIWORK_BYOK_API_KEY');
       },
     );
   });
 
   it('does not pass BYOK provider config to other local runtimes', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for BYOK OpenCode config tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for BYOK OpenCode config tests');
     }
 
     const projectId = `proj-${randomUUID()}`;
@@ -654,7 +654,7 @@ const fs = require('node:fs');
 process.stdin.resume();
 process.stdin.on('end', () => {
   fs.writeFileSync(${JSON.stringify(envFile)}, process.env.OPENCODE_CONFIG_CONTENT || '');
-  fs.writeFileSync(${JSON.stringify(keyFile)}, process.env.OPEN_DESIGN_BYOK_API_KEY || '');
+  fs.writeFileSync(${JSON.stringify(keyFile)}, process.env.SANKIWORK_BYOK_API_KEY || '');
   console.log(JSON.stringify({ type: 'step_start' }));
   console.log(JSON.stringify({ type: 'text', part: { text: 'opencode-ok' } }));
   console.log(JSON.stringify({ type: 'step_finish', part: { tokens: { input: 1, output: 1 } } }));
@@ -683,7 +683,7 @@ process.stdin.on('end', () => {
         expect(body).toContain('opencode-ok');
         expect(await fsp.readFile(keyFile, 'utf8')).toBe('');
         const rawConfig = await fsp.readFile(envFile, 'utf8');
-        expect(rawConfig).not.toContain('open-design-byok');
+        expect(rawConfig).not.toContain('sankiwork-byok');
         expect(rawConfig).not.toContain('sk-test-byok');
       },
     );
@@ -738,8 +738,8 @@ process.stdin.on('end', () => {
 
 
   it('reuses an existing assistant message row instead of creating a duplicate when assistantMessageId is supplied', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for assistant message reuse tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for assistant message reuse tests');
     }
     const projectId = `proj-${randomUUID()}`;
     const assistantMessageId = `assistant-${randomUUID()}`;
@@ -759,7 +759,7 @@ process.stdin.on('end', () => {
     const conversationId = conversationsBody.conversations[0]?.id;
     expect(conversationId).toBeTruthy();
 
-    const dbFile = resolve(process.env.OD_DATA_DIR, 'app.sqlite');
+    const dbFile = resolve(process.env.SW_DATA_DIR, 'app.sqlite');
     const sqlite = new Database(dbFile);
     try {
       upsertMessage(sqlite as never, conversationId!, {
@@ -818,8 +818,8 @@ process.stdin.on('end', () => {
   });
 
   it('does not leave a pinned assistant message queued when legacy chat fails before spawning', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for assistant message pin tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for assistant message pin tests');
     }
     const projectId = `proj-${randomUUID()}`;
     const assistantMessageId = `assistant-failed-${randomUUID()}`;
@@ -854,7 +854,7 @@ process.stdin.on('end', () => {
     expect(response.ok).toBe(true);
     expect(body).toContain('unknown agent');
 
-    const dbFile = resolve(process.env.OD_DATA_DIR, 'app.sqlite');
+    const dbFile = resolve(process.env.SW_DATA_DIR, 'app.sqlite');
     let lastStatus: string | null = null;
     for (let attempt = 0; attempt < 100; attempt += 1) {
       const sqlite = new Database(dbFile, { readonly: true });
@@ -916,7 +916,7 @@ process.exit(1);
     try {
       // Unique key so the shared model cache key is unique per test run.
       process.env.VELA_RUNTIME_KEY = `fake-runtime-key-${randomUUID()}`;
-      process.env.VELA_LINK_URL = 'https://amr-link.open-design.ai/v1';
+      process.env.VELA_LINK_URL = 'https://amr-link.sanki-ai.cloud/v1';
       const workspaceFixture =
         await createPersonalWorkspaceBoundProjectFixture('Transient AMR catalog fixture');
 
@@ -935,7 +935,7 @@ if (args[0] === 'model' && args[1] === 'list') {
   state.attempts += 1;
   writeFileSync(stateFile, JSON.stringify(state), 'utf8');
   if (state.attempts < 3) {
-    process.stderr.write('Get "https://amr-link.open-design.ai/v1/models": context deadline exceeded\\n');
+    process.stderr.write('Get "https://amr-link.sanki-ai.cloud/v1/models": context deadline exceeded\\n');
     process.exit(1);
   }
 }
@@ -1006,7 +1006,7 @@ child.on('exit', (code, signal) => {
       // shared model cache key unique so this case never reuses another test's
       // cached remote catalog.
       process.env.VELA_RUNTIME_KEY = `fake-runtime-key-${randomUUID()}`;
-      process.env.VELA_LINK_URL = 'https://amr-link.open-design.ai/v1';
+      process.env.VELA_LINK_URL = 'https://amr-link.sanki-ai.cloud/v1';
       const workspaceFixture =
         await createPersonalWorkspaceBoundProjectFixture('Cached AMR catalog fixture');
 
@@ -1021,7 +1021,7 @@ const args = process.argv.slice(2);
 // \`login\`, and \`agent run\` still delegate to the fixture, mirroring the real
 // CLI where the offline preset and the ACP run do not need the gateway.
 if (args[0] === 'model' && args[1] === 'list') {
-  process.stderr.write('Get "https://amr-link.open-design.ai/v1/models": context deadline exceeded\\n');
+  process.stderr.write('Get "https://amr-link.sanki-ai.cloud/v1/models": context deadline exceeded\\n');
   process.exit(1);
 }
 const child = spawn(process.execPath, [fixture, ...args], {
@@ -1072,13 +1072,13 @@ child.on('exit', (code, signal) => {
   });
 
   it('keeps service tier overrides when /api/runs omits model but settings has one', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for service tier settings tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for service tier settings tests');
     }
     const argsPath = join(tmpdir(), `od-codex-args-${randomUUID()}.json`);
-    const previousConfig = await readAppConfig(process.env.OD_DATA_DIR);
+    const previousConfig = await readAppConfig(process.env.SW_DATA_DIR);
     try {
-      await writeAppConfig(process.env.OD_DATA_DIR, {
+      await writeAppConfig(process.env.SW_DATA_DIR, {
         agentModels: { codex: { model: 'gpt-5.5' } },
       });
       await withFakeAgent(
@@ -1120,20 +1120,20 @@ process.exit(0);
       );
     } finally {
       rmSync(argsPath, { force: true });
-      await writeAppConfig(process.env.OD_DATA_DIR, {
+      await writeAppConfig(process.env.SW_DATA_DIR, {
         agentModels: previousConfig.agentModels ?? null,
       });
     }
   });
 
   it('keeps service tier overrides when /api/runs omits model and settings has none', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for service tier settings tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for service tier settings tests');
     }
     const argsPath = join(tmpdir(), `od-codex-args-${randomUUID()}.json`);
-    const previousConfig = await readAppConfig(process.env.OD_DATA_DIR);
+    const previousConfig = await readAppConfig(process.env.SW_DATA_DIR);
     try {
-      await writeAppConfig(process.env.OD_DATA_DIR, { agentModels: null });
+      await writeAppConfig(process.env.SW_DATA_DIR, { agentModels: null });
       await withFakeAgent(
         'codex',
         `
@@ -1174,7 +1174,7 @@ process.exit(0);
       );
     } finally {
       rmSync(argsPath, { force: true });
-      await writeAppConfig(process.env.OD_DATA_DIR, {
+      await writeAppConfig(process.env.SW_DATA_DIR, {
         agentModels: previousConfig.agentModels ?? null,
       });
     }
@@ -1214,7 +1214,7 @@ process.stdin.on('end', () => {
   fs.writeFileSync(path.join(pluginDir, 'open-design.json'), JSON.stringify({ name: 'generated-plugin' }, null, 2));
   fs.writeFileSync(path.join(pluginDir, 'SKILL.md'), '# Generated plugin\\n');
   console.log(JSON.stringify({ type: 'step_start' }));
-  console.log(JSON.stringify({ type: 'text', part: { text: '我来帮你创建一个通用的 Open Design 插件脚手架。先读取文档规范，再生成插件文件。' } }));
+  console.log(JSON.stringify({ type: 'text', part: { text: '我来帮你创建一个通用的 SankiWork 插件脚手架。先读取文档规范，再生成插件文件。' } }));
   console.log(JSON.stringify({ type: 'step_finish', part: { tokens: { input: 1, output: 1 } } }));
   process.exit(0);
 });
@@ -1228,7 +1228,7 @@ process.stdin.on('end', () => {
             projectId,
             conversationId,
             pluginId: 'od-plugin-authoring',
-            message: '请创建一个可刷新、可审计、由 API 驱动的 Open Design 插件脚手架。',
+            message: '请创建一个可刷新、可审计、由 API 驱动的 SankiWork 插件脚手架。',
           }),
         });
         expect(createResponse.status).toBe(202);
@@ -1278,7 +1278,7 @@ process.stdin.on('end', () => {
 process.stdin.resume();
 process.stdin.on('end', () => {
   console.log(JSON.stringify({ type: 'step_start' }));
-  console.log(JSON.stringify({ type: 'text', part: { text: '我来帮你创建一个通用的 Open Design 插件脚手架。先读取文档规范，再生成插件文件。' } }));
+  console.log(JSON.stringify({ type: 'text', part: { text: '我来帮你创建一个通用的 SankiWork 插件脚手架。先读取文档规范，再生成插件文件。' } }));
   console.log(JSON.stringify({ type: 'step_finish', part: { tokens: { input: 1, output: 1 } } }));
   process.exit(0);
 });
@@ -1292,7 +1292,7 @@ process.stdin.on('end', () => {
             projectId,
             conversationId,
             pluginId: 'od-plugin-authoring',
-            message: '请创建一个可刷新、可审计、由 API 驱动的 Open Design 插件脚手架。',
+            message: '请创建一个可刷新、可审计、由 API 驱动的 SankiWork 插件脚手架。',
           }),
         });
         expect(createResponse.status).toBe(202);
@@ -1666,7 +1666,7 @@ process.stdin.on('end', () => {
 
   it('stages ad-hoc skill side files into the project cwd', async () => {
     const projectId = `project-${randomUUID()}`;
-    const stagedRelativePath = `.od-skills/${skillCwdAliasSegment(resolve(process.cwd(), '..', '..', 'skills', 'release-notes-one-pager'))}/references/checklist.md`;
+    const stagedRelativePath = `.sankiwork-skills/${skillCwdAliasSegment(resolve(process.cwd(), '..', '..', 'skills', 'release-notes-one-pager'))}/references/checklist.md`;
     const expectedChecklist = await fsp.readFile(
       resolve(process.cwd(), '..', '..', 'skills', 'release-notes-one-pager', 'references', 'checklist.md'),
       'utf8',
@@ -1732,8 +1732,8 @@ process.stdin.on('end', () => {
   it('stages side files for every composed skill into the project cwd', async () => {
     const projectId = `project-${randomUUID()}`;
     const stagedPaths = [
-      `.od-skills/${skillCwdAliasSegment(resolve(process.cwd(), '..', '..', 'skills', 'release-notes-one-pager'))}/references/checklist.md`,
-      `.od-skills/${skillCwdAliasSegment(resolve(process.cwd(), '..', '..', 'skills', 'swiss-creative-mode-template'))}/references/checklist.md`,
+      `.sankiwork-skills/${skillCwdAliasSegment(resolve(process.cwd(), '..', '..', 'skills', 'release-notes-one-pager'))}/references/checklist.md`,
+      `.sankiwork-skills/${skillCwdAliasSegment(resolve(process.cwd(), '..', '..', 'skills', 'swiss-creative-mode-template'))}/references/checklist.md`,
     ] as const;
     const expectedBodies = await Promise.all(
       [
@@ -1944,13 +1944,13 @@ process.stdin.on('end', () => {
   });
 
   it('propagates ad-hoc skill critique policy into the chat resolver', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for user skill critique-policy tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for user skill critique-policy tests');
     }
 
     const skillId = `critique-opt-out-${randomUUID()}`;
-    const skillDir = resolve(process.env.OD_DATA_DIR, 'skills', skillId);
-    const originalCritiqueEnabled = process.env.OD_CRITIQUE_ENABLED;
+    const skillDir = resolve(process.env.SW_DATA_DIR, 'skills', skillId);
+    const originalCritiqueEnabled = process.env.SW_CRITIQUE_ENABLED;
 
     await fsp.mkdir(skillDir, { recursive: true });
     await fsp.writeFile(
@@ -1970,7 +1970,7 @@ This skill should suppress critique when selected through skillIds.
       'utf8',
     );
 
-    process.env.OD_CRITIQUE_ENABLED = 'true';
+    process.env.SW_CRITIQUE_ENABLED = 'true';
 
     try {
       await withFakeAgent(
@@ -2014,9 +2014,9 @@ process.stdin.on('end', () => {
       );
     } finally {
       if (originalCritiqueEnabled == null) {
-        delete process.env.OD_CRITIQUE_ENABLED;
+        delete process.env.SW_CRITIQUE_ENABLED;
       } else {
-        process.env.OD_CRITIQUE_ENABLED = originalCritiqueEnabled;
+        process.env.SW_CRITIQUE_ENABLED = originalCritiqueEnabled;
       }
       await fsp.rm(skillDir, { recursive: true, force: true });
     }
@@ -2107,8 +2107,8 @@ process.stdin.on('end', () => {
   });
 
   it('stages colliding plugin and composed skill dirs under distinct aliases', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for colliding skill-dir staging tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for colliding skill-dir staging tests');
     }
 
     const pluginId = `plugin-collision-${randomUUID()}`;
@@ -2128,7 +2128,7 @@ process.stdin.on('end', () => {
     expect(installBody).toContain(`"id":"${pluginId}"`);
 
     const projectId = `project-${randomUUID()}`;
-    const userSkillDir = resolve(process.env.OD_DATA_DIR, 'skills', 'sample-plugin');
+    const userSkillDir = resolve(process.env.SW_DATA_DIR, 'skills', 'sample-plugin');
     const userChecklist = 'user-skill-checklist';
     const userAlias = skillCwdAliasSegment(userSkillDir);
 
@@ -2167,8 +2167,8 @@ process.stdin.on('end', () => {
         'opencode',
         `
 const fs = require('node:fs');
-const pluginSkill = fs.readFileSync(${JSON.stringify(`.od-skills/${pluginAlias}/SKILL.md`)}, 'utf8');
-const userChecklist = fs.readFileSync(${JSON.stringify(`.od-skills/${userAlias}/references/checklist.md`)}, 'utf8');
+const pluginSkill = fs.readFileSync(${JSON.stringify(`.sankiwork-skills/${pluginAlias}/SKILL.md`)}, 'utf8');
+const userChecklist = fs.readFileSync(${JSON.stringify(`.sankiwork-skills/${userAlias}/references/checklist.md`)}, 'utf8');
 if (!pluginSkill.includes('# Sample Plugin')) {
   console.error('plugin-skill-stage-missing');
   process.exit(1);
@@ -2239,7 +2239,7 @@ process.stdin.on('end', () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             agentId: 'opencode',
-            message: 'build the Open Design landing page',
+            message: 'build the SankiWork landing page',
             skillId: 'editorial-collage',
             skillIds: ['open-design-landing'],
           }),
@@ -2907,8 +2907,8 @@ process.exit(0);
   });
 
   it('fails stalled json-stream runs after the inactivity timeout elapses', async () => {
-    const previous = process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '500';
+    const previous = process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '500';
     try {
       await withFakeAgent(
         'opencode',
@@ -2947,16 +2947,16 @@ setInterval(() => {}, 1000);
       );
     } finally {
       if (previous == null) {
-        delete process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
+        delete process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
       } else {
-        process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = previous;
+        process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = previous;
       }
     }
   });
 
   it('keeps Claude stream runs alive while structured output is still flowing', async () => {
-    const previous = process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '3000';
+    const previous = process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '3000';
     try {
       await withFakeAgent(
         'claude',
@@ -2998,9 +2998,9 @@ const timer = setInterval(() => {
       );
     } finally {
       if (previous == null) {
-        delete process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
+        delete process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
       } else {
-        process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = previous;
+        process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = previous;
       }
     }
   });
@@ -3041,8 +3041,8 @@ process.exit(1);
   });
 
   it('caps oversized inactivity overrides so Node does not fire the timer immediately', async () => {
-    const previous = process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '10000000000';
+    const previous = process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '10000000000';
     try {
       await withFakeAgent(
         'opencode',
@@ -3070,16 +3070,16 @@ setTimeout(() => {
       );
     } finally {
       if (previous == null) {
-        delete process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
+        delete process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
       } else {
-        process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = previous;
+        process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = previous;
       }
     }
   });
 
   it('marks stalled runs failed even when the child ignores SIGTERM', async () => {
-    const previous = process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
-    process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '500';
+    const previous = process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
+    process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = '500';
     try {
       await withFakeAgent(
         'opencode',
@@ -3114,9 +3114,9 @@ setInterval(() => {}, 1000);
       );
     } finally {
       if (previous == null) {
-        delete process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
+        delete process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS;
       } else {
-        process.env.OD_CHAT_RUN_INACTIVITY_TIMEOUT_MS = previous;
+        process.env.SW_CHAT_RUN_INACTIVITY_TIMEOUT_MS = previous;
       }
     }
   });
@@ -3125,8 +3125,8 @@ setInterval(() => {}, 1000);
     const captureDir = mkdtempSync(join(tmpdir(), 'od-form-answer-prompt-'));
     tempDirs.push(captureDir);
     const capturePath = join(captureDir, 'prompt.txt');
-    const previousCapturePath = process.env.OD_CAPTURE_PROMPT_PATH;
-    process.env.OD_CAPTURE_PROMPT_PATH = capturePath;
+    const previousCapturePath = process.env.SW_CAPTURE_PROMPT_PATH;
+    process.env.SW_CAPTURE_PROMPT_PATH = capturePath;
     try {
       await withFakeAgent(
         'opencode',
@@ -3136,7 +3136,7 @@ let input = '';
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', (chunk) => { input += chunk; });
 process.stdin.on('end', () => {
-  fs.writeFileSync(process.env.OD_CAPTURE_PROMPT_PATH, input, 'utf8');
+  fs.writeFileSync(process.env.SW_CAPTURE_PROMPT_PATH, input, 'utf8');
   console.log(JSON.stringify({ type: 'text', part: { text: 'building now' } }));
 });
 `,
@@ -3191,9 +3191,9 @@ process.stdin.on('end', () => {
       );
     } finally {
       if (previousCapturePath == null) {
-        delete process.env.OD_CAPTURE_PROMPT_PATH;
+        delete process.env.SW_CAPTURE_PROMPT_PATH;
       } else {
-        process.env.OD_CAPTURE_PROMPT_PATH = previousCapturePath;
+        process.env.SW_CAPTURE_PROMPT_PATH = previousCapturePath;
       }
     }
   });
@@ -3206,8 +3206,8 @@ process.stdin.on('end', () => {
     // from the scanned text alone lets it flip OFF again and re-sends the
     // ~17K stable block in both directions.
     const MAYBE_DECK_HEADING = '## If this brief is a slide deck / keynote / presentation';
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for intent-signal latch tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for intent-signal latch tests');
     }
 
     const projectId = `proj-${randomUUID()}`;
@@ -3234,7 +3234,7 @@ process.stdin.on('end', () => {
 
     const captureDir = mkdtempSync(join(tmpdir(), 'od-intent-latch-'));
     tempDirs.push(captureDir);
-    const previousCapturePath = process.env.OD_CAPTURE_PROMPT_PATH;
+    const previousCapturePath = process.env.SW_CAPTURE_PROMPT_PATH;
     try {
       await withFakeAgent(
         'opencode',
@@ -3244,7 +3244,7 @@ let input = '';
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', (chunk) => { input += chunk; });
 process.stdin.on('end', () => {
-  fs.writeFileSync(process.env.OD_CAPTURE_PROMPT_PATH, input, 'utf8');
+  fs.writeFileSync(process.env.SW_CAPTURE_PROMPT_PATH, input, 'utf8');
   console.log(JSON.stringify({ type: 'text', part: { text: 'ok' } }));
   console.log(JSON.stringify({ type: 'step_finish', part: { tokens: { input: 1, output: 1 } } }));
 });
@@ -3254,7 +3254,7 @@ process.stdin.on('end', () => {
             turn: { message: string; currentPrompt: string },
             capturePath: string,
           ): Promise<string> => {
-            process.env.OD_CAPTURE_PROMPT_PATH = capturePath;
+            process.env.SW_CAPTURE_PROMPT_PATH = capturePath;
             const response = await fetch(`${baseUrl}/api/runs`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -3292,7 +3292,7 @@ process.stdin.on('end', () => {
           expect(turn2Prompt).toContain(MAYBE_DECK_HEADING);
 
           // The latch is persisted on the conversation row.
-          const dbFile = resolve(process.env.OD_DATA_DIR as string, 'app.sqlite');
+          const dbFile = resolve(process.env.SW_DATA_DIR as string, 'app.sqlite');
           const sqlite = new Database(dbFile, { readonly: true });
           try {
             const row = sqlite
@@ -3307,9 +3307,9 @@ process.stdin.on('end', () => {
       );
     } finally {
       if (previousCapturePath == null) {
-        delete process.env.OD_CAPTURE_PROMPT_PATH;
+        delete process.env.SW_CAPTURE_PROMPT_PATH;
       } else {
-        process.env.OD_CAPTURE_PROMPT_PATH = previousCapturePath;
+        process.env.SW_CAPTURE_PROMPT_PATH = previousCapturePath;
       }
     }
   });
@@ -3392,8 +3392,8 @@ process.stdin.on('end', () => {
   });
 
   it('does not compose another member Personal design system from a persisted project id', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for Workspace design-system prompt tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for Workspace design-system prompt tests');
     }
     const workspaceFixture =
       await createPersonalWorkspaceBoundProjectFixture('Foreign Personal DS prompt fixture');
@@ -3402,7 +3402,7 @@ process.stdin.on('end', () => {
     const dirId = `foreign-prompt-${randomUUID()}`;
     const designSystemId = `user:${dirId}`;
     const secretMarker = `FOREIGN_PERSONAL_DS_${randomUUID()}`;
-    const designSystemDir = resolve(process.env.OD_DATA_DIR, 'design-systems', dirId);
+    const designSystemDir = resolve(process.env.SW_DATA_DIR, 'design-systems', dirId);
     await fsp.mkdir(designSystemDir, { recursive: true });
     await fsp.writeFile(
       resolve(designSystemDir, 'DESIGN.md'),
@@ -3419,7 +3419,7 @@ process.stdin.on('end', () => {
       'utf8',
     );
 
-    const sqlite = new Database(resolve(process.env.OD_DATA_DIR, 'app.sqlite'));
+    const sqlite = new Database(resolve(process.env.SW_DATA_DIR, 'app.sqlite'));
     try {
       ensureWorkspaceResource(
         sqlite as never,
@@ -3482,8 +3482,8 @@ process.stdin.on('end', () => {
   });
 
   it('composes the project creator Personal design system', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for Workspace design-system prompt tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for Workspace design-system prompt tests');
     }
     const workspaceFixture =
       await createPersonalWorkspaceBoundProjectFixture('Own Personal DS prompt fixture');
@@ -3492,7 +3492,7 @@ process.stdin.on('end', () => {
     const dirId = `own-personal-prompt-${randomUUID()}`;
     const designSystemId = `user:${dirId}`;
     const personalMarker = `OWN_PERSONAL_DS_${randomUUID()}`;
-    const designSystemDir = resolve(process.env.OD_DATA_DIR, 'design-systems', dirId);
+    const designSystemDir = resolve(process.env.SW_DATA_DIR, 'design-systems', dirId);
     await fsp.mkdir(designSystemDir, { recursive: true });
     await fsp.writeFile(
       resolve(designSystemDir, 'DESIGN.md'),
@@ -3509,7 +3509,7 @@ process.stdin.on('end', () => {
       'utf8',
     );
 
-    const sqlite = new Database(resolve(process.env.OD_DATA_DIR, 'app.sqlite'));
+    const sqlite = new Database(resolve(process.env.SW_DATA_DIR, 'app.sqlite'));
     try {
       ensureWorkspaceResource(
         sqlite as never,
@@ -3572,8 +3572,8 @@ process.stdin.on('end', () => {
   });
 
   it('composes a Team design system without touching same-slug Personal or foreign projects', async () => {
-    if (!process.env.OD_DATA_DIR) {
-      throw new Error('OD_DATA_DIR is required for Workspace design-system prompt tests');
+    if (!process.env.SW_DATA_DIR) {
+      throw new Error('SW_DATA_DIR is required for Workspace design-system prompt tests');
     }
     const projectId = `proj-${randomUUID()}`;
     const workspaceId = `team-ws-${randomUUID()}`;
@@ -3600,7 +3600,7 @@ process.stdin.on('end', () => {
     const globalMarker = `GLOBAL_DS_${randomUUID()}`;
     const globalTokensMarker = `GLOBAL_TOKENS_${randomUUID()}`;
     const foreignProjectMarker = `FOREIGN_PROJECT_DS_${randomUUID()}`;
-    const designSystemsRoot = resolve(process.env.OD_DATA_DIR, 'design-systems');
+    const designSystemsRoot = resolve(process.env.SW_DATA_DIR, 'design-systems');
     const designSystemDir = resolve(
       teamResourceWorkspaceRoot(designSystemsRoot, workspaceId),
       dirId,
@@ -3649,7 +3649,7 @@ process.stdin.on('end', () => {
       'utf8',
     );
 
-    const projectsRoot = resolve(process.env.OD_DATA_DIR, 'projects');
+    const projectsRoot = resolve(process.env.SW_DATA_DIR, 'projects');
     await Promise.all([
       fsp.mkdir(resolve(projectsRoot, personalBackingProjectId), { recursive: true }),
       fsp.mkdir(resolve(projectsRoot, foreignProjectId), { recursive: true }),
@@ -3665,7 +3665,7 @@ process.stdin.on('end', () => {
       'utf8',
     );
 
-    const sqlite = new Database(resolve(process.env.OD_DATA_DIR, 'app.sqlite'));
+    const sqlite = new Database(resolve(process.env.SW_DATA_DIR, 'app.sqlite'));
     let personalBackingProjectBefore: ReturnType<typeof getProject>;
     let projectCountBefore = 0;
     try {
@@ -3752,7 +3752,7 @@ process.stdin.on('end', () => {
           const body = await response.text();
 
           const verificationDb = new Database(
-            resolve(process.env.OD_DATA_DIR as string, 'app.sqlite'),
+            resolve(process.env.SW_DATA_DIR as string, 'app.sqlite'),
           );
           try {
             expect.soft(
@@ -3855,8 +3855,8 @@ process.stdin.on('end', () => {
 
 describe('daemon run creation during shutdown', () => {
   it('rejects new run creation while shutdown cleanup is still in flight', async () => {
-    const previousGrace = process.env.OD_CHAT_RUN_SHUTDOWN_GRACE_MS;
-    process.env.OD_CHAT_RUN_SHUTDOWN_GRACE_MS = '100';
+    const previousGrace = process.env.SW_CHAT_RUN_SHUTDOWN_GRACE_MS;
+    process.env.SW_CHAT_RUN_SHUTDOWN_GRACE_MS = '100';
     const started = await startServer({ port: 0, returnServer: true }) as {
       url: string;
       server: http.Server;
@@ -3899,9 +3899,9 @@ setInterval(() => {}, 1000);
       );
     } finally {
       if (previousGrace == null) {
-        delete process.env.OD_CHAT_RUN_SHUTDOWN_GRACE_MS;
+        delete process.env.SW_CHAT_RUN_SHUTDOWN_GRACE_MS;
       } else {
-        process.env.OD_CHAT_RUN_SHUTDOWN_GRACE_MS = previousGrace;
+        process.env.SW_CHAT_RUN_SHUTDOWN_GRACE_MS = previousGrace;
       }
       await new Promise<void>((resolve) => started.server.close(() => resolve()));
     }

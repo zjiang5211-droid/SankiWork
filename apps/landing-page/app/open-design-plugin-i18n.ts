@@ -7,7 +7,7 @@
  * asset paths and numeric facts remain in the page component.
  */
 import type { LandingLocaleCode } from './i18n';
-import { OPEN_DESIGN_PLUGIN_TRANSLATIONS } from './open-design-plugin-locales';
+import { SANKIWORK_PLUGIN_TRANSLATIONS } from './open-design-plugin-locales';
 
 type StepCopy = {
   phase: string;
@@ -30,7 +30,7 @@ type FaqCopy = {
   a: string;
 };
 
-export type OpenDesignPluginCopy = {
+export type SankiWorkPluginCopy = {
   metadata: {
     title: string;
     description: string;
@@ -102,31 +102,31 @@ export type OpenDesignPluginCopy = {
   };
 };
 
-export const OPEN_DESIGN_PLUGIN_EN: OpenDesignPluginCopy = {
+export const SANKIWORK_PLUGIN_EN: SankiWorkPluginCopy = {
   metadata: {
-    title: 'Open Design for Codex/ChatGPT | Install the Open Design Cloud Plugin',
+    title: 'SankiWork for Codex/ChatGPT | Install the SankiWork Cloud Plugin',
     description:
-      'Install Open Design Cloud in Codex/ChatGPT and create websites, slides, prototypes and design systems from the same task.',
+      'Install SankiWork Cloud in Codex/ChatGPT and create websites, slides, prototypes and design systems from the same task.',
     keywords:
-      'Open Design Codex plugin, ChatGPT desktop plugin, Codex plugin install, Open Design Cloud, Codex design plugin, Codex MCP',
+      'SankiWork Codex plugin, ChatGPT desktop plugin, Codex plugin install, SankiWork Cloud, Codex design plugin, Codex MCP',
   },
   hero: {
-    title: 'Open Design plugin for Codex/ChatGPT',
+    title: 'SankiWork plugin for Codex/ChatGPT',
     leadBefore: 'Enter the instruction below into any task in your',
     chatgptLabel: 'ChatGPT desktop app',
-    installAria: 'Install Open Design Cloud in Codex/ChatGPT',
+    installAria: 'Install SankiWork Cloud in Codex/ChatGPT',
     copy: 'Copy',
     github: 'View installation guide on GitHub ↗',
   },
   demo: {
     title: 'Install once. Create from Codex/ChatGPT.',
     lead:
-      'See the complete Codex and Open Design workspace first, then follow the real install-to-result sequence.',
+      'See the complete Codex and SankiWork workspace first, then follow the real install-to-result sequence.',
     overviewAlt:
-      'A real Codex task using the Open Design plugin alongside the finished Goodfield cafe website',
+      'A real Codex task using the SankiWork plugin alongside the finished Goodfield cafe website',
     overviewLabel: 'Real Codex task',
     overviewCaption:
-      'The prompt, Open Design handoff, generated files and finished website stay visible in one workspace.',
+      'The prompt, SankiWork handoff, generated files and finished website stay visible in one workspace.',
     stepListAria: 'The five stages in the real Codex plugin run',
     installPhase: 'Install',
     installTitle: 'Ask Codex to install it',
@@ -138,23 +138,23 @@ export const OPEN_DESIGN_PLUGIN_EN: OpenDesignPluginCopy = {
         phase: 'Use',
         title: 'Start a fresh Codex task',
         body:
-          'After Codex finishes the installation, open the installed Open Design plugin in the new task and choose “Try now” to begin.',
-        alt: 'The real Open Design plugin detail screen in Codex with a Try now button',
+          'After Codex finishes the installation, open the installed SankiWork plugin in the new task and choose “Try now” to begin.',
+        alt: 'The real SankiWork plugin detail screen in Codex with a Try now button',
       },
       {
         phase: 'Create',
         title: 'Write the design brief',
         body:
-          'Mention Open Design, then describe the artifact, content, visual direction and responsive requirements.',
-        alt: 'A real Codex prompt asking Open Design to create a warm neighborhood cafe website',
+          'Mention SankiWork, then describe the artifact, content, visual direction and responsive requirements.',
+        alt: 'A real Codex prompt asking SankiWork to create a warm neighborhood cafe website',
       },
       {
         phase: 'Create',
         title: 'Follow the live handoff',
         body:
-          'Codex confirms the direction, creates the project and hands the work into Open Design while files appear live.',
+          'Codex confirms the direction, creates the project and hands the work into SankiWork while files appear live.',
         alt:
-          'A real Codex and Open Design workspace while the neighborhood cafe website is being generated',
+          'A real Codex and SankiWork workspace while the neighborhood cafe website is being generated',
       },
       {
         phase: 'Create',
@@ -162,24 +162,24 @@ export const OPEN_DESIGN_PLUGIN_EN: OpenDesignPluginCopy = {
         body:
           'The same task returns the responsive Goodfield café landing page, its generated images and editable files.',
         alt:
-          'The finished Goodfield neighborhood cafe landing page generated through the Open Design plugin in Codex',
+          'The finished Goodfield neighborhood cafe landing page generated through the SankiWork plugin in Codex',
       },
     ],
   },
   use: {
     title: 'Start with the exact prompt.',
     lead:
-      'Select Open Design from Codex’s plugin menu, describe the artifact and keep refining from the same task. Codex renders the plugin mention as an Open Design chip.',
+      'Select SankiWork from Codex’s plugin menu, describe the artifact and keep refining from the same task. Codex renders the plugin mention as an SankiWork chip.',
     promptLabel: 'Prompt used in the recorded Codex task',
     copyPrompt: 'Copy Codex prompt',
-    galleryAria: 'Examples created with Open Design',
+    galleryAria: 'Examples created with SankiWork',
     templates: [
       {
         alt: 'Oryzo product landing page with a tactile cutting mat and cork object',
         label: 'Product launch',
       },
       {
-        alt: 'Open Design Osaka event landing page with a typographic map',
+        alt: 'SankiWork Osaka event landing page with a typographic map',
         label: 'Event page',
       },
       {
@@ -187,11 +187,11 @@ export const OPEN_DESIGN_PLUGIN_EN: OpenDesignPluginCopy = {
         label: 'Editorial site',
       },
       {
-        alt: 'Open Design model timeline interface on a bright canvas',
+        alt: 'SankiWork model timeline interface on a bright canvas',
         label: 'Interactive story',
       },
     ],
-    promptListAria: 'Open Design Cloud prompt examples',
+    promptListAria: 'SankiWork Cloud prompt examples',
     prompts: [
       { title: 'Website' },
       { title: 'Slides' },
@@ -201,12 +201,12 @@ export const OPEN_DESIGN_PLUGIN_EN: OpenDesignPluginCopy = {
   },
   faq: {
     title: 'Questions before you install',
-    lead: 'Codex stays in control of the task. Open Design handles the visual workflow.',
+    lead: 'Codex stays in control of the task. SankiWork handles the visual workflow.',
     items: [
       {
         q: 'What does the plugin add to Codex?',
         a:
-          'It gives Codex an Open Design workflow for websites, slides, prototypes and design systems. The plugin connects to the local Open Design MCP for briefs, projects and artifact generation.',
+          'It gives Codex an SankiWork workflow for websites, slides, prototypes and design systems. The plugin connects to the local SankiWork MCP for briefs, projects and artifact generation.',
       },
       {
         q: 'Which Codex products are supported?',
@@ -216,27 +216,27 @@ export const OPEN_DESIGN_PLUGIN_EN: OpenDesignPluginCopy = {
       {
         q: 'What do I need before installing?',
         a:
-          'Use Codex CLI 0.144.6 or newer and Open Design 0.17.0 or newer. Install Open Design before registering its local MCP.',
+          'Use Codex CLI 0.144.6 or newer and SankiWork 0.17.0 or newer. Install SankiWork before registering its local MCP.',
       },
       {
         q: 'Why do I need a new Codex task?',
         a:
-          'Codex loads plugin and MCP capabilities when a task starts. A fresh task picks up the newly installed Open Design Cloud plugin.',
+          'Codex loads plugin and MCP capabilities when a task starts. A fresh task picks up the newly installed SankiWork Cloud plugin.',
       },
       {
-        q: 'Does the Open Design window need to stay open?',
+        q: 'Does the SankiWork window need to stay open?',
         a:
-          'No. The registered local MCP can start the signed Open Design runtime headlessly when it is needed.',
+          'No. The registered local MCP can start the signed SankiWork runtime headlessly when it is needed.',
       },
     ],
   },
   final: {
-    aria: 'Install Open Design Cloud in Codex/ChatGPT',
-    title: 'Bring Open Design into your next Codex/ChatGPT task.',
+    aria: 'Install SankiWork Cloud in Codex/ChatGPT',
+    title: 'Bring SankiWork into your next Codex/ChatGPT task.',
     bodyBeforeMention: 'Install the plugin, connect the local MCP and invoke',
     bodyAfterMention: '.',
     copy: 'Copy',
-    download: 'Download Open Design',
+    download: 'Download SankiWork',
     source: 'View source',
   },
   clipboard: {
@@ -245,12 +245,12 @@ export const OPEN_DESIGN_PLUGIN_EN: OpenDesignPluginCopy = {
     failed: 'Select and copy',
   },
   schema: {
-    pageName: 'Open Design Cloud Plugin for Codex/ChatGPT',
-    applicationName: 'Open Design Cloud Plugin for Codex/ChatGPT',
+    pageName: 'SankiWork Cloud Plugin for Codex/ChatGPT',
+    applicationName: 'SankiWork Cloud Plugin for Codex/ChatGPT',
   },
 };
 
-export function getOpenDesignPluginCopy(locale: LandingLocaleCode): OpenDesignPluginCopy {
-  if (locale === 'en') return OPEN_DESIGN_PLUGIN_EN;
-  return OPEN_DESIGN_PLUGIN_TRANSLATIONS[locale] ?? OPEN_DESIGN_PLUGIN_EN;
+export function getSankiWorkPluginCopy(locale: LandingLocaleCode): SankiWorkPluginCopy {
+  if (locale === 'en') return SANKIWORK_PLUGIN_EN;
+  return SANKIWORK_PLUGIN_TRANSLATIONS[locale] ?? SANKIWORK_PLUGIN_EN;
 }

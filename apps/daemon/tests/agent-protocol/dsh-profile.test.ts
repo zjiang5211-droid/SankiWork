@@ -26,7 +26,7 @@ const requiredCapabilities = {
 const readyFrame = {
   v: 1,
   type: 'ready',
-  runtime: 'open-design',
+  runtime: 'sankiwork',
   protocol_version: 1,
   plugin_version: 'fixture-1',
   capabilities: requiredCapabilities,
@@ -63,7 +63,7 @@ describe('DeepSeek Harness profile frame validation', () => {
   });
 
   test.each([
-    [{ ...readyFrame, runtime: 'other' }, 'runtime must equal open-design'],
+    [{ ...readyFrame, runtime: 'other' }, 'runtime must equal sankiwork'],
     [{ ...readyFrame, protocol_version: 2 }, 'protocol_version must equal 1'],
     [{ ...readyFrame, capabilities: { ...requiredCapabilities, session_resume: false } }, 'capabilities'],
     [{ v: 1, type: 'unknown' }, 'type is not supported'],
@@ -86,7 +86,7 @@ describe('DeepSeek Harness profile frame validation', () => {
     assert.deepEqual(parseDshProfileModelsOutput(JSON.stringify({
       v: 1,
       type: 'models',
-      runtime: 'open-design',
+      runtime: 'sankiwork',
       models: [{
         provider: 'deepseek-official',
         provider_name: 'DeepSeek',
@@ -114,7 +114,7 @@ describe('DeepSeek Harness profile frame validation', () => {
     assert.deepEqual(deepseekHarnessAgentDef.listModels?.parse(JSON.stringify({
       v: 1,
       type: 'models',
-      runtime: 'open-design',
+      runtime: 'sankiwork',
       models: [{
         provider: 'deepseek-official',
         provider_name: 'DeepSeek',
@@ -191,13 +191,13 @@ describe('fake DeepSeek Harness profile runtime', () => {
   test('probes, creates, then resumes the same persisted session in another process', async () => {
     const sessionRoot = mkdtempSync(path.join(tmpdir(), 'od-dsh-profile-'));
     try {
-      const probe = await runFake(['--profile', 'open-design', '--probe'], sessionRoot);
+      const probe = await runFake(['--profile', 'sankiwork', '--probe'], sessionRoot);
       assert.equal(probe.code, 0);
       const probeFrame = parseDshProfileRuntimeFrame(JSON.parse(probe.stdout.trim()) as unknown);
       assert.equal(probeFrame.type, 'probe');
 
       const first = await runFake(
-        ['--profile', 'open-design', '--stdio'],
+        ['--profile', 'sankiwork', '--stdio'],
         sessionRoot,
         executeCommand('run-1', 'bootstrap and create'),
       );
@@ -208,7 +208,7 @@ describe('fake DeepSeek Harness profile runtime', () => {
       assert.equal(firstFrames.at(-1)?.type, 'result');
 
       const second = await runFake(
-        ['--profile', 'open-design', '--stdio'],
+        ['--profile', 'sankiwork', '--stdio'],
         sessionRoot,
         executeCommand('run-2', 'latest turn only', firstSession.session_id),
       );
@@ -227,7 +227,7 @@ describe('fake DeepSeek Harness profile runtime', () => {
     const sessionRoot = mkdtempSync(path.join(tmpdir(), 'od-dsh-profile-'));
     try {
       const result = await runFake(
-        ['--profile', 'open-design', '--stdio'],
+        ['--profile', 'sankiwork', '--stdio'],
         sessionRoot,
         executeCommand('run-missing', 'latest only', 'missing-session'),
       );
@@ -244,7 +244,7 @@ describe('fake DeepSeek Harness profile runtime', () => {
     const sessionRoot = mkdtempSync(path.join(tmpdir(), 'od-dsh-profile-'));
     try {
       const result = await runFake(
-        ['--profile', 'open-design', '--stdio'],
+        ['--profile', 'sankiwork', '--stdio'],
         sessionRoot,
         [
           executeCommand('run-cancel', 'wait'),
@@ -518,8 +518,8 @@ async function runFake(
     cwd: path.resolve('.'),
     env: {
       ...process.env,
-      OD_DSH_FAKE_MODE: mode,
-      OD_DSH_FAKE_SESSION_ROOT: sessionRoot,
+      SW_DSH_FAKE_MODE: mode,
+      SW_DSH_FAKE_SESSION_ROOT: sessionRoot,
     },
     stdio: ['pipe', 'pipe', 'pipe'],
   });

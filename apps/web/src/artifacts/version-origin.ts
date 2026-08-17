@@ -1,9 +1,9 @@
-import type { ArtifactOrigin, ProjectFileVersion } from '@open-design/contracts';
-import type { ArtifactExportResultProps } from '@open-design/contracts/analytics';
+import type { ArtifactOrigin, ProjectFileVersion } from '@sankiwork/contracts';
+import type { ArtifactExportResultProps } from '@sankiwork/contracts/analytics';
 
 const CONTENT_DIGEST_RE = /^[a-f0-9]{64}$/u;
 const ORIGIN_ID_RE = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/u;
-const EXTERNAL_PLUGIN_IDS = new Set(['open-design']);
+const EXTERNAL_PLUGIN_IDS = new Set(['sankiwork']);
 
 export type ArtifactExportOriginProps = Pick<
   ArtifactExportResultProps,
@@ -22,7 +22,7 @@ function safeOriginId(value: unknown): value is string {
 
 function isValidArtifactOrigin(origin: ArtifactOrigin): boolean {
   if (
-    origin.entrySurface !== 'open_design_ui'
+    origin.entrySurface !== 'sankiwork_ui'
     && origin.entrySurface !== 'od_cli'
     && origin.entrySurface !== 'external_mcp'
     && origin.entrySurface !== 'unknown'
@@ -65,7 +65,7 @@ export async function artifactExportOriginProps(
   version: ProjectFileVersion | null | undefined,
 ): Promise<ArtifactExportOriginProps> {
   const unknownBase = {
-    entry_surface: 'open_design_ui' as const,
+    entry_surface: 'sankiwork_ui' as const,
     origin_entry_surface: 'unknown' as const,
   };
   if (!version) {
@@ -94,7 +94,7 @@ export async function artifactExportOriginProps(
     };
   }
   return {
-    entry_surface: 'open_design_ui',
+    entry_surface: 'sankiwork_ui',
     artifact_origin_status: version.origin.entrySurface === 'unknown' ? 'unknown' : 'matched',
     ...artifactVersion,
     origin_entry_surface: version.origin.entrySurface,

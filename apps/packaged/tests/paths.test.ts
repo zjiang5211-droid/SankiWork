@@ -21,11 +21,11 @@ function fakeConfig(): PackagedConfig {
     daemonCliEntry: null,
     daemonSidecarEntry: null,
     namespace: "release-stable-win",
-    namespaceBaseRoot: join("C:", "Users", "Fred", "AppData", "Roaming", "Open Design", "namespaces"),
+    namespaceBaseRoot: join("C:", "Users", "Fred", "AppData", "Roaming", "SankiWork", "namespaces"),
     nodeCommand: null,
     posthogHost: null,
     posthogKey: null,
-    resourceRoot: join("C:", "Program Files", "Open Design", "resources", "open-design"),
+    resourceRoot: join("C:", "Program Files", "SankiWork", "resources", "sankiwork"),
     telemetryRelayUrl: null,
     updateMetadataUrl: null,
     velaWebUrl: null,
@@ -63,9 +63,9 @@ describe("resolvePackagedNamespacePaths", () => {
       daemonCliEntry: null,
       daemonSidecarEntry: null,
       namespace: "release",
-      namespaceBaseRoot: "/tmp/open-design-packaged/namespaces",
+      namespaceBaseRoot: "/tmp/sankiwork-packaged/namespaces",
       nodeCommand: null,
-      resourceRoot: "/tmp/open-design-packaged/resources",
+      resourceRoot: "/tmp/sankiwork-packaged/resources",
       telemetryRelayUrl: null,
       updateMetadataUrl: null,
       posthogKey: null,
@@ -87,23 +87,23 @@ describe("resolvePackagedNamespacePaths", () => {
     );
   });
 
-  it("uses OD_DATA_DIR as a base for the namespace-scoped packaged daemon dataRoot", () => {
+  it("uses SW_DATA_DIR as a base for the namespace-scoped packaged daemon dataRoot", () => {
     const config = fakeConfig();
-    const override = join("C:", "Users", "Fred", "MyProject", "design", ".od");
+    const override = join("C:", "Users", "Fred", "MyProject", "design", ".sankiwork");
 
     expect(
-      resolvePackagedNamespacePaths(config, config.namespace, { OD_DATA_DIR: override }).dataRoot,
+      resolvePackagedNamespacePaths(config, config.namespace, { SW_DATA_DIR: override }).dataRoot,
     ).toBe(join(override, "namespaces", config.namespace, "data"));
   });
 
-  it("keeps shared OD_DATA_DIR overrides isolated across packaged namespaces", () => {
+  it("keeps shared SW_DATA_DIR overrides isolated across packaged namespaces", () => {
     const config = fakeConfig();
-    const override = join("C:", "Users", "Fred", "MyProject", "design", ".od");
+    const override = join("C:", "Users", "Fred", "MyProject", "design", ".sankiwork");
     const stable = resolvePackagedNamespacePaths(config, "release-stable-win", {
-      OD_DATA_DIR: override,
+      SW_DATA_DIR: override,
     });
     const beta = resolvePackagedNamespacePaths(config, "release-beta-win", {
-      OD_DATA_DIR: override,
+      SW_DATA_DIR: override,
     });
 
     expect(stable.dataRoot).toBe(join(override, "namespaces", "release-stable-win", "data"));
@@ -111,7 +111,7 @@ describe("resolvePackagedNamespacePaths", () => {
     expect(stable.dataRoot).not.toBe(beta.dataRoot);
   });
 
-  it("preserves already-scoped packaged OD_DATA_DIR values as the final daemon dataRoot", () => {
+  it("preserves already-scoped packaged SW_DATA_DIR values as the final daemon dataRoot", () => {
     const config = fakeConfig();
     const override = join(
       "C:",
@@ -119,18 +119,18 @@ describe("resolvePackagedNamespacePaths", () => {
       "Fred",
       "AppData",
       "Roaming",
-      "Open Design",
+      "SankiWork",
       "namespaces",
       config.namespace,
       "data",
     );
 
     expect(
-      resolvePackagedNamespacePaths(config, config.namespace, { OD_DATA_DIR: override }).dataRoot,
+      resolvePackagedNamespacePaths(config, config.namespace, { SW_DATA_DIR: override }).dataRoot,
     ).toBe(override);
   });
 
-  it("rejects already-scoped OD_DATA_DIR values that point at a different packaged namespace", () => {
+  it("rejects already-scoped SW_DATA_DIR values that point at a different packaged namespace", () => {
     const config = fakeConfig();
     const override = join(
       "C:",
@@ -138,7 +138,7 @@ describe("resolvePackagedNamespacePaths", () => {
       "Fred",
       "AppData",
       "Roaming",
-      "Open Design",
+      "SankiWork",
       "namespaces",
       "release-beta-win",
       "data",
@@ -147,16 +147,16 @@ describe("resolvePackagedNamespacePaths", () => {
     expect(
       () =>
         resolvePackagedNamespacePaths(config, config.namespace, {
-          OD_DATA_DIR: override,
+          SW_DATA_DIR: override,
         }),
     ).toThrow(PackagedPathAccessError);
   });
 
-  it("forwards the OD_DATA_DIR-resolved dataRoot into sidecar launch paths", () => {
+  it("forwards the SW_DATA_DIR-resolved dataRoot into sidecar launch paths", () => {
     const config = fakeConfig();
-    const override = join("C:", "Users", "Fred", "MyProject", "design", ".od");
+    const override = join("C:", "Users", "Fred", "MyProject", "design", ".sankiwork");
     const paths = resolvePackagedNamespacePaths(config, config.namespace, {
-      OD_DATA_DIR: override,
+      SW_DATA_DIR: override,
     });
 
     expect(paths.dataRoot).toBe(join(override, "namespaces", config.namespace, "data"));
@@ -164,59 +164,59 @@ describe("resolvePackagedNamespacePaths", () => {
     expect(paths.runtimeRoot).toBe(join(config.namespaceBaseRoot, config.namespace, "runtime"));
   });
 
-  it("does not read process.env implicitly so headless can keep namespace-root OD_DATA_DIR semantics", () => {
+  it("does not read process.env implicitly so headless can keep namespace-root SW_DATA_DIR semantics", () => {
     const config = fakeConfig();
-    const original = process.env.OD_DATA_DIR;
+    const original = process.env.SW_DATA_DIR;
     try {
-      process.env.OD_DATA_DIR = join("C:", "Users", "Fred", "MyProject", "design", ".od");
+      process.env.SW_DATA_DIR = join("C:", "Users", "Fred", "MyProject", "design", ".sankiwork");
       expect(resolvePackagedNamespacePaths(config).dataRoot).toBe(
         join(config.namespaceBaseRoot, config.namespace, "data"),
       );
     } finally {
-      if (original == null) delete process.env.OD_DATA_DIR;
-      else process.env.OD_DATA_DIR = original;
+      if (original == null) delete process.env.SW_DATA_DIR;
+      else process.env.SW_DATA_DIR = original;
     }
   });
 
-  it("rejects relative OD_DATA_DIR values instead of resolving them against cwd", () => {
+  it("rejects relative SW_DATA_DIR values instead of resolving them against cwd", () => {
     const config = fakeConfig();
 
     expect(
-      () => resolvePackagedNamespacePaths(config, config.namespace, { OD_DATA_DIR: "project/.od" }),
-    ).toThrow(/OD_DATA_DIR.*absolute path/);
+      () => resolvePackagedNamespacePaths(config, config.namespace, { SW_DATA_DIR: "project/.sankiwork" }),
+    ).toThrow(/SW_DATA_DIR.*absolute path/);
   });
 
-  it("surfaces the relative-OD_DATA_DIR rejection as PackagedPathAccessError so packaged main() can show a dialog", () => {
+  it("surfaces the relative-SW_DATA_DIR rejection as PackagedPathAccessError so packaged main() can show a dialog", () => {
     const config = fakeConfig();
 
     let captured: unknown;
     try {
-      resolvePackagedNamespacePaths(config, config.namespace, { OD_DATA_DIR: "project/.od" });
+      resolvePackagedNamespacePaths(config, config.namespace, { SW_DATA_DIR: "project/.sankiwork" });
     } catch (error) {
       captured = error;
     }
 
     expect(captured).toBeInstanceOf(PackagedPathAccessError);
     const err = captured as PackagedPathAccessError;
-    expect(err.title).toMatch(/OD_DATA_DIR/);
-    expect(err.message).toContain("project/.od");
+    expect(err.title).toMatch(/SW_DATA_DIR/);
+    expect(err.message).toContain("project/.sankiwork");
     expect(err.message).toMatch(/absolute path/);
   });
 
-  it("rejects Windows-style OD_DATA_DIR values on non-Windows hosts so the absolute-path guard is platform-correct", () => {
+  it("rejects Windows-style SW_DATA_DIR values on non-Windows hosts so the absolute-path guard is platform-correct", () => {
     const config = fakeConfig();
     const restore = stubPlatform("linux");
     try {
       expect(
         () =>
           resolvePackagedNamespacePaths(config, config.namespace, {
-            OD_DATA_DIR: "C:\\Users\\Fred\\OD",
+            SW_DATA_DIR: "C:\\Users\\Fred\\OD",
           }),
       ).toThrow(PackagedPathAccessError);
       expect(
         () =>
           resolvePackagedNamespacePaths(config, config.namespace, {
-            OD_DATA_DIR: "\\\\server\\share",
+            SW_DATA_DIR: "\\\\server\\share",
           }),
       ).toThrow(PackagedPathAccessError);
     } finally {

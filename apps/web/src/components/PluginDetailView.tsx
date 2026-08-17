@@ -8,11 +8,11 @@
 // a collapsed disclosure.
 
 import { useEffect, useState, type ReactNode } from 'react';
-import { Button } from '@open-design/components';
+import { Button } from '@sankiwork/components';
 import type {
   InstalledPluginRecord,
   PluginConnectorRef,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 import {
   applyPlugin,
   resolvedWorkspaceContextForWrite,
@@ -283,7 +283,7 @@ export function PluginDetailView(props: Props) {
   const sourceLinks = derivePluginSourceLinks(plugin);
   const official = isOfficialPlugin(plugin);
   const author = official
-    ? '@OpenDesign'
+    ? '@SankiWork'
     : (sourceLinks.authorName || sourceLinks.sourceLabel);
   const badge = official
     ? t('pluginDetail.officialBadge')

@@ -36,7 +36,7 @@ beforeAll(async () => {
   await writeFile(
     path.join(pluginRoot, 'open-design.json'),
     JSON.stringify({
-      $schema: 'https://open-design.ai/schemas/plugin.v1.json',
+      $schema: 'https://sanki-ai.cloud/schemas/plugin.v1.json',
       name: 'asset-plugin',
       title: 'Asset',
       version: '1.0.0',

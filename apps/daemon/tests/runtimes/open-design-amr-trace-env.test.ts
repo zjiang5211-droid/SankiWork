@@ -1,39 +1,39 @@
 import assert from 'node:assert/strict';
 import { test } from 'vitest';
 import {
-  openDesignAmrRunAttempt,
-  openDesignAmrTraceEnv,
+  sankiWorkAmrRunAttempt,
+  sankiWorkAmrTraceEnv,
 } from '../../src/runtimes/env.js';
 
-test('openDesignAmrRunAttempt counts automatic retries and manual recharge resumes', () => {
+test('sankiWorkAmrRunAttempt counts automatic retries and manual recharge resumes', () => {
   assert.equal(
-    openDesignAmrRunAttempt({
+    sankiWorkAmrRunAttempt({
       retryAttemptCount: 2,
       manualResumeAttemptCount: 1,
     }),
     3,
   );
   assert.equal(
-    openDesignAmrRunAttempt({
+    sankiWorkAmrRunAttempt({
       manualResumeAttemptCount: 1,
     }),
     1,
   );
 });
 
-test('openDesignAmrTraceEnv builds Open Design trace identity env for AMR only', () => {
-  const amrEnv = openDesignAmrTraceEnv({
+test('sankiWorkAmrTraceEnv builds SankiWork trace identity env for AMR only', () => {
+  const amrEnv = sankiWorkAmrTraceEnv({
     agentId: 'amr',
     runId: ' run_trace_123 ',
     runAttempt: 2,
     conversationId: ' conversation_trace_456 ',
   });
 
-  assert.equal(amrEnv.OPEN_DESIGN_RUN_ID, 'run_trace_123');
-  assert.equal(amrEnv.OPEN_DESIGN_RUN_ATTEMPT, '2');
-  assert.equal(amrEnv.OPEN_DESIGN_SESSION_ID, 'conversation_trace_456');
+  assert.equal(amrEnv.SANKIWORK_RUN_ID, 'run_trace_123');
+  assert.equal(amrEnv.SANKIWORK_RUN_ATTEMPT, '2');
+  assert.equal(amrEnv.SANKIWORK_SESSION_ID, 'conversation_trace_456');
 
-  const claudeEnv = openDesignAmrTraceEnv({
+  const claudeEnv = sankiWorkAmrTraceEnv({
     agentId: 'claude',
     runId: 'run_trace_123',
     runAttempt: 2,
@@ -43,83 +43,83 @@ test('openDesignAmrTraceEnv builds Open Design trace identity env for AMR only',
   assert.deepEqual(claudeEnv, {});
 });
 
-test('openDesignAmrTraceEnv omits optional AMR session trace env when no conversation exists', () => {
-  const env = openDesignAmrTraceEnv({
+test('sankiWorkAmrTraceEnv omits optional AMR session trace env when no conversation exists', () => {
+  const env = sankiWorkAmrTraceEnv({
     agentId: 'amr',
     runId: 'run_trace_no_session',
     runAttempt: 0,
   });
 
-  assert.equal(env.OPEN_DESIGN_RUN_ID, 'run_trace_no_session');
-  assert.equal(env.OPEN_DESIGN_RUN_ATTEMPT, '0');
-  assert.equal(env.OPEN_DESIGN_SESSION_ID, undefined);
+  assert.equal(env.SANKIWORK_RUN_ID, 'run_trace_no_session');
+  assert.equal(env.SANKIWORK_RUN_ATTEMPT, '0');
+  assert.equal(env.SANKIWORK_SESSION_ID, undefined);
 });
 
-test('openDesignAmrTraceEnv fails fast on invalid AMR trace inputs', () => {
+test('sankiWorkAmrTraceEnv fails fast on invalid AMR trace inputs', () => {
   assert.throws(
-    () => openDesignAmrTraceEnv({ agentId: 'amr', runId: ' ', runAttempt: 0 }),
-    /OPEN_DESIGN_RUN_ID/,
+    () => sankiWorkAmrTraceEnv({ agentId: 'amr', runId: ' ', runAttempt: 0 }),
+    /SANKIWORK_RUN_ID/,
   );
   assert.throws(
-    () => openDesignAmrTraceEnv({ agentId: 'amr', runId: 'run_trace', runAttempt: -1 }),
-    /OPEN_DESIGN_RUN_ATTEMPT/,
+    () => sankiWorkAmrTraceEnv({ agentId: 'amr', runId: 'run_trace', runAttempt: -1 }),
+    /SANKIWORK_RUN_ATTEMPT/,
   );
 });
 
 // Vela's workspace-credit isolation (spec: workspace-scoped wallet and
-// credit isolation) attributes an AMR spend by the OPEN_DESIGN_WORKSPACE_ID
+// credit isolation) attributes an AMR spend by the SANKIWORK_WORKSPACE_ID
 // env the daemon forwards to the vela CLI, which the CLI turns into
-// `X-Open-Design-Workspace-Id` + `x-vela-workspace-id` request headers.
-test('openDesignAmrTraceEnv forwards an exact persisted workspace id for AMR runs', () => {
-  const env = openDesignAmrTraceEnv({
+// `X-SankiWork-Workspace-Id` + `x-vela-workspace-id` request headers.
+test('sankiWorkAmrTraceEnv forwards an exact persisted workspace id for AMR runs', () => {
+  const env = sankiWorkAmrTraceEnv({
     agentId: 'amr',
     runId: 'run_trace_team',
     runAttempt: 0,
     workspaceId: ' workspace_team_123 ',
   });
 
-  assert.equal(env.OPEN_DESIGN_WORKSPACE_ID, 'workspace_team_123');
+  assert.equal(env.SANKIWORK_WORKSPACE_ID, 'workspace_team_123');
 });
 
-test('openDesignAmrTraceEnv forwards a persisted Personal workspace id too', () => {
-  const env = openDesignAmrTraceEnv({
+test('sankiWorkAmrTraceEnv forwards a persisted Personal workspace id too', () => {
+  const env = sankiWorkAmrTraceEnv({
     agentId: 'amr',
     runId: 'run_trace_personal',
     runAttempt: 0,
     workspaceId: ' workspace_personal_123 ',
   });
-  assert.equal(env.OPEN_DESIGN_WORKSPACE_ID, 'workspace_personal_123');
+  assert.equal(env.SANKIWORK_WORKSPACE_ID, 'workspace_personal_123');
 });
 
 // Null/undefined/blank means the caller found no persisted binding at all.
 // Only that genuinely unbound historical-project case omits the env var.
-test('openDesignAmrTraceEnv omits OPEN_DESIGN_WORKSPACE_ID only without a persisted binding', () => {
-  const withNull = openDesignAmrTraceEnv({
+test('sankiWorkAmrTraceEnv omits SANKIWORK_WORKSPACE_ID only without a persisted binding', () => {
+  const withNull = sankiWorkAmrTraceEnv({
     agentId: 'amr',
     runId: 'run_trace_unbound',
     runAttempt: 0,
     workspaceId: null,
   });
-  assert.equal('OPEN_DESIGN_WORKSPACE_ID' in withNull, false);
+  assert.equal('SANKIWORK_WORKSPACE_ID' in withNull, false);
 
-  const withUndefined = openDesignAmrTraceEnv({
+  const withUndefined = sankiWorkAmrTraceEnv({
     agentId: 'amr',
     runId: 'run_trace_unbound_2',
     runAttempt: 0,
   });
-  assert.equal('OPEN_DESIGN_WORKSPACE_ID' in withUndefined, false);
+  assert.equal('SANKIWORK_WORKSPACE_ID' in withUndefined, false);
 
-  const withBlank = openDesignAmrTraceEnv({
+  const withBlank = sankiWorkAmrTraceEnv({
     agentId: 'amr',
     runId: 'run_trace_unbound_3',
     runAttempt: 0,
     workspaceId: '   ',
   });
-  assert.equal('OPEN_DESIGN_WORKSPACE_ID' in withBlank, false);
+  assert.equal('SANKIWORK_WORKSPACE_ID' in withBlank, false);
 });
 
-test('openDesignAmrTraceEnv never forwards workspaceId for non-AMR agents', () => {
-  const env = openDesignAmrTraceEnv({
+test('sankiWorkAmrTraceEnv never forwards workspaceId for non-AMR agents', () => {
+  const env = sankiWorkAmrTraceEnv({
     agentId: 'claude',
     runId: 'run_trace_123',
     runAttempt: 0,
@@ -128,8 +128,8 @@ test('openDesignAmrTraceEnv never forwards workspaceId for non-AMR agents', () =
   assert.deepEqual(env, {});
 });
 
-test('openDesignAmrTraceEnv forwards only bounded plugin correlation to Vela', () => {
-  const env = openDesignAmrTraceEnv({
+test('sankiWorkAmrTraceEnv forwards only bounded plugin correlation to Vela', () => {
+  const env = sankiWorkAmrTraceEnv({
     agentId: 'amr',
     runId: 'run_trace_plugin',
     runAttempt: 0,
@@ -137,28 +137,28 @@ test('openDesignAmrTraceEnv forwards only bounded plugin correlation to Vela', (
       pluginWorkflowId: '018f6f2e-4444-7444-8444-444444444444',
       logicalRequestDigest: 'a'.repeat(64),
       logicalRequestDigestVersion: 1,
-      externalPluginId: 'open-design',
+      externalPluginId: 'sankiwork',
       externalPluginVersion: '0.4.0',
       distributionMechanism: 'git_marketplace',
-      publisherClass: 'open_design_first_party',
+      publisherClass: 'sankiwork_first_party',
       apiKey: 'must-not-forward',
       accountId: 'must-not-forward',
     },
   });
 
   assert.equal(
-    env.OPEN_DESIGN_PLUGIN_WORKFLOW_ID,
+    env.SANKIWORK_PLUGIN_WORKFLOW_ID,
     '018f6f2e-4444-7444-8444-444444444444',
   );
-  assert.equal(env.OPEN_DESIGN_LOGICAL_REQUEST_DIGEST, 'a'.repeat(64));
-  assert.equal(env.OPEN_DESIGN_LOGICAL_REQUEST_DIGEST_VERSION, '1');
-  assert.equal(env.OPEN_DESIGN_EXTERNAL_PLUGIN_ID, 'open-design');
-  assert.equal(env.OPEN_DESIGN_EXTERNAL_PLUGIN_VERSION, '0.4.0');
-  assert.equal(env.OPEN_DESIGN_DISTRIBUTION_MECHANISM, 'git_marketplace');
+  assert.equal(env.SANKIWORK_LOGICAL_REQUEST_DIGEST, 'a'.repeat(64));
+  assert.equal(env.SANKIWORK_LOGICAL_REQUEST_DIGEST_VERSION, '1');
+  assert.equal(env.SANKIWORK_EXTERNAL_PLUGIN_ID, 'sankiwork');
+  assert.equal(env.SANKIWORK_EXTERNAL_PLUGIN_VERSION, '0.4.0');
+  assert.equal(env.SANKIWORK_DISTRIBUTION_MECHANISM, 'git_marketplace');
   assert.equal(
-    env.OPEN_DESIGN_PUBLISHER_CLASS,
-    'open_design_first_party',
+    env.SANKIWORK_PUBLISHER_CLASS,
+    'sankiwork_first_party',
   );
-  assert.equal(env.OPEN_DESIGN_API_KEY, undefined);
-  assert.equal(env.OPEN_DESIGN_ACCOUNT_ID, undefined);
+  assert.equal(env.SANKIWORK_API_KEY, undefined);
+  assert.equal(env.SANKIWORK_ACCOUNT_ID, undefined);
 });

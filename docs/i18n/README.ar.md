@@ -1,21 +1,21 @@
 <div dir="rtl">
 
-<h1 align="center">Open Design: البديل مفتوح المصدر لـ Claude Design</h1>
+<h1 align="center">SankiWork: البديل مفتوح المصدر لـ Claude Design</h1>
 
-> ⚡ **[‏Open Design Cloud — خدمة النماذج الرسمية.](https://open-design.ai/zh/pricing/)** شحنة واحدة لاستخدام نماذج الوكلاء والصور داخل Open Design: ‏GPT وClaude وDeepSeek للوكلاء؛ وGPT Image 2.0 وSeedream 5.0 Pro وNano Banana 2.0 للصور.
+> ⚡ **[‏SankiWork Cloud — خدمة النماذج الرسمية.](https://sanki-ai.cloud/zh/pricing/)** شحنة واحدة لاستخدام نماذج الوكلاء والصور داخل SankiWork: ‏GPT وClaude وDeepSeek للوكلاء؛ وGPT Image 2.0 وSeedream 5.0 Pro وNano Banana 2.0 للصور.
 >
-> 🚀 **[أصبح DeepSeek V4 Flash وV4 Pro متاحين الآن.](https://open-design.ai/zh/pricing/)** استخدم ذكاءً من الطراز الأول للنماذج الأولية والعروض التقديمية وأنظمة التصميم ومهام الوكلاء اليومية. يمكن لأعضاء Open Design استخدام النموذجين بلا حدود لمدة أسبوعين مباشرة داخل التطبيق.
+> 🚀 **[أصبح DeepSeek V4 Flash وV4 Pro متاحين الآن.](https://sanki-ai.cloud/zh/pricing/)** استخدم ذكاءً من الطراز الأول للنماذج الأولية والعروض التقديمية وأنظمة التصميم ومهام الوكلاء اليومية. يمكن لأعضاء SankiWork استخدام النموذجين بلا حدود لمدة أسبوعين مباشرة داخل التطبيق.
 >
-> 🧩 **[أصبح DeepSeek Harness مدعومًا الآن.](https://open-design.ai/zh/agents/deepseek-harness-design/)** صِل Agent Harness الرسمي `dsh` من DeepSeek بـ Open Design كبيئة تشغيل أصلية، مع التفكير المنظم واستدعاءات الأدوات واكتشاف النماذج والإلغاء واستئناف الجلسات. تبقى الملفات الناتجة ضمن سير عمل Open Design للمعاينة الحية والتسليم.
+> 🧩 **[أصبح DeepSeek Harness مدعومًا الآن.](https://sanki-ai.cloud/zh/agents/deepseek-harness-design/)** صِل Agent Harness الرسمي `dsh` من DeepSeek بـ SankiWork كبيئة تشغيل أصلية، مع التفكير المنظم واستدعاءات الأدوات واكتشاف النماذج والإلغاء واستئناف الجلسات. تبقى الملفات الناتجة ضمن سير عمل SankiWork للمعاينة الحية والتسليم.
 
 <p align="center">
-  <img src="https://repo-assets.open-design.ai/resources/images/hero.png" alt="Open Design hero banner" width="100%" />
+  <img src="https://repo-assets.sanki-ai.cloud/resources/images/hero.png" alt="SankiWork hero banner" width="100%" />
 </p>
 
 <p align="center">
-  <a href="https://open-design.ai/">الموقع</a> ·
-  <a href="https://open-design.ai/">التنزيل</a> ·
-  <a href="https://open-design.ai/cloud/">Open Design Cloud</a> ·
+  <a href="https://sanki-ai.cloud/">الموقع</a> ·
+  <a href="https://sanki-ai.cloud/">التنزيل</a> ·
+  <a href="https://sanki-ai.cloud/cloud/">SankiWork Cloud</a> ·
   <a href="https://discord.gg/mHAjSMV6gz">Discord</a> ·
   <a href="https://x.com/OpenDesignHQ">تابع ‎@OpenDesignHQ</a>
 </p>
@@ -31,11 +31,11 @@
 
 ---
 
-## ما هو Open Design
+## ما هو SankiWork
 
 🎨 **البديل مفتوح المصدر القائم على الجهاز المحلي أولًا لـ Claude Design.** &nbsp;🖥️ **تطبيق سطح مكتب أصلي لنظامي macOS وWindows.** &nbsp;⚡ **أكثر من 100 مهارة وظيفية + كتالوج منفصل لقوالب التصيير** · ✨ **151 حزمة نظام تصميم** · 📦 **277 إضافة جاهزة للاستخدام.** &nbsp;🖼️ يولّد **نماذج أولية للويب · سطح المكتب · الجوال**، و**لوحات معلومات / مخرجات حية**، و**عروضًا تقديمية**، و**صورًا**، و**فيديو**، إضافة إلى رسوميات حركية بـ **HyperFrames**. 🔒 معاينة iframe معزولة · تصدير بصيغ HTML / PDF / PPTX / MP4. &nbsp;🤖 **يعمل على 25 ملف CLI تنفيذيًا محليًا متميزًا**، أو أي نقطة نهاية متوافقة مع OpenAI عبر BYOK.
 
-‏Open Design يحوّل الحلقة إلى **نظام ملفات من المهارات الوظيفية وقوالب التصيير وأنظمة التصميم والإضافات** يستطيع الوكلاء قراءته والكتابة عليه وإعادة مزجه.
+‏SankiWork يحوّل الحلقة إلى **نظام ملفات من المهارات الوظيفية وقوالب التصيير وأنظمة التصميم والإضافات** يستطيع الوكلاء قراءته والكتابة عليه وإعادة مزجه.
 
 كما أنه **بديل Figma لعصر الوكلاء** — فبدلًا من تحريك البكسلات على لوحة رسم، يسلّم مخرجات من صفحة واحدة بـ CSS حقيقي وخطوط حقيقية ومكونات حقيقية، تُصدَّر مباشرة إلى HTML / PDF / PPTX / MP4 — مصاغة مسبقًا وفق نظام التصميم لديك، وقابلة للتشغيل مباشرة داخل الوكيل الذي تستخدمه كل يوم.
 
@@ -44,7 +44,7 @@
 
 ## جولة في المنتج
 
-نظرة سريعة على سير العمل الأساسي في Open Design. ابدأ بموجز من **الصفحة الرئيسية**، واستكشف المهارات القابلة لإعادة الاستخدام في **الإضافات**، وحوّل مراجع العلامة التجارية إلى **نظام تصميم**. ثم ادخل إلى **الاستوديو** في أي مشروع لإنشاء النماذج الأولية والعروض التقديمية وتطبيقات الجوال والصور والمستندات وHyperFrames وتحسينها في مكان واحد.
+نظرة سريعة على سير العمل الأساسي في SankiWork. ابدأ بموجز من **الصفحة الرئيسية**، واستكشف المهارات القابلة لإعادة الاستخدام في **الإضافات**، وحوّل مراجع العلامة التجارية إلى **نظام تصميم**. ثم ادخل إلى **الاستوديو** في أي مشروع لإنشاء النماذج الأولية والعروض التقديمية وتطبيقات الجوال والصور والمستندات وHyperFrames وتحسينها في مكان واحد.
 
 ### الصفحات الأساسية
 
@@ -110,32 +110,32 @@
 
 ## توافق المنصات
 
-> يُشحَن Open Design على هيئة **مهارات وواجهة CLI وخادم MCP** تستهلكها وكلاء البرمجة السائدة بشكل أصلي. بمجرد تثبيت OD، يربط أمر واحد `od mcp install <agent>` خادم MCP في إعدادات ذلك الوكيل، فتستدعي الأدوات نفسها من داخل أي وكيل.
+> يُشحَن SankiWork على هيئة **مهارات وواجهة CLI وخادم MCP** تستهلكها وكلاء البرمجة السائدة بشكل أصلي. بمجرد تثبيت OD، يربط أمر واحد `sw mcp install <agent>` خادم MCP في إعدادات ذلك الوكيل، فتستدعي الأدوات نفسها من داخل أي وكيل.
 
 | وكيل البرمجة / المنصة &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | الحالة &nbsp;&nbsp; | تثبيت خادم MCP بأمر واحد &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
 |---|:---:|---|
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | ✅ مدعوم | `od mcp install claude` |
-| [Codex CLI](https://github.com/openai/codex) | ✅ مدعوم | `od mcp install codex` |
-| [DeepSeek Reasonix](https://github.com/esengine/DeepSeek-Reasonix) | ✅ مدعوم | `od mcp install reasonix` |
-| [Raven](https://github.com/EverMind-AI/Raven) | ✅ مدعوم | `od mcp install raven` |
-| [Cursor](https://www.cursor.com/cli) | ✅ مدعوم | `od mcp install cursor` |
-| [VS Code + GitHub Copilot](https://github.com/features/copilot) | ✅ مدعوم | `od mcp install copilot` |
-| [GitHub Copilot CLI](https://github.com/features/copilot/cli) | ✅ مدعوم | `od mcp install copilot` |
-| [OpenCode](https://opencode.ai/) | ✅ مدعوم | `od mcp install opencode` |
-| [OpenClaw](https://github.com/openclaw/openclaw) | ✅ مدعوم | `od mcp install openclaw` |
-| [Antigravity](https://antigravity.google) | ✅ مدعوم | `od mcp install antigravity` |
-| [Cline](https://github.com/cline/cline) | ✅ مدعوم | `od mcp install cline` |
-| [Trae](https://www.trae.ai/) | ✅ مدعوم | `od mcp install trae` |
-| [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) | ✅ مدعوم | `od mcp install kimi` |
-| [Kiro](https://kiro.dev) | ✅ مدعوم | `od mcp install kiro` |
-| [Pi Agent](https://github.com/badlogic/pi-mono) | ✅ مدعوم | `od mcp install pi` |
-| [Mistral Vibe CLI](https://github.com/mistralai/mistral-vibe) | ✅ مدعوم | `od mcp install vibe` |
-| [Hermes Agent](https://github.com/nousresearch/hermes-agent) | ✅ مدعوم | `od mcp install hermes` |
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | ✅ مدعوم | `sw mcp install claude` |
+| [Codex CLI](https://github.com/openai/codex) | ✅ مدعوم | `sw mcp install codex` |
+| [DeepSeek Reasonix](https://github.com/esengine/DeepSeek-Reasonix) | ✅ مدعوم | `sw mcp install reasonix` |
+| [Raven](https://github.com/EverMind-AI/Raven) | ✅ مدعوم | `sw mcp install raven` |
+| [Cursor](https://www.cursor.com/cli) | ✅ مدعوم | `sw mcp install cursor` |
+| [VS Code + GitHub Copilot](https://github.com/features/copilot) | ✅ مدعوم | `sw mcp install copilot` |
+| [GitHub Copilot CLI](https://github.com/features/copilot/cli) | ✅ مدعوم | `sw mcp install copilot` |
+| [OpenCode](https://opencode.ai/) | ✅ مدعوم | `sw mcp install opencode` |
+| [OpenClaw](https://github.com/openclaw/openclaw) | ✅ مدعوم | `sw mcp install openclaw` |
+| [Antigravity](https://antigravity.google) | ✅ مدعوم | `sw mcp install antigravity` |
+| [Cline](https://github.com/cline/cline) | ✅ مدعوم | `sw mcp install cline` |
+| [Trae](https://www.trae.ai/) | ✅ مدعوم | `sw mcp install trae` |
+| [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) | ✅ مدعوم | `sw mcp install kimi` |
+| [Kiro](https://kiro.dev) | ✅ مدعوم | `sw mcp install kiro` |
+| [Pi Agent](https://github.com/badlogic/pi-mono) | ✅ مدعوم | `sw mcp install pi` |
+| [Mistral Vibe CLI](https://github.com/mistralai/mistral-vibe) | ✅ مدعوم | `sw mcp install vibe` |
+| [Hermes Agent](https://github.com/nousresearch/hermes-agent) | ✅ مدعوم | `sw mcp install hermes` |
 
-`od mcp install <agent> --print` لمعاينة تجريبية دون تنفيذ · `--uninstall` للإزالة · القائمة الكاملة عبر `od mcp install --help`.
+`sw mcp install <agent> --print` لمعاينة تجريبية دون تنفيذ · `--uninstall` للإزالة · القائمة الكاملة عبر `sw mcp install --help`.
 
 <p align="center">
-  <img src="https://repo-assets.open-design.ai/resources/images/coding-agents.png" alt="The 25 coding-agent CLIs Open Design supports — Claude Code · Codex · OpenCode · Hermes · Antigravity · Vela · Grok Build · Kimi · Cursor Agent · Qwen · Qoder · GitHub Copilot · Pi · Kiro · Kilo · Mistral Vibe · DeepSeek · Reasonix · Aider · Amp · CodeBuddy · Mimo · AtomCode · Devin · Trae" width="100%" />
+  <img src="https://repo-assets.sanki-ai.cloud/resources/images/coding-agents.png" alt="The 25 coding-agent CLIs SankiWork supports — Claude Code · Codex · OpenCode · Hermes · Antigravity · Vela · Grok Build · Kimi · Cursor Agent · Qwen · Qoder · GitHub Copilot · Pi · Kiro · Kilo · Mistral Vibe · DeepSeek · Reasonix · Aider · Amp · CodeBuddy · Mimo · AtomCode · Devin · Trae" width="100%" />
 </p>
 
 **لا توجد واجهة CLI مثبَّتة؟** يمنحك وكيل BYOK على `POST /api/proxy/{anthropic,openai,azure,google,ollama,senseaudio}/stream` الحلقة نفسها (دون إنشاء عملية) — الصق `baseUrl` + `apiKey` + `model`، مع دعم OpenAI وAnthropic وAzure OpenAI وGoogle Gemini وOllama وLM Studio وvLLM، أو أي نقطة نهاية متوافقة مع OpenAI. تمنع حماية SSRF لكل هدف عناوين IP الداخلية / link-local / CGNAT عند حافة الـ daemon.
@@ -225,7 +225,7 @@
 
 ### 5 · الفيديو وHyperFrames — رسوميات حركية أصيلة للوكلاء
 
-**[HyperFrames][hyperframes]** هو إطار عمل الفيديو مفتوح المصدر والأصيل للوكلاء من HeyGen، مدمج كمواطن من الدرجة الأولى في Open Design. يكتب الوكيل HTML + CSS + GSAP، وتصيّره HyperFrames إلى ملف MP4 حتمي عبر Chrome بدون واجهة + FFmpeg. اقرنه بـ **Seedance 2.0** لتحويل النص إلى فيديو / الصورة إلى فيديو السينمائي، و**Veo 3 / Sora 2 / Kling 2** للنماذج المُوجَّهة المتنوعة، و**Suno v5 / Lyria 2** لطبقة الصوت.
+**[HyperFrames][hyperframes]** هو إطار عمل الفيديو مفتوح المصدر والأصيل للوكلاء من HeyGen، مدمج كمواطن من الدرجة الأولى في SankiWork. يكتب الوكيل HTML + CSS + GSAP، وتصيّره HyperFrames إلى ملف MP4 حتمي عبر Chrome بدون واجهة + FFmpeg. اقرنه بـ **Seedance 2.0** لتحويل النص إلى فيديو / الصورة إلى فيديو السينمائي، و**Veo 3 / Sora 2 / Kling 2** للنماذج المُوجَّهة المتنوعة، و**Suno v5 / Lyria 2** لطبقة الصوت.
 
 <table>
 <tr>
@@ -248,11 +248,11 @@
 
 ---
 
-## لماذا Open Design
+## لماذا SankiWork
 
 > **في أبريل 2026، أطلقت Anthropic Claude Design — وهي المرة الأولى التي يتوقف فيها نموذج لغوي كبير عن كتابة النثر ويبدأ في تسليم مخرجات تصميم مباشرة.** انتشر بسرعة كبيرة. لكنه ظل مغلق المصدر، مدفوعًا فقط، سحابيًا فقط، مقيَّدًا بنموذج Anthropic ومهارات Anthropic وسطح Anthropic. لا دفع، ولا استضافة ذاتية، ولا نشر على Vercel، ولا إمكانية تبديل بوكيلك الخاص.
 
-‏Open Design (OD) هو البديل مفتوح المصدر. الحلقة نفسها، والنموذج الذهني نفسه القائم على المخرجات أولًا، دون أي تقييد:
+‏SankiWork (OD) هو البديل مفتوح المصدر. الحلقة نفسها، والنموذج الذهني نفسه القائم على المخرجات أولًا، دون أي تقييد:
 
 - 🤖 **أصيل للوكلاء، محايد تجاه النموذج.** نحن لا نشحن وكيلًا. أدوات `claude` / `codex` / `cursor-agent` / `copilot` / `hermes` / `kimi` الموجودة أصلًا في `PATH` لديك هي محرك التصميم. بدّلها بنقرة واحدة.
 - 🧠 **بجودة العلامة التجارية افتراضيًا.** تقرأ كل عملية تصيير `DESIGN.md` من الحزمة النشطة بوصفه عقد العلامة الأساسي. يُشحَن مع المستودع 151 حزمة نظام تصميم؛ قد تقتصر الحزم القديمة على `DESIGN.md`، بينما يمكن للأحدث إضافة `manifest.json` و`tokens.css` والمكوّنات والأصول وبيانات المصدر. أسقِط مجلدًا، فيعثر عليه المُنتقي.
@@ -263,7 +263,7 @@
 
 ### مقارنة
 
-| | Claude Design | Figma | Lovable / v0 / Bolt | **Open Design** |
+| | Claude Design | Figma | Lovable / v0 / Bolt | **SankiWork** |
 |---|---|---|---|---|
 | مفتوح المصدر | ❌ | ❌ | ❌ | **✅ Apache-2.0** |
 | استضافة ذاتية / سطح مكتب | ❌ | ❌ | ❌ | **✅ macOS + Windows + Docker** |
@@ -280,21 +280,21 @@
 
 ### 🖥️ تنزيل تطبيق سطح المكتب (موصى به — بلا إعداد)
 
-أسرع طريقة لاستخدام Open Design. لا Node، ولا pnpm، ولا استنساخ.
+أسرع طريقة لاستخدام SankiWork. لا Node، ولا pnpm، ولا استنساخ.
 
-- **macOS** (Apple Silicon · Intel x64) ← [**open-design.ai**](https://open-design.ai/) أو [إصدارات GitHub](https://github.com/nexu-io/open-design/releases)
-- **Windows** (x64) ← [**open-design.ai**](https://open-design.ai/) أو [إصدارات GitHub](https://github.com/nexu-io/open-design/releases)
+- **macOS** (Apple Silicon · Intel x64) ← [**sanki-ai.cloud**](https://sanki-ai.cloud/) أو [إصدارات GitHub](https://github.com/nexu-io/open-design/releases)
+- **Windows** (x64) ← [**sanki-ai.cloud**](https://sanki-ai.cloud/) أو [إصدارات GitHub](https://github.com/nexu-io/open-design/releases)
 - **Linux** (AppImage، مسار اختياري) ← [إصدارات GitHub](https://github.com/nexu-io/open-design/releases)
 
 بعد التثبيت: يكتشف التطبيق تلقائيًا كل واجهة CLI لوكلاء البرمجة في `PATH` لديك، ويحمّل أكثر من 100 مهارة وظيفية وكتالوج قوالب التصيير المنفصل و151 حزمة نظام تصميم، ويتيح لك كتابة موجز في واجهة الدخول.
 
 ### 🤖 التثبيت داخل وكيل البرمجة لديك (دون واجهة مستخدم)
 
-يمكنك استخدام Open Design دون فتح الواجهة الرسومية أبدًا — استدعِه كمهارة أو إضافة أو خادم MCP داخل Claude Code وCodex وCursor وCopilot وOpenClaw وAntigravity وHermes وKimi والمزيد.
+يمكنك استخدام SankiWork دون فتح الواجهة الرسومية أبدًا — استدعِه كمهارة أو إضافة أو خادم MCP داخل Claude Code وCodex وCursor وCopilot وOpenClaw وAntigravity وHermes وKimi والمزيد.
 
 ```bash
 # One-line install into the agent you're using:
-od mcp install <agent>
+sw mcp install <agent>
 # <agent> = claude | codex | reasonix | raven | cursor | copilot | openclaw | antigravity
 #         | pi | vibe | hermes | cline | kimi | kiro | trae | opencode
 ```
@@ -302,18 +302,18 @@ od mcp install <agent>
 ثم، داخل الوكيل:
 
 ```
-> Use open-design to generate a landing page with the Linear design system
+> Use sankiwork to generate a landing page with the Linear design system
 ```
 
-في تشغيل CLI محلي مدعوم بنظام الملفات، يركّب الوكيل المهارة الوظيفية أو قالب التصميم المختار مع `DESIGN.md` ويكتب ملفات المشروع الأساسية ليعاينها Open Design. أما تشغيل BYOK/API بلا أدوات ملفات فيُرجع كتلة `<artifact>` كاملة واحدة.
+في تشغيل CLI محلي مدعوم بنظام الملفات، يركّب الوكيل المهارة الوظيفية أو قالب التصميم المختار مع `DESIGN.md` ويكتب ملفات المشروع الأساسية ليعاينها SankiWork. أما تشغيل BYOK/API بلا أدوات ملفات فيُرجع كتلة `<artifact>` كاملة واحدة.
 
 ### 🐳 التشغيل باستخدام Docker
 
 ```bash
 git clone https://github.com/nexu-io/open-design.git
-cd open-design/deploy
+cd sankiwork/deploy
 cp .env.example .env
-echo "OD_API_TOKEN=$(openssl rand -hex 32)" >> .env
+echo "SW_API_TOKEN=$(openssl rand -hex 32)" >> .env
 docker compose up -d
 # open http://localhost:7456
 ```
@@ -322,13 +322,13 @@ docker compose up -d
 
 [![Deploy on Sealos](https://sealos.io/Deploy-on-Sealos.svg)](https://sealos.io/products/app-store/open-design/)
 
-يشغّل قالب Sealos App Store صورة Docker المنشورة لـ Open Design مع تخزين دائم لمساحة العمل وBasic Auth على الوكيل العام. لعمليات نشر Docker العامة أو المشتركة المخصصة، اتبع إرشادات الوكيل العكسي و`OPEN_DESIGN_ALLOWED_ORIGINS` في [`deploy/README.md`](../../deploy/README.md#local-compose).
+يشغّل قالب Sealos App Store صورة Docker المنشورة لـ SankiWork مع تخزين دائم لمساحة العمل وBasic Auth على الوكيل العام. لعمليات نشر Docker العامة أو المشتركة المخصصة، اتبع إرشادات الوكيل العكسي و`SANKIWORK_ALLOWED_ORIGINS` في [`deploy/README.md`](../../deploy/README.md#local-compose).
 
 ### 🧑‍💻 التشغيل من المصدر
 
 ```bash
 git clone https://github.com/nexu-io/open-design.git
-cd open-design
+cd sankiwork
 corepack enable && pnpm install
 pnpm tools-dev run web
 ```
@@ -345,31 +345,31 @@ pnpm tools-dev run web
 2. **يثبّت مصمم (أو الوكيل) الاتجاه.** لا علامة تجارية؟ اختر من 5 اتجاهات منسّقة. لديك علامة تجارية؟ أسقِط لقطة شاشة / رابطًا ← يربط الوكيل GitHub، ويستورد Figma، ويصوغ ملف `DESIGN.md` قابلًا لإعادة الاستخدام.
 3. **ينشئ الوكيل أول تسليم.** تشغيلات CLI ذات نظام الملفات تكتب الملفات الأساسية؛ وتشغيلات BYOK/API بلا أدوات ملفات تُرجع كتلة `<artifact>` كاملة.
 4. **سلّم إلى الهندسة.** المخرَج هو HTML/CSS حقيقي — أسقِطه في Cursor أو Codex أو Claude Code لمواصلة البناء كشفرة. أو صدّر PPTX / PDF / MP4 مباشرة إلى التسويق.
-5. **يصبح Open Design أذكى كلما استخدمته.** تتراكم لقطات شاشتك وخطوطك ولوحات ألوانك ومخرجاتك المؤكَّدة كقيم افتراضية للجلسة التالية. عمل معاد أقل، وانحراف أقل.
+5. **يصبح SankiWork أذكى كلما استخدمته.** تتراكم لقطات شاشتك وخطوطك ولوحات ألوانك ومخرجاتك المؤكَّدة كقيم افتراضية للجلسة التالية. عمل معاد أقل، وانحراف أقل.
 
 ---
 
-## استخدام Open Design من وكيل البرمجة لديك
+## استخدام SankiWork من وكيل البرمجة لديك
 
-يشحن Open Design **خادم MCP عبر stdio** و**سكربتات تثبيت** لكل وكيل. يستطيع أي وكيل متوافق مع MCP في مستودع آخر قراءة الملفات من مشاريع Open Design المحلية لديك مباشرة — رموز CSS، ومكونات JSX، وHTML الدخول — كواجهة API مهيكلة قابلة للاستعلام بالاسم. يرى الوكيل دائمًا الملف الحي، لا تصديرًا قديمًا.
+يشحن SankiWork **خادم MCP عبر stdio** و**سكربتات تثبيت** لكل وكيل. يستطيع أي وكيل متوافق مع MCP في مستودع آخر قراءة الملفات من مشاريع SankiWork المحلية لديك مباشرة — رموز CSS، ومكونات JSX، وHTML الدخول — كواجهة API مهيكلة قابلة للاستعلام بالاسم. يرى الوكيل دائمًا الملف الحي، لا تصديرًا قديمًا.
 
 ```bash
 # One-line install (16+ CLIs supported):
-od mcp install <agent>
+sw mcp install <agent>
 
 # Then the agent can:
-od project list --json
-od files list <project-id> --json
-od files read <project-id> <relative-path>
-od plugin list --json
-od skills list --json
+sw project list --json
+sw files list <project-id> --json
+sw files read <project-id> <relative-path>
+sw plugin list --json
+sw skills list --json
 ```
 
 **لماذا MCP؟** تصدير ملف مضغوط وإعادة إرفاقه في كل دورة يكسر الانسياب. يكشف MCP مصدر التصميم مباشرة — فيرى الوكيل دائمًا الملف الحي.
 
 **بالنسبة لوكيل يبدأ من الصفر،** يضع المثبِّت `~/.config/<agent>/open-design.json` (أو ما يكافئه على المنصة) إضافة إلى مقتطف MCP جاهز للصق. يحصل Cursor على رابط عميق بنقرة واحدة؛ ويحصل Claude Code على سطر `claude mcp add-json` واحد؛ ويحصل كل وكيل آخر على JSON بالمخطط الذي تتوقعه إعداداته. سير العمل الكامل لكل وكيل ← **Settings → MCP server** في تطبيق سطح المكتب، أو [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
 
-**نموذج الأمان.** للقراءة فقط افتراضيًا، ويرتبط الـ daemon بـ `127.0.0.1`، ويُمنع SSRF عند حافة الوكيل. يتطلب الكشف على الشبكة المحلية تعيين `OD_BIND_HOST` صريح إضافة إلى `OD_ALLOWED_ORIGINS`. تبقى بيانات اعتماد الموصِّلات ومسارات معاينة المخرجات الحية على loopback فقط أيًا كان.
+**نموذج الأمان.** للقراءة فقط افتراضيًا، ويرتبط الـ daemon بـ `127.0.0.1`، ويُمنع SSRF عند حافة الوكيل. يتطلب الكشف على الشبكة المحلية تعيين `SW_BIND_HOST` صريح إضافة إلى `SW_ALLOWED_ORIGINS`. تبقى بيانات اعتماد الموصِّلات ومسارات معاينة المخرجات الحية على loopback فقط أيًا كان.
 
 ---
 
@@ -463,27 +463,27 @@ od skills list --json
 
 ### استخدام الإضافات
 
-الإضافات على تكافؤ تام عبر **واجهة الويب** وواجهة **`od` CLI** — نقاط نهاية `/api/plugins` نفسها، اختر ما يناسبك.
+الإضافات على تكافؤ تام عبر **واجهة الويب** وواجهة **`sw` CLI** — نقاط نهاية `/api/plugins` نفسها، اختر ما يناسبك.
 
 **في تطبيق سطح المكتب / الويب:** افتح صفحة **الإضافة** لتصفّح السوق وانقر **تثبيت**؛ وداخل استوديو المشروع، تظهر الإضافات كأشرطة في أداة الإنشاء تنقر عليها لتطبيقها (مع المدخلات التي تصرّح بها).
 
 **على سطر الأوامر** (يعمل دون واجهة مستخدم — هذا هو المسار الذي تستخدمه الوكلاء الخارجية):
 
 ```bash
-od plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
-od plugin search "landing page"      # search by keyword
-od plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-od plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-od plugin apply od-default --input brief="a one-page pitch for our seed round"
-od plugin upgrade od-default         # upgrade
-od plugin uninstall od-default       # uninstall
+sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
+sw plugin search "landing page"      # search by keyword
+sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply od-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade od-default         # upgrade
+sw plugin uninstall od-default       # uninstall
 ```
 
 يدعم كل أمر `--json`، فتستطيع تمريره عبر `jq` / `xargs` إلى الأتمتة.
 
 ### بناء إضافة
 
-تتطلب إضافة Open Design ملف `open-design.json` وحمولة نوعها. تتضمن المهارات والسيناريوهات أيضًا `SKILL.md`؛ وتستخدم الأنواع الأخرى حمولتها الخاصة:
+تتطلب إضافة SankiWork ملف `open-design.json` وحمولة نوعها. تتضمن المهارات والسيناريوهات أيضًا `SKILL.md`؛ وتستخدم الأنواع الأخرى حمولتها الخاصة:
 
 ```
 my-plugin/
@@ -499,17 +499,17 @@ my-plugin/
 التهيئة والتحقق محليًا:
 
 ```bash
-od plugin scaffold --id my-plugin --title "My Plugin"   # generate the skeleton
-od plugin validate ./my-plugin                          # check manifest / file layout
-pnpm guard && pnpm --filter @open-design/plugin-runtime typecheck
+sw plugin scaffold --id my-plugin --title "My Plugin"   # generate the skeleton
+sw plugin validate ./my-plugin                          # check manifest / file layout
+pnpm guard && pnpm --filter @sankiwork/plugin-runtime typecheck
 ```
 
 مجموعة الحقول الكاملة وعقد وقت التشغيل ← [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md)؛ تطوير إضافة بوكيل برمجة ← [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md)؛ قوالب دنيا جاهزة للصق ← [`plugins/spec/examples/`](../../plugins/spec/examples/).
 
 ### المساهمة بإضافة
 
-1. أسقِط مجلد الإضافة في [`plugins/community/`](../../plugins/community/) (الإضافات الخارجية)، أو — لشحنها مجمَّعة مع Open Design — في المستوى المطابق ضمن [`plugins/_official/`](../../plugins/_official/).
-2. اجتز التحقق: `od plugin validate` و`pnpm guard` و`pnpm --filter @open-design/plugin-runtime typecheck`.
+1. أسقِط مجلد الإضافة في [`plugins/community/`](../../plugins/community/) (الإضافات الخارجية)، أو — لشحنها مجمَّعة مع SankiWork — في المستوى المطابق ضمن [`plugins/_official/`](../../plugins/_official/).
+2. اجتز التحقق: `sw plugin validate` و`pnpm guard` و`pnpm --filter @sankiwork/plugin-runtime typecheck`.
 3. املأ الـ PR باستخدام القالب في [`plugins/spec/CONTRIBUTING.md`](../../plugins/spec/CONTRIBUTING.md) (المعرّف، الإصدار، المسار، الوضع، القدرات، أمثلة التشغيل؛ أرفِق لقطة شاشة / معاينة للإضافات البصرية).
 4. للنشر على سجل خارجي (skills.sh / ClawHub / GitHub مستقل) ← [`plugins/spec/PUBLISHING-REGISTRIES.md`](../../plugins/spec/PUBLISHING-REGISTRIES.md).
 
@@ -571,12 +571,12 @@ pnpm guard && pnpm --filter @open-design/plugin-runtime typecheck
 - [x] بروتوكول جانبي + سطح مكتب Electron + أتمتة IPC
 - [x] واجهة API لفحص المخرجات + بوابة نقد ذاتي بخمسة أبعاد قبل الإصدار
 - [x] **0.8.0** — بنية تحتية لسوق الإضافات (261 إضافة رسمية، مواصفة البيان، سكربتات تثبيت لكل وكيل)
-- [x] **0.9.0** — Open Design Cloud (Model Router الرسمي مدمج في التطبيق: بلا إعداد، تسجيل دخول بنقرة واحدة)
+- [x] **0.9.0** — SankiWork Cloud (Model Router الرسمي مدمج في التطبيق: بلا إعداد، تسجيل دخول بنقرة واحدة)
 - [x] إصدارات Electron مجمَّعة — macOS (Apple Silicon + Intel) + Windows (x64) + Linux AppImage (مسار اختياري)
 - [ ] تعديلات جراحية في وضع التعليق — مشحونة جزئيًا؛ الترقيع المستهدف الموثوق قيد التنفيذ
 - [ ] تجربة استخدام لوحة تعديلات يصدرها الذكاء الاصطناعي — لم تُنفَّذ بعد
-- [ ] `npx od init` لتهيئة مشروع بملف `DESIGN.md`
-- [ ] SDK للإضافات + واجهة `od plugin {add,list,remove,test,publish}` CLI
+- [ ] `npx sw init` لتهيئة مشروع بملف `DESIGN.md`
+- [ ] SDK للإضافات + واجهة `sw plugin {add,list,remove,test,publish}` CLI
 - [ ] إضافات نقل Figma / Pencil ← React / Next / Vue (ألفا)
 - [ ] إضافة تحديث قاعدة شفرة موجودة (وجّهها نحو مستودع git + ملف `DESIGN.md`)
 
@@ -599,7 +599,7 @@ pnpm guard && pnpm --filter @open-design/plugin-runtime typecheck
 
 ## المساهمة
 
-يظل Open Design يتحرك لأن المساهمين — مصممين ومهندسين ومؤلفي موجّهات — يواصلون الحضور. الكثير من أكثر المهارات وأنظمة التصميم والإضافات استخدامًا كتبها أشخاص خارج الفريق الأساسي.
+يظل SankiWork يتحرك لأن المساهمين — مصممين ومهندسين ومؤلفي موجّهات — يواصلون الحضور. الكثير من أكثر المهارات وأنظمة التصميم والإضافات استخدامًا كتبها أشخاص خارج الفريق الأساسي.
 
 ### 🎯 من أين تبدأ (أقصى أثر، أقل تغيير)
 
@@ -619,7 +619,7 @@ pnpm guard && pnpm --filter @open-design/plugin-runtime typecheck
 ```bash
 # 1. Boot locally
 git clone https://github.com/nexu-io/open-design.git
-cd open-design && corepack enable && pnpm install
+cd sankiwork && corepack enable && pnpm install
 pnpm tools-dev run web
 
 # 2. Find a good-first-issue and assign yourself
@@ -628,7 +628,7 @@ gh issue develop <number>   # create a branch and worktree
 
 # 3. Make the change, run the checks
 pnpm guard && pnpm typecheck
-pnpm --filter @open-design/<package> test
+pnpm --filter @sankiwork/<package> test
 
 # 4. Open the PR
 gh pr create --fill
@@ -636,9 +636,9 @@ gh pr create --fill
 
 سير المساهمة الكامل الصديق للوكلاء، وأسلوب الشفرة، ومستوى الـ PR ← [`CONTRIBUTING.md`](../../CONTRIBUTING.md) ([Deutsch](CONTRIBUTING.de.md) · [Français](CONTRIBUTING.fr.md) · [简体中文](CONTRIBUTING.zh-CN.md) · [日本語](CONTRIBUTING.ja-JP.md) · [Português](CONTRIBUTING.pt-BR.md)).
 
-### 🏅 برنامج Open Design Fellow
+### 🏅 برنامج SankiWork Fellow
 
-نوظّف **Open Design Fellows** حول العالم — يشكّل الزملاء المنتج جنبًا إلى جنب مع الفريق الأساسي، ويمثّلون Open Design رسميًا في منطقتهم، وينمّون المجتمع محليًا، مدعومين بدعم مموَّل ($1,000 / MR)، ورصيد LLM مجاني، ومسار مراجعة مباشر. التفاصيل ← [`MAINTAINERS.md`](../../MAINTAINERS.md) والإعلان على [Discord](https://discord.gg/mHAjSMV6gz).
+نوظّف **SankiWork Fellows** حول العالم — يشكّل الزملاء المنتج جنبًا إلى جنب مع الفريق الأساسي، ويمثّلون SankiWork رسميًا في منطقتهم، وينمّون المجتمع محليًا، مدعومين بدعم مموَّل ($1,000 / MR)، ورصيد LLM مجاني، ومسار مراجعة مباشر. التفاصيل ← [`MAINTAINERS.md`](../../MAINTAINERS.md) والإعلان على [Discord](https://discord.gg/mHAjSMV6gz).
 
 ---
 
@@ -672,7 +672,7 @@ gh pr create --fill
 شكرًا لكل من شارك — شفرة، وثائق، ملاحظات، مشكلة دقيقة، مهارة جديدة، نظام تصميم جديد.
 
 <a href="https://github.com/nexu-io/open-design/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=nexu-io/open-design&max=500&columns=20&anon=1&cache_bust=2026-08-04" alt="Open Design contributors" />
+  <img src="https://contrib.rocks/image?repo=nexu-io/open-design&max=500&columns=20&anon=1&cache_bust=2026-08-04" alt="SankiWork contributors" />
 </a>
 
 ---
@@ -680,7 +680,7 @@ gh pr create --fill
 ## نشاط المستودع
 
 <picture>
-  <img alt="Open Design — repository metrics" src="https://repo-assets.open-design.ai/resources/images/github-metrics.svg" />
+  <img alt="SankiWork — repository metrics" src="https://repo-assets.sanki-ai.cloud/resources/images/github-metrics.svg" />
 </picture>
 
 يُعاد توليد ملف SVG أعلاه يوميًا بواسطة [`.github/workflows/metrics.yml`](../../.github/workflows/metrics.yml) باستخدام [`lowlighter/metrics`](https://github.com/lowlighter/metrics).
@@ -690,7 +690,7 @@ gh pr create --fill
 ## امنحنا نجمة
 
 <p align="center">
-  <a href="https://github.com/nexu-io/open-design"><img src="https://repo-assets.open-design.ai/resources/images/star-us.png" alt="Star Open Design on GitHub — github.com/nexu-io/open-design" width="100%" /></a>
+  <a href="https://github.com/nexu-io/open-design"><img src="https://repo-assets.sanki-ai.cloud/resources/images/star-us.png" alt="Star SankiWork on GitHub — github.com/nexu-io/open-design" width="100%" /></a>
 </p>
 
 إن وفّر عليك هذا ثلاثين دقيقة، فامنحه ★. النجوم لا تدفع الإيجار — لكنها تخبر المصمم والوكيل والمساهم التالي بأن هذه التجربة تستحق اهتمامهم. نقرة واحدة، وثلاث ثوانٍ، وإشارة حقيقية.
@@ -699,7 +699,7 @@ gh pr create --fill
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&theme=dark&cache_bust=2026-08-04" />
     <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-08-04" />
-    <img alt="Open Design star history" src="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-08-04" />
+    <img alt="SankiWork star history" src="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-08-04" />
   </picture>
 </a>
 
@@ -717,7 +717,7 @@ gh pr create --fill
 | [`multica-ai/multica`](https://github.com/multica-ai/multica) | بنية الـ daemon + المحوّل — اكتشاف الوكلاء بمسح PATH، الـ daemon المحلي بصفته العملية المميَّزة الوحيدة. |
 | [`VoltAgent/awesome-design-md`](https://github.com/VoltAgent/awesome-design-md) | المصدر التاريخي لمخطط `DESIGN.md` الأصلي ذي الأقسام التسعة و70 نظامًا مشتقًا من المصدر؛ ويمكن للحزم الحالية توسيع هذا الأساس. |
 | [`bergside/awesome-design-skills`](https://github.com/bergside/awesome-design-skills) | مصدر مهارات التصميم الـ 57 المضافة ضمن `design-systems/`. |
-| [`heygen-com/hyperframes`](https://github.com/heygen-com/hyperframes) | إطار الرسوميات الحركية HTML→MP4، مدمج بصفته `hyperframes-html` من الدرجة الأولى في Open Design. |
+| [`heygen-com/hyperframes`](https://github.com/heygen-com/hyperframes) | إطار الرسوميات الحركية HTML→MP4، مدمج بصفته `hyperframes-html` من الدرجة الأولى في SankiWork. |
 | [Claude Code skills][skill] | اصطلاح `SKILL.md` الذي نعتمده حرفيًا. |
 
 النَّسَب التفصيلي ← [`docs/references.md`](../../docs/references.md).

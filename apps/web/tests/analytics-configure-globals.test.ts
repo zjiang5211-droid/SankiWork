@@ -13,7 +13,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   deriveConfigureGlobals,
   type DeriveConfigureGlobalsInput,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import {
   getConfigureGlobals,
   setConfigureGlobals,

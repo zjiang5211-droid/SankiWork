@@ -17,7 +17,7 @@ export const BROWSER_VIEWPORT_PRESETS: BrowserViewportPreset[] = [
   { id: 'mobile', width: 390, height: 844 },
 ];
 
-export const BROWSER_PAGE_ARCHIVE_SCHEMA = 'open-design.browser-page-archive.v1';
+export const BROWSER_PAGE_ARCHIVE_SCHEMA = 'sankiwork.browser-page-archive.v1';
 export const BROWSER_PAGE_ARCHIVE_INDEX_FILE = 'browser/latest-page-snapshot.json';
 
 export type BrowserPageArchiveResourceKind =
@@ -124,7 +124,7 @@ function normalizeLocalFsPath(path: string | null | undefined): string | null {
 
 export const BROWSER_CANCEL_PICKER_SCRIPT = `
 (() => {
-  const cancel = window.__openDesignBrowserPickerCancel;
+  const cancel = window.__sankiWorkBrowserPickerCancel;
   if (typeof cancel === 'function') {
     try { cancel(); } catch (_) {}
   }
@@ -335,17 +335,17 @@ export function isBrowserPageArchiveManifest(value: unknown): value is BrowserPa
 export function browserElementPickerScript(filePath: string): string {
   return `
 (() => new Promise((resolve) => {
-  const previousCancel = window.__openDesignBrowserPickerCancel;
+  const previousCancel = window.__sankiWorkBrowserPickerCancel;
   if (typeof previousCancel === 'function') {
     try { previousCancel(); } catch (_) {}
   }
   const filePath = ${JSON.stringify(filePath)};
   const style = document.createElement('style');
-  style.setAttribute('data-open-design-browser-picker', 'true');
+  style.setAttribute('data-sankiwork-browser-picker', 'true');
   style.textContent = [
     '* { cursor: crosshair !important; }',
-    '.__open_design_browser_pick_hover__ { outline: 2px solid #1677ff !important; outline-offset: 2px !important; }',
-    '.__open_design_browser_pick_hover__::selection { background: rgba(22, 119, 255, 0.22) !important; }'
+    '.__sankiwork_browser_pick_hover__ { outline: 2px solid #1677ff !important; outline-offset: 2px !important; }',
+    '.__sankiwork_browser_pick_hover__::selection { background: rgba(22, 119, 255, 0.22) !important; }'
   ].join('\\n');
   document.head.appendChild(style);
 
@@ -450,9 +450,9 @@ export function browserElementPickerScript(filePath: string): string {
   }
   function setHover(el) {
     if (hovered === el) return;
-    if (hovered) hovered.classList.remove('__open_design_browser_pick_hover__');
+    if (hovered) hovered.classList.remove('__sankiwork_browser_pick_hover__');
     hovered = el;
-    if (hovered) hovered.classList.add('__open_design_browser_pick_hover__');
+    if (hovered) hovered.classList.add('__sankiwork_browser_pick_hover__');
   }
   function cleanup(result) {
     if (finished) return;
@@ -460,9 +460,9 @@ export function browserElementPickerScript(filePath: string): string {
     document.removeEventListener('mousemove', onMove, true);
     document.removeEventListener('click', onClick, true);
     document.removeEventListener('keydown', onKeyDown, true);
-    if (hovered) hovered.classList.remove('__open_design_browser_pick_hover__');
+    if (hovered) hovered.classList.remove('__sankiwork_browser_pick_hover__');
     style.remove();
-    window.__openDesignBrowserPickerCancel = null;
+    window.__sankiWorkBrowserPickerCancel = null;
     resolve(result || null);
   }
   function onMove(ev) {
@@ -479,7 +479,7 @@ export function browserElementPickerScript(filePath: string): string {
     if (ev.key === 'Escape') cleanup(null);
   }
 
-  window.__openDesignBrowserPickerCancel = () => cleanup(null);
+  window.__sankiWorkBrowserPickerCancel = () => cleanup(null);
   document.addEventListener('mousemove', onMove, true);
   document.addEventListener('click', onClick, true);
   document.addEventListener('keydown', onKeyDown, true);

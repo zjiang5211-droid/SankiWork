@@ -23,7 +23,7 @@ function createPaths(root: string): WinPaths {
     assembledMainEntryPath: join(namespaceRoot, "assembled", "app", "main.cjs"),
     assembledPackageJsonPath: join(namespaceRoot, "assembled", "app", "package.json"),
     assembledPrebundledRoot: join(namespaceRoot, "assembled", "app", "prebundled"),
-    blockmapPath: join(namespaceRoot, "builder", "Open Design-second-setup.exe.blockmap"),
+    blockmapPath: join(namespaceRoot, "builder", "SankiWork-second-setup.exe.blockmap"),
     builtManifestPath: join(namespaceRoot, "built-app.json"),
     daemonCliPrebundleEntrypointPath: join(namespaceRoot, "prebundle-entrypoints", "daemon-cli.js"),
     daemonCliPrebundlePath: join(namespaceRoot, "assembled", "app", "prebundled", "daemon", "daemon-cli.mjs"),
@@ -31,59 +31,59 @@ function createPaths(root: string): WinPaths {
     daemonPrebundleRoot: join(namespaceRoot, "assembled", "app", "prebundled", "daemon"),
     daemonSidecarPrebundleEntrypointPath: join(namespaceRoot, "prebundle-entrypoints", "daemon-sidecar.js"),
     daemonSidecarPrebundlePath: join(namespaceRoot, "assembled", "app", "prebundled", "daemon", "daemon-sidecar.mjs"),
-    exePath: join(namespaceRoot, "builder", "Open Design-second.exe"),
-    installDir: join(namespaceRoot, "runtime", "install", "Open Design"),
-    installedExePath: join(namespaceRoot, "runtime", "install", "Open Design", "Open Design.exe"),
+    exePath: join(namespaceRoot, "builder", "SankiWork-second.exe"),
+    installDir: join(namespaceRoot, "runtime", "install", "SankiWork"),
+    installedExePath: join(namespaceRoot, "runtime", "install", "SankiWork", "SankiWork.exe"),
     installerBasePayloadPath: join(namespaceRoot, "installer", "payload-base.7z"),
     installerOverlayPayloadPath: join(namespaceRoot, "installer", "payload-overlay.7z"),
     installerScriptPath: join(namespaceRoot, "installer", "installer.nsi"),
-    launcherPayloadPath: join(namespaceRoot, "payload", "Open Design-second-payload.7z"),
+    launcherPayloadPath: join(namespaceRoot, "payload", "SankiWork-second-payload.7z"),
     publicDesktopShortcutPath: join(namespaceRoot, "desktop", "public.lnk"),
     latestYmlPath: join(namespaceRoot, "builder", "latest.yml"),
     installMarkerPath: join(namespaceRoot, "logs", "install.marker.json"),
     installTimingPath: join(namespaceRoot, "logs", "install.timing.json"),
     nsisLogPath: join(namespaceRoot, "logs", "nsis.log"),
     nsisIncludePath: join(namespaceRoot, "nsis", "installer.nsh"),
-    packagedConfigPath: join(namespaceRoot, "open-design-config.json"),
+    packagedConfigPath: join(namespaceRoot, "sankiwork-config.json"),
     packagedMainPrebundleMetaPath: join(namespaceRoot, "prebundle-meta", "packaged-main.meta.json"),
     packagedMainPrebundlePath: join(namespaceRoot, "assembled", "app", "prebundled", "packaged-main.mjs"),
-    resourceRoot: join(namespaceRoot, "resources", "open-design"),
-    setupPath: join(namespaceRoot, "builder", "Open Design-second-setup.exe"),
-    setupZipPath: join(namespaceRoot, "builder", "Open Design-second-portable.zip"),
+    resourceRoot: join(namespaceRoot, "resources", "sankiwork"),
+    setupPath: join(namespaceRoot, "builder", "SankiWork-second-setup.exe"),
+    setupZipPath: join(namespaceRoot, "builder", "SankiWork-second-portable.zip"),
     startMenuShortcutPath: join(namespaceRoot, "start-menu.lnk"),
     tarballsRoot: join(namespaceRoot, "tarballs"),
     userDesktopShortcutPath: join(namespaceRoot, "desktop", "user.lnk"),
     uninstallMarkerPath: join(namespaceRoot, "logs", "uninstall.marker.json"),
     uninstallTimingPath: join(namespaceRoot, "logs", "uninstall.timing.json"),
-    uninstallerPath: join(namespaceRoot, "runtime", "install", "Open Design", "Uninstall.exe"),
+    uninstallerPath: join(namespaceRoot, "runtime", "install", "SankiWork", "Uninstall.exe"),
     webStandaloneHookAuditPath: join(namespaceRoot, "web-standalone-after-pack-audit.json"),
     webStandaloneHookConfigPath: join(namespaceRoot, "web-standalone-after-pack-config.json"),
     webSidecarPrebundleMetaPath: join(namespaceRoot, "prebundle-meta", "web-sidecar.meta.json"),
     webSidecarPrebundlePath: join(namespaceRoot, "assembled", "app", "prebundled", "web-sidecar.mjs"),
     winIconPath: join(namespaceRoot, "resources", "win", "icon.ico"),
-    unpackedExePath: join(namespaceRoot, "builder", "win-unpacked", "Open Design.exe"),
+    unpackedExePath: join(namespaceRoot, "builder", "win-unpacked", "SankiWork.exe"),
     unpackedRoot: join(namespaceRoot, "builder", "win-unpacked"),
   };
 }
 
 describe("materializeCachedUnpackedForInstaller", () => {
   it("overwrites cached packaged config and app package version", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-builder-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-builder-"));
     const cachedUnpackedRoot = join(root, "cache", "builder", "win-unpacked");
     const paths = createPaths(root);
 
     try {
       await mkdir(join(cachedUnpackedRoot, "resources"), { recursive: true });
-      await writeFile(join(cachedUnpackedRoot, "Open Design.exe"), await createVersionedExecutable("0.5.0-beta.1"));
+      await writeFile(join(cachedUnpackedRoot, "SankiWork.exe"), await createVersionedExecutable("0.5.0-beta.1"));
       await writeFile(
-        join(cachedUnpackedRoot, "resources", "open-design-config.json"),
+        join(cachedUnpackedRoot, "resources", "sankiwork-config.json"),
         `${JSON.stringify({ namespace: "first", version: 1 })}\n`,
         "utf8",
       );
       await mkdir(join(cachedUnpackedRoot, "resources", "app"), { recursive: true });
       await writeFile(
         join(cachedUnpackedRoot, "resources", "app", "package.json"),
-        `${JSON.stringify({ name: "open-design-packaged-app", version: "0.5.0-beta.1" })}\n`,
+        `${JSON.stringify({ name: "sankiwork-packaged-app", version: "0.5.0-beta.1" })}\n`,
         "utf8",
       );
       const nodePtyPrebuildRoot = join(
@@ -116,16 +116,16 @@ describe("materializeCachedUnpackedForInstaller", () => {
 
       expect(manifest.source).toBe("namespace");
       expect(manifest.unpackedRoot).toBe(paths.unpackedRoot);
-      await expect(readFile(join(paths.unpackedRoot, "resources", "open-design-config.json"), "utf8")).resolves.toContain(
+      await expect(readFile(join(paths.unpackedRoot, "resources", "sankiwork-config.json"), "utf8")).resolves.toContain(
         '"namespace":"second"',
       );
       await expect(readFile(join(paths.unpackedRoot, "resources", "app", "package.json"), "utf8")).resolves.toContain(
         '"version": "0.5.0-beta.2"',
       );
-      await expect(readFile(join(paths.unpackedRoot, "resources", "open-design-config.json"), "utf8")).resolves.toContain(
+      await expect(readFile(join(paths.unpackedRoot, "resources", "sankiwork-config.json"), "utf8")).resolves.toContain(
         '"appVersion":"0.5.0-beta.2"',
       );
-      await expect(readWinExecutableVersionSnapshot(join(paths.unpackedRoot, "Open Design.exe"))).resolves.toMatchObject({
+      await expect(readWinExecutableVersionSnapshot(join(paths.unpackedRoot, "SankiWork.exe"))).resolves.toMatchObject({
         fixedFileVersion: "0.5.0.0",
         fixedProductVersion: "0.5.0.0",
         stringTables: [
@@ -189,7 +189,7 @@ describe("Windows pack artifact boundaries", () => {
 
 describe("launcher runtime sync helper", () => {
   it.runIf(process.platform === "win32")("writes cleanup.json for superseded launcher runtime pointers", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-launcher-sync-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-launcher-sync-"));
     const runtimePath = join(root, "runtime.json");
     const attemptsPath = join(root, "state", "attempt.json");
     const cleanupPath = join(root, "state", "cleanup.json");
@@ -272,9 +272,9 @@ async function createVersionedExecutable(packagedVersion: string): Promise<Buffe
   version.setStringValues(
     { codepage: 1200, lang: 1033 },
     {
-      FileDescription: "Open Design",
+      FileDescription: "SankiWork",
       FileVersion: packagedVersion,
-      ProductName: "Open Design",
+      ProductName: "SankiWork",
       ProductVersion: "0.5.0.0",
     },
   );

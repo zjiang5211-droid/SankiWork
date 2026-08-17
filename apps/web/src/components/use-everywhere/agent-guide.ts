@@ -2,7 +2,7 @@
 //
 // The blob is the headline payoff of the Use Everywhere modal: paste it
 // into Claude Code, Codex, Cursor, openclaw, or hermes and the agent has
-// everything it needs to install Open Design, expose it as MCP, and
+// everything it needs to install SankiWork, expose it as MCP, and
 // drive it from CLI / HTTP without further hand-holding.
 //
 // Kept side-effect-free so the unit test can assert the shape (sections
@@ -17,16 +17,16 @@ export interface AgentGuideOptions {
   /**
    * Launch spec returned by `/api/mcp/install-info`. When present, MCP
    * snippets use this absolute command/args/env tuple instead of assuming
-   * an `od` binary exists on PATH.
+   * an `sw` binary exists on PATH.
    */
   mcpInstallInfo?: AgentGuideMcpInstallInfo | null;
   /**
-   * Optional `od` binary path / hint. When provided we mention it in the
-   * setup checklist so the agent knows whether to run `od …` directly or
+   * Optional `sw` binary path / hint. When provided we mention it in the
+   * setup checklist so the agent knows whether to run `sw …` directly or
    * spawn the packaged binary.
    */
   cliHint?: string;
-  /** Optional Open Design version/channel; surfaced in the header for support tickets. */
+  /** Optional SankiWork version/channel; surfaced in the header for support tickets. */
   versionHint?: string;
 }
 
@@ -48,19 +48,19 @@ export function buildAgentGuideMarkdown(options: AgentGuideOptions = {}): string
   const installInfo = normalizeMcpInstallInfo(options.mcpInstallInfo);
   const lines: string[] = [];
 
-  lines.push('# Open Design — agent setup guide');
+  lines.push('# SankiWork — agent setup guide');
   lines.push('');
   lines.push(
     'You are a coding agent (Claude Code, Codex, Cursor, openclaw, hermes, or similar). ' +
-      'The user wants Open Design wired into your workflow. Open Design is a local ' +
-      'privileged daemon (`od`) plus a Skills + Design-Systems registry that exposes ' +
+      'The user wants SankiWork wired into your workflow. SankiWork is a local ' +
+      'privileged daemon (`sw`) plus a Skills + Design-Systems registry that exposes ' +
       'four interchangeable surfaces: CLI, HTTP API, MCP, and Skills.',
   );
   lines.push('');
   lines.push('Follow the setup checklist, then keep the reference sections handy.');
   if (options.versionHint) {
     lines.push('');
-    lines.push(`> Reported Open Design version: \`${options.versionHint}\``);
+    lines.push(`> Reported SankiWork version: \`${options.versionHint}\``);
   }
   lines.push('');
 
@@ -72,10 +72,10 @@ export function buildAgentGuideMarkdown(options: AgentGuideOptions = {}): string
   lines.push(`   curl -s ${daemonUrl}/api/health | jq`);
   lines.push('   ```');
   lines.push('');
-  lines.push('   If it 404s or times out, ask the user to run `pnpm tools-dev` (dev) or open the Open Design app (packaged).');
+  lines.push('   If it 404s or times out, ask the user to run `pnpm tools-dev` (dev) or open the SankiWork app (packaged).');
   lines.push('');
   if (installInfo) {
-    lines.push('2. Use this daemon-reported MCP server config. Do not replace it with a bare `od` command:');
+    lines.push('2. Use this daemon-reported MCP server config. Do not replace it with a bare `sw` command:');
     lines.push('');
     lines.push('   ```json');
     lines.push(indent(buildMcpServerConfigSnippet(installInfo), '   '));
@@ -83,17 +83,17 @@ export function buildAgentGuideMarkdown(options: AgentGuideOptions = {}): string
     lines.push('');
     lines.push(`   This config came from \`${daemonUrl}/api/mcp/install-info\` and preserves the absolute command, args, and env needed by packaged installs.`);
   } else {
-    lines.push('2. Detect available agent CLIs and confirm `od` is on PATH:');
+    lines.push('2. Detect available agent CLIs and confirm `sw` is on PATH:');
     lines.push('');
     lines.push('   ```bash');
-    lines.push('   od doctor');
-    lines.push('   od status --json');
+    lines.push('   sw doctor');
+    lines.push('   sw status --json');
     lines.push('   ```');
   }
   lines.push('');
   if (options.cliHint) {
     lines.push('');
-    lines.push(`   The user reported \`od\` at: \`${options.cliHint}\``);
+    lines.push(`   The user reported \`sw\` at: \`${options.cliHint}\``);
   }
   lines.push('');
   lines.push('3. Pull the MCP install snippet (use it instead of hand-writing `mcpServers` config):');
@@ -112,7 +112,7 @@ export function buildAgentGuideMarkdown(options: AgentGuideOptions = {}): string
   lines.push('');
   lines.push('   ```bash');
   lines.push(`   curl -s ${daemonUrl}/api/skills | jq '.skills | length'`);
-  lines.push('   od skills list --json');
+  lines.push('   sw skills list --json');
   lines.push('   ```');
   lines.push('');
 
@@ -154,7 +154,7 @@ export function agentGuideSnippetUsesMcpInstallInfo(snippet: CodeSnippet): boole
   return (
     snippet.language === 'json' &&
     snippet.body.includes('"mcpServers"') &&
-    snippet.body.includes('"command": "od"')
+    snippet.body.includes('"command": "sw"')
   );
 }
 
@@ -219,7 +219,7 @@ function buildMcpServerConfigSnippet(info: AgentGuideMcpInstallInfo): string {
   return JSON.stringify(
     {
       mcpServers: {
-        'open-design': {
+        'sankiwork': {
           command: info.command,
           args: info.args,
           ...(env ? { env } : {}),

@@ -206,7 +206,7 @@ async function daemonCoreRepositoryContractErrors(repoRoot: string): Promise<str
   for (const needle of [
     "needs.scopes.outputs.run_e2e_vitest == 'true'",
     "needs.scopes.outputs.run_ui_p0 == 'true'",
-    "pnpm --filter @open-design/e2e test",
+    "pnpm --filter @sankiwork/e2e test",
     "include: ${{ fromJSON(needs.scopes.outputs.ui_p0_matrix) }}",
   ]) {
     if (!ciWorkflow.includes(needle)) {

@@ -93,7 +93,7 @@ function workspaceHeaders(input: {
   };
 }
 
-/** Exactly what `od project create` sends: a body, and no workspace identity. */
+/** Exactly what `sw project create` sends: a body, and no workspace identity. */
 async function createHeaderless(webUrl: string, name: string): Promise<string> {
   const created = await requestJson<CreatedProject>(webUrl, '/api/projects', {
     body: {
@@ -147,13 +147,13 @@ async function readScope(webUrl: string, projectId: string): Promise<ProjectWork
 
 const execFileAsync = promisify(execFile);
 
-/** The real `od` entrypoint, driven as an external agent would. */
-const OD_BIN = fileURLToPath(
-  new URL('../../../apps/daemon/bin/od.mjs', import.meta.url),
+/** The real `sw` entrypoint, driven as an external agent would. */
+const SW_BIN = fileURLToPath(
+  new URL('../../../apps/daemon/bin/sw.mjs', import.meta.url),
 );
 
 /**
- * Run a real `od` subcommand against this runtime's daemon. Resolves with the
+ * Run a real `sw` subcommand against this runtime's daemon. Resolves with the
  * exit code and stdout/stderr instead of throwing, so a failure can be asserted
  * on rather than crashing the test.
  */
@@ -162,8 +162,8 @@ async function od(
   args: string[],
 ): Promise<{ code: number; stdout: string; stderr: string }> {
   try {
-    const { stdout, stderr } = await execFileAsync(process.execPath, [OD_BIN, ...args], {
-      env: { ...process.env, OD_DAEMON_URL: daemonUrl },
+    const { stdout, stderr } = await execFileAsync(process.execPath, [SW_BIN, ...args], {
+      env: { ...process.env, SW_DAEMON_URL: daemonUrl },
     });
     return { code: 0, stdout, stderr };
   } catch (error) {
@@ -185,7 +185,7 @@ describe('a headerless caller can mutate only unbound local projects', () => {
 
       await suite.with.toolsDev(
         async ({ webUrl }) => {
-          // --- THE BUG. Both calls are headerless, exactly like `od`.
+          // --- THE BUG. Both calls are headerless, exactly like `sw`.
           const own = await createHeaderless(webUrl, 'Headerless own project');
 
           const scope = await readScope(webUrl, own);
@@ -256,7 +256,7 @@ describe('a headerless caller can mutate only unbound local projects', () => {
         {
           env: {
             AMR_HOME: await emptyAmrHome(suite.scratchDir),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-headerless-control-key',
           },
@@ -342,7 +342,7 @@ describe('a headerless caller can mutate only unbound local projects', () => {
           // Deliberately NO VELA_API_URL / VELA_CONTROL_KEY.
           env: {
             AMR_HOME: await emptyAmrHome(suite.scratchDir),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
           },
         },
       );
@@ -350,8 +350,8 @@ describe('a headerless caller can mutate only unbound local projects', () => {
   );
 
   // The dual-track contract, pinned through the real binary rather than by
-  // intent. `AGENTS.md` makes `od` the embeddability surface external agents
-  // drive Open Design through, and there was no test anywhere exercising a CLI
+  // intent. `AGENTS.md` makes `sw` the embeddability surface external agents
+  // drive SankiWork through, and there was no test anywhere exercising a CLI
   // project mutation — which is why a 401 on every CLI-created project shipped
   // to this branch unnoticed.
   test(
@@ -371,11 +371,11 @@ describe('a headerless caller can mutate only unbound local projects', () => {
             'CLI dual-track project',
             '--json',
           ]);
-          expect(created.code, `od project create failed: ${created.stderr}`).toBe(0);
+          expect(created.code, `sw project create failed: ${created.stderr}`).toBe(0);
           const projectId = (JSON.parse(created.stdout) as CreatedProject).project.id;
 
-          // `od` attaches no `x-od-workspace-*` headers on this path — only
-          // `od workspace …` builds those — so this is the headerless shape by
+          // `sw` attaches no `x-od-workspace-*` headers on this path — only
+          // `sw workspace …` builds those — so this is the headerless shape by
           // construction, not by test contrivance.
           const duplicated = await od(daemonUrl, [
             'project',
@@ -387,14 +387,14 @@ describe('a headerless caller can mutate only unbound local projects', () => {
           ]);
           expect(
             duplicated.code,
-            `od project duplicate failed: ${duplicated.stderr || duplicated.stdout}`,
+            `sw project duplicate failed: ${duplicated.stderr || duplicated.stdout}`,
           ).toBe(0);
           expect(JSON.parse(duplicated.stdout).project.id).not.toBe(projectId);
         },
         {
           env: {
             AMR_HOME: await emptyAmrHome(suite.scratchDir),
-            OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+            SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
             VELA_API_URL: authorityUrl,
             VELA_CONTROL_KEY: 'e2e-headerless-control-key',
           },

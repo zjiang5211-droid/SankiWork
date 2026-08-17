@@ -6,12 +6,12 @@ import type {
   TrackingUpdateApplyReason,
   TrackingUpdateApplyResult,
   UpdateApplyObservedProps,
-} from '@open-design/contracts/analytics';
+} from '@sankiwork/contracts/analytics';
 import {
   isReleaseChannel,
   releaseChannelFromVersion,
   type ReleaseChannel,
-} from '@open-design/release';
+} from '@sankiwork/release';
 
 import type { AnalyticsContext, AnalyticsService } from '../analytics.js';
 import { readPosthogConfig } from '../analytics.js';
@@ -296,7 +296,7 @@ export async function observePendingInstallerApplyAttempts(
           insertId,
         });
       } catch (error) {
-        options.logger?.warn?.('[open-design updater] failed to submit update apply observation', error);
+        options.logger?.warn?.('[sankiwork updater] failed to submit update apply observation', error);
         next.delivery = { eventName: 'update_apply_observed', status: 'failed', updatedAt: observedAt };
       }
     }

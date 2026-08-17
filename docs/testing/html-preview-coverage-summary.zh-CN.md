@@ -27,7 +27,7 @@
 
 #### E2E / 集成
 
-- [/Users/mac/open-design/open-design-home-entry/e2e/ui/real-daemon-run.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/ui/real-daemon-run.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/real-daemon-run.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/real-daemon-run.test.ts)
   - 真实 run 生成 `.html` 文件
   - 文件落盘
   - 预览 iframe 可见
@@ -35,38 +35,38 @@
   - follow-up turn 再生成 HTML
   - 失败态不留脏文件
 
-- [/Users/mac/open-design/open-design-home-entry/e2e/tests/dialog/artifact-consistency.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/tests/dialog/artifact-consistency.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/e2e/tests/dialog/artifact-consistency.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/tests/dialog/artifact-consistency.test.ts)
   - run 状态、assistant message、持久化文件、`artifactManifest.renderer='html'`、原始 HTML 内容一致性
 
 #### daemon 单测
 
-- [/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/run-artifacts.test.ts](/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/run-artifacts.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/run-artifacts.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/run-artifacts.test.ts)
   - HTML artifact 识别、计数、成功/失败归因
 
-- [/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/artifact-create.test.ts](/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/artifact-create.test.ts)
-- [/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/artifacts-cli.test.ts](/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/artifacts-cli.test.ts)
-- [/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/mcp-create-artifact.test.ts](/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/mcp-create-artifact.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/artifact-create.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/artifact-create.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/artifacts-cli.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/artifacts-cli.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/mcp-create-artifact.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/mcp-create-artifact.test.ts)
   - daemon / CLI / MCP 创建 artifact 路径
 
 ### 2. HTML 文件预览
 
 #### web 组件测试
 
-- [/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/file-viewer-render-mode.test.ts](/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/file-viewer-render-mode.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/file-viewer-render-mode.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/file-viewer-render-mode.test.ts)
   - HTML 预览走 `url-load` 还是 `srcdoc`
   - deck / comment / edit / inspect / draw / tweaks / forceInline 等模式分流
 
-- [/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/PreviewModal.test.tsx](/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/PreviewModal.test.tsx)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/PreviewModal.test.tsx](/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/PreviewModal.test.tsx)
   - preview modal sandbox
   - deck srcdoc 处理
 
-- [/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/preview-modal-unavailable-state.test.tsx](/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/preview-modal-unavailable-state.test.tsx)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/preview-modal-unavailable-state.test.tsx](/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/preview-modal-unavailable-state.test.tsx)
   - 无 HTML 预览的占位状态
 
-- [/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/preview-modal-error-state.test.tsx](/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/preview-modal-error-state.test.tsx)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/preview-modal-error-state.test.tsx](/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/preview-modal-error-state.test.tsx)
   - 预览加载错误态
 
-- [/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/FileViewer.test.tsx](/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/FileViewer.test.tsx)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/FileViewer.test.tsx](/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/FileViewer.test.tsx)
   - URL-load iframe
   - srcdoc transport reactivation
   - 切 tab/切 source/切 view 后的 iframe 行为
@@ -74,29 +74,29 @@
 
 #### E2E / 页面恢复
 
-- [/Users/mac/open-design/open-design-home-entry/e2e/ui/app-restoration.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/ui/app-restoration.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/app-restoration.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/app-restoration.test.ts)
   - artifact tab 恢复
   - deep link 到 `.html`
   - 返回项目根后预览继续保持
   - later run 覆盖最新 artifact 预览
   - failed send 后 retry 恢复预览
 
-- [/Users/mac/open-design/open-design-home-entry/e2e/ui/app-design-files.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/ui/app-design-files.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/app-design-files.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/app-design-files.test.ts)
   - HTML / image / source 文件预览路径
   - `image-preview.html` 渲染图片资源
 
-- [/Users/mac/open-design/open-design-home-entry/e2e/ui/app-manual-edit.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/ui/app-manual-edit.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/app-manual-edit.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/app-manual-edit.test.ts)
   - HTML 预览 iframe 下的手动编辑与预览联动
 
 ### 3. raw HTML 路由与 iframe 特殊头
 
-- [/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/origin-validation.test.ts](/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/origin-validation.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/origin-validation.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/origin-validation.test.ts)
   - `Origin: null` 的 raw-file 预览路由访问
 
-- [/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/server-cors.test.ts](/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/server-cors.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/server-cors.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/server-cors.test.ts)
   - `srcdoc iframe` 相关 CORS 头
 
-- [/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/plugins-preview-route.test.ts](/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/plugins-preview-route.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/plugins-preview-route.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/plugins-preview-route.test.ts)
   - HTML preview route 包裹/重写逻辑
 
 ## 为什么历史上没拦住 Express 4 -> 5 的黑屏
@@ -105,7 +105,7 @@
 
 在 [PR #2311](https://github.com/nexu-io/open-design/pull/2311) 里，验证重心是：
 
-- `pnpm --filter @open-design/daemon test`
+- `pnpm --filter @sankiwork/daemon test`
 - `pnpm guard`
 - `pnpm typecheck`
 
@@ -156,22 +156,22 @@ Express 5 的典型风险点：
 
 ### P0
 
-- [/Users/mac/open-design/open-design-home-entry/e2e/ui/real-daemon-run.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/ui/real-daemon-run.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/real-daemon-run.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/real-daemon-run.test.ts)
   - 真 run 生成 HTML
   - iframe 内看到 heading/text
 
-- [/Users/mac/open-design/open-design-home-entry/e2e/tests/dialog/artifact-consistency.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/tests/dialog/artifact-consistency.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/e2e/tests/dialog/artifact-consistency.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/tests/dialog/artifact-consistency.test.ts)
   - 文件、manifest、assistant message、raw HTML 一致
 
-- [/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/origin-validation.test.ts](/Users/mac/open-design/open-design-home-entry/apps/daemon/tests/origin-validation.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/origin-validation.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/apps/daemon/tests/origin-validation.test.ts)
   - raw HTML 路由在 iframe 场景下仍然可用
 
 ### P1
 
-- [/Users/mac/open-design/open-design-home-entry/e2e/ui/app-restoration.test.ts](/Users/mac/open-design/open-design-home-entry/e2e/ui/app-restoration.test.ts)
+- [/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/app-restoration.test.ts](/Users/mac/sankiwork/sankiwork-home-entry/e2e/ui/app-restoration.test.ts)
   - HTML 预览恢复、deep link、artifact tab 回放
 
-- [/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/FileViewer.test.tsx](/Users/mac/open-design/open-design-home-entry/apps/web/tests/components/FileViewer.test.tsx)
+- [/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/FileViewer.test.tsx](/Users/mac/sankiwork/sankiwork-home-entry/apps/web/tests/components/FileViewer.test.tsx)
   - URL-load / srcdoc 路径的前端渲染决策
 
 ## 仍建议补的缺口

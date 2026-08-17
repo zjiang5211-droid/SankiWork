@@ -1,5 +1,5 @@
 import type { Express } from 'express';
-import type { WhatsNewResponse } from '@open-design/contracts';
+import type { WhatsNewResponse } from '@sankiwork/contracts';
 import { readCurrentAppVersionInfo } from '../app-version.js';
 import { type WhatsNewService } from '../services/whats-new.js';
 

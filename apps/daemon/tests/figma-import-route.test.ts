@@ -26,8 +26,8 @@ describe('POST /api/projects/:id/figma/import — HTTP layer', () => {
     };
     baseUrl = started.url;
     server = started.server;
-    dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
 
     await fetch(`${baseUrl}/api/projects`, {
       method: 'POST',

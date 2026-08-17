@@ -81,7 +81,7 @@ esac
 echo "-> invoking mock $AGENT..."
 (
   export PATH="$MOCKS_DIR/bin:$PATH"
-  export OD_MOCKS_NO_DELAY=1
+  export SW_MOCKS_NO_DELAY=1
   case "$AGENT" in
     claude)
       printf '%s' "$PROMPT" | claude -p --output-format=stream-json --verbose >"$mock_out" 2>&1 ;;

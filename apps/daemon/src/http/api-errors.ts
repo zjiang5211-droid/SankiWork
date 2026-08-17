@@ -1,4 +1,4 @@
-import type { ApiError, ApiErrorCode, ApiErrorResponse } from '@open-design/contracts';
+import type { ApiError, ApiErrorCode, ApiErrorResponse } from '@sankiwork/contracts';
 import type { Response } from 'express';
 
 import { recordApiFailure } from './api-failure-journal.js';

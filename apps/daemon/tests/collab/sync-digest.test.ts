@@ -61,7 +61,7 @@ describe('createSyncDigestReader', () => {
   it('reads the digest with the same auth the SSE channel uses', async () => {
     const seen: Array<{ url: string; headers: Record<string, string> }> = [];
     const read = createSyncDigestReader({
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
       getWorkspaceId: () => 'ws-1',
       readSession: () => session(),
       fetchImpl: (async (url: string, init: RequestInit) => {
@@ -88,7 +88,7 @@ describe('createSyncDigestReader', () => {
     const read = createSyncDigestReader({
       // A dev daemon on any other source has no hub to ask and must not dial
       // production — the same gate the hub events subscriber uses.
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'stub' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'stub' },
       getWorkspaceId: () => 'ws-1',
       readSession: () => session(),
       fetchImpl: (async () => {
@@ -104,7 +104,7 @@ describe('createSyncDigestReader', () => {
   it('reports null rather than inventing a key when the account id is missing', async () => {
     let called = 0;
     const read = createSyncDigestReader({
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
       getWorkspaceId: () => 'ws-1',
       // A config-only session read can land before the user record does. An
       // empty account id must never become a cache key.
@@ -121,7 +121,7 @@ describe('createSyncDigestReader', () => {
 
   it('reports null when no workspace is selected', async () => {
     const read = createSyncDigestReader({
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
       getWorkspaceId: () => '   ',
       readSession: () => session(),
       fetchImpl: (async () => new Response('{}', { status: 200 })) as unknown as typeof fetch,
@@ -133,7 +133,7 @@ describe('createSyncDigestReader', () => {
   it('reports null on a transport failure instead of throwing', async () => {
     const errors: unknown[] = [];
     const read = createSyncDigestReader({
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
       getWorkspaceId: () => 'ws-1',
       readSession: () => session(),
       fetchImpl: (async () => {
@@ -150,7 +150,7 @@ describe('createSyncDigestReader', () => {
 
   it('reports null on a non-2xx digest response', async () => {
     const read = createSyncDigestReader({
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
       getWorkspaceId: () => 'ws-1',
       readSession: () => session(),
       fetchImpl: (async () => new Response('nope', { status: 503 })) as unknown as typeof fetch,
@@ -164,7 +164,7 @@ describe('createSyncDigestReader', () => {
     let calls = 0;
     let broken = true;
     const read = createSyncDigestReader({
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
       getWorkspaceId: () => 'ws-1',
       readSession: () => session(),
       failureCooldownMs: 60_000,
@@ -203,7 +203,7 @@ describe('createSyncDigestReader', () => {
       release = resolve;
     });
     const read = createSyncDigestReader({
-      env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+      env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
       getWorkspaceId: () => 'ws-1',
       readSession: () => session(),
       fetchImpl: (async () => {

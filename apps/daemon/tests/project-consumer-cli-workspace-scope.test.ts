@@ -53,7 +53,7 @@ function authorizeProjectRequest(request: RequestRecord): {
   code?: string;
 } {
   if (request.headers.authorization === 'Bearer tool-proof') return { status: 200 };
-  // `od export` is addressed by project id. The real daemon derives the
+  // `sw export` is addressed by project id. The real daemon derives the
   // persisted Workspace binding server-side, so this transport fixture must
   // not require caller-supplied Workspace headers for export routes.
   if (request.url.includes('/export/')) return { status: 200 };
@@ -421,8 +421,8 @@ describe('project consumer CLI explicit Workspace fixture matrix', () => {
         baseUrl,
       ],
       {
-        OD_PROJECT_ID: 'bound-project',
-        OD_TOOL_TOKEN: 'tool-proof',
+        SW_PROJECT_ID: 'bound-project',
+        SW_TOOL_TOKEN: 'tool-proof',
       },
     );
 

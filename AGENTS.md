@@ -18,12 +18,12 @@ This file is the single source of truth for agents entering this repository. Rea
 - Workspace packages come from `pnpm-workspace.yaml`: `apps/*`, `packages/*`, `tools/*`, and `e2e`.
 - Top-level content directories: `skills/` (functional skills the agent invokes mid-task — utilities, briefs, packagers; see `skills/AGENTS.md`), `design-templates/` (rendering catalogue: decks, prototypes, image/video/audio templates; see `design-templates/AGENTS.md` and `specs/current/skills-and-design-templates.md`), `design-systems/` (brand `DESIGN.md` files), `craft/` (universal brand-agnostic craft rules a skill can opt into via `od.craft.requires`), `mocks/` (replay-based mock CLIs for `opencode`/`claude`/`codex`/`gemini`/`cursor-agent`/`deepseek`/`qwen`/`grok`, the ACP family `devin`/`hermes`/`kilo`/`kimi`/`kiro`/`vibe`, and the AMR `vela` CLI (login + models + ACP), built from anonymized Langfuse traces — PATH-overlay drop-in for tests and self-validation; see `mocks/README.md`).
 - `apps/web` is the Next.js 16 App Router + React 18 web runtime; do not restore `apps/nextjs`.
-- `apps/daemon` is the local privileged daemon and `od` bin. It owns `/api/*`, agent spawning, skills, design systems, artifacts, and static serving.
+- `apps/daemon` is the local privileged daemon and `sw` bin. It owns `/api/*`, agent spawning, skills, design systems, artifacts, and static serving.
 - `apps/desktop` is the Electron shell; it discovers the web URL through sidecar IPC.
-- `apps/packaged` is the thin packaged Electron runtime entry; it starts packaged sidecars and owns the `od://` entry glue only.
+- `apps/packaged` is the thin packaged Electron runtime entry; it starts packaged sidecars and owns the `sankiwork://` entry glue only.
 - `apps/landing-page` is the standalone static Astro marketing and public catalog site. It reads repository content at build time and is not part of the daemon/web product runtime.
 - `packages/contracts` is the pure TypeScript web/daemon app contract layer.
-- `packages/sidecar-proto` owns the Open Design sidecar business protocol; `packages/sidecar` owns the generic sidecar runtime; `packages/platform` owns generic OS process primitives.
+- `packages/sidecar-proto` owns the SankiWork sidecar business protocol; `packages/sidecar` owns the generic sidecar runtime; `packages/platform` owns generic OS process primitives.
 - `tools/dev` is the local development lifecycle control plane.
 - `tools/pack` is the local packaged build/start/stop/logs control plane, packaged updater harness, installer identity/registry validation surface, and mac beta release artifact preparation surface.
 - `tools/serve` is the local fixture-service control plane; first service is `tools-serve start updater` for deterministic updater metadata and artifacts.
@@ -57,7 +57,7 @@ This file is the single source of truth for agents entering this repository. Rea
 - Use `pnpm tools-dev` as the only local development lifecycle entry point.
 - Do not add or restore root lifecycle aliases: `pnpm dev`, `pnpm dev:all`, `pnpm daemon`, `pnpm preview`, or `pnpm start`.
 - Ports are governed by `tools-dev` flags: `--daemon-port` and `--web-port`.
-- `tools-dev` exports `OD_PORT` for the web proxy target and `OD_WEB_PORT` for the web listener; do not use `NEXT_PORT`.
+- `tools-dev` exports `SW_PORT` for the web proxy target and `SW_WEB_PORT` for the web listener; do not use `NEXT_PORT`.
 
 ## Daemon data directory contract
 
@@ -75,7 +75,7 @@ a new convention.
 
 The daemon has one active data-root truth source:
 
-- On daemon startup, `apps/daemon/src/server.ts` resolves `OD_DATA_DIR` into
+- On daemon startup, `apps/daemon/src/server.ts` resolves `SW_DATA_DIR` into
   `RUNTIME_DATA_DIR`.
 - All daemon-owned data paths must derive from `RUNTIME_DATA_DIR` or from a
   constant derived from it, such as `PROJECTS_DIR` or `ARTIFACTS_DIR`.
@@ -86,7 +86,7 @@ The daemon has one active data-root truth source:
   state, plugin state, connector credentials, generated files, logs owned by
   sandbox mode, and agent runtime homes are daemon data and must remain under
   the resolved daemon data root unless this file names a specific exception.
-- Agent subprocesses receive the resolved daemon data root as `OD_DATA_DIR`.
+- Agent subprocesses receive the resolved daemon data root as `SW_DATA_DIR`.
   They must inherit the daemon's truth source instead of guessing their own
   data path.
 
@@ -96,7 +96,7 @@ Development propagation:
 - `tools-dev --namespace <name>` does not, by itself, define daemon data
   isolation.
 - A development run that needs an isolated daemon data root must pass
-  `OD_DATA_DIR` into the daemon process environment. After that, the daemon
+  `SW_DATA_DIR` into the daemon process environment. After that, the daemon
   resolves it once and all daemon data paths flow from `RUNTIME_DATA_DIR`.
 
 Packaged propagation:
@@ -104,18 +104,18 @@ Packaged propagation:
 - `tools-pack` / `apps/packaged` own packaged channel and namespace layout.
 - Packaged code resolves the final namespace-scoped daemon data root before
   spawning the daemon.
-- The packaged daemon receives that final data root as `OD_DATA_DIR`; daemon
+- The packaged daemon receives that final data root as `SW_DATA_DIR`; daemon
   code must not infer packaged data paths from app names, Electron `userData`,
   ports, channel names, or namespace names.
 
 Sanctioned exceptions:
 
-- `OD_MEDIA_CONFIG_DIR` is a narrow override for `media-config.json` only. It
+- `SW_MEDIA_CONFIG_DIR` is a narrow override for `media-config.json` only. It
   is not a second daemon data root.
-- `OD_LEGACY_DATA_DIR` is a migration source for legacy data import only. It is
+- `SW_LEGACY_DATA_DIR` is a migration source for legacy data import only. It is
   not an active daemon data root.
 - External tool homes such as `CODEX_HOME` are integration inputs, not daemon
-  data roots. The daemon must not describe them as Open Design runtime data.
+  data roots. The daemon must not describe them as SankiWork runtime data.
 - Agent/project-cwd skill staging aliases are not daemon data roots.
 - Manifest metadata keys and CSS identifiers are semantic namespaces, not
   filesystem path conventions.
@@ -124,7 +124,7 @@ Known escape candidates that must not be reused:
 
 - Module-level defaults that point at a cwd-relative legacy data directory.
 - Helper defaults such as `defaultRegistryRoots()` that recompute a data root
-  from `process.env.OD_DATA_DIR` or a cwd fallback instead of receiving
+  from `process.env.SW_DATA_DIR` or a cwd fallback instead of receiving
   `RUNTIME_DATA_DIR`.
 - `openDatabase(projectRoot)` calls that rely on its fallback instead of
   passing the resolved data root.
@@ -157,8 +157,8 @@ Do not add a new business-named follow-on workflow such as `foo.comment.atom.yml
 - `prerelease` is the internal validation channel for stable delivery. Stable releases remain gated by validated prerelease artifacts.
 - `preview` is an independent early-access channel with stable-like release rigor. It should use preview versions such as `X.Y.Z-preview.N`, publish to the `preview` R2 channel, publish updater feeds under `preview/latest`, and follow stable's platform policy including the existing optional Linux enablement.
 - `stable` is the formal delivery channel. Do not make stable promotion depend on preview; stable continues to depend on prerelease only.
-- Public packaged app identity must stay channel-distinct: stable uses `Open Design`, beta uses `Open Design Beta`, prerelease uses `Open Design Prerelease`, and preview uses `Open Design Preview`. Do not ship beta, prerelease, or preview mac DMGs whose drag-install app bundle is `Open Design.app`.
-- Windows beta updater validation must use the real beta namespace `release-beta-win`; otherwise a local beta-like namespace can create a separate uninstall registry key while looking like the same `Open Design Beta` app. See `tools/pack/AGENTS.md` for the architecture map and high-confidence acceptance harness.
+- Public packaged app identity must stay channel-distinct: stable uses `SankiWork`, beta uses `SankiWork Beta`, prerelease uses `SankiWork Prerelease`, and preview uses `SankiWork Preview`. Do not ship beta, prerelease, or preview mac DMGs whose drag-install app bundle is `SankiWork.app`.
+- Windows beta updater validation must use the real beta namespace `release-beta-win`; otherwise a local beta-like namespace can create a separate uninstall registry key while looking like the same `SankiWork Beta` app. See `tools/pack/AGENTS.md` for the architecture map and high-confidence acceptance harness.
 
 ## Boundary constraints
 
@@ -174,18 +174,18 @@ Do not add a new business-named follow-on workflow such as `foo.comment.atom.yml
 - Sidecar process stamps must have exactly five fields: `app`, `mode`, `namespace`, `ipc`, and `source`.
 - Orchestration layers (`tools-dev`, `tools-pack`, packaged launchers) must call package primitives; do not hand-build `--od-stamp-*` args or process-scan regexes.
 - Packaged runtime paths must be namespace-scoped and independent from daemon/web ports; ports are transient transport details only.
-- Default runtime files live under `<project-root>/.tmp/<source>/<namespace>/...`; POSIX IPC sockets are fixed at `/tmp/open-design/ipc/<namespace>/<app>.sock`.
+- Default runtime files live under `<project-root>/.tmp/<source>/<namespace>/...`; POSIX IPC sockets are fixed at `/tmp/sankiwork/ipc/<namespace>/<app>.sock`.
 
 ## Capability exposure (UI/CLI dual-track)
 
-Every user-facing capability must be reachable through both the web UI **and** the `od` CLI (`apps/daemon/src/cli.ts`). Shipping a feature with only one of the two surfaces is a regression.
+Every user-facing capability must be reachable through both the web UI **and** the `sw` CLI (`apps/daemon/src/cli.ts`). Shipping a feature with only one of the two surfaces is a regression.
 
-- The CLI is the embeddability contract. External agents (hermes-agent, openclaw, custom Slack/Discord bots, packaged runtimes invoked from another shell) drive Open Design through `od` subcommands — they do not render the web UI. If a capability is UI-only, it cannot be composed into those external agents.
+- The CLI is the embeddability contract. External agents (hermes-agent, openclaw, custom Slack/Discord bots, packaged runtimes invoked from another shell) drive SankiWork through `sw` subcommands — they do not render the web UI. If a capability is UI-only, it cannot be composed into those external agents.
 - Both surfaces must call the same `/api/*` endpoints; do not let the CLI talk to one shape and the UI to another. The daemon HTTP layer is the single source of truth, with `packages/contracts` carrying the shared DTOs.
 - The CLI form must support `--json` for machine-readable output and accept long-form prompts via `--prompt-file <path|->`, so jobs that pipe through `xargs`, `jq`, and `<heredoc` stay clean.
-- Adding a new capability is a three-step closure: HTTP endpoint in `apps/daemon/src/*-routes.ts` (with a contract type in `packages/contracts/src/api/`), UI surface in `apps/web/src/`, and `od <capability>` subcommand in `apps/daemon/src/cli.ts` registered through `SUBCOMMAND_MAP`. Land all three in the same PR; do not stage them across PRs.
+- Adding a new capability is a three-step closure: HTTP endpoint in `apps/daemon/src/*-routes.ts` (with a contract type in `packages/contracts/src/api/`), UI surface in `apps/web/src/`, and `sw <capability>` subcommand in `apps/daemon/src/cli.ts` registered through `SUBCOMMAND_MAP`. Land all three in the same PR; do not stage them across PRs.
 - The PR template's Surface area checklist must reflect *both* surfaces. If you ticked UI, tick CLI too — and vice-versa — or explain in the PR body why the missing surface is genuinely not applicable (e.g. an internal-only daemon health probe). "I'll do the CLI later" is not a valid reason.
-- Existing reference points: `od automation …` mirrors the Automations tab against `/api/routines`; `od plugin …`, `od ui …`, `od project …`, `od media …`, `od mcp …`, `od research …` follow the same shape. Copy that pattern for new capabilities.
+- Existing reference points: `sw automation …` mirrors the Automations tab against `/api/routines`; `sw plugin …`, `sw ui …`, `sw project …`, `sw media …`, `sw mcp …`, `sw research …` follow the same shape. Copy that pattern for new capabilities.
 
 ## Git commit policy
 
@@ -215,7 +215,7 @@ Every user-facing capability must be reachable through both the web UI **and** t
 This repository no longer ships a maintainer PR-duty control plane. The former
 `pnpm tools-pr` workflow has moved to the standalone `PerishCode/duty` project
 so personal review-lane automation does not become product workspace
-maintenance surface. Do not recreate `tools/pr`, `@open-design/tools-pr`, or a
+maintenance surface. Do not recreate `tools/pr`, `@sankiwork/tools-pr`, or a
 root `pnpm tools-pr` script without a new explicit maintainer decision.
 
 ## Agent runtime conventions
@@ -245,15 +245,15 @@ root `pnpm tools-pr` script without a new explicit maintainer decision.
 - New component-owned UI styles should default to CSS Modules next to the component (`Component.module.css`) instead of expanding global stylesheets. This is preferred for isolated components, panels, menus, drawers, toolbars, cards, and form sections.
 - When touching an existing component with nearby global styles, prefer migrating that component's local selectors to a CSS Module as part of the change if it is small and testable. Do not mix a large mechanical move with behavior/styling changes in the same patch.
 - Keep global class names only for deliberate shared contracts: reusable primitives, theme hooks, third-party/content styling, cross-component layout, or selectors that rely on global cascade/specificity. Document any new global selector group with its owning feature.
-- CSS refactors must preserve cascade semantics. For mechanical splits, verify expanded import content/order matches the previous stylesheet; for CSS Module migrations, validate the affected UI path with `pnpm --filter @open-design/web typecheck` and a focused build/test or visual check when practical.
+- CSS refactors must preserve cascade semantics. For mechanical splits, verify expanded import content/order matches the previous stylesheet; for CSS Module migrations, validate the affected UI path with `pnpm --filter @sankiwork/web typecheck` and a focused build/test or visual check when practical.
 
 ## Web component reuse
 
-- New `apps/web` UI should reuse shared primitives from `@open-design/components` when one exists instead of styling plain HTML elements directly. For example, use `Button` for app buttons and `VisuallyHidden` for screen-reader-only text/status content.
+- New `apps/web` UI should reuse shared primitives from `@sankiwork/components` when one exists instead of styling plain HTML elements directly. For example, use `Button` for app buttons and `VisuallyHidden` for screen-reader-only text/status content.
 - Do not add new raw primitive classes such as `primary`, `primary-ghost`, `ghost`, `subtle`, `icon-btn`, or `sr-only` for new UI. Those classes are legacy compatibility surface for existing markup until it is migrated.
 - If a needed primitive is missing, prefer adding a small focused primitive to `packages/components` with colocated CSS Modules, then consume it from the app. Keep product-specific layout and workflow styling in the app, not in `packages/components`.
 - Keep semantic plain HTML when it is content markup or a specialized control that the shared package does not model yet; do not force a migration that would hide native behavior or make a custom widget harder to reason about.
-- `apps/web` transpiles `@open-design/components` from source during dev, so component and CSS Module edits should work through the normal web dev loop without rebuilding the package.
+- `apps/web` transpiles `@sankiwork/components` from source during dev, so component and CSS Module edits should work through the normal web dev loop without rebuilding the package.
 
 ## i18n keys
 
@@ -274,7 +274,7 @@ root `pnpm tools-pr` script without a new explicit maintainer decision.
   for completion signals, virtual-clock usage, isolation, and performance
   validation.
 - After package, workspace, or command-entry changes, run `pnpm install` so workspace links and generated dist entries stay fresh.
-- For agent-stream / parser changes (`apps/daemon/src/runtimes/claude-stream.ts`, `json-event-stream.ts`, `qoder-stream.ts`, etc.), replay a recorded session through the mock CLIs in `mocks/` to verify event shapes round-trip without burning provider budget. PATH-overlay activation: `export PATH="$PWD/mocks/bin:$PATH" OD_MOCKS_TRACE=<8-char-id> OD_MOCKS_NO_DELAY=1`. See `mocks/README.md` for the trace catalog and selection knobs.
+- For agent-stream / parser changes (`apps/daemon/src/runtimes/claude-stream.ts`, `json-event-stream.ts`, `qoder-stream.ts`, etc.), replay a recorded session through the mock CLIs in `mocks/` to verify event shapes round-trip without burning provider budget. PATH-overlay activation: `export PATH="$PWD/mocks/bin:$PATH" SW_MOCKS_TRACE=<8-char-id> SW_MOCKS_NO_DELAY=1`. See `mocks/README.md` for the trace catalog and selection knobs.
 - Treat every `pnpm-lock.yaml` change that affects Nix packaging as requiring a Nix pnpm deps hash refresh when you maintain the flake. `nix/pnpm-deps.nix` is a generated lock artifact; use `pnpm nix:update-hash` then re-run `nix flake check --print-build-logs --keep-going` locally. Standalone `.github/workflows/nix.yml` runs flake check when nix/lock inputs change; it is **not** part of core `ci.yml` / `Validate workspace` / merge queue. Docker image smoke/publish lives only in `.github/workflows/docker-image.yml` and is likewise outside the merge gate.
 - Before marking regular work ready, run at least `pnpm guard` and `pnpm typecheck`, plus the package-scoped tests/builds that match the files changed. Do not use or add root `pnpm test`/`pnpm build` aliases.
 - For local web runtime loops, prefer `pnpm tools-dev run web --daemon-port <port> --web-port <port>`.
@@ -311,7 +311,7 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 pnpm tools-dev status --json
 pnpm tools-dev logs --json
 pnpm tools-dev inspect desktop status --json
-pnpm tools-dev inspect desktop screenshot --path /tmp/open-design.png
+pnpm tools-dev inspect desktop screenshot --path /tmp/sankiwork.png
 pnpm tools-dev stop
 pnpm tools-dev check
 ```
@@ -322,15 +322,15 @@ pnpm typecheck
 ```
 
 ```bash
-pnpm --filter @open-design/web typecheck
-pnpm --filter @open-design/web test
-pnpm --filter @open-design/web build
-pnpm --filter @open-design/daemon test
-pnpm --filter @open-design/daemon build
-pnpm --filter @open-design/desktop build
-pnpm --filter @open-design/tools-dev build
-pnpm --filter @open-design/tools-pack build
-pnpm --filter @open-design/tools-serve build
+pnpm --filter @sankiwork/web typecheck
+pnpm --filter @sankiwork/web test
+pnpm --filter @sankiwork/web build
+pnpm --filter @sankiwork/daemon test
+pnpm --filter @sankiwork/daemon build
+pnpm --filter @sankiwork/desktop build
+pnpm --filter @sankiwork/tools-dev build
+pnpm --filter @sankiwork/tools-pack build
+pnpm --filter @sankiwork/tools-serve build
 ```
 
 ```bash
@@ -351,7 +351,26 @@ pnpm tools-pack linux build --containerized
 
 To avoid starting daemon, web, and desktop through inconsistent env, port, namespace, or log paths. All local lifecycle flows must go through `pnpm tools-dev`.
 
-## Why should `apps/nextjs` not be restored?
+## Versioning（SankiWork 版本纪律）
+
+SankiWork 采用语义化版本（SemVer `主.次.修订`），初始版本 **1.0.0**（2026-08-18 从 Open Design v0.19.2 基线重品牌后确立）。
+
+**硬性规则**：
+1. **每次阶段完成必须更新版本号**。任何阶段（P1 品牌替换、P2 品牌资产、P3 云端等）完成后，AI 代理必须先升版本再提交，禁止不升版本直接提交。
+2. **主产品版本 = 所有对齐包版本**，一处改动必须全量同步（当前对齐集：根 `package.json`、`apps/*`、`e2e`、`packages/contracts|download|host|launcher-proto|platform|release|sidecar|sidecar-proto`、`tools/dev|pack|release`，全部 1.0.0）。验证命令：
+   ```bash
+   rg -o '"version": "[^"]*"' --glob 'package.json' | sort | uniq -c
+   ```
+   主产品版本应全部一致；以下**独立轨道包**不受主版本约束，各自维护版本：`packages/agui-adapter`、`components`、`diagnostics`、`dsh-runtime`、`metatool`、`plugin-runtime`、`registry-protocol`、`tools/serve`。
+3. **升版本语义**（按国际 SemVer 规范）：
+   - 修复/小改动 → 修订号 +1（1.0.0 → 1.0.1）
+   - 新功能（向后兼容）→ 次版本 +1（1.0.0 → 1.1.0）
+   - 破坏性变更 → 主版本 +1（1.0.0 → 2.0.0）
+   - 预发布可在版本后附加 `-beta.N` / `-rc.N`
+4. **客户端显示版本**取自桌面端运行时版本（Electron `apps/desktop/package.json` 等），升版本时确保各文件一致。
+5. 本仓库不涉及 Tauri/Cargo 版本文件（`apps/desktop` 为 Electron 结构）；若未来引入，需同步。
+
+
 
 The current web runtime is `apps/web`. The historical `apps/nextjs` layout has been removed from the active repo shape; restoring it would reintroduce duplicate app boundaries and stale scripts.
 
@@ -361,7 +380,7 @@ Desktop queries runtime status through sidecar IPC. The web URL comes from `tool
 
 ## How are sidecar-proto, sidecar, and platform split?
 
-`@open-design/sidecar-proto` owns Open Design app/mode/source constants, namespace validation, stamp fields/flags, IPC message schema, status shapes, and error semantics. `@open-design/sidecar` provides only generic bootstrap, IPC transport, path/runtime resolution, launch env, and JSON runtime files. `@open-design/platform` provides only generic OS process stamp serialization, command parsing, and process matching/search primitives, consuming the proto descriptor.
+`@sankiwork/sidecar-proto` owns SankiWork app/mode/source constants, namespace validation, stamp fields/flags, IPC message schema, status shapes, and error semantics. `@sankiwork/sidecar` provides only generic bootstrap, IPC transport, path/runtime resolution, launch env, and JSON runtime files. `@sankiwork/platform` provides only generic OS process stamp serialization, command parsing, and process matching/search primitives, consuming the proto descriptor.
 
 ## When is `pnpm install` required?
 

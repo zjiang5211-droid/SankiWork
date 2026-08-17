@@ -34,5 +34,5 @@ artifact lineage chain stays intact across multi-turn tune cycles.
 
 The handoff stage records `handoffKind: 'patch'` (or
 `'deployable-app'` when the user opted in via
-`od plugin run --target deployable-app` AND `build-test` ran
+`sw plugin run --target deployable-app` AND `build-test` ran
 successfully somewhere upstream in the project's history).

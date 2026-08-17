@@ -9,7 +9,7 @@ Rode o produto inteiro localmente.
 - **Node.js:** `~24` (Node 24.x). O repo força isso via `package.json#engines`.
 - **pnpm:** `10.33.x`. O repo fixa `pnpm@10.33.2` via `packageManager`; use Corepack para selecionar a versão fixada automaticamente.
 - **SO:** macOS, Linux e WSL2 são os caminhos principais. Windows nativo costuma funcionar para a maioria dos fluxos, mas WSL2 é a base mais segura.
-- **CLI de agente local (opcional):** O Open Design mantém um registro de runtimes locais, incluindo Claude Code, Codex, Devin for Terminal, OpenCode, Cursor Agent, Qwen, Qoder CLI, GitHub Copilot CLI e outros. A lista atual fica em [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts). Sem nenhum instalado, use um runtime BYOK configurado em Settings.
+- **CLI de agente local (opcional):** O SankiWork mantém um registro de runtimes locais, incluindo Claude Code, Codex, Devin for Terminal, OpenCode, Cursor Agent, Qwen, Qoder CLI, GitHub Copilot CLI e outros. A lista atual fica em [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts). Sem nenhum instalado, use um runtime BYOK configurado em Settings.
 
 `nvm` / `fnm` são ferramentas opcionais de conveniência, não são parte obrigatória do setup do projeto. Se você usa um deles, instale/selecione o Node 24 antes de rodar pnpm:
 
@@ -63,8 +63,8 @@ pnpm tools-dev status          # inspect managed runtimes
 pnpm tools-dev logs            # show daemon/web/desktop logs
 pnpm tools-dev check           # status + recent logs + common diagnostics
 pnpm tools-dev stop            # stop managed runtimes
-pnpm --filter @open-design/daemon build  # build apps/daemon/dist/cli.js for `od`
-pnpm --filter @open-design/web build     # build do pacote web quando necessário
+pnpm --filter @sankiwork/daemon build  # build apps/daemon/dist/cli.js for `sw`
+pnpm --filter @sankiwork/web build     # build do pacote web quando necessário
 pnpm typecheck                 # workspace typecheck
 ```
 
@@ -74,7 +74,7 @@ Em desenvolvimento local, o `tools-dev` sobe o daemon primeiro, repassa a porta 
 
 ## Configuração Docker
 
-Execute o Open Design em um ambiente totalmente conteinerizado sem instalar Node.js ou pnpm localmente.
+Execute o SankiWork em um ambiente totalmente conteinerizado sem instalar Node.js ou pnpm localmente.
 
 ### Requisitos
 
@@ -89,7 +89,7 @@ docker compose version
 
 ---
 
-## Iniciar o Open Design
+## Iniciar o SankiWork
 
 A partir da raiz do repositório:
 
@@ -106,7 +106,7 @@ A partir da raiz do repositório:
    openssl rand -hex 32
    ```
 
-3. Abra o `.env` no seu editor, encontre `OD_API_TOKEN=` e cole o token gerado.
+3. Abra o `.env` no seu editor, encontre `SW_API_TOKEN=` e cole o token gerado.
 
 Em seguida, inicie o serviço:
 
@@ -171,20 +171,20 @@ Edite `deploy/.env` para definir seu próprio token e ajustar outros valores con
 
 ```env
 # Porta exposta no host
-OPEN_DESIGN_PORT=7456
+SANKIWORK_PORT=7456
 
 # Limite de memória do container
-OPEN_DESIGN_MEM_LIMIT=384m
+SANKIWORK_MEM_LIMIT=384m
 
 # Origens CORS permitidas
-OPEN_DESIGN_ALLOWED_ORIGINS=https://yourdomain.com
+SANKIWORK_ALLOWED_ORIGINS=https://yourdomain.com
 
 # Tag da imagem Docker
-OPEN_DESIGN_IMAGE=ghcr.io/nexu-io/od:latest
+SANKIWORK_IMAGE=ghcr.io/nexu-io/od:latest
 
 # Token de API obrigatório para segurança do daemon
 # Gere um com: openssl rand -hex 32
-OD_API_TOKEN=
+SW_API_TOKEN=
 ```
 
 ---
@@ -207,33 +207,33 @@ Este Quickstart NÃO DEVE repetir esse contrato nem definir caminhos de armazena
 
 ## Verificações de geração de mídia / dispatcher de agente
 
-Skills de imagem, vídeo, áudio e HyperFrames chamam o CLI local `od` por meio de variáveis de ambiente que o daemon injeta ao spawnar um agente:
+Skills de imagem, vídeo, áudio e HyperFrames chamam o CLI local `sw` por meio de variáveis de ambiente que o daemon injeta ao spawnar um agente:
 
-- `OD_BIN` — caminho absoluto para `apps/daemon/dist/cli.js`.
-- `OD_DAEMON_URL` — URL do daemon em execução.
-- `OD_PROJECT_ID` — id do projeto ativo.
-- `OD_PROJECT_DIR` — diretório de arquivos do projeto ativo.
+- `SW_BIN` — caminho absoluto para `apps/daemon/dist/cli.js`.
+- `SW_DAEMON_URL` — URL do daemon em execução.
+- `SW_PROJECT_ID` — id do projeto ativo.
+- `SW_PROJECT_DIR` — diretório de arquivos do projeto ativo.
 
-Se a geração de mídia falhar com `OD_BIN: parameter not set`, com `apps/daemon/dist/cli.js` ausente ou com `failed to reach daemon at http://127.0.0.1:0`, recompile o CLI do daemon e reinicie o runtime gerenciado:
+Se a geração de mídia falhar com `SW_BIN: parameter not set`, com `apps/daemon/dist/cli.js` ausente ou com `failed to reach daemon at http://127.0.0.1:0`, recompile o CLI do daemon e reinicie o runtime gerenciado:
 
 ```bash
-pnpm --filter @open-design/daemon build
+pnpm --filter @sankiwork/daemon build
 pnpm tools-dev restart --daemon-port 7457 --web-port 5175
 ls -la apps/daemon/dist/cli.js
 curl -s http://127.0.0.1:7457/api/health
 ```
 
-Em seguida, abra o projeto pelo app Open Design novamente em vez de retomar uma sessão antiga de agente no terminal. Um agente spawnado pelo daemon deve ver valores como:
+Em seguida, abra o projeto pelo app SankiWork novamente em vez de retomar uma sessão antiga de agente no terminal. Um agente spawnado pelo daemon deve ver valores como:
 
 ```bash
-echo "OD_BIN=$OD_BIN"
-echo "OD_PROJECT_ID=$OD_PROJECT_ID"
-echo "OD_PROJECT_DIR=$OD_PROJECT_DIR"
-echo "OD_DAEMON_URL=$OD_DAEMON_URL"
-ls -la "$OD_BIN"
+echo "SW_BIN=$SW_BIN"
+echo "SW_PROJECT_ID=$SW_PROJECT_ID"
+echo "SW_PROJECT_DIR=$SW_PROJECT_DIR"
+echo "SW_DAEMON_URL=$SW_DAEMON_URL"
+ls -la "$SW_BIN"
 ```
 
-`OD_DAEMON_URL` precisa ser uma porta de daemon real, como `http://127.0.0.1:7457`, e não `http://127.0.0.1:0`. O `:0` é apenas uma dica interna de "escolha uma porta livre" no launch e não deveria vazar para sessões de agente.
+`SW_DAEMON_URL` precisa ser uma porta de daemon real, como `http://127.0.0.1:7457`, e não `http://127.0.0.1:0`. O `:0` é apenas uma dica interna de "escolha uma porta livre" no launch e não deveria vazar para sessões de agente.
 
 No modo de produção daemon-only, o próprio daemon serve o export estático do Next.js em `http://localhost:7456`, então não há reverse proxy envolvido.
 
@@ -282,11 +282,11 @@ Troque o skill ou o design system na barra superior e o próximo envio usa a nov
 ## Mapa de arquivos
 
 ```
-open-design/
+sankiwork/
 ├── apps/
 │   ├── daemon/                # Node/Express — spawns local agents + serves APIs
 │   │   └── src/
-│   │       ├── cli.ts             # `od` bin entry
+│   │       ├── cli.ts             # `sw` bin entry
 │   │       ├── server.ts          # /api/* + static serving
 │   │       ├── agents.ts          # exports de compatibilidade dos módulos de runtime
 │   │       ├── runtimes/
@@ -310,7 +310,7 @@ open-design/
 │   └── desktop/               # Electron runtime, launched/inspected by tools-dev
 ├── packages/
 │   ├── contracts/             # shared web/daemon app contracts
-│   ├── sidecar-proto/         # Open Design sidecar protocol contract
+│   ├── sidecar-proto/         # SankiWork sidecar protocol contract
 │   ├── sidecar/               # generic sidecar runtime primitives
 │   └── platform/              # generic process/platform primitives
 ├── tools/dev/                 # `pnpm tools-dev` lifecycle and inspect CLI
@@ -321,15 +321,15 @@ open-design/
 ├── scripts/sync-design-systems.ts    # re-import from upstream getdesign tarball
 ├── docs/                      # product vision + spec
 ├── pnpm-workspace.yaml        # apps/* + packages/* + tools/* + e2e
-└── package.json               # root quality scripts + `od` bin
+└── package.json               # root quality scripts + `sw` bin
 ```
 
 ## Solução de problemas
 
 - **"no agents found on PATH"** — instale um dos runtimes locais registrados em [`apps/daemon/src/runtimes/registry.ts`](../../apps/daemon/src/runtimes/registry.ts), confirme que o executável está visível para o daemon e use **Rescan** em **Settings → Execution mode**. Ou configure um runtime BYOK em Settings.
 - **daemon 500 em /api/chat** — confira o terminal do daemon para a tail de stderr; geralmente o CLI rejeitou os args. CLIs diferentes aceitam formatos de argv diferentes; veja a definição correspondente em `apps/daemon/src/runtimes/defs/` se precisar ajustar.
-- **geração de mídia diz que `OD_BIN` está faltando ou que a URL do daemon é `:0`** — rode as verificações do dispatcher de mídia acima. Não retome a sessão antiga do CLI; reabra o projeto pelo app Open Design para o daemon injetar variáveis `OD_*` novas.
-- **Codex carrega muito contexto de plugin** — suba o Open Design com `OD_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` para que processos Codex spawnados pelo daemon rodem com `--disable plugins`.
+- **geração de mídia diz que `SW_BIN` está faltando ou que a URL do daemon é `:0`** — rode as verificações do dispatcher de mídia acima. Não retome a sessão antiga do CLI; reabra o projeto pelo app SankiWork para o daemon injetar variáveis `SW_*` novas.
+- **Codex carrega muito contexto de plugin** — suba o SankiWork com `SW_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` para que processos Codex spawnados pelo daemon rodem com `--disable plugins`.
 - **artifact nunca renderiza** — primeiro identifique o perfil de entrega. Em um runtime local com filesystem, confirme que o agente criou um arquivo de projeto que pode ser pré-visualizado e que os eventos de arquivo chegaram ao daemon; o código-fonte não deve estar em `<artifact>`. Em execução plain/somente texto ou BYOK, confirme um único bloco `<artifact>` completo e procure no log do daemon a primeira fronteira que falhou.
 
 ## Voltando à visão

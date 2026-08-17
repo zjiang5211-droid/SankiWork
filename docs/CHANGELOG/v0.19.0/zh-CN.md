@@ -1,16 +1,16 @@
 ---
-title: Open Design 0.19.0 — Image Generation, Unlocked
-description: 用 Open Design 订阅把想法变成图片：直接使用 Seedream 5.0 Pro、GPT Image 2.0 和 Nano Banana 2.0 生成图像。
+title: SankiWork 0.19.0 — Image Generation, Unlocked
+description: 用 SankiWork 订阅把想法变成图片：直接使用 Seedream 5.0 Pro、GPT Image 2.0 和 Nano Banana 2.0 生成图像。
 ---
 
 ### 🌟 Codename: *Image Generation, Unlocked*
 
-🖼️ **用 Open Design 订阅把想法变成图片：直接使用 Seedream 5.0 Pro、GPT Image 2.0
+🖼️ **用 SankiWork 订阅把想法变成图片：直接使用 Seedream 5.0 Pro、GPT Image 2.0
 和 Nano Banana 2.0 生成图像。**
 
 ## 🔥 亮点
 
-- 🎨 **订阅内直接使用三款主力图片模型。** 通过 Open Design Cloud，可以直接使用
+- 🎨 **订阅内直接使用三款主力图片模型。** 通过 SankiWork Cloud，可以直接使用
   Seedream 5.0 Pro、GPT Image 2.0 和 Nano Banana 2.0 生成或编辑图片。只要所选模型
   公开了对应能力，Agent 就能传入多张参考图，并明确指定宽高比、分辨率和质量档位。
   任务开始前会先校验参数，生成过程中持续显示进度，输出路径由 daemon 统一管理；
@@ -72,7 +72,7 @@ description: 用 Open Design 订阅把想法变成图片：直接使用 Seedream
 
 - 打包客户端更新后会刷新已保存的 launcher 路径。MCP client 不会再拉起旧程序，
   也不会因此触发桌面端重启循环。 (#6621)
-- 本机耗尽 socket 或文件描述符时，`od://` proxy 会立即停止重试，不再把一次故障放大成
+- 本机耗尽 socket 或文件描述符时，`sankiwork://` proxy 会立即停止重试，不再把一次故障放大成
   更多失败请求。 (#6530)
 - Windows 卸载只会移除当前安装拥有的协议注册；NSIS 在安装和更新路径中都会保留带
   引号的协议命令。 (#6694, #6699)
@@ -89,5 +89,5 @@ description: 用 Open Design 订阅把想法变成图片：直接使用 Seedream
 
 ## ⬆️ 升级说明
 
-稳定版发布后，可通过应用内正常更新流程升级到 Open Design 0.19.0，也可以下载安装包。
+稳定版发布后，可通过应用内正常更新流程升级到 SankiWork 0.19.0，也可以下载安装包。
 本次发布没有额外的手动操作说明。

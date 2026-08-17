@@ -126,7 +126,7 @@ describe('server route inventory', () => {
       'POST /api/projects/:id/plugin-candidates/:candidateId/dismiss',
       'POST /api/projects/:id/plugin-candidates/:candidateId/draft',
       'POST /api/projects/:id/plugin-candidates/:candidateId/share-tasks',
-      'POST /api/projects/:id/plugins/contribute-open-design',
+      'POST /api/projects/:id/plugins/contribute-sankiwork',
       'POST /api/projects/:id/plugins/share-tasks',
       'POST /api/plugins/share-tasks/:id/wait',
     ];
@@ -385,7 +385,7 @@ describe('bootstrap route regressions', () => {
       DESIGN_SYSTEMS_DIR: path.join(tempRoot, 'design-systems'),
       DESIGN_TEMPLATES_DIR: path.join(tempRoot, 'design-templates'),
       LIBRARY_DIR: path.join(tempRoot, 'library'),
-      OD_BIN: path.join(tempRoot, 'od'),
+      SW_BIN: path.join(tempRoot, 'od'),
       PROJECT_ROOT: tempRoot,
       PROJECTS_DIR: path.join(tempRoot, 'projects'),
       PROMPT_TEMPLATES_DIR: path.join(tempRoot, 'prompt-templates'),
@@ -581,10 +581,10 @@ describe('static SPA fallback classification', () => {
 });
 
 describe('daemon data dir resolver', () => {
-  it('requires explicit OD_DATA_DIR in sandbox mode and resolves project-relative dirs', () => {
-    expect(() => resolveDataDir('', '/tmp/open-design-test', { requireExplicit: true })).toThrow(
-      /OD_DATA_DIR is required/,
+  it('requires explicit SW_DATA_DIR in sandbox mode and resolves project-relative dirs', () => {
+    expect(() => resolveDataDir('', '/tmp/sankiwork-test', { requireExplicit: true })).toThrow(
+      /SW_DATA_DIR is required/,
     );
-    expect(resolveDataDir('relative-data', '/tmp/open-design-test')).toBe('/tmp/open-design-test/relative-data');
+    expect(resolveDataDir('relative-data', '/tmp/sankiwork-test')).toBe('/tmp/sankiwork-test/relative-data');
   });
 });

@@ -1,4 +1,4 @@
-🎨 **`141 PRs` · `50 contributors` · `2 days`** — **The all-in-one Agentic design workspace.** 0.9.0 put the AI engine in everyone's hands; 0.10.0 makes Open Design the only window a designer needs open. The whole craft now lives in one place — go from a vague idea to discovering references, gathering raw material, editing interactively, queuing notes, polishing motion and animation, and handing the result off to an editor or a Code Agent for production — **without leaving the app.** And because you can fire comments into a queue, run several sessions at once, and gather assets in parallel, it stops feeling like one assistant and starts feeling like **a whole local design team working for you.** 🚀
+🎨 **`141 PRs` · `50 contributors` · `2 days`** — **The all-in-one Agentic design workspace.** 0.9.0 put the AI engine in everyone's hands; 0.10.0 makes SankiWork the only window a designer needs open. The whole craft now lives in one place — go from a vague idea to discovering references, gathering raw material, editing interactively, queuing notes, polishing motion and animation, and handing the result off to an editor or a Code Agent for production — **without leaving the app.** And because you can fire comments into a queue, run several sessions at once, and gather assets in parallel, it stops feeling like one assistant and starts feeling like **a whole local design team working for you.** 🚀
 
 ## 🔥 Highlights
 
@@ -14,7 +14,7 @@
 - ⚡ **Lighter, faster landing.** Hero decorations route through Image Resizing for ~92% smaller payloads. (#3523) Thanks `@lefarcen`.
 - 🔒 **Security.** Resolved a vulnerable `tmp` transitive dependency. (#3379) Thanks `@gateway`.
 
-> 📥 **Download:** assets for `open-design-v0.10.0` are built by the prerelease pipeline and publish to GitHub Releases and `releases.open-design.ai` — macOS arm64/Intel `.dmg`, Windows x64 installer — when the build completes.
+> 📥 **Download:** assets for `open-design-v0.10.0` are built by the prerelease pipeline and publish to GitHub Releases and `releases.sanki-ai.cloud` — macOS arm64/Intel `.dmg`, Windows x64 installer — when the build completes.
 
 ## ✨ Added
 
@@ -31,7 +31,7 @@
 
 ### 🧠 Agents, runtimes & sandbox
 - **Sandbox runtime foundation**, **run-scoped MCP tool bundles**, **project export manifest**, and **contained project preview URLs.** (#3242, #3244, #3245, #3246) Thanks `@dredozubov`.
-- **`od templates` CLI subcommand** for user-saved templates. (#2428) Thanks `@YOMXXX`.
+- **`sw templates` CLI subcommand** for user-saved templates. (#2428) Thanks `@YOMXXX`.
 - **Reference design contract** skill and a new **Hallmark** community skill. (#3321, #3479) Thanks `@CtriXin`, `@Tuola-waj`.
 
 ### 🏠 Home, projects & landing
@@ -80,7 +80,7 @@
 - **Preserve newly created project routes**, **persist design-files view state across navigation**, and **preserve bulk-edit file paths.** (#2159, #2303, #3475) Thanks `@bulai0408`, `@neogenix`, `@PerishCode`.
 - **Remove stray overlay icons** from card variants and the HomeHero example card, **truncate long filenames / project names**, and **theme the home-hero select menu.** (#3453, #3369, #3370, #3317, #3309) Thanks `@israad1`, `@estelledc`, `@YOMXXX`, `@CtriXin`.
 - **Real hand-off reveal** when there are no editors, and a **harder Comment-scope constraint.** (#2494, #2796) Thanks `@leessju`.
-- **Search mise shim dirs** so mise-installed CLIs are detected, **route `shell:open-path` through explorer.exe on WSL**, **discover the tools-dev daemon URL**, and **link the `od` bin after a fresh install.** (#3319, #3298, #2807, #2069) Thanks `@ramarivera`, `@YOMXXX`, `@VIVAAN-DHAWAN`, `@bulai0408`.
+- **Search mise shim dirs** so mise-installed CLIs are detected, **route `shell:open-path` through explorer.exe on WSL**, **discover the tools-dev daemon URL**, and **link the `sw` bin after a fresh install.** (#3319, #3298, #2807, #2069) Thanks `@ramarivera`, `@YOMXXX`, `@VIVAAN-DHAWAN`, `@bulai0408`.
 - **Localize scheduled-routine empty-output errors**, **show cumulative conversation duration**, and **keep auth redirects on the AMR wallet.** (#3022, #3354, #3449) Thanks `@leno23`, `@Lanzhou3`, `@lefarcen`.
 - **Protect BYOK provider model-cache keys**, **hide OpenAI OAuth-only image credentials**, and **explain the Composio custom-auth requirement.** (#3286, #3308, #3464) Thanks `@YUHAO-corn`, `@CtriXin`, `@bulai0408`.
 - **Self-contained Dockerfile** (stage-2 asset copies moved into the build stage) and **bound DB param** for design-system tool routes. (#3350, #3418) Thanks `@chasekafei`, `@justasdev`.

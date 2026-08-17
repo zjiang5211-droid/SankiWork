@@ -8,7 +8,7 @@
 // Plugins without a usable query keep the plain single-action button, so the
 // menu is `undefined` in that case.
 
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@sankiwork/contracts';
 import { canDuplicatePluginPreview } from '../plugins-home/duplicate';
 import type { PluginUseAction } from '../plugins-home/useActions';
 import type { PreviewPrimaryActionMenuItem } from '../PreviewModal';

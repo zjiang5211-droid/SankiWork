@@ -32,7 +32,7 @@ const statusCopy = Object.fromEntries(
 
 const title = meta.title;
 const description = meta.description;
-const fallbackSite = 'https://open-design.ai/';
+const fallbackSite = 'https://sanki-ai.cloud/';
 const ogImage = new URL('/launch-week/launch-week-og.jpg', Astro.site ?? fallbackSite).toString();
 
 
@@ -49,9 +49,9 @@ const jsonLd = {
     '@type': 'VirtualLocation',
     url: new URL(Astro.url.pathname, Astro.site ?? fallbackSite).toString(),
   },
-  organizer: { '@type': 'Organization', name: 'Open Design', url: fallbackSite },
+  organizer: { '@type': 'Organization', name: 'SankiWork', url: fallbackSite },
   image: [ogImage],
-  performer: { '@type': 'Organization', name: 'Open Design' },
+  performer: { '@type': 'Organization', name: 'SankiWork' },
   isAccessibleForFree: true,
   offers: {
     '@type': 'Offer',

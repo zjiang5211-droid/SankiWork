@@ -11,7 +11,7 @@ import {
 
 describe("node-pty packaged runtime closure", () => {
   it("repairs and validates the target macOS prebuild", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-node-pty-runtime-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-node-pty-runtime-"));
     const prebuildRoot = join(root, "node_modules", "node-pty", "prebuilds", "darwin-arm64");
 
     try {
@@ -37,7 +37,7 @@ describe("node-pty packaged runtime closure", () => {
   });
 
   it("reports a missing macOS helper before signing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-node-pty-runtime-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-node-pty-runtime-"));
     const prebuildRoot = join(root, "node_modules", "node-pty", "prebuilds", "darwin-x64");
 
     try {
@@ -55,7 +55,7 @@ describe("node-pty packaged runtime closure", () => {
   });
 
   it("validates the Windows native modules and companions", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-node-pty-runtime-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-node-pty-runtime-"));
     const prebuildRoot = join(root, "node_modules", "node-pty", "prebuilds", "win32-x64");
 
     try {

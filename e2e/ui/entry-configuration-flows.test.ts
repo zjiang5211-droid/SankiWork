@@ -5,7 +5,7 @@ import { routeAgents } from '@/playwright/mock-factory';
 import { T } from '@/timeouts';
 import type { Locator, Page } from '@playwright/test';
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'sankiwork:config';
 
 test.describe.configure({ timeout: T.xlong });
 
@@ -55,9 +55,9 @@ const IMAGE_TEMPLATE = {
   model: 'gpt-image-1',
   aspect: '4:5',
   source: {
-    repo: 'open-design/test-prompts',
+    repo: 'sankiwork/test-prompts',
     license: 'MIT',
-    author: 'Open Design QA',
+    author: 'SankiWork QA',
   },
 };
 
@@ -390,7 +390,7 @@ async function routeConnectors(page: Page, connectors: typeof CONNECTORS) {
 
 async function gotoEntryHome(page: Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await page.getByText('Loading Open Design…').waitFor({ state: 'hidden', timeout: T.long });
+  await page.getByText('Loading SankiWork…').waitFor({ state: 'hidden', timeout: T.long });
   await expect(page.getByTestId('home-hero')).toBeVisible({ timeout: T.long });
   await expect(page.getByTestId('home-hero-input')).toBeVisible({ timeout: T.long });
 }

@@ -8,7 +8,7 @@ import {
   workspaceContextDetailLine,
   workspaceContextKindLabel,
 } from '../../src/components/workspace-context';
-import type { WorkspaceContextItem } from '@open-design/contracts';
+import type { WorkspaceContextItem } from '@sankiwork/contracts';
 
 afterEach(cleanup);
 
@@ -25,7 +25,7 @@ describe('ContextChipHoverCard', () => {
 
   it('reveals the type and primary path on hover, then hides on leave', () => {
     render(
-      <ContextChipHoverCard data-testid="chip" typeLabel="Referenced project" detail="/tmp/open-design/site">
+      <ContextChipHoverCard data-testid="chip" typeLabel="Referenced project" detail="/tmp/sankiwork/site">
         <span>My Project</span>
       </ContextChipHoverCard>,
     );
@@ -34,7 +34,7 @@ describe('ContextChipHoverCard', () => {
     fireEvent.mouseEnter(chip);
     const info = screen.getByTestId('chip-info');
     expect(info.textContent).toContain('Referenced project');
-    expect(info.textContent).toContain('/tmp/open-design/site');
+    expect(info.textContent).toContain('/tmp/sankiwork/site');
 
     fireEvent.mouseLeave(chip);
     expect(screen.queryByTestId('chip-info')).toBeNull();

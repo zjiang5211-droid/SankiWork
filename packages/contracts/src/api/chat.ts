@@ -111,7 +111,7 @@ export interface ChatRequest {
   byokProvider?: ByokChatProviderConfig;
   /**
    * Run-scoped BYOK media defaults selected in the chat UI. The daemon uses
-   * these to guide OpenCode-backed `od media generate` calls for this run only.
+   * these to guide OpenCode-backed `sw media generate` calls for this run only.
    */
   byokMediaDefaults?: ByokMediaDefaults;
   /** UI locale selected by the client, used by prompt composition for user-visible generated UI. */
@@ -120,7 +120,7 @@ export interface ChatRequest {
   context?: RunContextSelection;
   appliedPluginSnapshotId?: string | null;
   /**
-   * Run-scoped media execution policy. Omitted means current Open Design
+   * Run-scoped media execution policy. Omitted means current SankiWork
    * behavior: media generation is enabled and OD may execute its configured
    * local providers.
    */
@@ -518,7 +518,7 @@ export interface ChatRunDiagnosticValue<T> {
   state: ChatRunDiagnosticState;
   value?: T;
   evidence?: ChatRunDiagnosticEvidence;
-  source: 'open-design-daemon' | 'agent-runtime' | 'model-provider';
+  source: 'sankiwork-daemon' | 'agent-runtime' | 'model-provider';
   complete?: boolean;
   definition?: string;
   missingReason?: string;
@@ -532,8 +532,8 @@ export interface ChatRunDiagnosticValue<T> {
 export interface ChatRunExecutionDiagnostics {
   schemaVersion: 1;
   collectorVersion:
-    | 'open-design-execution-diagnostics-v1'
-    | 'open-design-execution-diagnostics-v2';
+    | 'sankiwork-execution-diagnostics-v1'
+    | 'sankiwork-execution-diagnostics-v2';
   collectedAt: number;
   eventStreamCompleteness: 'complete' | 'partial';
   timing: {

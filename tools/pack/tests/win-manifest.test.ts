@@ -36,8 +36,8 @@ function makeConfig(overrides: Partial<ToolPackConfig> = {}): ToolPackConfig {
         root: "/unused/root",
       },
       runtime: {
-        namespaceBaseRoot: "C:/users/test/AppData/Local/open-design/runtime/win/namespaces",
-        namespaceRoot: "C:/users/test/AppData/Local/open-design/runtime/win/namespaces/test-namespace",
+        namespaceBaseRoot: "C:/users/test/AppData/Local/sankiwork/runtime/win/namespaces",
+        namespaceRoot: "C:/users/test/AppData/Local/sankiwork/runtime/win/namespaces/test-namespace",
       },
       cacheRoot: "/unused/cache",
       toolPackRoot: "/unused/tools-pack",
@@ -53,7 +53,7 @@ function makeConfig(overrides: Partial<ToolPackConfig> = {}): ToolPackConfig {
 
 describe("readBuiltAppManifest", () => {
   it("returns null when the manifest file is missing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-manifest-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-manifest-"));
     try {
       const paths = makePaths(root) as WinPaths;
       await expect(readBuiltAppManifest(paths)).resolves.toBeNull();
@@ -63,7 +63,7 @@ describe("readBuiltAppManifest", () => {
   });
 
   it("rejects manifests whose version is not 1", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-manifest-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-manifest-"));
     try {
       const paths = makePaths(root) as WinPaths;
       await writeFile(paths.builtManifestPath, JSON.stringify({ version: 2, executablePath: "/x" }), "utf8");
@@ -74,14 +74,14 @@ describe("readBuiltAppManifest", () => {
   });
 
   it("returns the parsed manifest when the version matches", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-manifest-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-manifest-"));
     try {
       const paths = makePaths(root) as WinPaths;
       const manifest: WinBuiltAppManifest = {
         appBuilderOutputRoot: join(root, "builder"),
         cacheEntryPath: null,
         configPath: join(root, "config.json"),
-        executablePath: join(root, "Open Design.exe"),
+        executablePath: join(root, "SankiWork.exe"),
         source: "namespace",
         unpackedRoot: join(root, "unpacked"),
         version: 1,
@@ -95,7 +95,7 @@ describe("readBuiltAppManifest", () => {
   });
 
   it("returns null when requireExecutable is set and the executable is missing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-manifest-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-manifest-"));
     try {
       const paths = makePaths(root) as WinPaths;
       const manifest: WinBuiltAppManifest = {
@@ -118,9 +118,9 @@ describe("readBuiltAppManifest", () => {
 
 describe("writePackagedConfigFile", () => {
   it("omits namespaceBaseRoot for portable builds", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-config-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-config-"));
     try {
-      const filePath = join(root, "config", "open-design-config.json");
+      const filePath = join(root, "config", "sankiwork-config.json");
       await writePackagedConfigFile(filePath, makeConfig({ portable: true }), "1.2.3");
       const written = JSON.parse(await readFile(filePath, "utf8"));
       expect(written.namespace).toBe("test-namespace");
@@ -132,13 +132,13 @@ describe("writePackagedConfigFile", () => {
   });
 
   it("includes namespaceBaseRoot for non-portable builds", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-config-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-config-"));
     try {
-      const filePath = join(root, "config", "open-design-config.json");
+      const filePath = join(root, "config", "sankiwork-config.json");
       await writePackagedConfigFile(filePath, makeConfig({ portable: false }), "1.2.3");
       const written = JSON.parse(await readFile(filePath, "utf8"));
       expect(written.namespaceBaseRoot).toBe(
-        "C:/users/test/AppData/Local/open-design/runtime/win/namespaces",
+        "C:/users/test/AppData/Local/sankiwork/runtime/win/namespaces",
       );
     } finally {
       await rm(root, { force: true, recursive: true });

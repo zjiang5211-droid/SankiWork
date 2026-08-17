@@ -3,7 +3,7 @@
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { buildSocialSharePayload } from '@open-design/contracts';
+import { buildSocialSharePayload } from '@sankiwork/contracts';
 
 import { SocialShareGrid } from '../../src/components/SocialShareGrid';
 import { I18nProvider } from '../../src/i18n';

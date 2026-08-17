@@ -295,7 +295,7 @@ export function renderDirectionIndexBlock(): string {
   const lines: string[] = [
     '## Direction library — index (pull the chosen one on demand)',
     '',
-    'When you must pick a visual direction yourself (no active design system, no user-provided brand source), choose the best match for the brief\'s tone from this index, then run `"$OD_NODE_BIN" "$OD_BIN" tools directions --id <id>` directly — do not probe CLI help or alternate paths first, and retry only after materially changing the fix or input. Bind the printed `:root` palette + font stacks **verbatim** into the seed, honour the posture cues, and never improvise palette values from the label alone.',
+    'When you must pick a visual direction yourself (no active design system, no user-provided brand source), choose the best match for the brief\'s tone from this index, then run `"$SW_NODE_BIN" "$SW_BIN" tools directions --id <id>` directly — do not probe CLI help or alternate paths first, and retry only after materially changing the fix or input. Bind the printed `:root` palette + font stacks **verbatim** into the seed, honour the posture cues, and never improvise palette values from the label alone.',
     '',
   ];
   for (const d of DESIGN_DIRECTIONS) {
@@ -304,7 +304,7 @@ export function renderDirectionIndexBlock(): string {
   return lines.join('\n');
 }
 
-/** Resolve an inferred or user-selected direction; used by `od tools directions`. */
+/** Resolve an inferred or user-selected direction; used by `sw tools directions`. */
 export function formatDirectionSpecText(idOrLabel: string): string | null {
   const needle = idOrLabel.trim().toLowerCase();
   if (!needle) return null;

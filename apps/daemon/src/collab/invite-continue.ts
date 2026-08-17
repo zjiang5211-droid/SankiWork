@@ -1,10 +1,10 @@
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { readVelaControlApiContext } from '../integrations/vela.js';
 import { mapVelaWorkspaceContext } from './vela-workspace-context.js';
 
 // Daemon half of the desktop invite hand-off ("桌面唤起和本地恢复", C's lane in
 // the B-C invite contract). The desktop app receives an
-// `opendesign://workspace/invite/continue?...&nonce=...` deeplink, parses it, and
+// `sankiwork://workspace/invite/continue?...&nonce=...` deeplink, parses it, and
 // forwards the nonce here. The daemon proves identity with the SAME signed-in vela
 // session (never a client-supplied one) and consumes the one-time continuation on
 // B, which finalizes the membership and returns the current workspace context so

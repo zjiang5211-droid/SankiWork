@@ -142,7 +142,7 @@ function registerRoutes(
     idPrefix: 'ds',
     resolveDir: () => '/tmp/ds',
     run: opts.hub.run,
-    env: { OD_WORKSPACE_CONTEXT_SOURCE: 'vela' },
+    env: { SW_WORKSPACE_CONTEXT_SOURCE: 'vela' },
   });
   registerDesignSystemRoutes(app, {
     db,

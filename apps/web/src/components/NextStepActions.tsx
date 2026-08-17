@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import type { ChatSessionMode } from '@open-design/contracts';
+import type { ChatSessionMode } from '@sankiwork/contracts';
 import { useI18n } from '../i18n';
 import { localizeSkillDescription, localizeSkillName } from '../i18n/content';
 import type { Dict } from '../i18n/types';
@@ -223,9 +223,9 @@ interface Props {
   skills?: SkillSummary[];
   // Resolved `@skill` names per featured action, shown in the hover detail.
   toolboxSkillNames?: Partial<Record<DesignToolboxActionId, string | null>>;
-  // Contribute the artifact to the Open Design community gallery.
-  onShareToOpenDesign?: () => void;
-  shareToOpenDesignBusy?: boolean;
+  // Contribute the artifact to the SankiWork community gallery.
+  onShareToSankiWork?: () => void;
+  shareToSankiWorkBusy?: boolean;
   variant?: NextStepActionsVariant;
 }
 
@@ -334,8 +334,8 @@ export function NextStepActions({
   onPickSkill,
   skills = [],
   toolboxSkillNames,
-  onShareToOpenDesign,
-  shareToOpenDesignBusy = false,
+  onShareToSankiWork,
+  shareToSankiWorkBusy = false,
   variant = 'default',
 }: Props) {
   const { t, locale } = useI18n();
@@ -429,7 +429,7 @@ export function NextStepActions({
   );
 
   const track = useCallback(
-    (element: 'share' | 'toolbox_action' | 'toolbox_more' | 'share_to_open_design', chipId?: string) => {
+    (element: 'share' | 'toolbox_action' | 'toolbox_more' | 'share_to_sankiwork', chipId?: string) => {
       trackNextStepActionClick(analytics.track, {
         page_name: 'chat_panel',
         area: 'next_step',
@@ -455,11 +455,11 @@ export function NextStepActions({
   }, [closeAll, fileName, onDownload, track]);
 
   const handleContribute = useCallback(() => {
-    if (!onShareToOpenDesign || shareToOpenDesignBusy) return;
-    track('share_to_open_design');
-    onShareToOpenDesign();
+    if (!onShareToSankiWork || shareToSankiWorkBusy) return;
+    track('share_to_sankiwork');
+    onShareToSankiWork();
     closeAll();
-  }, [closeAll, onShareToOpenDesign, shareToOpenDesignBusy, track]);
+  }, [closeAll, onShareToSankiWork, shareToSankiWorkBusy, track]);
 
   const handleToolboxAction = useCallback(
     (id: DesignToolboxActionId) => {
@@ -617,7 +617,7 @@ export function NextStepActions({
   // Share group is available whenever any of its three actions can fire.
   const canShare = !!(fileName && onShare);
   const canDownload = !!(fileName && onDownload);
-  const canContribute = !!onShareToOpenDesign;
+  const canContribute = !!onShareToSankiWork;
   const hasShareGroup = canShare || canDownload || canContribute;
   const showCreateDesignSystem = (
     variant === 'default' ||
@@ -1024,13 +1024,13 @@ export function NextStepActions({
                   type="button"
                   className={styles.flyoutRow}
                   data-testid="next-step-share-contribute"
-                  disabled={shareToOpenDesignBusy}
+                  disabled={shareToSankiWorkBusy}
                   onClick={handleContribute}
                 >
                   <Icon
-                    name={shareToOpenDesignBusy ? 'spinner' : 'globe'}
+                    name={shareToSankiWorkBusy ? 'spinner' : 'globe'}
                     size={14}
-                    className={shareToOpenDesignBusy ? 'icon-spin' : styles.toolboxRowIcon}
+                    className={shareToSankiWorkBusy ? 'icon-spin' : styles.toolboxRowIcon}
                   />
                   <span className={styles.toolboxRowTitle}>{t('nextStep.contribute')}</span>
                 </button>

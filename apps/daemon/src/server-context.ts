@@ -2,7 +2,7 @@ import type { Express } from 'express';
 import type { SkillInfo } from './skills.js';
 import type { DesignSystemSummary } from './design-systems/index.js';
 import type { RoutineRoutesService } from './routes/routine.js';
-import type { OpenDesignPublicMetadataService } from './services/open-design-public-metadata.js';
+import type { SankiWorkPublicMetadataService } from './services/open-design-public-metadata.js';
 import type { ResourceHubPrincipal } from './collab/resource-principal.js';
 import type {
   AuthorizeProjectRequest,
@@ -33,7 +33,7 @@ export interface PathDeps {
   // Global OD Library data root for owned, content-addressed assets
   // (derived from RUNTIME_DATA_DIR). See apps/daemon/src/library.ts.
   LIBRARY_DIR: string;
-  OD_BIN: string;
+  SW_BIN: string;
   PROJECT_ROOT: string;
   PROJECTS_DIR: string;
   PROMPT_TEMPLATES_DIR: string;
@@ -193,7 +193,7 @@ export interface ServerContext {
   messages: any;
   agents: any;
   critique: any;
-  openDesignPublicMetadata: OpenDesignPublicMetadataService;
+  sankiWorkPublicMetadata: SankiWorkPublicMetadataService;
   /**
    * C-lane collaboration seam for D's project-visibility routes. After a
    * successful personal→team move (D's move API), D's handler calls

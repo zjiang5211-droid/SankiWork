@@ -11,7 +11,7 @@ od:
 This scenario plugin is the bundled default for projects whose
 `metadata.kind` is `image`, `video`, or `audio`. The web client and the
 daemon both look up `defaultScenarioPluginIdForKind(kind)` from
-`@open-design/contracts` and, when no other plugin is applied, bind
+`@sankiwork/contracts` and, when no other plugin is applied, bind
 this scenario at project / run creation time.
 
 ## Default pipeline
@@ -73,4 +73,4 @@ prompt, not to re-pick the media atom.
 
 Enterprise editions that need a different default for media work
 should ship a sibling scenario plugin and add the right mapping in
-`@open-design/contracts/scenario-defaults`, not patch this manifest.
+`@sankiwork/contracts/scenario-defaults`, not patch this manifest.

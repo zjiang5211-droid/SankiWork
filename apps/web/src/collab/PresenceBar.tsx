@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import type { CollabCloudMemberDirectoryEntry } from '@open-design/contracts';
+import type { CollabCloudMemberDirectoryEntry } from '@sankiwork/contracts';
 import type { CollabPresenceMember } from './collab-client';
 import styles from './PresenceBar.module.css';
 import { useT } from '../i18n';

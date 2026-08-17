@@ -2,7 +2,7 @@ import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { randomBytes, randomUUID } from 'node:crypto';
 import path from 'node:path';
 
-import type { OrbitRunSummary, OrbitStatusResponse } from '@open-design/contracts/api/orbit';
+import type { OrbitRunSummary, OrbitStatusResponse } from '@sankiwork/contracts/api/orbit';
 
 import type { OrbitConfigPrefs } from './app-config.js';
 import { skillCwdAliasSegment } from './cwd-aliases.js';
@@ -408,7 +408,7 @@ export function buildOrbitSystemPrompt(
     '- If connector discovery succeeded and at least one source was checked, but the successful source results are quiet or empty, provide a useful quiet-day briefing with clear next steps. Do not create a digest when connector discovery itself failed or no usable connected read-only data tools were available.',
     '',
     'Voice and synthesis examples:',
-    '- Code: “open-design had 4 repositories updated. The most notable change was a daemon update that affects data refresh behavior, so review it before the next release.”',
+    '- Code: “sankiwork had 4 repositories updated. The most notable change was a daemon update that affects data refresh behavior, so review it before the next release.”',
     '- Docs: “Product Notes and Launch Checklist were the only matching pages. Launch Checklist changed around onboarding and should be reviewed before sharing with the team.”',
     '- Recommendation: “Today, prioritize reviewing the changed release checklist, then follow up on the two open PRs that touched user-facing refresh behavior.”',
     '',
@@ -421,9 +421,9 @@ export function buildOrbitSystemPrompt(
       'Selected example template:',
       `- Skill id: ${template.id}`,
       `- Skill name: ${template.name}`,
-      `- Staged root: .od-skills/${skillCwdAliasSegment(template.dir)}/`,
+      `- Staged root: .sankiwork-skills/${skillCwdAliasSegment(template.dir)}/`,
       '',
-      `Before writing the artifact, read ".od-skills/${skillCwdAliasSegment(template.dir)}/SKILL.md" and, if present, ".od-skills/${skillCwdAliasSegment(template.dir)}/example.html". Follow that staged template's structure, layout, tokens, domain rules, and visual language as the source of truth. The staged template is for visual/domain guidance; still use the live-artifact workflow to register the final artifact.`,
+      `Before writing the artifact, read ".sankiwork-skills/${skillCwdAliasSegment(template.dir)}/SKILL.md" and, if present, ".sankiwork-skills/${skillCwdAliasSegment(template.dir)}/example.html". Follow that staged template's structure, layout, tokens, domain rules, and visual language as the source of truth. The staged template is for visual/domain guidance; still use the live-artifact workflow to register the final artifact.`,
       '',
       'Selected template example prompt:',
       '',

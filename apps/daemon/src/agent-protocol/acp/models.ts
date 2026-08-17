@@ -218,7 +218,7 @@ export async function detectAcpModels({
   cwd = process.cwd(),
   env = process.env,
   timeoutMs = DEFAULT_TIMEOUT_MS,
-  clientName = 'open-design-detect',
+  clientName = 'sankiwork-detect',
   clientVersion = 'runtime-adapter',
   defaultModelOption = { id: 'default', label: 'Default (CLI config)' },
 }: DetectAcpModelsOptions): Promise<ModelOption[]> {

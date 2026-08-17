@@ -1,6 +1,6 @@
 /** @module agent-protocol/acp/json
  * Pure JSON value-extraction and text-traversal helpers for the ACP layer,
- * plus the `OD_ACP_TIMEOUT_MS` environment resolver. Has no side effects and
+ * plus the `SW_ACP_TIMEOUT_MS` environment resolver. Has no side effects and
  * performs no I/O; depends only on acp/types and acp/constants.
  * Consumed by acp/rpc.ts, acp/session.ts, acp/models.ts, and acp/updates.ts.
  */
@@ -17,16 +17,16 @@ export function errorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
 /**
- * Resolves the effective ACP timeout from `OD_ACP_TIMEOUT_MS` in the process
+ * Resolves the effective ACP timeout from `SW_ACP_TIMEOUT_MS` in the process
  * environment, falling back to `fallbackMs` when the variable is absent or
  * non-finite. Clamps the result to `[0, MAX_TIMEOUT_MS]`.
  *
- * @param env - The process environment object to read `OD_ACP_TIMEOUT_MS` from.
+ * @param env - The process environment object to read `SW_ACP_TIMEOUT_MS` from.
  * @param fallbackMs - The default timeout to use when the env var is unset.
  * @returns The resolved timeout in milliseconds.
  */
 export function resolveAcpTimeoutMs(env: NodeJS.ProcessEnv, fallbackMs: number): number {
-  const raw = Number(env.OD_ACP_TIMEOUT_MS);
+  const raw = Number(env.SW_ACP_TIMEOUT_MS);
   if (!Number.isFinite(raw)) return fallbackMs;
   return Math.min(MAX_TIMEOUT_MS, Math.max(0, Math.floor(raw)));
 }

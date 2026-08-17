@@ -61,11 +61,11 @@ type RunResultPackageBody = {
 describe('daemon startup route smoke', () => {
   let started: StartedServer;
   let dataDir: string;
-  const originalDataDir = process.env.OD_DATA_DIR;
+  const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeAll(async () => {
     dataDir = await mkdtemp(join(tmpdir(), 'od-server-startup-smoke-'));
-    process.env.OD_DATA_DIR = dataDir;
+    process.env.SW_DATA_DIR = dataDir;
     vi.resetModules();
     const { startServer } = await import('../src/server.js') as ServerModule;
     started = await startServer({ port: 0, returnServer: true });
@@ -75,8 +75,8 @@ describe('daemon startup route smoke', () => {
     await Promise.resolve(started.shutdown?.());
     await new Promise<void>((resolve) => started.server.close(() => resolve()));
     await rmRecursiveWithRetry(dataDir);
-    if (originalDataDir === undefined) delete process.env.OD_DATA_DIR;
-    else process.env.OD_DATA_DIR = originalDataDir;
+    if (originalDataDir === undefined) delete process.env.SW_DATA_DIR;
+    else process.env.SW_DATA_DIR = originalDataDir;
     vi.resetModules();
   });
 
@@ -513,7 +513,7 @@ describe('daemon startup route smoke', () => {
 
       const failedPackage = await fetchResultPackage(started.url, failedRun.id);
       expect(failedPackage).toMatchObject({
-        schema: 'open-design.run-result-package.v1',
+        schema: 'sankiwork.run-result-package.v1',
         run: {
           id: failedRun.id,
           status: 'failed',
@@ -544,7 +544,7 @@ describe('daemon startup route smoke', () => {
 
       const canceledPackage = await fetchResultPackage(started.url, canceledRunId);
       expect(canceledPackage).toMatchObject({
-        schema: 'open-design.run-result-package.v1',
+        schema: 'sankiwork.run-result-package.v1',
         run: {
           id: canceledRunId,
           status: 'canceled',

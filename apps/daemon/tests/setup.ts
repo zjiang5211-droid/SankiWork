@@ -26,7 +26,7 @@ function ensureDaemonCliBuilt() {
   });
 }
 
-const TEST_DATA_DIR_SYMBOL = Symbol.for('open-design.daemon.vitestDataDir');
+const TEST_DATA_DIR_SYMBOL = Symbol.for('sankiwork.daemon.vitestDataDir');
 
 const globalState = globalThis as typeof globalThis & {
   [TEST_DATA_DIR_SYMBOL]?: string;
@@ -42,14 +42,14 @@ if (!globalState[TEST_DATA_DIR_SYMBOL]) {
 
 // Server paths are resolved at module import time. Force every daemon test
 // process to use one isolated data directory before any test imports server.ts,
-// so tests can never read or overwrite the developer's real repo `.od` data.
-process.env.OD_DATA_DIR = globalState[TEST_DATA_DIR_SYMBOL];
+// so tests can never read or overwrite the developer's real repo `.sankiwork` data.
+process.env.SW_DATA_DIR = globalState[TEST_DATA_DIR_SYMBOL];
 // Keep unit tests from reading a developer's stored Vela profile and routing
 // Langfuse-shaped telemetry through the authenticated Vela sink by accident.
-process.env.OPEN_DESIGN_VELA_TELEMETRY ??= 'off';
+process.env.SANKIWORK_VELA_TELEMETRY ??= 'off';
 
-// Publish/share endpoints shell out through OD_NODE_BIN + OD_BIN (dist/cli.js).
+// Publish/share endpoints shell out through SW_NODE_BIN + SW_BIN (dist/cli.js).
 // Build the CLI artifact once per vitest process so package tests do not depend
-// on a prior manual `pnpm --filter @open-design/daemon build`.
+// on a prior manual `pnpm --filter @sankiwork/daemon build`.
 ensureDaemonCliBuilt();
-process.env.OD_DAEMON_CLI_PATH = daemonCliDist;
+process.env.SW_DAEMON_CLI_PATH = daemonCliDist;

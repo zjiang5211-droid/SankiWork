@@ -44,10 +44,10 @@ test('[P0] Team design systems catch up missed shares, updates, and retractions'
   });
   const velaBin = await hub.writeVelaBin(testInfo.outputPath('fake-vela-team-design-system'));
   const commonEnv = {
-    OD_COLLAB_TRANSPORT: 'vela-cli',
-    OD_RESOURCE_TRANSPORT: 'vela-cli',
-    OD_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
-    OD_WORKSPACE_CONTEXT_SOURCE: 'vela',
+    SW_COLLAB_TRANSPORT: 'vela-cli',
+    SW_RESOURCE_TRANSPORT: 'vela-cli',
+    SW_TEAM_PROJECTS_TRANSPORT: 'vela-cli',
+    SW_WORKSPACE_CONTEXT_SOURCE: 'vela',
     VELA_API_URL: hub.url,
     VELA_BIN: velaBin,
   };
@@ -421,14 +421,14 @@ async function pinWorkspace(page: Page, workspaceMemberId: string): Promise<void
 
 async function gotoHome(page: Page): Promise<void> {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, {
+  await expect(page.getByText('Loading SankiWork…')).toHaveCount(0, {
     timeout: T.xlong,
   });
 }
 
 async function gotoDesignSystems(page: Page): Promise<void> {
   await page.goto('/design-systems', { waitUntil: 'domcontentloaded' });
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, {
+  await expect(page.getByText('Loading SankiWork…')).toHaveCount(0, {
     timeout: T.xlong,
   });
 }

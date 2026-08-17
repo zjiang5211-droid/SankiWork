@@ -272,14 +272,14 @@ node_local_base_image() {
   local platform="$1"
   local arch
   arch="$(platform_to_arch "$platform")" || die "unsupported platform '$platform'"
-  printf 'open-design-base-node:24-alpine-%s' "$arch"
+  printf 'sankiwork-base-node:24-alpine-%s' "$arch"
 }
 
 runtime_local_base_image() {
   local platform="$1"
   local arch
   arch="$(platform_to_arch "$platform")" || die "unsupported platform '$platform'"
-  printf 'open-design-runtime-base:24-alpine-%s' "$arch"
+  printf 'sankiwork-runtime-base:24-alpine-%s' "$arch"
 }
 
 node_image_for_platform() {

@@ -7,7 +7,7 @@
 
 import { act, cleanup, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 
 vi.mock('../src/collab/workspace-events', () => ({
   useWorkspaceInvalidation: vi.fn(() => ({ connected: false })),

@@ -241,5 +241,5 @@ export async function loadPluginSkillDescriptions(
     entries.filter((entry): entry is readonly [string, string] => entry !== null),
   );
 }
-import type { WorkspaceCollabContext } from '@open-design/contracts';
+import type { WorkspaceCollabContext } from '@sankiwork/contracts';
 import { workspaceProjectHeaders } from '../collab/workspace-identity';

@@ -2,13 +2,13 @@
 /*
  * /official/ — brand-authority surface.
  *
- * This page exists to satisfy "Open Design vs OpenDesigner / opendesign.ai"
+ * This page exists to satisfy "SankiWork vs OpenDesigner / opendesign.ai"
  * brand-confusion queries: it lists every canonical link, names every alias
  * the project is searched under, and points at the GitHub source of truth.
  *
- * Per `growth/seo-opendesigner-analysis.md` §2 + §8, the page must:
+ * Per `growth/seo-sankiworker-analysis.md` §2 + §8, the page must:
  * - lead with canonical links (site, GitHub, releases, docs, Discord)
- * - explain the OpenDesign / open-design / opendesign alias relationship
+ * - explain the SankiWork / sankiwork / sankiwork alias relationship
  * - never call third-party capture sites "fake" in visible copy
  * - publish Organization JSON-LD with the same alternateNames as `/`
  */
@@ -26,7 +26,7 @@ const common = copy.common;
 
 // Derive SITE from Astro.site so preview/staging JSON-LD matches the
 // layout's canonical link. Falls back to the production origin.
-const SITE = Astro.site?.toString() ?? 'https://open-design.ai/';
+const SITE = Astro.site?.toString() ?? 'https://sanki-ai.cloud/';
 const REPO = 'https://github.com/nexu-io/open-design';
 const REPO_RELEASES = `${REPO}/releases`;
 const REPO_ISSUES = `${REPO}/issues`;
@@ -55,7 +55,7 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Open Design', item: SITE },
+      { '@type': 'ListItem', position: 1, name: 'SankiWork', item: SITE },
       { '@type': 'ListItem', position: 2, name: page.breadcrumb, item: `${SITE}official/` },
     ],
   },
@@ -80,7 +80,7 @@ const jsonLd = [
 
 <Layout title={title} description={description} jsonLd={jsonLd}>
   <nav class="breadcrumb" aria-label={common.breadcrumbAria}>
-    <a href={href('/')}>Open Design</a>
+    <a href={href('/')}>SankiWork</a>
     <span>/</span>
     <span aria-current="page">{page.breadcrumb}</span>
   </nav>

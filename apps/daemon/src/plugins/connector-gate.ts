@@ -30,7 +30,7 @@ import type {
   PluginConnectorBinding,
   PluginConnectorRef,
   PluginManifest,
-} from '@open-design/contracts';
+} from '@sankiwork/contracts';
 
 export type ConnectorGateStatus = 'connected' | 'pending' | 'unavailable';
 
@@ -134,7 +134,7 @@ export function mergeAutoOAuthPrompts(
 }
 
 // Validate `od.connectors.required[].tools[]` against the catalog.
-// Returns issues grouped by connector. Used by `od plugin doctor` (F7).
+// Returns issues grouped by connector. Used by `sw plugin doctor` (F7).
 export function validateConnectorRefs(
   manifest: PluginManifest,
   probe: ConnectorProbe,

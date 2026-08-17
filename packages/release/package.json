@@ -1,9 +1,9 @@
 {
-  "name": "@open-design/release",
-  "version": "0.19.2",
+  "name": "@sankiwork/release",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Open Design release domain primitives.",
+  "description": "SankiWork release domain primitives.",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [

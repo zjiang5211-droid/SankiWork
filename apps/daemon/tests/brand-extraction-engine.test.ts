@@ -3,7 +3,7 @@ import fs, { mkdtempSync, rmSync, writeFileSync, mkdirSync, readFileSync, exists
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { Brand } from '@open-design/contracts';
+import type { Brand } from '@sankiwork/contracts';
 
 import {
   closeDatabase,
@@ -211,7 +211,7 @@ describe('agent-driven brand extraction engine', () => {
   it('adopts the brand canvas for the default theme when the brand is explicitly dark-first', () => {
     const darkCanvasBrand: Brand = {
       ...VALID_BRAND,
-      name: 'Open Design',
+      name: 'SankiWork',
       colors: [
         { role: 'background', hex: '#050505', oklch: 'oklch(14% 0 0)', name: 'Black', usage: 'source hero background' },
         { role: 'surface', hex: '#0a0a0a', oklch: 'oklch(17% 0 0)', name: 'Panel', usage: 'source cards' },
@@ -242,7 +242,7 @@ describe('agent-driven brand extraction engine', () => {
   it('still falls back to the light default theme when brand neutrals are ambiguous', () => {
     const midGrayBrand: Brand = {
       ...VALID_BRAND,
-      name: 'Open Design',
+      name: 'SankiWork',
       colors: [
         { role: 'background', hex: '#808080', oklch: 'oklch(60% 0 0)', name: 'Gray', usage: 'source background' },
         { role: 'foreground', hex: '#f4f4f4', oklch: 'oklch(96% 0 0)', name: 'White', usage: 'source text' },
@@ -346,11 +346,11 @@ describe('agent-driven brand extraction engine', () => {
 
   it('prefers source-backed human brand tokens over script/debug color noise', () => {
     const brand = brandFromMaterial({
-      url: 'https://open-design.ai/',
-      finalUrl: 'https://open-design.ai/',
-      siteName: 'Open Design',
-      title: 'Open Design',
-      description: 'Open Design design system.',
+      url: 'https://sanki-ai.cloud/',
+      finalUrl: 'https://sanki-ai.cloud/',
+      siteName: 'SankiWork',
+      title: 'SankiWork',
+      description: 'SankiWork design system.',
       colors: [
         { hex: '#262626', count: 19, sources: ['css-var:--ink'] },
         { hex: '#15140f', count: 15, sources: ['css-var:--shadow-ink'] },
@@ -366,15 +366,15 @@ describe('agent-driven brand extraction engine', () => {
       googleFontsUrls: [],
       fontFiles: [],
       logos: [],
-      headings: ['Open Design The Open-source Claude Design alternative'],
-      paragraphs: ['Open Design is a local-first design platform.'],
+      headings: ['SankiWork The Open-source Claude Design alternative'],
+      paragraphs: ['SankiWork is a local-first design platform.'],
       navLabels: [],
       extraPages: [],
       screenshot: null,
       thin: false,
       blocked: false,
       materialMd: '',
-    }, 'https://open-design.ai/');
+    }, 'https://sanki-ai.cloud/');
 
     expect(brand.colors.find((color) => color.role === 'accent')?.hex).toBe('#63fe13');
     expect(brand.typography.body.family).toBe('Albert Sans');
@@ -439,7 +439,7 @@ describe('agent-driven brand extraction engine', () => {
     expect(project).toBeTruthy();
     expect(project?.metadata?.kind).toBe('brand');
     expect(project?.pendingPrompt ?? '').toContain('DESIGN SYSTEM ENRICHMENT');
-    expect(project?.pendingPrompt ?? '').toContain(`od brand preview ${result.id}`);
+    expect(project?.pendingPrompt ?? '').toContain(`sw brand preview ${result.id}`);
 
     // brand.html is seeded as the active tab; the site stays as a secondary
     // browser tab the user can use to clear an anti-bot wall by hand.
@@ -1504,7 +1504,7 @@ describe('agent-driven brand extraction engine', () => {
         imageryFallback: NO_IMAGERY_FALLBACK,
       });
 
-    // The live extraction agent may re-run `od brand finalize` (e.g. after
+    // The live extraction agent may re-run `sw brand finalize` (e.g. after
     // fixing a validation error or enriching the kit). A second finalize must
     // reuse the brand's existing design system, not register a duplicate.
     const first = await finalizeOnce();

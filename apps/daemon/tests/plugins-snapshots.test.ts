@@ -73,7 +73,7 @@ describe('snapshots writer', () => {
     db.prepare('INSERT INTO projects (id, name) VALUES (?, ?)').run('project-1', 'Project 1');
     const snap = createSnapshot(db, baseInput({
       sourceMarketplaceId: 'official',
-      sourceMarketplaceEntryName: 'open-design/sample-plugin',
+      sourceMarketplaceEntryName: 'sankiwork/sample-plugin',
       sourceMarketplaceEntryVersion: '1.0.0',
       marketplaceTrust: 'official',
       resolvedSource: 'github:open-design/plugins@abc123/sample-plugin',
@@ -86,7 +86,7 @@ describe('snapshots writer', () => {
     expect(fetched!.pluginId).toBe('sample-plugin');
     expect(fetched!.manifestSourceDigest).toBe('digest-1');
     expect(fetched!.sourceMarketplaceId).toBe('official');
-    expect(fetched!.sourceMarketplaceEntryName).toBe('open-design/sample-plugin');
+    expect(fetched!.sourceMarketplaceEntryName).toBe('sankiwork/sample-plugin');
     expect(fetched!.sourceMarketplaceEntryVersion).toBe('1.0.0');
     expect(fetched!.marketplaceTrust).toBe('official');
     expect(fetched!.resolvedSource).toBe('github:open-design/plugins@abc123/sample-plugin');

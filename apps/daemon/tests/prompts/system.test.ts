@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
-import { INTEGRATIONS_MCP_PATH } from '@open-design/contracts';
+import { INTEGRATIONS_MCP_PATH } from '@sankiwork/contracts';
 
 import {
   composeSystemPrompt,
@@ -205,9 +205,9 @@ describe('composeSystemPrompt', () => {
     expect(prompt).toContain('`references/artifact-schema.md`');
     expect(prompt).toContain('`references/connector-policy.md`');
     expect(prompt).toContain('`references/refresh-contract.md`');
-    expect(prompt).toContain('The wrapper reads injected `OD_NODE_BIN`, `OD_BIN`, `OD_DAEMON_URL`, and `OD_TOOL_TOKEN`');
+    expect(prompt).toContain('The wrapper reads injected `SW_NODE_BIN`, `SW_BIN`, `SW_DAEMON_URL`, and `SW_TOOL_TOKEN`');
     expect(prompt).toContain('Do not include or invent `projectId`; the daemon derives project/run scope from the token.');
-    expect(prompt).toContain('"$OD_NODE_BIN" "$OD_BIN" tools live-artifacts create --input artifact.json');
+    expect(prompt).toContain('"$SW_NODE_BIN" "$SW_BIN" tools live-artifacts create --input artifact.json');
     expect(prompt).toContain('if the user names a connector/source (for example Notion)');
     expect(prompt).toContain('list connectors before asking where the data comes from');
     expect(prompt).toContain('a connected `notion` connector plus a user brief that names Notion is enough to start with `notion.notion_search`');
@@ -232,7 +232,7 @@ describe('composeSystemPrompt', () => {
         skillMode: surface,
         metadata: { kind: surface } as any,
       });
-      expect(prompt).not.toContain('# Open Design Charter');
+      expect(prompt).not.toContain('# SankiWork Charter');
       expect(prompt).not.toContain('## Requirements Clarification Phase');
       expect(prompt).not.toContain('## Delivery');
       // Nor the Ask-mode charter (fourth-round finding): CHAT_MODE_OVERRIDE
@@ -242,7 +242,7 @@ describe('composeSystemPrompt', () => {
     }
     // Non-media slim runs keep the charter head.
     const design = composeSystemPrompt({ promptCoreVariant: 'slim' });
-    expect(design).toContain('# Open Design Charter');
+    expect(design).toContain('# SankiWork Charter');
     expect(design).toContain('## Requirements Clarification Phase');
   });
 
@@ -382,7 +382,7 @@ describe('composeSystemPrompt', () => {
       expect(prompt).toContain('filesystem execution profile');
       expect(prompt).toContain("runtime's native tool-call interface");
       expect(prompt).toContain('Never type a tool invocation into assistant text');
-      expect(prompt).toContain('This tool-call rule does not apply to Open Design UI markup');
+      expect(prompt).toContain('This tool-call rule does not apply to SankiWork UI markup');
       expect(prompt).toContain('emit the complete `<question-form>...</question-form>` block directly');
       expect(prompt).toContain('Do not output generated source code in a `<artifact type="text/html">...</artifact>` block.');
     });
@@ -396,7 +396,7 @@ describe('composeSystemPrompt', () => {
       expect(amrPrompt).toContain(
         'Video model: `vela/doubao-seedance-2-0-260128`',
       );
-      expect(amrPrompt).toContain('### Open Design Cloud media defaults');
+      expect(amrPrompt).toContain('### SankiWork Cloud media defaults');
       expect(amrPrompt).not.toContain('### Run-scoped BYOK media defaults');
       expect(amrPrompt).toContain('Never invoke the `vela` CLI directly');
       expect(amrPrompt).toContain('trusted Workspace attribution');
@@ -435,7 +435,7 @@ describe('composeSystemPrompt', () => {
     it('prioritizes question forms over native tool calls when clarifying', () => {
       const prompt = composeSystemPrompt({ agentId: 'amr' });
       expect(prompt).toContain('## Structured clarification on any turn');
-      expect(prompt).toContain('`<question-form>` is assistant text for the Open Design UI, not a native tool call');
+      expect(prompt).toContain('`<question-form>` is assistant text for the SankiWork UI, not a native tool call');
       expect(prompt).toContain(
         'emit the complete `<question-form>...</question-form>` block directly in the assistant message before any TodoWrite, file write/edit, Bash, or other native tool call',
       );
@@ -530,7 +530,7 @@ describe('composeSystemPrompt', () => {
         metadata: { kind: 'image' },
         mediaExecution: { mode: 'disabled' },
       });
-      expect(prompt).toContain('Open Design-owned media execution is **disabled for this run**');
+      expect(prompt).toContain('SankiWork-owned media execution is **disabled for this run**');
       expect(prompt).not.toContain('## Media generation contract');
       expect(prompt).not.toContain('External MCP servers — already authenticated');
     });
@@ -590,7 +590,7 @@ describe('composeSystemPrompt', () => {
   // optional inputs (`designSystemTokensCss`, `designSystemFixtureHtml`)
   // that the daemon populates by default for every brand that ships
   // those files (PR-D flipped the env gate to default-on, with
-  // `OD_DESIGN_TOKEN_CHANNEL=0` as the kill switch). These tests pin
+  // `SW_DESIGN_TOKEN_CHANNEL=0` as the kill switch). These tests pin
   // the injection shape so the prompt structure cannot drift silently.
   describe('design-system token + fixture injection (#PR-C)', () => {
     const sampleTokensCss = ':root {\n  --bg: #ffffff;\n  --fg: #111111;\n  --accent: #0050d8;\n}';

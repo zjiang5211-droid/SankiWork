@@ -28,13 +28,13 @@ describe("win standalone prebundle policy", () => {
   it("keeps server-mode package topology unchanged", () => {
     expect(
       shouldInstallInternalPackageForWinPrebundle({
-        packageName: "@open-design/web",
+        packageName: "@sankiwork/web",
         webOutputMode: "server",
       }),
     ).toBe(true);
     expect(
       shouldInstallInternalPackageForWinPrebundle({
-        packageName: "@open-design/packaged",
+        packageName: "@sankiwork/packaged",
         webOutputMode: "server",
       }),
     ).toBe(true);
@@ -42,12 +42,12 @@ describe("win standalone prebundle policy", () => {
 
   it("excludes internal packages replaced by win standalone prebundles", () => {
     for (const packageName of [
-      "@open-design/daemon",
-      "@open-design/desktop",
-      "@open-design/packaged",
-      "@open-design/sidecar",
-      "@open-design/sidecar-proto",
-      "@open-design/web",
+      "@sankiwork/daemon",
+      "@sankiwork/desktop",
+      "@sankiwork/packaged",
+      "@sankiwork/sidecar",
+      "@sankiwork/sidecar-proto",
+      "@sankiwork/web",
     ]) {
       expect(
         shouldInstallInternalPackageForWinPrebundle({
@@ -58,13 +58,13 @@ describe("win standalone prebundle policy", () => {
     }
     expect(
       shouldInstallInternalPackageForWinPrebundle({
-      packageName: "@open-design/contracts",
+      packageName: "@sankiwork/contracts",
       webOutputMode: "standalone",
     }),
   ).toBe(true);
   expect(
     shouldInstallInternalPackageForWinPrebundle({
-      packageName: "@open-design/platform",
+      packageName: "@sankiwork/platform",
       webOutputMode: "standalone",
     }),
   ).toBe(true);
@@ -119,7 +119,7 @@ describe("findForbiddenWinPrebundleInputs", () => {
 
 describe("assertWinPrebundleMetafile", () => {
   it("accepts a safe web sidecar metafile", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-prebundle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-prebundle-"));
     const metafilePath = join(root, "safe.json");
 
     try {
@@ -138,13 +138,13 @@ describe("assertWinPrebundleMetafile", () => {
   });
 
   it("rejects a packaged main metafile that pulled in web runtime closure", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-prebundle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-prebundle-"));
     const metafilePath = join(root, "unsafe.json");
 
     try {
       await writeFile(
         metafilePath,
-        JSON.stringify({ inputs: { "/repo/node_modules/@open-design/web/dist/sidecar/index.js": {} } }),
+        JSON.stringify({ inputs: { "/repo/node_modules/@sankiwork/web/dist/sidecar/index.js": {} } }),
         "utf8",
       );
 
@@ -157,7 +157,7 @@ describe("assertWinPrebundleMetafile", () => {
   });
 
   it("rejects a daemon metafile that bundled wasm-backed runtime dependencies", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-prebundle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-prebundle-"));
     const metafilePath = join(root, "unsafe-daemon.json");
 
     try {
@@ -176,7 +176,7 @@ describe("assertWinPrebundleMetafile", () => {
   });
 
   it("rejects a daemon metafile that bundled node-pty", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-prebundle-"));
+    const root = await mkdtemp(join(tmpdir(), "sankiwork-win-prebundle-"));
     const metafilePath = join(root, "unsafe-native-daemon.json");
 
     try {
@@ -198,11 +198,11 @@ describe("assertWinPrebundleMetafile", () => {
 describe("renderWinPackagedMainEntry", () => {
   it("renders the prebundled runtime entry shim", () => {
     expect(renderWinPackagedMainEntry(true)).toContain("./prebundled/packaged-main.mjs");
-    expect(renderWinPackagedMainEntry(true)).not.toContain("@open-design/packaged");
+    expect(renderWinPackagedMainEntry(true)).not.toContain("@sankiwork/packaged");
   });
 
   it("renders the package entry shim for non-prebundled mode", () => {
-    expect(renderWinPackagedMainEntry(false)).toContain("@open-design/packaged");
+    expect(renderWinPackagedMainEntry(false)).toContain("@sankiwork/packaged");
     expect(renderWinPackagedMainEntry(false)).not.toContain("./prebundled/packaged-main.mjs");
   });
 });

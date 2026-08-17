@@ -122,7 +122,7 @@ export function createSyncDigestReader(options: SyncDigestReaderOptions): SyncDi
 
   async function read(): Promise<SyncDigestReading | null> {
     // Same gate as the hub events subscriber: no vela source, no hub.
-    if (env.OD_WORKSPACE_CONTEXT_SOURCE?.trim() !== 'vela') return null;
+    if (env.SW_WORKSPACE_CONTEXT_SOURCE?.trim() !== 'vela') return null;
     if (now() < cooldownUntil) return null;
     const session = readSession(env);
     if (!session?.controlKey || !session.apiUrl) return null;

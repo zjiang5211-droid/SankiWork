@@ -57,7 +57,7 @@
   - [ ] `<RUNTIME_DATA_DIR>/projects/<projectId>/.live-artifacts/<artifactId>/provenance.json`.
   - [ ] `<RUNTIME_DATA_DIR>/projects/<projectId>/.live-artifacts/<artifactId>/refreshes.jsonl`.
   - [ ] `<RUNTIME_DATA_DIR>/projects/<projectId>/.live-artifacts/<artifactId>/snapshots/`.
-  - [ ] Support `OD_DATA_DIR` override through existing daemon runtime data-dir conventions.
+  - [ ] Support `SW_DATA_DIR` override through existing daemon runtime data-dir conventions.
 - [ ] Implement artifact ID and slug generation.
 - [ ] Implement safe path resolution.
   - [ ] Ensure all reads/writes stay inside project workspace.
@@ -81,15 +81,15 @@
   - [ ] `GET /api/tools/live-artifacts/list`.
 - [ ] Implement run-scoped tool token infrastructure.
   - [ ] Define run as one `/api/chat` invocation.
-  - [ ] Mint `OD_TOOL_TOKEN` per run.
+  - [ ] Mint `SW_TOOL_TOKEN` per run.
   - [ ] Bind token to `runId`, `projectId`, allowed endpoints, allowed operations, and expiry.
   - [ ] Revoke token when child process exits.
   - [ ] Revoke token when SSE stream ends.
   - [ ] Revoke token when TTL expires.
   - [ ] Isolate concurrent runs under the same project.
 - [ ] Inject runtime tool environment into agent session.
-  - [ ] `OD_DAEMON_URL`.
-  - [ ] `OD_TOOL_TOKEN`.
+  - [ ] `SW_DAEMON_URL`.
+  - [ ] `SW_TOOL_TOKEN`.
 - [ ] Enforce `/api/tools/*` auth.
   - [ ] Require bearer token.
   - [ ] Derive project scope from token.
@@ -183,14 +183,14 @@
   - [ ] Never store credentials or raw provider responses.
   - [ ] Keep `data.json` compact and preview-oriented.
 - [ ] Implement wrapper CLI.
-  - [ ] `od tools live-artifacts create --input artifact.json`.
-  - [ ] `od tools live-artifacts list --format compact`.
-  - [ ] `od tools live-artifacts update --artifact-id <id> --input artifact.json`.
-  - [ ] `od tools live-artifacts refresh --artifact-id <id>`.
+  - [ ] `sw tools live-artifacts create --input artifact.json`.
+  - [ ] `sw tools live-artifacts list --format compact`.
+  - [ ] `sw tools live-artifacts update --artifact-id <id> --input artifact.json`.
+  - [ ] `sw tools live-artifacts refresh --artifact-id <id>`.
   - [ ] Implement project-owned command code as TypeScript under `apps/daemon/src`.
 - [ ] Ensure wrapper reads injected environment.
-  - [ ] `OD_DAEMON_URL`.
-  - [ ] `OD_TOOL_TOKEN`.
+  - [ ] `SW_DAEMON_URL`.
+  - [ ] `SW_TOOL_TOKEN`.
 - [ ] Ensure wrapper returns agent-friendly output.
   - [ ] Compact success JSON.
   - [ ] Compact validation errors.
@@ -286,8 +286,8 @@
   - [ ] `GET /api/tools/connectors/list`.
   - [ ] `POST /api/tools/connectors/execute`.
 - [ ] Implement connector wrapper CLI.
-  - [ ] `od tools connectors list --format compact`.
-  - [ ] `od tools connectors execute --connector <id> --tool <name> --input input.json`.
+  - [ ] `sw tools connectors list --format compact`.
+  - [ ] `sw tools connectors execute --connector <id> --tool <name> --input input.json`.
   - [ ] Implement project-owned command code as TypeScript under `apps/daemon/src`.
 - [ ] Implement read-only safety classification.
   - [ ] Scope/name contains write/create/update/delete/admin/send/post/manage → write/confirm.

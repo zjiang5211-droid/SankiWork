@@ -51,7 +51,7 @@
 
 推荐格式：
 
-- `Open Design main CI failed`
+- `SankiWork main CI failed`
 - `failing jobs: ...`
 - `commit: ...`
 - `PR: ...`

@@ -75,8 +75,8 @@ describe('version history on a readonly shared mirror', () => {
   });
 
   function projectsRoot(): string {
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     return path.join(dataDir, 'projects');
   }
 
@@ -110,8 +110,8 @@ describe('version history on a readonly shared mirror', () => {
     expect(created.status).toBe(200);
     projectsToClean.push(id);
 
-    const dataDir = process.env.OD_DATA_DIR;
-    if (!dataDir) throw new Error('OD_DATA_DIR is required for daemon route tests');
+    const dataDir = process.env.SW_DATA_DIR;
+    if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
     const db = openDatabase(projectsRoot(), { dataDir });
     expect(updateWorkspaceProject(db, WORKSPACE_ID, id, {
       visibility: 'team',

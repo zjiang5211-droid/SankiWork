@@ -4,7 +4,7 @@
 // colors, and rounding are preserved. Only generic destinations without brand
 // artwork (Explorer / File Manager) keep a drawn glyph.
 
-import type { HostEditorId } from '@open-design/contracts';
+import type { HostEditorId } from '@sankiwork/contracts';
 
 interface Props {
   editorId: HostEditorId | string;

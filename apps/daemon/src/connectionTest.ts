@@ -33,7 +33,7 @@ import {
   createCommandInvocation,
   mergeProxyAwareEnv,
   resolveSystemProxyEnv,
-} from '@open-design/platform';
+} from '@sankiwork/platform';
 import { attachAcpSession } from './agent-protocol/index.js';
 import { attachPiRpcSession } from './agent-protocol/index.js';
 import { attachDshProfileSession } from './agent-protocol/index.js';
@@ -79,7 +79,7 @@ import {
   type ConnectionTestResponse,
   type ParsedBaseUrl,
   type ProviderTestRequest,
-} from '@open-design/contracts/api/connectionTest';
+} from '@sankiwork/contracts/api/connectionTest';
 import { googleGenerateContentUrl } from './integrations/google-models.js';
 import { readVelaCredentialRevision, resolveAmrProfile } from './integrations/vela.js';
 import { amrModelLoadingCache } from './runtimes/amr-model-cache.js';
@@ -99,7 +99,7 @@ import {
   buildOpenCodeByokProviderConfig,
 } from './runtimes/byok-opencode.js';
 
-export { validateBaseUrl } from '@open-design/contracts/api/connectionTest';
+export { validateBaseUrl } from '@sankiwork/contracts/api/connectionTest';
 
 // DNS-aware companion to `validateBaseUrl`. The contracts-side check only
 // inspects the literal hostname string, so a public DNS name pointing at
@@ -177,7 +177,7 @@ export async function validateBaseUrlResolved(
  * Validate a base URL that the USER deliberately configured as a provider
  * endpoint (connection test, model discovery, BYOK chat dispatch). Identical
  * to {@link validateBaseUrlResolved} except it honors the operator's
- * `OD_ALLOWED_INTERNAL_HOSTS` allowlist (issue #3225), so an internally hosted
+ * `SW_ALLOWED_INTERNAL_HOSTS` allowlist (issue #3225), so an internally hosted
  * gateway on an RFC1918 address can be reached when — and only when — the
  * operator opted in.
  *
@@ -252,26 +252,26 @@ export async function assertAndFetchExternalAsset(
 }
 
 // Aggressive but not punitive — happy paths usually return in under 2 s.
-// Override with OD_CONNECTION_TEST_PROVIDER_TIMEOUT_MS for slow networks
+// Override with SW_CONNECTION_TEST_PROVIDER_TIMEOUT_MS for slow networks
 // or distant providers; invalid values fall back to the default.
 const DEFAULT_PROVIDER_TIMEOUT_MS = 12_000;
 const LOOPBACK_NO_PROXY_TOKENS = ['localhost', '127.0.0.1', '[::1]'] as const;
 // CLI boot time is dominated by adapter auth/session restore; the heavy
 // adapters (Codex, Cursor Agent) regularly take 5–10 s on a cold first
 // run, so 45 s leaves headroom without making a hung child invisible.
-// Override with OD_CONNECTION_TEST_AGENT_TIMEOUT_MS.
+// Override with SW_CONNECTION_TEST_AGENT_TIMEOUT_MS.
 const DEFAULT_AGENT_TIMEOUT_MS = 45_000;
 const AGENT_STDOUT_DRAIN_MS = 25;
 // Node's `setTimeout` silently clamps any delay above this to ~1 ms
 // (with a TimeoutOverflowWarning), so an override meant to *extend*
-// the budget — e.g. `OD_CONNECTION_TEST_AGENT_TIMEOUT_MS=3000000000` —
+// the budget — e.g. `SW_CONNECTION_TEST_AGENT_TIMEOUT_MS=3000000000` —
 // would actually make every connection test fail almost immediately.
 // Reject above the cap so the safety timeout cannot be accidentally
 // disarmed by an oversized env value.
 const MAX_CONNECTION_TEST_TIMEOUT_MS = 2_147_483_647;
 
 export function resolveConnectionTestTimeoutMs(
-  key: 'OD_CONNECTION_TEST_PROVIDER_TIMEOUT_MS' | 'OD_CONNECTION_TEST_AGENT_TIMEOUT_MS',
+  key: 'SW_CONNECTION_TEST_PROVIDER_TIMEOUT_MS' | 'SW_CONNECTION_TEST_AGENT_TIMEOUT_MS',
   fallback: number,
   env: NodeJS.ProcessEnv = process.env,
 ): number {
@@ -289,14 +289,14 @@ export function resolveConnectionTestTimeoutMs(
 
 function providerTimeoutMs(): number {
   return resolveConnectionTestTimeoutMs(
-    'OD_CONNECTION_TEST_PROVIDER_TIMEOUT_MS',
+    'SW_CONNECTION_TEST_PROVIDER_TIMEOUT_MS',
     DEFAULT_PROVIDER_TIMEOUT_MS,
   );
 }
 
 function agentTimeoutMs(): number {
   return resolveConnectionTestTimeoutMs(
-    'OD_CONNECTION_TEST_AGENT_TIMEOUT_MS',
+    'SW_CONNECTION_TEST_AGENT_TIMEOUT_MS',
     DEFAULT_AGENT_TIMEOUT_MS,
   );
 }
@@ -671,7 +671,7 @@ function codexExecutableGuidance(
   ) {
     return '';
   }
-  return ` Configured Codex path failed: ${configuredOverridePath}. Open Design also detected a PATH Codex CLI at ${pathResolvedPath}. Update CODEX_BIN or clear the custom path to use the detected binary.`;
+  return ` Configured Codex path failed: ${configuredOverridePath}. SankiWork also detected a PATH Codex CLI at ${pathResolvedPath}. Update CODEX_BIN or clear the custom path to use the detected binary.`;
 }
 
 function codexExecutableFallbackSuccessDetail(
@@ -1203,8 +1203,8 @@ function openAIChatCompletionsProviderCall(
       'content-type': 'application/json',
       authorization: `Bearer ${apiKey}`,
       ...(new URL(baseUrl).hostname === 'openrouter.ai' ? {
-        'HTTP-Referer': 'https://opendesign.dev',
-        'X-Title': 'Open Design',
+        'HTTP-Referer': 'https://sanki-ai.cloud',
+        'X-Title': 'SankiWork',
       } : {}),
     },
     body: {
@@ -2121,7 +2121,7 @@ function runQuietCommand(command: string, args: string[], cwd: string): Promise<
 async function prepareOpenCodeConnectionTestCwd(tempDir: string): Promise<void> {
   await fsp.writeFile(
     path.join(tempDir, 'README.md'),
-    'Open Design OpenCode connection test.\n',
+    'SankiWork OpenCode connection test.\n',
     'utf8',
   );
   try {

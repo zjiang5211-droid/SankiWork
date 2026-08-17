@@ -269,7 +269,7 @@ describe('composeSystemPrompt — metadata.promptTemplate', () => {
 
     expect(out).toContain('## Media generation contract');
     expect(out).toContain(
-      '"$OD_NODE_BIN" "$OD_BIN" media generate --surface image --model <imageModel>',
+      '"$SW_NODE_BIN" "$SW_BIN" media generate --surface image --model <imageModel>',
     );
     expect(out).not.toContain('Do not require, request, or mention `OPENAI_API_KEY`');
     expect(out).not.toContain('## Codex built-in imagegen override');
@@ -303,9 +303,9 @@ describe('composeSystemPrompt — metadata.promptTemplate', () => {
     });
 
     expect(out).toContain('## Media generation policy');
-    expect(out).toContain('Open Design-owned media execution is **disabled for this run**');
+    expect(out).toContain('SankiWork-owned media execution is **disabled for this run**');
     expect(out).toContain('External MCP media tools, when explicitly configured for this run, are outside');
-    expect(out).toMatch(/Do not call\s+`"\$OD_NODE_BIN" "\$OD_BIN" media generate`/);
+    expect(out).toMatch(/Do not call\s+`"\$SW_NODE_BIN" "\$SW_BIN" media generate`/);
     expect(out).not.toContain('## Media generation contract');
     expect(out).not.toContain('## Codex built-in imagegen override');
     expect(out).not.toContain('Generate the image with Codex built-in imagegen');
@@ -332,7 +332,7 @@ describe('composeSystemPrompt — metadata.promptTemplate', () => {
     expect(out).toContain('Allowed surfaces for this run: `image`.');
     expect(out).toContain('Allowed models for this run: `gpt-image-2`.');
     expect(out).toContain('### Allowed model IDs (per surface)');
-    expect(out).not.toContain('Open Design-owned media execution is **disabled for this run**');
+    expect(out).not.toContain('SankiWork-owned media execution is **disabled for this run**');
   });
 
   it('renders BYOK media defaults in the media contract', () => {
@@ -434,7 +434,7 @@ describe('composeSystemPrompt — metadata.promptTemplate', () => {
 
     expect(out).toContain('always exits 0');
     expect(out).toContain('as a handoff signal');
-    expect(out).toContain('`"$OD_NODE_BIN" "$OD_BIN" media generate` exits `0`');
+    expect(out).toContain('`"$SW_NODE_BIN" "$SW_BIN" media generate` exits `0`');
     expect(out).toContain('either `file` or `taskId`');
     expect(out).toContain('`2` from `media wait` is not a failure');
   });

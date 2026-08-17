@@ -34,7 +34,7 @@ const CANONICAL = new Map<string, { taskKind: string; pipelineStages: string[] }
 
 // Non-canonical scenarios. These ride on a canonical taskKind but
 // don't win the pipeline-fallback for it. The kind → scenario map in
-// `@open-design/contracts/scenario-defaults` is what routes UX
+// `@sankiwork/contracts/scenario-defaults` is what routes UX
 // project kinds (image / video / audio) onto these plugins. Export
 // starters sit here too: they are user-facing plugins for downstream
 // handoff, but they must not become the canonical tune-collab fallback.
@@ -99,7 +99,7 @@ describe('plugins/_official/scenarios roster', () => {
     const skill = await readFile(skillPath, 'utf8');
     const marketplace = JSON.parse(await readFile(officialMarketplacePath, 'utf8'));
     const registryEntry = marketplace.plugins.find(
-      (plugin: { name?: string }) => plugin.name === 'open-design/od-default',
+      (plugin: { name?: string }) => plugin.name === 'sankiwork/od-default',
     );
     expect(manifest.od.hidden).toBe(true);
     expect(manifest.od.context?.craft).toEqual(

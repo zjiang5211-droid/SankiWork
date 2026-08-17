@@ -9,7 +9,7 @@
 //
 // Today's resolver simply records the operator's choice; the
 // existing better-sqlite3 path is the only reachable backend.
-// `OD_DAEMON_DB=postgres` returns a stub that throws when used so
+// `SW_DAEMON_DB=postgres` returns a stub that throws when used so
 // a misconfigured operator sees a clear error instead of silently
 // dropping writes onto a non-existent backend.
 
@@ -39,19 +39,19 @@ export class DaemonDbConfigError extends Error {
 
 export function resolveDaemonDbConfig(env?: Record<string, string | undefined>): DaemonDbConfig {
   const e = env ?? process.env;
-  const kind = (e.OD_DAEMON_DB ?? 'sqlite').trim().toLowerCase();
+  const kind = (e.SW_DAEMON_DB ?? 'sqlite').trim().toLowerCase();
   if (kind === 'postgres') {
-    const host = e.OD_PG_HOST ?? '';
-    const portStr = e.OD_PG_PORT ?? '5432';
-    const database = e.OD_PG_DATABASE ?? '';
-    const user = e.OD_PG_USER ?? '';
-    const sslMode = e.OD_PG_SSL_MODE === 'disable' || e.OD_PG_SSL_MODE === 'verify-full'
-      ? e.OD_PG_SSL_MODE
+    const host = e.SW_PG_HOST ?? '';
+    const portStr = e.SW_PG_PORT ?? '5432';
+    const database = e.SW_PG_DATABASE ?? '';
+    const user = e.SW_PG_USER ?? '';
+    const sslMode = e.SW_PG_SSL_MODE === 'disable' || e.SW_PG_SSL_MODE === 'verify-full'
+      ? e.SW_PG_SSL_MODE
       : 'require';
     if (!host || !database || !user) {
       throw new DaemonDbConfigError(
-        'OD_DAEMON_DB=postgres requires OD_PG_HOST, OD_PG_DATABASE, OD_PG_USER. ' +
-        'OD_PG_PORT defaults to 5432; OD_PG_SSL_MODE defaults to "require".',
+        'SW_DAEMON_DB=postgres requires SW_PG_HOST, SW_PG_DATABASE, SW_PG_USER. ' +
+        'SW_PG_PORT defaults to 5432; SW_PG_SSL_MODE defaults to "require".',
       );
     }
     return {
@@ -67,7 +67,7 @@ export function resolveDaemonDbConfig(env?: Record<string, string | undefined>):
   }
   if (kind !== 'sqlite' && kind !== '') {
     throw new DaemonDbConfigError(
-      `unknown OD_DAEMON_DB value '${kind}'. Accepted: 'sqlite' (default), 'postgres'.`,
+      `unknown SW_DAEMON_DB value '${kind}'. Accepted: 'sqlite' (default), 'postgres'.`,
     );
   }
   return { kind: 'sqlite' };

@@ -106,7 +106,7 @@ describe('the modal never re-opens for a seen campaign (no URL override left)', 
     // back open. That backdoor is gone: frequency control is the only input.
     window.history.replaceState({}, '', '/?campaign=deepseek-v4-flash');
     window.localStorage.setItem(
-      'open-design:campaign-seen:deepseek-v4-dual-unlimited-2026',
+      'sankiwork:campaign-seen:deepseek-v4-dual-unlimited-2026',
       '1',
     );
 
@@ -122,7 +122,7 @@ describe('the modal never re-opens for a seen campaign (no URL override left)', 
   // (PRD F-14: 旧 Flash 记录不影响本活动).
   it('still shows once to a user who dismissed the previous campaign', () => {
     window.localStorage.setItem(
-      'open-design:campaign-seen:deepseek-v4-flash-unlimited-2026',
+      'sankiwork:campaign-seen:deepseek-v4-flash-unlimited-2026',
       '1',
     );
 

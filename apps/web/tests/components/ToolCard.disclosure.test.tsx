@@ -21,7 +21,7 @@ function renderTool(use: ToolUse, result?: ToolResult) {
 afterEach(() => cleanup());
 
 describe('ToolCard secondary result disclosures', () => {
-  it('shows model, aspect, and output while an od media generation command is running', () => {
+  it('shows model, aspect, and output while an sw media generation command is running', () => {
     const { container } = render(
       <I18nProvider initial="en">
         <ToolCard
@@ -30,7 +30,7 @@ describe('ToolCard secondary result disclosures', () => {
             id: 'media-1',
             name: 'Bash',
             input: {
-              command: '"$OD_NODE_BIN" "$OD_BIN" media generate --surface image --model vela/nano-banana-2 --aspect 16:9 --output shoe.png',
+              command: '"$SW_NODE_BIN" "$SW_BIN" media generate --surface image --model vela/nano-banana-2 --aspect 16:9 --output shoe.png',
             },
           }}
           runStreaming
@@ -57,7 +57,7 @@ describe('ToolCard secondary result disclosures', () => {
       { name: 'Read', category: 'read', input: { file_path: 'source.ts' } },
       { name: 'Bash', category: 'run', input: { command: 'pnpm guard' } },
       { name: 'Grep', category: 'search', input: { pattern: 'TODO', path: 'src' } },
-      { name: 'WebFetch', category: 'fetch', input: { url: 'https://open-design.ai' } },
+      { name: 'WebFetch', category: 'fetch', input: { url: 'https://sanki-ai.cloud' } },
       { name: 'Skill', category: 'skill', input: { name: 'visual-explain' } },
       { name: 'AskUserQuestion', category: 'ask', input: { questions: [{ question: 'Continue?', options: ['Yes'] }] } },
       { name: 'CustomTool', category: 'other', input: { name: 'custom action' } },
@@ -80,7 +80,7 @@ describe('ToolCard secondary result disclosures', () => {
     for (const [index, item] of [
       { name: 'Glob', input: { pattern: '**/*.tsx', path: 'src' } },
       { name: 'Grep', input: { pattern: 'TaskActivityCard', path: 'src' } },
-      { name: 'WebSearch', input: { query: 'Open Design chat activity' } },
+      { name: 'WebSearch', input: { query: 'SankiWork chat activity' } },
     ].entries()) {
       const { container, unmount } = renderTool(
         { kind: 'tool_use', id: `search-${index}`, name: item.name, input: item.input },
