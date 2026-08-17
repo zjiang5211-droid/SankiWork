@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.pnpm/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+.turbo/
+.astro/
+.svelte-kit/
+*.tsbuildinfo
+
+# Runtime / local data (created by the daemon at runtime)
+**/.od/
+.opencode/
+
+# Env files (keep committed examples)
+.env
+.env.*
+!.env.example
+
+# OS / editor cruft
+.DS_Store
+*.log
+.idea/
+.vscode/
