@@ -33,3 +33,6 @@ build/
 
 # Materialized at postinstall from committed .gz (regenerated every install)
 apps/desktop/vendor/dom-to-pptx/dom-to-pptx.bundle.js
+
+# Playwright test output (junit, html report, results)
+e2e/ui/reports/
