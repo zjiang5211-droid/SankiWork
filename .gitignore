@@ -27,3 +27,9 @@ build/
 *.log
 .idea/
 .vscode/
+
+# tools-dev runtime dir (logs, run state)
+.tmp/
+
+# Materialized at postinstall from committed .gz (regenerated every install)
+apps/desktop/vendor/dom-to-pptx/dom-to-pptx.bundle.js
