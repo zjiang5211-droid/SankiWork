@@ -85,7 +85,7 @@ const eventEndAtExclusive = '2026-08-14T16:00:00Z';
     if (dismissed && !forcePreview) return;
 
     float.hidden = false;
-    window.__odTrack?.('surface_view', {
+    window.__swTrack?.('surface_view', {
       page_name: 'landing_home',
       area: 'launch_week_float',
       element: 'launch_week_vol_01',
@@ -93,7 +93,7 @@ const eventEndAtExclusive = '2026-08-14T16:00:00Z';
     });
 
     float.querySelector('[data-home-launch-week-link]')?.addEventListener('click', () => {
-      window.__odTrack?.('ui_click', {
+      window.__swTrack?.('ui_click', {
         page_name: 'landing_home',
         area: 'launch_week_float',
         element: 'open_launch_week',
@@ -102,7 +102,7 @@ const eventEndAtExclusive = '2026-08-14T16:00:00Z';
     });
 
     float.querySelector('[data-home-launch-week-close]')?.addEventListener('click', () => {
-      window.__odTrack?.('ui_click', {
+      window.__swTrack?.('ui_click', {
         page_name: 'landing_home',
         area: 'launch_week_float',
         element: 'dismiss',

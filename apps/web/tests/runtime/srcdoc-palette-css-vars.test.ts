@@ -42,7 +42,7 @@ function setupPaletteDom(headHtml: string, bodyHtml: string) {
 }
 
 async function postPalette(win: { postMessage: Window['postMessage']; setTimeout: Window['setTimeout'] }, palette: string | null): Promise<void> {
-  win.postMessage({ type: 'od:palette', palette }, '*');
+  win.postMessage({ type: 'sw:palette', palette }, '*');
   await new Promise<void>((resolve) => win.setTimeout(resolve, 10));
 }
 

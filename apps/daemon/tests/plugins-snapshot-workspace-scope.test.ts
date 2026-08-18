@@ -73,9 +73,9 @@ afterAll(async () => {
 
 function headers(memberId: string, role: 'owner' | 'admin' | 'member' = 'member') {
   return {
-    'x-od-workspace-id': 'snapshot-workspace',
-    'x-od-workspace-member-id': memberId,
-    'x-od-workspace-role': role,
+    'x-sw-workspace-id': 'snapshot-workspace',
+    'x-sw-workspace-member-id': memberId,
+    'x-sw-workspace-role': role,
   };
 }
 

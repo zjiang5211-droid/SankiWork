@@ -171,14 +171,14 @@ const jsonLd = {
   // again here, which would double every click.
   (() => {
     // Listen on the document and resolve the tracker at click time. The shared
-    // `__odTrack` is defined by the analytics snippet in <head>, which is absent
+    // `__swTrack` is defined by the analytics snippet in <head>, which is absent
     // whenever PostHog has no key (CI and PR previews build without one) — a
     // check at attach time would silently drop the listener for good.
     document.addEventListener('click', (event) => {
       const link = event.target.closest?.('a[href*="applink.feishu.cn"]');
       if (!link || !link.closest('main.lw')) return;
-      if (typeof window.__odTrack !== 'function') return;
-      window.__odTrack('ui_click', {
+      if (typeof window.__swTrack !== 'function') return;
+      window.__swTrack('ui_click', {
         element: 'join_feishu',
         link_url: link.href,
         link_text: (link.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 120),

@@ -386,8 +386,8 @@ describe('useCritiqueTheaterEnabled (Phase 15.3)', () => {
     expect(fetchCalls).toHaveLength(2);
     for (const init of fetchCalls) {
       const headers = new Headers(init.headers);
-      expect(headers.get('x-od-workspace-id')).toBe('workspace-a');
-      expect(headers.get('x-od-workspace-member-id')).toBe('member-a');
+      expect(headers.get('x-sw-workspace-id')).toBe('workspace-a');
+      expect(headers.get('x-sw-workspace-member-id')).toBe('member-a');
     }
   });
 

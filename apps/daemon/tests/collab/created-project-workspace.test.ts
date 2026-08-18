@@ -8,14 +8,14 @@ import {
 } from '../../src/collab/created-project-workspace.js';
 
 const ACTIVE_HEADERS: Record<string, string> = {
-  'x-od-workspace-id': 'workspace-a',
-  'x-od-workspace-type': 'team',
-  'x-od-workspace-member-id': 'member-a',
-  'x-od-workspace-role': 'owner',
-  'x-od-workspace-lifecycle-state': 'active',
-  'x-od-workspace-member-status': 'active',
-  'x-od-workspace-can-share-projects': 'true',
-  'x-od-workspace-can-write-synced-files': 'true',
+  'x-sw-workspace-id': 'workspace-a',
+  'x-sw-workspace-type': 'team',
+  'x-sw-workspace-member-id': 'member-a',
+  'x-sw-workspace-role': 'owner',
+  'x-sw-workspace-lifecycle-state': 'active',
+  'x-sw-workspace-member-status': 'active',
+  'x-sw-workspace-can-share-projects': 'true',
+  'x-sw-workspace-can-write-synced-files': 'true',
 };
 
 function request(headers: Record<string, string> = ACTIVE_HEADERS) {
@@ -86,7 +86,7 @@ describe('authorizeCreatedProjectWorkspace', () => {
     const result = await authorizeCreatedProjectWorkspace(
       request({
         ...ACTIVE_HEADERS,
-        'x-od-workspace-member-id': 'member-b',
+        'x-sw-workspace-member-id': 'member-b',
       }),
       async () => ({
         ok: true,
@@ -157,7 +157,7 @@ describe('authorizeCreatedProjectWorkspace', () => {
   it('rejects a partial workspace identity before consulting AMR', async () => {
     const fetchDirectory = vi.fn(async () => ({ ok: true, items: [] }));
     const result = await authorizeCreatedProjectWorkspace(
-      request({ 'x-od-workspace-id': 'workspace-a' }),
+      request({ 'x-sw-workspace-id': 'workspace-a' }),
       fetchDirectory,
     );
 
@@ -178,7 +178,7 @@ describe('localProjectWorkspaceAttribution', () => {
   it('leaves missing or partial identity unbound instead of blocking local creation', () => {
     expect(localProjectWorkspaceAttribution(request({}))).toBeNull();
     expect(localProjectWorkspaceAttribution(request({
-      'x-od-workspace-id': 'workspace-a',
+      'x-sw-workspace-id': 'workspace-a',
     }))).toBeNull();
   });
 });
@@ -190,8 +190,8 @@ describe('createdProjectWorkspaceHome', () => {
   /** Headers naming a workspace/member pair the caller has no membership in. */
   const FOREIGN_HEADERS: Record<string, string> = {
     ...ACTIVE_HEADERS,
-    'x-od-workspace-id': 'workspace-foreign',
-    'x-od-workspace-member-id': 'member-foreign',
+    'x-sw-workspace-id': 'workspace-foreign',
+    'x-sw-workspace-member-id': 'member-foreign',
   };
 
   it('binds an asserted identity the directory confirms, using the DIRECTORY context', async () => {
@@ -241,7 +241,7 @@ describe('createdProjectWorkspaceHome', () => {
 
   it('rejects a partial asserted identity instead of dropping its scope', async () => {
     await expect(createdProjectWorkspaceHome(
-      request({ 'x-od-workspace-id': 'workspace-a' }),
+      request({ 'x-sw-workspace-id': 'workspace-a' }),
     )).rejects.toMatchObject({
       status: 400,
       code: 'WORKSPACE_CONTEXT_INCOMPLETE',

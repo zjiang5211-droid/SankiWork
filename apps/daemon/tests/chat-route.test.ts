@@ -125,10 +125,10 @@ describe('/api/chat', () => {
     return {
       projectId,
       headers: {
-        'x-od-workspace-id': workspaceId,
-        'x-od-workspace-member-id': workspaceMemberId,
-        'x-od-workspace-type': 'personal',
-        'x-od-workspace-role': 'owner',
+        'x-sw-workspace-id': workspaceId,
+        'x-sw-workspace-member-id': workspaceMemberId,
+        'x-sw-workspace-type': 'personal',
+        'x-sw-workspace-role': 'owner',
       },
     };
   }
@@ -3397,7 +3397,7 @@ process.stdin.on('end', () => {
     }
     const workspaceFixture =
       await createPersonalWorkspaceBoundProjectFixture('Foreign Personal DS prompt fixture');
-    const workspaceId = workspaceFixture.headers['x-od-workspace-id'];
+    const workspaceId = workspaceFixture.headers['x-sw-workspace-id'];
     const foreignMemberId = `foreign-member-${randomUUID()}`;
     const dirId = `foreign-prompt-${randomUUID()}`;
     const designSystemId = `user:${dirId}`;
@@ -3487,8 +3487,8 @@ process.stdin.on('end', () => {
     }
     const workspaceFixture =
       await createPersonalWorkspaceBoundProjectFixture('Own Personal DS prompt fixture');
-    const workspaceId = workspaceFixture.headers['x-od-workspace-id'];
-    const workspaceMemberId = workspaceFixture.headers['x-od-workspace-member-id'];
+    const workspaceId = workspaceFixture.headers['x-sw-workspace-id'];
+    const workspaceMemberId = workspaceFixture.headers['x-sw-workspace-member-id'];
     const dirId = `own-personal-prompt-${randomUUID()}`;
     const designSystemId = `user:${dirId}`;
     const personalMarker = `OWN_PERSONAL_DS_${randomUUID()}`;
@@ -3738,10 +3738,10 @@ process.stdin.on('end', () => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'x-od-workspace-id': workspaceId,
-              'x-od-workspace-member-id': workspaceMemberId,
-              'x-od-workspace-type': 'team',
-              'x-od-workspace-role': 'owner',
+              'x-sw-workspace-id': workspaceId,
+              'x-sw-workspace-member-id': workspaceMemberId,
+              'x-sw-workspace-type': 'team',
+              'x-sw-workspace-role': 'owner',
             },
             body: JSON.stringify({
               agentId: 'opencode',

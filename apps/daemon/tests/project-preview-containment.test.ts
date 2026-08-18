@@ -58,14 +58,14 @@ describe('project preview containment routes', () => {
 
   function workspaceHeaders(workspaceId: string, workspaceMemberId: string): Record<string, string> {
     return {
-      'x-od-workspace-id': workspaceId,
-      'x-od-workspace-member-id': workspaceMemberId,
-      'x-od-workspace-type': 'personal',
-      'x-od-workspace-role': 'member',
-      'x-od-workspace-member-status': 'active',
-      'x-od-workspace-lifecycle-state': 'active',
-      'x-od-workspace-can-share-projects': 'true',
-      'x-od-workspace-can-write-synced-files': 'true',
+      'x-sw-workspace-id': workspaceId,
+      'x-sw-workspace-member-id': workspaceMemberId,
+      'x-sw-workspace-type': 'personal',
+      'x-sw-workspace-role': 'member',
+      'x-sw-workspace-member-status': 'active',
+      'x-sw-workspace-lifecycle-state': 'active',
+      'x-sw-workspace-can-share-projects': 'true',
+      'x-sw-workspace-can-write-synced-files': 'true',
     };
   }
 
@@ -218,7 +218,7 @@ describe('project preview containment routes', () => {
       error: { code: 'WORKSPACE_CONTEXT_REQUIRED' },
     });
 
-    scopeQuery.append('odPreviewBridge', 'scroll');
+    scopeQuery.append('swPreviewBridge', 'scroll');
     const rawResponse = await fetch(
       `${baseUrl}/api/projects/${projectId}/raw/brand.html?${scopeQuery}`,
     );
@@ -242,7 +242,7 @@ describe('project preview containment routes', () => {
     const wrongWorkspaceQuery = new URLSearchParams({
       workspaceId: `wrong-${randomUUID()}`,
       workspaceMemberId,
-      odPreviewBridge: 'scroll',
+      swPreviewBridge: 'scroll',
     });
     const wrongWorkspaceResponse = await fetch(
       `${baseUrl}/api/projects/${projectId}/raw/brand.html?${wrongWorkspaceQuery}`,

@@ -67,8 +67,8 @@ describe('MCP workspace-scoped project tools (#6569)', () => {
     expect(calls[0]?.url).toBe(`${BASE}/api/workspace/directory`);
     const scoped = calls.find((c) => c.url.includes('/api/workspaces/ws-personal/projects'));
     expect(scoped).toBeTruthy();
-    expect((scoped?.init?.headers as Record<string, string>)['x-od-workspace-id']).toBe('ws-personal');
-    expect((scoped?.init?.headers as Record<string, string>)['x-od-workspace-member-id']).toBe('mem-1');
+    expect((scoped?.init?.headers as Record<string, string>)['x-sw-workspace-id']).toBe('ws-personal');
+    expect((scoped?.init?.headers as Record<string, string>)['x-sw-workspace-member-id']).toBe('mem-1');
     const body = firstJson<{ projects: Array<{ id: string; name: string }> }>(result);
     expect(body.projects).toHaveLength(1);
     expect(body.projects[0]?.name).toBe('Bound Demo');
@@ -102,8 +102,8 @@ describe('MCP workspace-scoped project tools (#6569)', () => {
 
     const projectCall = seen.find((c) => c.url.includes(`/api/projects/${projectId}`) && !c.url.includes('conversations'));
     expect(projectCall).toBeTruthy();
-    expect((projectCall?.init?.headers as Record<string, string>)['x-od-workspace-id']).toBe('ws-personal');
-    expect((projectCall?.init?.headers as Record<string, string>)['x-od-workspace-member-id']).toBe('mem-1');
+    expect((projectCall?.init?.headers as Record<string, string>)['x-sw-workspace-id']).toBe('ws-personal');
+    expect((projectCall?.init?.headers as Record<string, string>)['x-sw-workspace-member-id']).toBe('mem-1');
   });
 
   it('write_file sends workspace headers on the project-file write', async () => {
@@ -127,7 +127,7 @@ describe('MCP workspace-scoped project tools (#6569)', () => {
 
     const writeCall = seen.find((c) => c.url.includes(`/api/projects/${projectId}/files`) && c.init?.method === 'POST');
     expect(writeCall).toBeTruthy();
-    expect((writeCall?.init?.headers as Record<string, string>)['x-od-workspace-id']).toBe('ws-personal');
+    expect((writeCall?.init?.headers as Record<string, string>)['x-sw-workspace-id']).toBe('ws-personal');
   });
 
   it('create_project sends workspace headers and falls back headerless on workspace denial', async () => {

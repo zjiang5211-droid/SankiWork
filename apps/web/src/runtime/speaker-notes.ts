@@ -390,7 +390,7 @@ export function buildSpeakerNotesPresenterHtml(options: {
         return data.previewHtml || '';
       }
       function postGo(frame, target){
-        try { frame.contentWindow.postMessage({ type: 'od:slide', action: 'go', index: target }, '*'); } catch (_) {}
+        try { frame.contentWindow.postMessage({ type: 'sw:slide', action: 'go', index: target }, '*'); } catch (_) {}
       }
       // Load each preview deck exactly once, then drive it by postMessage so a
       // slide change is a smooth in-deck transition instead of a full iframe
@@ -456,7 +456,7 @@ export function buildSpeakerNotesPresenterHtml(options: {
             editing = false;
             activeTextarea = null;
             saveActiveEdit = null;
-            send('od:presenter-notes-save', { notes: notes });
+            send('sw:presenter-notes-save', { notes: notes });
             renderNotes();
           }
           saveActiveEdit = saveAndClose;
@@ -506,11 +506,11 @@ export function buildSpeakerNotesPresenterHtml(options: {
         render();
         if (!fromHost) {
           localNavGuardUntil = Date.now() + 600;
-          send('od:presenter-slide-go', { index: index });
+          send('sw:presenter-slide-go', { index: index });
         }
       }
       function closePresenter(){
-        send('od:presenter-close', {});
+        send('sw:presenter-close', {});
         try { window.close(); } catch (_) {}
       }
       els.pause.onclick = function(){
@@ -550,7 +550,7 @@ export function buildSpeakerNotesPresenterHtml(options: {
       });
       window.addEventListener('message', function(ev){
         var msg = ev.data || {};
-        if (msg.type !== 'od:presenter-slide-state') return;
+        if (msg.type !== 'sw:presenter-slide-state') return;
         if (msg.projectId !== data.projectId || msg.fileName !== data.fileName) return;
         if (Array.isArray(msg.notes)) notes = msg.notes.slice();
         if (typeof msg.count === 'number' && msg.count > 0) count = Math.max(1, Math.floor(msg.count));

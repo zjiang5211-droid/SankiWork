@@ -652,7 +652,7 @@ export function registerLibraryRoutes(app: Express, ctx: RegisterLibraryRoutesDe
       // `prototype` keeps the new project in the design/canvas surface; the
       // back-link to the source asset rides on metadata so the asset's "Open
       // project" affordance can resolve it.
-      const metadata = { kind: 'prototype', odLibraryAssetId: asset.id };
+      const metadata = { kind: 'prototype', swLibraryAssetId: asset.id };
       insertProject(db, {
         id: projectId,
         name: baseName || 'Captured page',

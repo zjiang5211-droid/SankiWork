@@ -90,7 +90,7 @@ it('allows headerless deletion but rejects malformed workspace metadata in works
     `${started.url}/api/design-systems/${encodeURIComponent(malformedCreated.designSystem.id)}`,
     {
       method: 'DELETE',
-      headers: { 'x-od-workspace-type': 'team' },
+      headers: { 'x-sw-workspace-type': 'team' },
     },
   );
 

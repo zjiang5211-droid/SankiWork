@@ -535,8 +535,8 @@ function chooseWorkspaceForTab(items: WorkspaceDirectoryItem[]): WorkspaceDirect
 
 function explicitWorkspaceHeaders(selection: WorkspaceSelection): Record<string, string> {
   return {
-    'x-od-workspace-id': selection.workspaceId,
-    'x-od-workspace-member-id': selection.workspaceMemberId,
+    'x-sw-workspace-id': selection.workspaceId,
+    'x-sw-workspace-member-id': selection.workspaceMemberId,
   };
 }
 
@@ -1000,7 +1000,7 @@ const WORKSPACE_CONTEXT_POLL_MS = 30_000;
 // Poll-as-floor cadence while the workspace SSE is connected — a slow safety net
 // behind the pushed `workspace-context-changed` events.
 const WORKSPACE_CONTEXT_SSE_FLOOR_MS = 120_000;
-export const WORKSPACE_CONTEXT_REFRESH_EVENT = 'od:workspace-context-refresh';
+export const WORKSPACE_CONTEXT_REFRESH_EVENT = 'sw:workspace-context-refresh';
 // Keep the deployed storage string for old/new bundle interoperability. The
 // semantic name is deliberately narrower: only unseeded sign-in/sign-out
 // writes it; a seeded ambient Workspace selection never does.
@@ -1740,7 +1740,7 @@ export function workspaceBillingSnapshotForContext(
 const WORKSPACE_BILLING_POLL_MS = 30_000;
 const WORKSPACE_BILLING_RETRY_BASE_MS = 5_000;
 const WORKSPACE_BILLING_RETRY_MAX_MS = 60_000;
-const WORKSPACE_BILLING_RETRY_EVENT = 'od:workspace-billing-retry';
+const WORKSPACE_BILLING_RETRY_EVENT = 'sw:workspace-billing-retry';
 
 /**
  * One retry schedule per billing `requestKey`, shared by every mounted
@@ -1831,7 +1831,7 @@ function resetWorkspaceBillingRetrySchedules(): void {
 // foreground activity cannot keep kicking a flaky transport back to a 1s cadence.
 const WORKSPACE_CONTEXT_RETRY_BASE_MS = 1_000;
 const WORKSPACE_CONTEXT_RETRY_MAX_MS = 30_000;
-const WORKSPACE_CONTEXT_RETRY_EVENT = 'od:workspace-context-retry';
+const WORKSPACE_CONTEXT_RETRY_EVENT = 'sw:workspace-context-retry';
 
 function defaultWorkspaceContextRetryBackoff(): BackoffOptions {
   return {
@@ -1889,7 +1889,7 @@ function resetWorkspaceContextRetrySchedules(): void {
   workspaceContextRetrySchedules.clear();
 }
 
-export const WORKSPACE_BILLING_REFRESH_EVENT = 'od:workspace-billing-refresh';
+export const WORKSPACE_BILLING_REFRESH_EVENT = 'sw:workspace-billing-refresh';
 const WORKSPACE_BILLING_REFRESH_STORAGE_KEY = 'od.workspaceBilling.refreshAt';
 
 export function notifyWorkspaceBillingRefresh(): void {
@@ -1923,7 +1923,7 @@ export interface TeamProjectsState {
 const TEAM_PROJECTS_POLL_MS = 15_000;
 // Poll-as-floor cadence while the workspace SSE is connected.
 const TEAM_PROJECTS_SSE_FLOOR_MS = 60_000;
-export const TEAM_PROJECTS_CHANGED_EVENT = 'od:team-projects-changed';
+export const TEAM_PROJECTS_CHANGED_EVENT = 'sw:team-projects-changed';
 const TEAM_PROJECTS_CHANGED_STORAGE_KEY = 'od.teamProjects.changedAt';
 let teamProjectsChangedNotificationSequence = 0;
 

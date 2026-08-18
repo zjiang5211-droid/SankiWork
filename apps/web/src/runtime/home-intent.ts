@@ -9,7 +9,7 @@
 // being loaded so chip dispatch (which resolves a bundled plugin) cannot race
 // an empty list.
 
-export const HOME_CHIP_INTENT_EVENT = 'od:home-chip-intent';
+export const HOME_CHIP_INTENT_EVENT = 'sw:home-chip-intent';
 
 let pendingChipId: string | null = null;
 

@@ -10,12 +10,12 @@ export const RAIL_OPEN_STORAGE_KEY = 'od.entry.railOpen';
 
 // Window event dispatched by chrome outside the entry tree (the pinned Home
 // tab's sidebar toggle in WorkspaceTabsBar) to expand/collapse the entry rail.
-export const ENTRY_RAIL_TOGGLE_EVENT = 'od:entry-rail-toggle';
+export const ENTRY_RAIL_TOGGLE_EVENT = 'sw:entry-rail-toggle';
 
 // Window event dispatched by EntryShell whenever the rail open state changes,
 // with `detail: { open: boolean }`, so outside chrome can mirror the state
 // (the pinned toggle's `aria-expanded`).
-export const ENTRY_RAIL_STATE_EVENT = 'od:entry-rail-state';
+export const ENTRY_RAIL_STATE_EVENT = 'sw:entry-rail-state';
 
 export function readStoredRailOpen(): boolean {
   if (typeof window === 'undefined') return false;

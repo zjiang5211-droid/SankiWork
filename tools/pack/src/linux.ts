@@ -644,7 +644,7 @@ async function writeLinuxBuilderConfig(config: ToolPackConfig, paths: LinuxPaths
       name: "sankiwork-packaged-app",
       productName: PRODUCT_NAME,
       version: packageVersion,
-      ...(config.portable ? {} : { odToolsPackRuntimeRoot: config.roots.runtime.namespaceBaseRoot }),
+      ...(config.portable ? {} : { swToolsPackRuntimeRoot: config.roots.runtime.namespaceBaseRoot }),
     },
     extraResources: [
       { from: paths.resourceRoot, to: "sankiwork" },

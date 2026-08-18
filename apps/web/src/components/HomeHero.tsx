@@ -2368,9 +2368,9 @@ function PluginPromptPresetCard({
   // to fit the preview cell (see useDeckPreviewScale), so a template's first
   // slide previews proportionally instead of overflowing. The baked-clip path
   // (preferBaked) is already proportional; this fixes the live-HTML fallback.
-  const odMode = (record.manifest?.od as { mode?: unknown } | undefined)?.mode;
+  const swMode = (record.manifest?.od as { mode?: unknown } | undefined)?.mode;
   const presetPreviewRef = useRef<HTMLSpanElement>(null);
-  useDeckPreviewScale(presetPreviewRef, odMode === 'deck' && preview.kind === 'html');
+  useDeckPreviewScale(presetPreviewRef, swMode === 'deck' && preview.kind === 'html');
   const title = localizePluginTitle(locale, record);
   // Commercial category ("品类") chip — same signal the gallery tile and the
   // Create page picker show, so the example row reads like the reference
@@ -2383,7 +2383,7 @@ function PluginPromptPresetCard({
         className={`home-hero__plugin-preset${active ? ' is-active' : ''}${pending ? ' is-pending' : ''}${pulse ? ' home-hero__attention-sheen' : ''}`}
         data-testid="home-hero-plugin-preset"
         data-plugin-id={record.id}
-        {...(typeof odMode === 'string' ? { 'data-sw-mode': odMode } : {})}
+        {...(typeof swMode === 'string' ? { 'data-sw-mode': swMode } : {})}
         disabled={disabled}
         onClick={() => onPick(record, chipId, seedPrompt)}
       >
@@ -2392,7 +2392,7 @@ function PluginPromptPresetCard({
             pluginId={record.id}
             pluginTitle={title}
             preview={preview}
-            eager={odMode === 'deck'}
+            eager={swMode === 'deck'}
           />
           {active ? (
             <span className="home-hero__plugin-preset-check" aria-hidden>

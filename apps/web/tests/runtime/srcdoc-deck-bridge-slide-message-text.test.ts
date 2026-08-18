@@ -36,7 +36,7 @@ function setupDeckThatMentionsSlideMessages() {
   const bodyHtml = `
     <section class="slide" style="display:block">Slide One</section>
     <section class="slide" style="display:none">Slide Two</section>
-    <p>Protocol token: od:slide</p>
+    <p>Protocol token: sw:slide</p>
   `;
   const srcdoc = buildSrcdoc(`<!doctype html><html><body>${bodyHtml}</body></html>`, {
     deck: true,
@@ -93,7 +93,7 @@ function setupDeckWithNativeSlideMessageHandler() {
     });
   }
   win.addEventListener('message', (event) => {
-    if (!event.data || event.data.type !== 'od:slide') return;
+    if (!event.data || event.data.type !== 'sw:slide') return;
     if (event.data.action === 'next') active = Math.min(slides.length - 1, active + 1);
     if (event.data.action === 'prev') active = Math.max(0, active - 1);
     render();
@@ -129,7 +129,7 @@ function setupDeckWithConstantNativeSlideMessageHandler() {
   flushTimers();
 
   const slides = Array.from(win.document.querySelectorAll<HTMLElement>('.slide'));
-  const SLIDE_MESSAGE = 'od:slide';
+  const SLIDE_MESSAGE = 'sw:slide';
   function isSlideMessage(data: { type?: string } | null | undefined) {
     return data?.type === SLIDE_MESSAGE;
   }
@@ -175,7 +175,7 @@ function setupDeckWithStoppingNativeSlideMessageHandler() {
 
   const slides = Array.from(win.document.querySelectorAll<HTMLElement>('.slide'));
   win.addEventListener('message', (event) => {
-    if (!event.data || event.data.type !== 'od:slide') return;
+    if (!event.data || event.data.type !== 'sw:slide') return;
     event.stopImmediatePropagation();
     if (event.data.action === 'next') {
       slides[0]!.style.display = 'none';
@@ -192,13 +192,13 @@ function setupDeckWithStoppingNativeSlideMessageHandler() {
 }
 
 describe('deck bridge - slide message text', () => {
-  it('keeps host navigation active when content mentions the od:slide protocol without handling it', () => {
+  it('keeps host navigation active when content mentions the sw:slide protocol without handling it', () => {
     const { flushTimers, win, slides } = setupDeckThatMentionsSlideMessages();
     const [first, second] = slides;
     if (!first || !second) throw new Error('expected two slides');
 
     win.dispatchEvent(
-      new win.MessageEvent('message', { data: { type: 'od:slide', action: 'next' } }),
+      new win.MessageEvent('message', { data: { type: 'sw:slide', action: 'next' } }),
     );
     flushTimers();
 
@@ -213,12 +213,12 @@ describe('deck bridge - slide message text', () => {
     if (!first || !second) throw new Error('expected two slides');
 
     win.addEventListener('message', (event) => {
-      if (!event.data || event.data.type !== 'od:theme') return;
+      if (!event.data || event.data.type !== 'sw:theme') return;
       win.document.documentElement.dataset.theme = String(event.data.theme || '');
     });
 
     win.dispatchEvent(
-      new win.MessageEvent('message', { data: { type: 'od:slide', action: 'next' } }),
+      new win.MessageEvent('message', { data: { type: 'sw:slide', action: 'next' } }),
     );
 
     expect(first.style.display).toBe('none');
@@ -232,7 +232,7 @@ describe('deck bridge - slide message text', () => {
     if (!first || !second || !third) throw new Error('expected three slides');
 
     win.dispatchEvent(
-      new win.MessageEvent('message', { data: { type: 'od:slide', action: 'next' } }),
+      new win.MessageEvent('message', { data: { type: 'sw:slide', action: 'next' } }),
     );
     flushTimers();
 
@@ -248,7 +248,7 @@ describe('deck bridge - slide message text', () => {
     if (!first || !second || !third) throw new Error('expected three slides');
 
     win.dispatchEvent(
-      new win.MessageEvent('message', { data: { type: 'od:slide', action: 'next' } }),
+      new win.MessageEvent('message', { data: { type: 'sw:slide', action: 'next' } }),
     );
     flushTimers();
 
@@ -264,7 +264,7 @@ describe('deck bridge - slide message text', () => {
     if (!first || !second) throw new Error('expected two slides');
 
     win.dispatchEvent(
-      new win.MessageEvent('message', { data: { type: 'od:slide', action: 'next' } }),
+      new win.MessageEvent('message', { data: { type: 'sw:slide', action: 'next' } }),
     );
     flushTimers();
 
@@ -272,7 +272,7 @@ describe('deck bridge - slide message text', () => {
     expect(second.style.display).toBe('');
     expect(win.document.getElementById('deck-cur')?.textContent).toBe('02');
     expect(postMessage).toHaveBeenLastCalledWith(
-      { type: 'od:slide-state', active: 1, count: 2 },
+      { type: 'sw:slide-state', active: 1, count: 2 },
       '*',
     );
     win.close();

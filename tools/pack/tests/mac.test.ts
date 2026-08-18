@@ -64,13 +64,13 @@ function makeConfig(root: string, overrides: Partial<ToolPackConfig> = {}): Tool
   };
 }
 
-const envState = { odDataDir: process.env.SW_DATA_DIR };
+const envState = { swDataDir: process.env.SW_DATA_DIR };
 
 afterEach(() => {
-  if (envState.odDataDir == null) {
+  if (envState.swDataDir == null) {
     delete process.env.SW_DATA_DIR;
   } else {
-    process.env.SW_DATA_DIR = envState.odDataDir;
+    process.env.SW_DATA_DIR = envState.swDataDir;
   }
 });
 

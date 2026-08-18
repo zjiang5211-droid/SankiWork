@@ -498,7 +498,7 @@ describe('manual edit bridge target normalization', () => {
 
     expect(click.defaultPrevented).toBe(true);
     expect(posts).toContainEqual({
-      type: 'od:preview-open-file',
+      type: 'sw:preview-open-file',
       fileName: 'discover.html',
       search: '?variant=a',
       hash: '',
@@ -1177,7 +1177,7 @@ describe('manual edit bridge target normalization', () => {
     const editable = dom.window.document.createElement('div');
     editable.setAttribute('data-sw-editing', 'true');
     dom.window.document.body.appendChild(editable);
-    (dom.window as any).__odEditGuard.editingEl = editable;
+    (dom.window as any).__swEditGuard.editingEl = editable;
 
     // Register a once listener on window (capture phase) — dispatch from inside editable so guard suppresses it
     dom.window.addEventListener('keydown', listener, { once: true, capture: true });
@@ -1186,7 +1186,7 @@ describe('manual edit bridge target normalization', () => {
 
     // The once handler was consumed (both by browser and our bookkeeping)
     // Re-adding the same callback should work
-    (dom.window as any).__odEditGuard.editingEl = null; // clear guard so next event fires
+    (dom.window as any).__swEditGuard.editingEl = null; // clear guard so next event fires
     dom.window.addEventListener('keydown', listener, { once: true, capture: true });
     dom.window.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'b' }));
     expect(listener).toHaveBeenCalledTimes(1); // re-registered and fired

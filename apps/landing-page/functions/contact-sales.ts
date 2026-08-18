@@ -202,10 +202,10 @@ async function verifyServiceSignature(options: {
   | null
 > {
   const timestampValue = options.request.headers.get(
-    "x-od-service-timestamp",
+    "x-sw-service-timestamp",
   );
-  const headerEventId = options.request.headers.get("x-od-service-event-id");
-  const signatureValue = options.request.headers.get("x-od-service-signature");
+  const headerEventId = options.request.headers.get("x-sw-service-event-id");
+  const signatureValue = options.request.headers.get("x-sw-service-signature");
   if (!timestampValue || !headerEventId || !signatureValue) {
     return "service_auth_required";
   }

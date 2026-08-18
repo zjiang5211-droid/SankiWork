@@ -28,7 +28,7 @@ import { UserActionCard } from './UserActionCard';
 import { useT } from '../i18n';
 import styles from './OdCard.module.css';
 
-const RULE_PROPOSAL_DECISION_PREFIX = 'od:rule-proposal-decision:';
+const RULE_PROPOSAL_DECISION_PREFIX = 'sw:rule-proposal-decision:';
 
 type RuleProposalDecision =
   | { status: 'idle' }
@@ -181,7 +181,7 @@ function TaskBriefCard({ card }: { card: OdCardTaskBrief }) {
           <Icon name="sparkles" size={14} />
         </span>
         <span className={styles.briefChipLabel}>
-          {t('artifact.odCardTaskBriefChip')}
+          {t('artifact.swCardTaskBriefChip')}
         </span>
         <span className={styles.briefChipSummary}>{card.summary}</span>
         <span className={styles.briefChipChevron} aria-hidden>
@@ -277,10 +277,10 @@ function VerifyScorecardCard({ card }: { card: OdCardVerifyScorecard }) {
   const [open, setOpen] = useState(card.status !== 'pass');
   const statusLabel =
     card.status === 'pass'
-      ? t('artifact.odCardScorecardStatusPass')
+      ? t('artifact.swCardScorecardStatusPass')
       : card.status === 'partial'
-        ? t('artifact.odCardScorecardStatusPartial')
-        : t('artifact.odCardScorecardStatusFail');
+        ? t('artifact.swCardScorecardStatusPartial')
+        : t('artifact.swCardScorecardStatusFail');
   const failedRows = card.rows.filter((row) => row.status === 'fail');
   const visibleRows = card.status === 'pass'
     ? card.rows
@@ -299,7 +299,7 @@ function VerifyScorecardCard({ card }: { card: OdCardVerifyScorecard }) {
           {statusLabel}
         </span>
         <span className={styles.scorecardTitle}>
-          {t('artifact.odCardScorecardTitle')}
+          {t('artifact.swCardScorecardTitle')}
         </span>
         {card.summary ? (
           <span className={styles.scorecardSummary}>{card.summary}</span>
@@ -394,7 +394,7 @@ function RuleProposalCard({
           <Icon name="check" size={14} />
         </span>
         <span className={styles.ruleSavedLabel}>
-          {t('artifact.odCardRuleSaved', { name: savedName })}
+          {t('artifact.swCardRuleSaved', { name: savedName })}
         </span>
       </div>
     );
@@ -450,7 +450,7 @@ function RuleProposalCard({
       icon="star"
       title={(
         <>
-          {t('artifact.odCardRuleKicker')} · <span>{name}</span>
+          {t('artifact.swCardRuleKicker')} · <span>{name}</span>
         </>
       )}
       open={detailsOpen || editing}
@@ -467,8 +467,8 @@ function RuleProposalCard({
           onClick={() => void keep()}
         >
           {status === 'saving'
-            ? t('artifact.odCardRuleSaving')
-            : t('artifact.odCardRuleKeep')}
+            ? t('artifact.swCardRuleSaving')
+            : t('artifact.swCardRuleKeep')}
         </Button>
       }
       details={
@@ -476,7 +476,7 @@ function RuleProposalCard({
           {editing ? (
             <div className={styles.ruleFields}>
               <label className={styles.ruleFieldLabel}>
-                {t('artifact.odCardRuleNameLabel')}
+                {t('artifact.swCardRuleNameLabel')}
                 <input
                   type="text"
                   value={name}
@@ -484,7 +484,7 @@ function RuleProposalCard({
                 />
               </label>
               <label className={styles.ruleFieldLabel}>
-                {t('artifact.odCardRuleDescriptionLabel')}
+                {t('artifact.swCardRuleDescriptionLabel')}
                 <input
                   type="text"
                   value={description}
@@ -492,7 +492,7 @@ function RuleProposalCard({
                 />
               </label>
               <label className={styles.ruleFieldLabel}>
-                {t('artifact.odCardRuleAssertionLabel')}
+                {t('artifact.swCardRuleAssertionLabel')}
                 <textarea
                   rows={2}
                   value={assertion}
@@ -500,7 +500,7 @@ function RuleProposalCard({
                 />
               </label>
               <label className={styles.ruleFieldLabel}>
-                {t('artifact.odCardRuleCheckLabel')}
+                {t('artifact.swCardRuleCheckLabel')}
                 <textarea
                   rows={2}
                   value={check}
@@ -508,7 +508,7 @@ function RuleProposalCard({
                 />
               </label>
               <label className={styles.ruleFieldLabel}>
-                {t('artifact.odCardRuleRationaleLabel')}
+                {t('artifact.swCardRuleRationaleLabel')}
                 <input
                   type="text"
                   value={rationale}
@@ -521,16 +521,16 @@ function RuleProposalCard({
               {description ? <p className={styles.ruleDescription}>{description}</p> : null}
               <dl className={styles.ruleFacts}>
                 <div>
-                  <dt>{t('artifact.odCardRuleAssertionLabel')}</dt>
+                  <dt>{t('artifact.swCardRuleAssertionLabel')}</dt>
                   <dd>{assertion}</dd>
                 </div>
                 <div>
-                  <dt>{t('artifact.odCardRuleCheckLabel')}</dt>
+                  <dt>{t('artifact.swCardRuleCheckLabel')}</dt>
                   <dd>{check}</dd>
                 </div>
                 {rationale ? (
                   <div>
-                    <dt>{t('artifact.odCardRuleRationaleLabel')}</dt>
+                    <dt>{t('artifact.swCardRuleRationaleLabel')}</dt>
                     <dd>{rationale}</dd>
                   </div>
                 ) : null}
@@ -539,7 +539,7 @@ function RuleProposalCard({
           )}
           {status === 'error' ? (
             <p className={styles.ruleError} role="status">
-              {t('artifact.odCardRuleError')}
+              {t('artifact.swCardRuleError')}
             </p>
           ) : null}
           <div className={styles.ruleActions}>
@@ -553,7 +553,7 @@ function RuleProposalCard({
                 if (nextEditing) setDetailsOpen(true);
               }}
             >
-              {editing ? t('artifact.odCardRuleDone') : t('artifact.odCardRuleEdit')}
+              {editing ? t('artifact.swCardRuleDone') : t('artifact.swCardRuleEdit')}
             </Button>
             <Button
               variant="ghost"
@@ -565,7 +565,7 @@ function RuleProposalCard({
                 setDecision(discardedDecision);
               }}
             >
-              {t('artifact.odCardRuleDiscard')}
+              {t('artifact.swCardRuleDiscard')}
             </Button>
           </div>
         </>
@@ -574,7 +574,7 @@ function RuleProposalCard({
   );
 }
 
-const BRAND_ASSIST_DECISION_PREFIX = 'od:brand-browser-assist-decision:';
+const BRAND_ASSIST_DECISION_PREFIX = 'sw:brand-browser-assist-decision:';
 
 function brandAssistStorageKey(brandId: string): string {
   return `${BRAND_ASSIST_DECISION_PREFIX}${brandId}`;
@@ -646,7 +646,7 @@ function BrandBrowserAssistCard({
       dataKind="browser-assist"
       dataOdCard="brand-browser-assist"
       icon="globe"
-      title={t('artifact.odCardBrandAssistKicker', { reason: card.reason || 'Browser' })}
+      title={t('artifact.swCardBrandAssistKicker', { reason: card.reason || 'Browser' })}
       detailsLabel={t('brand.viewDetails')}
       actions={
         <Button
@@ -656,23 +656,23 @@ function BrandBrowserAssistCard({
           onClick={() => void confirm()}
         >
           {status === 'working'
-            ? t('artifact.odCardBrandAssistWorking')
-            : t('artifact.odCardBrandAssistConfirm')}
+            ? t('artifact.swCardBrandAssistWorking')
+            : t('artifact.swCardBrandAssistConfirm')}
         </Button>
       }
       details={
         <div className={styles.ruleSummary}>
-          <p className={styles.ruleDescription}>{t('artifact.odCardBrandAssistBody')}</p>
+          <p className={styles.ruleDescription}>{t('artifact.swCardBrandAssistBody')}</p>
           {card.url ? <p className={styles.ruleName}>{card.url}</p> : null}
         </div>
       }
       status={done ? (
         <span className={styles.ruleSavedLabel} role="status">
-          {t('artifact.odCardBrandAssistDone')}
+          {t('artifact.swCardBrandAssistDone')}
         </span>
       ) : status === 'error' ? (
         <span className={styles.ruleError} role="status">
-          {errorMsg || t('artifact.odCardBrandAssistError')}
+          {errorMsg || t('artifact.swCardBrandAssistError')}
         </span>
       ) : null}
     />

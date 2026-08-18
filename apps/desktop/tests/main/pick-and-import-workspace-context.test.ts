@@ -60,10 +60,10 @@ describe('pickAndImportFolder workspace authority', () => {
     const [, init] = fetchImpl.mock.calls[0]!;
     expect(init?.headers).toMatchObject({
       'Content-Type': 'application/json',
-      'x-od-desktop-import-token': 'desktop-import-token',
-      'x-od-workspace-id': 'workspace-desktop',
-      'x-od-workspace-member-id': 'member-desktop',
-      'x-od-workspace-type': 'team',
+      'x-sw-desktop-import-token': 'desktop-import-token',
+      'x-sw-workspace-id': 'workspace-desktop',
+      'x-sw-workspace-member-id': 'member-desktop',
+      'x-sw-workspace-type': 'team',
     });
     expect(JSON.parse(String(init?.body))).toEqual({
       baseDir: '/tmp/workspace-folder',

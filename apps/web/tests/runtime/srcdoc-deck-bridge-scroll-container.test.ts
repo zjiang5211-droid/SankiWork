@@ -15,7 +15,7 @@ function extractDeckBridgeScript(srcdoc: string): string {
 function lastSlideState(parentPostMessage: ReturnType<typeof vi.fn>) {
   const messages = parentPostMessage.mock.calls
     .map((call) => call[0])
-    .filter((m) => m?.type === 'od:slide-state');
+    .filter((m) => m?.type === 'sw:slide-state');
   return messages.at(-1);
 }
 
@@ -98,7 +98,7 @@ describe('deck bridge - scroll container fallback', () => {
     win.dispatchEvent(new win.Event('load'));
 
     win.dispatchEvent(new win.MessageEvent('message', {
-      data: { type: 'od:slide', action: 'next' },
+      data: { type: 'sw:slide', action: 'next' },
     }));
     await new Promise<void>((resolve) => win.setTimeout(resolve, 420));
 
@@ -188,7 +188,7 @@ describe('deck bridge - scroll container fallback', () => {
     win.dispatchEvent(new win.Event('load'));
 
     win.dispatchEvent(new win.MessageEvent('message', {
-      data: { type: 'od:slide', action: 'next' },
+      data: { type: 'sw:slide', action: 'next' },
     }));
     await new Promise<void>((resolve) => win.setTimeout(resolve, 420));
 
@@ -197,7 +197,7 @@ describe('deck bridge - scroll container fallback', () => {
     expect(lastSlideState(parentPostMessage)).toMatchObject({ active: 1, count: 3 });
 
     win.dispatchEvent(new win.MessageEvent('message', {
-      data: { type: 'od:slide', action: 'next' },
+      data: { type: 'sw:slide', action: 'next' },
     }));
     await new Promise<void>((resolve) => win.setTimeout(resolve, 420));
 

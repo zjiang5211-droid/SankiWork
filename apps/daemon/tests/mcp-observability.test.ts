@@ -488,9 +488,9 @@ describe('local MCP plugin observability contract', () => {
       },
       {
         analyticsHeaders: {
-          'x-od-analytics-device-id': 'installation-1',
-          'x-od-analytics-client-type': 'external_mcp',
-          'x-od-analytics-host-product': 'codex_cli',
+          'x-sw-analytics-device-id': 'installation-1',
+          'x-sw-analytics-client-type': 'external_mcp',
+          'x-sw-analytics-host-product': 'codex_cli',
         },
         pluginAttribution: {
           pluginWorkflowId: '018f6f2e-4444-7444-8444-444444444444',
@@ -518,8 +518,8 @@ describe('local MCP plugin observability contract', () => {
     });
     expect(body.analyticsHints.logicalRequestDigest).toMatch(/^[0-9a-f]{64}$/u);
     expect((runCall?.[1] as RequestInit).headers).toMatchObject({
-      'x-od-analytics-client-type': 'external_mcp',
-      'x-od-analytics-device-id': 'installation-1',
+      'x-sw-analytics-client-type': 'external_mcp',
+      'x-sw-analytics-device-id': 'installation-1',
     });
   });
 });

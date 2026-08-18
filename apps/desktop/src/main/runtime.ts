@@ -279,17 +279,17 @@ const MAX_CONSOLE_ENTRIES = 200;
 const DESKTOP_PET_WINDOW_WIDTH = 360;
 const DESKTOP_PET_WINDOW_HEIGHT = 300;
 const DESKTOP_PET_WINDOW_MARGIN = 24;
-const UPDATER_STATUS_EVENT = "od:update:status-changed";
-const UPDATER_OPEN_DIALOG_EVENT = "od:update:open-dialog";
+const UPDATER_STATUS_EVENT = "sw:update:status-changed";
+const UPDATER_OPEN_DIALOG_EVENT = "sw:update:open-dialog";
 const DESIGN_BROWSER_PARTITION = "persist:sankiwork-design-browser";
 const UPDATER_IPC_CHANNELS = [
-  "od:update:status",
-  "od:update:check",
-  "od:update:clear-cache",
-  "od:update:download",
-  "od:update:install",
-  "od:update:quit",
-  "od:update:set-menu-labels",
+  "sw:update:status",
+  "sw:update:check",
+  "sw:update:clear-cache",
+  "sw:update:download",
+  "sw:update:install",
+  "sw:update:quit",
+  "sw:update:set-menu-labels",
 ] as const;
 
 export type DesktopEvalInput = {
@@ -445,7 +445,7 @@ export type DesktopRuntimeOptions = {
   onUpdateMenuLabels?: (labels: SankiWorkHostUpdaterMenuLabels) => void;
 };
 
-const DESKTOP_IMPORT_TOKEN_HEADER = "x-od-desktop-import-token";
+const DESKTOP_IMPORT_TOKEN_HEADER = "x-sw-desktop-import-token";
 const DESKTOP_IMPORT_TOKEN_TTL_MS = 60_000;
 
 export function mintImportToken(secret: Buffer, baseDir: string): string {
@@ -521,16 +521,16 @@ export async function pickAndImportFolder(
           [DESKTOP_IMPORT_TOKEN_HEADER]: headerValue,
           ...(deps.init?.workspaceContext
             ? {
-                "x-od-workspace-id": deps.init.workspaceContext.workspaceId,
-                "x-od-workspace-type": deps.init.workspaceContext.workspaceType,
-                "x-od-workspace-member-id": deps.init.workspaceContext.workspaceMemberId,
-                "x-od-workspace-role": deps.init.workspaceContext.role,
-                "x-od-workspace-lifecycle-state": deps.init.workspaceContext.lifecycleState,
-                "x-od-workspace-member-status": deps.init.workspaceContext.memberStatus,
-                "x-od-workspace-can-share-projects": String(
+                "x-sw-workspace-id": deps.init.workspaceContext.workspaceId,
+                "x-sw-workspace-type": deps.init.workspaceContext.workspaceType,
+                "x-sw-workspace-member-id": deps.init.workspaceContext.workspaceMemberId,
+                "x-sw-workspace-role": deps.init.workspaceContext.role,
+                "x-sw-workspace-lifecycle-state": deps.init.workspaceContext.lifecycleState,
+                "x-sw-workspace-member-status": deps.init.workspaceContext.memberStatus,
+                "x-sw-workspace-can-share-projects": String(
                   deps.init.workspaceContext.permissions.canShareProjects,
                 ),
-                "x-od-workspace-can-write-synced-files": String(
+                "x-sw-workspace-can-write-synced-files": String(
                   deps.init.workspaceContext.permissions.canWriteSyncedFiles,
                 ),
               }
@@ -1009,7 +1009,7 @@ function createPendingHtml(): string {
       // bare label string for back-compat). The step counter + progress bar give
       // a slow cold boot a sense of how far along it is; the bar only ever grows
       // so a re-asserted earlier stage cannot make it lurch backwards.
-      window.__odSplashSetStage = function (info) {
+      window.__swSplashSetStage = function (info) {
         var data = (typeof info === "string") ? { label: info } : (info || {});
         var wrap = document.getElementById("boot-stage");
         var text = document.getElementById("boot-stage-text");
@@ -1377,7 +1377,7 @@ const SPLASH_STAGE_LABELS: Record<SplashBootStage, string> = {
 
 const SPLASH_STAGE_TOTAL = SPLASH_STAGE_SEQUENCE.length;
 
-/** Step/label payload handed to the renderer's `__odSplashSetStage`. */
+/** Step/label payload handed to the renderer's `__swSplashSetStage`. */
 function splashStagePayload(stage: SplashBootStage): { step: number; total: number; label: string } {
   const index = SPLASH_STAGE_SEQUENCE.indexOf(stage);
   return {
@@ -1409,7 +1409,7 @@ const splashStageState = new WeakMap<SplashStageSurface, SplashStageState>();
 function applySplashStage(splash: SplashStageSurface, stage: SplashBootStage): void {
   void splash.webContents
     .executeJavaScript(
-      `window.__odSplashSetStage && window.__odSplashSetStage(${JSON.stringify(splashStagePayload(stage))});`,
+      `window.__swSplashSetStage && window.__swSplashSetStage(${JSON.stringify(splashStagePayload(stage))});`,
       true,
     )
     .catch(() => undefined);
@@ -1418,7 +1418,7 @@ function applySplashStage(splash: SplashStageSurface, stage: SplashBootStage): v
 /**
  * Arm load-ready tracking for a freshly created splash. MUST be called before
  * `loadURL` so the `did-finish-load` listener cannot miss the event. Until the
- * splash data-URL has loaded (and defined `window.__odSplashSetStage`), stage
+ * splash data-URL has loaded (and defined `window.__swSplashSetStage`), stage
  * updates are stashed rather than executed against a renderer that has no
  * setter yet — otherwise the first update (the daemon phase, fired right after
  * window creation on a cold boot) is silently dropped. The latest stashed
@@ -1477,7 +1477,7 @@ export type SplashWindowHandle = {
  * (`vibrancy: "under-window"`), native menus and dialogs, and the renderer's
  * own `prefers-color-scheme` before `data-theme` is stamped.
  *
- * Idempotent, so both the splash path and the `od:appearance:set-theme` handler
+ * Idempotent, so both the splash path and the `sw:appearance:set-theme` handler
  * can call it.
  */
 export function pinNativeAppearanceToLight(): void {
@@ -1497,7 +1497,7 @@ export function createSplashWindow(): SplashWindowHandle {
   // native appearance before the first window exists. Electron defaults
   // `themeSource` to `system`, which paints the macOS vibrancy glass and the
   // native chrome dark on a dark-mode Mac — visible on the splash and again in
-  // the gap before the renderer's `od:appearance:set-theme` lands.
+  // the gap before the renderer's `sw:appearance:set-theme` lands.
   pinNativeAppearanceToLight();
   // Stamp creation time at the instant the window appears (see SplashWindowHandle).
   const startedAt = Date.now();
@@ -1576,14 +1576,14 @@ export function isAllowedChildWindowUrl(url: string): boolean {
   try {
     const parsed = new URL(url);
     // `blob:` covers in-renderer generated downloads / object URLs.
-    // `od:` is the packaged Electron entry's privileged scheme
+    // `sankiwork:` is the packaged Electron entry's privileged scheme
     // registered by `apps/packaged/src/protocol.ts` and proxied to the
     // local web sidecar. Without this branch, any in-app
     // `<a target="_blank" href="/api/...">` resolves to `sankiwork://app/...`
     // in packaged builds, falls through `setWindowOpenHandler` to
     // `{ action: "deny" }`, and the click is silently dropped — that
     // was the Orbit "Open artifact" no-op reported in #911. Allowing
-    // `od:` here lets Electron open the link in a child BrowserWindow
+    // `sankiwork:` here lets Electron open the link in a child BrowserWindow
     // that inherits the same protocol registration + preload, so the
     // live artifact preview renders normally. Dev mode is unaffected:
     // its links resolve to `http://127.0.0.1:.../...`, which is gated
@@ -1595,7 +1595,7 @@ export function isAllowedChildWindowUrl(url: string): boolean {
     // and the user sees a "Popup blocked" alert.
     return (
       parsed.protocol === "blob:" ||
-      parsed.protocol === "od:" ||
+      parsed.protocol === "sankiwork:" ||
       (parsed.protocol === "about:" && parsed.pathname === "blank")
     );
   } catch {
@@ -2469,31 +2469,31 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
       };
     }
   });
-  ipcMain.handle("od:update:status", async (event) => {
+  ipcMain.handle("sw:update:status", async (event) => {
     requireMainWindowSender(event);
     const status = await (options.updater?.status() ?? unavailableUpdaterStatus());
     sendUpdaterStatus(status);
     return status;
   });
-  ipcMain.handle("od:update:check", async (event, updaterOptions: unknown) => {
+  ipcMain.handle("sw:update:check", async (event, updaterOptions: unknown) => {
     requireMainWindowSender(event);
     const status = await (options.updater?.checkForUpdates(checkOptionsFromHost(updaterOptions)) ?? unavailableUpdaterStatus());
     sendUpdaterStatus(status);
     return status;
   });
-  ipcMain.handle("od:update:clear-cache", async (event) => {
+  ipcMain.handle("sw:update:clear-cache", async (event) => {
     requireMainWindowSender(event);
     const status = await (options.updater?.clearCache() ?? unavailableUpdaterStatus());
     sendUpdaterStatus(status);
     return status;
   });
-  ipcMain.handle("od:update:download", async (event) => {
+  ipcMain.handle("sw:update:download", async (event) => {
     requireMainWindowSender(event);
     const status = await (options.updater?.downloadUpdate() ?? unavailableUpdaterStatus());
     sendUpdaterStatus(status);
     return status;
   });
-  ipcMain.handle("od:update:install", async (event, updaterOptions: unknown) => {
+  ipcMain.handle("sw:update:install", async (event, updaterOptions: unknown) => {
     requireMainWindowSender(event);
     const blocked = await guardedUpdaterStatus(updaterOptions);
     if (blocked != null) {
@@ -2507,7 +2507,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     sendUpdaterStatus(status);
     return status;
   });
-  ipcMain.handle("od:update:quit", async (event, updaterOptions: unknown): Promise<SankiWorkHostActionResult> => {
+  ipcMain.handle("sw:update:quit", async (event, updaterOptions: unknown): Promise<SankiWorkHostActionResult> => {
     requireMainWindowSender(event);
     const blocked = await guardedUpdaterStatus(updaterOptions);
     if (blocked?.error != null) {
@@ -2523,7 +2523,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     setTimeout(() => options.requestQuit?.(), 0);
     return { ok: true };
   });
-  ipcMain.handle("od:update:set-menu-labels", async (event, rawLabels: unknown): Promise<SankiWorkHostActionResult> => {
+  ipcMain.handle("sw:update:set-menu-labels", async (event, rawLabels: unknown): Promise<SankiWorkHostActionResult> => {
     requireMainWindowSender(event);
     const labels = parseDesktopUpdateMenuLabels(rawLabels);
     if (labels == null) return { ok: false, reason: "invalid updater menu labels" };
@@ -2538,8 +2538,8 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     else petWindow.hide();
   });
 
-  ipcMain.removeAllListeners("od:appearance:set-theme");
-  ipcMain.on("od:appearance:set-theme", (event, theme: unknown) => {
+  ipcMain.removeAllListeners("sw:appearance:set-theme");
+  ipcMain.on("sw:appearance:set-theme", (event, theme: unknown) => {
     if (window.isDestroyed() || event.sender !== window.webContents) return;
     if (theme !== "light" && theme !== "dark" && theme !== "system") return;
     // Pin the native appearance to the app theme. The macOS frosted window
@@ -2552,8 +2552,8 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     nativeTheme.themeSource = theme;
   });
 
-  ipcMain.removeHandler('od:print-pdf');
-  ipcMain.handle('od:print-pdf', async (_event, html: unknown, nonce: unknown, options: unknown): Promise<void> => {
+  ipcMain.removeHandler('sw:print-pdf');
+  ipcMain.handle('sw:print-pdf', async (_event, html: unknown, nonce: unknown, options: unknown): Promise<void> => {
     if (typeof html !== 'string') {
       throw new Error('Invalid print payload: expected HTML string');
     }
@@ -2577,8 +2577,8 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     }
   });
 
-  ipcMain.removeHandler('od:capture-page');
-  ipcMain.handle('od:capture-page', async (event, rawOptions: unknown): Promise<SankiWorkHostCaptureResult> => {
+  ipcMain.removeHandler('sw:capture-page');
+  ipcMain.handle('sw:capture-page', async (event, rawOptions: unknown): Promise<SankiWorkHostCaptureResult> => {
     if (event.sender !== window.webContents) {
       return { ok: false, reason: 'capture sender not allowed' };
     }
@@ -2938,7 +2938,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
       }
       unsubscribeUpdater();
       ipcMain.removeAllListeners("desktop-pet:set-visible");
-      ipcMain.removeAllListeners("od:appearance:set-theme");
+      ipcMain.removeAllListeners("sw:appearance:set-theme");
       for (const channel of UPDATER_IPC_CHANNELS) {
         ipcMain.removeHandler(channel);
       }

@@ -1038,8 +1038,8 @@ describe('RecentProjectsStrip', () => {
       expect.objectContaining({
         signal: expect.any(AbortSignal),
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-1',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-1',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -1049,8 +1049,8 @@ describe('RecentProjectsStrip', () => {
         cache: 'no-store',
         method: 'HEAD',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-1',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-1',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );

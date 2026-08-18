@@ -19,7 +19,7 @@ const BASE = {
   designSystemBody: '# Acme\n\n- primary: #000',
   skillBody: '# Skill\n\nbuild a deck',
   locale: 'en',
-  runtimeToolPrompt: '## Tools\n\n- od_read',
+  runtimeToolPrompt: '## Tools\n\n- sw_read',
   clientSystemPrompt: 'be helpful',
 };
 

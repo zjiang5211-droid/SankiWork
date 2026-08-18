@@ -26,7 +26,7 @@ interface RecordAmrEntryOptions {
 
 interface SyncAmrProfileOptions {
   metricsConsent?: boolean;
-  odDeviceId?: string | null;
+  swDeviceId?: string | null;
   now?: Date;
 }
 
@@ -123,12 +123,12 @@ export function recordAmrEntry(
     ...(options.conversionSource
       ? { conversionSource: options.conversionSource }
       : {}),
-    ...(profile?.role ? { odRole: profile.role } : {}),
-    ...(profile?.orgSize ? { odOrgSize: profile.orgSize } : {}),
+    ...(profile?.role ? { swRole: profile.role } : {}),
+    ...(profile?.orgSize ? { swOrgSize: profile.orgSize } : {}),
     ...(profile?.useCase && profile.useCase.length > 0
-      ? { odUseCase: profile.useCase }
+      ? { swUseCase: profile.useCase }
       : {}),
-    ...(profile?.source ? { odSource: profile.source } : {}),
+    ...(profile?.source ? { swSource: profile.source } : {}),
   };
   writeAmrAttribution(attribution);
   trackAmrEntryClick(track, {
@@ -183,10 +183,10 @@ export function syncAmrAttributionWithOnboardingProfile(
   const next: AmrEntryAttribution = {
     ...existing,
     ...fields,
-    ...(options.odDeviceId
-      ? { odDeviceId: options.odDeviceId }
-      : existing.odDeviceId
-        ? { odDeviceId: existing.odDeviceId }
+    ...(options.swDeviceId
+      ? { swDeviceId: options.swDeviceId }
+      : existing.swDeviceId
+        ? { swDeviceId: existing.swDeviceId }
         : {}),
   };
   writeAmrAttribution(next);
@@ -220,7 +220,7 @@ export function amrHandoffDeviceId(input: {
 }
 
 // Builds the AMR handoff URL with SankiWork attribution params. When
-// `deviceId` is provided it is added as `od_device_id`, so AMR can link the
+// `deviceId` is provided it is added as `sw_device_id`, so AMR can link the
 // landing/registration directly back to this SankiWork install instead of
 // only through the one-shot entry id. The caller passes it ONLY when the user
 // has consented to metrics: AMR is SankiWork's official model service, so
@@ -232,16 +232,16 @@ export function attributedAmrUrl(
   deviceId?: string | null,
 ): string {
   const params: Record<string, string> = {
-    od_origin: attribution.sourceProduct,
-    od_entry_id: attribution.entryId,
-    od_entry_source: attribution.sourceDetail,
-    od_entry_at: attribution.occurredAt,
+    sw_origin: attribution.sourceProduct,
+    sw_entry_id: attribution.entryId,
+    sw_entry_source: attribution.sourceDetail,
+    sw_entry_at: attribution.occurredAt,
   };
-  if (attribution.campaignId) params.od_campaign_id = attribution.campaignId;
+  if (attribution.campaignId) params.sw_campaign_id = attribution.campaignId;
   if (attribution.conversionSource) {
-    params.od_conversion_source = attribution.conversionSource;
+    params.sw_conversion_source = attribution.conversionSource;
   }
-  if (deviceId) params.od_device_id = deviceId;
+  if (deviceId) params.sw_device_id = deviceId;
   try {
     const url = new URL(baseUrl);
     for (const [key, value] of Object.entries(params)) {
@@ -267,7 +267,7 @@ function amrProfileFields(
   profile: OnboardingProfile,
 ): Pick<
   AmrEntryAttribution,
-  'odRole' | 'odOrgSize' | 'odUseCase' | 'odSource'
+  'swRole' | 'swOrgSize' | 'swUseCase' | 'swSource'
 > | null {
   const role = cleanProfileValue(profile.role);
   const orgSize = cleanProfileValue(profile.orgSize);
@@ -279,10 +279,10 @@ function amrProfileFields(
     : [];
   if (!role && !orgSize && useCase.length === 0 && !source) return null;
   return {
-    ...(role ? { odRole: role } : {}),
-    ...(orgSize ? { odOrgSize: orgSize } : {}),
-    ...(useCase.length > 0 ? { odUseCase: useCase } : {}),
-    ...(source ? { odSource: source } : {}),
+    ...(role ? { swRole: role } : {}),
+    ...(orgSize ? { swOrgSize: orgSize } : {}),
+    ...(useCase.length > 0 ? { swUseCase: useCase } : {}),
+    ...(source ? { swSource: source } : {}),
   };
 }
 
@@ -330,12 +330,12 @@ async function mirrorAmrEntryToAmrAnalytics(
           // Self-reported onboarding profile (optional). Anchored to entryId on
           // the AMR side for paid-conversion segmentation. Not added to the
           // redirect URL — kept to the consent-gated mirror channel only.
-          ...(attribution.odRole ? { odRole: attribution.odRole } : {}),
-          ...(attribution.odOrgSize ? { odOrgSize: attribution.odOrgSize } : {}),
-          ...(attribution.odUseCase && attribution.odUseCase.length > 0
-            ? { odUseCase: attribution.odUseCase }
+          ...(attribution.swRole ? { swRole: attribution.swRole } : {}),
+          ...(attribution.swOrgSize ? { swOrgSize: attribution.swOrgSize } : {}),
+          ...(attribution.swUseCase && attribution.swUseCase.length > 0
+            ? { swUseCase: attribution.swUseCase }
             : {}),
-          ...(attribution.odSource ? { odSource: attribution.odSource } : {}),
+          ...(attribution.swSource ? { swSource: attribution.swSource } : {}),
         },
       }),
     });
@@ -365,15 +365,15 @@ async function mirrorAmrOnboardingProfileToAmrAnalytics(
           sourceDetail: attribution.sourceDetail,
           entryOccurredAt: attribution.occurredAt,
           profileOccurredAt: now.toISOString(),
-          ...(attribution.odDeviceId
-            ? { odDeviceId: attribution.odDeviceId }
+          ...(attribution.swDeviceId
+            ? { swDeviceId: attribution.swDeviceId }
             : {}),
-          ...(attribution.odRole ? { odRole: attribution.odRole } : {}),
-          ...(attribution.odOrgSize ? { odOrgSize: attribution.odOrgSize } : {}),
-          ...(attribution.odUseCase && attribution.odUseCase.length > 0
-            ? { odUseCase: attribution.odUseCase }
+          ...(attribution.swRole ? { swRole: attribution.swRole } : {}),
+          ...(attribution.swOrgSize ? { swOrgSize: attribution.swOrgSize } : {}),
+          ...(attribution.swUseCase && attribution.swUseCase.length > 0
+            ? { swUseCase: attribution.swUseCase }
             : {}),
-          ...(attribution.odSource ? { odSource: attribution.odSource } : {}),
+          ...(attribution.swSource ? { swSource: attribution.swSource } : {}),
         },
       }),
     });

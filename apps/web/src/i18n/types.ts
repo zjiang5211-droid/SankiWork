@@ -4460,30 +4460,30 @@ export interface Dict {
   'questions.submitting': string;
 
   // Inline <od-card> memory cards (display-only siblings of question-form)
-  'artifact.odCardTaskBriefChip': string;
-  'artifact.odCardScorecardTitle': string;
-  'artifact.odCardScorecardStatusPass': string;
-  'artifact.odCardScorecardStatusPartial': string;
-  'artifact.odCardScorecardStatusFail': string;
-  'artifact.odCardRuleKicker': string;
-  'artifact.odCardRuleNameLabel': string;
-  'artifact.odCardRuleDescriptionLabel': string;
-  'artifact.odCardRuleAssertionLabel': string;
-  'artifact.odCardRuleCheckLabel': string;
-  'artifact.odCardRuleRationaleLabel': string;
-  'artifact.odCardRuleKeep': string;
-  'artifact.odCardRuleEdit': string;
-  'artifact.odCardRuleDone': string;
-  'artifact.odCardRuleDiscard': string;
-  'artifact.odCardRuleSaving': string;
-  'artifact.odCardRuleSaved': string;
-  'artifact.odCardRuleError': string;
-  'artifact.odCardBrandAssistDone': string;
-  'artifact.odCardBrandAssistKicker': string;
-  'artifact.odCardBrandAssistBody': string;
-  'artifact.odCardBrandAssistError': string;
-  'artifact.odCardBrandAssistWorking': string;
-  'artifact.odCardBrandAssistConfirm': string;
+  'artifact.swCardTaskBriefChip': string;
+  'artifact.swCardScorecardTitle': string;
+  'artifact.swCardScorecardStatusPass': string;
+  'artifact.swCardScorecardStatusPartial': string;
+  'artifact.swCardScorecardStatusFail': string;
+  'artifact.swCardRuleKicker': string;
+  'artifact.swCardRuleNameLabel': string;
+  'artifact.swCardRuleDescriptionLabel': string;
+  'artifact.swCardRuleAssertionLabel': string;
+  'artifact.swCardRuleCheckLabel': string;
+  'artifact.swCardRuleRationaleLabel': string;
+  'artifact.swCardRuleKeep': string;
+  'artifact.swCardRuleEdit': string;
+  'artifact.swCardRuleDone': string;
+  'artifact.swCardRuleDiscard': string;
+  'artifact.swCardRuleSaving': string;
+  'artifact.swCardRuleSaved': string;
+  'artifact.swCardRuleError': string;
+  'artifact.swCardBrandAssistDone': string;
+  'artifact.swCardBrandAssistKicker': string;
+  'artifact.swCardBrandAssistBody': string;
+  'artifact.swCardBrandAssistError': string;
+  'artifact.swCardBrandAssistWorking': string;
+  'artifact.swCardBrandAssistConfirm': string;
 
   // Pet (Codex-style floating companion)
   'pet.title': string;

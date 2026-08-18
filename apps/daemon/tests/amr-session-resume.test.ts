@@ -571,10 +571,10 @@ async function createConversation(url: string): Promise<string> {
   const workspaceId = `amr_resume_personal_${projectId}`;
   const workspaceMemberId = `amr_resume_owner_${projectId}`;
   const workspaceHeaders = {
-    'x-od-workspace-id': workspaceId,
-    'x-od-workspace-type': 'personal',
-    'x-od-workspace-member-id': workspaceMemberId,
-    'x-od-workspace-role': 'owner',
+    'x-sw-workspace-id': workspaceId,
+    'x-sw-workspace-type': 'personal',
+    'x-sw-workspace-member-id': workspaceMemberId,
+    'x-sw-workspace-role': 'owner',
   };
   const projectResponse = await fetch(`${url}/api/projects`, {
     method: 'POST',
@@ -615,13 +615,13 @@ async function sendRunAndWait(
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-od-analytics-device-id': 'amr-resume-test',
-      'x-od-analytics-session-id': 'amr-resume-session',
-      'x-od-analytics-client-type': 'web',
-      'x-od-workspace-id': workspaceId,
-      'x-od-workspace-type': 'personal',
-      'x-od-workspace-member-id': workspaceMemberId,
-      'x-od-workspace-role': 'owner',
+      'x-sw-analytics-device-id': 'amr-resume-test',
+      'x-sw-analytics-session-id': 'amr-resume-session',
+      'x-sw-analytics-client-type': 'web',
+      'x-sw-workspace-id': workspaceId,
+      'x-sw-workspace-type': 'personal',
+      'x-sw-workspace-member-id': workspaceMemberId,
+      'x-sw-workspace-role': 'owner',
     },
     body: JSON.stringify({
       projectId,
@@ -641,10 +641,10 @@ async function sendRunAndWait(
   expect(runResponse.status, JSON.stringify(body)).toBe(202);
   expect(body.runId).toBeTypeOf('string');
   return await waitForRun(url, body.runId!, {
-    'x-od-workspace-id': workspaceId,
-    'x-od-workspace-type': 'personal',
-    'x-od-workspace-member-id': workspaceMemberId,
-    'x-od-workspace-role': 'owner',
+    'x-sw-workspace-id': workspaceId,
+    'x-sw-workspace-type': 'personal',
+    'x-sw-workspace-member-id': workspaceMemberId,
+    'x-sw-workspace-role': 'owner',
   });
 }
 

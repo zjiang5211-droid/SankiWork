@@ -67,9 +67,9 @@ function sendApiError(res: any, status: number, code: string, message: string) {
 
 function ownerHeaders() {
   return {
-    'x-od-workspace-id': WORKSPACE_ID,
-    'x-od-workspace-member-id': OWNER_MEMBER_ID,
-    'x-od-workspace-role': 'owner',
+    'x-sw-workspace-id': WORKSPACE_ID,
+    'x-sw-workspace-member-id': OWNER_MEMBER_ID,
+    'x-sw-workspace-role': 'owner',
   };
 }
 
@@ -149,8 +149,8 @@ async function startServer(
     agents: {},
     validation: {},
     verifyWorkspaceRequestAuthority: async (req: any) => {
-      const workspaceId = req.get('x-od-workspace-id');
-      const memberId = req.get('x-od-workspace-member-id');
+      const workspaceId = req.get('x-sw-workspace-id');
+      const memberId = req.get('x-sw-workspace-member-id');
       if (!workspaceId || !memberId) {
         return {
           ok: false,

@@ -55,7 +55,7 @@ describe('useCollab', () => {
           resolve = next;
         });
         statusReads.push({
-          workspaceId: new Headers(init?.headers).get('x-od-workspace-id'),
+          workspaceId: new Headers(init?.headers).get('x-sw-workspace-id'),
           resolve,
         });
         return promise;

@@ -1546,7 +1546,7 @@ describe('ProjectView conversation run isolation', () => {
     });
 
     await waitFor(() => {
-      const raw = window.localStorage.getItem('od:chat-queued-sends:project-1:v1');
+      const raw = window.localStorage.getItem('sw:chat-queued-sends:project-1:v1');
       expect(raw).toBeTruthy();
       const queued = JSON.parse(raw ?? '[]') as Array<{
         conversationId?: string;
@@ -2181,7 +2181,7 @@ describe('ProjectView conversation run isolation', () => {
       createdAt: 1,
     };
     window.localStorage.setItem(
-      'od:chat-queued-sends:project-1:v1',
+      'sw:chat-queued-sends:project-1:v1',
       JSON.stringify([queuedSend]),
     );
 
@@ -2277,7 +2277,7 @@ describe('ProjectView conversation run isolation', () => {
       createdAt: 1,
     };
     window.localStorage.setItem(
-      'od:chat-queued-sends:project-1:v1',
+      'sw:chat-queued-sends:project-1:v1',
       JSON.stringify([queuedSend]),
     );
 
@@ -2611,7 +2611,7 @@ describe('ProjectView conversation run isolation', () => {
       createdAt: 1,
     };
     window.localStorage.setItem(
-      'od:chat-queued-sends:project-1:v1',
+      'sw:chat-queued-sends:project-1:v1',
       JSON.stringify([duplicateQueuedSend, duplicateQueuedSend]),
     );
 

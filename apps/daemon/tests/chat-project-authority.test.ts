@@ -212,8 +212,8 @@ describe('chat-owned project route authority', () => {
       {
         method: 'POST',
         headers: {
-          'x-od-workspace-id': 'workspace-a',
-          'x-od-workspace-member-id': 'member-a',
+          'x-sw-workspace-id': 'workspace-a',
+          'x-sw-workspace-member-id': 'member-a',
         },
       },
     );
@@ -249,8 +249,8 @@ describe('chat-owned project route authority', () => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'x-od-workspace-id': 'workspace-a',
-        'x-od-workspace-member-id': 'member-a',
+        'x-sw-workspace-id': 'workspace-a',
+        'x-sw-workspace-member-id': 'member-a',
       },
       body: JSON.stringify({
         rating: 'positive',
@@ -316,8 +316,8 @@ describe('chat-owned project route authority', () => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'x-od-workspace-id': 'workspace-a',
-        'x-od-workspace-member-id': 'member-a',
+        'x-sw-workspace-id': 'workspace-a',
+        'x-sw-workspace-member-id': 'member-a',
       },
       body: JSON.stringify({
         rating: 'positive',

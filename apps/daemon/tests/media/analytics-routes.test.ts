@@ -227,10 +227,10 @@ async function generateAndWait(
       'content-type': 'application/json',
       ...(includeAnalyticsHeaders
         ? {
-            'x-od-analytics-device-id': 'media-device-test',
-            'x-od-analytics-session-id': 'media-session-test',
-            'x-od-analytics-client-type': 'web',
-            'x-od-analytics-locale': 'en',
+            'x-sw-analytics-device-id': 'media-device-test',
+            'x-sw-analytics-session-id': 'media-session-test',
+            'x-sw-analytics-client-type': 'web',
+            'x-sw-analytics-locale': 'en',
           }
         : {}),
     },

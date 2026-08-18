@@ -141,14 +141,14 @@ function setEnv(values: Record<string, string>): void {
 
 function workspaceHeaders(): Record<string, string> {
   return {
-    'x-od-workspace-id': PERSONAL.workspaceId,
-    'x-od-workspace-type': PERSONAL.workspaceType,
-    'x-od-workspace-member-id': PERSONAL.workspaceMemberId,
-    'x-od-workspace-role': PERSONAL.role,
-    'x-od-workspace-member-status': PERSONAL.memberStatus,
-    'x-od-workspace-lifecycle-state': PERSONAL.lifecycleState,
-    'x-od-workspace-can-share-projects': 'false',
-    'x-od-workspace-can-write-synced-files': 'true',
+    'x-sw-workspace-id': PERSONAL.workspaceId,
+    'x-sw-workspace-type': PERSONAL.workspaceType,
+    'x-sw-workspace-member-id': PERSONAL.workspaceMemberId,
+    'x-sw-workspace-role': PERSONAL.role,
+    'x-sw-workspace-member-status': PERSONAL.memberStatus,
+    'x-sw-workspace-lifecycle-state': PERSONAL.lifecycleState,
+    'x-sw-workspace-can-share-projects': 'false',
+    'x-sw-workspace-can-write-synced-files': 'true',
   };
 }
 

@@ -317,7 +317,7 @@ describe('AmrLoginPill', () => {
     const fetchMock = vi.fn(async (input: string | URL | Request) => {
       const url = typeof input === 'string' ? input : input.toString();
       if (url === '/api/attribution/bridge-url') {
-        return jsonResponse({ body: { url: 'https://sanki-ai.cloud/amr/dashboard?od_bridge=odbr_12345678' } });
+        return jsonResponse({ body: { url: 'https://sanki-ai.cloud/amr/dashboard?sw_bridge=odbr_12345678' } });
       }
       if (url === '/api/system/open-external') return jsonResponse({ body: { ok: true } });
       return new Response('{}', { status: 202 });
@@ -347,10 +347,10 @@ describe('AmrLoginPill', () => {
 
     const url = new URL(link.href);
     expect(url.searchParams.get('source')).toBe('sankiwork');
-    expect(url.searchParams.get('od_origin')).toBe('sankiwork');
-    expect(url.searchParams.get('od_entry_source')).toBe('settings_amr_console');
-    expect(url.searchParams.get('od_device_id')).toBe('sw-install-abc');
-    expect(url.searchParams.get('od_entry_id')).toMatch(/^sw-amr-/u);
+    expect(url.searchParams.get('sw_origin')).toBe('sankiwork');
+    expect(url.searchParams.get('sw_entry_source')).toBe('settings_amr_console');
+    expect(url.searchParams.get('sw_device_id')).toBe('sw-install-abc');
+    expect(url.searchParams.get('sw_entry_id')).toMatch(/^sw-amr-/u);
     expect(fetchMock).toHaveBeenCalledWith(
       '/api/integrations/vela/analytics-entry',
       expect.objectContaining({ method: 'POST' }),
@@ -359,14 +359,14 @@ describe('AmrLoginPill', () => {
       '/api/attribution/bridge-url',
       expect.objectContaining({
         method: 'POST',
-        body: expect.stringContaining('od_device_id=sw-install-abc'),
+        body: expect.stringContaining('sw_device_id=sw-install-abc'),
       }),
     ));
     expect(fetchMock).toHaveBeenCalledWith(
       '/api/system/open-external',
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify({ url: 'https://sanki-ai.cloud/amr/dashboard?od_bridge=odbr_12345678' }),
+        body: JSON.stringify({ url: 'https://sanki-ai.cloud/amr/dashboard?sw_bridge=odbr_12345678' }),
       }),
     );
   });
@@ -494,7 +494,7 @@ describe('AmrLoginPill', () => {
     );
     const body = JSON.parse(String((loginCall?.[1] as RequestInit).body));
     expect(body.attribution.sourceDetail).toBe('settings_amr_authorize');
-    expect(body.attribution.odDeviceId).toBe('sw-install-abc');
+    expect(body.attribution.swDeviceId).toBe('sw-install-abc');
   });
 
   it('shows an AMR error instead of staying in signing-in state when login fails immediately', async () => {
@@ -775,7 +775,7 @@ describe('AmrLoginPill', () => {
         (event as CustomEvent<{ reason?: string }>).detail?.reason ?? 'status-changed',
       );
     };
-    window.addEventListener('od:amr-login-status-change', onLoginStatusChange);
+    window.addEventListener('sw:amr-login-status-change', onLoginStatusChange);
 
     const fetchMock = vi.fn(async (input, init) => {
       const url = typeof input === 'string' ? input : (input as URL).toString();
@@ -852,7 +852,7 @@ describe('AmrLoginPill', () => {
     } finally {
       analyticsSpy.mockRestore();
       window.removeEventListener(
-        'od:amr-login-status-change',
+        'sw:amr-login-status-change',
         onLoginStatusChange,
       );
     }

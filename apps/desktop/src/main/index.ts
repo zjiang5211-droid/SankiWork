@@ -107,7 +107,7 @@ const TOOLS_DEV_PARENT_PID_ENV = SIDECAR_ENV.TOOLS_DEV_PARENT_PID;
 const AMR_PROFILE_ENV_KEY = "SANKIWORK_AMR_PROFILE";
 const AMR_PROFILE_AGENT_ID = "amr";
 const AMR_ENVIRONMENT_PROFILES = ["prod", "test", "feature-test", "local"] as const;
-const APP_CONFIG_CHANGED_IPC_CHANNEL = "od:app-config-changed";
+const APP_CONFIG_CHANGED_IPC_CHANNEL = "sw:app-config-changed";
 type AmrEnvironmentProfile = (typeof AMR_ENVIRONMENT_PROFILES)[number];
 type DesktopAppConfigPrefs = {
   agentModels?: Record<string, { model?: string; reasoning?: string }>;

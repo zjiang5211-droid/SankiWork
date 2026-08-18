@@ -375,9 +375,9 @@ const cobeEnhancerUrl = `/enhancers/cobe.js?v=${
           if (!active || !countdown) return active;
           const remainingMs = endAt - now;
           countdown.textContent = `${windowLabel} ${formatRemaining(remainingMs)}`;
-          if (visible && !impressionTracked && typeof window.__odTrack === 'function') {
+          if (visible && !impressionTracked && typeof window.__swTrack === 'function') {
             impressionTracked = true;
-            window.__odTrack('surface_view', {
+            window.__swTrack('surface_view', {
               page_name: 'landing_home', area: 'campaign_banner',
               element: 'deepseek_v4_pro', campaign_id: 'deepseek_v4_pro',
               user_state: 'unknown',
@@ -391,9 +391,9 @@ const cobeEnhancerUrl = `/enhancers/cobe.js?v=${
         campaignLink?.addEventListener('click', (event) => {
           const eligible = Date.now() >= startAt && Date.now() < endAt;
           const attribution = eligible
-            ? window.__odRecordCampaignEntry?.('landing_home_banner', 'deepseek_v4_pro')
+            ? window.__swRecordCampaignEntry?.('landing_home_banner', 'deepseek_v4_pro')
             : undefined;
-          window.__odTrack?.('ui_click', {
+          window.__swTrack?.('ui_click', {
             page_name: 'landing_home',
             area: 'campaign_banner',
             element: 'open_pricing',
@@ -401,14 +401,14 @@ const cobeEnhancerUrl = `/enhancers/cobe.js?v=${
             user_state: 'unknown',
             ...(attribution || {}),
           });
-          if (attribution && window.__odAttributedUrl) {
+          if (attribution && window.__swAttributedUrl) {
             event.preventDefault();
-            window.location.href = window.__odAttributedUrl(campaignLink.href, attribution);
+            window.location.href = window.__swAttributedUrl(campaignLink.href, attribution);
           }
         });
         close?.addEventListener('click', () => {
           const eligible = Date.now() >= startAt && Date.now() < endAt;
-          window.__odTrack?.('ui_click', {
+          window.__swTrack?.('ui_click', {
             page_name: 'landing_home',
             area: 'campaign_banner',
             element: 'close',

@@ -13,8 +13,8 @@ function request(input: {
   query?: Record<string, string>;
 }) {
   const headers: Record<string, string | undefined> = {
-    'x-od-workspace-id': input.workspaceId,
-    'x-od-workspace-member-id': input.memberId,
+    'x-sw-workspace-id': input.workspaceId,
+    'x-sw-workspace-member-id': input.memberId,
   };
   return {
     query: input.query ?? {},
@@ -434,8 +434,8 @@ describe('createAuthorizeProjectRequest', () => {
     const verify = vi.fn(async (req: any) => ({
       ok: true as const,
       context: context({
-        workspaceId: req.get('x-od-workspace-id'),
-        workspaceMemberId: req.get('x-od-workspace-member-id'),
+        workspaceId: req.get('x-sw-workspace-id'),
+        workspaceMemberId: req.get('x-sw-workspace-member-id'),
       }),
     }));
     const sendApiError = vi.fn();

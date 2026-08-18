@@ -87,9 +87,9 @@ export function manualEditKindForElement(el: Element): ManualEditKind {
 
 export function buildManualEditKeyboardGuard(): string {
   return `<script data-sw-edit-keyboard-guard>(function(){
-  window.__odEditGuard = window.__odEditGuard || { editingEl: null };
+  window.__swEditGuard = window.__swEditGuard || { editingEl: null };
   function shouldBlock(){
-    var el = window.__odEditGuard && window.__odEditGuard.editingEl;
+    var el = window.__swEditGuard && window.__swEditGuard.editingEl;
     return el && el.isConnected;
   }
   function captureFromOptions(options){
@@ -133,7 +133,7 @@ export function buildManualEditKeyboardGuard(): string {
         }
         var handler = function(ev){
           if (once) removeWrappedEntry(wrapped, handler);
-          if (shouldBlock() && (window.__odEditGuard.editingEl === ev.target || window.__odEditGuard.editingEl.contains(ev.target))) {
+          if (shouldBlock() && (window.__swEditGuard.editingEl === ev.target || window.__swEditGuard.editingEl.contains(ev.target))) {
             return;
           }
           return listener.call(this, ev);
@@ -792,7 +792,7 @@ export function buildManualEditBridge(enabled: boolean): string {
       sel.addRange(range);
     } catch (e) {}
   }
-  var guard = window.__odEditGuard || null;
+  var guard = window.__swEditGuard || null;
   // A single in-flight inline text edit. The session is deliberately NOT tied
   // to iframe blur: moving the pointer to the host's floating inspector blurs
   // the iframe, and committing/ending on blur is exactly the #3646 focus-loss
@@ -1111,7 +1111,7 @@ export function buildManualEditBridge(enabled: boolean): string {
     if (!destination) return;
     ev.preventDefault();
     window.parent.postMessage({
-      type: 'od:preview-open-file',
+      type: 'sw:preview-open-file',
       fileName: destination.fileName,
       search: destination.search,
       hash: destination.hash

@@ -184,8 +184,8 @@ describe('sw run CLI', () => {
       'The previous turn was interrupted by a transient failure.',
     );
     for (const request of stub.requests) {
-      expect(request.headers['x-od-workspace-id']).toBeUndefined();
-      expect(request.headers['x-od-workspace-member-id']).toBeUndefined();
+      expect(request.headers['x-sw-workspace-id']).toBeUndefined();
+      expect(request.headers['x-sw-workspace-member-id']).toBeUndefined();
     }
   });
 
@@ -227,8 +227,8 @@ describe('sw run CLI', () => {
     expect(result.stderr).toBe('');
     expect(stub.requests).toHaveLength(2);
     for (const request of stub.requests) {
-      expect(request.headers['x-od-workspace-id']).toBe('team-workspace');
-      expect(request.headers['x-od-workspace-member-id']).toBe('creator-member');
+      expect(request.headers['x-sw-workspace-id']).toBe('team-workspace');
+      expect(request.headers['x-sw-workspace-member-id']).toBe('creator-member');
     }
   });
 
@@ -294,8 +294,8 @@ describe('sw run CLI', () => {
     expect(result.code, result.stderr).toBe(0);
     expect(stub.requests.map((request) => `${request.method} ${request.url}`)).toEqual(requests);
     for (const request of stub.requests) {
-      expect(request.headers['x-od-workspace-id']).toBe('team-workspace');
-      expect(request.headers['x-od-workspace-member-id']).toBe('creator-member');
+      expect(request.headers['x-sw-workspace-id']).toBe('team-workspace');
+      expect(request.headers['x-sw-workspace-member-id']).toBe('creator-member');
     }
   });
 
@@ -318,8 +318,8 @@ describe('sw run CLI', () => {
       'GET /api/runs/run-2/events',
     ]);
     for (const request of stub.requests) {
-      expect(request.headers['x-od-workspace-id']).toBeUndefined();
-      expect(request.headers['x-od-workspace-member-id']).toBeUndefined();
+      expect(request.headers['x-sw-workspace-id']).toBeUndefined();
+      expect(request.headers['x-sw-workspace-member-id']).toBeUndefined();
     }
   });
 });

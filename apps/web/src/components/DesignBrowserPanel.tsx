@@ -2068,10 +2068,10 @@ export function DesignBrowserPanel({
         if (hard) webviewNode.reloadIgnoringCache();
         else webviewNode.reload();
       } catch {
-        setLoadUrl((url) => `${url}${url.includes('?') ? '&' : '?'}odReload=${Date.now()}`);
+        setLoadUrl((url) => `${url}${url.includes('?') ? '&' : '?'}swReload=${Date.now()}`);
       }
     } else {
-      setLoadUrl((url) => `${url}${url.includes('?') ? '&' : '?'}odReload=${Date.now()}`);
+      setLoadUrl((url) => `${url}${url.includes('?') ? '&' : '?'}swReload=${Date.now()}`);
     }
     setMenuOpen(false);
   }

@@ -418,7 +418,7 @@ export async function listSkills(
   // `options.workspaceId === undefined` (key omitted entirely) is the
   // "never asked to be scoped" case every non-`GET /api/skills` caller uses.
   // A caller that DID pass the key — even as `null`, which `GET /api/skills`
-  // does whenever the request carries no `x-od-workspace-id` header — must
+  // does whenever the request carries no `x-sw-workspace-id` header — must
   // still go through `skillVisibleFromWorkspace` below so a claimed skill is
   // hidden from a headerless reader instead of silently passing through here.
   if (!options.db || options.workspaceId === undefined) return out;

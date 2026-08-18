@@ -169,8 +169,8 @@ test('[P0] @critical AMR insufficient-balance failures surface Top up AMR and re
           return (
             url.pathname.endsWith('/dashboard') &&
             url.searchParams.get('source') === 'sankiwork' &&
-            url.searchParams.get('od_origin') === 'sankiwork' &&
-            url.searchParams.get('od_entry_source') === 'chat_error_recharge'
+            url.searchParams.get('sw_origin') === 'sankiwork' &&
+            url.searchParams.get('sw_entry_source') === 'chat_error_recharge'
           );
         }) ?? null;
       }),
@@ -592,9 +592,9 @@ test('[P1] Settings AMR upgrade opens the attributed plans URL for the active pr
   const url = new URL(openedUrl);
   expect(url.pathname).toBe('/dashboard');
   expect(url.searchParams.get('billing')).toBe('plan');
-  expect(url.searchParams.get('od_origin')).toBe('sankiwork');
-  expect(url.searchParams.get('od_entry_source')).toBe('settings_amr_upgrade');
-  expect(url.searchParams.get('od_entry_id')).toBeTruthy();
+  expect(url.searchParams.get('sw_origin')).toBe('sankiwork');
+  expect(url.searchParams.get('sw_entry_source')).toBe('settings_amr_upgrade');
+  expect(url.searchParams.get('sw_entry_id')).toBeTruthy();
 });
 
 test('[P0] @critical Settings preserves AMR account, recharge shortcut, and model catalog after switching runtimes', async ({ page }) => {

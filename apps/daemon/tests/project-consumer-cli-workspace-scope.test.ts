@@ -58,8 +58,8 @@ function authorizeProjectRequest(request: RequestRecord): {
   // not require caller-supplied Workspace headers for export routes.
   if (request.url.includes('/export/')) return { status: 200 };
   if (projectForRequest(request) === 'unbound') return { status: 200 };
-  const workspaceId = request.headers['x-od-workspace-id'];
-  const memberId = request.headers['x-od-workspace-member-id'];
+  const workspaceId = request.headers['x-sw-workspace-id'];
+  const memberId = request.headers['x-sw-workspace-member-id'];
   if (!workspaceId || !memberId) {
     return { status: 401, code: 'WORKSPACE_CONTEXT_REQUIRED' };
   }
@@ -313,8 +313,8 @@ describe('project consumer CLI explicit Workspace fixture matrix', () => {
 
     expect(result.code, result.stderr).toBe(0);
     expect(requests).toHaveLength(1);
-    expect(requests[0]?.headers['x-od-workspace-id']).toBeUndefined();
-    expect(requests[0]?.headers['x-od-workspace-member-id']).toBeUndefined();
+    expect(requests[0]?.headers['x-sw-workspace-id']).toBeUndefined();
+    expect(requests[0]?.headers['x-sw-workspace-member-id']).toBeUndefined();
   });
 
   it('export accepts legacy Workspace flags without forwarding them', async () => {
@@ -328,8 +328,8 @@ describe('project consumer CLI explicit Workspace fixture matrix', () => {
 
     expect(result.code, result.stderr).toBe(0);
     expect(requests).toHaveLength(1);
-    expect(requests[0]?.headers['x-od-workspace-id']).toBeUndefined();
-    expect(requests[0]?.headers['x-od-workspace-member-id']).toBeUndefined();
+    expect(requests[0]?.headers['x-sw-workspace-id']).toBeUndefined();
+    expect(requests[0]?.headers['x-sw-workspace-member-id']).toBeUndefined();
   });
 
   for (const consumer of consumers) {
@@ -348,8 +348,8 @@ describe('project consumer CLI explicit Workspace fixture matrix', () => {
       expect(result.code, result.stderr).toBe(0);
       expect(requests.length).toBeGreaterThan(0);
       for (const request of requests) {
-        expect(request.headers['x-od-workspace-id']).toBe(TEAM_WORKSPACE_ID);
-        expect(request.headers['x-od-workspace-member-id']).toBe(CREATOR_MEMBER_ID);
+        expect(request.headers['x-sw-workspace-id']).toBe(TEAM_WORKSPACE_ID);
+        expect(request.headers['x-sw-workspace-member-id']).toBe(CREATOR_MEMBER_ID);
       }
     });
 
@@ -366,7 +366,7 @@ describe('project consumer CLI explicit Workspace fixture matrix', () => {
       ]);
 
       expect(result.code).not.toBe(0);
-      expect(requests[0]?.headers['x-od-workspace-member-id']).toBe(OTHER_MEMBER_ID);
+      expect(requests[0]?.headers['x-sw-workspace-member-id']).toBe(OTHER_MEMBER_ID);
     });
 
     it(`${consumer.label}: lets the daemon reject missing bound-project scope`, async () => {
@@ -381,8 +381,8 @@ describe('project consumer CLI explicit Workspace fixture matrix', () => {
       ]);
 
       expect(result.code).not.toBe(0);
-      expect(requests[0]?.headers['x-od-workspace-id']).toBeUndefined();
-      expect(requests[0]?.headers['x-od-workspace-member-id']).toBeUndefined();
+      expect(requests[0]?.headers['x-sw-workspace-id']).toBeUndefined();
+      expect(requests[0]?.headers['x-sw-workspace-member-id']).toBeUndefined();
     });
 
     it(`${consumer.label}: keeps a historical unbound project headerless`, async () => {
@@ -399,8 +399,8 @@ describe('project consumer CLI explicit Workspace fixture matrix', () => {
       expect(result.code, result.stderr).toBe(0);
       expect(requests.length).toBeGreaterThan(0);
       for (const request of requests) {
-        expect(request.headers['x-od-workspace-id']).toBeUndefined();
-        expect(request.headers['x-od-workspace-member-id']).toBeUndefined();
+        expect(request.headers['x-sw-workspace-id']).toBeUndefined();
+        expect(request.headers['x-sw-workspace-member-id']).toBeUndefined();
       }
     });
   }

@@ -10,9 +10,9 @@ describe('openFirstPartyExternalLinkFromClick', () => {
     anchor.href = 'https://sanki-ai.cloud/console';
     anchor.addEventListener('click', () => {
       const url = new URL(anchor.href);
-      url.searchParams.set('od_origin', 'sankiwork');
-      url.searchParams.set('od_entry_id', 'settings');
-      url.searchParams.set('od_device_id', 'install-123');
+      url.searchParams.set('sw_origin', 'sankiwork');
+      url.searchParams.set('sw_entry_id', 'settings');
+      url.searchParams.set('sw_device_id', 'install-123');
       anchor.href = url.toString();
     });
     document.body.append(anchor);
@@ -24,7 +24,7 @@ describe('openFirstPartyExternalLinkFromClick', () => {
 
     expect(event.defaultPrevented).toBe(true);
     expect(opened).toHaveBeenCalledWith(
-      'https://sanki-ai.cloud/console?od_origin=sankiwork&od_entry_id=settings&od_device_id=install-123',
+      'https://sanki-ai.cloud/console?sw_origin=sankiwork&sw_entry_id=settings&sw_device_id=install-123',
     );
   });
 });

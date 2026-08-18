@@ -110,8 +110,8 @@ async function routeDesignSystemsManager(
     if (teamShareState && path === '/api/workspace/context' && method === 'GET') {
       const headers = route.request().headers();
       if (
-        headers['x-od-workspace-id'] !== teamShareState.workspaceId
-        || headers['x-od-workspace-member-id'] !== teamShareState.workspaceMemberId
+        headers['x-sw-workspace-id'] !== teamShareState.workspaceId
+        || headers['x-sw-workspace-member-id'] !== teamShareState.workspaceMemberId
       ) {
         await route.fulfill({
           status: 400,
@@ -155,8 +155,8 @@ async function routeDesignSystemsManager(
     if (teamShareState && path === '/api/workspace/design-systems/team' && method === 'GET') {
       const headers = route.request().headers();
       if (
-        headers['x-od-workspace-id'] !== teamShareState.workspaceId
-        || headers['x-od-workspace-member-id'] !== teamShareState.workspaceMemberId
+        headers['x-sw-workspace-id'] !== teamShareState.workspaceId
+        || headers['x-sw-workspace-member-id'] !== teamShareState.workspaceMemberId
       ) {
         await route.fulfill({
           status: 400,
@@ -185,12 +185,12 @@ async function routeDesignSystemsManager(
       const systemId = decodeURIComponent(teamShareMatch[1] ?? '');
       teamShareState.shareCalls.push({
         systemId,
-        workspaceId: headers['x-od-workspace-id'] ?? null,
-        workspaceMemberId: headers['x-od-workspace-member-id'] ?? null,
+        workspaceId: headers['x-sw-workspace-id'] ?? null,
+        workspaceMemberId: headers['x-sw-workspace-member-id'] ?? null,
       });
       if (
-        headers['x-od-workspace-id'] !== teamShareState.workspaceId
-        || headers['x-od-workspace-member-id'] !== teamShareState.workspaceMemberId
+        headers['x-sw-workspace-id'] !== teamShareState.workspaceId
+        || headers['x-sw-workspace-member-id'] !== teamShareState.workspaceMemberId
       ) {
         await route.fulfill({
           status: 400,

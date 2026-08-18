@@ -7386,8 +7386,8 @@ export async function startServer({
       query: {},
       get(name) {
         const normalized = name.toLowerCase();
-        if (normalized === 'x-od-workspace-id') return authority.workspaceId;
-        if (normalized === 'x-od-workspace-member-id') {
+        if (normalized === 'x-sw-workspace-id') return authority.workspaceId;
+        if (normalized === 'x-sw-workspace-member-id') {
           return authority.workspaceMemberId;
         }
         return undefined;
@@ -8006,7 +8006,7 @@ export async function startServer({
       unshareTeamDesignSystemIfShared: async (id, req) => {
         const requestContext = workspaceResourceContextFromRequest(req);
         const hasWorkspaceContextHeaders = Object.keys(req.headers ?? {}).some(
-          (name) => name.startsWith('x-od-workspace-') || name === 'x-od-app-user-id',
+          (name) => name.startsWith('x-sw-workspace-') || name === 'x-sw-app-user-id',
         );
         if (requestContext === null && !hasWorkspaceContextHeaders) return false;
         const verified = await verifyExplicitWorkspaceRequestContext({
@@ -12208,7 +12208,7 @@ export async function startServer({
         return finishRun('failed', 1, null);
       }
     }
-    const odMediaEnv = createSankiWorkToolEnv({
+    const swMediaEnv = createSankiWorkToolEnv({
       daemonUrl,
       projectDir: cwd,
       projectId: typeof projectId === 'string' ? projectId : null,
@@ -12267,7 +12267,7 @@ export async function startServer({
       const env = applyAgentLaunchEnv({
         ...agentSpawnEnv,
         ...(mmdRouteLaunchEnv || {}),
-        ...odMediaEnv,
+        ...swMediaEnv,
         ...(byokOpenCodeProvider ? byokOpenCodeProvider.env : {}),
         ...await sankiWorkAmrTraceEnvForRun({
           agentId: def.id,
@@ -12324,7 +12324,7 @@ export async function startServer({
           },
         }),
         // OpenCode external-MCP injection (issue #2142). Layered AFTER
-        // spawnEnvForAgent / odMediaEnv / configuredAgentEnv so the
+        // spawnEnvForAgent / swMediaEnv / configuredAgentEnv so the
         // daemon-built MCP config wins over a stale value the user
         // might have exported in their shell — that would let an
         // outdated content string suppress the user's freshly-saved

@@ -29,18 +29,18 @@ describe("desktop preload host boundary", () => {
     expect(source).toContain("osLocale");
     expect(source).toContain("invokeUpdater('install'");
     expect(source).toContain("invokeUpdater('clear-cache'");
-    expect(source).toContain("od:update:quit");
-    expect(source).toContain("od:update:status-changed");
-    expect(source).toContain("od:update:open-dialog");
-    expect(source).toContain("od:update:set-menu-labels");
+    expect(source).toContain("sw:update:quit");
+    expect(source).toContain("sw:update:status-changed");
+    expect(source).toContain("sw:update:open-dialog");
+    expect(source).toContain("sw:update:set-menu-labels");
     expect(source).toContain("subscribeOpenDialog");
-    expect(source).toContain("od:app-config-changed");
+    expect(source).toContain("sw:app-config-changed");
     expect(source).toContain("sankiwork:app-config-changed");
     expect(source).toContain("window.dispatchEvent(new CustomEvent(APP_CONFIG_CHANGED_EVENT))");
     expect(source).not.toContain("@sankiwork/contracts");
     expect(source).not.toContain("exposeInMainWorld('electronAPI'");
-    expect(source).not.toContain('exposeInMainWorld("__odDesktop"');
-    expect(source).not.toContain("exposeInMainWorld('__odDesktop'");
+    expect(source).not.toContain('exposeInMainWorld("__swDesktop"');
+    expect(source).not.toContain("exposeInMainWorld('__swDesktop'");
   });
 
   it("mirrors the host import contract by accepting a null entryFile", () => {

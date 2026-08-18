@@ -258,7 +258,7 @@ export function registerDesignSystemRoutes(
     allowNavigationQuery = false,
   ): { root: string; bindingResourceId: string; exactTeam: boolean } {
     const workspaceId = (
-      headerValue(req, 'x-od-workspace-id')
+      headerValue(req, 'x-sw-workspace-id')
       ?? (allowNavigationQuery
         ? designSystemNavigationWorkspaceQuery(req)?.workspaceId
         : null)
@@ -690,8 +690,8 @@ export function registerDesignSystemRoutes(
   app.get('/api/design-systems/:id', async (req, res) => {
     try {
       if (!(await authorizeDesignSystemRead(req, res, req.params.id))) return;
-      const workspaceId = headerValue(req, 'x-od-workspace-id');
-      const workspaceMemberId = headerValue(req, 'x-od-workspace-member-id');
+      const workspaceId = headerValue(req, 'x-sw-workspace-id');
+      const workspaceMemberId = headerValue(req, 'x-sw-workspace-member-id');
       const storage = resolveDesignSystemStorage(req, req.params.id);
       const systems = await listAllDesignSystems({
         workspaceId,
@@ -738,11 +738,11 @@ export function registerDesignSystemRoutes(
     try {
       if (!(await authorizeDesignSystemRead(req, res, req.params.id, true))) return;
       const workspaceId =
-        headerValue(req, 'x-od-workspace-id')
+        headerValue(req, 'x-sw-workspace-id')
         ?? designSystemNavigationWorkspaceQuery(req)?.workspaceId
         ?? null;
       const workspaceMemberId =
-        headerValue(req, 'x-od-workspace-member-id')
+        headerValue(req, 'x-sw-workspace-member-id')
         ?? designSystemNavigationWorkspaceQuery(req)?.workspaceMemberId
         ?? null;
       const storage = resolveDesignSystemStorage(req, req.params.id, true);
@@ -763,11 +763,11 @@ export function registerDesignSystemRoutes(
     try {
       if (!(await authorizeDesignSystemRead(req, res, req.params.id, true))) return;
       const workspaceId =
-        headerValue(req, 'x-od-workspace-id')
+        headerValue(req, 'x-sw-workspace-id')
         ?? designSystemNavigationWorkspaceQuery(req)?.workspaceId
         ?? null;
       const workspaceMemberId =
-        headerValue(req, 'x-od-workspace-member-id')
+        headerValue(req, 'x-sw-workspace-member-id')
         ?? designSystemNavigationWorkspaceQuery(req)?.workspaceMemberId
         ?? null;
       const storage = resolveDesignSystemStorage(req, req.params.id, true);
@@ -806,11 +806,11 @@ export function registerDesignSystemRoutes(
     try {
       if (!(await authorizeDesignSystemRead(req, res, req.params.id, true))) return;
       const workspaceId =
-        headerValue(req, 'x-od-workspace-id')
+        headerValue(req, 'x-sw-workspace-id')
         ?? designSystemNavigationWorkspaceQuery(req)?.workspaceId
         ?? null;
       const workspaceMemberId =
-        headerValue(req, 'x-od-workspace-member-id')
+        headerValue(req, 'x-sw-workspace-member-id')
         ?? designSystemNavigationWorkspaceQuery(req)?.workspaceMemberId
         ?? null;
       const storage = resolveDesignSystemStorage(req, req.params.id, true);
@@ -832,8 +832,8 @@ export function registerDesignSystemRoutes(
   app.post('/api/design-systems/:id/workspace', async (req, res) => {
     try {
       if (!(await authorizeDesignSystemMutation(req, res, req.params.id))) return;
-      const workspaceId = headerValue(req, 'x-od-workspace-id');
-      const workspaceMemberId = headerValue(req, 'x-od-workspace-member-id');
+      const workspaceId = headerValue(req, 'x-sw-workspace-id');
+      const workspaceMemberId = headerValue(req, 'x-sw-workspace-member-id');
       const storage = resolveDesignSystemStorage(req, req.params.id);
       const workspace = await ensureUserDesignSystemWorkspaceProject(
         db,
@@ -955,8 +955,8 @@ export function registerDesignSystemRoutes(
       if (!(await canMutateUserDesignSystem(storage.root, req.params.id, req))) {
         return res.status(403).json({ error: 'WORKSPACE_RESOURCE_MANAGE_DENIED' });
       }
-      const workspaceId = headerValue(req, 'x-od-workspace-id');
-      const workspaceMemberId = headerValue(req, 'x-od-workspace-member-id');
+      const workspaceId = headerValue(req, 'x-sw-workspace-id');
+      const workspaceMemberId = headerValue(req, 'x-sw-workspace-member-id');
       const outcome = await syncUserDesignSystemAssetsFromWorkspace(
         db,
         req.params.id,

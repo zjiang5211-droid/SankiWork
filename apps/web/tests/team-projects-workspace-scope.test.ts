@@ -24,8 +24,8 @@ describe('team project catalog request scope', () => {
       'fetch',
       vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
         const headers = new Headers(init?.headers);
-        const workspaceId = headers.get('x-od-workspace-id');
-        const memberId = headers.get('x-od-workspace-member-id');
+        const workspaceId = headers.get('x-sw-workspace-id');
+        const memberId = headers.get('x-sw-workspace-member-id');
         return new Response(JSON.stringify({
           projects: [{
             projectId: `project-${workspaceId}`,

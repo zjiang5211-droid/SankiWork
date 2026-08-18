@@ -215,7 +215,7 @@ function normalizeArtifactOrigin(value: unknown): ArtifactOrigin | undefined {
   const entrySurface = raw.entrySurface;
   if (
     entrySurface !== 'sankiwork_ui'
-    && entrySurface !== 'od_cli'
+    && entrySurface !== 'sw_cli'
     && entrySurface !== 'external_mcp'
     && entrySurface !== 'unknown'
   ) {

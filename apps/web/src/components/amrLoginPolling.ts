@@ -3,7 +3,7 @@ import type { VelaLoginStatus } from '../providers/daemon';
 export const AMR_LOGIN_POLL_INTERVAL_MS = 2000;
 export const AMR_LOGIN_TIMEOUT_MS = 5 * 60 * 1000;
 export const AMR_LOGIN_STARTUP_SETTLE_MS = 3000;
-export const AMR_LOGIN_STATUS_EVENT = 'od:amr-login-status-change';
+export const AMR_LOGIN_STATUS_EVENT = 'sw:amr-login-status-change';
 
 export type AmrLoginPollOutcome = 'pending' | 'signed-in' | 'stopped' | 'timed-out';
 export type AmrLoginStatusEventReason =

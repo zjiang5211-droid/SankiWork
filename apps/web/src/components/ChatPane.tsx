@@ -1723,7 +1723,7 @@ export function ChatPane({
   );
   const showImportedFolderArtifacts = projectMetadata?.importedFrom === 'folder';
   const composerDraftStorageKey = projectId && activeConversationId
-    ? `od:chat-composer:draft:${projectId}:${activeConversationId}`
+    ? `sw:chat-composer:draft:${projectId}:${activeConversationId}`
     : undefined;
   const shouldBalanceFinishedTranscript =
     !loading &&
@@ -4010,7 +4010,7 @@ function PinnedTodoSlot({
   ) => boolean | void | Promise<boolean | void>;
   containerRef?: MutableRefObject<HTMLDivElement | null>;
 }) {
-  const storageKey = `od:chat:continued-todo:${conversationId ?? 'none'}`;
+  const storageKey = `sw:chat:continued-todo:${conversationId ?? 'none'}`;
   const [dismissal, setDismissal] = useState(() => ({
     storageKey,
     snapshotKey: readContinuedTodoSnapshotKey(storageKey),

@@ -110,7 +110,7 @@ describe('useProjectWorkspaceScope ignores shell Workspace selection', () => {
     });
     expect(scopeReads).toHaveLength(1);
     expect(
-      [...scopeReads[0]!.keys()].filter((name) => name.startsWith('x-od-workspace-')),
+      [...scopeReads[0]!.keys()].filter((name) => name.startsWith('x-sw-workspace-')),
     ).toEqual([]);
   });
 
@@ -122,8 +122,8 @@ describe('useProjectWorkspaceScope ignores shell Workspace selection', () => {
     await waitFor(() => expect(scopeReads).toHaveLength(1));
 
     expect(Object.fromEntries(scopeReads[0]!.entries())).toMatchObject({
-      'x-od-workspace-id': 'workspace-a',
-      'x-od-workspace-member-id': 'member-a',
+      'x-sw-workspace-id': 'workspace-a',
+      'x-sw-workspace-member-id': 'member-a',
     });
     hook.unmount();
   });
@@ -159,7 +159,7 @@ describe('useProjectWorkspaceScope ignores shell Workspace selection', () => {
     });
     for (const headers of scopeReads) {
       expect(
-        [...headers.keys()].filter((name) => name.startsWith('x-od-workspace-')),
+        [...headers.keys()].filter((name) => name.startsWith('x-sw-workspace-')),
       ).toEqual([]);
     }
   });

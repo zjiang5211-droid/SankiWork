@@ -966,8 +966,8 @@ function workspaceHeadersFromExplicitFlags(flags, required = false) {
         : '';
   if (workspaceId && workspaceMemberId) {
     return {
-      'x-od-workspace-id': workspaceId,
-      'x-od-workspace-member-id': workspaceMemberId,
+      'x-sw-workspace-id': workspaceId,
+      'x-sw-workspace-member-id': workspaceMemberId,
     };
   }
   if (required || workspaceId || workspaceMemberId) {
@@ -6632,7 +6632,7 @@ async function postImportFolderToDaemon(base, body, baseDir, workspaceHeaders = 
   const headers = { ...workspaceHeaders };
   const importToken = await mintCliImportToken(baseDir);
   if (importToken != null) {
-    headers['x-od-desktop-import-token'] = importToken;
+    headers['x-sw-desktop-import-token'] = importToken;
   }
   return postJsonToDaemon(base, '/api/import/folder', body, headers);
 }
@@ -6865,7 +6865,7 @@ Common options:
       const headers = { 'content-type': 'application/json', ...workspaceHeaders };
       const importToken = await mintCliImportToken(importBaseDir);
       if (importToken != null) {
-        headers['x-od-desktop-import-token'] = importToken;
+        headers['x-sw-desktop-import-token'] = importToken;
       }
       const resp = await fetch(`${base}/api/import/folder`, {
         method:  'POST',
@@ -7132,7 +7132,7 @@ Common options:
     process.exit(2);
   }
   const workspaceHeaders = {
-    'x-od-workspace-id': workspaceId,
+    'x-sw-workspace-id': workspaceId,
     // Only sent when the caller actually says which kind of workspace this is.
     // The daemon reads an explicit `personal` as the caller ASSERTING there is
     // no team plane here and refuses a team share on the strength of it (see
@@ -7140,22 +7140,22 @@ Common options:
     // have made `--visibility team` impossible from the CLI. Absent still reads
     // as personal everywhere it only affects view filtering.
     ...(typeof flags['workspace-type'] === 'string' && flags['workspace-type'].trim()
-      ? { 'x-od-workspace-type': flags['workspace-type'].trim() }
+      ? { 'x-sw-workspace-type': flags['workspace-type'].trim() }
       : {}),
-    'x-od-workspace-member-id': workspaceMemberId,
-    ...(typeof flags.role === 'string' && flags.role.trim() ? { 'x-od-workspace-role': flags.role.trim() } : {}),
-    ...(typeof flags['app-user'] === 'string' && flags['app-user'].trim() ? { 'x-od-app-user-id': flags['app-user'].trim() } : {}),
+    'x-sw-workspace-member-id': workspaceMemberId,
+    ...(typeof flags.role === 'string' && flags.role.trim() ? { 'x-sw-workspace-role': flags.role.trim() } : {}),
+    ...(typeof flags['app-user'] === 'string' && flags['app-user'].trim() ? { 'x-sw-app-user-id': flags['app-user'].trim() } : {}),
     ...(typeof flags['lifecycle-state'] === 'string' && flags['lifecycle-state'].trim()
-      ? { 'x-od-workspace-lifecycle-state': flags['lifecycle-state'].trim() }
+      ? { 'x-sw-workspace-lifecycle-state': flags['lifecycle-state'].trim() }
       : {}),
     ...(typeof flags['member-status'] === 'string' && flags['member-status'].trim()
-      ? { 'x-od-workspace-member-status': flags['member-status'].trim() }
+      ? { 'x-sw-workspace-member-status': flags['member-status'].trim() }
       : {}),
     ...(typeof flags['can-share-projects'] === 'string' && flags['can-share-projects'].trim()
-      ? { 'x-od-workspace-can-share-projects': flags['can-share-projects'].trim() }
+      ? { 'x-sw-workspace-can-share-projects': flags['can-share-projects'].trim() }
       : {}),
     ...(typeof flags['can-write-synced-files'] === 'string' && flags['can-write-synced-files'].trim()
-      ? { 'x-od-workspace-can-write-synced-files': flags['can-write-synced-files'].trim() }
+      ? { 'x-sw-workspace-can-write-synced-files': flags['can-write-synced-files'].trim() }
       : {}),
   };
   async function request(path, init) {

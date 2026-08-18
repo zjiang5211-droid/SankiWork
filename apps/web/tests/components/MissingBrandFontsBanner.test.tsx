@@ -27,17 +27,17 @@ describe('MissingBrandFontsBanner (issue #2814)', () => {
     );
     fireEvent.click(screen.getByRole('button', { name: /keep substitutes/i }));
     expect(container.querySelector('.ds-project-warning-card')).toBeNull();
-    expect(window.localStorage.getItem('od:font-banner-dismissed:p1')).toBe('1');
+    expect(window.localStorage.getItem('sw:font-banner-dismissed:p1')).toBe('1');
   });
 
   it('renders nothing when already dismissed for that project', () => {
-    window.localStorage.setItem('od:font-banner-dismissed:p1', '1');
+    window.localStorage.setItem('sw:font-banner-dismissed:p1', '1');
     const { container } = render(<MissingBrandFontsBanner projectId="p1" />);
     expect(container.firstChild).toBeNull();
   });
 
   it('keeps the dismissal scoped per project', () => {
-    window.localStorage.setItem('od:font-banner-dismissed:p1', '1');
+    window.localStorage.setItem('sw:font-banner-dismissed:p1', '1');
     render(<MissingBrandFontsBanner projectId="p2" />);
     // p2 was not dismissed, so the banner still shows.
     expect(screen.getByText('Brand font files missing')).toBeTruthy();
@@ -49,7 +49,7 @@ describe('MissingBrandFontsBanner (issue #2814)', () => {
     const { rerender, container } = render(<MissingBrandFontsBanner projectId="p1" />);
     fireEvent.click(screen.getByRole('button', { name: /keep substitutes/i }));
     expect(container.querySelector('.ds-project-warning-card')).toBeNull();
-    expect(window.localStorage.getItem('od:font-banner-dismissed:p1')).toBe('1');
+    expect(window.localStorage.getItem('sw:font-banner-dismissed:p1')).toBe('1');
 
     // Switching to a project that was never dismissed shows the banner again.
     rerender(<MissingBrandFontsBanner projectId="p2" />);

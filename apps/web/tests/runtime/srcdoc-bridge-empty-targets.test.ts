@@ -10,7 +10,7 @@ import { buildSrcdoc } from '../../src/runtime/srcdoc';
 // (e.g. a freeform PRD → HTML pass through a Claude-Code-compatible CLI
 // without a skill), the bridge must:
 //
-//   1. Still post `od:comment-targets` with `targets: []` so the host
+//   1. Still post `sw:comment-targets` with `targets: []` so the host
 //      can detect the empty-annotation state and surface a clearer
 //      hint than "Click any element with `data-od-id` …" — without
 //      this, FileViewer's `liveCommentTargets` map never updates and
@@ -140,7 +140,7 @@ function setupBridgeDom(
 }
 
 describe('selection bridge — empty annotation surface (#890)', () => {
-  it('posts od:comment-targets with an empty list when the artifact has no annotated elements', async () => {
+  it('posts sw:comment-targets with an empty list when the artifact has no annotated elements', async () => {
     const { win, parentPostMessage } = setupBridgeDom(
       // PRD-style mockup: real DOM, zero `data-od-id` / `data-screen-label`.
       '<header><h1>Acme PRD</h1></header><main><section><p>Goals</p></section></main>',
@@ -154,7 +154,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const targetMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-targets');
+      .filter((message) => message?.type === 'sw:comment-targets');
 
     expect(targetMessages.length).toBeGreaterThan(0);
     // Every targets-broadcast must be an empty list — there's nothing
@@ -166,7 +166,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
     }
   });
 
-  it('does not post od:comment-target when the user clicks an unannotated element', async () => {
+  it('does not post sw:comment-target when the user clicks an unannotated element', async () => {
     const { win, parentPostMessage } = setupBridgeDom(
       '<header><h1 id="title">Acme PRD</h1></header>',
       'inspect',
@@ -188,11 +188,11 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const clickMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-target');
+      .filter((message) => message?.type === 'sw:comment-target');
     expect(clickMessages).toEqual([]);
   });
 
-  it('still posts od:comment-target when the click traverses up to an annotated ancestor', async () => {
+  it('still posts sw:comment-target when the click traverses up to an annotated ancestor', async () => {
     // Sanity check / contract pin: the no-op behavior above is specific
     // to the no-annotation case. When ANY ancestor carries `data-od-id`,
     // the click must still resolve to that ancestor — this is the
@@ -212,7 +212,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const clickMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-target');
+      .filter((message) => message?.type === 'sw:comment-target');
     expect(clickMessages).toHaveLength(1);
     expect(clickMessages[0].elementId).toBe('hero');
     expect(clickMessages[0].clickedDescendant).toEqual({
@@ -237,7 +237,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const clickMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-target');
+      .filter((message) => message?.type === 'sw:comment-target');
     expect(clickMessages).toHaveLength(1);
     expect(clickMessages[0].elementId).toBe('hero');
     expect(clickMessages[0].clickedDescendant).toBeUndefined();
@@ -261,7 +261,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const clickMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-target');
+      .filter((message) => message?.type === 'sw:comment-target');
     expect(clickMessages).toHaveLength(1);
     expect(clickMessages[0].text).toBe('Draft copy');
 
@@ -270,7 +270,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
     const updateMessages = await waitForPostedMessages(
       win,
       parentPostMessage,
-      'od:comment-active-target-update',
+      'sw:comment-active-target-update',
     );
     expect(updateMessages).toHaveLength(1);
     expect(updateMessages[0]).toMatchObject({
@@ -295,7 +295,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const clickMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-target');
+      .filter((message) => message?.type === 'sw:comment-target');
     expect(clickMessages).toEqual([]);
   });
 
@@ -315,7 +315,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const clickMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-target');
+      .filter((message) => message?.type === 'sw:comment-target');
     expect(clickMessages).toHaveLength(1);
     expect(clickMessages[0].elementId).toBe('dom:body > main:nth-of-type(1) > button:nth-of-type(1)');
     expect(clickMessages[0].selector).toBe('body > main:nth-of-type(1) > button:nth-of-type(1)');
@@ -338,7 +338,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const clickMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-target');
+      .filter((message) => message?.type === 'sw:comment-target');
     expect(clickMessages).toHaveLength(1);
     expect(clickMessages[0]).toMatchObject({
       elementId: 'dom:body > main:nth-of-type(1) > button:nth-of-type(1)',
@@ -363,7 +363,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const clickMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-target');
+      .filter((message) => message?.type === 'sw:comment-target');
     expect(clickMessages).toHaveLength(1);
     expect(clickMessages[0]).toMatchObject({
       elementId: 'dom:body > section:nth-of-type(1) > h1:nth-of-type(1)',
@@ -390,7 +390,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const targetMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-targets');
+      .filter((message) => message?.type === 'sw:comment-targets');
     expect(targetMessages.length).toBeGreaterThan(0);
     const last = targetMessages.at(-1);
     expect(last.targets).not.toEqual(
@@ -413,7 +413,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const targetMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-targets');
+      .filter((message) => message?.type === 'sw:comment-targets');
     expect(targetMessages.length).toBeGreaterThan(0);
     const last = targetMessages.at(-1);
     expect(last.targets).toEqual(
@@ -461,7 +461,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     win.dispatchEvent(
       new win.MessageEvent('message', {
-        data: { type: 'od:comment-mode', enabled: false, mode: 'picker' },
+        data: { type: 'sw:comment-mode', enabled: false, mode: 'picker' },
       }),
     );
     expect(win.getComputedStyle(iframe).pointerEvents).toBe('auto');
@@ -477,7 +477,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
     win.dispatchEvent(
       new win.MessageEvent('message', {
         data: {
-          type: 'od:preview-runtime-state-restore',
+          type: 'sw:preview-runtime-state-restore',
           state: {
             version: 1,
             hash: '',
@@ -528,7 +528,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
     win.dispatchEvent(
       new win.MessageEvent('message', {
         data: {
-          type: 'od:preview-runtime-state-restore',
+          type: 'sw:preview-runtime-state-restore',
           state: {
             version: 1,
             hash: '',
@@ -552,7 +552,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
     expect(win.document.body.textContent).not.toContain('Today page');
   });
 
-  it('posts od:comment-target for the annotated card when the device-frame iframe is clicked', async () => {
+  it('posts sw:comment-target for the annotated card when the device-frame iframe is clicked', async () => {
     const { win, parentPostMessage } = setupBridgeDom(
       '<article data-od-id="tablet-card" class="frame-card"><div class="meta">Tablet edition</div><iframe id="f" class="tablet-frame" title="Tablet edition" src="about:blank"></iframe></article>',
       'comment',
@@ -567,7 +567,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
     const clickMessages = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:comment-target');
+      .filter((message) => message?.type === 'sw:comment-target');
     expect(clickMessages).toHaveLength(1);
     expect(clickMessages[0].elementId).toBe('tablet-card');
   });

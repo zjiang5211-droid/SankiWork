@@ -301,12 +301,12 @@ const directAssets = {
       const signoutUrl = api + '/api/auth/sign-out';
 
       // Cloud account funnel analytics — feeds the same PostHog sink as
-      // the rest of the site (window.__odTrack, guarded). area is always the
+      // the rest of the site (window.__swTrack, guarded). area is always the
       // header since this module only lives in the nav chrome.
       const track = (name, extra) => {
         try {
-          if (typeof window.__odTrack === 'function') {
-            window.__odTrack(
+          if (typeof window.__swTrack === 'function') {
+            window.__swTrack(
               name,
               Object.assign(
                 { area: 'header', locale: (document.documentElement.getAttribute('lang') || 'en').toLowerCase() },
@@ -461,7 +461,7 @@ const directAssets = {
         if (label && intents[label]) btn.setAttribute('href', intents[label]);
       });
     };
-    window.__odWireShareIntents = wireSharePlatforms;
+    window.__swWireShareIntents = wireSharePlatforms;
 
     document.querySelectorAll('[data-share-open]').forEach((trigger) => {
       trigger.addEventListener('click', () => {

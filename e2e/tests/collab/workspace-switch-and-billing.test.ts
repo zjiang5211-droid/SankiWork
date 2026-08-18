@@ -237,8 +237,8 @@ describe('workspace switching and scoped billing', () => {
             '/api/workspace/billing?scope=workspace&workspaceId=ws-foreign',
             403,
             {
-              'x-od-workspace-id': 'ws-foreign',
-              'x-od-workspace-member-id': 'mem-foreign',
+              'x-sw-workspace-id': 'ws-foreign',
+              'x-sw-workspace-member-id': 'mem-foreign',
             },
           );
         },
@@ -319,7 +319,7 @@ describe('workspace switching and scoped billing', () => {
 
 function workspaceHeaders(workspace: typeof PERSONAL | typeof TEAM): Record<string, string> {
   return {
-    'x-od-workspace-id': workspace.workspaceId,
-    'x-od-workspace-member-id': workspace.workspaceMemberId,
+    'x-sw-workspace-id': workspace.workspaceId,
+    'x-sw-workspace-member-id': workspace.workspaceMemberId,
   };
 }

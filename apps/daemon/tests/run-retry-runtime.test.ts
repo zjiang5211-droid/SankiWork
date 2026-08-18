@@ -1020,10 +1020,10 @@ async function createAndWaitForRun(
     // and every attempt then receives that persisted exact Workspace id.
     const personalWorkspaceId = `retry_personal_${projectId}`;
     runWorkspaceHeaders = {
-      'x-od-workspace-id': personalWorkspaceId,
-      'x-od-workspace-type': 'personal',
-      'x-od-workspace-member-id': 'retry-runtime-personal-owner',
-      'x-od-workspace-role': 'owner',
+      'x-sw-workspace-id': personalWorkspaceId,
+      'x-sw-workspace-type': 'personal',
+      'x-sw-workspace-member-id': 'retry-runtime-personal-owner',
+      'x-sw-workspace-role': 'owner',
     };
     const adoptionResponse = await fetch(
       `${url}/api/workspaces/${encodeURIComponent(personalWorkspaceId)}/projects?view=all`,
@@ -1038,9 +1038,9 @@ async function createAndWaitForRun(
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-od-analytics-device-id': 'retry-runtime-test',
-      'x-od-analytics-session-id': 'retry-runtime-session',
-      'x-od-analytics-client-type': 'web',
+      'x-sw-analytics-device-id': 'retry-runtime-test',
+      'x-sw-analytics-session-id': 'retry-runtime-session',
+      'x-sw-analytics-client-type': 'web',
       ...runWorkspaceHeaders,
     },
     body: JSON.stringify({

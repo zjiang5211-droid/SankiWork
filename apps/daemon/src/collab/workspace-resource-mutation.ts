@@ -20,7 +20,7 @@ export type WorkspaceResourceContext = {
   workspaceId: string;
   workspaceType: 'personal' | 'team';
   /**
-   * The caller's RAW `x-od-workspace-type` claim, before it is collapsed into
+   * The caller's RAW `x-sw-workspace-type` claim, before it is collapsed into
    * `workspaceType` above. `workspaceType` defaults an absent header to
    * 'personal', which is the right default for view filtering but must never
    * be read as the caller ASSERTING "personal" — only an explicit header is
@@ -85,8 +85,8 @@ function verifyWorkspaceRequestAuthorityForRequest(
     : claimed === 'missing'
       ? [
           'missing',
-          req?.get?.('x-od-workspace-id')?.trim?.() ?? '',
-          req?.get?.('x-od-workspace-member-id')?.trim?.() ?? '',
+          req?.get?.('x-sw-workspace-id')?.trim?.() ?? '',
+          req?.get?.('x-sw-workspace-member-id')?.trim?.() ?? '',
         ].join('\u0000')
       : [
           claimed.workspaceId,
@@ -146,9 +146,9 @@ export function requestWithWorkspaceNavigationScope(
     ? req.query.workspaceMemberId.trim()
     : '';
   if (!workspaceId && !workspaceMemberId) return req;
-  const headerWorkspaceId = req.get('x-od-workspace-id')?.trim() ?? '';
+  const headerWorkspaceId = req.get('x-sw-workspace-id')?.trim() ?? '';
   const headerWorkspaceMemberId =
-    req.get('x-od-workspace-member-id')?.trim() ?? '';
+    req.get('x-sw-workspace-member-id')?.trim() ?? '';
   if (
     (headerWorkspaceId || headerWorkspaceMemberId)
     && (
@@ -161,8 +161,8 @@ export function requestWithWorkspaceNavigationScope(
   return {
     get(name: string) {
       const normalized = name.toLowerCase();
-      if (normalized === 'x-od-workspace-id') return workspaceId || undefined;
-      if (normalized === 'x-od-workspace-member-id') {
+      if (normalized === 'x-sw-workspace-id') return workspaceId || undefined;
+      if (normalized === 'x-sw-workspace-member-id') {
         return workspaceMemberId || undefined;
       }
       return req.get(name);
@@ -325,33 +325,33 @@ export function headerBool(req: any, name: string, fallback: boolean): boolean {
 // the daemon. Keep resource CRUD behind this seam so the header fallback can
 // be replaced without changing visibility and permission logic.
 export function workspaceResourceContext(req: any, workspaceId: string): WorkspaceResourceContext | null {
-  const workspaceMemberId = headerValue(req, 'x-od-workspace-member-id');
+  const workspaceMemberId = headerValue(req, 'x-sw-workspace-member-id');
   if (!workspaceMemberId) return null;
-  const workspaceTypeHeader = headerValue(req, 'x-od-workspace-type');
-  const lifecycleState = headerValue(req, 'x-od-workspace-lifecycle-state') ?? 'active';
-  const role = headerValue(req, 'x-od-workspace-role') ?? 'member';
-  const legacyWriteEnabled = headerBool(req, 'x-od-workspace-write-enabled', true);
-  const canWriteSyncedFiles = headerBool(req, 'x-od-workspace-can-write-synced-files', legacyWriteEnabled);
+  const workspaceTypeHeader = headerValue(req, 'x-sw-workspace-type');
+  const lifecycleState = headerValue(req, 'x-sw-workspace-lifecycle-state') ?? 'active';
+  const role = headerValue(req, 'x-sw-workspace-role') ?? 'member';
+  const legacyWriteEnabled = headerBool(req, 'x-sw-workspace-write-enabled', true);
+  const canWriteSyncedFiles = headerBool(req, 'x-sw-workspace-can-write-synced-files', legacyWriteEnabled);
   return {
     workspaceId,
     workspaceType: workspaceTypeHeader === 'team' ? 'team' : 'personal',
     workspaceTypeAsserted:
       workspaceTypeHeader === 'team' || workspaceTypeHeader === 'personal' ? workspaceTypeHeader : null,
-    appUserId: headerValue(req, 'x-od-app-user-id') ?? 'local-user',
+    appUserId: headerValue(req, 'x-sw-app-user-id') ?? 'local-user',
     workspaceMemberId,
     role: role === 'owner' || role === 'admin' ? role : 'member',
-    memberStatus: headerValue(req, 'x-od-workspace-member-status') === 'removed' ? 'removed' : 'active',
+    memberStatus: headerValue(req, 'x-sw-workspace-member-status') === 'removed' ? 'removed' : 'active',
     lifecycleState: lifecycleState === 'billing_past_due' || lifecycleState === 'locked' || lifecycleState === 'deleting' || lifecycleState === 'deleted'
       ? lifecycleState
       : 'active',
-    canShareProjects: headerBool(req, 'x-od-workspace-can-share-projects', canWriteSyncedFiles),
+    canShareProjects: headerBool(req, 'x-sw-workspace-can-share-projects', canWriteSyncedFiles),
     canWriteSyncedFiles,
   };
 }
 
 export function workspaceResourceContextFromRequest(req: any): WorkspaceResourceContext | 'missing' | null {
-  const workspaceId = headerValue(req, 'x-od-workspace-id');
-  const workspaceMemberId = headerValue(req, 'x-od-workspace-member-id');
+  const workspaceId = headerValue(req, 'x-sw-workspace-id');
+  const workspaceMemberId = headerValue(req, 'x-sw-workspace-member-id');
   if (!workspaceId && !workspaceMemberId) return null;
   if (!workspaceId || !workspaceMemberId) return 'missing';
   return workspaceResourceContext(req, workspaceId) ?? 'missing';
@@ -818,7 +818,7 @@ export async function enforceVerifiedWorkspaceResourceRead(
  * unable to name a workspace is not the same as having no standing in one.
  *
  * Headerless is the `sw` CLI's normal shape, not an anomaly: nothing in
- * `apps/daemon/src/cli.ts` attaches `x-od-workspace-*` outside `sw workspace …`,
+ * `apps/daemon/src/cli.ts` attaches `x-sw-workspace-*` outside `sw workspace …`,
  * and `AGENTS.md` makes the CLI the embeddability contract that external agents
  * drive SankiWork through. This branch used to answer 401 for ANY bound
  * resource, which was survivable only while headerless creates left projects

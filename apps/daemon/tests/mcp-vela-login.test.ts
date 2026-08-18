@@ -86,13 +86,13 @@ describe('local MCP Vela login tools', () => {
 
   it('carries the validated plugin workflow attribution into the daemon login request', async () => {
     const analyticsHeaders = {
-      'x-od-analytics-device-id': 'installation-1',
-      'x-od-analytics-client-type': 'external_mcp',
-      'x-od-analytics-entry-surface': 'external_mcp',
-      'x-od-analytics-external-plugin-id': 'sankiwork',
-      'x-od-analytics-external-plugin-version': '0.4.0',
-      'x-od-analytics-distribution-mechanism': 'git_marketplace',
-      'x-od-analytics-publisher-class': 'sankiwork_first_party',
+      'x-sw-analytics-device-id': 'installation-1',
+      'x-sw-analytics-client-type': 'external_mcp',
+      'x-sw-analytics-entry-surface': 'external_mcp',
+      'x-sw-analytics-external-plugin-id': 'sankiwork',
+      'x-sw-analytics-external-plugin-version': '0.4.0',
+      'x-sw-analytics-distribution-mechanism': 'git_marketplace',
+      'x-sw-analytics-publisher-class': 'sankiwork_first_party',
     };
     const fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
       if (url.endsWith('/api/integrations/vela/login')) {

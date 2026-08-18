@@ -479,9 +479,9 @@ async function createAndWaitForRun(url: string): Promise<{ run: RunStatus; proje
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-od-analytics-device-id': 'plain-trunc-test',
-      'x-od-analytics-session-id': 'plain-trunc-session',
-      'x-od-analytics-client-type': 'web',
+      'x-sw-analytics-device-id': 'plain-trunc-test',
+      'x-sw-analytics-session-id': 'plain-trunc-session',
+      'x-sw-analytics-client-type': 'web',
     },
     body: JSON.stringify({
       projectId,

@@ -87,14 +87,14 @@ afterAll(async () => {
 
 function workspaceHeaders(workspace: Workspace): Record<string, string> {
   return {
-    'x-od-workspace-id': workspace.workspaceId,
-    'x-od-workspace-type': workspace.workspaceType,
-    'x-od-workspace-member-id': workspace.workspaceMemberId,
-    'x-od-workspace-role': workspace.role,
-    'x-od-workspace-lifecycle-state': workspace.lifecycleState,
-    'x-od-workspace-member-status': workspace.memberStatus,
-    'x-od-workspace-can-share-projects': workspace.workspaceType === 'team' ? 'true' : 'false',
-    'x-od-workspace-can-write-synced-files': 'true',
+    'x-sw-workspace-id': workspace.workspaceId,
+    'x-sw-workspace-type': workspace.workspaceType,
+    'x-sw-workspace-member-id': workspace.workspaceMemberId,
+    'x-sw-workspace-role': workspace.role,
+    'x-sw-workspace-lifecycle-state': workspace.lifecycleState,
+    'x-sw-workspace-member-status': workspace.memberStatus,
+    'x-sw-workspace-can-share-projects': workspace.workspaceType === 'team' ? 'true' : 'false',
+    'x-sw-workspace-can-write-synced-files': 'true',
   };
 }
 
@@ -201,21 +201,21 @@ describe('workspace project isolation', () => {
           };
           expect(
             await renameWithState(
-              { 'x-od-workspace-member-status': 'removed' },
+              { 'x-sw-workspace-member-status': 'removed' },
               'Ignored status claim',
             ),
             'the verified directory membership must override a spoofed removed claim',
           ).toBe(200);
           expect(
             await renameWithState(
-              { 'x-od-workspace-lifecycle-state': 'locked' },
+              { 'x-sw-workspace-lifecycle-state': 'locked' },
               'Ignored lifecycle claim',
             ),
             'the verified directory membership must override a spoofed locked claim',
           ).toBe(200);
           expect(
             await renameWithState(
-              { 'x-od-workspace-can-write-synced-files': 'false' },
+              { 'x-sw-workspace-can-write-synced-files': 'false' },
               'Directory-authorized rename',
             ),
             'the daemon must derive write authority from the directory, not request claims',
@@ -243,13 +243,13 @@ describe('workspace project isolation', () => {
           expect(
             await createRun({
               ...workspaceHeaders(TEAM_A),
-              'x-od-workspace-member-status': 'removed',
+              'x-sw-workspace-member-status': 'removed',
             }),
           ).toBe(202);
           expect(
             await createRun({
               ...workspaceHeaders(TEAM_A),
-              'x-od-workspace-lifecycle-state': 'locked',
+              'x-sw-workspace-lifecycle-state': 'locked',
             }),
           ).toBe(202);
           // Compatibility lane: an unscoped legacy client resolves the

@@ -616,7 +616,7 @@ test('[P1] two windows for one account keep Personal and Team billing scopes iso
   // process-global selection or billing-cache keys that omit workspace scope.
   teamBalanceUsd = '11.25';
   await teamPage.evaluate(() => {
-    window.dispatchEvent(new Event('od:workspace-billing-refresh'));
+    window.dispatchEvent(new Event('sw:workspace-billing-refresh'));
   });
   await expect(teamCredits).toContainText('$11.25', { timeout: T.long });
   await expect(personalCredits).toContainText('$7.00');
@@ -949,7 +949,7 @@ test('[P0] an already-open move flow fails closed when the workspace locks befor
   );
 
   await page.evaluate(() => {
-    window.dispatchEvent(new Event('od:workspace-context-refresh'));
+    window.dispatchEvent(new Event('sw:workspace-context-refresh'));
   });
   await expect(page.getByTestId('workspace-switcher')).toContainText('Locked Atlas Team');
   // Locking revokes Team move/share authority, but this is still the caller's
@@ -979,7 +979,7 @@ test('[P1] visible workspace allowance refreshes in place without reloading the 
 
   workspaceMocks.setBalance('42.75');
   await page.evaluate(() => {
-    window.dispatchEvent(new Event('od:workspace-billing-refresh'));
+    window.dispatchEvent(new Event('sw:workspace-billing-refresh'));
   });
   await expect(credits).toContainText('$42.75');
   await expect.poll(() => page.evaluate(() =>
@@ -1144,10 +1144,10 @@ test('[P0] project card moves into team space and back with scoped requests and 
     { visibility: 'team' },
   ]);
   expect(projectMocks.moves[0]?.headers).toMatchObject({
-    'x-od-workspace-id': TEAM_OWNER.workspaceId,
-    'x-od-workspace-member-id': TEAM_OWNER.workspaceMemberId,
-    'x-od-workspace-role': TEAM_OWNER.role,
-    'x-od-workspace-can-share-projects': 'true',
+    'x-sw-workspace-id': TEAM_OWNER.workspaceId,
+    'x-sw-workspace-member-id': TEAM_OWNER.workspaceMemberId,
+    'x-sw-workspace-role': TEAM_OWNER.role,
+    'x-sw-workspace-can-share-projects': 'true',
   });
   await expect(card).toHaveCount(0);
 
@@ -1357,8 +1357,8 @@ test('[P0] inbound shared-project transfer shows syncing instead of a false empt
   await expect.poll(() => pullAttempts).toBeGreaterThan(0);
   expect(scopeHeaderLog).toEqual(expect.arrayContaining([
     expect.objectContaining({
-      'x-od-workspace-id': TEAM_MEMBER.workspaceId,
-      'x-od-workspace-member-id': TEAM_MEMBER.workspaceMemberId,
+      'x-sw-workspace-id': TEAM_MEMBER.workspaceId,
+      'x-sw-workspace-member-id': TEAM_MEMBER.workspaceMemberId,
     }),
   ]));
 });
@@ -1535,11 +1535,11 @@ async function wireWorkspaceMocks(
     if (pathname === '/api/workspace/context' && method === 'GET') {
       const headers = await request.allHeaders();
       if (
-        headers['x-od-workspace-id'] !== current.workspaceId ||
-        headers['x-od-workspace-member-id'] !== current.workspaceMemberId
+        headers['x-sw-workspace-id'] !== current.workspaceId ||
+        headers['x-sw-workspace-member-id'] !== current.workspaceMemberId
       ) {
         await route.fulfill({
-          status: headers['x-od-workspace-id'] ? 403 : 400,
+          status: headers['x-sw-workspace-id'] ? 403 : 400,
           json: { error: 'workspace_context_not_authorized' },
         });
         return;
@@ -1713,8 +1713,8 @@ async function wireMultiWindowWorkspaceAuthority(
       const headers = await request.allHeaders();
       const selected = directory.find(
         (candidate) =>
-          candidate.workspaceId === headers['x-od-workspace-id']
-          && candidate.workspaceMemberId === headers['x-od-workspace-member-id'],
+          candidate.workspaceId === headers['x-sw-workspace-id']
+          && candidate.workspaceMemberId === headers['x-sw-workspace-member-id'],
       );
       if (!selected) {
         await route.fulfill({ status: 403, json: { error: 'workspace_context_not_authorized' } });

@@ -240,9 +240,9 @@ export function registerStaticResourceRoutes(app: Express, ctx: RegisterStaticRe
       ? req.query.workspaceMemberId.trim()
       : '';
     if (!workspaceId && !workspaceMemberId) return req;
-    const headerWorkspaceId = req.get('x-od-workspace-id')?.trim() ?? '';
+    const headerWorkspaceId = req.get('x-sw-workspace-id')?.trim() ?? '';
     const headerWorkspaceMemberId =
-      req.get('x-od-workspace-member-id')?.trim() ?? '';
+      req.get('x-sw-workspace-member-id')?.trim() ?? '';
     if (
       (headerWorkspaceId || headerWorkspaceMemberId)
       && (
@@ -255,8 +255,8 @@ export function registerStaticResourceRoutes(app: Express, ctx: RegisterStaticRe
     return {
       get(name: string) {
         const normalized = name.toLowerCase();
-        if (normalized === 'x-od-workspace-id') return workspaceId || undefined;
-        if (normalized === 'x-od-workspace-member-id') {
+        if (normalized === 'x-sw-workspace-id') return workspaceId || undefined;
+        if (normalized === 'x-sw-workspace-member-id') {
           return workspaceMemberId || undefined;
         }
         return req.get(name);

@@ -142,8 +142,8 @@ describe('TasksView exact Workspace routine scope', () => {
       expect(routineCalls.some(([, init]) => init?.method === 'DELETE')).toBe(true);
       for (const [, init] of routineCalls) {
         const headers = new Headers(init?.headers);
-        expect(headers.get('x-od-workspace-id')).toBe('workspace-shared-id');
-        expect(headers.get('x-od-workspace-member-id')).toBe('member-a');
+        expect(headers.get('x-sw-workspace-id')).toBe('workspace-shared-id');
+        expect(headers.get('x-sw-workspace-member-id')).toBe('member-a');
       }
     });
 
@@ -154,7 +154,7 @@ describe('TasksView exact Workspace routine scope', () => {
       const memberBLists = fetchMock.mock.calls.filter(([input, init]) => {
         const headers = new Headers(init?.headers);
         return String(input) === '/api/routines'
-          && headers.get('x-od-workspace-member-id') === 'member-b';
+          && headers.get('x-sw-workspace-member-id') === 'member-b';
       });
       expect(memberBLists.length).toBeGreaterThan(0);
     });

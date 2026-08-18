@@ -145,21 +145,21 @@ export function attributionProperties(input: {
   utm: Record<string, unknown>;
 }): Record<string, unknown> {
   const props: Record<string, unknown> = {
-    od_source_resolved: 'download_token',
+    sw_source_resolved: 'download_token',
   };
   const utmMap: Record<string, string> = {
-    utm_source: 'od_utm_source',
-    utm_medium: 'od_utm_medium',
-    utm_campaign: 'od_utm_campaign',
-    utm_content: 'od_utm_content',
-    utm_term: 'od_utm_term',
+    utm_source: 'sw_utm_source',
+    utm_medium: 'sw_utm_medium',
+    utm_campaign: 'sw_utm_campaign',
+    utm_content: 'sw_utm_content',
+    utm_term: 'sw_utm_term',
   };
   for (const [from, to] of Object.entries(utmMap)) {
     const value = cleanString(input.utm[from], 256);
     if (value) props[to] = value;
   }
-  if (input.referrer) props.od_referrer = input.referrer;
-  if (input.landingUrl) props.od_landing_url = input.landingUrl;
-  if (input.platform) props.od_download_platform = input.platform;
+  if (input.referrer) props.sw_referrer = input.referrer;
+  if (input.landingUrl) props.sw_landing_url = input.landingUrl;
+  if (input.platform) props.sw_download_platform = input.platform;
   return props;
 }

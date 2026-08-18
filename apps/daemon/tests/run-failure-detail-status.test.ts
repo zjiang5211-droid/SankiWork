@@ -156,9 +156,9 @@ async function sendRunAndWait(url: string, encoded: string): Promise<RunStatus> 
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-od-analytics-device-id': 'failure-detail-test',
-      'x-od-analytics-session-id': 'failure-detail-session',
-      'x-od-analytics-client-type': 'web',
+      'x-sw-analytics-device-id': 'failure-detail-test',
+      'x-sw-analytics-session-id': 'failure-detail-session',
+      'x-sw-analytics-client-type': 'web',
     },
     body: JSON.stringify({
       projectId,

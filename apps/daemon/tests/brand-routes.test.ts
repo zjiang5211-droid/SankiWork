@@ -682,11 +682,11 @@ describe('brand routes', () => {
         method: 'POST',
         body: { url: 'https://example.com', description: 'Aurora Grove is a minimal interior-design studio.' },
         headers: {
-          'x-od-workspace-id': 'ws-team-1',
-          'x-od-workspace-member-id': 'member-owner',
-          'x-od-workspace-type': 'team',
-          'x-od-workspace-role': 'member',
-          'x-od-workspace-member-status': 'active',
+          'x-sw-workspace-id': 'ws-team-1',
+          'x-sw-workspace-member-id': 'member-owner',
+          'x-sw-workspace-type': 'team',
+          'x-sw-workspace-role': 'member',
+          'x-sw-workspace-member-status': 'active',
         },
       });
       expect(started.status).toBe(200);
@@ -731,11 +731,11 @@ describe('brand routes', () => {
         method: 'POST',
         body: { url: 'https://catalog.example.com' },
         headers: {
-          'x-od-workspace-id': 'ws-team-catalog',
-          'x-od-workspace-member-id': 'member-catalog-owner',
-          'x-od-workspace-type': 'team',
-          'x-od-workspace-role': 'owner',
-          'x-od-workspace-member-status': 'active',
+          'x-sw-workspace-id': 'ws-team-catalog',
+          'x-sw-workspace-member-id': 'member-catalog-owner',
+          'x-sw-workspace-type': 'team',
+          'x-sw-workspace-role': 'owner',
+          'x-sw-workspace-member-status': 'active',
         },
       });
 

@@ -8,7 +8,7 @@
 //
 // spec 04 §10 addendum: `workspaceId` OMITTED (the argument not passed at
 // all) and `workspaceId: null` (passed explicitly, e.g. by `GET /api/plugins`
-// when the request carries no `x-od-workspace-id` header) are DIFFERENT
+// when the request carries no `x-sw-workspace-id` header) are DIFFERENT
 // signals. Omitted means an internal caller (`sw plugin list`, inventory
 // stats, the bundled-scenario scan) never asked to be scoped — stays
 // unfiltered. Explicit `null` means an HTTP caller DID ask to be scoped but
@@ -84,7 +84,7 @@ describe('listInstalledPlugins workspace scope', () => {
 
   it('hides a bound plugin when the caller passes an explicit null workspaceId (spec 04 §10)', () => {
     // `headerValue()` returns `null` (never `undefined`) when a request
-    // carries no `x-od-workspace-id` header, so `GET /api/plugins` always
+    // carries no `x-sw-workspace-id` header, so `GET /api/plugins` always
     // passes a DEFINED second argument. That must reach the workspace filter
     // the same as a real workspace id would, not silently take the "omitted"
     // unfiltered path above — otherwise a signed-out / headerless caller

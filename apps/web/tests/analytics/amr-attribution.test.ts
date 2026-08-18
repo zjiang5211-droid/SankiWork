@@ -126,17 +126,17 @@ describe('AMR attribution helper', () => {
     });
 
     expect(attribution).toMatchObject({
-      odRole: 'pm',
-      odOrgSize: 'startup',
-      odUseCase: ['product', 'design-system'],
-      odSource: 'github',
+      swRole: 'pm',
+      swOrgSize: 'startup',
+      swUseCase: ['product', 'design-system'],
+      swSource: 'github',
     });
     const init = fetchMock.mock.calls[0]?.[1] as RequestInit;
     expect(JSON.parse(String(init.body)).payload).toMatchObject({
-      odRole: 'pm',
-      odOrgSize: 'startup',
-      odUseCase: ['product', 'design-system'],
-      odSource: 'github',
+      swRole: 'pm',
+      swOrgSize: 'startup',
+      swUseCase: ['product', 'design-system'],
+      swSource: 'github',
     });
   });
 
@@ -149,10 +149,10 @@ describe('AMR attribution helper', () => {
       { metricsConsent: true },
     );
 
-    expect(attribution.odRole).toBeUndefined();
-    expect(attribution.odOrgSize).toBeUndefined();
+    expect(attribution.swRole).toBeUndefined();
+    expect(attribution.swOrgSize).toBeUndefined();
     const init = fetchMock.mock.calls[0]?.[1] as RequestInit;
-    expect(JSON.parse(String(init.body)).payload).not.toHaveProperty('odRole');
+    expect(JSON.parse(String(init.body)).payload).not.toHaveProperty('swRole');
   });
 
   it('reuses a previous entry id for follow-up actions in the same source path', () => {
@@ -195,7 +195,7 @@ describe('AMR attribution helper', () => {
       },
       {
         metricsConsent: true,
-        odDeviceId: 'sw-install-abc',
+        swDeviceId: 'sw-install-abc',
         now: profileTime,
       },
     );
@@ -203,11 +203,11 @@ describe('AMR attribution helper', () => {
     expect(updated).toMatchObject({
       entryId: attribution.entryId,
       sourceDetail: 'onboarding_amr_card',
-      odDeviceId: 'sw-install-abc',
-      odRole: 'pm',
-      odOrgSize: 'startup',
-      odUseCase: ['product', 'design-system'],
-      odSource: 'github',
+      swDeviceId: 'sw-install-abc',
+      swRole: 'pm',
+      swOrgSize: 'startup',
+      swUseCase: ['product', 'design-system'],
+      swSource: 'github',
     });
     expect(readAmrAttribution(profileTime)).toEqual(updated);
     expect(fetchMock).toHaveBeenCalledWith(
@@ -230,11 +230,11 @@ describe('AMR attribution helper', () => {
         sourceDetail: 'onboarding_amr_card',
         entryOccurredAt: '2026-06-03T12:00:00.000Z',
         profileOccurredAt: '2026-06-03T12:03:00.000Z',
-        odDeviceId: 'sw-install-abc',
-        odRole: 'pm',
-        odOrgSize: 'startup',
-        odUseCase: ['product', 'design-system'],
-        odSource: 'github',
+        swDeviceId: 'sw-install-abc',
+        swRole: 'pm',
+        swOrgSize: 'startup',
+        swUseCase: ['product', 'design-system'],
+        swSource: 'github',
       },
     });
   });
@@ -269,16 +269,16 @@ describe('AMR attribution helper', () => {
         useCase: ['product', 'design-system'],
         source: 'github',
       },
-      { odDeviceId: null, now: profileTime },
+      { swDeviceId: null, now: profileTime },
     );
 
     expect(updated).toMatchObject({
       entryId: attribution.entryId,
       sourceDetail: 'onboarding_amr_card',
-      odRole: 'pm',
-      odOrgSize: 'startup',
-      odUseCase: ['product', 'design-system'],
-      odSource: 'github',
+      swRole: 'pm',
+      swOrgSize: 'startup',
+      swUseCase: ['product', 'design-system'],
+      swSource: 'github',
     });
     expect(fetchMock).not.toHaveBeenCalled();
   });
@@ -307,7 +307,7 @@ describe('AMR attribution helper', () => {
         },
         {
           metricsConsent: true,
-          odDeviceId: 'sw-install-abc',
+          swDeviceId: 'sw-install-abc',
           now: profileTime,
         },
       );
@@ -381,25 +381,25 @@ describe('AMR attribution helper', () => {
         occurredAt: '2026-06-03T12:00:00.000Z',
       }),
     ).toBe(
-      'https://sanki-ai.cloud/amr/dashboard?tab=recharge&od_origin=sankiwork&od_entry_id=sw-amr-entry-123&od_entry_source=generation_preview_recharge&od_entry_at=2026-06-03T12%3A00%3A00.000Z',
+      'https://sanki-ai.cloud/amr/dashboard?tab=recharge&sw_origin=sankiwork&sw_entry_id=sw-amr-entry-123&sw_entry_source=generation_preview_recharge&sw_entry_at=2026-06-03T12%3A00%3A00.000Z',
     );
   });
 
-  it('adds od_device_id only when a device id is provided', () => {
+  it('adds sw_device_id only when a device id is provided', () => {
     const attribution = {
       entryId: 'sw-amr-entry-123',
       sourceProduct: 'sankiwork' as const,
       sourceDetail: 'generation_preview_recharge' as const,
       occurredAt: '2026-06-03T12:00:00.000Z',
     };
-    // With a device id (user opted into metrics): od_device_id is present.
+    // With a device id (user opted into metrics): sw_device_id is present.
     expect(
       attributedAmrUrl('https://sanki-ai.cloud/amr/dashboard', attribution, 'sw-install-abc'),
-    ).toContain('od_device_id=sw-install-abc');
-    // Without one (consent off): no od_device_id param leaks into the URL.
+    ).toContain('sw_device_id=sw-install-abc');
+    // Without one (consent off): no sw_device_id param leaks into the URL.
     expect(
       attributedAmrUrl('https://sanki-ai.cloud/amr/dashboard', attribution, null),
-    ).not.toContain('od_device_id');
+    ).not.toContain('sw_device_id');
   });
 
   it('forwards campaign and conversion attribution for final payment joins', () => {
@@ -427,10 +427,10 @@ describe('AMR attribution helper', () => {
     const url = new URL(
       attributedAmrUrl('https://sanki-ai.cloud/zh/pricing/', attribution),
     );
-    expect(url.searchParams.get('od_entry_id')).toBe(attribution.entryId);
-    expect(url.searchParams.get('od_entry_source')).toBe('deepseek_workbench_badge');
-    expect(url.searchParams.get('od_conversion_source')).toBe('deepseek_workbench_badge');
-    expect(url.searchParams.get('od_campaign_id')).toBe('deepseek_v4_flash');
+    expect(url.searchParams.get('sw_entry_id')).toBe(attribution.entryId);
+    expect(url.searchParams.get('sw_entry_source')).toBe('deepseek_workbench_badge');
+    expect(url.searchParams.get('sw_conversion_source')).toBe('deepseek_workbench_badge');
+    expect(url.searchParams.get('sw_campaign_id')).toBe('deepseek_v4_flash');
   });
 
   it('resolves the AMR handoff device id to the canonical id, gated on consent', () => {

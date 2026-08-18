@@ -987,7 +987,7 @@ export async function patchProject(
  *
  * `workspaceContext`, when known, MUST be attached: `enforceWorkspaceProjectMutation`
  * (apps/daemon/src/routes/project/index.ts) treats a request carrying NEITHER
- * `x-od-workspace-id` NOR `x-od-workspace-member-id` as a legacy pre-workspace
+ * `x-sw-workspace-id` NOR `x-sw-workspace-member-id` as a legacy pre-workspace
  * caller and skips its ownership check entirely (`ctx === null` → allowed).
  * Omitting these headers — which this call used to do unconditionally — meant
  * every delete from a workspace-team build bypassed the daemon's own

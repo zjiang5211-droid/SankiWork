@@ -627,9 +627,9 @@ describe('ProjectView pending prompt seeding', () => {
       path: 'reference-a',
       absolutePath: '/tmp/sankiwork/missing-reference-a',
     };
-    window.sessionStorage.setItem(`od:auto-send-first:${projectId}`, '1');
+    window.sessionStorage.setItem(`sw:auto-send-first:${projectId}`, '1');
     window.sessionStorage.setItem(
-      `od:auto-send-context:${projectId}`,
+      `sw:auto-send-context:${projectId}`,
       JSON.stringify({ workspaceItems: [workspaceItem] }),
     );
 
@@ -655,8 +655,8 @@ describe('ProjectView pending prompt seeding', () => {
   it('auto-sends the session-carried prompt when the project projection drops pendingPrompt', async () => {
     const projectId = 'with-session-prompt';
     const prompt = 'Create the artifact after the project list refreshes';
-    window.sessionStorage.setItem(`od:auto-send-first:${projectId}`, '1');
-    window.sessionStorage.setItem(`od:auto-send-prompt:${projectId}`, prompt);
+    window.sessionStorage.setItem(`sw:auto-send-first:${projectId}`, '1');
+    window.sessionStorage.setItem(`sw:auto-send-prompt:${projectId}`, prompt);
 
     renderProjectView(project(projectId));
 
@@ -670,8 +670,8 @@ describe('ProjectView pending prompt seeding', () => {
       role: 'user',
       content: prompt,
     }));
-    expect(window.sessionStorage.getItem(`od:auto-send-first:${projectId}`)).toBeNull();
-    expect(window.sessionStorage.getItem(`od:auto-send-prompt:${projectId}`)).toBeNull();
+    expect(window.sessionStorage.getItem(`sw:auto-send-first:${projectId}`)).toBeNull();
+    expect(window.sessionStorage.getItem(`sw:auto-send-prompt:${projectId}`)).toBeNull();
   });
 
   it('keeps the Home auto-send pending when preflight rejects transiently, then retries after recovery', async () => {
@@ -679,7 +679,7 @@ describe('ProjectView pending prompt seeding', () => {
     const currentProject = project(projectId, 'Create the artifact');
     const onClearPendingPrompt = vi.fn();
     const onOpenSettings = vi.fn();
-    window.sessionStorage.setItem(`od:auto-send-first:${projectId}`, '1');
+    window.sessionStorage.setItem(`sw:auto-send-first:${projectId}`, '1');
 
     const view = renderProjectView(currentProject, onClearPendingPrompt, {
       config: {
@@ -693,7 +693,7 @@ describe('ProjectView pending prompt seeding', () => {
       expect(onOpenSettings).toHaveBeenCalledWith('execution');
     });
     expect(mockedSaveMessage).not.toHaveBeenCalled();
-    expect(window.sessionStorage.getItem(`od:auto-send-first:${projectId}`)).toBe('1');
+    expect(window.sessionStorage.getItem(`sw:auto-send-first:${projectId}`)).toBe('1');
 
     view.rerender(projectViewElement(currentProject, onClearPendingPrompt, {
       config,
@@ -703,7 +703,7 @@ describe('ProjectView pending prompt seeding', () => {
     await waitFor(() => {
       expect(mockedSaveMessage).toHaveBeenCalled();
     });
-    expect(window.sessionStorage.getItem(`od:auto-send-first:${projectId}`)).toBeNull();
+    expect(window.sessionStorage.getItem(`sw:auto-send-first:${projectId}`)).toBeNull();
   });
 
   it('does not prefill when re-entering a project after the pending prompt was cleared', async () => {

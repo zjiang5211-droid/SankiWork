@@ -113,8 +113,8 @@ describe('sw plugin exact workspace transport', () => {
     expect(result.code).toBe(0);
     expect(requests).toHaveLength(1);
     expect(requests[0]?.headers).toMatchObject({
-      'x-od-workspace-id': 'workspace-a',
-      'x-od-workspace-member-id': 'member-a',
+      'x-sw-workspace-id': 'workspace-a',
+      'x-sw-workspace-member-id': 'member-a',
     });
   });
 
@@ -144,7 +144,7 @@ describe('sw plugin exact workspace transport', () => {
 
     expect(result.code).toBe(0);
     expect(requests).toHaveLength(1);
-    expect(requests[0]?.headers['x-od-workspace-id']).toBeUndefined();
-    expect(requests[0]?.headers['x-od-workspace-member-id']).toBeUndefined();
+    expect(requests[0]?.headers['x-sw-workspace-id']).toBeUndefined();
+    expect(requests[0]?.headers['x-sw-workspace-member-id']).toBeUndefined();
   });
 });

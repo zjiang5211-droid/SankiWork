@@ -170,8 +170,8 @@ describe('sw collab CLI', () => {
     expect(stub.requests).toHaveLength(1);
     expect(stub.requests[0]).toMatchObject({ method: 'GET', url: '/api/projects/p1/presence' });
     expect(stub.requests[0]?.headers).toMatchObject({
-      'x-od-workspace-id': 'team-1',
-      'x-od-workspace-member-id': 'm-42',
+      'x-sw-workspace-id': 'team-1',
+      'x-sw-workspace-member-id': 'm-42',
     });
   });
 
@@ -248,8 +248,8 @@ describe('sw collab CLI', () => {
     ]);
     for (const request of stub.requests) {
       expect(request?.headers).toMatchObject({
-        'x-od-workspace-id': 'team-1',
-        'x-od-workspace-member-id': 'm-42',
+        'x-sw-workspace-id': 'team-1',
+        'x-sw-workspace-member-id': 'm-42',
       });
     }
   });
@@ -277,8 +277,8 @@ describe('sw collab CLI', () => {
       'POST /api/projects/p1/collab/pull',
     ]);
     expect(stub.requests[0]?.headers).toMatchObject({
-      'x-od-workspace-id': 'team-1',
-      'x-od-workspace-member-id': 'm-42',
+      'x-sw-workspace-id': 'team-1',
+      'x-sw-workspace-member-id': 'm-42',
     });
   });
 

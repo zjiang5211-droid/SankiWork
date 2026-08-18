@@ -12,7 +12,7 @@
 //      across "loads" exactly as it does for a browsing context navigating
 //      itself — and checking the hop budget, the window reset, the immediate
 //      self-refresh kill, the chain-break on a clean document, and the
-//      `od:redirect-loop-blocked` message the host listens for.
+//      `sw:redirect-loop-blocked` message the host listens for.
 
 import { describe, expect, it } from 'vitest';
 import * as vm from 'node:vm';
@@ -248,12 +248,12 @@ describe('injected redirect guard breaks meta-refresh loops (#710)', () => {
     const h = createIframeHarness();
     h.setClock(1_000);
     h.load([makeMeta('1; url=./next.html')], guardBody);
-    const afterFirst = JSON.parse(h.windowName().replace('__odRedirectGuard=', ''));
+    const afterFirst = JSON.parse(h.windowName().replace('__swRedirectGuard=', ''));
     expect(afterFirst.hops).toBe(1);
     // Second refresh arrives well after the window — a slow auto-refresh, not a loop.
     h.setClock(1_000 + PREVIEW_REDIRECT_GUARD_WINDOW_MS + 500);
     h.load([makeMeta('1; url=./next.html')], guardBody);
-    const afterSecond = JSON.parse(h.windowName().replace('__odRedirectGuard=', ''));
+    const afterSecond = JSON.parse(h.windowName().replace('__swRedirectGuard=', ''));
     expect(afterSecond.hops).toBe(1);
     expect(h.posted).toHaveLength(0);
   });

@@ -44,8 +44,8 @@ function routineWorkspaceHeaders(
 ): HeadersInit {
   return scope
     ? {
-        'x-od-workspace-id': scope.workspaceId,
-        'x-od-workspace-member-id': scope.workspaceMemberId,
+        'x-sw-workspace-id': scope.workspaceId,
+        'x-sw-workspace-member-id': scope.workspaceMemberId,
       }
     : {};
 }

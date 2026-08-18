@@ -312,7 +312,7 @@ describe('goBack', () => {
   });
 
   it('treats a rejected safe-exit promise as a denied Back navigation', async () => {
-    window.history.replaceState({ odIndex: 1 }, '', '/projects/abc');
+    window.history.replaceState({ swIndex: 1 }, '', '/projects/abc');
     const unregister = registerNavigationGuard(() => Promise.reject(new Error('save failed')));
     const backSpy = vi.spyOn(window.history, 'back');
 

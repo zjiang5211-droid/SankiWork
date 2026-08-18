@@ -51,7 +51,7 @@ describe('Workspace resource mutation authority preflight', () => {
       headers: {
         accept: 'text/event-stream',
         'content-type': 'application/json',
-        'x-od-workspace-id': 'workspace-partial-plugin',
+        'x-sw-workspace-id': 'workspace-partial-plugin',
       },
       body: JSON.stringify({ source: pluginSource }),
     });
@@ -70,7 +70,7 @@ describe('Workspace resource mutation authority preflight', () => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'x-od-workspace-id': 'workspace-partial-skill',
+        'x-sw-workspace-id': 'workspace-partial-skill',
       },
       body: JSON.stringify({
         name: skillId,

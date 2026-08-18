@@ -80,7 +80,7 @@ describe('WorkspaceMemberDirectoryPreloader', () => {
       'fetch',
       vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
         expect(String(input)).toContain('/api/workspace/members');
-        memberReads.push(new Headers(init?.headers).get('x-od-workspace-id') ?? '');
+        memberReads.push(new Headers(init?.headers).get('x-sw-workspace-id') ?? '');
         return jsonResponse({ members: ROSTERS.a });
       }),
     );
@@ -113,10 +113,10 @@ describe('WorkspaceMemberDirectoryPreloader', () => {
       vi.fn((input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
         expect(String(input)).toContain('/api/workspace/members');
         const headers = new Headers(init?.headers);
-        const workspaceId = headers.get('x-od-workspace-id');
+        const workspaceId = headers.get('x-sw-workspace-id');
         memberReads.push({
           workspaceId,
-          memberId: headers.get('x-od-workspace-member-id'),
+          memberId: headers.get('x-sw-workspace-member-id'),
         });
         if (workspaceId === CONTEXTS.a.workspaceId) {
           return Promise.resolve(jsonResponse({ members: ROSTERS.a }));

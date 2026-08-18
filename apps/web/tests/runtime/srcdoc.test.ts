@@ -54,7 +54,7 @@ describe('buildSrcdoc', () => {
     expect(doc).toContain('scrollWidth: size && size.scrollWidth');
     expect(doc).toContain('clientWidth: size && size.clientWidth');
     expect(doc).toContain("typeof data.measurementId !== 'string'");
-    expect(doc).not.toContain("type: 'od:preview-content-size', width:");
+    expect(doc).not.toContain("type: 'sw:preview-content-size', width:");
   });
 
   it('injects an initial slide index for deck previews', () => {
@@ -88,8 +88,8 @@ describe('buildSrcdoc', () => {
     const srcdoc = buildSrcdoc('<main style="color:red">Hero</main>');
 
     expect(srcdoc).toContain('data-sw-snapshot-bridge');
-    expect(srcdoc).toContain("data.type !== 'od:snapshot'");
-    expect(srcdoc).toContain("type: 'od:snapshot:result'");
+    expect(srcdoc).toContain("data.type !== 'sw:snapshot'");
+    expect(srcdoc).toContain("type: 'sw:snapshot:result'");
     expect(srcdoc).toContain('copyComputedStyle');
     expect(srcdoc).toContain('foreignObject');
   });
@@ -112,7 +112,7 @@ describe('buildSrcdoc', () => {
       transportActivationGeneration: 'generation-42',
     });
 
-    expect(srcdoc).toContain("data.type === 'od:srcdoc-transport-ready-probe'");
+    expect(srcdoc).toContain("data.type === 'sw:srcdoc-transport-ready-probe'");
     expect(srcdoc).toContain('announceReady(data.probeId)');
     expect(srcdoc).toContain('message.probeId = probeId');
   });
@@ -137,7 +137,7 @@ describe('buildSrcdoc', () => {
     const srcdoc = buildSrcdoc('<main style="color:red">Hero</main>');
 
     // When the foreignObject paints nothing the canvas is uniform; the bridge
-    // must surface that as an honest failure (rejected promise → od:snapshot:result
+    // must surface that as an honest failure (rejected promise → sw:snapshot:result
     // error) so the host can fall back / show an error rather than copy a (now
     // white-filled but still empty) frame.
     expect(srcdoc).toContain('function canvasLooksBlank(');
@@ -276,19 +276,19 @@ describe('buildSrcdoc', () => {
     // race against the host's `od:*-mode` postMessage.
     expect(srcdoc).toContain('var commentEnabled = true;');
     expect(srcdoc).toContain('var inspectEnabled = false;');
-    expect(srcdoc).toContain("type: 'od:comment-target'");
-    expect(srcdoc).toContain("type: 'od:comment-hover'");
-    expect(srcdoc).toContain("type: 'od:comment-leave'");
-    expect(srcdoc).toContain("type: 'od:comment-targets'");
-    expect(srcdoc).toContain("postStroke('od:pod-stroke')");
-    expect(srcdoc).toContain("postStroke('od:pod-select')");
+    expect(srcdoc).toContain("type: 'sw:comment-target'");
+    expect(srcdoc).toContain("type: 'sw:comment-hover'");
+    expect(srcdoc).toContain("type: 'sw:comment-leave'");
+    expect(srcdoc).toContain("type: 'sw:comment-targets'");
+    expect(srcdoc).toContain("postStroke('sw:pod-stroke')");
+    expect(srcdoc).toContain("postStroke('sw:pod-select')");
     expect(srcdoc).toContain('data-sw-comment-mode-kind');
     expect(srcdoc).toContain("body * { cursor: crosshair !important; }");
     expect(srcdoc).toContain('MutationObserver(schedulePostTargets)');
     expect(srcdoc).toContain('schedulePostPreviewScroll');
-    expect(srcdoc).toContain("type: 'od:preview-scroll'");
-    expect(srcdoc).toContain("type: 'od:preview-scroll-request'");
-    expect(srcdoc).toContain("data.type === 'od:preview-scroll-by'");
+    expect(srcdoc).toContain("type: 'sw:preview-scroll'");
+    expect(srcdoc).toContain("type: 'sw:preview-scroll-request'");
+    expect(srcdoc).toContain("data.type === 'sw:preview-scroll-by'");
     expect(srcdoc).toContain('previewScrollBy(data.left, data.top)');
     expect(srcdoc).toContain('data-sw-selection-bridge-style');
     expect(srcdoc).toContain('html[data-sw-comment-mode] body iframe');
@@ -319,17 +319,17 @@ describe('buildSrcdoc', () => {
     expect(srcdoc).toContain('data-sw-selection-bridge');
     expect(srcdoc).toContain('var commentEnabled = false;');
     expect(srcdoc).toContain('var inspectEnabled = true;');
-    expect(srcdoc).toContain("type: 'od:inspect-overrides'");
-    expect(srcdoc).toContain("data.type === 'od:inspect-mode'");
-    expect(srcdoc).toContain("data.type === 'od:inspect-set'");
-    expect(srcdoc).toContain("data.type === 'od:inspect-reset'");
-    expect(srcdoc).toContain("data.type === 'od:inspect-extract'");
+    expect(srcdoc).toContain("type: 'sw:inspect-overrides'");
+    expect(srcdoc).toContain("data.type === 'sw:inspect-mode'");
+    expect(srcdoc).toContain("data.type === 'sw:inspect-set'");
+    expect(srcdoc).toContain("data.type === 'sw:inspect-reset'");
+    expect(srcdoc).toContain("data.type === 'sw:inspect-extract'");
     expect(srcdoc).toContain("data-sw-inspect-overrides");
     expect(srcdoc).toContain('html[data-sw-inspect-mode]');
   });
 
   it('hydrates inspect overrides from a persisted style block on bridge boot', () => {
-    // Without hydration, the first od:inspect-set rebuilds the override
+    // Without hydration, the first sw:inspect-set rebuilds the override
     // sheet from an empty in-memory map and silently drops every previously
     // saved rule for other elements — Save-to-source would then erase them
     // from the artifact too.
@@ -363,19 +363,19 @@ describe('buildSrcdoc', () => {
   });
 
   // Regression for nexu-io/open-design#362: the bridge must accept an
-  // od:inspect-replay message that replaces its in-memory override map
+  // sw:inspect-replay message that replaces its in-memory override map
   // with the host's authoritative set. Without this, toggling Inspect
   // off/on or switching to Comment mode reloads the iframe from
   // previewSource without the host's unsaved style block, leaving
   // preview and persisted state out of sync — saveInspectToSource()
   // could then commit CSS the user is no longer seeing.
-  it('accepts od:inspect-replay to rehydrate from the host map after a srcdoc rebuild', () => {
+  it('accepts sw:inspect-replay to rehydrate from the host map after a srcdoc rebuild', () => {
     const srcdoc = buildSrcdoc('<main data-od-id="hero">Hero</main>', {
       inspectBridge: true,
     });
-    expect(srcdoc).toContain("data.type === 'od:inspect-replay'");
+    expect(srcdoc).toContain("data.type === 'sw:inspect-replay'");
     // Re-validates the inbound payload under the same allow-list and
-    // value sanitizer used for od:inspect-set. A parent able to post to
+    // value sanitizer used for sw:inspect-set. A parent able to post to
     // this bridge is otherwise trusted, but applying its payload through
     // the bridge's own contract keeps the override sheet under known
     // rules instead of whatever the parent sent.
@@ -394,7 +394,7 @@ describe('buildSrcdoc', () => {
     });
 
     // Allow-list rejects anything off the InspectPanel surface — without
-    // this a malicious parent could smuggle CSS via od:inspect-set.
+    // this a malicious parent could smuggle CSS via sw:inspect-set.
     expect(srcdoc).toContain('var ALLOWED_PROPS');
     expect(srcdoc).toContain("'color': true");
     expect(srcdoc).toContain("'background-color': true");
@@ -446,8 +446,8 @@ describe('buildSrcdoc', () => {
     expect(srcdoc).toContain('data-sw-source-path=');
     expect(srcdoc).toContain('data-sw-edit-bridge');
     expect(srcdoc).not.toContain('data-sw-selection-bridge');
-    expect(srcdoc).not.toContain("type: 'od:comment-target'");
-    expect(srcdoc).not.toContain("type: 'od:inspect-overrides'");
+    expect(srcdoc).not.toContain("type: 'sw:comment-target'");
+    expect(srcdoc).not.toContain("type: 'sw:inspect-overrides'");
     expect(srcdoc).not.toContain('html[data-sw-comment-mode] body iframe');
   });
 

@@ -66,7 +66,7 @@ describe('getFile offset/limit slicing', () => {
   it('default args return the full file when totalLines <= 2000 and add no window marker', async () => {
     const r = await getFile(baseUrl, PROJECT_ID, 'file.txt', null, null);
     const textParts = contentTexts(r.content);
-    expect(textParts.some((t) => t.startsWith('[od:file-window'))).toBe(false);
+    expect(textParts.some((t) => t.startsWith('[sw:file-window'))).toBe(false);
     const body = lastText(textParts);
     expect(body.split('\n').length).toBe(500);
     expect(body.split('\n')[0]).toBe('line 1');
@@ -76,7 +76,7 @@ describe('getFile offset/limit slicing', () => {
   it('limit caps the slice and stamps a truncation marker with totalLines', async () => {
     const r = await getFile(baseUrl, PROJECT_ID, 'file.txt', null, null, 0, 100);
     const textParts = contentTexts(r.content);
-    const marker = textParts.find((t) => t.startsWith('[od:file-window'));
+    const marker = textParts.find((t) => t.startsWith('[sw:file-window'));
     expect(marker).toBeDefined();
     expect(marker).toContain('offset=0');
     expect(marker).toContain('returnedLines=100');
@@ -91,7 +91,7 @@ describe('getFile offset/limit slicing', () => {
   it('offset returns a mid-file slice and the marker reflects start', async () => {
     const r = await getFile(baseUrl, PROJECT_ID, 'file.txt', null, null, 200, 50);
     const textParts = contentTexts(r.content);
-    const marker = textParts.find((t) => t.startsWith('[od:file-window'));
+    const marker = textParts.find((t) => t.startsWith('[sw:file-window'));
     expect(marker).toContain('offset=200');
     expect(marker).toContain('returnedLines=50');
     const body = lastText(textParts);
@@ -102,7 +102,7 @@ describe('getFile offset/limit slicing', () => {
   it('offset past EOF returns empty slice but still stamps the marker (no truncation note)', async () => {
     const r = await getFile(baseUrl, PROJECT_ID, 'file.txt', null, null, 1000, 50);
     const textParts = contentTexts(r.content);
-    const marker = textParts.find((t) => t.startsWith('[od:file-window'));
+    const marker = textParts.find((t) => t.startsWith('[sw:file-window'));
     expect(marker).toContain('offset=500');
     expect(marker).toContain('returnedLines=0');
     expect(marker).toContain('totalLines=500');
@@ -162,7 +162,7 @@ describe('public MCP get_file active context defaults', () => {
   it('uses the active project and active file when project and path are omitted', async () => {
     const result = await handleMcpToolCall(baseUrl, 'get_file', {});
     const textParts = contentTexts(result.content);
-    expect(textParts[0]).toContain('[od:active-context project="Active Project" file="landing.html"]');
+    expect(textParts[0]).toContain('[sw:active-context project="Active Project" file="landing.html"]');
     expect(lastText(textParts)).toContain('<h1>Active file</h1>');
   });
 });
@@ -196,7 +196,7 @@ describe('public MCP get_file active context fallbacks', () => {
       path: 'explicit.html',
     });
     const textParts = contentTexts(result.content);
-    expect(textParts.some((text) => text.startsWith('[od:active-context'))).toBe(false);
+    expect(textParts.some((text) => text.startsWith('[sw:active-context'))).toBe(false);
     expect(lastText(textParts)).toContain('<h1>Explicit file</h1>');
   });
 });

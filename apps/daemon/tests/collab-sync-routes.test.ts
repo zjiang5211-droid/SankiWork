@@ -306,8 +306,8 @@ async function startSyncServer(
   const verifyWorkspaceRequest = async (req: express.Request) => {
     if (
       !authoritativeContext
-      || req.get('x-od-workspace-id') !== authoritativeContext.workspaceId
-      || req.get('x-od-workspace-member-id')
+      || req.get('x-sw-workspace-id') !== authoritativeContext.workspaceId
+      || req.get('x-sw-workspace-member-id')
         !== authoritativeContext.workspaceMemberId
     ) {
       return null;
@@ -412,8 +412,8 @@ async function startSyncServer(
       const requestHeaders: Record<string, string> = {
         ...(workspaceScope
           ? {
-              'x-od-workspace-id': workspaceScope.workspaceId,
-              'x-od-workspace-member-id': workspaceScope.workspaceMemberId,
+              'x-sw-workspace-id': workspaceScope.workspaceId,
+              'x-sw-workspace-member-id': workspaceScope.workspaceMemberId,
             }
           : {}),
         ...(options.headers ?? {}),
@@ -921,8 +921,8 @@ describe('collab sync routes', () => {
         resolveSharedProjectOwner,
         verifyWorkspaceRequest: async (req) =>
           authorityAvailable
-          && req.get('x-od-workspace-id') === context.workspaceId
-          && req.get('x-od-workspace-member-id') === context.workspaceMemberId
+          && req.get('x-sw-workspace-id') === context.workspaceId
+          && req.get('x-sw-workspace-member-id') === context.workspaceMemberId
             ? context
             : null,
       },
@@ -939,8 +939,8 @@ describe('collab sync routes', () => {
     const spoofed = await api.json('/api/projects/secret-project/collab/status', {
       workspaceScope: false,
       headers: {
-        'x-od-workspace-id': 'workspace-spoofed',
-        'x-od-workspace-member-id': 'member-spoofed',
+        'x-sw-workspace-id': 'workspace-spoofed',
+        'x-sw-workspace-member-id': 'member-spoofed',
       },
     });
     expect(spoofed.status).toBe(403);
@@ -961,8 +961,8 @@ describe('collab sync routes', () => {
     const principalB = contextToResourceHubPrincipal(contextB)!;
     const publish = vi.fn(async () => ({ version: 1 }));
     const verifyWorkspaceRequest = async (req: express.Request) => {
-      const workspaceId = req.get('x-od-workspace-id');
-      const memberId = req.get('x-od-workspace-member-id');
+      const workspaceId = req.get('x-sw-workspace-id');
+      const memberId = req.get('x-sw-workspace-member-id');
       if (workspaceId === contextA.workspaceId && memberId === contextA.workspaceMemberId) {
         return contextA;
       }
@@ -1025,8 +1025,8 @@ describe('collab sync routes', () => {
       method: 'POST',
       workspaceScope: false,
       headers: {
-        'x-od-workspace-id': 'workspace-spoofed',
-        'x-od-workspace-member-id': 'member-spoofed',
+        'x-sw-workspace-id': 'workspace-spoofed',
+        'x-sw-workspace-member-id': 'member-spoofed',
       },
     });
     expect(spoofed.status).toBe(403);
@@ -1629,8 +1629,8 @@ describe('collab sync routes', () => {
     // owner never auto-pulls, so nothing else registers it. callerIsOwner=true
     // here (owner member id === caller's own member id via the workspace header).
     const ownerHeaders = {
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'owner-self',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'owner-self',
     };
     const res = await api.json('/api/projects/shared-owned/collab/status', {
       headers: ownerHeaders,
@@ -2313,8 +2313,8 @@ describe('collab sync routes', () => {
         projectStore,
         resolvePullDir: (projectId) => `/does/not/exist/${projectId}`,
         verifyWorkspaceRequest: async (req) =>
-          req.get('x-od-workspace-id') === authoritativeContext.workspaceId
-          && req.get('x-od-workspace-member-id')
+          req.get('x-sw-workspace-id') === authoritativeContext.workspaceId
+          && req.get('x-sw-workspace-member-id')
             === authoritativeContext.workspaceMemberId
             ? authoritativeContext
             : null,
@@ -2340,9 +2340,9 @@ describe('collab sync routes', () => {
       },
     );
     const headers = {
-      'x-od-workspace-id': 'ws-spoofed',
-      'x-od-workspace-member-id': 'member-spoofed',
-      'x-od-workspace-role': 'owner',
+      'x-sw-workspace-id': 'ws-spoofed',
+      'x-sw-workspace-member-id': 'member-spoofed',
+      'x-sw-workspace-role': 'owner',
     };
 
     const intent = await api.json('/api/projects/spoofed-project/collab/sync-intent', {
@@ -3005,9 +3005,9 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const viaRoute = await api.json('/api/projects/cursor-fail/collab/pull', {
       method: 'POST',
       headers: {
-        'x-od-workspace-id': pullScope.workspaceId,
-        'x-od-workspace-member-id': pullScope.viewerMemberId,
-        'x-od-workspace-role': 'member',
+        'x-sw-workspace-id': pullScope.workspaceId,
+        'x-sw-workspace-member-id': pullScope.viewerMemberId,
+        'x-sw-workspace-role': 'member',
       },
     });
     expect(viaRoute.status).toBe(502);
@@ -3214,9 +3214,9 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
       {
         method: 'POST',
         headers: {
-          'x-od-workspace-id': pullScope.workspaceId,
-          'x-od-workspace-member-id': pullScope.viewerMemberId,
-          'x-od-workspace-role': 'member',
+          'x-sw-workspace-id': pullScope.workspaceId,
+          'x-sw-workspace-member-id': pullScope.viewerMemberId,
+          'x-sw-workspace-role': 'member',
         },
         body: {
           authorizationWitness: witness,
@@ -3725,9 +3725,9 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
       const legacy = api.json(`/api/projects/${projectId}/collab/pull`, {
         method: 'POST',
         headers: {
-          'x-od-workspace-id': pullScope.workspaceId,
-          'x-od-workspace-member-id': pullScope.viewerMemberId,
-          'x-od-workspace-role': 'member',
+          'x-sw-workspace-id': pullScope.workspaceId,
+          'x-sw-workspace-member-id': pullScope.viewerMemberId,
+          'x-sw-workspace-role': 'member',
         },
       });
       await new Promise((resolve) => setTimeout(resolve, 25));
@@ -3818,9 +3818,9 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const legacy = api.json(`/api/projects/${projectId}/collab/pull`, {
       method: 'POST',
       headers: {
-        'x-od-workspace-id': pullScope.workspaceId,
-        'x-od-workspace-member-id': pullScope.viewerMemberId,
-        'x-od-workspace-role': 'member',
+        'x-sw-workspace-id': pullScope.workspaceId,
+        'x-sw-workspace-member-id': pullScope.viewerMemberId,
+        'x-sw-workspace-role': 'member',
       },
     });
     await legacyStarted;
@@ -3945,9 +3945,9 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
       const legacy = await api.json(`/api/projects/${projectId}/collab/pull`, {
         method: 'POST',
         headers: {
-          'x-od-workspace-id': pullScope.workspaceId,
-          'x-od-workspace-member-id': pullScope.viewerMemberId,
-          'x-od-workspace-role': 'member',
+          'x-sw-workspace-id': pullScope.workspaceId,
+          'x-sw-workspace-member-id': pullScope.viewerMemberId,
+          'x-sw-workspace-role': 'member',
         },
       });
       expect(legacy.status).toBe(200);
@@ -4168,9 +4168,9 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const response = await api.json('/api/projects/http-stage-injection/collab/pull', {
       method: 'POST',
       headers: {
-        'x-od-workspace-id': pullScope.workspaceId,
-        'x-od-workspace-member-id': pullScope.viewerMemberId,
-        'x-od-workspace-role': 'member',
+        'x-sw-workspace-id': pullScope.workspaceId,
+        'x-sw-workspace-member-id': pullScope.viewerMemberId,
+        'x-sw-workspace-role': 'member',
       },
       body: {
         authorizedStageInvocation: {
@@ -4791,9 +4791,9 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const viaRoute = api.json('/api/projects/race-pull/collab/pull', {
       method: 'POST',
       headers: {
-        'x-od-workspace-id': pullScope.workspaceId,
-        'x-od-workspace-member-id': pullScope.viewerMemberId,
-        'x-od-workspace-role': 'member',
+        'x-sw-workspace-id': pullScope.workspaceId,
+        'x-sw-workspace-member-id': pullScope.viewerMemberId,
+        'x-sw-workspace-role': 'member',
       },
     });
     // Let the POST reach the route (and the shared in-flight map) before the

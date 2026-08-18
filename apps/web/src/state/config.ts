@@ -1290,8 +1290,8 @@ export async function syncConfigToDaemon(
         'content-type': 'application/json',
         ...(prefs.orbit?.workspaceScope
           ? {
-              'x-od-workspace-id': prefs.orbit.workspaceScope.workspaceId,
-              'x-od-workspace-member-id': prefs.orbit.workspaceScope.workspaceMemberId,
+              'x-sw-workspace-id': prefs.orbit.workspaceScope.workspaceId,
+              'x-sw-workspace-member-id': prefs.orbit.workspaceScope.workspaceMemberId,
             }
           : {}),
       },

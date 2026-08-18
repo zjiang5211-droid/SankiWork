@@ -251,7 +251,7 @@ describe('home composer sending state', () => {
 
     // Create was rejected: the marker stays unspent so the retry resends it.
     await waitFor(() => expect(submit.disabled).toBe(false));
-    expect(window.localStorage.getItem('od:example-prompt-used')).toBeNull();
+    expect(window.localStorage.getItem('sw:example-prompt-used')).toBeNull();
 
     fireEvent.click(submit);
     await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(2));
@@ -259,7 +259,7 @@ describe('home composer sending state', () => {
 
     // Only now — after an accepted create — is the one-shot marker spent.
     await waitFor(() => {
-      expect(window.localStorage.getItem('od:example-prompt-used')).toBe('1');
+      expect(window.localStorage.getItem('sw:example-prompt-used')).toBe('1');
     });
   });
 });

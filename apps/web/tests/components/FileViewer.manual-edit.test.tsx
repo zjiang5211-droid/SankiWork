@@ -39,13 +39,13 @@ describe('FileViewer manual edit regressions', () => {
       .find((value) => (
         typeof value === 'object' &&
         value !== null &&
-        (value as { type?: unknown }).type === 'od:preview-runtime-state-capture'
+        (value as { type?: unknown }).type === 'sw:preview-runtime-state-capture'
       )) as { type: string; id: string } | undefined;
     if (captureRequest) {
       act(() => {
         window.dispatchEvent(new MessageEvent('message', {
           data: {
-            type: 'od:preview-runtime-state-captured',
+            type: 'sw:preview-runtime-state-captured',
             id: captureRequest.id,
             state: {
               version: 1,
@@ -462,7 +462,7 @@ describe('FileViewer manual edit regressions', () => {
     await selectManualEditTarget();
 
     // The host cannot read a sandboxed iframe's scroll directly; the bridge
-    // reports it via od:preview-scroll while the user works. Dispatch from
+    // reports it via sw:preview-scroll while the user works. Dispatch from
     // every mounted preview frame — only the active one passes the host's
     // source filter, mirroring production.
     const previewFrames = ['artifact-preview-frame', 'artifact-preview-frame-srcdoc']
@@ -472,7 +472,7 @@ describe('FileViewer manual edit regressions', () => {
     act(() => {
       for (const frame of previewFrames) {
         window.dispatchEvent(new MessageEvent('message', {
-          data: { type: 'od:preview-scroll', frameLeft: 0, frameTop: 1234, canvasLeft: 0, canvasTop: 1234 },
+          data: { type: 'sw:preview-scroll', frameLeft: 0, frameTop: 1234, canvasLeft: 0, canvasTop: 1234 },
           source: frame.contentWindow,
         }));
       }
@@ -500,14 +500,14 @@ describe('FileViewer manual edit regressions', () => {
     const spies = previewFrames.map((frame) =>
       vi.spyOn(frame.contentWindow as Window, 'postMessage').mockImplementation(((message: unknown) => {
         const data = message as { type?: string; frameTop?: number; canvasTop?: number } | null;
-        if (data && data.type === 'od:preview-scroll-restore') restoreMessages.push(data);
+        if (data && data.type === 'sw:preview-scroll-restore') restoreMessages.push(data);
       }) as never),
     );
     try {
       act(() => {
         for (const frame of previewFrames) {
           window.dispatchEvent(new MessageEvent('message', {
-            data: { type: 'od:preview-scroll-request' },
+            data: { type: 'sw:preview-scroll-request' },
             source: frame.contentWindow,
           }));
         }

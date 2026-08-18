@@ -55,11 +55,11 @@ describe('workspace billing renderer interest registry', () => {
     });
     const headersA = workspaceBillingInterestHeaders(SCOPE_A);
     const headersB = workspaceBillingInterestHeaders(SCOPE_B);
-    expect(headersA['x-od-workspace-runtime-client-id']).toBe(
-      headersB['x-od-workspace-runtime-client-id'],
+    expect(headersA['x-sw-workspace-runtime-client-id']).toBe(
+      headersB['x-sw-workspace-runtime-client-id'],
     );
-    expect(headersA['x-od-workspace-runtime-generation']).toBe('2');
-    expect(headersB['x-od-workspace-runtime-generation']).toBe('2');
+    expect(headersA['x-sw-workspace-runtime-generation']).toBe('2');
+    expect(headersB['x-sw-workspace-runtime-generation']).toBe('2');
 
     releaseA();
     await ensureWorkspaceBillingInterestDeclared();
@@ -145,7 +145,7 @@ describe('workspace billing renderer interest registry', () => {
       { generation: '2', interests: [SCOPE_A, SCOPE_B] },
     ]);
     expect(workspaceBillingInterestHeaders(SCOPE_A)[
-      'x-od-workspace-runtime-generation'
+      'x-sw-workspace-runtime-generation'
     ]).toBe('2');
   });
 
@@ -187,7 +187,7 @@ describe('workspace billing renderer interest registry', () => {
       { generation: '8', interests: [SCOPE_A, SCOPE_B] },
     ]);
     expect(workspaceBillingInterestHeaders(SCOPE_B)[
-      'x-od-workspace-runtime-generation'
+      'x-sw-workspace-runtime-generation'
     ]).toBe('8');
   });
 
@@ -230,7 +230,7 @@ describe('workspace billing renderer interest registry', () => {
 
     expect(requests).toEqual(['1', '1', '1', '1']);
     expect(workspaceBillingInterestHeaders(SCOPE_A)[
-      'x-od-workspace-runtime-generation'
+      'x-sw-workspace-runtime-generation'
     ]).toBe('1');
   });
 });

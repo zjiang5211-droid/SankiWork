@@ -833,9 +833,9 @@ export function registerCollabContextRoutes(app: Express, deps: RegisterCollabCo
       return res.json(body);
     }
 
-    const clientId = req.header('x-od-workspace-runtime-client-id') ?? undefined;
+    const clientId = req.header('x-sw-workspace-runtime-client-id') ?? undefined;
     const clientGeneration =
-      req.header('x-od-workspace-runtime-generation') ?? undefined;
+      req.header('x-sw-workspace-runtime-generation') ?? undefined;
     const cachedAuthority = deps.readCachedWorkspaceAuthority?.(
       req,
       requestedWorkspaceId,

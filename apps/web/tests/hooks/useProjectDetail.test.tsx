@@ -154,8 +154,8 @@ describe('useProjectDetail', () => {
 
     const [, init] = fetchMock.mock.calls[0]!;
     expect(new Headers(init?.headers)).toMatchObject(expect.any(Headers));
-    expect(new Headers(init?.headers).get('x-od-workspace-id')).toBe('workspace-a');
-    expect(new Headers(init?.headers).get('x-od-workspace-member-id')).toBe('member-a');
+    expect(new Headers(init?.headers).get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(new Headers(init?.headers).get('x-sw-workspace-member-id')).toBe('member-a');
   });
 
   it('does not issue a headerless detail read for a known bound project', async () => {

@@ -1886,7 +1886,7 @@ export function registerRunRoutes(app: Express, ctx: RegisterRunRoutesDeps) {
         );
       }
     }
-    const declaredClient = String(req.get('x-od-client') ?? '').toLowerCase();
+    const declaredClient = String(req.get('x-sw-client') ?? '').toLowerCase();
     if (requestAnalyticsContext?.clientType === 'external_mcp') {
       run.clientType = 'external_mcp';
     } else if (declaredClient === 'desktop' || declaredClient === 'web') {

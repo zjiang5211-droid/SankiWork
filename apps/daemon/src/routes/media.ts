@@ -572,8 +572,8 @@ export function registerMediaRoutes(app: Express, ctx: RegisterMediaRoutesDeps) 
           });
         }
         if (scope) {
-          const claimedWorkspaceId = String(req.get('x-od-workspace-id') ?? '').trim();
-          const claimedMemberId = String(req.get('x-od-workspace-member-id') ?? '').trim();
+          const claimedWorkspaceId = String(req.get('x-sw-workspace-id') ?? '').trim();
+          const claimedMemberId = String(req.get('x-sw-workspace-member-id') ?? '').trim();
           if (
             claimedWorkspaceId !== scope.workspaceId
             || claimedMemberId !== scope.workspaceMemberId

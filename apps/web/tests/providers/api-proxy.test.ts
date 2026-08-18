@@ -99,8 +99,8 @@ describe('buildProxyMessages', () => {
     expect(String(url)).toContain('workspaceId=workspace-a');
     expect(String(url)).toContain('workspaceMemberId=member-a');
     const headers = new Headers((init as RequestInit).headers);
-    expect(headers.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(headers.get('x-od-workspace-member-id')).toBe('member-a');
+    expect(headers.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(headers.get('x-sw-workspace-member-id')).toBe('member-a');
   });
 
   it('serializes Anthropic image blocks in user-visible attachment order', async () => {
@@ -220,10 +220,10 @@ describe('buildProxyMessages', () => {
 
     const proxyInit = fetchMock.mock.calls[1]?.[1] as RequestInit;
     const proxyHeaders = new Headers(proxyInit.headers);
-    expect(proxyHeaders.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(proxyHeaders.get('x-od-workspace-member-id')).toBe('member-a');
-    expect(proxyHeaders.get('x-od-workspace-type')).toBe('team');
-    expect(proxyHeaders.get('x-od-workspace-role')).toBe('member');
+    expect(proxyHeaders.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(proxyHeaders.get('x-sw-workspace-member-id')).toBe('member-a');
+    expect(proxyHeaders.get('x-sw-workspace-type')).toBe('team');
+    expect(proxyHeaders.get('x-sw-workspace-role')).toBe('member');
     expect(JSON.parse(String(proxyInit.body))).toMatchObject({
       messages: [
         {

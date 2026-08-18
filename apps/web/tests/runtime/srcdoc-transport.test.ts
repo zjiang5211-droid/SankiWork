@@ -54,17 +54,17 @@ function runShellInSandbox(shellHtml: string): RunShellResult {
     parentMessages,
     triggerActivate: (html: string, generation = 'generation-1') => {
       for (const listener of messageListeners) {
-        listener({ data: { type: 'od:srcdoc-transport-activate', html, generation } });
+        listener({ data: { type: 'sw:srcdoc-transport-activate', html, generation } });
       }
     },
   };
 }
 
 describe('buildLazySrcdocTransport (#2253)', () => {
-  it('posts od:srcdoc-transport-ready to parent on load', () => {
+  it('posts sw:srcdoc-transport-ready to parent on load', () => {
     const shell = buildLazySrcdocTransport();
     const { parentMessages } = runShellInSandbox(shell);
-    expect(parentMessages).toContainEqual({ type: 'od:srcdoc-transport-ready' });
+    expect(parentMessages).toContainEqual({ type: 'sw:srcdoc-transport-ready' });
   });
 
   it('skips the ready post when window.parent equals window (top-level load)', () => {
@@ -114,7 +114,7 @@ describe('buildLazySrcdocTransport (#2253)', () => {
     const listener = (win as { __listener: (ev: { data: unknown }) => void }).__listener;
     listener({
       data: {
-        type: 'od:srcdoc-transport-activate',
+        type: 'sw:srcdoc-transport-activate',
         html: '<p>hi</p>',
         generation: 'generation-1',
       },
@@ -143,7 +143,7 @@ describe('buildLazySrcdocTransport (#2253)', () => {
     vm.createContext(sandbox);
     vm.runInContext(script, sandbox);
     const listener = (win as { __listener: (ev: { data: unknown }) => void }).__listener;
-    listener({ data: { type: 'od:srcdoc-transport-activate', html: '<p>stale</p>' } });
+    listener({ data: { type: 'sw:srcdoc-transport-activate', html: '<p>stale</p>' } });
     expect(writes).toEqual([]);
   });
 
@@ -168,8 +168,8 @@ describe('buildLazySrcdocTransport (#2253)', () => {
     vm.createContext(sandbox);
     vm.runInContext(script, sandbox);
     const listener = (win as { __listener: (ev: { data: unknown }) => void }).__listener;
-    listener({ data: { type: 'od:srcdoc-transport-activate' } });
-    listener({ data: { type: 'od:srcdoc-transport-activate', html: 123 } });
+    listener({ data: { type: 'sw:srcdoc-transport-activate' } });
+    listener({ data: { type: 'sw:srcdoc-transport-activate', html: 123 } });
     listener({ data: null });
     listener({ data: { type: 'unrelated' } });
     expect(writes).toEqual([]);

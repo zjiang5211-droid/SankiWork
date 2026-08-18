@@ -183,8 +183,8 @@ describe('run request idempotency', () => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'x-od-analytics-device-id': 'test-installation-plugin-workflow',
-        'x-od-analytics-client-type': 'external_mcp',
+        'x-sw-analytics-device-id': 'test-installation-plugin-workflow',
+        'x-sw-analytics-client-type': 'external_mcp',
       },
       body: JSON.stringify(request),
     });
@@ -260,8 +260,8 @@ describe('run request idempotency', () => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'x-od-analytics-device-id': 'test-installation-plugin-artifact',
-        'x-od-analytics-client-type': 'external_mcp',
+        'x-sw-analytics-device-id': 'test-installation-plugin-artifact',
+        'x-sw-analytics-client-type': 'external_mcp',
       },
       body: JSON.stringify({
         ...base,

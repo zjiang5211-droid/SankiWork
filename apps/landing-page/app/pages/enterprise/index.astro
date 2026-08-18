@@ -345,8 +345,8 @@ const jsonLd = {
             // interest. Uses the shared PostHog delegate directly (this enhancer
             // lives in its own IIFE, separate from the form's `track`).
             try {
-              if (typeof window.__odTrack === 'function') {
-                window.__odTrack('demo_click', {
+              if (typeof window.__swTrack === 'function') {
+                window.__swTrack('demo_click', {
                   page_name: 'enterprise',
                   locale: (document.documentElement.lang || 'en').toLowerCase(),
                   demo: it.getAttribute('data-preview-title') || '',

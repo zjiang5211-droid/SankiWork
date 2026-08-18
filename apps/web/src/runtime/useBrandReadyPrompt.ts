@@ -35,7 +35,7 @@ const MAX_POLLS = 300;
 const ASSIST_TIMEOUT_MS = 30_000;
 
 function shownStorageKey(brandId: string): string {
-  return `od:brand-ready-prompt:${brandId}`;
+  return `sw:brand-ready-prompt:${brandId}`;
 }
 
 function readFlag(key: string): boolean {

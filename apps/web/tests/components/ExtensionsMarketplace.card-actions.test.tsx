@@ -460,9 +460,9 @@ describe('ExtensionsMarketplace import', () => {
     );
     expect(installCall).toBeTruthy();
     expect(installCall?.[1]?.headers).toMatchObject({
-      'x-od-workspace-id': TEAM_CONTEXT.workspaceId,
-      'x-od-workspace-member-id': TEAM_CONTEXT.workspaceMemberId,
-      'x-od-workspace-type': TEAM_CONTEXT.workspaceType,
+      'x-sw-workspace-id': TEAM_CONTEXT.workspaceId,
+      'x-sw-workspace-member-id': TEAM_CONTEXT.workspaceMemberId,
+      'x-sw-workspace-type': TEAM_CONTEXT.workspaceType,
     });
   });
 

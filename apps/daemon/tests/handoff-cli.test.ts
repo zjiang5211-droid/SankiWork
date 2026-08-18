@@ -95,8 +95,8 @@ describe('sw project handoff CLI', () => {
     const headers = new Headers(
       (fetchMock.mock.calls[0]![1] as RequestInit).headers,
     );
-    expect(headers.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(headers.get('x-od-workspace-member-id')).toBe('member-a');
+    expect(headers.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(headers.get('x-sw-workspace-member-id')).toBe('member-a');
     expect(JSON.parse(stdout.join(''))).toEqual(HANDOFF_RESPONSE);
   });
 

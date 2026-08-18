@@ -84,8 +84,8 @@ describe('persistCommentAnchor', () => {
     expect(url).toBe('/api/projects/p%201/conversations/conv/comments/c1/anchor');
     expect(init?.method).toBe('PATCH');
     const headers = new Headers(init?.headers);
-    expect(headers.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(headers.get('x-od-workspace-member-id')).toBe('member-a');
+    expect(headers.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(headers.get('x-sw-workspace-member-id')).toBe('member-a');
     expect(JSON.parse(String(init?.body))).toEqual({ anchorState: 'lost', lastGoodPosition: POS });
   });
 

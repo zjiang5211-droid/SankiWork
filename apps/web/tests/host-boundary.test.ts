@@ -20,7 +20,7 @@ describe('host bridge boundary', () => {
   it('keeps web source and tests from directly reading preload globals', () => {
     const forbidden = [
       'electronAPI',
-      '__odDesktop',
+      '__swDesktop',
       '__SW_CLIENT_TYPE__',
       '__sankiwork__',
       'SANKIWORK_HOST_GLOBAL',

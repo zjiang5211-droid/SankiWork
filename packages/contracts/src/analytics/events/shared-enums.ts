@@ -115,16 +115,16 @@ export interface AmrEntryAttribution {
   campaignId?: TrackingCampaignId;
   conversionSource?: TrackingCampaignConversionSource;
   // SankiWork install/device id forwarded only on consent-gated AMR handoffs.
-  odDeviceId?: string;
+  swDeviceId?: string;
   // Self-reported onboarding profile, forwarded to AMR (anchored to entryId) so
   // AMR can segment paid conversion by who the visitor is. Open strings, not a
   // union: onboarding keeps these open so a new option never forces a contract
   // bump. Absent when the visitor skipped or never reached onboarding. useCase
   // is multi-select, hence an array.
-  odRole?: string;
-  odOrgSize?: string;
-  odUseCase?: string[];
-  odSource?: string;
+  swRole?: string;
+  swOrgSize?: string;
+  swUseCase?: string[];
+  swSource?: string;
 }
 
 // The six tabs inside the New project modal (CSV row 7 tab_name).

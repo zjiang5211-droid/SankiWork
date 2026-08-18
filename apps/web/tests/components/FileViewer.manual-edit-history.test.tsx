@@ -51,13 +51,13 @@ async function enterManualEditMode() {
     .find((value) => (
       typeof value === 'object' &&
       value !== null &&
-      (value as { type?: unknown }).type === 'od:preview-runtime-state-capture'
+      (value as { type?: unknown }).type === 'sw:preview-runtime-state-capture'
     )) as { type: string; id: string } | undefined;
   if (captureRequest) {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         data: {
-          type: 'od:preview-runtime-state-captured',
+          type: 'sw:preview-runtime-state-captured',
           id: captureRequest.id,
           state: {
             version: 1,

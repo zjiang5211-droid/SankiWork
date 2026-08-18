@@ -11,7 +11,7 @@
  * `source` distinguishes the lead origin on the backend ('enterprise' |
  * 'pricing_team'); `pageName` stamps the PostHog events so funnels stay
  * separable per entry point. On a successful submit the form dispatches a
- * bubbling `od:lead-success` CustomEvent (detail = segmentation props) so a
+ * bubbling `sw:lead-success` CustomEvent (detail = segmentation props) so a
  * host page can layer its own legacy analytics on top.
  */
 import {
@@ -446,18 +446,18 @@ const countryOptions = buildCountryOptions(locale);
     // this hook lets them drop transient error UI first — the submit-failure
     // banner and per-field messages — without touching entered field values
     // or the sticky success panel.
-    form.addEventListener('od:lead-reset', () => {
+    form.addEventListener('sw:lead-reset', () => {
       if (errorEl) errorEl.hidden = true;
       ['email', 'team-size', 'seats', 'country', 'budget', 'use-case', 'industry'].forEach((id) => setInvalid(id, false));
     });
 
     // Lightweight analytics wrapper around the shared PostHog delegate
-    // (window.__odTrack, installed by sub-page-layout). page_name matches the
+    // (window.__swTrack, installed by sub-page-layout). page_name matches the
     // host page (enterprise / pricing) so the two funnels stay separable.
     const track = (name, props) => {
       try {
-        if (typeof window.__odTrack === 'function') {
-          window.__odTrack(name, Object.assign(
+        if (typeof window.__swTrack === 'function') {
+          window.__swTrack(name, Object.assign(
             { page_name: pageName, locale: (document.documentElement.lang || 'en').toLowerCase() },
             props || {},
           ));
@@ -546,7 +546,7 @@ const countryOptions = buildCountryOptions(locale);
         // detail carries the segmentation props PLUS the presence booleans the
         // pre-shared-form `team_lead_submit` contract exposed, so the bridge
         // can keep that event's original schema intact.
-        form.dispatchEvent(new CustomEvent('od:lead-success', {
+        form.dispatchEvent(new CustomEvent('sw:lead-success', {
           bubbles: true,
           detail: Object.assign({}, leadProps, {
             has_company: !!payload.company,

@@ -457,7 +457,7 @@ describe('a Home auto-send identifies its caller before the project scope resolv
     mockedLoadTabs.mockResolvedValue({ tabs: [], active: null });
     // Home's hand-off: this flag is what makes ProjectView fire the seeded
     // prompt without a second click.
-    window.sessionStorage.setItem(`od:auto-send-first:${PROJECT_ID}`, '1');
+    window.sessionStorage.setItem(`sw:auto-send-first:${PROJECT_ID}`, '1');
   });
 
   afterEach(() => {
@@ -469,7 +469,7 @@ describe('a Home auto-send identifies its caller before the project scope resolv
   });
 
   // RED before the fix: `workspaceContext` is null, so `POST /api/runs` carries
-  // no `x-od-workspace-*` and the daemon refuses the send with 401
+  // no `x-sw-workspace-*` and the daemon refuses the send with 401
   // WORKSPACE_CONTEXT_REQUIRED.
   it('passes the caller\'s workspace context to POST /api/runs', async () => {
     mockedCheckAmrBalanceGate.mockImplementation(async (scope) =>
@@ -551,15 +551,15 @@ describe('a Home auto-send identifies its caller before the project scope resolv
       );
       expect(rawCall?.[1]).toEqual(expect.objectContaining({
         headers: expect.objectContaining({
-          'x-od-workspace-id': TEAM_WORKSPACE,
-          'x-od-workspace-member-id': TEAM_MEMBER,
+          'x-sw-workspace-id': TEAM_WORKSPACE,
+          'x-sw-workspace-member-id': TEAM_MEMBER,
         }),
       }));
     });
   });
 
   it('hydrates the persisted transcript without waiting for preview comments', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     const comments = deferred<Awaited<ReturnType<typeof fetchPreviewComments>>>();
     const failedAssistant: ChatMessage = {
       id: 'failed-amr-assistant',
@@ -592,7 +592,7 @@ describe('a Home auto-send identifies its caller before the project scope resolv
   });
 
   it('does not let the initial comments read replace a newer SSE refresh', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     const initialComments = deferred<Awaited<ReturnType<typeof fetchPreviewComments>>>();
     const staleComment = previewComment('comment-stale', 'stale initial read', 1);
     const freshComment = previewComment('comment-fresh', 'fresh SSE read', 2);
@@ -624,7 +624,7 @@ describe('a Home auto-send identifies its caller before the project scope resolv
   });
 
   it('does not let the initial comments read resurrect a locally deleted comment', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     const initialComments = deferred<Awaited<ReturnType<typeof fetchPreviewComments>>>();
     const deletedComment = previewComment('comment-deleted', 'deleted locally', 1);
     mockedFetchPreviewComments.mockReturnValue(initialComments.promise);
@@ -658,7 +658,7 @@ describe('a Home auto-send identifies its caller before the project scope resolv
 
   it('reuses the matching Home Team preflight while the project scope read is pending', async () => {
     window.sessionStorage.setItem(
-      `od:auto-send-amr-gate-witness:${PROJECT_ID}`,
+      `sw:auto-send-amr-gate-witness:${PROJECT_ID}`,
       JSON.stringify({
         workspaceType: 'team',
         workspaceId: TEAM_WORKSPACE,
@@ -738,7 +738,7 @@ describe('a Home auto-send identifies its caller before the project scope resolv
       expect(latest?.queuedItems).toHaveLength(1);
     });
     expect(mockedStreamViaDaemon).not.toHaveBeenCalled();
-    expect(window.sessionStorage.getItem(`od:auto-send-first:${PROJECT_ID}`)).toBeNull();
+    expect(window.sessionStorage.getItem(`sw:auto-send-first:${PROJECT_ID}`)).toBeNull();
 
     view.rerender(projectViewElement({
       ...stableOverrides,
@@ -833,7 +833,7 @@ describe('a Home auto-send identifies its caller before the project scope resolv
   ])(
     'does not inspect the account wallet for an unbound normal send from %s',
     async (_label, ambientContext) => {
-      window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+      window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
       workspaceScopeMocks.ambientContext = ambientContext;
       workspaceScopeMocks.projectScope = {
         loading: false,
@@ -929,7 +929,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
     // dispatches through a callback that still holds its mount-time `null`.
     // The effect also lists the billing context it reads directly instead of
     // relying on that callback's identity as a transitive dependency.
-    window.sessionStorage.setItem(`od:auto-send-first:${PROJECT_ID}`, '1');
+    window.sessionStorage.setItem(`sw:auto-send-first:${PROJECT_ID}`, '1');
     workspaceScopeMocks.projectScope = {
       loading: false,
       scope: {
@@ -953,7 +953,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('auto-sends a cold unbound local project through the account-scoped Cloud lane', async () => {
-    window.sessionStorage.setItem(`od:auto-send-first:${PROJECT_ID}`, '1');
+    window.sessionStorage.setItem(`sw:auto-send-first:${PROJECT_ID}`, '1');
     workspaceScopeMocks.ambientContext = null;
     workspaceScopeMocks.projectScope = {
       loading: false,
@@ -974,11 +974,11 @@ describe('a Home auto-send observes a project billing scope that settles after m
     // must not duplicate it while handing off the accepted first prompt.
     expect(mockedCheckAmrBalanceGate).not.toHaveBeenCalled();
     expect(mockedStreamViaDaemon.mock.calls[0]?.[0].workspaceContext).toBeNull();
-    expect(window.sessionStorage.getItem(`od:auto-send-first:${PROJECT_ID}`)).toBeNull();
+    expect(window.sessionStorage.getItem(`sw:auto-send-first:${PROJECT_ID}`)).toBeNull();
   });
 
   it('reconciles files and comments with the exact Team scope when the project event stream becomes ready', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     workspaceScopeMocks.projectScope = {
       loading: false,
       scope: {
@@ -1027,7 +1027,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('keeps established project data while the same workspace authority object settles', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     mockedListMessages.mockResolvedValue([{
       id: 'existing-message',
       role: 'assistant',
@@ -1094,7 +1094,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('flushes project A tabs with A authority after rendering project B', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     projectCollabMocks.writerAuthority = 'allowed';
     workspaceScopeMocks.projectScope = {
       loading: false,
@@ -1171,7 +1171,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('keeps a read-only Team member tab-local and never sends a daemon PUT', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     projectCollabMocks.writerAuthority = 'denied';
     projectCollabMocks.viewerOnly = true;
     workspaceScopeMocks.projectScope = {
@@ -1207,7 +1207,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   it.each(['pending', 'denied'] as const)(
     'does not treat a missing local workspaceId as unbound when Team writer authority is %s',
     async (writerAuthority) => {
-      window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+      window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
       projectCollabMocks.writerAuthority = writerAuthority;
       projectCollabMocks.viewerOnly = writerAuthority === 'denied';
       workspaceScopeMocks.projectScope = {
@@ -1245,7 +1245,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   );
 
   it('coalesces confirmed-writer tab changes into one daemon PUT', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     workspaceScopeMocks.projectScope = {
       loading: false,
       scope: {
@@ -1282,7 +1282,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('does not rewrite an unchanged routed tab for a confirmed writer', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     workspaceScopeMocks.projectScope = {
       loading: false,
       scope: {
@@ -1309,7 +1309,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('writes one changed routed tab for a confirmed writer', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     workspaceScopeMocks.projectScope = {
       loading: false,
       scope: {
@@ -1339,7 +1339,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('starts daemon tab persistence only after Team writer authority is allowed', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     workspaceScopeMocks.projectScope = {
       loading: false,
       scope: {
@@ -1376,7 +1376,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('preserves Personal project daemon tab persistence', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     projectCollabMocks.writerAuthority = 'denied';
     workspaceScopeMocks.ambientContext = PERSONAL_CONTEXT;
     workspaceScopeMocks.projectScope = {
@@ -1408,7 +1408,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('preserves anonymous unbound project daemon tab persistence', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     projectCollabMocks.writerAuthority = 'pending';
     workspaceScopeMocks.ambientContext = null;
     workspaceScopeMocks.projectScope = {
@@ -1439,7 +1439,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('gates bound-project SSE until exact project authority exists', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     workspaceScopeMocks.ambientContext = null;
     workspaceScopeMocks.projectScope = { loading: true, scope: null };
     const stableProject = { ...project(), pendingPrompt: '' };
@@ -1471,7 +1471,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('does not treat a missing local workspaceId as settled unbound SSE authority', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     workspaceScopeMocks.ambientContext = null;
     workspaceScopeMocks.projectScope = { loading: true, scope: null };
 
@@ -1488,7 +1488,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('enables SSE for a settled Personal project scope', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     workspaceScopeMocks.ambientContext = PERSONAL_CONTEXT;
     workspaceScopeMocks.projectScope = {
       loading: false,
@@ -1513,7 +1513,7 @@ describe('a Home auto-send observes a project billing scope that settles after m
   });
 
   it('keeps anonymous unbound project SSE enabled', async () => {
-    window.sessionStorage.removeItem(`od:auto-send-first:${PROJECT_ID}`);
+    window.sessionStorage.removeItem(`sw:auto-send-first:${PROJECT_ID}`);
     workspaceScopeMocks.ambientContext = null;
     workspaceScopeMocks.projectScope = {
       loading: false,

@@ -66,9 +66,9 @@ afterAll(async () => {
 
 function workspaceHeaders(memberId: string, role: 'owner' | 'admin' | 'member', workspaceId: string) {
   return {
-    'x-od-workspace-id': workspaceId,
-    'x-od-workspace-member-id': memberId,
-    'x-od-workspace-role': role,
+    'x-sw-workspace-id': workspaceId,
+    'x-sw-workspace-member-id': memberId,
+    'x-sw-workspace-role': role,
   };
 }
 
@@ -101,8 +101,8 @@ async function fetchSkills(
     workspaceId
       ? {
           headers: {
-            'x-od-workspace-id': workspaceId,
-            'x-od-workspace-member-id': workspaceMemberId,
+            'x-sw-workspace-id': workspaceId,
+            'x-sw-workspace-member-id': workspaceMemberId,
           },
         }
       : undefined,

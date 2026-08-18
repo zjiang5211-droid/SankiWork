@@ -67,9 +67,9 @@ function sendApiError(
 
 function workspaceHeaders(memberId: string, role: 'owner' | 'admin' | 'member') {
   return {
-    'x-od-workspace-id': WORKSPACE_ID,
-    'x-od-workspace-member-id': memberId,
-    'x-od-workspace-role': role,
+    'x-sw-workspace-id': WORKSPACE_ID,
+    'x-sw-workspace-member-id': memberId,
+    'x-sw-workspace-role': role,
   };
 }
 
@@ -237,8 +237,8 @@ async function startServer(opts?: {
   const verifyWorkspaceRequestAuthority =
     opts?.verifyWorkspaceRequestAuthority ??
     (async (req: any) => {
-      const workspaceId = req.get('x-od-workspace-id');
-      const memberId = req.get('x-od-workspace-member-id');
+      const workspaceId = req.get('x-sw-workspace-id');
+      const memberId = req.get('x-sw-workspace-member-id');
       if (!workspaceId || !memberId) {
         return {
           ok: false,
@@ -322,8 +322,8 @@ async function startServer(opts?: {
     enforceWorkspaceProjectMutation:
       opts?.enforceWorkspaceProjectMutation ??
       createEnforceWorkspaceProjectMutation(async (req: any) => {
-        const workspaceId = req.get('x-od-workspace-id');
-        const memberId = req.get('x-od-workspace-member-id');
+        const workspaceId = req.get('x-sw-workspace-id');
+        const memberId = req.get('x-sw-workspace-member-id');
         if (!workspaceId || !memberId) {
           return {
             ok: false,
@@ -553,7 +553,7 @@ describe('POST /api/runs — workspace mutation gate', () => {
       resolve: (value: any) => void;
     }> = [];
     const verifyWorkspaceRequestAuthority = vi.fn((req: any) => {
-      const memberId = String(req.get('x-od-workspace-member-id'));
+      const memberId = String(req.get('x-sw-workspace-member-id'));
       if (pending.length >= 2) {
         return Promise.resolve({
           ok: true,
@@ -1261,7 +1261,7 @@ describe('Workspace-bound run lifecycle authority', () => {
     const { runId } = (await createResponse.json()) as { runId: string };
 
     const response = await fetch(`${baseUrl}/api/runs/${runId}`, {
-      headers: { 'x-od-workspace-id': WORKSPACE_ID },
+      headers: { 'x-sw-workspace-id': WORKSPACE_ID },
     });
     expect(response.status).toBe(400);
     await expect(response.json()).resolves.toMatchObject({
@@ -1409,7 +1409,7 @@ describe('POST /api/runs — one-time Personal adoption for signed-in AMR', () =
       headers: {
         'Content-Type': 'application/json',
         ...workspaceHeaders(OWNER_MEMBER_ID, 'owner'),
-        'x-od-workspace-type': 'personal',
+        'x-sw-workspace-type': 'personal',
       },
       body: JSON.stringify({
         projectId: UNBOUND_PROJECT,
@@ -1432,7 +1432,7 @@ describe('POST /api/runs — one-time Personal adoption for signed-in AMR', () =
 
   it('keeps an adopted Personal project runnable only by the verified adopting member', async () => {
     const verifyWorkspaceRequestAuthority = vi.fn(async (req: any) => {
-      const memberId = req.get('x-od-workspace-member-id');
+      const memberId = req.get('x-sw-workspace-member-id');
       return {
         ok: true,
         context: workspaceContextFromDirectoryItem({
@@ -1457,7 +1457,7 @@ describe('POST /api/runs — one-time Personal adoption for signed-in AMR', () =
         headers: {
           'Content-Type': 'application/json',
           ...workspaceHeaders(memberId, role),
-          'x-od-workspace-type': 'personal',
+          'x-sw-workspace-type': 'personal',
         },
         body: JSON.stringify({
           projectId: UNBOUND_PROJECT,
@@ -1533,7 +1533,7 @@ describe('POST /api/runs — one-time Personal adoption for signed-in AMR', () =
       headers: {
         'Content-Type': 'application/json',
         ...workspaceHeaders(OWNER_MEMBER_ID, 'owner'),
-        'x-od-workspace-type': 'team',
+        'x-sw-workspace-type': 'team',
       },
       body: JSON.stringify({
         projectId: UNBOUND_PROJECT,
@@ -1569,7 +1569,7 @@ describe('POST /api/runs — one-time Personal adoption for signed-in AMR', () =
       headers: {
         'Content-Type': 'application/json',
         ...workspaceHeaders(OWNER_MEMBER_ID, 'owner'),
-        'x-od-workspace-type': 'personal',
+        'x-sw-workspace-type': 'personal',
       },
       body: JSON.stringify({
         projectId: UNBOUND_PROJECT,
@@ -1642,7 +1642,7 @@ describe('POST /api/runs — one-time Personal adoption for signed-in AMR', () =
       headers: {
         'Content-Type': 'application/json',
         ...workspaceHeaders(OWNER_MEMBER_ID, 'owner'),
-        'x-od-workspace-type': 'personal',
+        'x-sw-workspace-type': 'personal',
       },
       body: JSON.stringify({
         projectId: UNBOUND_PROJECT,

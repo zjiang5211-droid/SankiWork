@@ -281,8 +281,8 @@ describe('DesignSystemsTab — repeat share reads as "sync" once already team-sh
 
     await act(async () => Promise.resolve());
     expect(teamReadHeaders).toHaveLength(1);
-    expect(teamReadHeaders[0]?.get('x-od-workspace-id')).toBe('ws-team');
-    expect(teamReadHeaders[0]?.get('x-od-workspace-member-id')).toBe('mem-owner');
+    expect(teamReadHeaders[0]?.get('x-sw-workspace-id')).toBe('ws-team');
+    expect(teamReadHeaders[0]?.get('x-sw-workspace-member-id')).toBe('mem-owner');
     await act(async () => vi.advanceTimersByTimeAsync(249));
     expect(teamReadHeaders).toHaveLength(1);
   });
@@ -312,7 +312,7 @@ describe('DesignSystemsTab — repeat share reads as "sync" once already team-sh
     globalThis.fetch = vi.fn((_input: RequestInfo | URL, init?: RequestInit) => {
       const headers = new Headers(init?.headers);
       teamReadHeaders.push(headers);
-      return headers.get('x-od-workspace-id') === 'ws-team'
+      return headers.get('x-sw-workspace-id') === 'ws-team'
         ? workspaceA.promise
         : workspaceB.promise;
     }) as typeof fetch;
@@ -343,7 +343,7 @@ describe('DesignSystemsTab — repeat share reads as "sync" once already team-sh
 
     fireEvent.click(screen.getByRole('tab', { name: /Team/i }));
     expect(screen.queryByTestId('design-kit-view-user:my-ds')).toBeNull();
-    expect(teamReadHeaders.map((headers) => headers.get('x-od-workspace-id')))
+    expect(teamReadHeaders.map((headers) => headers.get('x-sw-workspace-id')))
       .toEqual(['ws-team', 'ws-second']);
   });
 
@@ -512,8 +512,8 @@ describe('DesignSystemsTab — repeat share reads as "sync" once already team-sh
     renderTab([MY_SHARED_SYSTEM]);
 
     await openTeamTabAndSelect('user:my-ds');
-    expect(teamReadHeaders[0]?.get('x-od-workspace-id')).toBe('ws-team');
-    expect(teamReadHeaders[0]?.get('x-od-workspace-member-id')).toBe('mem-owner');
+    expect(teamReadHeaders[0]?.get('x-sw-workspace-id')).toBe('ws-team');
+    expect(teamReadHeaders[0]?.get('x-sw-workspace-member-id')).toBe('mem-owner');
     fireEvent.click(await screen.findByTestId('design-kit-more-actions'));
 
     // The old "Share to team" wording is gone — the menu no longer looks like
@@ -538,8 +538,8 @@ describe('DesignSystemsTab — repeat share reads as "sync" once already team-sh
     expect(unshareCalls[0]?.url).toContain(
       '/api/workspace/design-systems/user%3Amy-ds/share',
     );
-    expect(unshareCalls[0]?.headers.get('x-od-workspace-id')).toBe('ws-team');
-    expect(unshareCalls[0]?.headers.get('x-od-workspace-member-id')).toBe('mem-owner');
+    expect(unshareCalls[0]?.headers.get('x-sw-workspace-id')).toBe('ws-team');
+    expect(unshareCalls[0]?.headers.get('x-sw-workspace-member-id')).toBe('mem-owner');
     fireEvent.click(screen.getByRole('tab', { name: /Your systems/i }));
     expect(await screen.findByTestId('design-kit-view-user:my-ds')).toBeTruthy();
     expect(screen.getByRole('tab', { name: /Team/i }).textContent).toContain('0');
@@ -567,7 +567,7 @@ describe('DesignSystemsTab — repeat share reads as "sync" once already team-sh
     globalThis.fetch = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
       const headers = new Headers(init?.headers);
       teamReadHeaders.push(headers);
-      const workspaceId = headers.get('x-od-workspace-id');
+      const workspaceId = headers.get('x-sw-workspace-id');
       const shared = workspaceId === 'ws-team';
       return jsonResponse({
         ids: shared ? ['user:my-ds'] : [],
@@ -602,7 +602,7 @@ describe('DesignSystemsTab — repeat share reads as "sync" once already team-sh
     expect(await screen.findByTestId('design-kit-view-user:my-ds')).toBeTruthy();
     await waitFor(() => {
       expect(teamReadHeaders.some((headers) => (
-        headers.get('x-od-workspace-id') === 'ws-second'
+        headers.get('x-sw-workspace-id') === 'ws-second'
       ))).toBe(true);
     });
   });

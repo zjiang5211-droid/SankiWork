@@ -56,7 +56,7 @@ export interface ConversationChatContext {
   sessionMode: ChatSessionMode;
   /**
    * The caller's current workspace identity, forwarded to `streamViaDaemon`
-   * so POST /api/runs carries the same `x-od-workspace-*` headers the
+   * so POST /api/runs carries the same `x-sw-workspace-*` headers the
    * primary ProjectView chat loop sends. Without this a side-chat send
    * against a team-bound project would 401 against the daemon's workspace
    * mutation gate even for a fully authorized member. Null/omitted for

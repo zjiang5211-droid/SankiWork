@@ -470,7 +470,7 @@ describe('HomeView media composer options', () => {
       && url.includes('/api/plugins/sw-media-generation/apply')
     )).at(-1);
     expect(localApply).toBeTruthy();
-    expect(new Headers(localApply?.[1]?.headers).has('x-od-workspace-id')).toBe(false);
+    expect(new Headers(localApply?.[1]?.headers).has('x-sw-workspace-id')).toBe(false);
   });
 
   it('keeps bundled plugins usable when identity is pending and the directory is empty', async () => {
@@ -502,7 +502,7 @@ describe('HomeView media composer options', () => {
     const submittedApply = fetchMock.mock.calls.filter(([url]) => (
       typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     )).at(-1);
-    expect(new Headers(submittedApply?.[1]?.headers).has('x-od-workspace-id')).toBe(false);
+    expect(new Headers(submittedApply?.[1]?.headers).has('x-sw-workspace-id')).toBe(false);
   });
 
   it('does not wait for directory discovery when applying a bundled plugin', async () => {
@@ -534,7 +534,7 @@ describe('HomeView media composer options', () => {
     const submittedApply = fetchMock.mock.calls.filter(([url]) => (
       typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     )).at(-1);
-    expect(new Headers(submittedApply?.[1]?.headers).has('x-od-workspace-id')).toBe(false);
+    expect(new Headers(submittedApply?.[1]?.headers).has('x-sw-workspace-id')).toBe(false);
   });
 
   it('does not expose a team plugin for unscoped apply while workspace identity is pending', async () => {
@@ -581,7 +581,7 @@ describe('HomeView media composer options', () => {
       typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     ));
     expect(apply).toBeTruthy();
-    expect(new Headers(apply?.[1]?.headers).has('x-od-workspace-id')).toBe(false);
+    expect(new Headers(apply?.[1]?.headers).has('x-sw-workspace-id')).toBe(false);
   });
 
   it('preserves sw-media-generation required inputs when applying media chips', async () => {

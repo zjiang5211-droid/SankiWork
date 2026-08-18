@@ -147,15 +147,15 @@ type ScopeIdentity = {
 
 function workspaceHeaders(identity: ScopeIdentity): Record<string, string> {
   return {
-    'x-od-workspace-id': identity.workspaceId,
-    'x-od-workspace-member-id': identity.workspaceMemberId,
-    'x-od-workspace-type': identity.workspaceType,
-    'x-od-workspace-role': 'owner',
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-lifecycle-state': 'active',
-    'x-od-workspace-can-share-projects': 'true',
-    'x-od-workspace-can-write-synced-files': 'true',
-    'x-od-workspace-can-manage-shared-resources': 'true',
+    'x-sw-workspace-id': identity.workspaceId,
+    'x-sw-workspace-member-id': identity.workspaceMemberId,
+    'x-sw-workspace-type': identity.workspaceType,
+    'x-sw-workspace-role': 'owner',
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-can-share-projects': 'true',
+    'x-sw-workspace-can-write-synced-files': 'true',
+    'x-sw-workspace-can-manage-shared-resources': 'true',
   };
 }
 

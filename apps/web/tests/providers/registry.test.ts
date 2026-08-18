@@ -161,8 +161,8 @@ describe('design-system Workspace scope', () => {
 
     expect(fetchMock).toHaveBeenCalledWith('/api/design-systems', {
       headers: expect.objectContaining({
-        'x-od-workspace-id': context.workspaceId,
-        'x-od-workspace-member-id': context.workspaceMemberId,
+        'x-sw-workspace-id': context.workspaceId,
+        'x-sw-workspace-member-id': context.workspaceMemberId,
       }),
     });
   });
@@ -184,8 +184,8 @@ describe('design-system Workspace scope', () => {
     expect(fetchMock).toHaveBeenCalledWith('/api/design-systems/user%3Ateam-brand', {
       method: 'DELETE',
       headers: expect.objectContaining({
-        'x-od-workspace-id': context.workspaceId,
-        'x-od-workspace-member-id': context.workspaceMemberId,
+        'x-sw-workspace-id': context.workspaceId,
+        'x-sw-workspace-member-id': context.workspaceMemberId,
       }),
     });
   });
@@ -227,8 +227,8 @@ describe('design-system Workspace scope', () => {
     expect(fetchMock).toHaveBeenNthCalledWith(1, '/api/workspace/design-systems/team', {
       cache: 'no-store',
       headers: expect.objectContaining({
-        'x-od-workspace-id': context.workspaceId,
-        'x-od-workspace-member-id': context.workspaceMemberId,
+        'x-sw-workspace-id': context.workspaceId,
+        'x-sw-workspace-member-id': context.workspaceMemberId,
       }),
     });
   });
@@ -420,8 +420,8 @@ describe('design-system Workspace scope', () => {
       if (String(input) === '/api/workspace/design-systems/team') {
         const headers = new Headers(init?.headers);
         teamRequestHeaders.push({
-          workspaceId: headers.get('x-od-workspace-id'),
-          memberId: headers.get('x-od-workspace-member-id'),
+          workspaceId: headers.get('x-sw-workspace-id'),
+          memberId: headers.get('x-sw-workspace-member-id'),
         });
         return new Response(JSON.stringify({ ids: [] }), { status: 200 });
       }
@@ -461,8 +461,8 @@ describe('design-system Workspace scope', () => {
     expect(fetchMock).toHaveBeenCalledWith('/api/design-systems', expect.objectContaining({
       method: 'POST',
       headers: expect.objectContaining({
-        'x-od-workspace-id': context.workspaceId,
-        'x-od-workspace-member-id': context.workspaceMemberId,
+        'x-sw-workspace-id': context.workspaceId,
+        'x-sw-workspace-member-id': context.workspaceMemberId,
       }),
     }));
   });
@@ -855,8 +855,8 @@ describe('writeProjectTextFileDetailed', () => {
         method: 'POST',
         headers: expect.objectContaining({
           'Content-Type': 'application/json',
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -914,7 +914,7 @@ describe('upsertPreviewComment', () => {
     vi.unstubAllGlobals();
   });
 
-  // recvq5BVsolIxi follow-up: this call used to omit `x-od-workspace-*`
+  // recvq5BVsolIxi follow-up: this call used to omit `x-sw-workspace-*`
   // entirely, so a team-bound project's daemon-side
   // `enforceCommentWorkspaceMutation` gate 401'd with
   // `WORKSPACE_CONTEXT_REQUIRED` on every real click — silently, since the
@@ -937,8 +937,8 @@ describe('upsertPreviewComment', () => {
         method: 'POST',
         headers: expect.objectContaining({
           'Content-Type': 'application/json',
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -979,8 +979,8 @@ describe('preview comment scoped mutations', () => {
         method: 'PATCH',
         headers: expect.objectContaining({
           'Content-Type': 'application/json',
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -1005,8 +1005,8 @@ describe('preview comment scoped mutations', () => {
       expect.objectContaining({
         method: 'DELETE',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -1031,8 +1031,8 @@ describe('patchPreviewCommentSortKey', () => {
         method: 'PATCH',
         headers: expect.objectContaining({
           'Content-Type': 'application/json',
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -1259,8 +1259,8 @@ describe('Workspace-scoped resource reads', () => {
     expect(fetchMock).toHaveBeenCalledTimes(4);
     for (const [, init] of fetchMock.mock.calls) {
       const headers = new Headers(init?.headers);
-      expect(headers.get('x-od-workspace-id')).toBe(context.workspaceId);
-      expect(headers.get('x-od-workspace-member-id')).toBe(context.workspaceMemberId);
+      expect(headers.get('x-sw-workspace-id')).toBe(context.workspaceId);
+      expect(headers.get('x-sw-workspace-member-id')).toBe(context.workspaceMemberId);
     }
   });
 });
@@ -1793,8 +1793,8 @@ describe('uploadProjectFiles', () => {
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );

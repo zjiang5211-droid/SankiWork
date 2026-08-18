@@ -23,7 +23,7 @@ function safeOriginId(value: unknown): value is string {
 function isValidArtifactOrigin(origin: ArtifactOrigin): boolean {
   if (
     origin.entrySurface !== 'sankiwork_ui'
-    && origin.entrySurface !== 'od_cli'
+    && origin.entrySurface !== 'sw_cli'
     && origin.entrySurface !== 'external_mcp'
     && origin.entrySurface !== 'unknown'
   ) {

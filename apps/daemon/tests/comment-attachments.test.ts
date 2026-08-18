@@ -264,9 +264,9 @@ describe('preview comment persistence', () => {
 
   it('migrates legacy preview comments into a slide-aware conflict key', () => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-comments-'));
-    const odDir = path.join(tempDir, '.sankiwork');
-    fs.mkdirSync(odDir, { recursive: true });
-    const legacyDb = new Database(path.join(odDir, 'app.sqlite'));
+    const swDir = path.join(tempDir, '.sankiwork');
+    fs.mkdirSync(swDir, { recursive: true });
+    const legacyDb = new Database(path.join(swDir, 'app.sqlite'));
     legacyDb.exec(`
       CREATE TABLE projects (
         id TEXT PRIMARY KEY,

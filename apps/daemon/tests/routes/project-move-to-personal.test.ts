@@ -81,14 +81,14 @@ function ownerTeamHeaders(extra: Record<string, string> = {}) {
   // owner role, active member, every permission bit granted.
   return {
     'content-type': 'application/json',
-    'x-od-workspace-id': TEAM_WORKSPACE_ID,
-    'x-od-workspace-member-id': OWNER_MEMBER_ID,
-    'x-od-workspace-role': 'owner',
-    'x-od-workspace-type': 'team',
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-lifecycle-state': 'active',
-    'x-od-workspace-can-share-projects': 'true',
-    'x-od-workspace-can-write-synced-files': 'true',
+    'x-sw-workspace-id': TEAM_WORKSPACE_ID,
+    'x-sw-workspace-member-id': OWNER_MEMBER_ID,
+    'x-sw-workspace-role': 'owner',
+    'x-sw-workspace-type': 'team',
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-can-share-projects': 'true',
+    'x-sw-workspace-can-write-synced-files': 'true',
     ...extra,
   };
 }
@@ -98,8 +98,8 @@ function teamHeaders(input: {
   role: 'owner' | 'admin' | 'member';
 }) {
   return ownerTeamHeaders({
-    'x-od-workspace-member-id': input.memberId,
-    'x-od-workspace-role': input.role,
+    'x-sw-workspace-member-id': input.memberId,
+    'x-sw-workspace-role': input.role,
   });
 }
 
@@ -683,7 +683,7 @@ describe('project move to personal on an unbound (never-locally-shared) project'
         {
           method: 'PATCH',
           headers: ownerTeamHeaders({
-            'x-od-workspace-id': wrongWorkspaceId,
+            'x-sw-workspace-id': wrongWorkspaceId,
           }),
           body: JSON.stringify({ name: 'Wrong Workspace rename' }),
         },

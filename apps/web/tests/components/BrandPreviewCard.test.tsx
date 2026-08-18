@@ -197,8 +197,8 @@ describe('BrandPreviewCard', () => {
       expect(fetchMock).toHaveBeenCalledWith('/api/brands/brand-ramp', expect.objectContaining({
         method: 'DELETE',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'workspace-delete',
-          'x-od-workspace-member-id': 'member-delete',
+          'x-sw-workspace-id': 'workspace-delete',
+          'x-sw-workspace-member-id': 'member-delete',
         }),
       }));
       expect(onChanged).not.toHaveBeenCalled();

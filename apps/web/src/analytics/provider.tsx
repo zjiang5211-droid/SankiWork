@@ -343,7 +343,7 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
         if (!granted) {
           // Clear the header-injection state so the fetch wrapper effect
           // tears down its hook on the next render. Daemon-side captures
-          // will see no x-od-analytics-* headers → readAnalyticsContext
+          // will see no x-sw-analytics-* headers → readAnalyticsContext
           // returns null → no events emitted, even if POSTHOG_KEY is set.
           setResolvedAnonId(null);
         } else {

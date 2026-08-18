@@ -21,7 +21,7 @@ describe('deck-stage fallback runtime injection', () => {
     expect(htmlUsesDeckStageElement(html)).toBe(true);
     expect(out).toContain('data-sw-deck-stage-fallback');
     expect(out).toContain("window.customElements.define('deck-stage'");
-    expect(out).toContain("type: 'od:slide-state'");
+    expect(out).toContain("type: 'sw:slide-state'");
     expect(out.indexOf('data-sw-deck-stage-fallback')).toBeLessThan(out.indexOf('</body>'));
   });
 

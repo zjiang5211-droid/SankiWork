@@ -1526,8 +1526,8 @@ test('[P0] Team project send keeps exact Team run scope through project bootstra
     // the run and billing boundaries below.
     if (
       scopedReadHeaders === null
-      && requestHeaders['x-od-workspace-id'] === TEAM_RUN_CONTEXT.workspaceId
-      && requestHeaders['x-od-workspace-member-id'] === TEAM_RUN_CONTEXT.workspaceMemberId
+      && requestHeaders['x-sw-workspace-id'] === TEAM_RUN_CONTEXT.workspaceId
+      && requestHeaders['x-sw-workspace-member-id'] === TEAM_RUN_CONTEXT.workspaceMemberId
     ) {
       scopedReadHeaders = requestHeaders;
     }
@@ -1560,8 +1560,8 @@ test('[P0] Team project send keeps exact Team run scope through project bootstra
   await page.goto(`/projects/${projectId}/conversations/${conversationId}`);
   await expectWorkspaceReady(page);
   await expect.poll(() => scopeRequests).toBeGreaterThanOrEqual(2);
-  expect(scopedReadHeaders?.['x-od-workspace-id']).toBe(TEAM_RUN_CONTEXT.workspaceId);
-  expect(scopedReadHeaders?.['x-od-workspace-member-id']).toBe(
+  expect(scopedReadHeaders?.['x-sw-workspace-id']).toBe(TEAM_RUN_CONTEXT.workspaceId);
+  expect(scopedReadHeaders?.['x-sw-workspace-member-id']).toBe(
     TEAM_RUN_CONTEXT.workspaceMemberId,
   );
   await expect(page.getByTestId('chat-composer-input')).toBeEditable();
@@ -1570,8 +1570,8 @@ test('[P0] Team project send keeps exact Team run scope through project bootstra
   await page.getByTestId('chat-send').click();
 
   await expect.poll(() => runHeaders.length).toBe(1);
-  expect(runHeaders[0]?.['x-od-workspace-id']).toBe(TEAM_RUN_CONTEXT.workspaceId);
-  expect(runHeaders[0]?.['x-od-workspace-member-id']).toBe(
+  expect(runHeaders[0]?.['x-sw-workspace-id']).toBe(TEAM_RUN_CONTEXT.workspaceId);
+  expect(runHeaders[0]?.['x-sw-workspace-member-id']).toBe(
     TEAM_RUN_CONTEXT.workspaceMemberId,
   );
   // Run scope is an HTTP authority header contract. The daemon intentionally
@@ -1610,8 +1610,8 @@ test('[P0] Team project balance gate ignores funded Personal wallet and blocks o
     const requestHeaders = await route.request().allHeaders();
     if (
       scopedReadHeaders === null
-      && requestHeaders['x-od-workspace-id'] === TEAM_RUN_CONTEXT.workspaceId
-      && requestHeaders['x-od-workspace-member-id'] === TEAM_RUN_CONTEXT.workspaceMemberId
+      && requestHeaders['x-sw-workspace-id'] === TEAM_RUN_CONTEXT.workspaceId
+      && requestHeaders['x-sw-workspace-member-id'] === TEAM_RUN_CONTEXT.workspaceMemberId
     ) {
       scopedReadHeaders = requestHeaders;
     }
@@ -1635,8 +1635,8 @@ test('[P0] Team project balance gate ignores funded Personal wallet and blocks o
   await page.goto(`/projects/${projectId}/conversations/${conversationId}`);
   await expectWorkspaceReady(page);
   await expect.poll(() => scopeRequests).toBeGreaterThanOrEqual(2);
-  expect(scopedReadHeaders?.['x-od-workspace-id']).toBe(TEAM_RUN_CONTEXT.workspaceId);
-  expect(scopedReadHeaders?.['x-od-workspace-member-id']).toBe(
+  expect(scopedReadHeaders?.['x-sw-workspace-id']).toBe(TEAM_RUN_CONTEXT.workspaceId);
+  expect(scopedReadHeaders?.['x-sw-workspace-member-id']).toBe(
     TEAM_RUN_CONTEXT.workspaceMemberId,
   );
   await expect(page.getByTestId('chat-composer-input')).toBeEditable();
@@ -2820,7 +2820,7 @@ test('[P1] project detail forks histories larger than the daemon JSON body limit
   expect(forkConversationId).toBeTruthy();
   const forkRequestHeaders = forkResponse.request().headers();
   const workspaceHeaders = Object.fromEntries(
-    ['x-od-workspace-id', 'x-od-workspace-member-id']
+    ['x-sw-workspace-id', 'x-sw-workspace-member-id']
       .map((name) => [name, forkRequestHeaders[name]] as const)
       .filter((entry): entry is [string, string] => typeof entry[1] === 'string'),
   );

@@ -61,16 +61,16 @@ function teamContext(
 
 function workspaceHeaders(context: WorkspaceCollabContext): Record<string, string> {
   return {
-    'x-od-workspace-id': context.workspaceId,
-    'x-od-workspace-member-id': context.workspaceMemberId,
+    'x-sw-workspace-id': context.workspaceId,
+    'x-sw-workspace-member-id': context.workspaceMemberId,
   };
 }
 
 function verifiedScopeDeps(context: WorkspaceCollabContext) {
   return {
     verifyWorkspaceRequest: async (req: Request) =>
-      req.header('x-od-workspace-id') === context.workspaceId
-      && req.header('x-od-workspace-member-id') === context.workspaceMemberId
+      req.header('x-sw-workspace-id') === context.workspaceId
+      && req.header('x-sw-workspace-member-id') === context.workspaceMemberId
         ? context
         : null,
     verifyWorkspaceScope: async (scope: {
@@ -327,8 +327,8 @@ describe('collab/status local-only fast path', () => {
         verificationReads += 1;
         return contexts.find(
           (context) =>
-            req.header('x-od-workspace-id') === context.workspaceId
-            && req.header('x-od-workspace-member-id') === context.workspaceMemberId,
+            req.header('x-sw-workspace-id') === context.workspaceId
+            && req.header('x-sw-workspace-member-id') === context.workspaceMemberId,
         ) ?? null;
       },
       verifyWorkspaceScope: async (scope) =>
@@ -485,8 +485,8 @@ describe('collab/status local-only fast path', () => {
     registerCollabSyncRoutes(app, {
       collab: runtime,
       verifyWorkspaceRequest: async (req) => {
-        const workspaceId = req.header('x-od-workspace-id');
-        const memberId = req.header('x-od-workspace-member-id');
+        const workspaceId = req.header('x-sw-workspace-id');
+        const memberId = req.header('x-sw-workspace-member-id');
         return workspaceId && memberId
           ? teamContext(workspaceId, memberId, workspaceId)
           : null;
@@ -510,9 +510,9 @@ describe('collab/status local-only fast path', () => {
         `${base}/api/projects/lru-project/collab/status`,
         {
           headers: {
-            'x-od-workspace-id': `workspace-${scopeIndex}`,
-            'x-od-workspace-member-id': `viewer-${scopeIndex}`,
-            'x-od-workspace-role': 'member',
+            'x-sw-workspace-id': `workspace-${scopeIndex}`,
+            'x-sw-workspace-member-id': `viewer-${scopeIndex}`,
+            'x-sw-workspace-role': 'member',
           },
         },
       );

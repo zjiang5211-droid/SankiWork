@@ -326,7 +326,7 @@ export interface DaemonStreamOptions {
   mediaExecution?: MediaExecutionPolicy;
   titleGeneration?: { enabled?: boolean };
   locale?: string;
-  // The caller's current workspace identity, attached as `x-od-workspace-*`
+  // The caller's current workspace identity, attached as `x-sw-workspace-*`
   // headers on POST /api/runs so the daemon's workspace-resource mutation
   // gate (see `enforceWorkspaceProjectMutation` in
   // `apps/daemon/src/routes/runs.ts`) can tell a team member apart from a
@@ -1049,12 +1049,12 @@ export interface StartVelaLoginResult {
 
 export async function startVelaLogin(
   attribution?: AmrEntryAttribution | null,
-  odDeviceId?: string | null,
+  swDeviceId?: string | null,
   authAttemptId?: string,
 ): Promise<StartVelaLoginResult> {
   try {
     const loginAttribution =
-      attribution && odDeviceId ? { ...attribution, odDeviceId } : attribution;
+      attribution && swDeviceId ? { ...attribution, swDeviceId } : attribution;
     const canonicalAuthAttemptId = authAttemptId
       && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(authAttemptId)
       ? authAttemptId

@@ -374,8 +374,8 @@ describe('amr-auth single-flight tracking', () => {
     expect(setUserMock).toHaveBeenCalledWith('usr_amr_42');
     expect(setPersonMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        od_app_user_id: 'usr_amr_42',
-        od_source_bound_at: expect.any(String),
+        sw_app_user_id: 'usr_amr_42',
+        sw_source_bound_at: expect.any(String),
       }),
     );
     expect(track).toHaveBeenCalledTimes(1);

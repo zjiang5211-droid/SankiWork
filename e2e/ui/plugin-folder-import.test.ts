@@ -66,7 +66,7 @@ test('[P1] imports a valid local Skill folder through the running product', asyn
     importedSkillId = responseSkillId;
     const importHeaders = await importResponse.request().allHeaders();
     cleanupHeaders = Object.fromEntries(
-      Object.entries(importHeaders).filter(([name]) => name.startsWith('x-od-workspace-')),
+      Object.entries(importHeaders).filter(([name]) => name.startsWith('x-sw-workspace-')),
     );
 
     await expect(page.getByRole('status')).toContainText(skillName);

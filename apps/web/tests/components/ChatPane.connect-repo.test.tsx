@@ -223,8 +223,8 @@ describe('ChatPane connect-repo CTA', () => {
       ],
     });
 
-    expect(screen.getByText('artifact.odCardBrandAssistBody')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'artifact.odCardBrandAssistConfirm' })).toBeTruthy();
+    expect(screen.getByText('artifact.swCardBrandAssistBody')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'artifact.swCardBrandAssistConfirm' })).toBeTruthy();
     expect(screen.getByTestId('next-step-brand-action-brand-continue-extraction')).toBeTruthy();
     expect(screen.getByTestId('next-step-brand-action-brand-continue-ai-extraction').textContent)
       .toContain('nextStep.brandContinueAiExtractionTitle');
@@ -257,8 +257,8 @@ describe('ChatPane connect-repo CTA', () => {
       ],
     });
 
-    expect(screen.getByText('artifact.odCardBrandAssistBody')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'artifact.odCardBrandAssistConfirm' })).toBeTruthy();
+    expect(screen.getByText('artifact.swCardBrandAssistBody')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'artifact.swCardBrandAssistConfirm' })).toBeTruthy();
   });
 
   it('renders only agent continuation after an incomplete AI brand extraction turn', () => {

@@ -87,7 +87,7 @@ const VELA_WORKSPACE_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/;
  * slow; the single-flight fetch is NOT canceled when the wait lapses, so it
  * keeps running and populates the cache (see `setVelaLiveAccount`) for the
  * next read. Every consumer already re-reads /status on its own (mount,
- * window focus/visibilitychange, or the `od:amr-login-status-change` event
+ * window focus/visibilitychange, or the `sw:amr-login-status-change` event
  * dispatched right after sign-in resolves), so the plan/balance simply
  * arrives on that next read instead of holding this one hostage.
  */
@@ -677,10 +677,10 @@ export function registerVelaRoutes(app: Express, deps: RegisterVelaRoutesDeps): 
       let loginAttribution = attribution;
       if (attribution) {
         if (analyticsContext && appConfig.telemetry?.metrics === true) {
-          loginAttribution = { ...attribution, odDeviceId: analyticsContext.deviceId };
+          loginAttribution = { ...attribution, swDeviceId: analyticsContext.deviceId };
         } else {
           const withoutDeviceId = { ...attribution };
-          delete withoutDeviceId.odDeviceId;
+          delete withoutDeviceId.swDeviceId;
           loginAttribution = withoutDeviceId;
         }
       }
@@ -808,7 +808,7 @@ export function registerVelaRoutes(app: Express, deps: RegisterVelaRoutesDeps): 
       res.status(202).json({ mirrored: false });
       return;
     }
-    const canonicalPayload = { ...payload, odDeviceId: analyticsContext.deviceId };
+    const canonicalPayload = { ...payload, swDeviceId: analyticsContext.deviceId };
     const result = await mirrorAmrOnboardingProfileAnalytics(canonicalPayload, {
       analyticsContext,
       env,

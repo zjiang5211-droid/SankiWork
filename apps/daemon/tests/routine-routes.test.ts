@@ -189,12 +189,12 @@ describe('routine routes', () => {
     seedRoutine(db, { id: 'legacy-unbound' });
     const { server, port } = await listen(app);
     const headersA = {
-      'x-od-workspace-id': 'workspace-a',
-      'x-od-workspace-member-id': 'member-a',
+      'x-sw-workspace-id': 'workspace-a',
+      'x-sw-workspace-member-id': 'member-a',
     };
     const headersB = {
-      'x-od-workspace-id': 'workspace-b',
-      'x-od-workspace-member-id': 'member-b',
+      'x-sw-workspace-id': 'workspace-b',
+      'x-sw-workspace-member-id': 'member-b',
     };
     try {
       const listA = await fetch(`http://127.0.0.1:${port}/api/routines`, {
@@ -293,8 +293,8 @@ describe('routine routes', () => {
     });
     const { server, port } = await listen(app);
     const headers = {
-      'x-od-workspace-id': 'workspace-a',
-      'x-od-workspace-member-id': 'member-a',
+      'x-sw-workspace-id': 'workspace-a',
+      'x-sw-workspace-member-id': 'member-a',
     };
     try {
       const attempts: Array<[string, RequestInit]> = [
@@ -360,16 +360,16 @@ describe('routine routes', () => {
     try {
       const denied = await fetch(`http://127.0.0.1:${port}/api/routines/reuse-a`, {
         headers: {
-          'x-od-workspace-id': 'workspace-b',
-          'x-od-workspace-member-id': 'member-b',
+          'x-sw-workspace-id': 'workspace-b',
+          'x-sw-workspace-member-id': 'member-b',
         },
       });
       expect(denied.status).toBe(403);
 
       const allowed = await fetch(`http://127.0.0.1:${port}/api/routines/reuse-a`, {
         headers: {
-          'x-od-workspace-id': 'workspace-a',
-          'x-od-workspace-member-id': 'member-a',
+          'x-sw-workspace-id': 'workspace-a',
+          'x-sw-workspace-member-id': 'member-a',
         },
       });
       expect(allowed.status).toBe(200);
@@ -486,8 +486,8 @@ describe('routine routes', () => {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'x-od-workspace-id': 'workspace-a',
-          'x-od-workspace-member-id': 'member-a',
+          'x-sw-workspace-id': 'workspace-a',
+          'x-sw-workspace-member-id': 'member-a',
         },
         body: JSON.stringify({
           name: 'A digest',
@@ -548,8 +548,8 @@ describe('routine routes', () => {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'x-od-workspace-id': 'workspace-a',
-          'x-od-workspace-member-id': 'member-a',
+          'x-sw-workspace-id': 'workspace-a',
+          'x-sw-workspace-member-id': 'member-a',
         },
         body: JSON.stringify({
           name: 'A digest',
@@ -574,8 +574,8 @@ describe('routine routes', () => {
           method: 'PATCH',
           headers: {
             'content-type': 'application/json',
-            'x-od-workspace-id': 'workspace-a',
-            'x-od-workspace-member-id': 'member-a',
+            'x-sw-workspace-id': 'workspace-a',
+            'x-sw-workspace-member-id': 'member-a',
           },
           body: JSON.stringify({
             context: { connectorIds: ['github'] },
@@ -607,8 +607,8 @@ describe('routine routes', () => {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'x-od-workspace-id': 'workspace-a',
-          'x-od-workspace-member-id': 'member-a',
+          'x-sw-workspace-id': 'workspace-a',
+          'x-sw-workspace-member-id': 'member-a',
         },
         body: JSON.stringify({
           name: 'A digest',
@@ -650,8 +650,8 @@ describe('routine routes', () => {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'x-od-workspace-id': 'workspace-b',
-          'x-od-workspace-member-id': 'member-b',
+          'x-sw-workspace-id': 'workspace-b',
+          'x-sw-workspace-member-id': 'member-b',
         },
         body: JSON.stringify({
           name: 'Project A digest',

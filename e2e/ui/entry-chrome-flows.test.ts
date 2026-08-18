@@ -708,7 +708,7 @@ test('[P1] Settings About reads desktop updater status and runs a manual update 
       lastCheckedAt: '2026-06-30T00:00:00.000Z',
       state: 'not-available',
     };
-    (window as unknown as { __odUpdaterCalls?: string[] }).__odUpdaterCalls = [];
+    (window as unknown as { __swUpdaterCalls?: string[] }).__swUpdaterCalls = [];
     (window as unknown as { __sankiwork__?: unknown }).__sankiwork__ = {
       version: 2,
       client: { type: 'desktop', platform: 'darwin', osLocale: 'en-US' },
@@ -727,7 +727,7 @@ test('[P1] Settings About reads desktop updater status and runs a manual update 
       updater: {
         status: async () => idleStatus,
         check: async () => {
-          (window as unknown as { __odUpdaterCalls: string[] }).__odUpdaterCalls.push('check');
+          (window as unknown as { __swUpdaterCalls: string[] }).__swUpdaterCalls.push('check');
           return checkedStatus;
         },
         download: async () => checkedStatus,
@@ -766,7 +766,7 @@ test('[P1] Settings About reads desktop updater status and runs a manual update 
   await dialog.getByRole('button', { name: 'Check for updates' }).click();
   await expect(dialog.locator('.settings-about-update-status')).toContainText('You are already on the latest version.');
   await expect
-    .poll(() => page.evaluate(() => (window as unknown as { __odUpdaterCalls?: string[] }).__odUpdaterCalls ?? []))
+    .poll(() => page.evaluate(() => (window as unknown as { __swUpdaterCalls?: string[] }).__swUpdaterCalls ?? []))
     .toEqual(['check']);
 });
 
@@ -802,7 +802,7 @@ test('[P1] Settings About surfaces prerelease updater check failures with retry 
       lastCheckedAt: '2026-07-21T12:00:00.000Z',
       state: 'error',
     };
-    (window as unknown as { __odUpdaterCalls?: string[] }).__odUpdaterCalls = [];
+    (window as unknown as { __swUpdaterCalls?: string[] }).__swUpdaterCalls = [];
     (window as unknown as { __sankiwork__?: unknown }).__sankiwork__ = {
       version: 2,
       client: { type: 'desktop', platform: 'darwin', osLocale: 'en-US' },
@@ -821,7 +821,7 @@ test('[P1] Settings About surfaces prerelease updater check failures with retry 
       updater: {
         status: async () => idleStatus,
         check: async () => {
-          (window as unknown as { __odUpdaterCalls: string[] }).__odUpdaterCalls.push('check');
+          (window as unknown as { __swUpdaterCalls: string[] }).__swUpdaterCalls.push('check');
           return failedStatus;
         },
         download: async () => failedStatus,
@@ -861,7 +861,7 @@ test('[P1] Settings About surfaces prerelease updater check failures with retry 
   await expect(dialog.locator('.settings-about-update-status')).toContainText('Update failed');
   await expect(dialog.getByRole('button', { name: 'Retry' })).toBeVisible();
   await expect
-    .poll(() => page.evaluate(() => (window as unknown as { __odUpdaterCalls?: string[] }).__odUpdaterCalls ?? []))
+    .poll(() => page.evaluate(() => (window as unknown as { __swUpdaterCalls?: string[] }).__swUpdaterCalls ?? []))
     .toEqual(['check']);
 });
 
@@ -1482,8 +1482,8 @@ async function routeTabWorkspaceApi(
     }
     const headers = route.request().headers();
     const witness = {
-      workspaceId: headers['x-od-workspace-id'] ?? null,
-      workspaceMemberId: headers['x-od-workspace-member-id'] ?? null,
+      workspaceId: headers['x-sw-workspace-id'] ?? null,
+      workspaceMemberId: headers['x-sw-workspace-member-id'] ?? null,
     };
     contextRequests.push(witness);
     const selected = directory.find(

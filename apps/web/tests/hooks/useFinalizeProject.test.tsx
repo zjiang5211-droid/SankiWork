@@ -95,10 +95,10 @@ describe('useFinalizeProject', () => {
 
     const [, init] = fetchSpy.mock.calls[0]!;
     const headers = new Headers(init?.headers);
-    expect(headers.get('x-od-workspace-id')).toBe('workspace-team');
-    expect(headers.get('x-od-workspace-member-id')).toBe('member-owner');
-    expect(headers.get('x-od-workspace-role')).toBe('owner');
-    expect(headers.get('x-od-workspace-can-write-synced-files')).toBe('true');
+    expect(headers.get('x-sw-workspace-id')).toBe('workspace-team');
+    expect(headers.get('x-sw-workspace-member-id')).toBe('member-owner');
+    expect(headers.get('x-sw-workspace-role')).toBe('owner');
+    expect(headers.get('x-sw-workspace-can-write-synced-files')).toBe('true');
   });
 
   it('routes provider-aware requests to the matching finalize endpoint', async () => {

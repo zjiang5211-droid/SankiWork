@@ -66,15 +66,15 @@ describe('bootstrapProjectRoute', () => {
     });
 
     expect(calls).toHaveLength(3);
-    expect(new Headers(calls[0]?.init?.headers).has('x-od-workspace-id')).toBe(false);
-    expect(new Headers(calls[1]?.init?.headers).get('x-od-workspace-id'))
+    expect(new Headers(calls[0]?.init?.headers).has('x-sw-workspace-id')).toBe(false);
+    expect(new Headers(calls[1]?.init?.headers).get('x-sw-workspace-id'))
       .toBe(CONTEXT_A.workspaceId);
-    expect(new Headers(calls[1]?.init?.headers).get('x-od-workspace-member-id'))
+    expect(new Headers(calls[1]?.init?.headers).get('x-sw-workspace-member-id'))
       .toBe(CONTEXT_A.workspaceMemberId);
     expect(calls[1]?.url).toContain('/workspace-scope');
-    expect(new Headers(calls[2]?.init?.headers).get('x-od-workspace-id'))
+    expect(new Headers(calls[2]?.init?.headers).get('x-sw-workspace-id'))
       .toBe(CONTEXT_A.workspaceId);
-    expect(new Headers(calls[2]?.init?.headers).get('x-od-workspace-member-id'))
+    expect(new Headers(calls[2]?.init?.headers).get('x-sw-workspace-member-id'))
       .toBe(CONTEXT_A.workspaceMemberId);
     expect(calls[2]?.url).not.toContain('/workspace-scope');
     expect(calls.every((call) => call.init?.cache === 'no-store')).toBe(true);
@@ -86,7 +86,7 @@ describe('bootstrapProjectRoute', () => {
       const url = String(input);
       const headers = new Headers(init?.headers);
       calls.push({ url, headers });
-      const context = headers.get('x-od-workspace-id') === CONTEXT_B.workspaceId
+      const context = headers.get('x-sw-workspace-id') === CONTEXT_B.workspaceId
         ? CONTEXT_B
         : CONTEXT_A;
       if (url.endsWith('/workspace-scope')) {
@@ -119,10 +119,10 @@ describe('bootstrapProjectRoute', () => {
     expect(calls).toHaveLength(4);
     expect(calls.filter((call) => call.url.endsWith('/workspace-scope'))).toHaveLength(2);
     expect(calls.filter(
-      (call) => call.headers.get('x-od-workspace-id') === CONTEXT_A.workspaceId,
+      (call) => call.headers.get('x-sw-workspace-id') === CONTEXT_A.workspaceId,
     )).toHaveLength(2);
     expect(calls.filter(
-      (call) => call.headers.get('x-od-workspace-id') === CONTEXT_B.workspaceId,
+      (call) => call.headers.get('x-sw-workspace-id') === CONTEXT_B.workspaceId,
     )).toHaveLength(2);
   });
 
@@ -226,7 +226,7 @@ describe('bootstrapProjectRoute', () => {
       accountGeneration: 0,
     })).resolves.toMatchObject({ kind: 'found' });
     expect(calls).toHaveLength(2);
-    expect(new Headers(calls[1]?.init?.headers).has('x-od-workspace-id')).toBe(false);
+    expect(new Headers(calls[1]?.init?.headers).has('x-sw-workspace-id')).toBe(false);
   });
 
   it('single-flights one launch generation, retries failures, and partitions account changes', async () => {

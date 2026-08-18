@@ -3,7 +3,7 @@
 // is a no-op, so dev builds and third-party forks impose zero overhead.
 //
 // Web-side captures (apps/web/src/analytics) carry the matching identity in
-// HTTP headers (see x-od-analytics-* constants in @sankiwork/contracts);
+// HTTP headers (see x-sw-analytics-* constants in @sankiwork/contracts);
 // daemon reads those headers off the request and reuses the same
 // device_id as the PostHog distinct_id so events from both sides land on
 // the same person. (v2: renamed from `anonymous_id`.)
@@ -95,7 +95,7 @@ export function readAnalyticsContext(req: Request): AnalyticsContext | null {
   const entrySurface = boundedHeader(
     req,
     ANALYTICS_HEADER_ENTRY_SURFACE,
-    ['sankiwork_ui', 'od_cli', 'external_mcp'] as const,
+    ['sankiwork_ui', 'sw_cli', 'external_mcp'] as const,
   );
   const hostProduct = boundedHeader(
     req,
@@ -258,7 +258,7 @@ const NOOP_SERVICE: AnalyticsService = {
 // `dataDir` is required so capture can re-read app-config and gate on the
 // user's telemetry.metrics consent. This is defense in depth against PR
 // #1428 reviewer (codex-connector, lefarcen): even if a stale fetch wrapper
-// somehow attaches x-od-analytics-* headers to a request after the user
+// somehow attaches x-sw-analytics-* headers to a request after the user
 // opted out, the daemon will still drop the capture.
 export function createAnalyticsService(args: {
   env?: NodeJS.ProcessEnv;

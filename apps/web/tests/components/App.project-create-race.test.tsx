@@ -1217,8 +1217,8 @@ describe('App project creation routing', () => {
     fireEvent.click(await screen.findByRole('button', { name: 'Create prompted project' }));
 
     await screen.findByTestId('project-view');
-    expect(window.sessionStorage.getItem('od:auto-send-first:project-new')).toBe('1');
-    expect(window.sessionStorage.getItem('od:auto-send-prompt:project-new')).toBe(
+    expect(window.sessionStorage.getItem('sw:auto-send-first:project-new')).toBe('1');
+    expect(window.sessionStorage.getItem('sw:auto-send-prompt:project-new')).toBe(
       'Build the retained artifact prompt',
     );
   });
@@ -1330,8 +1330,8 @@ describe('App project creation routing', () => {
 
     await waitFor(() => expect(mockedCreatePluginShareProject).toHaveBeenCalled());
     await screen.findByTestId('project-view');
-    expect(window.sessionStorage.getItem('od:auto-send-first:project-plugin-share')).toBe('1');
-    expect(window.sessionStorage.getItem('od:auto-send-prompt:project-plugin-share')).toBe(
+    expect(window.sessionStorage.getItem('sw:auto-send-first:project-plugin-share')).toBe('1');
+    expect(window.sessionStorage.getItem('sw:auto-send-prompt:project-plugin-share')).toBe(
       'Publish the retained plugin share prompt',
     );
   });
@@ -1552,8 +1552,8 @@ describe('App project creation routing', () => {
       | undefined;
     expect(call?.pluginId).not.toBe('example-web-prototype');
     expect(call?.metadata?.kind).not.toBe('prototype');
-    expect(window.sessionStorage.getItem('od:auto-send-first:project-new')).toBe('1');
-    expect(window.sessionStorage.getItem('od:auto-send-prompt:project-new')).toContain('Slack');
+    expect(window.sessionStorage.getItem('sw:auto-send-first:project-new')).toBe('1');
+    expect(window.sessionStorage.getItem('sw:auto-send-prompt:project-new')).toContain('Slack');
   });
 
   it('stores the extraction prompt when converting an existing project into a design system', async () => {
@@ -1572,8 +1572,8 @@ describe('App project creation routing', () => {
         null,
       );
     });
-    expect(window.sessionStorage.getItem('od:auto-send-first:project-design-system')).toBe('1');
-    expect(window.sessionStorage.getItem('od:auto-send-prompt:project-design-system')).toBe(
+    expect(window.sessionStorage.getItem('sw:auto-send-first:project-design-system')).toBe('1');
+    expect(window.sessionStorage.getItem('sw:auto-send-prompt:project-design-system')).toBe(
       'Extract the retained design system prompt',
     );
   });

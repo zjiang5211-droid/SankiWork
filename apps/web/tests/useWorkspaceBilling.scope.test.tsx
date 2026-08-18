@@ -589,7 +589,7 @@ describe('useWorkspaceBilling explicit scope', () => {
           ).searchParams.get('workspaceId')!;
           const headers = new Headers(init?.headers);
           const clientId =
-            headers.get('x-od-workspace-runtime-client-id') ?? '';
+            headers.get('x-sw-workspace-runtime-client-id') ?? '';
           observedClientIds.set(workspaceId, clientId);
           return new Response(
             JSON.stringify(billingResponse(
@@ -710,7 +710,7 @@ describe('useWorkspaceBilling explicit scope', () => {
             method: init?.method ?? 'GET',
             generation:
               new Headers(init?.headers).get(
-                'x-od-workspace-runtime-generation',
+                'x-sw-workspace-runtime-generation',
               ) ?? '',
           });
           return new Response(
@@ -969,7 +969,7 @@ describe('useWorkspaceBilling explicit scope', () => {
         if (url.startsWith('/api/workspace/billing?')) {
           billingCalls += 1;
           if (failBilling) {
-            return new Response(JSON.stringify({ error: 'od_protocol_proxy_failed' }), {
+            return new Response(JSON.stringify({ error: 'sw_protocol_proxy_failed' }), {
               status: 502,
               headers: { 'content-type': 'application/json' },
             });
@@ -1055,7 +1055,7 @@ describe('useWorkspaceBilling explicit scope', () => {
         if (url.startsWith('/api/workspace/billing?')) {
           billingCalls += 1;
           if (billingCalls === 1) {
-            return new Response(JSON.stringify({ error: 'od_protocol_proxy_failed' }), {
+            return new Response(JSON.stringify({ error: 'sw_protocol_proxy_failed' }), {
               status: 502,
               headers: { 'content-type': 'application/json' },
             });
@@ -1303,8 +1303,8 @@ describe('useWorkspaceBilling explicit scope', () => {
           billingCalls.push(url);
           const headers = new Headers(init?.headers);
           runtimeHeaders.push({
-            clientId: headers.get('x-od-workspace-runtime-client-id') ?? '',
-            generation: headers.get('x-od-workspace-runtime-generation') ?? '',
+            clientId: headers.get('x-sw-workspace-runtime-client-id') ?? '',
+            generation: headers.get('x-sw-workspace-runtime-generation') ?? '',
           });
           const parsed = new URL(url, 'http://sankiwork.test');
           const workspaceId = parsed.searchParams.get('workspaceId');
@@ -1384,8 +1384,8 @@ describe('useWorkspaceBilling explicit scope', () => {
         if (url.startsWith('/api/workspace/billing?')) {
           const headers = new Headers(init?.headers);
           runtimeHeaders.push({
-            clientId: headers.get('x-od-workspace-runtime-client-id') ?? '',
-            generation: headers.get('x-od-workspace-runtime-generation') ?? '',
+            clientId: headers.get('x-sw-workspace-runtime-client-id') ?? '',
+            generation: headers.get('x-sw-workspace-runtime-generation') ?? '',
           });
           return new Response(JSON.stringify(billingResponse('workspace-a', '1.25')), {
             status: 200,

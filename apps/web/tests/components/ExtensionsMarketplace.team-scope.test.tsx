@@ -467,7 +467,7 @@ describe('ExtensionsMarketplace 团队 scope visibility', () => {
     globalThis.fetch = vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
       const url = String(input);
       if (url === '/api/plugins') {
-        requestScopes.push(new Headers(init?.headers).get('x-od-workspace-id'));
+        requestScopes.push(new Headers(init?.headers).get('x-sw-workspace-id'));
         return reads[pluginRequest++]!.promise;
       }
       if (url.startsWith('/api/marketplaces')) {
@@ -607,7 +607,7 @@ describe('ExtensionsMarketplace 团队 scope visibility', () => {
       if (url.endsWith('/workspace/plugins/team')) {
         requestScopes.push({
           kind: 'plugins',
-          workspaceId: new Headers(init?.headers).get('x-od-workspace-id'),
+          workspaceId: new Headers(init?.headers).get('x-sw-workspace-id'),
         });
         counts.plugins += 1;
         return counts.plugins === 1 ? sharedA.plugins.promise : sharedB.plugins.promise;
@@ -615,7 +615,7 @@ describe('ExtensionsMarketplace 团队 scope visibility', () => {
       if (url.endsWith('/workspace/skills/team')) {
         requestScopes.push({
           kind: 'skills',
-          workspaceId: new Headers(init?.headers).get('x-od-workspace-id'),
+          workspaceId: new Headers(init?.headers).get('x-sw-workspace-id'),
         });
         counts.skills += 1;
         return counts.skills === 1 ? sharedA.skills.promise : sharedB.skills.promise;

@@ -88,7 +88,7 @@ describe('NewAutomationModal Workspace scope', () => {
       workspaceId: 'workspace-a',
       workspaceMemberId: 'member-a',
     });
-    expect(requests[0]!.headers.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(requests[0]!.headers.get('x-od-workspace-member-id')).toBe('member-a');
+    expect(requests[0]!.headers.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(requests[0]!.headers.get('x-sw-workspace-member-id')).toBe('member-a');
   });
 });

@@ -9,7 +9,7 @@
 
 import { randomUUID } from '../utils/uuid';
 
-const STORAGE_KEY = 'od:onboarding-session-id';
+const STORAGE_KEY = 'sw:onboarding-session-id';
 
 function readSessionStorage(): string | null {
   if (typeof window === 'undefined') return null;

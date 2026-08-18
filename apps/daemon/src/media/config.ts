@@ -312,13 +312,13 @@ async function resolveXAIOAuthCredential(
 ): Promise<OAuthCredential | null> {
   // 1. OD-native xAI OAuth tokens (written by the daemon's own
   //    xai-oauth.ts client when the user authorizes inside OD).
-  const odBearer = await resolveXAIBearer(mediaConfigDir(projectRoot)).catch(
+  const swBearer = await resolveXAIBearer(mediaConfigDir(projectRoot)).catch(
     () => null,
   );
-  if (odBearer) {
+  if (swBearer) {
     return {
-      apiKey: odBearer.accessToken,
-      source: `oauth-xai-${odBearer.source}`,
+      apiKey: swBearer.accessToken,
+      source: `oauth-xai-${swBearer.source}`,
     };
   }
 

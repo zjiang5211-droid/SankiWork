@@ -47,12 +47,12 @@ async function setContext(baseUrl: string, context: unknown): Promise<void> {
 
 function workspaceHeaders(context: typeof CONTEXT_WS1 | typeof CONTEXT_WS2): Record<string, string> {
   return {
-    'x-od-workspace-id': context.workspaceId,
-    'x-od-workspace-member-id': context.workspaceMemberId,
-    'x-od-workspace-type': context.workspaceType,
-    'x-od-workspace-role': context.role,
-    'x-od-workspace-member-status': context.memberStatus,
-    'x-od-workspace-lifecycle-state': context.lifecycleState,
+    'x-sw-workspace-id': context.workspaceId,
+    'x-sw-workspace-member-id': context.workspaceMemberId,
+    'x-sw-workspace-type': context.workspaceType,
+    'x-sw-workspace-role': context.role,
+    'x-sw-workspace-member-status': context.memberStatus,
+    'x-sw-workspace-lifecycle-state': context.lifecycleState,
   };
 }
 
@@ -118,7 +118,7 @@ describe('GET/POST /api/design-systems — explicit request scope is isolated fr
 
   it('rejects a half-specified Workspace identity instead of treating it as local', async () => {
     const response = await fetch(`${baseUrl}/api/design-systems`, {
-      headers: { 'x-od-workspace-id': 'ws-switch-one' },
+      headers: { 'x-sw-workspace-id': 'ws-switch-one' },
     });
     expect(response.status).toBe(400);
   });

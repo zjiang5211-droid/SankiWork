@@ -55,11 +55,11 @@ function workspaceHeaders(opts: {
   canWriteSyncedFiles?: string;
 } = {}): Record<string, string> {
   const headers: Record<string, string> = {};
-  if (opts.workspaceId) headers['x-od-workspace-id'] = opts.workspaceId;
-  if (opts.memberId) headers['x-od-workspace-member-id'] = opts.memberId;
-  if (opts.role) headers['x-od-workspace-role'] = opts.role;
-  if (opts.lifecycleState) headers['x-od-workspace-lifecycle-state'] = opts.lifecycleState;
-  if (opts.canWriteSyncedFiles) headers['x-od-workspace-can-write-synced-files'] = opts.canWriteSyncedFiles;
+  if (opts.workspaceId) headers['x-sw-workspace-id'] = opts.workspaceId;
+  if (opts.memberId) headers['x-sw-workspace-member-id'] = opts.memberId;
+  if (opts.role) headers['x-sw-workspace-role'] = opts.role;
+  if (opts.lifecycleState) headers['x-sw-workspace-lifecycle-state'] = opts.lifecycleState;
+  if (opts.canWriteSyncedFiles) headers['x-sw-workspace-can-write-synced-files'] = opts.canWriteSyncedFiles;
   return headers;
 }
 
@@ -145,7 +145,7 @@ describe('enforceWorkspaceResourceMutation', () => {
     const { calls, sendApiError } = spySendApiError();
     const allowed = enforceWorkspaceResourceMutation(
       'plugin',
-      fakeReq({ 'x-od-workspace-id': 'ws-1' }), // no member id
+      fakeReq({ 'x-sw-workspace-id': 'ws-1' }), // no member id
       fakeRes(),
       sendApiError,
       getWorkspaceResource,
@@ -356,7 +356,7 @@ describe('enforceWorkspaceResourceMutation', () => {
         'plugin',
         fakeReq({
           ...workspaceHeaders({ workspaceId: 'ws-1', memberId: 'member-owner', role: 'owner' }),
-          'x-od-workspace-member-status': 'removed',
+          'x-sw-workspace-member-status': 'removed',
         }),
         fakeRes(),
         sendApiError,

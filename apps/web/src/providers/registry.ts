@@ -3120,7 +3120,7 @@ export async function replaceProjectWorkingDir(
 ): Promise<ReplaceProjectWorkingDirResponse> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (desktopImportToken) {
-    headers['x-od-desktop-import-token'] = desktopImportToken;
+    headers['x-sw-desktop-import-token'] = desktopImportToken;
   }
   if (workspaceContext) {
     Object.assign(headers, workspaceProjectHeaders(workspaceContext));

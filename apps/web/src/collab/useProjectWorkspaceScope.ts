@@ -43,8 +43,8 @@ function projectWorkspaceAuthorityHeaders(
   authority: ProjectWorkspaceAuthority,
 ): HeadersInit {
   return {
-    'x-od-workspace-id': authority.workspaceId,
-    'x-od-workspace-member-id': authority.workspaceMemberId,
+    'x-sw-workspace-id': authority.workspaceId,
+    'x-sw-workspace-member-id': authority.workspaceMemberId,
   };
 }
 

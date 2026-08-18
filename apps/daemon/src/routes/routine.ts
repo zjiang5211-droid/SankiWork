@@ -164,8 +164,8 @@ export function registerRoutineRoutes(app: Express, ctx: RegisterRoutineRoutesDe
     const scope = normalizePersistedAutomationWorkspaceScope(context.workspaceScope);
     if (!scope) return context;
     if (!verifyExplicitScope) return { ...context, workspaceScope: scope };
-    const claimedWorkspaceId = String(req.get?.('x-od-workspace-id') ?? '').trim();
-    const claimedMemberId = String(req.get?.('x-od-workspace-member-id') ?? '').trim();
+    const claimedWorkspaceId = String(req.get?.('x-sw-workspace-id') ?? '').trim();
+    const claimedMemberId = String(req.get?.('x-sw-workspace-member-id') ?? '').trim();
     if (
       claimedWorkspaceId !== scope.workspaceId
       || claimedMemberId !== scope.workspaceMemberId
@@ -177,9 +177,9 @@ export function registerRoutineRoutes(app: Express, ctx: RegisterRoutineRoutesDe
   }
 
   function claimedWorkspaceScope(req: any) {
-    const workspaceId = String(req.get?.('x-od-workspace-id') ?? '').trim();
+    const workspaceId = String(req.get?.('x-sw-workspace-id') ?? '').trim();
     const workspaceMemberId = String(
-      req.get?.('x-od-workspace-member-id') ?? '',
+      req.get?.('x-sw-workspace-member-id') ?? '',
     ).trim();
     if (!workspaceId && !workspaceMemberId) return null;
     if (!workspaceId || !workspaceMemberId) {

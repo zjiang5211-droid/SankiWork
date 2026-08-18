@@ -128,7 +128,7 @@ describe('deck bridge - transform-driven decks', () => {
     const { win, track, parentPostMessage } = setupTransformDeck();
 
     win.dispatchEvent(new win.MessageEvent('message', {
-      data: { type: 'od:slide', action: 'next' },
+      data: { type: 'sw:slide', action: 'next' },
     }));
     await new Promise<void>((resolve) => win.setTimeout(resolve, 360));
 
@@ -137,7 +137,7 @@ describe('deck bridge - transform-driven decks', () => {
     expect(win.document.documentElement.scrollLeft).toBe(0);
     const slideStates = parentPostMessage.mock.calls
       .map((call) => call[0])
-      .filter((message) => message?.type === 'od:slide-state');
+      .filter((message) => message?.type === 'sw:slide-state');
     expect(slideStates.at(-1)).toMatchObject({ active: 1, count: 3 });
   });
 });

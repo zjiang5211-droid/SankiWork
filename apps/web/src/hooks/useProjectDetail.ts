@@ -77,8 +77,8 @@ export function useProjectDetail(
           ...(authorityKey !== 'none'
             ? {
                 headers: {
-                  'x-od-workspace-id': authorityWorkspaceId,
-                  'x-od-workspace-member-id': authorityMemberId,
+                  'x-sw-workspace-id': authorityWorkspaceId,
+                  'x-sw-workspace-member-id': authorityMemberId,
                 },
               }
             : {}),

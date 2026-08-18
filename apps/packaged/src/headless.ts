@@ -20,9 +20,9 @@ import {
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 function resolveHeadlessNamespaceBaseRoot(): string {
-  const odDataDir = process.env.SW_DATA_DIR;
-  if (odDataDir != null && odDataDir.length > 0) {
-    return join(resolve(odDataDir.replace(/^~/, homedir())), "namespaces");
+  const swDataDir = process.env.SW_DATA_DIR;
+  if (swDataDir != null && swDataDir.length > 0) {
+    return join(resolve(swDataDir.replace(/^~/, homedir())), "namespaces");
   }
   const xdgDataHome = process.env.XDG_DATA_HOME;
   const dataBase =

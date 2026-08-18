@@ -86,14 +86,14 @@ function hubWireRow(row: HubCatalogRow) {
 function readerTeamHeaders(extra: Record<string, string> = {}) {
   return {
     'content-type': 'application/json',
-    'x-od-workspace-id': TEAM_WORKSPACE_ID,
-    'x-od-workspace-member-id': READER_MEMBER_ID,
-    'x-od-workspace-role': 'member',
-    'x-od-workspace-type': 'team',
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-lifecycle-state': 'active',
-    'x-od-workspace-can-share-projects': 'true',
-    'x-od-workspace-can-write-synced-files': 'true',
+    'x-sw-workspace-id': TEAM_WORKSPACE_ID,
+    'x-sw-workspace-member-id': READER_MEMBER_ID,
+    'x-sw-workspace-role': 'member',
+    'x-sw-workspace-type': 'team',
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-can-share-projects': 'true',
+    'x-sw-workspace-can-write-synced-files': 'true',
     ...extra,
   };
 }

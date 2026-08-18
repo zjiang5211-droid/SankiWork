@@ -98,12 +98,12 @@ async function listen(app: express.Express) {
 function requestHeaders() {
   return {
     'content-type': 'application/json',
-    'x-od-workspace-id': workspaceId,
-    'x-od-workspace-type': 'team',
-    'x-od-workspace-member-id': 'member-owner',
-    'x-od-workspace-role': 'owner',
-    'x-od-workspace-lifecycle-state': 'active',
-    'x-od-workspace-member-status': 'active',
+    'x-sw-workspace-id': workspaceId,
+    'x-sw-workspace-type': 'team',
+    'x-sw-workspace-member-id': 'member-owner',
+    'x-sw-workspace-role': 'owner',
+    'x-sw-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-member-status': 'active',
   };
 }
 

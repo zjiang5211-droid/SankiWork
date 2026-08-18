@@ -666,8 +666,8 @@ describe('InlineModelSwitcher AMR row', () => {
     // `billing=plan` is B's state-aware upgrade intent, replacing the wallet
     // page's fixed `view=plans` pricing modal.
     expect(parsed.searchParams.get('billing')).toBe('plan');
-    expect(parsed.searchParams.get('od_entry_source')).toBe('inline_amr_upgrade');
-    expect(parsed.searchParams.get('od_device_id')).toBe('sw-install-abc');
+    expect(parsed.searchParams.get('sw_entry_source')).toBe('inline_amr_upgrade');
+    expect(parsed.searchParams.get('sw_device_id')).toBe('sw-install-abc');
     expect(target).toBe('_blank');
     expect(features).toBe('noopener,noreferrer');
   });

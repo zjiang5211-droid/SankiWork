@@ -1067,32 +1067,32 @@ function saveChatPanelWidth(width: number): void {
 }
 
 function autoSendFirstMessageKey(projectId: string): string {
-  return `od:auto-send-first:${projectId}`;
+  return `sw:auto-send-first:${projectId}`;
 }
 
 function autoSendPromptKey(projectId: string): string {
-  return `od:auto-send-prompt:${projectId}`;
+  return `sw:auto-send-prompt:${projectId}`;
 }
 
 function autoSendAttachmentsKey(projectId: string): string {
-  return `od:auto-send-attachments:${projectId}`;
+  return `sw:auto-send-attachments:${projectId}`;
 }
 
 function autoSendContextKey(projectId: string): string {
-  return `od:auto-send-context:${projectId}`;
+  return `sw:auto-send-context:${projectId}`;
 }
 
 /** Exact workspace/member authority checked by the Home AMR preflight. */
 function autoSendAmrGateWitnessKey(projectId: string): string {
-  return `od:auto-send-amr-gate-witness:${projectId}`;
+  return `sw:auto-send-amr-gate-witness:${projectId}`;
 }
 
 function legacyAutoSendAmrGateOkKey(projectId: string): string {
-  return `od:auto-send-amr-gate-ok:${projectId}`;
+  return `sw:auto-send-amr-gate-ok:${projectId}`;
 }
 
 function designSystemAuditAutoRepairKey(projectId: string): string {
-  return `od:design-system-audit-auto-repair:${projectId}`;
+  return `sw:design-system-audit-auto-repair:${projectId}`;
 }
 
 function readAutoSendAttachments(projectId: string): ChatAttachment[] {
@@ -10640,7 +10640,7 @@ export function ProjectView({
   }, [designMdState.exists, handleContinueInCli]);
 
   // PluginLoopHome auto-send: when the user submits on Home, app.tsx
-  // sets `sessionStorage['od:auto-send-first:<projectId>']` and routes
+  // sets `sessionStorage['sw:auto-send-first:<projectId>']` and routes
   // through createProject. Once the conversation id resolves and the
   // composer is mounted, fire handleSend(pendingPrompt) exactly once so
   // the user lands inside a running pipeline without an extra click.
@@ -11726,7 +11726,7 @@ function textContentFromAgentEvents(events?: AgentEvent[]): string {
 const QUEUED_CHAT_SENDS_STORAGE_VERSION = 1;
 
 function queuedChatSendsStorageKey(projectId: string): string {
-  return `od:chat-queued-sends:${projectId}:v${QUEUED_CHAT_SENDS_STORAGE_VERSION}`;
+  return `sw:chat-queued-sends:${projectId}:v${QUEUED_CHAT_SENDS_STORAGE_VERSION}`;
 }
 
 function loadQueuedChatSends(projectId: string): QueuedChatSend[] {

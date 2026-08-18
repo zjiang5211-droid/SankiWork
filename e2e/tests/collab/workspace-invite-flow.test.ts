@@ -38,8 +38,8 @@ const INVITEE_CONTEXT = {
 
 function workspaceHeaders(context: typeof OWNER_CONTEXT | typeof INVITEE_CONTEXT) {
   return {
-    'x-od-workspace-id': context.workspaceId,
-    'x-od-workspace-member-id': context.workspaceMemberId,
+    'x-sw-workspace-id': context.workspaceId,
+    'x-sw-workspace-member-id': context.workspaceMemberId,
   };
 }
 

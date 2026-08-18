@@ -74,8 +74,8 @@ describe('DesignKitView iframe sandboxing', () => {
         {
           cache: 'no-store',
           headers: expect.objectContaining({
-            'x-od-workspace-id': 'workspace-team',
-            'x-od-workspace-member-id': 'member-1',
+            'x-sw-workspace-id': 'workspace-team',
+            'x-sw-workspace-member-id': 'member-1',
           }),
         },
       );

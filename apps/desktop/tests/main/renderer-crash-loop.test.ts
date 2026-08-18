@@ -150,7 +150,7 @@ describe("isSupportMailtoUrl", () => {
     expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud")).toBe(true);
     expect(isSupportMailtoUrl("mailto:support@sanki-ai.cloud?subject=Crash&body=hi")).toBe(true);
     // Address comparison is case-insensitive.
-    expect(isSupportMailtoUrl("mailto:Support@SankiWork.AI")).toBe(true);
+    expect(isSupportMailtoUrl("mailto:Support@Sanki-AI.Cloud")).toBe(true);
   });
 
   test("rejects any other address or scheme so widening open-external can't be abused", () => {

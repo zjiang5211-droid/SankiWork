@@ -36,7 +36,7 @@ vi.mock('../../src/collab/useWorkspaceContext', () => ({
     state.resourceReadIdentity?.context ?? state.context,
 }));
 vi.mock('../../src/runtime/brand-intent', () => ({
-  NEW_BRAND_KIT_INTENT_EVENT: 'od:new-brand-kit-intent',
+  NEW_BRAND_KIT_INTENT_EVENT: 'sw:new-brand-kit-intent',
   consumePendingNewBrandKit: () => false,
 }));
 // Keep the list row's real BrandLogo so Workspace read-identity regressions

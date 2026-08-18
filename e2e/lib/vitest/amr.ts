@@ -8,14 +8,14 @@ import { requestJson } from './http.ts';
  * and run creation send the same explicit identity.
  */
 export const AMR_TEST_WORKSPACE_HEADERS: Readonly<Record<string, string>> = {
-  'x-od-workspace-id': 'ws-amr-e2e-personal',
-  'x-od-workspace-type': 'personal',
-  'x-od-workspace-member-id': 'mem-amr-e2e-personal',
-  'x-od-workspace-role': 'owner',
-  'x-od-workspace-lifecycle-state': 'active',
-  'x-od-workspace-member-status': 'active',
-  'x-od-workspace-can-share-projects': 'true',
-  'x-od-workspace-can-write-synced-files': 'true',
+  'x-sw-workspace-id': 'ws-amr-e2e-personal',
+  'x-sw-workspace-type': 'personal',
+  'x-sw-workspace-member-id': 'mem-amr-e2e-personal',
+  'x-sw-workspace-role': 'owner',
+  'x-sw-workspace-lifecycle-state': 'active',
+  'x-sw-workspace-member-status': 'active',
+  'x-sw-workspace-can-share-projects': 'true',
+  'x-sw-workspace-can-write-synced-files': 'true',
 };
 
 export async function putAmrAppConfig(

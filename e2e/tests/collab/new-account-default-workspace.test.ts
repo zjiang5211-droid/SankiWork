@@ -20,8 +20,8 @@ const DEFAULT_WORKSPACE = {
 };
 
 const DEFAULT_WORKSPACE_HEADERS = {
-  'x-od-workspace-id': DEFAULT_WORKSPACE.workspaceId,
-  'x-od-workspace-member-id': DEFAULT_WORKSPACE.workspaceMemberId,
+  'x-sw-workspace-id': DEFAULT_WORKSPACE.workspaceId,
+  'x-sw-workspace-member-id': DEFAULT_WORKSPACE.workspaceMemberId,
 };
 
 let authority: Server;

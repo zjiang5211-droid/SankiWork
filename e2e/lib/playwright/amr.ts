@@ -54,16 +54,16 @@ export const AMR_PERSONAL_WORKSPACE_CONTEXT = {
 } satisfies WorkspaceCollabContext;
 
 export const AMR_PERSONAL_WORKSPACE_HEADERS: Readonly<Record<string, string>> = {
-  'x-od-workspace-id': AMR_PERSONAL_WORKSPACE_CONTEXT.workspaceId,
-  'x-od-workspace-type': AMR_PERSONAL_WORKSPACE_CONTEXT.workspaceType,
-  'x-od-workspace-member-id': AMR_PERSONAL_WORKSPACE_CONTEXT.workspaceMemberId,
-  'x-od-workspace-role': AMR_PERSONAL_WORKSPACE_CONTEXT.role,
-  'x-od-workspace-lifecycle-state': AMR_PERSONAL_WORKSPACE_CONTEXT.lifecycleState,
-  'x-od-workspace-member-status': AMR_PERSONAL_WORKSPACE_CONTEXT.memberStatus,
-  'x-od-workspace-can-share-projects': String(
+  'x-sw-workspace-id': AMR_PERSONAL_WORKSPACE_CONTEXT.workspaceId,
+  'x-sw-workspace-type': AMR_PERSONAL_WORKSPACE_CONTEXT.workspaceType,
+  'x-sw-workspace-member-id': AMR_PERSONAL_WORKSPACE_CONTEXT.workspaceMemberId,
+  'x-sw-workspace-role': AMR_PERSONAL_WORKSPACE_CONTEXT.role,
+  'x-sw-workspace-lifecycle-state': AMR_PERSONAL_WORKSPACE_CONTEXT.lifecycleState,
+  'x-sw-workspace-member-status': AMR_PERSONAL_WORKSPACE_CONTEXT.memberStatus,
+  'x-sw-workspace-can-share-projects': String(
     AMR_PERSONAL_WORKSPACE_CONTEXT.permissions.canShareProjects,
   ),
-  'x-od-workspace-can-write-synced-files': String(
+  'x-sw-workspace-can-write-synced-files': String(
     AMR_PERSONAL_WORKSPACE_CONTEXT.permissions.canWriteSyncedFiles,
   ),
 };
@@ -101,8 +101,8 @@ export async function mockAmrPersonalWorkspace(
     }
     const headers = route.request().headers();
     if (
-      headers['x-od-workspace-id'] !== AMR_PERSONAL_WORKSPACE_ITEM.workspaceId
-      || headers['x-od-workspace-member-id'] !== AMR_PERSONAL_WORKSPACE_ITEM.workspaceMemberId
+      headers['x-sw-workspace-id'] !== AMR_PERSONAL_WORKSPACE_ITEM.workspaceId
+      || headers['x-sw-workspace-member-id'] !== AMR_PERSONAL_WORKSPACE_ITEM.workspaceMemberId
     ) {
       await route.fulfill({
         status: 400,

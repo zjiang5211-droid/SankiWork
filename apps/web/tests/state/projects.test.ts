@@ -145,7 +145,7 @@ describe('createProject local plugin identity', () => {
     });
 
     const init = fetchMock.mock.calls[0]?.[1];
-    expect(new Headers(init?.headers).has('x-od-workspace-id')).toBe(false);
+    expect(new Headers(init?.headers).has('x-sw-workspace-id')).toBe(false);
     expect(JSON.parse(String(init?.body))).toMatchObject({
       skillCatalogScope: {
         workspaceId: 'workspace-a',
@@ -295,8 +295,8 @@ describe('project detail reads', () => {
 
     for (const call of fetchMock.mock.calls) {
       const headers = new Headers(call[1]?.headers);
-      expect(headers.get('x-od-workspace-id')).toBe('workspace-detail');
-      expect(headers.get('x-od-workspace-member-id')).toBe('member-detail');
+      expect(headers.get('x-sw-workspace-id')).toBe('workspace-detail');
+      expect(headers.get('x-sw-workspace-member-id')).toBe('member-detail');
     }
   });
 
@@ -317,7 +317,7 @@ describe('project detail reads', () => {
     await getProjectDetail('legacy-project');
 
     for (const call of fetchMock.mock.calls) {
-      expect(new Headers(call[1]?.headers).has('x-od-workspace-id')).toBe(false);
+      expect(new Headers(call[1]?.headers).has('x-sw-workspace-id')).toBe(false);
     }
   });
 });
@@ -384,7 +384,7 @@ describe('applyPlugin', () => {
 
     const [url, init] = fetchMock.mock.calls[0]!;
     expect(url).toBe('/api/plugins/shared-plugin-id/apply-local');
-    expect(new Headers(init?.headers).has('x-od-workspace-id')).toBe(false);
+    expect(new Headers(init?.headers).has('x-sw-workspace-id')).toBe(false);
     expect(JSON.parse(String(init?.body))).toMatchObject({
       source: 'team:plugin:workspace-a:shared-plugin-id',
       inputs: {},
@@ -414,7 +414,7 @@ describe('applyPlugin', () => {
   it('does not fall back when the new local resolver rejects a source', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () => new Response(
       JSON.stringify({ error: 'plugin not found' }),
-      { status: 404, headers: { 'x-od-plugin-apply-local': '1' } },
+      { status: 404, headers: { 'x-sw-plugin-apply-local': '1' } },
     ));
     vi.stubGlobal('fetch', fetchMock);
 
@@ -449,8 +449,8 @@ describe('applyPlugin', () => {
     const scopes = fetchMock.mock.calls.map(([, init]) => {
       const headers = new Headers(init?.headers);
       return [
-        headers.get('x-od-workspace-id'),
-        headers.get('x-od-workspace-member-id'),
+        headers.get('x-sw-workspace-id'),
+        headers.get('x-sw-workspace-member-id'),
       ];
     });
     expect(scopes).toEqual([
@@ -519,8 +519,8 @@ describe('listProjects', () => {
       '/api/workspaces/ws-team/projects?view=team',
       expect.objectContaining({
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-team',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-team',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -774,9 +774,9 @@ describe('createProject', () => {
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-team',
-          'x-od-workspace-member-id': 'wm-1',
-          'x-od-workspace-type': 'team',
+          'x-sw-workspace-id': 'ws-team',
+          'x-sw-workspace-member-id': 'wm-1',
+          'x-sw-workspace-type': 'team',
         }),
       }),
     );
@@ -1053,8 +1053,8 @@ describe('createProject', () => {
 // grid was also really deletable from there, not just visible — because this
 // call never told the daemon which workspace it was acting from.
 // `enforceWorkspaceProjectMutation` (apps/daemon/src/routes/project/index.ts)
-// treats a request with NEITHER `x-od-workspace-id` NOR
-// `x-od-workspace-member-id` as a legacy caller outside the workspace system
+// treats a request with NEITHER `x-sw-workspace-id` NOR
+// `x-sw-workspace-member-id` as a legacy caller outside the workspace system
 // entirely and skips its ownership check — so every delete from a
 // workspace-team build silently bypassed cross-workspace permission checking,
 // wrong-workspace project or not. Attaching the same headers
@@ -1076,9 +1076,9 @@ describe('deleteProject', () => {
       expect.objectContaining({
         method: 'DELETE',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
-          'x-od-workspace-type': 'personal',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
+          'x-sw-workspace-type': 'personal',
         }),
       }),
     );
@@ -1166,8 +1166,8 @@ describe('duplicateProject', () => {
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -1212,8 +1212,8 @@ describe('patchProject', () => {
         method: 'PATCH',
         headers: expect.objectContaining({
           'Content-Type': 'application/json',
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -1267,8 +1267,8 @@ describe('createDesignSystemProjectFromProject', () => {
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-personal',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-personal',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -1338,8 +1338,8 @@ describe('listPlugins', () => {
     const requestedHeaders: Array<Record<string, string>> = [];
     const fetchMock = vi.fn<typeof fetch>(async (_url, init) => {
       requestedHeaders.push(Object.fromEntries(new Headers(init?.headers).entries()));
-      const workspaceId = new Headers(init?.headers).get('x-od-workspace-id');
-      const memberId = new Headers(init?.headers).get('x-od-workspace-member-id');
+      const workspaceId = new Headers(init?.headers).get('x-sw-workspace-id');
+      const memberId = new Headers(init?.headers).get('x-sw-workspace-member-id');
       return new Response(JSON.stringify({
         plugins: [{ id: `${workspaceId}:${memberId}:${requestedHeaders.length}`, manifest: {} }],
       }), { status: 200, headers: { 'content-type': 'application/json' } });
@@ -1378,16 +1378,16 @@ describe('listPlugins', () => {
     expect(fetchMock).toHaveBeenCalledTimes(3);
     expect(requestedHeaders).toEqual([
       expect.objectContaining({
-        'x-od-workspace-id': 'workspace-shared',
-        'x-od-workspace-member-id': 'member-shared',
+        'x-sw-workspace-id': 'workspace-shared',
+        'x-sw-workspace-member-id': 'member-shared',
       }),
       expect.objectContaining({
-        'x-od-workspace-id': 'workspace-b',
-        'x-od-workspace-member-id': 'member-b',
+        'x-sw-workspace-id': 'workspace-b',
+        'x-sw-workspace-member-id': 'member-b',
       }),
       expect.objectContaining({
-        'x-od-workspace-id': 'workspace-shared',
-        'x-od-workspace-member-id': 'member-shared',
+        'x-sw-workspace-id': 'workspace-shared',
+        'x-sw-workspace-member-id': 'member-shared',
       }),
     ]);
   });
@@ -1397,8 +1397,8 @@ describe('listPlugins', () => {
     const fetchMock = vi.fn<typeof fetch>(async (_url, init) => {
       fetchSequence += 1;
       const headers = new Headers(init?.headers);
-      const workspaceId = headers.get('x-od-workspace-id');
-      const memberId = headers.get('x-od-workspace-member-id');
+      const workspaceId = headers.get('x-sw-workspace-id');
+      const memberId = headers.get('x-sw-workspace-member-id');
       return new Response(JSON.stringify({
         plugins: [{
           id: `${workspaceId}:${memberId}:fetch-${fetchSequence}`,
@@ -1550,8 +1550,8 @@ describe('installGeneratedPluginFolder', () => {
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'workspace-install',
-          'x-od-workspace-member-id': 'member-install',
+          'x-sw-workspace-id': 'workspace-install',
+          'x-sw-workspace-member-id': 'member-install',
         }),
         body: JSON.stringify({ path: 'generated-plugin' }),
       }),
@@ -1584,7 +1584,7 @@ describe('installGeneratedPluginFolder', () => {
           log: [],
         });
       }
-      const workspaceId = new Headers(init?.headers).get('x-od-workspace-id') ?? 'unscoped';
+      const workspaceId = new Headers(init?.headers).get('x-sw-workspace-id') ?? 'unscoped';
       pluginReads.push(workspaceId);
       return Response.json({
         plugins: [{
@@ -1720,8 +1720,8 @@ describe('importClaudeDesignZip', () => {
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'workspace-claude',
-          'x-od-workspace-member-id': 'member-claude',
+          'x-sw-workspace-id': 'workspace-claude',
+          'x-sw-workspace-member-id': 'member-claude',
         }),
       }),
     );
@@ -1768,8 +1768,8 @@ describe('generated plugin share actions', () => {
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'workspace-share',
-          'x-od-workspace-member-id': 'member-share',
+          'x-sw-workspace-id': 'workspace-share',
+          'x-sw-workspace-member-id': 'member-share',
         }),
         body: JSON.stringify({ path: 'generated-plugin' }),
       }),
@@ -1780,8 +1780,8 @@ describe('generated plugin share actions', () => {
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'workspace-share',
-          'x-od-workspace-member-id': 'member-share',
+          'x-sw-workspace-id': 'workspace-share',
+          'x-sw-workspace-member-id': 'member-share',
         }),
         body: JSON.stringify({ path: 'generated-plugin' }),
       }),
@@ -1836,8 +1836,8 @@ describe('generated plugin share tasks', () => {
 
     for (const call of fetchMock.mock.calls) {
       const headers = new Headers(call[1]?.headers);
-      expect(headers.get('x-od-workspace-id')).toBe('workspace-start');
-      expect(headers.get('x-od-workspace-member-id')).toBe('member-start');
+      expect(headers.get('x-sw-workspace-id')).toBe('workspace-start');
+      expect(headers.get('x-sw-workspace-member-id')).toBe('member-start');
     }
   });
 });
@@ -1959,8 +1959,8 @@ describe('importFolderProject', () => {
 
     const [, init] = fetchMock.mock.calls[0]!;
     expect(init?.headers).toMatchObject({
-      'x-od-workspace-id': 'workspace-folder',
-      'x-od-workspace-member-id': 'member-folder',
+      'x-sw-workspace-id': 'workspace-folder',
+      'x-sw-workspace-member-id': 'member-folder',
     });
   });
 
@@ -2033,8 +2033,8 @@ describe('duplicatePluginAsProject', () => {
 
     const [, init] = fetchMock.mock.calls[0]!;
     expect(init?.headers).toMatchObject({
-      'x-od-workspace-id': 'workspace-plugin',
-      'x-od-workspace-member-id': 'member-plugin',
+      'x-sw-workspace-id': 'workspace-plugin',
+      'x-sw-workspace-member-id': 'member-plugin',
     });
   });
 });

@@ -2,7 +2,7 @@
 //
 // `POST /api/runs` used to take its identity from `projectWorkspaceContext(scope)`
 // alone, which is null for EVERY state that is not a resolved personal/team
-// scope. A send issued in that window went out with no `x-od-workspace-*` at
+// scope. A send issued in that window went out with no `x-sw-workspace-*` at
 // all, and the daemon's mutation gate answered a headerless mutation of a
 // workspace-bound project with 401 WORKSPACE_CONTEXT_REQUIRED.
 //

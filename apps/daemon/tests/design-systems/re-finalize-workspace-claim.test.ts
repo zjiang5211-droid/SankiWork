@@ -147,8 +147,8 @@ function workspaceHeaders(
   workspaceMemberId: string | null,
 ): Record<string, string> {
   const headers: Record<string, string> = {};
-  if (workspaceId) headers['x-od-workspace-id'] = workspaceId;
-  if (workspaceMemberId) headers['x-od-workspace-member-id'] = workspaceMemberId;
+  if (workspaceId) headers['x-sw-workspace-id'] = workspaceId;
+  if (workspaceMemberId) headers['x-sw-workspace-member-id'] = workspaceMemberId;
   return headers;
 }
 
@@ -181,10 +181,10 @@ async function createRouteFixture() {
     verifyWorkspaceRequestAuthority: async (req: any) => ({
       ok: true as const,
       context: workspaceContextFromDirectoryItem({
-        workspaceId: req.get('x-od-workspace-id'),
+        workspaceId: req.get('x-sw-workspace-id'),
         workspaceName: 'Workspace fixture',
         workspaceType: 'team',
-        workspaceMemberId: req.get('x-od-workspace-member-id'),
+        workspaceMemberId: req.get('x-sw-workspace-member-id'),
         role: 'owner',
         memberStatus: 'active',
         lifecycleState: 'active',

@@ -115,7 +115,7 @@ vi.mock('../../src/components/SettingsDialog', () => ({
       </button>
       <button
         onClick={() => {
-          window.dispatchEvent(new CustomEvent('od:amr-login-status-change'));
+          window.dispatchEvent(new CustomEvent('sw:amr-login-status-change'));
           onAmrLoginStatusChange?.({
             loggedIn: true,
             profile: 'default',

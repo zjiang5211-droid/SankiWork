@@ -83,10 +83,10 @@ describe('ChatComposer infinite re-render regression (#2097)', () => {
   });
 
   it('restores a saved draft for the active conversation', async () => {
-    window.localStorage.setItem('od:chat-composer:draft:project-1:conv-1', 'draft before refresh');
+    window.localStorage.setItem('sw:chat-composer:draft:project-1:conv-1', 'draft before refresh');
 
     renderComposer({
-      draftStorageKey: 'od:chat-composer:draft:project-1:conv-1',
+      draftStorageKey: 'sw:chat-composer:draft:project-1:conv-1',
     });
     await flushMounts();
 
@@ -94,7 +94,7 @@ describe('ChatComposer infinite re-render regression (#2097)', () => {
   });
 
   it('clears the saved draft after submitting it', async () => {
-    const key = 'od:chat-composer:draft:project-1:conv-1';
+    const key = 'sw:chat-composer:draft:project-1:conv-1';
     const onSend = vi.fn();
     renderComposer({
       draftStorageKey: key,

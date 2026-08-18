@@ -21,7 +21,7 @@ import {
 describe('source attribution person properties', () => {
   beforeEach(() => {
     window.localStorage.clear();
-    document.cookie = 'od_attr=;path=/;max-age=0';
+    document.cookie = 'sw_attr=;path=/;max-age=0';
     vi.mocked(setAnalyticsPersonProperties).mockClear();
   });
 
@@ -37,13 +37,13 @@ describe('source attribution person properties', () => {
     );
 
     expect(setAnalyticsPersonProperties).toHaveBeenCalledWith({
-      od_role: 'engineer',
-      od_org_size: 'growth',
-      od_use_cases: ['product'],
-      od_onboarding_source: 'github',
-      od_source_resolved: 'github',
-      od_source_resolution: 'onboarding',
-      od_onboarding_at: '2026-07-02T08:00:00.000Z',
+      sw_role: 'engineer',
+      sw_org_size: 'growth',
+      sw_use_cases: ['product'],
+      sw_onboarding_source: 'github',
+      sw_source_resolved: 'github',
+      sw_source_resolution: 'onboarding',
+      sw_onboarding_at: '2026-07-02T08:00:00.000Z',
     });
   });
 
@@ -68,8 +68,8 @@ describe('source attribution person properties', () => {
     );
 
     const props = vi.mocked(setAnalyticsPersonProperties).mock.calls[0]?.[0] ?? {};
-    expect(props).toMatchObject({ od_onboarding_source: 'other' });
-    expect(props).not.toHaveProperty('od_onboarding_source_other');
+    expect(props).toMatchObject({ sw_onboarding_source: 'other' });
+    expect(props).not.toHaveProperty('sw_onboarding_source_other');
   });
 
   it('binds a signed-in AMR user to the stored onboarding source', () => {
@@ -91,15 +91,15 @@ describe('source attribution person properties', () => {
 
     expect(setAnalyticsPersonProperties).toHaveBeenCalledWith(
       expect.objectContaining({
-        od_app_user_id: 'usr_amr_42',
-        od_source_bound_at: '2026-07-02T08:30:00.000Z',
-        od_source_resolved: 'social',
-        od_source_resolution: 'onboarding',
-        od_role: 'growth',
-        od_org_size: 'startup',
-        od_use_cases: ['marketing'],
-        od_onboarding_source: 'social',
-        od_onboarding_at: '2026-07-01T07:00:00.000Z',
+        sw_app_user_id: 'usr_amr_42',
+        sw_source_bound_at: '2026-07-02T08:30:00.000Z',
+        sw_source_resolved: 'social',
+        sw_source_resolution: 'onboarding',
+        sw_role: 'growth',
+        sw_org_size: 'startup',
+        sw_use_cases: ['marketing'],
+        sw_onboarding_source: 'social',
+        sw_onboarding_at: '2026-07-01T07:00:00.000Z',
       }),
     );
   });
@@ -123,18 +123,18 @@ describe('source attribution person properties', () => {
 
     expect(setAnalyticsPersonProperties).toHaveBeenCalledWith(
       expect.objectContaining({
-        od_app_user_id: 'usr_amr_42',
-        od_source_bound_at: '2026-07-02T08:30:00.000Z',
-        od_utm_source: 'twitter',
-        od_utm_medium: 'organic_social',
-        od_utm_campaign: '202606_story',
-        od_utm_content: 'official',
-        od_utm_term: 'design_agent',
-        od_referrer: 'x.com',
-        od_landing_path: '/stories/ikigai-one/',
-        od_utm_first_touch_at: '2026-06-30T12:00:00.000Z',
-        od_source_resolved: 'twitter',
-        od_source_resolution: 'utm',
+        sw_app_user_id: 'usr_amr_42',
+        sw_source_bound_at: '2026-07-02T08:30:00.000Z',
+        sw_utm_source: 'twitter',
+        sw_utm_medium: 'organic_social',
+        sw_utm_campaign: '202606_story',
+        sw_utm_content: 'official',
+        sw_utm_term: 'design_agent',
+        sw_referrer: 'x.com',
+        sw_landing_path: '/stories/ikigai-one/',
+        sw_utm_first_touch_at: '2026-06-30T12:00:00.000Z',
+        sw_source_resolved: 'twitter',
+        sw_source_resolution: 'utm',
       }),
     );
   });
@@ -165,21 +165,21 @@ describe('source attribution person properties', () => {
 
     expect(setAnalyticsPersonProperties).toHaveBeenCalledWith(
       expect.objectContaining({
-        od_utm_source: 'linkedin',
-        od_utm_medium: 'paid_social',
-        od_utm_campaign: 'launch',
-        od_utm_content: 'founder_post',
-        od_landing_path: '/download',
-        od_utm_first_touch_at: '2026-06-30T12:00:00.000Z',
-        od_onboarding_source: 'github',
-        od_onboarding_at: '2026-07-01T07:00:00.000Z',
-        od_source_resolved: 'linkedin',
-        od_source_resolution: 'utm',
+        sw_utm_source: 'linkedin',
+        sw_utm_medium: 'paid_social',
+        sw_utm_campaign: 'launch',
+        sw_utm_content: 'founder_post',
+        sw_landing_path: '/download',
+        sw_utm_first_touch_at: '2026-06-30T12:00:00.000Z',
+        sw_onboarding_source: 'github',
+        sw_onboarding_at: '2026-07-01T07:00:00.000Z',
+        sw_source_resolved: 'linkedin',
+        sw_source_resolution: 'utm',
       }),
     );
   });
 
-  it('falls back to referrer attribution when od_attr has no UTM source', () => {
+  it('falls back to referrer attribution when sw_attr has no UTM source', () => {
     writeLandingAttributionCookie({
       ref: 'google.com',
       lp: '/download',
@@ -193,17 +193,17 @@ describe('source attribution person properties', () => {
 
     expect(setAnalyticsPersonProperties).toHaveBeenCalledWith(
       expect.objectContaining({
-        od_referrer: 'google.com',
-        od_landing_path: '/download',
-        od_utm_first_touch_at: '2026-06-30T12:00:00.000Z',
-        od_source_resolved: 'google.com',
-        od_source_resolution: 'referrer',
+        sw_referrer: 'google.com',
+        sw_landing_path: '/download',
+        sw_utm_first_touch_at: '2026-06-30T12:00:00.000Z',
+        sw_source_resolved: 'google.com',
+        sw_source_resolution: 'referrer',
       }),
     );
   });
 
   it('ignores malformed landing attribution cookies and falls back to onboarding', () => {
-    document.cookie = 'od_attr=%7Bbad-json;path=/';
+    document.cookie = 'sw_attr=%7Bbad-json;path=/';
     saveOnboardingProfile(
       {
         role: 'designer',
@@ -221,9 +221,9 @@ describe('source attribution person properties', () => {
 
     expect(setAnalyticsPersonProperties).toHaveBeenCalledWith(
       expect.objectContaining({
-        od_onboarding_source: 'friend',
-        od_source_resolved: 'friend',
-        od_source_resolution: 'onboarding',
+        sw_onboarding_source: 'friend',
+        sw_source_resolved: 'friend',
+        sw_source_resolution: 'onboarding',
       }),
     );
   });
@@ -252,13 +252,13 @@ describe('source attribution person properties', () => {
 
     expect(setAnalyticsPersonProperties).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        od_app_user_id: 'usr_amr_42',
-        od_source_resolved: 'social',
-        od_source_resolution: 'onboarding',
-        od_onboarding_at: '2026-07-01T07:00:00.000Z',
-        od_amr_entry_id: expect.stringMatching(/^sw-amr-/u),
-        od_amr_entry_source: 'inline_model_switcher_amr_row',
-        od_amr_entry_at: '2026-07-02T08:15:00.000Z',
+        sw_app_user_id: 'usr_amr_42',
+        sw_source_resolved: 'social',
+        sw_source_resolution: 'onboarding',
+        sw_onboarding_at: '2026-07-01T07:00:00.000Z',
+        sw_amr_entry_id: expect.stringMatching(/^sw-amr-/u),
+        sw_amr_entry_source: 'inline_model_switcher_amr_row',
+        sw_amr_entry_at: '2026-07-02T08:15:00.000Z',
       }),
     );
   });
@@ -271,5 +271,5 @@ describe('source attribution person properties', () => {
 });
 
 function writeLandingAttributionCookie(value: Record<string, unknown>): void {
-  document.cookie = `od_attr=${encodeURIComponent(JSON.stringify(value))};path=/`;
+  document.cookie = `sw_attr=${encodeURIComponent(JSON.stringify(value))};path=/`;
 }

@@ -1415,14 +1415,14 @@ async function readLocalResourceIds(
 
 function workspaceHeaders(identity: typeof OWNER | typeof MEMBER): Record<string, string> {
   return {
-    'x-od-workspace-id': WORKSPACE_ID,
-    'x-od-workspace-type': 'team',
-    'x-od-workspace-member-id': identity.memberId,
-    'x-od-workspace-role': identity.role,
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-lifecycle-state': 'active',
-    'x-od-workspace-can-share-projects': 'true',
-    'x-od-workspace-can-write-synced-files': 'true',
+    'x-sw-workspace-id': WORKSPACE_ID,
+    'x-sw-workspace-type': 'team',
+    'x-sw-workspace-member-id': identity.memberId,
+    'x-sw-workspace-role': identity.role,
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-can-share-projects': 'true',
+    'x-sw-workspace-can-write-synced-files': 'true',
   };
 }
 
@@ -1431,12 +1431,12 @@ function addedWorkspaceHeaders(
   workspaceId: string,
 ): Record<string, string> {
   return {
-    'x-od-workspace-id': workspaceId,
-    'x-od-workspace-type': 'team',
-    'x-od-workspace-member-id': `member-${identity.memberId}-${workspaceId}`,
-    'x-od-workspace-role': 'owner',
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-id': workspaceId,
+    'x-sw-workspace-type': 'team',
+    'x-sw-workspace-member-id': `member-${identity.memberId}-${workspaceId}`,
+    'x-sw-workspace-role': 'owner',
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-lifecycle-state': 'active',
   };
 }
 

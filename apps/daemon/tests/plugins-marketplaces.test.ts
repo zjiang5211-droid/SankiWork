@@ -319,7 +319,7 @@ describe('marketplaces', () => {
     );
     expect(officialManifest.plugins?.some((plugin) => plugin.name === 'sankiwork/build-test')).toBe(true);
     expect(officialManifest.plugins?.every((plugin) =>
-      /^github:nexu-io\/open-design(?:@[^/]+)?\/plugins\/_official\//.test(plugin.source ?? ''),
+      /^github:zjiang5211-droid\/SankiWork@main\/plugins\/_official\//.test(plugin.source ?? ''),
     )).toBe(true);
 
     const seeded = ensureMarketplaceManifest(db, {

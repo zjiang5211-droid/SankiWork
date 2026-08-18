@@ -165,8 +165,8 @@ export async function runProjectHandoff(args: string[]): Promise<HandoffCliResul
           'content-type': 'application/json',
           ...(options.workspaceId && options.workspaceMemberId
             ? {
-                'x-od-workspace-id': options.workspaceId,
-                'x-od-workspace-member-id': options.workspaceMemberId,
+                'x-sw-workspace-id': options.workspaceId,
+                'x-sw-workspace-member-id': options.workspaceMemberId,
               }
             : {}),
         },

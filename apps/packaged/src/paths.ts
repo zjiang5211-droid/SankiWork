@@ -55,9 +55,9 @@ function resolvePackagedDataRoot(
   namespace: string,
   env: NodeJS.ProcessEnv = {},
 ): string {
-  const odDataDir = env.SW_DATA_DIR?.trim();
-  if (odDataDir) {
-    const expanded = expandHomePrefix(odDataDir);
+  const swDataDir = env.SW_DATA_DIR?.trim();
+  if (swDataDir) {
+    const expanded = expandHomePrefix(swDataDir);
     const isAbs = process.platform === "win32"
       ? win32.isAbsolute(expanded)
       : posix.isAbsolute(expanded);
@@ -66,7 +66,7 @@ function resolvePackagedDataRoot(
         [
           "SankiWork's packaged runtime requires SW_DATA_DIR to be an absolute path.",
           "",
-          `Configured value: ${odDataDir}`,
+          `Configured value: ${swDataDir}`,
           "",
           "Set SW_DATA_DIR to an absolute path (for example, C:\\\\Users\\\\You\\\\SankiWork on Windows or /Users/you/SankiWork on macOS/Linux) and relaunch SankiWork.",
         ].join("\n"),
@@ -80,7 +80,7 @@ function resolvePackagedDataRoot(
           [
             "SankiWork's packaged runtime requires SW_DATA_DIR to target the active namespace.",
             "",
-            `Configured value: ${odDataDir}`,
+            `Configured value: ${swDataDir}`,
             `Configured namespace: ${scopedNamespace}`,
             `Active namespace: ${namespace}`,
             "",

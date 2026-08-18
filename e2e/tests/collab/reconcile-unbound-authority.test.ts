@@ -11,7 +11,7 @@
 // It resolved that workspace from `workspaceProjectContextFromRequest(req)` —
 // header PARSING with no authority check — and stamped
 // `createdByWorkspaceMemberId: ctx.workspaceMemberId` from the same headers.
-// `x-od-workspace-*` is an unauthenticated hint any local caller can forge, so a
+// `x-sw-workspace-*` is an unauthenticated hint any local caller can forge, so a
 // plain curl could claim someone else's orphaned project into a workspace it has
 // no membership in AND write itself in as the project's author. Authorship is the
 // dangerous field: `workspaceResourceAccess` derives `selfCreated` from it, which
@@ -130,14 +130,14 @@ function workspaceHeaders(input: {
   workspaceType?: 'personal' | 'team';
 }): Record<string, string> {
   return {
-    'x-od-workspace-id': input.workspaceId,
-    'x-od-workspace-type': input.workspaceType ?? 'personal',
-    'x-od-workspace-member-id': input.workspaceMemberId,
-    'x-od-workspace-role': 'owner',
-    'x-od-workspace-lifecycle-state': 'active',
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-can-share-projects': 'true',
-    'x-od-workspace-can-write-synced-files': 'true',
+    'x-sw-workspace-id': input.workspaceId,
+    'x-sw-workspace-type': input.workspaceType ?? 'personal',
+    'x-sw-workspace-member-id': input.workspaceMemberId,
+    'x-sw-workspace-role': 'owner',
+    'x-sw-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-can-share-projects': 'true',
+    'x-sw-workspace-can-write-synced-files': 'true',
   };
 }
 

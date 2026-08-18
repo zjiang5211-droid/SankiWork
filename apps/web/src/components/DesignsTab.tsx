@@ -57,7 +57,7 @@ type DesignListItem =
 			createdAt: number;
 	  };
 
-const DESIGNS_VIEW_STORAGE_KEY = "od:designs:view";
+const DESIGNS_VIEW_STORAGE_KEY = "sw:designs:view";
 const PROJECTS_AUTO_REFRESH_MS = 15000;
 const MAX_BACKGROUND_PROJECT_READS = 2;
 

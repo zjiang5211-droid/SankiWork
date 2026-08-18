@@ -108,8 +108,8 @@ async function fixture() {
   registerStaticResourceRoutes(app, {
     db: {} as never,
     verifyWorkspaceRequestAuthority: async (req: any) => {
-      const workspaceId = req.get('x-od-workspace-id')?.trim();
-      const workspaceMemberId = req.get('x-od-workspace-member-id')?.trim();
+      const workspaceId = req.get('x-sw-workspace-id')?.trim();
+      const workspaceMemberId = req.get('x-sw-workspace-member-id')?.trim();
       if (workspaceId === 'workspace-removed') {
         return {
           ok: false,

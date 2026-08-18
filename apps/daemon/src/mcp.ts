@@ -489,7 +489,7 @@ export const TOOL_DEFS = [
   {
     name: 'get_file',
     description:
-      'Read one project file. Text mimes only (HTML, JSX, CSS, JSON, SVG, Markdown). Binary files return an error; use list_files for metadata. Returns up to `limit` lines starting at `offset` (defaults: offset=0, limit=2000), mirroring Claude Code\'s Read tool. For files longer than the slice, the response carries an `[od:file-window ...]` marker with totalLines so you can page by re-calling with the next offset. For multi-file designs prefer get_artifact.',
+      'Read one project file. Text mimes only (HTML, JSX, CSS, JSON, SVG, Markdown). Binary files return an error; use list_files for metadata. Returns up to `limit` lines starting at `offset` (defaults: offset=0, limit=2000), mirroring Claude Code\'s Read tool. For files longer than the slice, the response carries an `[sw:file-window ...]` marker with totalLines so you can page by re-calling with the next offset. For multi-file designs prefer get_artifact.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -1816,7 +1816,7 @@ export async function runMcpStdio(options: RunMcpOptions): Promise<void> {
         '    wants to understand or extend a design.',
         ' - get_file(path) for a single known file. Returns up to 2000',
         '    lines starting at offset (default 0) and stamps a',
-        '    [od:file-window ...] marker when the file is longer; page',
+        '    [sw:file-window ...] marker when the file is longer; page',
         '    by re-calling with the next offset.',
         ' - search_files(query) to find a class/component/copy string',
         '    without fetching every file.',
@@ -2027,7 +2027,7 @@ function publicVelaLoginStatus(status: unknown): unknown {
 // Tools that address projects or runs are workspace-scoped after 0.18.0:
 // bound projects are invisible to a headerless caller and bound-project reads
 // 400 with WORKSPACE_CONTEXT_REQUIRED (#6569). These resolve the signed-in
-// workspace and send x-od-workspace-* headers on every daemon call.
+// workspace and send x-sw-workspace-* headers on every daemon call.
 const PROJECT_OR_RUN_TOOLS = new Set([
   'list_projects',
   'get_project',
@@ -2929,7 +2929,7 @@ async function fetchProjectList(
   baseUrl: string,
   headers?: Record<string, string>,
 ): Promise<ProjectSummary[]> {
-  const workspaceId = headers?.['x-od-workspace-id'] ?? '';
+  const workspaceId = headers?.['x-sw-workspace-id'] ?? '';
   // Cache key includes the workspace so a scoped and an unbound list never mix.
   const cacheKey = workspaceId ? `${baseUrl}|${workspaceId}` : baseUrl;
   const now = Date.now();
@@ -3082,13 +3082,13 @@ async function getFile(
   const extra: string[] = [];
   if (active) extra.push(formatActiveEchoLine(active, relPath));
   if (resolved && (resolved.source === 'slug' || resolved.source === 'substring')) {
-    extra.push(`[od:resolved-project id="${resolved.id}" name="${resolved.name}" via="${resolved.source}"]`);
+    extra.push(`[sw:resolved-project id="${resolved.id}" name="${resolved.name}" via="${resolved.source}"]`);
   }
   if (truncated || start > 0) {
     const nextOffset = start + returnedLines;
     const next = truncated ? `; call get_file again with offset=${nextOffset} to read more` : '';
     extra.push(
-      `[od:file-window offset=${start} returnedLines=${returnedLines} totalLines=${totalLines}${next}]`,
+      `[sw:file-window offset=${start} returnedLines=${returnedLines} totalLines=${totalLines}${next}]`,
     );
   }
   return {
@@ -3122,7 +3122,7 @@ function activeEchoPayload(active: ActiveContext) {
 
 function formatActiveEchoLine(active: ActiveContext, resolvedPath: string): string {
   const proj = active.projectName || active.projectId;
-  const note = `[od:active-context project="${proj}" file="${resolvedPath}"]`;
+  const note = `[sw:active-context project="${proj}" file="${resolvedPath}"]`;
   return active.fileName === resolvedPath
     ? note
     : `${note} (active file: ${active.fileName ?? 'none'})`;

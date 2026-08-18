@@ -9,7 +9,7 @@
 // pending flag and fires the event; the mounted BrandsTab opens its New Brand
 // Kit modal in response, and a fresh mount drains the latch as a fallback.
 
-export const NEW_BRAND_KIT_INTENT_EVENT = 'od:new-brand-kit-intent';
+export const NEW_BRAND_KIT_INTENT_EVENT = 'sw:new-brand-kit-intent';
 
 let pending = false;
 

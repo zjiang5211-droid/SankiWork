@@ -167,19 +167,19 @@ describe('fresh project route Workspace gate', () => {
       expect(projectRequests.filter((request) => request.url === endpoint)).toHaveLength(1);
     }
     for (const request of projectRequests) {
-      expect(request.headers.get('x-od-workspace-id')).toBe(WORKSPACE_A.workspaceId);
-      expect(request.headers.get('x-od-workspace-member-id')).toBe(
+      expect(request.headers.get('x-sw-workspace-id')).toBe(WORKSPACE_A.workspaceId);
+      expect(request.headers.get('x-sw-workspace-member-id')).toBe(
         WORKSPACE_A.workspaceMemberId,
       );
-      expect(request.headers.get('x-od-workspace-id')).not.toBe(
+      expect(request.headers.get('x-sw-workspace-id')).not.toBe(
         WORKSPACE_B.workspaceId,
       );
     }
     expect(
       projectRequests.filter(
         (request) =>
-          !request.headers.get('x-od-workspace-id')
-          || !request.headers.get('x-od-workspace-member-id'),
+          !request.headers.get('x-sw-workspace-id')
+          || !request.headers.get('x-sw-workspace-member-id'),
       ),
     ).toHaveLength(0);
     expect(requests.filter((request) => request.url === '/api/workspace/directory')).toHaveLength(1);
@@ -209,8 +209,8 @@ describe('fresh project route Workspace gate', () => {
     expect(requests.map((request) => request.url)).toEqual(PROJECT_ENDPOINTS);
     expect(requests.some((request) => request.url === '/api/workspace/directory')).toBe(false);
     for (const request of requests) {
-      expect(request.headers.get('x-od-workspace-id')).toBeNull();
-      expect(request.headers.get('x-od-workspace-member-id')).toBeNull();
+      expect(request.headers.get('x-sw-workspace-id')).toBeNull();
+      expect(request.headers.get('x-sw-workspace-member-id')).toBeNull();
     }
   });
 
@@ -368,7 +368,7 @@ describe('fresh project route Workspace gate', () => {
     expect(
       projectRequests.slice(PROJECT_ENDPOINTS.length).every(
         (request) =>
-          request.headers.get('x-od-workspace-member-id')
+          request.headers.get('x-sw-workspace-member-id')
           === newMembership.workspaceMemberId,
       ),
     ).toBe(true);

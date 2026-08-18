@@ -706,11 +706,11 @@ const jsonLd = [
       window.addEventListener('pagehide', () => window.clearInterval(campaignCountdownTimer), { once: true });
 
       // Shared analytics helper — same PostHog sink as the rest of the site
-      // (window.__odTrack, guarded). Stamps page_name + locale on every event.
+      // (window.__swTrack, guarded). Stamps page_name + locale on every event.
       const track = (name, extra) => {
         try {
-          if (typeof window.__odTrack === 'function') {
-            window.__odTrack(
+          if (typeof window.__swTrack === 'function') {
+            window.__swTrack(
               name,
               Object.assign(
                 { page_name: 'pricing', locale: (document.documentElement.getAttribute('lang') || 'en').toLowerCase() },
@@ -729,17 +729,17 @@ const jsonLd = [
       const scopedBillingPlanUrl = () => {
         const target = new URL(billingPlanUrl);
         if (inboundWorkspaceId) target.searchParams.set('workspaceId', inboundWorkspaceId);
-        // od_campaign_id is intentionally NOT forwarded from the inbound URL:
+        // sw_campaign_id is intentionally NOT forwarded from the inbound URL:
         // campaign membership is re-decided by campaignEligible on this click and
-        // written only through __odAttributedUrl so a closed window cannot
+        // written only through __swAttributedUrl so a closed window cannot
         // inherit a desktop-badge campaign id into Cloud checkout.
         for (const key of [
-          'od_origin',
-          'od_entry_id',
-          'od_entry_source',
-          'od_entry_at',
-          'od_conversion_source',
-          'od_device_id',
+          'sw_origin',
+          'sw_entry_id',
+          'sw_entry_source',
+          'sw_entry_at',
+          'sw_conversion_source',
+          'sw_device_id',
         ]) {
           const value = inboundParams.get(key);
           if (value) target.searchParams.set(key, value);
@@ -1080,10 +1080,10 @@ const jsonLd = [
         if (!cta) return;
         try {
           const audience = root.getAttribute('data-audience') || 'creator';
-          // Outside the activity window the CTA still records od_entry_*
+          // Outside the activity window the CTA still records sw_entry_*
           // attribution, but must not stamp the campaign — clicks outside
           // the window may not count toward it.
-          const attribution = window.__odRecordCampaignEntry?.(
+          const attribution = window.__swRecordCampaignEntry?.(
             audience === 'team' ? 'landing_pricing_team_plan' : 'landing_pricing_personal_plan',
             campaignEligible ? 'deepseek_v4_pro' : undefined,
           );
@@ -1098,11 +1098,11 @@ const jsonLd = [
             user_state: 'unknown',
             ...(attribution || {}),
           };
-          if (typeof window.__odTrack === 'function') window.__odTrack('ui_click', props);
+          if (typeof window.__swTrack === 'function') window.__swTrack('ui_click', props);
           else if (window.posthog && window.posthog.capture) window.posthog.capture('ui_click', props);
-          if (attribution && window.__odAttributedUrl) {
+          if (attribution && window.__swAttributedUrl) {
             event.preventDefault();
-            window.location.href = window.__odAttributedUrl(scopedBillingPlanUrl(), attribution);
+            window.location.href = window.__swAttributedUrl(scopedBillingPlanUrl(), attribution);
           }
         } catch (e) {}
       });
@@ -1124,7 +1124,7 @@ const jsonLd = [
           // re-presenting the form (entered values and the sticky success
           // panel are intentionally preserved).
           const form = modal.querySelector('#ent-form');
-          if (form) form.dispatchEvent(new Event('od:lead-reset'));
+          if (form) form.dispatchEvent(new Event('sw:lead-reset'));
           modal.hidden = false;
           modal.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden';
@@ -1170,7 +1170,7 @@ const jsonLd = [
         // preserved verbatim so pre-existing filters keep matching, and the
         // shared form's richer props (seats, country, industry, use case)
         // ride alongside.
-        modal.addEventListener('od:lead-success', (e) => {
+        modal.addEventListener('sw:lead-success', (e) => {
           const d = (e && e.detail) || {};
           track('team_lead_submit', {
             team_size: d.team_size || '(none)',

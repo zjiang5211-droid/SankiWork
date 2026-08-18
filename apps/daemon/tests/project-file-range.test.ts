@@ -338,7 +338,7 @@ describe('GET /api/projects/:id/raw/* range request route', () => {
   });
 
   it('skips URL preview bridge injection for large HTML so first paint can stream', async () => {
-    const res = await fetch(`${rawUrl('large.html')}?odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability`, {
+    const res = await fetch(`${rawUrl('large.html')}?swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability`, {
       headers: { Range: 'bytes=0-127' },
     });
     expect(res.status).toBe(206);
@@ -356,23 +356,23 @@ describe('GET /api/projects/:id/raw/* range request route', () => {
     const plain = await fetch(rawUrl('page.html'));
     expect(await plain.text()).toBe('<html/>');
 
-    const bridged = await fetch(`${rawUrl('page.html')}?odPreviewBridge=scroll`);
+    const bridged = await fetch(`${rawUrl('page.html')}?swPreviewBridge=scroll`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html).toContain('data-sw-url-scroll-bridge');
-    expect(html).toContain("type: 'od:preview-scroll'");
-    expect(html).toContain("type: 'od:preview-content-size'");
-    expect(html).toContain('od:preview-content-size-request');
+    expect(html).toContain("type: 'sw:preview-scroll'");
+    expect(html).toContain("type: 'sw:preview-content-size'");
+    expect(html).toContain('sw:preview-content-size-request');
     expect(html).toContain('lastContentSizeRequest.measurementId');
     expect(html).toContain('lastContentSizeRequest.generation');
     expect(html).toContain('documentEpoch: contentSizeDocumentEpoch');
-    expect(html).toContain("get('odPreviewEpoch')");
+    expect(html).toContain("get('swPreviewEpoch')");
     expect(html).toContain('scrollWidth: size && size.scrollWidth');
     expect(html).toContain('clientWidth: size && size.clientWidth');
   });
 
   it('injects the URL preview scroll bridge before the closing body tag', async () => {
-    const bridged = await fetch(`${rawUrl('body.html')}?odPreviewBridge=scroll`);
+    const bridged = await fetch(`${rawUrl('body.html')}?swPreviewBridge=scroll`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html.indexOf('data-sw-url-scroll-bridge')).toBeGreaterThan(-1);
@@ -383,12 +383,12 @@ describe('GET /api/projects/:id/raw/* range request route', () => {
     const plain = await fetch(rawUrl('page.html'));
     expect(await plain.text()).toBe('<html/>');
 
-    const bridged = await fetch(`${rawUrl('page.html')}?odPreviewBridge=selection`);
+    const bridged = await fetch(`${rawUrl('page.html')}?swPreviewBridge=selection`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html).toContain('data-sw-url-selection-bridge');
-    expect(html).toContain("type: 'od:comment-target'");
-    expect(html).toContain("type: 'od:preview-runtime-state-captured'");
+    expect(html).toContain("type: 'sw:comment-target'");
+    expect(html).toContain("type: 'sw:preview-runtime-state-captured'");
     expect(html).toContain('roots: roots');
     expect(html).toContain('function postReady(');
     expect(html).toContain('href: window.location.href');
@@ -399,17 +399,17 @@ describe('GET /api/projects/:id/raw/* range request route', () => {
     const plain = await fetch(rawUrl('page.html'));
     expect(await plain.text()).toBe('<html/>');
 
-    const bridged = await fetch(`${rawUrl('page.html')}?odPreviewBridge=snapshot`);
+    const bridged = await fetch(`${rawUrl('page.html')}?swPreviewBridge=snapshot`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html).toContain('data-sw-url-snapshot-bridge');
-    expect(html).toContain("type: 'od:snapshot:result'");
+    expect(html).toContain("type: 'sw:snapshot:result'");
     expect(html).not.toContain('data-sw-url-scroll-bridge');
     expect(html).not.toContain('data-sw-url-selection-bridge');
   });
 
   it('injects URL preview observability before author scripts when requested', async () => {
-    const bridged = await fetch(`${rawUrl('body.html')}?odPreviewBridge=observability`);
+    const bridged = await fetch(`${rawUrl('body.html')}?swPreviewBridge=observability`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html).toContain('data-sw-preview-observability');
@@ -462,23 +462,23 @@ describe('GET /api/projects/:id/raw/* range request route', () => {
   });
 
   it('injects the URL preview scroll bridge for powered previews when requested', async () => {
-    const bridged = await fetch(`${poweredUrl('page.html')}?odPreviewBridge=scroll`);
+    const bridged = await fetch(`${poweredUrl('page.html')}?swPreviewBridge=scroll`);
     expect(bridged.status).toBe(200);
     expect(bridged.headers.get('document-isolation-policy')).toBe('isolate-and-credentialless');
     const html = await bridged.text();
     expect(html).toContain('data-sw-url-scroll-bridge');
-    expect(html).toContain("type: 'od:preview-content-size'");
-    expect(html).toContain('od:preview-content-size-request');
+    expect(html).toContain("type: 'sw:preview-content-size'");
+    expect(html).toContain('sw:preview-content-size-request');
     expect(html).toContain('lastContentSizeRequest.measurementId');
     expect(html).toContain('lastContentSizeRequest.generation');
     expect(html).toContain('documentEpoch: contentSizeDocumentEpoch');
-    expect(html).toContain("get('odPreviewEpoch')");
+    expect(html).toContain("get('swPreviewEpoch')");
     expect(html).toContain('scrollWidth: size && size.scrollWidth');
     expect(html).toContain('clientWidth: size && size.clientWidth');
   });
 
   it('injects preview observability for powered previews when requested', async () => {
-    const bridged = await fetch(`${poweredUrl('page.html')}?odPreviewBridge=observability`);
+    const bridged = await fetch(`${poweredUrl('page.html')}?swPreviewBridge=observability`);
     expect(bridged.status).toBe(200);
     expect(bridged.headers.get('document-isolation-policy')).toBe('isolate-and-credentialless');
     const html = await bridged.text();
@@ -513,7 +513,7 @@ describe('GET /api/projects/:id/raw/* range request route', () => {
   });
 
   it('injects all URL preview bridges together', async () => {
-    const bridged = await fetch(`${rawUrl('body.html')}?odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability`);
+    const bridged = await fetch(`${rawUrl('body.html')}?swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html).toContain('data-sw-url-scroll-bridge');
@@ -527,28 +527,28 @@ describe('GET /api/projects/:id/raw/* range request route', () => {
   });
 
   it('does not inject the URL preview scroll bridge twice', async () => {
-    const bridged = await fetch(`${rawUrl('bridged.html')}?odPreviewBridge=scroll`);
+    const bridged = await fetch(`${rawUrl('bridged.html')}?swPreviewBridge=scroll`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html.match(/data-sw-url-scroll-bridge/g)?.length).toBe(1);
   });
 
   it('does not inject the URL preview selection bridge twice', async () => {
-    const bridged = await fetch(`${rawUrl('selection-bridged.html')}?odPreviewBridge=selection`);
+    const bridged = await fetch(`${rawUrl('selection-bridged.html')}?swPreviewBridge=selection`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html.match(/data-sw-url-selection-bridge/g)?.length).toBe(1);
   });
 
   it('does not inject the URL preview snapshot bridge twice', async () => {
-    const bridged = await fetch(`${rawUrl('snapshot-bridged.html')}?odPreviewBridge=snapshot`);
+    const bridged = await fetch(`${rawUrl('snapshot-bridged.html')}?swPreviewBridge=snapshot`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html.match(/data-sw-url-snapshot-bridge/g)?.length).toBe(1);
   });
 
   it('does not inject the URL preview observability bridge twice', async () => {
-    const bridged = await fetch(`${rawUrl('observability-bridged.html')}?odPreviewBridge=observability`);
+    const bridged = await fetch(`${rawUrl('observability-bridged.html')}?swPreviewBridge=observability`);
     expect(bridged.status).toBe(200);
     const html = await bridged.text();
     expect(html.match(/data-sw-preview-observability/g)?.length).toBe(1);

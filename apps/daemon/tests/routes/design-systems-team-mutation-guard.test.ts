@@ -98,13 +98,13 @@ function registerRoutes(app: express.Express, canMutate: (root: string, id: stri
     verifyWorkspaceRequestAuthority: async (req: any) => ({
       ok: true as const,
       context: workspaceContextFromDirectoryItem({
-        workspaceId: req.get('x-od-workspace-id'),
+        workspaceId: req.get('x-sw-workspace-id'),
         workspaceName: 'Locked fixture workspace',
         workspaceType: 'team',
-        workspaceMemberId: req.get('x-od-workspace-member-id'),
+        workspaceMemberId: req.get('x-sw-workspace-member-id'),
         role: 'owner',
         memberStatus: 'active',
-        lifecycleState: req.get('x-od-workspace-lifecycle-state') ?? 'active',
+        lifecycleState: req.get('x-sw-workspace-lifecycle-state') ?? 'active',
       }),
     }),
     workspaceResources: {
@@ -201,9 +201,9 @@ describe('design system PATCH/DELETE team-share mutation guard', () => {
     const res = await fetch(`${baseUrl}/api/design-systems/user:mine`, {
       method: 'DELETE',
       headers: {
-        'x-od-workspace-id': 'ws-locked',
-        'x-od-workspace-member-id': 'member-1',
-        'x-od-workspace-lifecycle-state': 'active',
+        'x-sw-workspace-id': 'ws-locked',
+        'x-sw-workspace-member-id': 'member-1',
+        'x-sw-workspace-lifecycle-state': 'active',
       },
     });
 
@@ -293,9 +293,9 @@ describe('design system revision accept/reject team-share mutation guard', () =>
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'x-od-workspace-id': 'ws-locked',
-        'x-od-workspace-member-id': 'member-1',
-        'x-od-workspace-lifecycle-state': 'locked',
+        'x-sw-workspace-id': 'ws-locked',
+        'x-sw-workspace-member-id': 'member-1',
+        'x-sw-workspace-lifecycle-state': 'locked',
       },
       body: JSON.stringify({ status: 'accepted' }),
     });
@@ -309,9 +309,9 @@ describe('design system revision accept/reject team-share mutation guard', () =>
 
 describe('design system PATCH/DELETE workspace-lock guard (spec 9.2)', () => {
   const lockedHeaders = {
-    'x-od-workspace-id': 'ws-locked',
-    'x-od-workspace-member-id': 'member-1',
-    'x-od-workspace-lifecycle-state': 'locked',
+    'x-sw-workspace-id': 'ws-locked',
+    'x-sw-workspace-member-id': 'member-1',
+    'x-sw-workspace-lifecycle-state': 'locked',
   };
 
   it('rejects publishing/editing when the caller workspace is locked, even if otherwise permitted', async () => {
@@ -358,7 +358,7 @@ describe('design system PATCH/DELETE workspace-lock guard (spec 9.2)', () => {
 
     const res = await fetch(`${baseUrl}/api/design-systems/user:mine`, {
       method: 'DELETE',
-      headers: { ...lockedHeaders, 'x-od-workspace-lifecycle-state': 'deleted' },
+      headers: { ...lockedHeaders, 'x-sw-workspace-lifecycle-state': 'deleted' },
     });
 
     expect(res.status).toBe(403);
@@ -375,7 +375,7 @@ describe('design system PATCH/DELETE workspace-lock guard (spec 9.2)', () => {
 
     const res = await fetch(`${baseUrl}/api/design-systems/user:mine`, {
       method: 'DELETE',
-      headers: { ...lockedHeaders, 'x-od-workspace-lifecycle-state': 'active' },
+      headers: { ...lockedHeaders, 'x-sw-workspace-lifecycle-state': 'active' },
     });
 
     expect(res.status).toBe(204);

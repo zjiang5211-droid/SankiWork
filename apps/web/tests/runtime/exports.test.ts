@@ -196,7 +196,7 @@ describe('injected print-ready parent cache script — runtime behavior (#4458)'
       restoreHost();
     }
     const htmlArg = printPdfMock.mock.calls[0]![0] as string;
-    const match = /<script>(window\.__odPrintReady=false;[\s\S]*?)<\/script>/.exec(htmlArg);
+    const match = /<script>(window\.__swPrintReady=false;[\s\S]*?)<\/script>/.exec(htmlArg);
     if (!match) throw new Error('parent cache script not found in exported HTML');
     const body = match[1]!;
     const nonceMatch = /nonce===['"]([^'"]+)['"]/.exec(body);
@@ -211,8 +211,8 @@ describe('injected print-ready parent cache script — runtime behavior (#4458)'
   // invoking the registered handler with a `{ data, source }` event — exactly
   // what a real `postMessage` delivers, including the source-identity check.
   type FakeWindow = Record<string, unknown> & {
-    __odPrintReady?: unknown;
-    __odPrintSize?: unknown;
+    __swPrintReady?: unknown;
+    __swPrintSize?: unknown;
   };
 
   function loadCache(body: string): { win: FakeWindow; fire: (event: unknown) => void } {
@@ -242,8 +242,8 @@ describe('injected print-ready parent cache script — runtime behavior (#4458)'
     const { body, nonce } = await extractCacheScript();
     const { win, fire } = loadCache(body);
     fire(readyEvent(nonce, 1440, 2000, win));
-    expect(win.__odPrintReady).toBe(true);
-    expect(win.__odPrintSize).toEqual({ width: 1440, height: 2000 });
+    expect(win.__swPrintReady).toBe(true);
+    expect(win.__swPrintSize).toEqual({ width: 1440, height: 2000 });
   });
 
   it('rejects a zero size so the page does not fall back to the wrapper viewport and blank', async () => {
@@ -252,23 +252,23 @@ describe('injected print-ready parent cache script — runtime behavior (#4458)'
     fire(readyEvent(nonce, 0, 0, win));
     // Readiness still resolves (so the desktop bridge never hangs), but the
     // size is withheld so inferPageSize cannot adopt a blank wrapper viewport.
-    expect(win.__odPrintReady).toBe(true);
-    expect(win.__odPrintSize).toBeNull();
+    expect(win.__swPrintReady).toBe(true);
+    expect(win.__swPrintSize).toBeNull();
   });
 
   it('rejects a non-finite size so Infinity cannot poison the page size', async () => {
     const { body, nonce } = await extractCacheScript();
     const { win, fire } = loadCache(body);
     fire(readyEvent(nonce, Number.POSITIVE_INFINITY, 100, win));
-    expect(win.__odPrintSize).toBeNull();
+    expect(win.__swPrintSize).toBeNull();
   });
 
   it('ignores a print-ready message carrying the wrong nonce (anti-spoof)', async () => {
     const { body } = await extractCacheScript();
     const { win, fire } = loadCache(body);
     fire(readyEvent('not-the-real-nonce', 1440, 2000, win));
-    expect(win.__odPrintReady).toBe(false);
-    expect(win.__odPrintSize).toBeNull();
+    expect(win.__swPrintReady).toBe(false);
+    expect(win.__swPrintSize).toBeNull();
   });
 });
 
@@ -806,8 +806,8 @@ describe('binary project/design-system downloads', () => {
     expect(fetchMock).toHaveBeenCalledTimes(6);
     for (const [, init] of fetchMock.mock.calls) {
       const headers = new Headers(init?.headers);
-      expect(headers.get('x-od-workspace-id')).toBe('workspace-a');
-      expect(headers.get('x-od-workspace-member-id')).toBe('member-a');
+      expect(headers.get('x-sw-workspace-id')).toBe('workspace-a');
+      expect(headers.get('x-sw-workspace-member-id')).toBe('member-a');
     }
   });
 
@@ -1174,7 +1174,7 @@ describe('sandboxed preview Blob exports', () => {
     expect(wrapper).toContain('sandbox="allow-scripts"');
     expect(wrapper).not.toContain('allow-same-origin');
     expect(wrapper).toContain('&lt;base href=&quot;/artifacts/project/assets/&quot;&gt;');
-    expect(wrapper).toContain('od:slide');
+    expect(wrapper).toContain('sw:slide');
   });
 
   it('can build a print wrapper without granting same-origin access', () => {
@@ -1218,10 +1218,10 @@ describe('sandboxed preview Blob exports', () => {
 
     expect(capturedBlob).toBeDefined();
     const wrapper = await capturedBlob!.text();
-    expect(wrapper).toContain('__odPrintReady');
-    expect(wrapper).toContain('__odPrintReadyStarted');
-    expect(wrapper).toContain("window.__odPrintReady===true");
-    expect(wrapper).toContain("window.__odPrintReadyStarted===false");
+    expect(wrapper).toContain('__swPrintReady');
+    expect(wrapper).toContain('__swPrintReadyStarted');
+    expect(wrapper).toContain("window.__swPrintReady===true");
+    expect(wrapper).toContain("window.__swPrintReadyStarted===false");
     expect(wrapper).toContain("e.data.type==='SW_PRINT_READY'");
     expect(wrapper).toContain("e.data.type==='SW_PRINT_READY_STARTED'");
     expect(wrapper).toContain('window.addEventListener(\'message\'');
@@ -1243,8 +1243,8 @@ describe('sandboxed preview Blob exports', () => {
     const doc = await capturedBlob!.text();
     expect(doc).not.toContain('sandbox="allow-scripts allow-modals"');
     expect(doc).toContain('<main>Trusted local document</main>');
-    expect(doc).toContain('__odPrintReady');
-    expect(doc).toContain("window.__odPrintReady===true");
+    expect(doc).toContain('__swPrintReady');
+    expect(doc).toContain("window.__swPrintReady===true");
   });
 
   it('shows an alert and revokes the blob URL when the popup is blocked', async () => {
@@ -1287,7 +1287,7 @@ describe('sandboxed preview Blob exports', () => {
     expect(htmlArg).toContain('SW_PRINT_READY');
     // Verify the parent-wrapper cache script is present so the handshake is
     // never missed even if 'SW_PRINT_READY' fires before the listener attaches.
-    expect(htmlArg).toContain('__odPrintReady');
+    expect(htmlArg).toContain('__swPrintReady');
     // Verify the print script is NOT injected — Electron renders via the
     // native printToPDF path, so a self-printing document would trigger a
     // second print dialog.
@@ -1354,7 +1354,7 @@ describe('sandboxed preview Blob exports', () => {
     expect(htmlArg).toContain("e.data.nonce===");
     expect(htmlArg).toContain('e.source===');
     // The parent cache should still be injected.
-    expect(htmlArg).toContain('__odPrintReady');
+    expect(htmlArg).toContain('__swPrintReady');
     // No window.print() since the desktop bridge handles printing natively.
     expect(htmlArg).not.toContain('window.print()');
   });
@@ -1395,8 +1395,8 @@ describe('sandboxed preview Blob exports', () => {
     // true, so a bare `typeof === 'number'` guard would cache a non-finite
     // dimension and let it leak into the page size. (isUsablePrintSize's own
     // boundary behavior is covered by its unit tests above.)
-    expect(htmlArg).toContain('window.__odPrintSize');
-    expect(htmlArg).toContain('__odUsable(e.data.width,e.data.height)');
+    expect(htmlArg).toContain('window.__swPrintSize');
+    expect(htmlArg).toContain('__swUsable(e.data.width,e.data.height)');
     expect(htmlArg).toContain('Number.isFinite(width)');
   });
 
@@ -1422,7 +1422,7 @@ describe('sandboxed preview Blob exports', () => {
     // The readiness handshake must still be injected.
     expect(htmlArg).toContain('SW_PRINT_READY');
     // The cache must be present so waitForPrintReadyHandshake never hangs.
-    expect(htmlArg).toContain('__odPrintReady');
+    expect(htmlArg).toContain('__swPrintReady');
     // No window.print() since the desktop bridge handles printing natively.
     expect(htmlArg).not.toContain('window.print()');
   });
@@ -1474,7 +1474,7 @@ describe('requestPreviewSnapshot', () => {
 
     // Simulate the bridge responding — source must match iframe.contentWindow
     window.dispatchEvent(
-      { type: 'message', source: contentWindow, data: { type: 'od:snapshot:result', id, dataUrl: 'data:image/png;base64,abc', w: 100, h: 50 } } as unknown as Event,
+      { type: 'message', source: contentWindow, data: { type: 'sw:snapshot:result', id, dataUrl: 'data:image/png;base64,abc', w: 100, h: 50 } } as unknown as Event,
     );
 
     const result = await promise;
@@ -1490,10 +1490,10 @@ describe('requestPreviewSnapshot', () => {
 
     expect(postMessageMock).toHaveBeenCalledOnce();
     const message = postMessageMock.mock.calls[0]![0] as { type: string; id: string; full?: boolean };
-    expect(message).toMatchObject({ type: 'od:snapshot', full: true });
+    expect(message).toMatchObject({ type: 'sw:snapshot', full: true });
 
     window.dispatchEvent(
-      { type: 'message', source: contentWindow, data: { type: 'od:snapshot:result', id: message.id, dataUrl: 'data:image/png;base64,abc', w: 100, h: 200 } } as unknown as Event,
+      { type: 'message', source: contentWindow, data: { type: 'sw:snapshot:result', id: message.id, dataUrl: 'data:image/png;base64,abc', w: 100, h: 200 } } as unknown as Event,
     );
 
     const result = await promise;
@@ -1509,7 +1509,7 @@ describe('requestPreviewSnapshot', () => {
     const { id } = postMessageMock.mock.calls[0]![0] as { type: string; id: string };
 
     window.dispatchEvent(
-      { type: 'message', source: contentWindow, data: { type: 'od:snapshot:result', id, error: 'snapshot image failed' } } as unknown as Event,
+      { type: 'message', source: contentWindow, data: { type: 'sw:snapshot:result', id, error: 'snapshot image failed' } } as unknown as Event,
     );
 
     const result = await promise;
@@ -1540,7 +1540,7 @@ describe('requestPreviewSnapshot', () => {
 
     // Correct source but wrong id — should be ignored
     window.dispatchEvent(
-      { type: 'message', source: contentWindow, data: { type: 'od:snapshot:result', id: 'wrong-id', dataUrl: 'data:image/png;base64,abc', w: 100, h: 50 } } as unknown as Event,
+      { type: 'message', source: contentWindow, data: { type: 'sw:snapshot:result', id: 'wrong-id', dataUrl: 'data:image/png;base64,abc', w: 100, h: 50 } } as unknown as Event,
     );
 
     vi.advanceTimersByTime(150);
@@ -1560,7 +1560,7 @@ describe('requestPreviewSnapshot', () => {
 
     // Correct id but wrong source — should be ignored
     window.dispatchEvent(
-      { type: 'message', source: { other: true }, data: { type: 'od:snapshot:result', id, dataUrl: 'data:image/png;base64,abc', w: 100, h: 50 } } as unknown as Event,
+      { type: 'message', source: { other: true }, data: { type: 'sw:snapshot:result', id, dataUrl: 'data:image/png;base64,abc', w: 100, h: 50 } } as unknown as Event,
     );
 
     vi.advanceTimersByTime(150);

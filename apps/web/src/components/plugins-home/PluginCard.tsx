@@ -109,11 +109,11 @@ export function PluginCard({
   // fit the 16:9 frame, so a template's first slide previews proportionally
   // instead of overflowing (see useDeckPreviewScale). Hooks stay top-level;
   // the ref only attaches (and the observer only runs) on the gallery deck path.
-  const odMode = (record.manifest?.od as { mode?: unknown } | undefined)?.mode;
+  const swMode = (record.manifest?.od as { mode?: unknown } | undefined)?.mode;
   const galleryFrameRef = useRef<HTMLDivElement>(null);
   useDeckPreviewScale(
     galleryFrameRef,
-    layout === 'gallery' && odMode === 'deck' && preview.kind === 'html',
+    layout === 'gallery' && swMode === 'deck' && preview.kind === 'html',
   );
 
   function pickUseAction(action: PluginUseAction) {
@@ -141,7 +141,7 @@ export function PluginCard({
           .join(' ')}
         data-plugin-id={record.id}
         data-preview-kind={preview.kind}
-        {...(typeof odMode === 'string' ? { 'data-sw-mode': odMode } : {})}
+        {...(typeof swMode === 'string' ? { 'data-sw-mode': swMode } : {})}
         {...(isFeatured ? { 'data-featured': 'true' } : {})}
         // Mouse convenience: clicking anywhere on the tile opens details.
         // Keyboard/AT users get a real, announced control via the title

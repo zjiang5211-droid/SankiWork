@@ -87,10 +87,10 @@ function workspaceHeaders(
   canWriteSyncedFiles = true,
 ) {
   return {
-    'x-od-workspace-id': WORKSPACE_ID,
-    'x-od-workspace-member-id': memberId,
-    'x-od-workspace-role': role,
-    'x-od-workspace-can-write-synced-files': String(canWriteSyncedFiles),
+    'x-sw-workspace-id': WORKSPACE_ID,
+    'x-sw-workspace-member-id': memberId,
+    'x-sw-workspace-role': role,
+    'x-sw-workspace-can-write-synced-files': String(canWriteSyncedFiles),
   };
 }
 

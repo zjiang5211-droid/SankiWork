@@ -1388,7 +1388,7 @@ function positiveCssNumber(value: unknown): number | null {
 export function restoreActiveSlideCapture(): void {
   const layer = document.getElementById("__od_export_active_slide_capture") as
     | (HTMLElement & {
-        __odSourceStyles?: Array<{ name: string; priority: string; value: string }>;
+        __swSourceStyles?: Array<{ name: string; priority: string; value: string }>;
       })
     | null;
   if (!layer) return;
@@ -1397,7 +1397,7 @@ export function restoreActiveSlideCapture(): void {
   if (placeholder?.parentNode && liveSlide) {
     placeholder.parentNode.moveBefore(liveSlide, placeholder);
     placeholder.remove();
-    for (const { name, priority, value } of layer.__odSourceStyles ?? []) {
+    for (const { name, priority, value } of layer.__swSourceStyles ?? []) {
       if (value) liveSlide.style.setProperty(name, value, priority);
       else liveSlide.style.removeProperty(name);
     }
@@ -1506,8 +1506,8 @@ export function restackActiveSlide(slideSelector: string, index: number, w: numb
 
   const sourceStyleNames = ["opacity", "visibility", "pointer-events", "z-index"];
   (layer as typeof layer & {
-    __odSourceStyles: Array<{ name: string; priority: string; value: string }>;
-  }).__odSourceStyles = sourceStyleNames.map((name) => ({
+    __swSourceStyles: Array<{ name: string; priority: string; value: string }>;
+  }).__swSourceStyles = sourceStyleNames.map((name) => ({
     name,
     priority: el.style.getPropertyPriority(name),
     value: el.style.getPropertyValue(name),

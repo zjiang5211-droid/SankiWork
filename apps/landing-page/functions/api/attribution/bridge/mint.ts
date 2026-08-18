@@ -42,6 +42,6 @@ export const onRequest: PagesFunction<AttributionEnv> = async ({ request, env })
     createdAt: new Date().toISOString(), token,
   };
   await kv.put(recordKey(token), JSON.stringify(record), { expirationTtl: 10 * 60 });
-  target.searchParams.set('od_bridge', token);
+  target.searchParams.set('sw_bridge', token);
   return json(200, { url: target.toString() });
 };

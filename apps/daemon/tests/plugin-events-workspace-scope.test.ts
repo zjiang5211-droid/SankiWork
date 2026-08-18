@@ -35,9 +35,9 @@ function fakePlugin(
 
 function headers(memberId: string) {
   return {
-    'x-od-workspace-id': 'event-workspace',
-    'x-od-workspace-member-id': memberId,
-    'x-od-workspace-role': 'member',
+    'x-sw-workspace-id': 'event-workspace',
+    'x-sw-workspace-member-id': memberId,
+    'x-sw-workspace-role': 'member',
   };
 }
 

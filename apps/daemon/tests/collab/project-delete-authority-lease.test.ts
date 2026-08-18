@@ -5,8 +5,8 @@ import type { WorkspaceResourceAccessInput } from '../../src/collab/workspace-re
 
 function request() {
   const headers: Record<string, string> = {
-    'x-od-workspace-id': 'workspace-personal',
-    'x-od-workspace-member-id': 'member-owner',
+    'x-sw-workspace-id': 'workspace-personal',
+    'x-sw-workspace-member-id': 'member-owner',
   };
   return {
     get(name: string) {

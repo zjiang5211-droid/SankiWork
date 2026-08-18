@@ -118,7 +118,7 @@ export function pdfFilenameFromDocument(html: string): string {
  * of a real `dialog` + `BrowserWindow`.
  *
  * There is deliberately no `print()` here. Issue #1774's bug was the
- * `od:print-pdf` IPC handler reaching for `webContents.print()`, which
+ * `sw:print-pdf` IPC handler reaching for `webContents.print()`, which
  * opens the printer-first OS dialog; `printToPdf()` is the only render
  * path this surface offers, so that regression cannot be reintroduced.
  */
@@ -141,7 +141,7 @@ export type PrintReadyPdfTarget = {
 
 /**
  * Direct Save-as-PDF flow for the renderer host PDF bridge (the
- * `od:print-pdf` IPC handler).
+ * `sw:print-pdf` IPC handler).
  *
  * Unlike {@link exportPdfFromHtml}, the document handed over here is
  * already a fully-wrapped sandboxed preview carrying the print-ready
@@ -358,7 +358,7 @@ export async function waitForPrintableContent(window: BrowserWindow): Promise<vo
 
 export async function waitForPrintReadyHandshake(webContents: Electron.WebContents, nonce: string): Promise<void> {
   // The parent wrapper document caches 'SW_PRINT_READY' in
-  // window.__odPrintReady as soon as it arrives (injected by
+  // window.__swPrintReady as soon as it arrives (injected by
   // injectParentPrintReadyCache in apps/web/src/runtime/exports.ts).
   // Check the cache first to avoid missing a message that fired before
   // this listener was attached.
@@ -367,11 +367,11 @@ export async function waitForPrintReadyHandshake(webContents: Electron.WebConten
   // from untrusted artifact code.
   const handshake = webContents.executeJavaScript(
     `(function() {
-      if (window.__odPrintReady) return Promise.resolve(true);
+      if (window.__swPrintReady) return Promise.resolve(true);
       return new Promise(function(resolve) {
         window.addEventListener('message', function handler(event) {
           if (event.data && event.data.type === 'SW_PRINT_READY' && event.data.nonce === '${nonce}') {
-            window.__odPrintReady = true;
+            window.__swPrintReady = true;
             window.removeEventListener('message', handler);
             resolve(true);
           }
@@ -393,7 +393,7 @@ export async function waitForPrintReadyHandshake(webContents: Electron.WebConten
 export async function inferPageSize(window: BrowserWindow): Promise<PageSize> {
   const size = await window.webContents.executeJavaScript(
     // Prefer the content size the artifact reported through the print-ready
-    // handshake (window.__odPrintSize, cached by injectParentPrintReadyCache
+    // handshake (window.__swPrintSize, cached by injectParentPrintReadyCache
     // in apps/web/src/runtime/exports.ts). For the sandboxed-preview export
     // path the loaded document is a wrapper whose <body> is `overflow:hidden`
     // around a 100%x100% sandboxed <iframe>, so measuring the wrapper here only
@@ -406,7 +406,7 @@ export async function inferPageSize(window: BrowserWindow): Promise<PageSize> {
     // direct measurement for the daemon-backed exportPdfFromHtml() path, where
     // the artifact itself is the loaded document and no handshake runs.
     `(() => {
-      const reported = window.__odPrintSize;
+      const reported = window.__swPrintSize;
       if (reported && Number.isFinite(reported.width) && Number.isFinite(reported.height)
         && reported.width > 0 && reported.height > 0) {
         return { width: reported.width, height: reported.height };

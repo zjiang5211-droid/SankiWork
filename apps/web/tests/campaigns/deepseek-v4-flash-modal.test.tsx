@@ -133,7 +133,7 @@ describe('the modal never re-opens for a seen campaign (no URL override left)', 
 });
 
 describe('unpaid upgrade path carries telemetry consent', () => {
-  it('forwards metricsConsent and stamps od_device_id on the plans URL', () => {
+  it('forwards metricsConsent and stamps sw_device_id on the plans URL', () => {
     // The other two campaign touchpoints (workbench badge, model-switcher
     // upgrade) already record the AMR entry with metricsConsent and attach
     // the consent-gated device id; the modal must match.
@@ -152,12 +152,12 @@ describe('unpaid upgrade path carries telemetry consent', () => {
 
     expect(open).toHaveBeenCalledTimes(1);
     const url = new URL(String(open.mock.calls[0]?.[0]));
-    expect(url.searchParams.get('od_campaign_id')).toBe('deepseek_v4_pro');
-    expect(url.searchParams.get('od_conversion_source')).toBe('deepseek_unpaid_modal');
-    expect(url.searchParams.get('od_device_id')).toBe('install-abc123');
+    expect(url.searchParams.get('sw_campaign_id')).toBe('deepseek_v4_pro');
+    expect(url.searchParams.get('sw_conversion_source')).toBe('deepseek_unpaid_modal');
+    expect(url.searchParams.get('sw_device_id')).toBe('install-abc123');
   });
 
-  it('omits od_device_id without metrics consent', () => {
+  it('omits sw_device_id without metrics consent', () => {
     const open = vi.fn();
     vi.stubGlobal('open', open);
     render(
@@ -173,9 +173,9 @@ describe('unpaid upgrade path carries telemetry consent', () => {
 
     expect(open).toHaveBeenCalledTimes(1);
     const url = new URL(String(open.mock.calls[0]?.[0]));
-    expect(url.searchParams.get('od_device_id')).toBeNull();
+    expect(url.searchParams.get('sw_device_id')).toBeNull();
     // Attribution itself is consent-independent.
-    expect(url.searchParams.get('od_campaign_id')).toBe('deepseek_v4_pro');
+    expect(url.searchParams.get('sw_campaign_id')).toBe('deepseek_v4_pro');
   });
 });
 

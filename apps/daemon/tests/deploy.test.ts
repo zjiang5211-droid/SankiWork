@@ -1626,7 +1626,7 @@ describe('cloudflare pages deploys', () => {
             projectId: 'project-1',
             pagesProjectName: 'demo-pages',
             hostname: 'demo.example.com',
-            marker: 'od:cfp:aaaaaaaaaaaa:bbbbbbbbbbbb',
+            marker: 'sw:cfp:aaaaaaaaaaaa:bbbbbbbbbbbb',
             dnsRecordId: 'dns-1',
           },
         },
@@ -1646,7 +1646,7 @@ describe('cloudflare pages deploys', () => {
         providerMetadata: {
           cloudflarePagesProjectName: 'demo-pages',
           cloudflarePagesCustomDomain: {
-            marker: 'od:cfp:aaaaaaaaaaaa:bbbbbbbbbbbb',
+            marker: 'sw:cfp:aaaaaaaaaaaa:bbbbbbbbbbbb',
           },
         },
       });
@@ -1734,7 +1734,7 @@ describe('cloudflare pages deploys', () => {
           proxied: true,
           ttl: 1,
         });
-        expect(body.comment).toMatch(/^od:cfp:[a-f0-9]{12}:[a-f0-9]{12}$/);
+        expect(body.comment).toMatch(/^sw:cfp:[a-f0-9]{12}:[a-f0-9]{12}$/);
         return new Response(JSON.stringify({ success: true, result: { id: 'dns-1', ...body } }), {
           status: 200,
           headers: { 'content-type': 'application/json' },

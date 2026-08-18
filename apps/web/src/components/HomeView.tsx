@@ -2703,7 +2703,7 @@ export function HomeView({
       // The example-prompt override is a one-shot marker. Decide whether to
       // send it now, but defer spending the marker until the create is
       // accepted — a rejected attempt stays retryable and must resend it.
-      const examplePromptKey = 'od:example-prompt-used';
+      const examplePromptKey = 'sw:example-prompt-used';
       const examplePromptToSend =
         examplePromptInfoRef.current != null && localStorage.getItem(examplePromptKey) == null
           ? examplePromptInfoRef.current

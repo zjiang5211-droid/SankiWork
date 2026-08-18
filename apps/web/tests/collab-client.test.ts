@@ -85,10 +85,10 @@ describe('CollabClient', () => {
     const status = calls.find((call) => call.url.endsWith('/collab/status'));
     const pull = calls.find((call) => call.url.endsWith('/collab/pull'));
     for (const call of [status, pull]) {
-      expect(call?.headers.get('x-od-workspace-id')).toBe(
+      expect(call?.headers.get('x-sw-workspace-id')).toBe(
         TEAM_CONTEXT.workspaceId,
       );
-      expect(call?.headers.get('x-od-workspace-member-id')).toBe(
+      expect(call?.headers.get('x-sw-workspace-member-id')).toBe(
         TEAM_CONTEXT.workspaceMemberId,
       );
     }
@@ -1089,7 +1089,7 @@ describe('CollabClient', () => {
       url: '/api/projects/p1/presence?fresh=1',
       method: 'GET',
     });
-    expect(calls[0]!.headers.get('x-od-workspace-id')).toBe(
+    expect(calls[0]!.headers.get('x-sw-workspace-id')).toBe(
       TEAM_CONTEXT.workspaceId,
     );
     expect(client.getSnapshot().present).toEqual(state.present);

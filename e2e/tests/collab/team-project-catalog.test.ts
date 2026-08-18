@@ -34,8 +34,8 @@ let authorityWorkspace: 'team' | 'personal' = 'team';
 
 function workspaceHeaders(workspace: typeof TEAM | typeof PERSONAL): Record<string, string> {
   return {
-    'x-od-workspace-id': workspace.workspaceId,
-    'x-od-workspace-member-id': workspace.workspaceMemberId,
+    'x-sw-workspace-id': workspace.workspaceId,
+    'x-sw-workspace-member-id': workspace.workspaceMemberId,
   };
 }
 
@@ -294,14 +294,14 @@ describe('team shared-project catalog', () => {
       authorityWorkspace = 'team';
       const velaBin = await writeTeamProjectsVelaBin(join(suite.scratchDir, 'fake-vela-team-projects'));
       const headers = {
-        'x-od-workspace-id': TEAM.workspaceId,
-        'x-od-workspace-type': TEAM.workspaceType,
-        'x-od-workspace-member-id': TEAM.workspaceMemberId,
-        'x-od-workspace-role': TEAM.role,
-        'x-od-workspace-lifecycle-state': TEAM.lifecycleState,
-        'x-od-workspace-member-status': TEAM.memberStatus,
-        'x-od-workspace-can-share-projects': 'true',
-        'x-od-workspace-can-write-synced-files': 'true',
+        'x-sw-workspace-id': TEAM.workspaceId,
+        'x-sw-workspace-type': TEAM.workspaceType,
+        'x-sw-workspace-member-id': TEAM.workspaceMemberId,
+        'x-sw-workspace-role': TEAM.role,
+        'x-sw-workspace-lifecycle-state': TEAM.lifecycleState,
+        'x-sw-workspace-member-status': TEAM.memberStatus,
+        'x-sw-workspace-can-share-projects': 'true',
+        'x-sw-workspace-can-write-synced-files': 'true',
       };
 
       await suite.with.toolsDev(
@@ -393,14 +393,14 @@ describe('team shared-project catalog', () => {
       authorityWorkspace = 'team';
       const velaBin = await writeTeamProjectsVelaBin(join(suite.scratchDir, 'fake-vela-first-open'));
       const headers = {
-        'x-od-workspace-id': TEAM.workspaceId,
-        'x-od-workspace-type': TEAM.workspaceType,
-        'x-od-workspace-member-id': TEAM.workspaceMemberId,
-        'x-od-workspace-role': TEAM.role,
-        'x-od-workspace-lifecycle-state': TEAM.lifecycleState,
-        'x-od-workspace-member-status': TEAM.memberStatus,
-        'x-od-workspace-can-share-projects': 'true',
-        'x-od-workspace-can-write-synced-files': 'false',
+        'x-sw-workspace-id': TEAM.workspaceId,
+        'x-sw-workspace-type': TEAM.workspaceType,
+        'x-sw-workspace-member-id': TEAM.workspaceMemberId,
+        'x-sw-workspace-role': TEAM.role,
+        'x-sw-workspace-lifecycle-state': TEAM.lifecycleState,
+        'x-sw-workspace-member-status': TEAM.memberStatus,
+        'x-sw-workspace-can-share-projects': 'true',
+        'x-sw-workspace-can-write-synced-files': 'false',
       };
 
       await suite.with.toolsDev(
@@ -475,14 +475,14 @@ describe('team shared-project catalog', () => {
       const velaBin = await writeTeamProjectsVelaBin(join(suite.scratchDir, 'fake-vela-pull-retry'));
       const failOnceFile = join(suite.scratchDir, 'pull-failed-once');
       const headers = {
-        'x-od-workspace-id': TEAM.workspaceId,
-        'x-od-workspace-type': TEAM.workspaceType,
-        'x-od-workspace-member-id': TEAM.workspaceMemberId,
-        'x-od-workspace-role': TEAM.role,
-        'x-od-workspace-lifecycle-state': TEAM.lifecycleState,
-        'x-od-workspace-member-status': TEAM.memberStatus,
-        'x-od-workspace-can-share-projects': 'true',
-        'x-od-workspace-can-write-synced-files': 'false',
+        'x-sw-workspace-id': TEAM.workspaceId,
+        'x-sw-workspace-type': TEAM.workspaceType,
+        'x-sw-workspace-member-id': TEAM.workspaceMemberId,
+        'x-sw-workspace-role': TEAM.role,
+        'x-sw-workspace-lifecycle-state': TEAM.lifecycleState,
+        'x-sw-workspace-member-status': TEAM.memberStatus,
+        'x-sw-workspace-can-share-projects': 'true',
+        'x-sw-workspace-can-write-synced-files': 'false',
       };
 
       await suite.with.toolsDev(
@@ -545,14 +545,14 @@ describe('team shared-project catalog', () => {
       const mutationLog = join(suite.scratchDir, 'team-project-mutations.jsonl');
       const projectId = 'shared-project-rename-through';
       const headers = {
-        'x-od-workspace-id': TEAM.workspaceId,
-        'x-od-workspace-type': TEAM.workspaceType,
-        'x-od-workspace-member-id': TEAM.workspaceMemberId,
-        'x-od-workspace-role': TEAM.role,
-        'x-od-workspace-lifecycle-state': TEAM.lifecycleState,
-        'x-od-workspace-member-status': TEAM.memberStatus,
-        'x-od-workspace-can-share-projects': 'true',
-        'x-od-workspace-can-write-synced-files': 'true',
+        'x-sw-workspace-id': TEAM.workspaceId,
+        'x-sw-workspace-type': TEAM.workspaceType,
+        'x-sw-workspace-member-id': TEAM.workspaceMemberId,
+        'x-sw-workspace-role': TEAM.role,
+        'x-sw-workspace-lifecycle-state': TEAM.lifecycleState,
+        'x-sw-workspace-member-status': TEAM.memberStatus,
+        'x-sw-workspace-can-share-projects': 'true',
+        'x-sw-workspace-can-write-synced-files': 'true',
       };
 
       await suite.with.toolsDev(

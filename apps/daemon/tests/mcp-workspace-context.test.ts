@@ -83,8 +83,8 @@ describe('resolveMcpWorkspaceContext', () => {
       workspaceMemberId: 'mem-1',
       workspaceType: 'personal',
       headers: {
-        'x-od-workspace-id': 'ws-personal',
-        'x-od-workspace-member-id': 'mem-1',
+        'x-sw-workspace-id': 'ws-personal',
+        'x-sw-workspace-member-id': 'mem-1',
       },
     });
     expect(fetchMock).toHaveBeenCalledTimes(1);

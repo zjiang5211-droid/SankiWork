@@ -6,7 +6,7 @@
 // `fetchSkills(workspaceContext)` exists to attach `workspaceProjectHeaders` so
 // the daemon's `GET /api/skills` can apply `skillVisibleFromWorkspace`. Two
 // callers pass it (SkillsSection, ExtensionsMarketplace); App.tsx's three did
-// not — and the daemon's rule is FAIL-CLOSED on a missing `x-od-workspace-id`
+// not — and the daemon's rule is FAIL-CLOSED on a missing `x-sw-workspace-id`
 // (`skills.ts`: `if (!scopeId) return !ownerId;`), not "unfiltered". So a
 // headerless read does not return everything; it returns everything EXCEPT the
 // claimed skills — hiding a skill from the very workspace that claimed it.

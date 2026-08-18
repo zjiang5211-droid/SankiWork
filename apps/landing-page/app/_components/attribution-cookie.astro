@@ -5,7 +5,7 @@
  * The marketing site (sanki-ai.cloud) and the vela checkout/wallet page
  * (served same-origin at sanki-ai.cloud/cloud/*) share the sanki-ai.cloud
  * domain. This captures utm_* + the external referrer on landing and stores a
- * FIRST-TOUCH cookie (`od_attr`) so the checkout page can read it back and
+ * FIRST-TOUCH cookie (`sw_attr`) so the checkout page can read it back and
  * attribute the payment to the originating traffic source — closing the
  * "external source -> payment" gap (per-channel/per-campaign revenue).
  *
@@ -22,7 +22,7 @@
 <script is:inline>
 (function () {
   try {
-    var COOKIE = 'od_attr';
+    var COOKIE = 'sw_attr';
     // First-touch: if we already captured a source, keep it.
     if (document.cookie.indexOf(COOKIE + '=') !== -1) return;
 

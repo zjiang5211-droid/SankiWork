@@ -105,8 +105,8 @@ vi.mock('../../src/components/ProjectView', async () => {
             method: 'POST',
             headers: context
               ? {
-                  'x-od-workspace-id': context.workspaceId,
-                  'x-od-workspace-member-id': context.workspaceMemberId,
+                  'x-sw-workspace-id': context.workspaceId,
+                  'x-sw-workspace-member-id': context.workspaceMemberId,
                 }
               : undefined,
           });
@@ -117,8 +117,8 @@ vi.mock('../../src/components/ProjectView', async () => {
         void fetch(`/api/projects/${props.project.id}/mock-project-resource`, {
           headers: context
             ? {
-                'x-od-workspace-id': context.workspaceId,
-                'x-od-workspace-member-id': context.workspaceMemberId,
+                'x-sw-workspace-id': context.workspaceId,
+                'x-sw-workspace-member-id': context.workspaceMemberId,
               }
             : undefined,
         });
@@ -587,7 +587,7 @@ describe('App project list across a workspace switch', () => {
       expect(projectViewLifecycle.mounts).toHaveBeenCalledTimes(1);
       expect(projectResourceRequests).toHaveLength(1);
     });
-    expect(projectResourceRequests[0]?.headers.get('x-od-workspace-id')).toBe('ws-a');
+    expect(projectResourceRequests[0]?.headers.get('x-sw-workspace-id')).toBe('ws-a');
 
     activeWorkspaceId = 'ws-b';
     await act(async () => {
@@ -634,8 +634,8 @@ describe('App project list across a workspace switch', () => {
     expect(window.location.pathname).toBe(`/projects/${boundProjectA.id}`);
     expect(projectResourceRequests.every(
       (request) =>
-        request.headers.get('x-od-workspace-id') === 'ws-a'
-        && request.headers.get('x-od-workspace-member-id') === 'member-ws-a',
+        request.headers.get('x-sw-workspace-id') === 'ws-a'
+        && request.headers.get('x-sw-workspace-member-id') === 'member-ws-a',
     )).toBe(true);
   });
 
@@ -686,7 +686,7 @@ describe('App project list across a workspace switch', () => {
       expect(projectViewLifecycle.mounts).toHaveBeenCalledTimes(1);
       expect(projectResourceRequests).toHaveLength(1);
     });
-    expect(projectResourceRequests[0]?.headers.get('x-od-workspace-id')).toBe('ws-a');
+    expect(projectResourceRequests[0]?.headers.get('x-sw-workspace-id')).toBe('ws-a');
 
     removeProjectFromAuthoritativeList = true;
     fireEvent.click(screen.getByTestId('project-refresh'));
@@ -802,8 +802,8 @@ describe('App project list across a workspace switch', () => {
         if (pathname === `/api/projects/${boundProjectA.id}/workspace-scope`) {
           scopeReads += 1;
           if (scopeReads === 1) return scopeResponse.promise;
-          expect(headers.get('x-od-workspace-id')).toBe('ws-a');
-          expect(headers.get('x-od-workspace-member-id')).toBe('member-ws-a');
+          expect(headers.get('x-sw-workspace-id')).toBe('ws-a');
+          expect(headers.get('x-sw-workspace-member-id')).toBe('member-ws-a');
           return new Response(JSON.stringify({
             scope: {
               kind: 'team',
@@ -823,8 +823,8 @@ describe('App project list across a workspace switch', () => {
         ) {
           projectDataRequests.push({ url: pathname, headers });
           if (
-            headers.get('x-od-workspace-id') !== 'ws-a'
-            || headers.get('x-od-workspace-member-id') !== 'member-ws-a'
+            headers.get('x-sw-workspace-id') !== 'ws-a'
+            || headers.get('x-sw-workspace-member-id') !== 'member-ws-a'
           ) {
             rejectedHeaderlessReads.push(pathname);
             return new Response('{}', { status: 400 });
@@ -899,8 +899,8 @@ describe('App project list across a workspace switch', () => {
     ).toHaveLength(1);
     expect(projectDataRequests.every(
       (request) =>
-        request.headers.get('x-od-workspace-id') === 'ws-a'
-        && request.headers.get('x-od-workspace-member-id') === 'member-ws-a',
+        request.headers.get('x-sw-workspace-id') === 'ws-a'
+        && request.headers.get('x-sw-workspace-member-id') === 'member-ws-a',
     )).toBe(true);
     expect(projectViewLifecycle.renders.mock.lastCall?.[0]).toMatchObject({
       project: { id: boundProjectA.id, workspaceId: 'ws-a' },
@@ -947,8 +947,8 @@ describe('App project list across a workspace switch', () => {
       if (pathname === `/api/projects/${boundProjectA.id}`) {
         detailReads += 1;
         const headers = new Headers(init?.headers);
-        expect(headers.get('x-od-workspace-id')).toBe('ws-a');
-        expect(headers.get('x-od-workspace-member-id')).toBe('member-ws-a');
+        expect(headers.get('x-sw-workspace-id')).toBe('ws-a');
+        expect(headers.get('x-sw-workspace-member-id')).toBe('member-ws-a');
         return new Response(JSON.stringify({
           project: boundProjectA,
           resolvedDir: '/tmp/project-in-a',
@@ -1025,8 +1025,8 @@ describe('App project list across a workspace switch', () => {
         scopeReads += 1;
         if (scopeReads === 1) return scopeResponse.promise;
         const headers = new Headers(init?.headers);
-        expect(headers.get('x-od-workspace-id')).toBe('ws-a');
-        expect(headers.get('x-od-workspace-member-id')).toBe('member-ws-a');
+        expect(headers.get('x-sw-workspace-id')).toBe('ws-a');
+        expect(headers.get('x-sw-workspace-member-id')).toBe('member-ws-a');
         return new Response(JSON.stringify({
           scope: {
             kind: 'team',
@@ -1043,8 +1043,8 @@ describe('App project list across a workspace switch', () => {
       if (pathname === `/api/projects/${boundProjectA.id}`) {
         detailReads += 1;
         const headers = new Headers(init?.headers);
-        expect(headers.get('x-od-workspace-id')).toBe('ws-a');
-        expect(headers.get('x-od-workspace-member-id')).toBe('member-ws-a');
+        expect(headers.get('x-sw-workspace-id')).toBe('ws-a');
+        expect(headers.get('x-sw-workspace-member-id')).toBe('member-ws-a');
         return new Response(JSON.stringify({
           project: boundProjectA,
           resolvedDir: '/tmp/project-in-a',

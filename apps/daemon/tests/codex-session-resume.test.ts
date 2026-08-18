@@ -684,9 +684,9 @@ async function sendRunAndWait(
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-od-analytics-device-id': 'codex-resume-test',
-      'x-od-analytics-session-id': 'codex-resume-session',
-      'x-od-analytics-client-type': 'web',
+      'x-sw-analytics-device-id': 'codex-resume-test',
+      'x-sw-analytics-session-id': 'codex-resume-session',
+      'x-sw-analytics-client-type': 'web',
     },
     body: JSON.stringify({
       projectId,

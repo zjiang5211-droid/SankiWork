@@ -126,8 +126,8 @@ describe('workspace switch — seeding the context from the PUT response', () =>
       }
       if (url.pathname === '/api/workspace/context') {
         const headers = new Headers(init?.headers);
-        const requestedWorkspaceId = headers.get('x-od-workspace-id');
-        const requestedWorkspaceMemberId = headers.get('x-od-workspace-member-id');
+        const requestedWorkspaceId = headers.get('x-sw-workspace-id');
+        const requestedWorkspaceMemberId = headers.get('x-sw-workspace-member-id');
         contextScopes.push({
           workspaceId: requestedWorkspaceId,
           workspaceMemberId: requestedWorkspaceMemberId,
@@ -233,7 +233,7 @@ describe('workspace switch — seeding the context from the PUT response', () =>
 
     signedOut = true;
     act(() => {
-      window.dispatchEvent(new Event('od:workspace-context-refresh'));
+      window.dispatchEvent(new Event('sw:workspace-context-refresh'));
     });
 
     await waitFor(() =>

@@ -102,14 +102,14 @@ function workspaceHeaders(input: {
   role?: string;
 }): Record<string, string> {
   return {
-    'x-od-workspace-id': input.workspaceId,
-    'x-od-workspace-type': input.workspaceType,
-    'x-od-workspace-member-id': input.workspaceMemberId,
-    'x-od-workspace-role': input.role ?? 'owner',
-    'x-od-workspace-lifecycle-state': 'active',
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-can-share-projects': 'true',
-    'x-od-workspace-can-write-synced-files': 'true',
+    'x-sw-workspace-id': input.workspaceId,
+    'x-sw-workspace-type': input.workspaceType,
+    'x-sw-workspace-member-id': input.workspaceMemberId,
+    'x-sw-workspace-role': input.role ?? 'owner',
+    'x-sw-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-can-share-projects': 'true',
+    'x-sw-workspace-can-write-synced-files': 'true',
   };
 }
 

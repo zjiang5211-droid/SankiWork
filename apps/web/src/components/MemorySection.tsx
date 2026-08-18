@@ -135,7 +135,7 @@ type ConnectorMemoryAttempt = ConnectorMemorySuggestionResponse['connectors'][nu
 type ConnectorStatusMap = ConnectorStatusResponse['statuses'];
 
 const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'sankiwork:connector-connected';
-const MEMORY_CONNECTOR_PENDING_AUTH_STORAGE_KEY = 'od:memory:pending-connector-auth';
+const MEMORY_CONNECTOR_PENDING_AUTH_STORAGE_KEY = 'sw:memory:pending-connector-auth';
 
 function isTrustedConnectorCallbackOrigin(origin: string): boolean {
   const expectedOrigin = typeof window === 'undefined' ? '' : window.location.origin;

@@ -364,7 +364,7 @@ const POWERED_PREVIEW_SANDBOX =
   'allow-scripts allow-same-origin allow-downloads allow-popups allow-forms allow-modals allow-pointer-lock';
 const POWERED_PREVIEW_ALLOW =
   'accelerometer; autoplay; camera; cross-origin-isolated; fullscreen; gamepad; gyroscope; microphone; xr-spatial-tracking';
-const PREVIEW_BRIDGE_QUERY = 'odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability';
+const PREVIEW_BRIDGE_QUERY = 'swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability';
 // Generic runtime UI state carried across the URL-load -> srcDoc transport
 // switch. This preserves the current page of multi-page prototypes while
 // leaving artifact scripts and business state inside their sandboxed frames.
@@ -591,7 +591,7 @@ const MAX_CACHED_SLIDE_STATES = 64;
 const htmlPreviewSlideState = new Map<string, SlideState>();
 const MAX_CACHED_PREVIEW_VIEWPORTS = 128;
 // Grace window before the inspect hover card is torn down. Long enough to absorb
-// the async iframe mouseout (od:comment-leave) that fires when the pointer slides
+// the async iframe mouseout (sw:comment-leave) that fires when the pointer slides
 // onto the card or hops back onto the element under it, short enough to read as
 // an immediate dismiss when the pointer really leaves.
 const HOVER_CARD_DISMISS_DELAY_MS = 80;
@@ -3637,7 +3637,7 @@ function FileVersionManagerModal({
       if (!win) return;
       event.preventDefault();
       win.postMessage({
-        type: 'od:slide',
+        type: 'sw:slide',
         action: shortcut === 'reset' ? 'first' : shortcut,
       }, '*');
     };
@@ -5270,7 +5270,7 @@ function InspectPanel({
 }
 
 // Inspect-mode override entry as held in the host's authoritative map and as
-// it travels in od:inspect-overrides messages. The host's persisted map is
+// it travels in sw:inspect-overrides messages. The host's persisted map is
 // owned and mutated only by host-driven onApply / reset actions plus the
 // initial parse of the source's <style data-sw-inspect-overrides> block;
 // inbound iframe messages are treated as preview acknowledgements, never as
@@ -5330,7 +5330,7 @@ const HOST_UNSAFE_INSPECT_VALUE = /[;{}<>\n\r]/;
 const HOST_UNSAFE_INSPECT_ID = /["\\<>\u0000-\u001f\u007f]/;
 
 // Build the inspect overrides CSS body the host will persist, from the
-// structured `overrides` field of an od:inspect-overrides message. The host
+// structured `overrides` field of an sw:inspect-overrides message. The host
 // MUST NOT trust the sibling `css` string — it is attacker-controlled when
 // artifact JS forges the message. The selector is re-derived from each
 // elementId; only allow-listed properties with safe values survive.
@@ -5412,7 +5412,7 @@ export function updateInspectOverride(
 // Parse any persisted <style data-sw-inspect-overrides> blocks in the
 // artifact source into the host's authoritative override map. The host owns
 // this map and only mutates it from onApply / reset actions plus this
-// initial hydration step — inbound iframe od:inspect-overrides messages are
+// initial hydration step — inbound iframe sw:inspect-overrides messages are
 // not ingested. Without this step, opening a file that already carries an
 // override block would leave the host map empty, so a Save-to-source after
 // any subsequent edit could splice a CSS body that drops every previously
@@ -8371,7 +8371,7 @@ function HtmlViewer({
         if (event.source !== source) return;
         const data = event.data as { type?: unknown; id?: unknown; state?: unknown } | null;
         if (
-          data?.type !== 'od:preview-runtime-state-captured' ||
+          data?.type !== 'sw:preview-runtime-state-captured' ||
           data.id !== id
         ) {
           return;
@@ -8381,7 +8381,7 @@ function HtmlViewer({
       const timeout = window.setTimeout(() => finish(null), 500);
       window.addEventListener('message', onMessage);
       const requestCapture = () => {
-        source.postMessage({ type: 'od:preview-runtime-state-capture', id }, '*');
+        source.postMessage({ type: 'sw:preview-runtime-state-capture', id }, '*');
       };
       requestCapture();
       // The URL document can paint and accept interaction just before its
@@ -8407,7 +8407,7 @@ function HtmlViewer({
     // before posting so later srcDoc reloads cannot overwrite newer source
     // attributes or runtime navigation with stale transition state.
     previewRuntimeStateRef.current = null;
-    win.postMessage({ type: 'od:preview-runtime-state-restore', state: runtimeState }, '*');
+    win.postMessage({ type: 'sw:preview-runtime-state-restore', state: runtimeState }, '*');
     return true;
   }, [workspaceActive]);
   const setCommentComposerHostRef = useCallback((node: HTMLDivElement | null) => {
@@ -8460,7 +8460,7 @@ function HtmlViewer({
     };
     latestPreviewContentMeasurementRef.current = { request, source };
     source.postMessage({
-      type: 'od:preview-content-size-request',
+      type: 'sw:preview-content-size-request',
       ...request,
     }, '*');
   }, [commentPreviewCanvasNode, workspaceActive]);
@@ -8492,7 +8492,7 @@ function HtmlViewer({
     function onMessage(ev: MessageEvent) {
       if (!isOurPreviewIframeSource(ev.source)) return;
       const data = ev.data;
-      if (!data || typeof data !== 'object' || (data as { type?: unknown }).type !== 'od:brand-extraction-stop-request') {
+      if (!data || typeof data !== 'object' || (data as { type?: unknown }).type !== 'sw:brand-extraction-stop-request') {
         return;
       }
       requestStop();
@@ -8634,7 +8634,7 @@ function HtmlViewer({
         frameDocument?.scrollingElement?.scrollTo(snapshot.frameLeft, snapshot.frameTop);
         frameDocument?.querySelector<HTMLElement>('.design-canvas')?.scrollTo(snapshot.canvasLeft, snapshot.canvasTop);
         iframeRef.current?.contentWindow?.postMessage({
-          type: 'od:preview-scroll-restore',
+          type: 'sw:preview-scroll-restore',
           frameLeft: snapshot.frameLeft,
           frameTop: snapshot.frameTop,
           canvasLeft: snapshot.canvasLeft,
@@ -8767,14 +8767,14 @@ function HtmlViewer({
   const [hoveredCommentTarget, setHoveredCommentTarget] = useState<PreviewCommentSnapshot | null>(null);
   // True while the pointer is physically over the floating hover card. The card
   // sits on top of the preview iframe, so reaching it makes the iframe fire a
-  // mouseout -> od:comment-leave. We ignore that leave while pinned so the card
+  // mouseout -> sw:comment-leave. We ignore that leave while pinned so the card
   // (and its selectable values) stays put instead of unmounting and flickering.
   // The pointer cannot be over the iframe and the host card at once, so a fresh
-  // od:comment-hover never races this; only the card's own leave clears it.
+  // sw:comment-hover never races this; only the card's own leave clears it.
   const hoverCardPinnedRef = useRef(false);
   // Tearing the card down is always deferred by a beat rather than done
-  // synchronously. The iframe's mouseout (od:comment-leave) arrives async via
-  // postMessage; the card's own mouseenter and the next od:comment-hover are the
+  // synchronously. The iframe's mouseout (sw:comment-leave) arrives async via
+  // postMessage; the card's own mouseenter and the next sw:comment-hover are the
   // signals that the pointer actually landed on the card or back on the element
   // it overlaps. Deferring lets those cancel the dismiss before it lands.
   // Synchronous teardown raced ahead of them: the card flickered on the way in
@@ -8813,7 +8813,7 @@ function HtmlViewer({
   // overrides via postMessage. The host owns the authoritative override map:
   // it is hydrated from the artifact's persisted <style> block on load and
   // mutated only by host-driven onApply / reset actions. Save-to-source
-  // serializes that host map directly — iframe od:inspect-overrides messages
+  // serializes that host map directly — iframe sw:inspect-overrides messages
   // are preview acknowledgements and never feed save input, so artifact JS
   // forging a postMessage cannot tamper with what gets persisted.
   const [activeInspectTarget, setActiveInspectTarget] = useState<InspectTarget | null>(null);
@@ -9656,7 +9656,7 @@ function HtmlViewer({
     const s = routingHtmlSource;
     return s != null && htmlNeedsRedirectGuard(s);
   }, [passiveLargeHtmlPreview, routingHtmlSource]);
-  // Set by the injected guard's `od:redirect-loop-blocked` postMessage. The
+  // Set by the injected guard's `sw:redirect-loop-blocked` postMessage. The
   // browser makes `window.location` unforgeable, so a runaway reload can only be
   // stopped host-side — parking the srcDoc iframe on static content below. File-
   // scoped: reset whenever the file, project, or reload key changes.
@@ -9975,7 +9975,7 @@ function HtmlViewer({
   useEffect(() => {
     setRedirectLoopBlocked(false);
   }, [projectId, file.name, reloadKey]);
-  // The injected redirect guard posts `od:redirect-loop-blocked` when a preview
+  // The injected redirect guard posts `sw:redirect-loop-blocked` when a preview
   // reloads itself past its hop budget. Only trust our own two preview frames,
   // then park the srcDoc iframe on static content so the loop cannot continue.
   useEffect(() => {
@@ -10062,7 +10062,7 @@ function HtmlViewer({
       : effectiveBasePreviewSrcUrl;
     const refreshPreviewSrcUrl = appendResourceQuery(
       refreshBasePreviewSrcUrl,
-      `odPreviewEpoch=${encodeURIComponent(transportPreviewMeasurementDocumentEpoch)}`,
+      `swPreviewEpoch=${encodeURIComponent(transportPreviewMeasurementDocumentEpoch)}`,
     );
     const nextSrc = appendResourceQuery(refreshPreviewSrcUrl, `fr=${filesRefreshKey}`);
     const timeout = window.setTimeout(() => {
@@ -10223,7 +10223,7 @@ function HtmlViewer({
       postAndConsumePreviewRuntimeState(target);
     }
     win.postMessage({
-      type: 'od:comment-mode',
+      type: 'sw:comment-mode',
       enabled: boardMode,
       mode: boardTool,
     }, '*');
@@ -10232,7 +10232,7 @@ function HtmlViewer({
       type: 'sw-edit-selected-target',
       id: manualEditMode ? selectedManualEditTarget?.id ?? null : null,
     }, '*');
-    win.postMessage({ type: 'od:inspect-mode', enabled: inspectMode }, '*');
+    win.postMessage({ type: 'sw:inspect-mode', enabled: inspectMode }, '*');
   }, [
     boardMode,
     boardTool,
@@ -10365,7 +10365,7 @@ function HtmlViewer({
     // alive after the navigation had a chance to commit.
     verifiedSrcDocTransportRef.current = null;
     frame.contentWindow?.postMessage({
-      type: 'od:srcdoc-transport-ready-probe',
+      type: 'sw:srcdoc-transport-ready-probe',
       generation,
       probeId,
     }, '*');
@@ -10407,7 +10407,7 @@ function HtmlViewer({
     if (previousKey !== urlPreviewKeepAliveKey) iframeKeepAlivePool.evict(previousKey);
   }, [iframeKeepAlivePool, urlPreviewKeepAliveKey]);
   // Reset the shell-ready latch whenever the srcDoc iframe re-mounts. The
-  // next shell will post `od:srcdoc-transport-ready` (or fire onLoad) and
+  // next shell will post `sw:srcdoc-transport-ready` (or fire onLoad) and
   // flip this back to true. See #2253.
   useEffect(() => {
     setSrcDocShellReady(false);
@@ -10422,7 +10422,7 @@ function HtmlViewer({
     function onMessage(ev: MessageEvent) {
       if (ev.source !== srcDocPreviewIframeRef.current?.contentWindow) return;
       const data = ev.data as { type?: string } | null;
-      if (data?.type !== 'od:srcdoc-transport-ready') return;
+      if (data?.type !== 'sw:srcdoc-transport-ready') return;
       setSrcDocShellReady(true);
     }
     window.addEventListener('message', onMessage);
@@ -10444,7 +10444,7 @@ function HtmlViewer({
       } | null;
       const pending = pendingSrcDocTransportProbeRef.current;
       if (
-        data?.type !== 'od:srcdoc-transport-activated'
+        data?.type !== 'sw:srcdoc-transport-activated'
         || typeof data.generation !== 'string'
         || data.generation !== expectedSrcDocTransportGenerationRef.current
       ) {
@@ -10502,7 +10502,7 @@ function HtmlViewer({
       if (ev.source !== frame?.contentWindow) return;
       if (frame.getAttribute('src') === 'about:blank') return;
       const data = ev.data as { type?: string; href?: string } | null;
-      if (data?.type !== 'od:url-selection-bridge-ready') return;
+      if (data?.type !== 'sw:url-selection-bridge-ready') return;
       // The latch must describe the currently committed document's bridge, so
       // the ready must carry and match the document href.
       if (typeof data.href !== 'string' || data.href.length === 0) return;
@@ -10591,7 +10591,7 @@ function HtmlViewer({
     ? urlFrameBaseSrc
     : appendResourceQuery(
         urlFrameBaseSrc,
-        `odPreviewEpoch=${encodeURIComponent(transportPreviewMeasurementDocumentEpoch)}`,
+        `swPreviewEpoch=${encodeURIComponent(transportPreviewMeasurementDocumentEpoch)}`,
       );
   const lastRenderedUrlFrameSrcRef = useRef(computedUrlFrameSrc);
   const urlFrameSrc = activeFilesRefreshPending
@@ -10641,7 +10641,7 @@ function HtmlViewer({
     const win = target?.contentWindow;
     if (!win) return false;
     win.postMessage({
-      type: 'od:srcdoc-transport-activate',
+      type: 'sw:srcdoc-transport-activate',
       html: srcDoc,
       generation: srcDocTransportGeneration,
     }, '*');
@@ -10659,7 +10659,7 @@ function HtmlViewer({
     const win = target?.contentWindow;
     if (!win) return false;
     win.postMessage({
-      type: 'od:srcdoc-transport-activate',
+      type: 'sw:srcdoc-transport-activate',
       html: srcDoc,
       generation: srcDocTransportGeneration,
     }, '*');
@@ -10671,7 +10671,7 @@ function HtmlViewer({
     const win = target?.contentWindow;
     if (!win) return false;
     win.postMessage({
-      type: 'od:srcdoc-transport-activate',
+      type: 'sw:srcdoc-transport-activate',
       html: srcDoc,
       generation: srcDocTransportGeneration,
     }, '*');
@@ -10756,7 +10756,7 @@ function HtmlViewer({
         canvasLeft?: number;
         canvasTop?: number;
       } | null;
-      if (!data || data.type !== 'od:preview-scroll') return;
+      if (!data || data.type !== 'sw:preview-scroll') return;
       if (previewScrollRestoreRef.current && Number(data.canvasLeft || 0) === 0 && Number(data.canvasTop || 0) === 0) return;
       if (
         previewScrollPositionRef.current.canvasLeft !== 0 ||
@@ -10776,7 +10776,7 @@ function HtmlViewer({
       if (!isOurPreviewIframeSource(ev.source)) return;
       if (!isActivePreviewIframeSource(ev.source)) return;
       const data = ev.data as { type?: string } | null;
-      if (!data || data.type !== 'od:preview-scroll-request') return;
+      if (!data || data.type !== 'sw:preview-scroll-request') return;
       previewScrollRequestAtRef.current = Date.now();
       const snapshot = previewScrollRestoreRef.current;
       const scroll = snapshot ?? {
@@ -10786,7 +10786,7 @@ function HtmlViewer({
         canvasTop: previewScrollPositionRef.current.canvasTop,
       };
       iframeRef.current?.contentWindow?.postMessage({
-        type: 'od:preview-scroll-restore',
+        type: 'sw:preview-scroll-restore',
         frameLeft: scroll.frameLeft,
         frameTop: scroll.frameTop,
         canvasLeft: scroll.canvasLeft,
@@ -10831,7 +10831,7 @@ function HtmlViewer({
       const data = ev.data as ({
         type?: string;
       } & Partial<PreviewContentMeasurementResponse>) | null;
-      if (!data || data.type !== 'od:preview-content-size') return;
+      if (!data || data.type !== 'sw:preview-content-size') return;
       const latest = latestPreviewContentMeasurementRef.current;
       const frame = iframeRef.current;
       if (
@@ -10901,7 +10901,7 @@ function HtmlViewer({
       if (!isActivePreviewIframeSource(ev.source)) return;
       const data = ev.data as { type?: unknown; fileName?: unknown } | null;
       if (
-        data?.type !== 'od:preview-open-file' ||
+        data?.type !== 'sw:preview-open-file' ||
         typeof data.fileName !== 'string' ||
         data.fileName.length > 4096 ||
         !/\.html?$/i.test(data.fileName) ||
@@ -10928,7 +10928,7 @@ function HtmlViewer({
       const data = ev?.data as
         | { type?: string; active?: number; count?: number }
         | null;
-      if (!data || data.type !== 'od:slide-state') return;
+      if (!data || data.type !== 'sw:slide-state') return;
       if (typeof data.active !== 'number' || typeof data.count !== 'number') return;
       const next = { active: data.active, count: data.count };
       setSlideStateCached(previewStateKey, next);
@@ -10943,7 +10943,7 @@ function HtmlViewer({
     const win = iframeRef.current?.contentWindow;
     if (!win) return;
     win.postMessage({
-      type: 'od:comment-mode',
+      type: 'sw:comment-mode',
       enabled: boardMode,
       mode: boardTool,
     }, '*');
@@ -10996,10 +10996,10 @@ function HtmlViewer({
     if (!workspaceActive) return;
     const win = iframeRef.current?.contentWindow;
     if (!win) return;
-    win.postMessage({ type: 'od:inspect-mode', enabled: inspectMode }, '*');
+    win.postMessage({ type: 'sw:inspect-mode', enabled: inspectMode }, '*');
   }, [inspectMode, srcDoc, useUrlLoadPreview, workspaceActive]);
 
-  // Mirror the bridge's `od:comment-targets` broadcast into
+  // Mirror the bridge's `sw:comment-targets` broadcast into
   // `liveCommentTargets` whenever EITHER Inspect or Comments mode is
   // active. The boardMode-only useEffect below still handles its
   // own comment-specific events (hover / click target / pod), but
@@ -11024,7 +11024,7 @@ function HtmlViewer({
             targets?: Array<Partial<PreviewCommentSnapshot>>;
           }
         | null;
-      if (data?.type !== 'od:comment-targets' || !Array.isArray(data.targets)) return;
+      if (data?.type !== 'sw:comment-targets' || !Array.isArray(data.targets)) return;
       const next = new Map<string, PreviewCommentSnapshot>();
       data.targets.forEach((item) => {
         const elementId = String(item?.elementId || '');
@@ -11108,7 +11108,7 @@ function HtmlViewer({
   // updated state before commit, so the new `srcDoc` and the new
   // `inspectOverrides` always commit together. After hydration the map
   // only mutates from host-driven onApply / reset callbacks below, so
-  // artifact JS forging an od:inspect-overrides message cannot tamper
+  // artifact JS forging an sw:inspect-overrides message cannot tamper
   // with what saveInspectToSource will persist.
   if (inspectHydratedSourceRef.current !== source) {
     inspectHydratedSourceRef.current = source;
@@ -11171,7 +11171,7 @@ function HtmlViewer({
         points?: StrokePoint[];
       }) | null;
       if (!data?.type) return;
-      if (data.type === 'od:comment-targets' && Array.isArray(data.targets)) {
+      if (data.type === 'sw:comment-targets' && Array.isArray(data.targets)) {
         const next = new Map<string, PreviewCommentSnapshot>();
         data.targets.forEach((item) => {
           const snapshot = snapshotFromData(item);
@@ -11197,7 +11197,7 @@ function HtmlViewer({
         });
         return;
       }
-      if (data.type === 'od:comment-active-target-update') {
+      if (data.type === 'sw:comment-active-target-update') {
         const snapshot = snapshotFromData(data);
         if (!snapshot.elementId || !isValidCommentOverlayPosition(snapshot.position)) return;
         // Fires on every pointermove while a target is active — skip the Map
@@ -11220,7 +11220,7 @@ function HtmlViewer({
         );
         return;
       }
-      if (data.type === 'od:comment-leave') {
+      if (data.type === 'sw:comment-leave') {
         // Already firmly on the card — nothing to dismiss.
         if (hoverCardPinnedRef.current) return;
         // The pointer left the element. It may be sliding onto the floating card
@@ -11231,7 +11231,7 @@ function HtmlViewer({
         scheduleHoverCardDismiss();
         return;
       }
-      if (data.type === 'od:comment-hover') {
+      if (data.type === 'sw:comment-hover') {
         const snapshot = snapshotFromData(data);
         if (!snapshot.elementId || !isValidCommentOverlayPosition(snapshot.position)) return;
         // Pointer landed on an element — cancel any deferred dismiss so moving
@@ -11251,7 +11251,7 @@ function HtmlViewer({
         });
         return;
       }
-      if (data.type === 'od:comment-target') {
+      if (data.type === 'sw:comment-target') {
         const snapshot = snapshotFromData(data);
         if (!snapshot.elementId || !isValidCommentOverlayPosition(snapshot.position)) return;
         const shouldOpenComposer = boardMode || commentCreateMode;
@@ -11271,11 +11271,11 @@ function HtmlViewer({
         }
         return;
       }
-      if (data.type === 'od:pod-clear') {
+      if (data.type === 'sw:pod-clear') {
         setStrokePoints([]);
         return;
       }
-      if (data.type === 'od:pod-stroke' && Array.isArray(data.points)) {
+      if (data.type === 'sw:pod-stroke' && Array.isArray(data.points)) {
         setStrokePoints(
           data.points.map((point) => ({
             x: clampBridgeCoordinate(point.x),
@@ -11284,7 +11284,7 @@ function HtmlViewer({
         );
         return;
       }
-      if (data.type === 'od:pod-select' && Array.isArray(data.points)) {
+      if (data.type === 'sw:pod-select' && Array.isArray(data.points)) {
         const points = data.points.map((point) => ({
           x: clampBridgeCoordinate(point.x),
           y: clampBridgeCoordinate(point.y),
@@ -11315,7 +11315,7 @@ function HtmlViewer({
   useEffect(() => {
     if (!workspaceActive || !boardMode || !activeCommentTarget || activeCommentTarget.selectionKind === 'pod') return;
     iframeRef.current?.contentWindow?.postMessage({
-      type: 'od:comment-active-target',
+      type: 'sw:comment-active-target',
       elementId: activeCommentTarget.elementId,
       selector: activeCommentTarget.selector,
     }, '*');
@@ -11963,7 +11963,7 @@ function HtmlViewer({
       // A committed content patch rewrites manualEditFrozenSource below, which
       // rebuilds the preview srcDoc and reloads the iframe from the top.
       // Snapshot the scroll position first so the post-reload restore path
-      // (the srcDoc effect + the bridge's od:preview-scroll-request round
+      // (the srcDoc effect + the bridge's sw:preview-scroll-request round
       // trip) puts the user back where they were. The edit-entry snapshot has
       // usually expired by save time, and without a fresh one the new
       // document's initial 0/0 scroll report clobbers the last-known
@@ -12135,7 +12135,7 @@ function HtmlViewer({
     }
   }
 
-  // Inspect-mode picker: same `od:comment-target` payload, different sink.
+  // Inspect-mode picker: same `sw:comment-target` payload, different sink.
   // The bridge tags the message with a computed-style snapshot so the panel
   // can show real starting values for color / typography / spacing / radius.
   useEffect(() => {
@@ -12153,7 +12153,7 @@ function HtmlViewer({
             clickedDescendant?: Partial<InspectClickedDescendant>;
           }
         | null;
-      if (!data || data.type !== 'od:comment-target') return;
+      if (!data || data.type !== 'sw:comment-target') return;
       if (!data.elementId || !data.selector) return;
       const clickedDescendant =
         data.clickedDescendant && typeof data.clickedDescendant === 'object'
@@ -12190,7 +12190,7 @@ function HtmlViewer({
     const win = iframeRef.current?.contentWindow;
     if (!win) return;
     win.postMessage({
-      type: 'od:slide',
+      type: 'sw:slide',
       action,
       ...(action === 'go' && typeof index === 'number' ? { index } : {}),
     }, '*');
@@ -12209,7 +12209,7 @@ function HtmlViewer({
     const active = htmlPreviewSlideState.get(previewStateKey)?.active;
     const win = target?.contentWindow;
     if (!win || typeof active !== 'number') return;
-    win.postMessage({ type: 'od:slide', action: 'go', index: active }, '*');
+    win.postMessage({ type: 'sw:slide', action: 'go', index: active }, '*');
   }
 
   function fireSpeakerNotesSaveResult(
@@ -12343,7 +12343,7 @@ function HtmlViewer({
     const win = iframeRef.current?.contentWindow;
     if (!win) return;
     win.postMessage(
-      { type: 'od:inspect-set', elementId, selector, prop, value },
+      { type: 'sw:inspect-set', elementId, selector, prop, value },
       '*',
     );
   }
@@ -12351,7 +12351,7 @@ function HtmlViewer({
   function postInspectReset(elementId?: string) {
     const win = iframeRef.current?.contentWindow;
     if (!win) return;
-    win.postMessage({ type: 'od:inspect-reset', elementId }, '*');
+    win.postMessage({ type: 'sw:inspect-reset', elementId }, '*');
   }
 
   // Replay the host's authoritative override map into the freshly loaded
@@ -12364,7 +12364,7 @@ function HtmlViewer({
   // saveInspectToSource() can still persist them later from the stale
   // host map. The bridge re-validates each entry under its own allow-list,
   // so a parent that posted a hostile replay can only land overrides the
-  // bridge would also have accepted via od:inspect-set.
+  // bridge would also have accepted via sw:inspect-set.
   //
   // The render-time hydration above keeps `inspectOverrides` aligned with
   // the current `source` whenever React commits, but the iframe `onLoad`
@@ -12380,7 +12380,7 @@ function HtmlViewer({
     const overrides = inspectHydratedSourceRef.current === source
       ? inspectOverrides
       : (typeof source === 'string' ? parseInspectOverridesFromSource(source) : {});
-    win.postMessage({ type: 'od:inspect-replay', overrides }, '*');
+    win.postMessage({ type: 'sw:inspect-replay', overrides }, '*');
   }
 
   // Persist accumulated inspect overrides into the artifact source: replace
@@ -12389,7 +12389,7 @@ function HtmlViewer({
   // from source on load and updated only by host-driven onApply / reset
   // callbacks. We deliberately do NOT round-trip through the iframe at save
   // time: artifact JS rendered inside the preview shares the same
-  // contentWindow as the bridge and could forge an od:inspect-overrides
+  // contentWindow as the bridge and could forge an sw:inspect-overrides
   // reply that flips allow-listed properties on elements the user never
   // touched. POSTing to /api/projects/:id/files upserts the file via
   // writeProjectFile (multipart-or-JSON; we use JSON).
@@ -12473,17 +12473,17 @@ function HtmlViewer({
           }
         | null;
       if (!data || data.projectId !== projectId || data.fileName !== file.name) return;
-      if (data.type === 'od:presenter-slide-go' && typeof data.index === 'number') {
+      if (data.type === 'sw:presenter-slide-go' && typeof data.index === 'number') {
         goToSlide(data.index);
         return;
       }
       // Esc inside the presenter popup tears the whole presentation down (popup
       // window + fullscreen overlay), matching Esc pressed in the main window.
-      if (data.type === 'od:presenter-close') {
+      if (data.type === 'sw:presenter-close') {
         closeInTabPresentation();
         return;
       }
-      if (data.type === 'od:presenter-notes-save' && Array.isArray(data.notes)) {
+      if (data.type === 'sw:presenter-notes-save' && Array.isArray(data.notes)) {
         void saveSpeakerNotes(data.notes, { editSurface: 'presenter' });
       }
     }
@@ -12496,7 +12496,7 @@ function HtmlViewer({
     const popup = presenterWindowRef.current;
     if (!popup || popup.closed) return;
     popup.postMessage({
-      type: 'od:presenter-slide-state',
+      type: 'sw:presenter-slide-state',
       projectId,
       fileName: file.name,
       active: activeDeckSlideIndex,
@@ -12516,7 +12516,7 @@ function HtmlViewer({
     if (!workspaceActive || !inTabPresent || !effectiveDeck) return;
     const frame = presentOverlayRef.current?.querySelector('iframe');
     frame?.contentWindow?.postMessage(
-      { type: 'od:slide', action: 'go', index: activeDeckSlideIndex },
+      { type: 'sw:slide', action: 'go', index: activeDeckSlideIndex },
       '*',
     );
   }, [inTabPresent, effectiveDeck, activeDeckSlideIndex, workspaceActive]);
@@ -12535,7 +12535,7 @@ function HtmlViewer({
       const frame = presentOverlayRef.current?.querySelector('iframe');
       if (!frame || ev.source !== frame.contentWindow) return;
       const data = ev.data as { type?: string; active?: number; count?: number } | null;
-      if (!data || data.type !== 'od:slide-state') return;
+      if (!data || data.type !== 'sw:slide-state') return;
       if (typeof data.active !== 'number' || typeof data.count !== 'number') return;
       const next = { active: data.active, count: data.count };
       setSlideStateCached(previewStateKey, next);
@@ -12645,7 +12645,7 @@ function HtmlViewer({
     };
     const onMessage = (ev: MessageEvent) => {
       const data = ev.data as { type?: string } | null;
-      if (!data || data.type !== 'od:present-escape') return;
+      if (!data || data.type !== 'sw:present-escape') return;
       const frame = presentOverlayRef.current?.querySelector('iframe');
       if (frame?.contentWindow && ev.source !== frame.contentWindow) return;
       closeInTabPresentation();
@@ -15853,7 +15853,7 @@ function HtmlViewer({
                             if (frame) {
                               frame.dataset.swLoadedPreviewEpoch =
                                 new URL(frame.getAttribute('src') ?? '', window.location.href)
-                                  .searchParams.get('odPreviewEpoch') ?? '';
+                                  .searchParams.get('swPreviewEpoch') ?? '';
                             }
                             if (useUrlLoadPreview) beginDesktopPreviewContentMeasurementGeneration(frame);
                             // First real paint of this artifact URL — drop the
@@ -15868,7 +15868,7 @@ function HtmlViewer({
                               type: '__dc_set_viewport',
                               ...dcViewportRef.current,
                             }, '*');
-                            frame?.contentWindow?.postMessage({ type: 'od:url-selection-bridge-probe' }, '*');
+                            frame?.contentWindow?.postMessage({ type: 'sw:url-selection-bridge-probe' }, '*');
                             syncBridgeModes(frame);
                             if (useUrlLoadPreview) restorePreviewScrollPosition();
                             if (useUrlLoadPreview) scheduleDesktopPreviewContentMeasure(frame);
@@ -15896,7 +15896,7 @@ function HtmlViewer({
                             if (frame) {
                               frame.dataset.swLoadedPreviewEpoch =
                                 new URL(frame.getAttribute('src') ?? '', window.location.href)
-                                  .searchParams.get('odPreviewEpoch') ?? '';
+                                  .searchParams.get('swPreviewEpoch') ?? '';
                             }
                             if (useUrlLoadPreview) beginDesktopPreviewContentMeasurementGeneration(frame);
                             // First real paint of this artifact URL — drop the
@@ -15911,7 +15911,7 @@ function HtmlViewer({
                               type: '__dc_set_viewport',
                               ...dcViewportRef.current,
                             }, '*');
-                            frame?.contentWindow?.postMessage({ type: 'od:url-selection-bridge-probe' }, '*');
+                            frame?.contentWindow?.postMessage({ type: 'sw:url-selection-bridge-probe' }, '*');
                             syncBridgeModes(frame);
                             if (useUrlLoadPreview) restorePreviewScrollPosition();
                             if (useUrlLoadPreview) scheduleDesktopPreviewContentMeasure(frame);
@@ -16179,7 +16179,7 @@ function HtmlViewer({
               ) : null}
               {/*
                 Hint banner for Inspect / Picker modes. The bridge in
-                `apps/web/src/runtime/srcdoc.ts` posts `od:comment-targets`
+                `apps/web/src/runtime/srcdoc.ts` posts `sw:comment-targets`
                 with every element annotated with `data-od-id` /
                 `data-screen-label`, so `liveCommentTargets.size` is the
                 authoritative annotation count for the current artifact.

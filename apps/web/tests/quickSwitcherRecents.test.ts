@@ -40,22 +40,22 @@ describe('quickSwitcherRecents', () => {
     });
 
     it('returns the stored list as-is when valid', () => {
-      storage.setItem('od:qs-recents:p1', JSON.stringify(['a.html', 'b.html']));
+      storage.setItem('sw:qs-recents:p1', JSON.stringify(['a.html', 'b.html']));
       expect(readRecents('p1')).toEqual(['a.html', 'b.html']);
     });
 
     it('returns an empty array for corrupt JSON instead of throwing', () => {
-      storage.setItem('od:qs-recents:p1', '{not json');
+      storage.setItem('sw:qs-recents:p1', '{not json');
       expect(readRecents('p1')).toEqual([]);
     });
 
     it('filters out non-string entries (defends against schema drift)', () => {
-      storage.setItem('od:qs-recents:p1', JSON.stringify(['a.html', 42, null, 'b.html']));
+      storage.setItem('sw:qs-recents:p1', JSON.stringify(['a.html', 42, null, 'b.html']));
       expect(readRecents('p1')).toEqual(['a.html', 'b.html']);
     });
 
     it('returns an empty array when the stored value is not an array', () => {
-      storage.setItem('od:qs-recents:p1', JSON.stringify({ a: 1 }));
+      storage.setItem('sw:qs-recents:p1', JSON.stringify({ a: 1 }));
       expect(readRecents('p1')).toEqual([]);
     });
 

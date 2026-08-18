@@ -1029,9 +1029,9 @@ function withSnapshotBridge(html: string): string {
 <script>
 window.addEventListener('message', (event) => {
   const data = event.data || {};
-  if (data.type !== 'od:snapshot') return;
+  if (data.type !== 'sw:snapshot') return;
   event.source?.postMessage({
-    type: 'od:snapshot:result',
+    type: 'sw:snapshot:result',
     id: data.id,
     dataUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=',
     w: 1,
@@ -1115,7 +1115,7 @@ async function seedDeckArtifact(
         if (total) total.textContent = String(slides.length).padStart(2, '0');
       }
       window.addEventListener('message', (event) => {
-        if (!event.data || event.data.type !== 'od:slide') return;
+        if (!event.data || event.data.type !== 'sw:slide') return;
         ${options.stopsSlideMessagePropagation ? 'event.stopImmediatePropagation();' : ''}
         if (event.data.action === 'next') active = Math.min(slides.length - 1, active + 1);
         if (event.data.action === 'prev') active = Math.max(0, active - 1);
@@ -1125,7 +1125,7 @@ async function seedDeckArtifact(
           active = Math.max(0, Math.min(slides.length - 1, event.data.index));
         }
         render();
-        ${options.stopsSlideMessagePropagation ? '' : "window.parent.postMessage({ type: 'od:slide-state', active, count: slides.length }, '*');"}
+        ${options.stopsSlideMessagePropagation ? '' : "window.parent.postMessage({ type: 'sw:slide-state', active, count: slides.length }, '*');"}
       });
       ${
         options.handlesKeyboard
@@ -1142,12 +1142,12 @@ async function seedDeckArtifact(
           : ''
       }
       render();
-      ${options.stopsSlideMessagePropagation ? '' : "window.parent.postMessage({ type: 'od:slide-state', active, count: slides.length }, '*');"}
+      ${options.stopsSlideMessagePropagation ? '' : "window.parent.postMessage({ type: 'sw:slide-state', active, count: slides.length }, '*');"}
     })();
     </script>`
     : '';
   const protocolText = options.mentionsSlideMessageProtocol
-    ? '<p>Protocol token: od:slide</p>'
+    ? '<p>Protocol token: sw:slide</p>'
     : '';
   const resp = await page.request.post(
     `/api/projects/${projectId}/files`,
@@ -1391,14 +1391,14 @@ function deckHtml(): string {
       const slides = Array.from(document.querySelectorAll('.slide'));
       function render() { slides.forEach((slide, index) => { slide.hidden = index !== active; }); }
       window.addEventListener('message', (event) => {
-        if (!event.data || event.data.type !== 'od:slide') return;
+        if (!event.data || event.data.type !== 'sw:slide') return;
         if (event.data.action === 'next') active = Math.min(slides.length - 1, active + 1);
         if (event.data.action === 'prev') active = Math.max(0, active - 1);
         render();
-        window.parent.postMessage({ type: 'od:slide-state', active, count: slides.length }, '*');
+        window.parent.postMessage({ type: 'sw:slide-state', active, count: slides.length }, '*');
       });
       render();
-      window.parent.postMessage({ type: 'od:slide-state', active, count: slides.length }, '*');
+      window.parent.postMessage({ type: 'sw:slide-state', active, count: slides.length }, '*');
     </script>
   </body>
 </html>`;

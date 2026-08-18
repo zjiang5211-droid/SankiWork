@@ -128,14 +128,14 @@ describe("pricing contract", () => {
     assert.match(page, /\.pr-campaign-disclaimer\s*\{[\s\S]*font-size:\s*\.82rem;/);
     assert.match(page, /track\('surface_view',\s*\{\s*area:\s*'campaign_banner'/);
     assert.match(page, /element:\s*'deepseek_v4_pro_benefit'/);
-    assert.match(page, /window\.__odRecordCampaignEntry\?\./);
+    assert.match(page, /window\.__swRecordCampaignEntry\?\./);
     assert.match(page, /'landing_pricing_team_plan'\s*:\s*'landing_pricing_personal_plan'/);
     assert.match(page, /'deepseek_v4_pro'/);
     // First-touch envelope + device id survive Pricing → Cloud. Campaign id is
-    // re-decided by campaignEligible and written only via __odAttributedUrl.
-    assert.match(page, /'od_conversion_source',\s*'od_device_id'/);
-    assert.match(page, /od_campaign_id is intentionally NOT forwarded/);
-    assert.match(page, /window\.__odTrack\('ui_click', props\)/);
+    // re-decided by campaignEligible and written only via __swAttributedUrl.
+    assert.match(page, /'sw_conversion_source',\s*'sw_device_id'/);
+    assert.match(page, /sw_campaign_id is intentionally NOT forwarded/);
+    assert.match(page, /window\.__swTrack\('ui_click', props\)/);
     assert.doesNotMatch(page, /pricing_subscribe_click/);
     const disclaimerRule = page.match(
       /\.pr-campaign-disclaimer\s*\{([^}]*)\}/,
@@ -164,14 +164,14 @@ describe("pricing contract", () => {
 
   it("stamps campaign attribution on subscribe CTAs only inside the activity window", async () => {
     // Clicks outside the fixed window must not count toward the campaign:
-    // the CTA keeps recording od_entry_* attribution, but the minted entry
+    // the CTA keeps recording sw_entry_* attribution, but the minted entry
     // and the ui_click props carry the campaign id only while campaignEligible
     // is true.
     const page = await readFile(PRICING_PAGE_PATH, "utf8");
 
     assert.match(
       page,
-      /__odRecordCampaignEntry\?\.\(\s*audience === 'team' \? 'landing_pricing_team_plan' : 'landing_pricing_personal_plan',\s*campaignEligible \? 'deepseek_v4_pro' : undefined,\s*\)/,
+      /__swRecordCampaignEntry\?\.\(\s*audience === 'team' \? 'landing_pricing_team_plan' : 'landing_pricing_personal_plan',\s*campaignEligible \? 'deepseek_v4_pro' : undefined,\s*\)/,
     );
     assert.match(page, /\.\.\.\(campaignEligible \? \{ campaign_id: 'deepseek_v4_pro' \} : \{\}\)/);
     assert.doesNotMatch(

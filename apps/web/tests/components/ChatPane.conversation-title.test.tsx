@@ -194,7 +194,7 @@ describe('ChatPane session switcher', () => {
     // The plain top-up entry must NOT carry the upgrade intent — it opens the
     // console to add credit, not the plan catalog.
     expect(parsedConsoleUrl.searchParams.get('billing')).toBeNull();
-    expect(parsedConsoleUrl.searchParams.get('od_entry_source')).toBe('chat_error_recharge');
+    expect(parsedConsoleUrl.searchParams.get('sw_entry_source')).toBe('chat_error_recharge');
   });
 
   it('opens the profile-scoped plans view from the AMR tier upgrade action', () => {
@@ -238,7 +238,7 @@ describe('ChatPane session switcher', () => {
     // plan surface that matches the signed-in account instead of the fixed
     // wallet pricing modal this used to request.
     expect(parsedPlansUrl.searchParams.get('billing')).toBe('plan');
-    expect(parsedPlansUrl.searchParams.get('od_entry_source')).toBe('chat_error_upgrade');
+    expect(parsedPlansUrl.searchParams.get('sw_entry_source')).toBe('chat_error_upgrade');
   });
 });
 

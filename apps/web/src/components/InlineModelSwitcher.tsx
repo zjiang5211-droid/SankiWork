@@ -399,7 +399,7 @@ export function InlineModelSwitcher({
       startedAt,
     );
     amrAuthAttemptIdRef.current = provisionalAuthAttemptId;
-    const odDeviceId = amrHandoffDeviceId({
+    const swDeviceId = amrHandoffDeviceId({
       metricsConsent: config.telemetry?.metrics === true,
       resolvedDeviceId: getResolvedDeviceId(),
       installationId: config.installationId,
@@ -407,7 +407,7 @@ export function InlineModelSwitcher({
     amrLoginStartPendingRef.current = true;
     const result = await startVelaLogin(
       attribution,
-      odDeviceId,
+      swDeviceId,
       provisionalAuthAttemptId,
     ).finally(() => {
       amrLoginStartPendingRef.current = false;

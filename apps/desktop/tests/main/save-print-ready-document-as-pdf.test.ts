@@ -1,6 +1,6 @@
 // Issue #1774 — on desktop, "Export PDF" opened the macOS system print
 // dialog instead of a direct Save-as-PDF flow. The root cause was the
-// `od:print-pdf` IPC handler reaching for `webContents.print()` (the
+// `sw:print-pdf` IPC handler reaching for `webContents.print()` (the
 // printer-first OS dialog) rather than the `showSaveDialog` +
 // `printToPDF` + write-to-disk shape that `exportPdfFromHtml` already
 // uses for the daemon-backed export path.
@@ -198,7 +198,7 @@ describe('savePrintReadyDocumentAsPdf', () => {
 // Issue #4067 — the desktop "Export PDF" of a sandboxed-preview artifact sized
 // the page to the wrapper viewport, clipping (or blanking, when the content sat
 // below the fold) taller artifacts. inferPageSize() now prefers the content
-// size the in-iframe handshake reports through window.__odPrintSize, since the
+// size the in-iframe handshake reports through window.__swPrintSize, since the
 // wrapper cannot measure the cross-origin sandboxed iframe itself.
 //
 // inferPageSize() returns a measurement expression that runs in the print
@@ -207,7 +207,7 @@ describe('savePrintReadyDocumentAsPdf', () => {
 // not a string match — so the consumer branch (the part most likely to regress)
 // is pinned independently of the in-browser end-to-end repro.
 describe('inferPageSize', () => {
-  type BrowserGlobals = { __odPrintSize: unknown };
+  type BrowserGlobals = { __swPrintSize: unknown };
   type StubDocument = {
     documentElement: Record<string, number>;
     body: Record<string, number> | null;
@@ -217,7 +217,7 @@ describe('inferPageSize', () => {
     return {
       webContents: {
         async executeJavaScript(script: string, _userGesture?: boolean) {
-          const browserWindow: BrowserGlobals = { __odPrintSize: printSize };
+          const browserWindow: BrowserGlobals = { __swPrintSize: printSize };
           const evaluate = new Function('window', 'document', `return ${script};`);
           return evaluate(browserWindow, browserDocument) as unknown;
         },

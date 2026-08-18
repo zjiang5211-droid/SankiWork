@@ -145,8 +145,8 @@ describe('useCritiqueReplay (Phase 7.3)', () => {
       expect(sink.status).toBe('done');
     });
     const headers = new Headers(transcriptInit?.headers);
-    expect(headers.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(headers.get('x-od-workspace-member-id')).toBe('member-a');
+    expect(headers.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(headers.get('x-sw-workspace-member-id')).toBe('member-a');
   });
 
   it('paces events with intervalMs and reaches done after the last tick', async () => {

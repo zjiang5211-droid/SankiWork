@@ -21,9 +21,9 @@ import type {
 
 const SANKIWORK_HOST_GLOBAL: typeof import('@sankiwork/host').SANKIWORK_HOST_GLOBAL = '__sankiwork__';
 const SANKIWORK_HOST_VERSION: typeof import('@sankiwork/host').SANKIWORK_HOST_VERSION = 2;
-const UPDATER_STATUS_EVENT = 'od:update:status-changed';
-const UPDATER_OPEN_DIALOG_EVENT = 'od:update:open-dialog';
-const APP_CONFIG_CHANGED_IPC_CHANNEL = 'od:app-config-changed';
+const UPDATER_STATUS_EVENT = 'sw:update:status-changed';
+const UPDATER_OPEN_DIALOG_EVENT = 'sw:update:open-dialog';
+const APP_CONFIG_CHANGED_IPC_CHANNEL = 'sw:app-config-changed';
 const APP_CONFIG_CHANGED_EVENT = 'sankiwork:app-config-changed';
 
 // Mirror of the argv prefix used by main's `applyOsLocaleSwitch` and
@@ -237,7 +237,7 @@ const browser = {
 const capture = {
   page: async (options?: SankiWorkHostCaptureOptions): Promise<SankiWorkHostCaptureResult> => {
     try {
-      return await ipcRenderer.invoke('od:capture-page', options ?? null);
+      return await ipcRenderer.invoke('sw:capture-page', options ?? null);
     } catch (error) {
       return failure(reasonFromError(error));
     }
@@ -248,7 +248,7 @@ function invokeUpdater(
   action: 'check' | 'clear-cache' | 'download' | 'install' | 'status',
   options?: SankiWorkHostUpdaterActionOptions,
 ): Promise<SankiWorkHostUpdaterStatusSnapshot> {
-  return ipcRenderer.invoke(`od:update:${action}`, options ?? null);
+  return ipcRenderer.invoke(`sw:update:${action}`, options ?? null);
 }
 
 const updater = {
@@ -262,14 +262,14 @@ const updater = {
     invokeUpdater('install', options),
   quit: async (options?: SankiWorkHostUpdaterActionOptions): Promise<SankiWorkHostActionResult> => {
     try {
-      return await ipcRenderer.invoke('od:update:quit', options ?? null);
+      return await ipcRenderer.invoke('sw:update:quit', options ?? null);
     } catch (error) {
       return actionFailure(reasonFromError(error));
     }
   },
   setMenuLabels: async (labels: SankiWorkHostUpdaterMenuLabels): Promise<SankiWorkHostActionResult> => {
     try {
-      return await ipcRenderer.invoke('od:update:set-menu-labels', labels);
+      return await ipcRenderer.invoke('sw:update:set-menu-labels', labels);
     } catch (error) {
       return actionFailure(reasonFromError(error));
     }
@@ -314,7 +314,7 @@ const hostBridge = {
     // Pin the native window appearance (macOS vibrancy glass material) to the
     // app theme. Fire-and-forget: the main process validates the value.
     setTheme: (theme: 'light' | 'dark' | 'system'): void =>
-      ipcRenderer.send('od:appearance:set-theme', theme),
+      ipcRenderer.send('sw:appearance:set-theme', theme),
   },
   shell,
   browser,
@@ -323,7 +323,7 @@ const hostBridge = {
   pdf: {
     print: async (html: string, nonce?: string, options?: PrintPdfOptions): Promise<SankiWorkHostActionResult> => {
       try {
-        await ipcRenderer.invoke('od:print-pdf', html, nonce, options ?? null);
+        await ipcRenderer.invoke('sw:print-pdf', html, nonce, options ?? null);
         return { ok: true };
       } catch (error) {
         return actionFailure(reasonFromError(error));

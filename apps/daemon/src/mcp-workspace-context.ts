@@ -11,7 +11,7 @@ import type {
  * NO-SCOPE catalog (`GET /api/projects`) returns empty to a headerless caller
  * and bound-project reads 400 with `WORKSPACE_CONTEXT_REQUIRED`. The MCP bridge
  * therefore resolves the daemon's signed-in workspace once via the headerless
- * `GET /api/workspace/directory` and sends the resulting `x-od-workspace-*`
+ * `GET /api/workspace/directory` and sends the resulting `x-sw-workspace-*`
  * headers on every project/run call.
  *
  * Selection mirrors the daemon's own `selectDefaultCandidate`
@@ -23,7 +23,7 @@ export interface McpWorkspaceContext {
   workspaceId: string;
   workspaceMemberId: string;
   workspaceType: 'personal' | 'team';
-  headers: { 'x-od-workspace-id': string; 'x-od-workspace-member-id': string };
+  headers: { 'x-sw-workspace-id': string; 'x-sw-workspace-member-id': string };
 }
 
 /** Keep the bridge's view fresh at the same cadence as the daemon's directory cache. */
@@ -105,8 +105,8 @@ export async function resolveMcpWorkspaceContext(
       workspaceMemberId: selected.workspaceMemberId,
       workspaceType: selected.workspaceType,
       headers: {
-        'x-od-workspace-id': selected.workspaceId,
-        'x-od-workspace-member-id': selected.workspaceMemberId,
+        'x-sw-workspace-id': selected.workspaceId,
+        'x-sw-workspace-member-id': selected.workspaceMemberId,
       },
     };
     cache.set(baseUrl, { context, fetchedAt: Date.now() });

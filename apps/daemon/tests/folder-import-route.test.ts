@@ -58,14 +58,14 @@ describe('POST /api/import/folder', () => {
     workspaceMemberId: string,
   ): Record<string, string> {
     return {
-      'x-od-workspace-id': workspaceId,
-      'x-od-workspace-type': 'team',
-      'x-od-workspace-member-id': workspaceMemberId,
-      'x-od-workspace-role': 'member',
-      'x-od-workspace-lifecycle-state': 'active',
-      'x-od-workspace-member-status': 'active',
-      'x-od-workspace-can-share-projects': 'true',
-      'x-od-workspace-can-write-synced-files': 'true',
+      'x-sw-workspace-id': workspaceId,
+      'x-sw-workspace-type': 'team',
+      'x-sw-workspace-member-id': workspaceMemberId,
+      'x-sw-workspace-role': 'member',
+      'x-sw-workspace-lifecycle-state': 'active',
+      'x-sw-workspace-member-status': 'active',
+      'x-sw-workspace-can-share-projects': 'true',
+      'x-sw-workspace-can-write-synced-files': 'true',
     };
   }
 
@@ -341,7 +341,7 @@ describe('POST /api/import/folder', () => {
               writeback: 'external',
             },
           },
-          { 'x-od-desktop-import-token': token },
+          { 'x-sw-desktop-import-token': token },
         );
         expect(importResp.status).toBe(200);
         const { project } = (await importResp.json()) as {

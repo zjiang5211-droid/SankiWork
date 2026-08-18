@@ -111,9 +111,9 @@ describe('injectDeckBridge — framework-deck detection (#deck-stage)', () => {
     const legacyOut = buildSrcdoc(legacyDeckHtml(), { deck: true });
 
     expect(frameworkOut).toContain("key === 'Escape'");
-    expect(frameworkOut).toContain("window.parent.postMessage({ type: 'od:present-escape' }, '*')");
+    expect(frameworkOut).toContain("window.parent.postMessage({ type: 'sw:present-escape' }, '*')");
     expect(legacyOut).toContain("ev && ev.key === 'Escape'");
-    expect(legacyOut).toContain("window.parent.postMessage({ type: 'od:present-escape' }, '*')");
+    expect(legacyOut).toContain("window.parent.postMessage({ type: 'sw:present-escape' }, '*')");
   });
 
   it('skips the fix when #deck-stage uses single quotes, extra whitespace, or uppercase ID syntax', () => {

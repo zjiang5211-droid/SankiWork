@@ -97,7 +97,7 @@ test('first-party bridge is short-lived, single-use, and origin scoped', async (
     }), env, params: {},
   });
   const url = (await minted.json() as { url: string }).url;
-  const token = new URL(url).searchParams.get('od_bridge');
+  const token = new URL(url).searchParams.get('sw_bridge');
   assert.ok(token);
   const consume = () => consumeBridge({
     request: new Request('https://sanki-ai.cloud/api/attribution/bridge/consume', {
@@ -147,7 +147,7 @@ test('download attribution retry returns its payload after the first response is
     webDistinctId: 'web-anon-retry',
     assetUrl: 'https://github.com/nexu-io/open-design/releases/download/v1/SankiWork.dmg',
     createdAt: new Date().toISOString(), landingUrl: null, referrer: null,
-    properties: { od_utm_source: 'release' },
+    properties: { sw_utm_source: 'release' },
   }));
   const env = {
     ATTRIBUTION_KV: {
@@ -165,7 +165,7 @@ test('download attribution retry returns its payload after the first response is
   assert.deepEqual(await (await claim()).json(), {
     status: 'already_consumed_same',
     webDistinctId: 'web-anon-retry',
-    properties: { od_utm_source: 'release' },
+    properties: { sw_utm_source: 'release' },
   });
 });
 

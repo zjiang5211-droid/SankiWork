@@ -247,7 +247,7 @@ const EMPTY_SETUP: SetupState = {
   notes: '',
 };
 
-const GENERATION_JOB_STORAGE_PREFIX = 'od:design-system-generation-job:';
+const GENERATION_JOB_STORAGE_PREFIX = 'sw:design-system-generation-job:';
 const GITHUB_CONNECTOR_ID = 'github';
 const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'sankiwork:connector-connected';
 const GITHUB_CONNECTOR_STATUS_TIMEOUT_MS = 5000;
@@ -2484,7 +2484,7 @@ export function DesignSystemDetailView({
       // a pending revision and switch entry_from accordingly.
       const wasOnboardingHandoff =
         Boolean(peekOnboardingSessionId())
-        || sessionStorage.getItem(`od:auto-send-first:${projectId}`) === '1';
+        || sessionStorage.getItem(`sw:auto-send-first:${projectId}`) === '1';
       void streamViaDaemon({
         agentId: config.agentId,
         history: agentHistory,
@@ -4517,8 +4517,8 @@ async function prepareCreatedDesignSystemProject({
       workspaceContext,
     );
     try {
-      window.sessionStorage.setItem(`od:auto-send-first:${project.id}`, '1');
-      window.sessionStorage.setItem(`od:auto-send-prompt:${project.id}`, prompt);
+      window.sessionStorage.setItem(`sw:auto-send-first:${project.id}`, '1');
+      window.sessionStorage.setItem(`sw:auto-send-prompt:${project.id}`, prompt);
     } catch {
       // If sessionStorage is unavailable, the project still opens with the
       // pending prompt ready for the user to send manually.

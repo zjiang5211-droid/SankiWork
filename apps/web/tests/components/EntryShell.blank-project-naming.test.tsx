@@ -405,8 +405,8 @@ describe('EntryShell team project content readiness', () => {
       requests.push({
         url,
         method: init?.method ?? 'GET',
-        workspaceId: headers.get('x-od-workspace-id'),
-        workspaceMemberId: headers.get('x-od-workspace-member-id'),
+        workspaceId: headers.get('x-sw-workspace-id'),
+        workspaceMemberId: headers.get('x-sw-workspace-member-id'),
       });
       if (pathname.endsWith('/workspace/directory')) {
         return jsonResponse(workspaceDirectoryFixture([teamContext()]));
@@ -512,8 +512,8 @@ describe('EntryShell team project content readiness', () => {
       requests.push({
         url,
         method: init?.method ?? 'GET',
-        workspaceId: headers.get('x-od-workspace-id'),
-        workspaceMemberId: headers.get('x-od-workspace-member-id'),
+        workspaceId: headers.get('x-sw-workspace-id'),
+        workspaceMemberId: headers.get('x-sw-workspace-member-id'),
       });
       if (pathname.endsWith('/workspace/directory')) {
         return jsonResponse(workspaceDirectoryFixture([teamContext()]));

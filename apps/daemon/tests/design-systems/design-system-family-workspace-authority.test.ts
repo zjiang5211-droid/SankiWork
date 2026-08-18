@@ -51,15 +51,15 @@ function paths(root: string) {
 
 function exactHeaders(): Record<string, string> {
   return {
-    'x-od-workspace-id': WORKSPACE_ID,
-    'x-od-workspace-member-id': MEMBER_ID,
+    'x-sw-workspace-id': WORKSPACE_ID,
+    'x-sw-workspace-member-id': MEMBER_ID,
   };
 }
 
 function otherMemberHeaders(): Record<string, string> {
   return {
-    'x-od-workspace-id': WORKSPACE_ID,
-    'x-od-workspace-member-id': 'member-b',
+    'x-sw-workspace-id': WORKSPACE_ID,
+    'x-sw-workspace-member-id': 'member-b',
   };
 }
 
@@ -131,8 +131,8 @@ async function startAuthorityServer(options: {
   };
   const jobs = new Map<string, any>();
   const verifyWorkspaceRequestAuthority = vi.fn(async (req: any) => {
-    const workspaceId = req.get('x-od-workspace-id')?.trim() ?? '';
-    const workspaceMemberId = req.get('x-od-workspace-member-id')?.trim() ?? '';
+    const workspaceId = req.get('x-sw-workspace-id')?.trim() ?? '';
+    const workspaceMemberId = req.get('x-sw-workspace-member-id')?.trim() ?? '';
     if (!workspaceId || !workspaceMemberId) {
       return {
         ok: false as const,
@@ -300,11 +300,11 @@ describe('Design System route family exact Workspace authority', () => {
     for (const headers of [
       {
         ...exactHeaders(),
-        'x-od-workspace-member-id': 'member-other',
+        'x-sw-workspace-member-id': 'member-other',
       },
       {
-        'x-od-workspace-id': 'workspace-b',
-        'x-od-workspace-member-id': 'member-b',
+        'x-sw-workspace-id': 'workspace-b',
+        'x-sw-workspace-member-id': 'member-b',
       },
     ]) {
       const detail = await fetch(

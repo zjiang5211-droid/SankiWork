@@ -58,13 +58,13 @@ function setupDeckBridge(bodyHtml: string) {
 function lastSlideState(parentPostMessage: ReturnType<typeof vi.fn>) {
   const messages = parentPostMessage.mock.calls
     .map((call) => call[0])
-    .filter((m) => m?.type === 'od:slide-state');
+    .filter((m) => m?.type === 'sw:slide-state');
   return messages.at(-1);
 }
 
 function postSlide(win: ReturnType<typeof setupDeckBridge>['win'], action: 'next' | 'prev') {
   win.dispatchEvent(new win.window.MessageEvent('message', {
-    data: { type: 'od:slide', action },
+    data: { type: 'sw:slide', action },
   }));
 }
 

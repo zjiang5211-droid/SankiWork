@@ -84,8 +84,8 @@ describe('InviteDialog — seat gate (#115)', () => {
     expect(String(firstCall?.[0])).toContain('/api/workspace/invite');
     const init = firstCall?.[1] as RequestInit | undefined;
     const headers = new Headers(init?.headers);
-    expect(headers.get('x-od-workspace-id')).toBe(TEAM_CONTEXT.workspaceId);
-    expect(headers.get('x-od-workspace-member-id')).toBe(
+    expect(headers.get('x-sw-workspace-id')).toBe(TEAM_CONTEXT.workspaceId);
+    expect(headers.get('x-sw-workspace-member-id')).toBe(
       TEAM_CONTEXT.workspaceMemberId,
     );
   });

@@ -44,12 +44,12 @@ const designSystemId = 'user:same-id';
 
 function headers(role: 'owner' | 'member' = 'owner'): Record<string, string> {
   return {
-    'x-od-workspace-id': workspaceId,
-    'x-od-workspace-member-id': memberId,
-    'x-od-workspace-type': 'team',
-    'x-od-workspace-role': role,
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-id': workspaceId,
+    'x-sw-workspace-member-id': memberId,
+    'x-sw-workspace-type': 'team',
+    'x-sw-workspace-role': role,
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-lifecycle-state': 'active',
   };
 }
 
@@ -170,11 +170,11 @@ describe('Design System Team/Personal same-id route isolation', () => {
       verifyWorkspaceRequestAuthority: async (req: any) => ({
         ok: true as const,
         context: workspaceContextFromDirectoryItem({
-          workspaceId: req.get('x-od-workspace-id'),
+          workspaceId: req.get('x-sw-workspace-id'),
           workspaceName: 'Workspace A',
           workspaceType: 'team',
-          workspaceMemberId: req.get('x-od-workspace-member-id'),
-          role: req.get('x-od-workspace-role') === 'member' ? 'member' : 'owner',
+          workspaceMemberId: req.get('x-sw-workspace-member-id'),
+          role: req.get('x-sw-workspace-role') === 'member' ? 'member' : 'owner',
           memberStatus: 'active',
           lifecycleState: 'active',
         }),

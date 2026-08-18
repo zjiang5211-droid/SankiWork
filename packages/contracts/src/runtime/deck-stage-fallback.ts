@@ -10,8 +10,8 @@ const DECK_STAGE_FALLBACK_MARKER = 'data-sw-deck-stage-fallback';
 export const DECK_SLIDE_SELECTOR = '.slide, [data-screen-label], .deck-slide, .ppt-slide';
 
 const DECK_STAGE_FALLBACK_SCRIPT = `<script data-sw-deck-stage-fallback>(function(){
-  if (window.__odDeckStageFallbackInstalled) return;
-  window.__odDeckStageFallbackInstalled = true;
+  if (window.__swDeckStageFallbackInstalled) return;
+  window.__swDeckStageFallbackInstalled = true;
   if (!window.customElements || window.customElements.get('deck-stage')) return;
 
   var ACTIVE_ATTR = 'data-sw-deck-active';
@@ -42,7 +42,7 @@ const DECK_STAGE_FALLBACK_SCRIPT = `<script data-sw-deck-stage-fallback>(functio
 
   function postSlideState(active, count) {
     try {
-      window.parent.postMessage({ type: 'od:slide-state', active: active, count: count }, '*');
+      window.parent.postMessage({ type: 'sw:slide-state', active: active, count: count }, '*');
     } catch (_) {}
   }
 
@@ -199,7 +199,7 @@ const DECK_STAGE_FALLBACK_SCRIPT = `<script data-sw-deck-stage-fallback>(functio
 
     _onMessage(ev) {
       var data = ev && ev.data;
-      if (!data || data.type !== 'od:slide') return;
+      if (!data || data.type !== 'sw:slide') return;
       this.go(data.action, data.index);
     }
 
@@ -207,7 +207,7 @@ const DECK_STAGE_FALLBACK_SCRIPT = `<script data-sw-deck-stage-fallback>(functio
       if (!ev || isEditableTarget(ev.target)) return;
       var key = ev.key;
       if (key === 'Escape') {
-        try { window.parent.postMessage({ type: 'od:present-escape' }, '*'); } catch (_) {}
+        try { window.parent.postMessage({ type: 'sw:present-escape' }, '*'); } catch (_) {}
         return;
       }
       if (ev.metaKey || ev.ctrlKey || ev.altKey || ev.shiftKey) return;

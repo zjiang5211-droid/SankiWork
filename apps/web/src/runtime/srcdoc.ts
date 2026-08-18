@@ -9,9 +9,9 @@
  * When `options.deck` is set we also inject a `postMessage` listener that
  * lets the host advance / rewind slides without relying on the iframe
  * having keyboard focus. The host posts:
- *   { type: 'od:slide', action: 'next' | 'prev' | 'first' | 'last' | 'go', index?: number }
+ *   { type: 'sw:slide', action: 'next' | 'prev' | 'first' | 'last' | 'go', index?: number }
  * and the iframe responds with:
- *   { type: 'od:slide-state', active: number, count: number }
+ *   { type: 'sw:slide-state', active: number, count: number }
  * after every navigation so the host can render its own counter / dots.
  */
 import { injectDeckStageFallback } from '@sankiwork/contracts/runtime/deck-stage-fallback';
@@ -98,7 +98,7 @@ export const PREVIEW_REDIRECT_GUARD_WINDOW_MS = 4000;
  *  first hop, without waiting for the hop budget. */
 export const PREVIEW_REDIRECT_GUARD_SELF_REFRESH_MIN_DELAY_MS = 2000;
 /** postMessage type the injected guard sends the host when it trips. */
-export const PREVIEW_REDIRECT_LOOP_MESSAGE = 'od:redirect-loop-blocked';
+export const PREVIEW_REDIRECT_LOOP_MESSAGE = 'sw:redirect-loop-blocked';
 
 export interface RedirectGuardState {
   /** Meta-refresh navigations counted in the current window. */
@@ -460,9 +460,9 @@ export function buildSrcdoc(
  * Build the lazy transport shell.
  *
  * The shell does two things:
- *   1. Register a listener for `od:srcdoc-transport-activate` that replaces
+ *   1. Register a listener for `sw:srcdoc-transport-activate` that replaces
  *      its own document with the real artifact HTML.
- *   2. Post `od:srcdoc-transport-ready` to the parent as soon as the listener
+ *   2. Post `sw:srcdoc-transport-ready` to the parent as soon as the listener
  *      is installed. This `ready` signal is the only reliable way for the
  *      host to know the listener is live; without it, the host risks posting
  *      `activate` before the iframe's script has executed (e.g. right after a
@@ -478,14 +478,14 @@ export function buildLazySrcdocTransport(): string {
     <script data-sw-lazy-srcdoc-transport>(function(){
       window.addEventListener('message', function(ev){
         var data = ev && ev.data;
-        if (!data || data.type !== 'od:srcdoc-transport-activate' || typeof data.html !== 'string' || typeof data.generation !== 'string' || !data.generation) return;
+        if (!data || data.type !== 'sw:srcdoc-transport-activate' || typeof data.html !== 'string' || typeof data.generation !== 'string' || !data.generation) return;
         document.open();
         document.write(data.html);
         document.close();
       });
       try {
         if (window.parent && window.parent !== window) {
-          window.parent.postMessage({ type: 'od:srcdoc-transport-ready' }, '*');
+          window.parent.postMessage({ type: 'sw:srcdoc-transport-ready' }, '*');
         }
       } catch (_) { /* sandboxed parent — host falls back to onLoad */ }
     })();</script>
@@ -501,7 +501,7 @@ export interface SrcDocActivationInputs {
   useUrlLoadPreview: boolean;
   /** Host's render pipeline is routing through the lazy transport shell. */
   useLazySrcDocTransport: boolean;
-  /** The shell document has loaded AND posted `od:srcdoc-transport-ready`. */
+  /** The shell document has loaded AND posted `sw:srcdoc-transport-ready`. */
   shellReady: boolean;
   /** Which artifact HTML has already been pushed into this shell (dedupe). */
   activatedHtml: string | null;
@@ -509,7 +509,7 @@ export interface SrcDocActivationInputs {
 
 /**
  * Pure decision for whether the host should now post
- * `od:srcdoc-transport-activate` to the shell iframe.
+ * `sw:srcdoc-transport-activate` to the shell iframe.
  *
  * Gating on `shellReady` is the fix for #2253: without it, an activation
  * triggered by `useUrlLoadPreview` flipping to false (e.g. opening the
@@ -535,7 +535,7 @@ function injectSrcdocTransportActivationBridge(doc: string, generation: string):
     if (!generation) return;
     try {
       if (window.parent && window.parent !== window) {
-        var message = { type: 'od:srcdoc-transport-activated', generation: generation };
+        var message = { type: 'sw:srcdoc-transport-activated', generation: generation };
         if (typeof probeId === 'string' && probeId) message.probeId = probeId;
         window.parent.postMessage(message, '*');
       }
@@ -543,11 +543,11 @@ function injectSrcdocTransportActivationBridge(doc: string, generation: string):
   }
   window.addEventListener('message', function(ev){
     var data = ev && ev.data;
-    if (data && data.type === 'od:srcdoc-transport-ready-probe') {
+    if (data && data.type === 'sw:srcdoc-transport-ready-probe') {
       if (data.generation === generation) announceReady(data.probeId);
       return;
     }
-    if (!data || data.type !== 'od:srcdoc-transport-activate' || typeof data.html !== 'string' || typeof data.generation !== 'string' || !data.generation) return;
+    if (!data || data.type !== 'sw:srcdoc-transport-activate' || typeof data.html !== 'string' || typeof data.generation !== 'string' || !data.generation) return;
     document.open();
     document.write(data.html);
     document.close();
@@ -692,7 +692,7 @@ function injectSnapshotBridge(doc: string): string {
   }
   // Rasterize the current view (or the whole document, when opts.full) via an
   // SVG <foreignObject>. Returns a Promise so it can be reused by both the
-  // od:snapshot message handler AND the export-capture bridge (image export /
+  // sw:snapshot message handler AND the export-capture bridge (image export /
   // PDF) — the foreignObject path is fast and never blocks on external
   // image network loads the way a DOM-cloning rasterizer does.
   function captureSnapshot(opts){
@@ -752,16 +752,16 @@ function injectSnapshotBridge(doc: string): string {
     });
   }
   // Exposed so the export-capture bridge (same document) can reuse this renderer.
-  window.__odCaptureSnapshot = function(opts){
+  window.__swCaptureSnapshot = function(opts){
     return waitForImages().then(function(){ return captureSnapshot(opts || {}); });
   };
   window.addEventListener('message', function(ev){
     var data = ev && ev.data;
-    if (!data || data.type !== 'od:snapshot' || !data.id) return;
-    window.__odCaptureSnapshot({ full: !!data.full }).then(function(res){
-      window.parent.postMessage({ type: 'od:snapshot:result', id: String(data.id), dataUrl: res.dataUrl, w: res.w, h: res.h }, '*');
+    if (!data || data.type !== 'sw:snapshot' || !data.id) return;
+    window.__swCaptureSnapshot({ full: !!data.full }).then(function(res){
+      window.parent.postMessage({ type: 'sw:snapshot:result', id: String(data.id), dataUrl: res.dataUrl, w: res.w, h: res.h }, '*');
     }, function(err){
-      window.parent.postMessage({ type: 'od:snapshot:result', id: String(data.id), error: String(err && err.message || err) }, '*');
+      window.parent.postMessage({ type: 'sw:snapshot:result', id: String(data.id), error: String(err && err.message || err) }, '*');
     });
   });
 })();</script>`;
@@ -771,8 +771,8 @@ function injectSnapshotBridge(doc: string): string {
 function injectPreviewContentSizeBridge(doc: string, documentEpoch: string): string {
   const serializedDocumentEpoch = JSON.stringify(documentEpoch).replace(/</g, '\\u003c');
   const script = `<script data-sw-preview-content-size-bridge>(function(){
-  if (window.__odPreviewContentSizeBridge) return;
-  window.__odPreviewContentSizeBridge = true;
+  if (window.__swPreviewContentSizeBridge) return;
+  window.__swPreviewContentSizeBridge = true;
   var pending = false;
   var lastRequest = null;
   var documentEpoch = ${serializedDocumentEpoch};
@@ -808,7 +808,7 @@ function injectPreviewContentSizeBridge(doc: string, documentEpoch: string): str
     var size = measure();
     try {
       window.parent.postMessage({
-        type: 'od:preview-content-size',
+        type: 'sw:preview-content-size',
         measurementId: lastRequest.measurementId,
         generation: lastRequest.generation,
         documentEpoch: documentEpoch,
@@ -827,7 +827,7 @@ function injectPreviewContentSizeBridge(doc: string, documentEpoch: string): str
   }
   window.addEventListener('message', function(ev){
     var data = ev && ev.data;
-    if (!data || data.type !== 'od:preview-content-size-request') return;
+    if (!data || data.type !== 'sw:preview-content-size-request') return;
     if (typeof data.measurementId !== 'string' || typeof data.generation !== 'string') return;
     lastRequest = {
       measurementId: data.measurementId,
@@ -862,21 +862,21 @@ function injectPreviewContentSizeBridge(doc: string, documentEpoch: string): str
 // sandbox="allow-scripts" WITHOUT allow-same-origin, so the host cannot read
 // iframe.contentDocument — capture must run inside the frame, exactly like the
 // snapshot bridge above. The orchestrator (host) creates a hidden, full-
-// resolution export iframe, posts `od:export-capture`, and assembles the
+// resolution export iframe, posts `sw:export-capture`, and assembles the
 // returned per-slide images with jsPDF.
 //
 // Protocol:
-//   in:  { type:'od:export-capture', id, mode:'image', deck:boolean,
+//   in:  { type:'sw:export-capture', id, mode:'image', deck:boolean,
 //          single?:boolean, delay:number }
-//   out: { type:'od:export-capture:slide', id, index, total,
+//   out: { type:'sw:export-capture:slide', id, index, total,
 //          dataUrl, w, h, notes }   (one per slide)
-//   out: { type:'od:export-capture:done',  id, total }
-//   out: { type:'od:export-capture:error', id, error }
+//   out: { type:'sw:export-capture:done',  id, total }
+//   out: { type:'sw:export-capture:error', id, error }
 //
 // Slides are enumerated/navigated through the existing deck bridge
-// (window.__odDeckSlideState + an `od:slide` self-postMessage), so any deck the
+// (window.__swDeckSlideState + an `sw:slide` self-postMessage), so any deck the
 // on-screen preview can drive, the exporter can too. Image capture reuses the
-// shared SVG-foreignObject renderer (window.__odCaptureSnapshot from the
+// shared SVG-foreignObject renderer (window.__swCaptureSnapshot from the
 // snapshot bridge) — fast and free of any external script load or network wait.
 function injectExportCaptureBridge(doc: string): string {
   const script = `<script data-sw-export-capture-bridge>(function(){
@@ -890,12 +890,12 @@ function injectExportCaptureBridge(doc: string): string {
     return Promise.all([fonts, imgs]).then(raf).then(raf);
   }
   function deckState(){
-    try { if (typeof window.__odDeckSlideState === 'function') return window.__odDeckSlideState(); } catch(_){}
+    try { if (typeof window.__swDeckSlideState === 'function') return window.__swDeckSlideState(); } catch(_){}
     return { active: 0, count: 1 };
   }
   function navTo(index, delay){
     return new Promise(function(resolve){
-      try { window.postMessage({ type:'od:slide', action:'go', index: index }, '*'); } catch(_){}
+      try { window.postMessage({ type:'sw:slide', action:'go', index: index }, '*'); } catch(_){}
       var tries = 0;
       function check(){
         tries++;
@@ -909,10 +909,10 @@ function injectExportCaptureBridge(doc: string): string {
     // Reuse the shared SVG-foreignObject renderer (injectSnapshotBridge). For a
     // deck the active slide fills the viewport, so a viewport capture IS the
     // slide; a non-deck page captures the full document.
-    if (typeof window.__odCaptureSnapshot !== 'function') {
+    if (typeof window.__swCaptureSnapshot !== 'function') {
       return Promise.reject(new Error('snapshot renderer unavailable'));
     }
-    return window.__odCaptureSnapshot({ full: !deck });
+    return window.__swCaptureSnapshot({ full: !deck });
   }
   function notes(){
     var el = document.getElementById('speaker-notes');
@@ -945,26 +945,26 @@ function injectExportCaptureBridge(doc: string): string {
       function noteFor(i){ return Array.isArray(notesAll) ? (notesAll[i]||'') : (i===0 ? notesAll : ''); }
       var idx = 0;
       function step(){
-        if (idx >= total){ send({ type:'od:export-capture:done', id:id, total: total }); return; }
+        if (idx >= total){ send({ type:'sw:export-capture:done', id:id, total: total }); return; }
         var i = idx;
         var navP = (!single && deck && total > 1) ? navTo(i, delay) : Promise.resolve();
         navP.then(settle).then(function(){
           try {
             captureImage(deck).then(function(img){
-              send({ type:'od:export-capture:slide', id:id, index:i, total:total, dataUrl: img.dataUrl, w: img.w, h: img.h, notes: noteFor(i) });
+              send({ type:'sw:export-capture:slide', id:id, index:i, total:total, dataUrl: img.dataUrl, w: img.w, h: img.h, notes: noteFor(i) });
               idx++; setTimeout(step, 0);
-            }).catch(function(err){ send({ type:'od:export-capture:error', id:id, error: String(err && err.message || err) }); });
-          } catch(err){ send({ type:'od:export-capture:error', id:id, error: String(err && err.message || err) }); }
+            }).catch(function(err){ send({ type:'sw:export-capture:error', id:id, error: String(err && err.message || err) }); });
+          } catch(err){ send({ type:'sw:export-capture:error', id:id, error: String(err && err.message || err) }); }
         });
       }
       step();
     }).catch(function(err){
-      send({ type:'od:export-capture:error', id:id, error: String(err && err.message || err) });
+      send({ type:'sw:export-capture:error', id:id, error: String(err && err.message || err) });
     });
   }
   window.addEventListener('message', function(ev){
     var data = ev && ev.data;
-    if (!data || data.type !== 'od:export-capture' || !data.id) return;
+    if (!data || data.type !== 'sw:export-capture' || !data.id) return;
     run(data);
   });
 })();</script>`;
@@ -994,7 +994,7 @@ function injectPaletteBridge(
   };
   var current = ${initial};
   var ATTR = 'data-sw-palette-fix';
-  var SAVED = '__odPaletteSaved__';
+  var SAVED = '__swPaletteSaved__';
   var MIN_SAT = 0.08;
   var WALK_LIMIT = 12000;
   var STYLE_RULE_LIMIT = 5000;
@@ -1162,7 +1162,7 @@ function injectPaletteBridge(
   }
   window.addEventListener('message', function(ev){
     var data = ev && ev.data;
-    if (!data || data.type !== 'od:palette') return;
+    if (!data || data.type !== 'sw:palette') return;
     apply(data.palette ? String(data.palette) : null);
   });
   function boot(){ if (current) apply(current); }
@@ -1498,7 +1498,7 @@ function injectPreviewRedirectGuard(
   opts: { blockLoadTimeScriptRedirect?: boolean } = {},
 ): string {
   const script = `<script data-sw-preview-redirect-guard>(function(){
-  var NAME_PREFIX = '__odRedirectGuard=';
+  var NAME_PREFIX = '__swRedirectGuard=';
   var MAX_HOPS = ${PREVIEW_REDIRECT_GUARD_MAX_HOPS};
   var WINDOW_MS = ${PREVIEW_REDIRECT_GUARD_WINDOW_MS};
   var SELF_MIN_DELAY_MS = ${PREVIEW_REDIRECT_GUARD_SELF_REFRESH_MIN_DELAY_MS};
@@ -1645,26 +1645,26 @@ function injectPreviewRedirectGuard(
 // (Comment) or live-tune basic styles (Inspect).
 //
 // Inspect adds four messages on top of the comment protocol:
-//   in:  { type: 'od:inspect-set', elementId, selector, prop, value }
+//   in:  { type: 'sw:inspect-set', elementId, selector, prop, value }
 //        Apply (or unset, when value === '') a per-element CSS override.
-//   in:  { type: 'od:inspect-reset', elementId? } Clear overrides for one
+//   in:  { type: 'sw:inspect-reset', elementId? } Clear overrides for one
 //        element, or all if elementId is omitted.
-//   in:  { type: 'od:inspect-extract' } Reply with the cumulative
+//   in:  { type: 'sw:inspect-extract' } Reply with the cumulative
 //        override map so the host can persist to source.
-//   in:  { type: 'od:inspect-replay', overrides } Replace the in-memory
+//   in:  { type: 'sw:inspect-replay', overrides } Replace the in-memory
 //        override map with the host's authoritative set so the iframe
 //        preview matches host state after every srcdoc rebuild. Without
 //        this the bridge re-hydrates only the persisted <style> block on
 //        load, so any unsaved edit the host still holds disappears from
 //        the preview while saveInspectToSource() can later commit CSS the
 //        user is no longer seeing. Re-validates every entry under the
-//        same allow-list / value sanitizer applied to od:inspect-set.
-//   out: { type: 'od:inspect-overrides', overrides } The current snapshot,
+//        same allow-list / value sanitizer applied to sw:inspect-set.
+//   out: { type: 'sw:inspect-overrides', overrides } The current snapshot,
 //        sent in reply to extract and after every set/reset/replay. The
 //        host re-derives the persisted CSS body from the structured map
 //        under its own allow-list — the bridge's own stylesheet text is
 //        NOT included in this message because artifact JS can forge a
-//        same-source od:inspect-overrides containing a hostile `css`.
+//        same-source sw:inspect-overrides containing a hostile `css`.
 //
 // Overrides are written into a single <style data-sw-inspect-overrides>
 // block in <head>, with `!important` on every property so the bridge
@@ -1703,7 +1703,7 @@ function injectSelectionBridge(
   var styleEl = null;
   // Allow-list of CSS properties the host may override. A malicious parent
   // could otherwise smuggle arbitrary CSS (or, with </style>, raw HTML)
-  // through od:inspect-set. Keep this in sync with the InspectPanel UI.
+  // through sw:inspect-set. Keep this in sync with the InspectPanel UI.
   var ALLOWED_PROPS = {
     'color': true,
     'background-color': true,
@@ -1726,7 +1726,7 @@ function injectSelectionBridge(
   function active(){ return commentEnabled || inspectEnabled; }
   function deckSlideIndexForPayload(){
     try {
-      var state = window.__odDeckSlideState && window.__odDeckSlideState();
+      var state = window.__swDeckSlideState && window.__swDeckSlideState();
       if (state && typeof state.active === 'number' && state.count > 1) return state.active;
     } catch (_) {}
     return null;
@@ -1780,7 +1780,7 @@ function injectSelectionBridge(
   }
   // Hydrate the in-memory override map from any persisted
   // <style data-sw-inspect-overrides> block already in the document.
-  // Without this, the first od:inspect-set rebuilds the sheet from an
+  // Without this, the first sw:inspect-set rebuilds the sheet from an
   // empty map and silently drops every previously saved rule for other
   // elements — a subsequent Save-to-source would then erase them from
   // the artifact too.
@@ -1839,11 +1839,11 @@ function injectSelectionBridge(
     });
     // Intentionally do NOT include a css string here. Artifact code
     // running inside this iframe shares window.parent and could forge
-    // od:inspect-overrides with a hostile css (e.g. </style><script>...).
+    // sw:inspect-overrides with a hostile css (e.g. </style><script>...).
     // The host re-derives CSS from the structured overrides map under
     // its own allow-list, so any stray css field on the wire would only
     // be a false-trust trap.
-    try { window.parent.postMessage({ type: 'od:inspect-overrides', overrides: clean }, '*'); } catch (_) {}
+    try { window.parent.postMessage({ type: 'sw:inspect-overrides', overrides: clean }, '*'); } catch (_) {}
   }
   function styleSnapshot(el){
     try {
@@ -1972,7 +1972,7 @@ function meaningfulDomFallbackTarget(el) {
     var position = { x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height) };
     if (!elementVisibleForComment(el, position)) return null;
     var payload = {
-      type: 'od:comment-target',
+      type: 'sw:comment-target',
       elementId: id,
       selector: selector,
       label: tag + cls,
@@ -2049,7 +2049,7 @@ function meaningfulDomFallbackTarget(el) {
     if (!el) return;
     var frame = document.scrollingElement || document.documentElement;
     window.parent.postMessage({
-      type: 'od:preview-scroll',
+      type: 'sw:preview-scroll',
       canvasLeft: Math.round(el.scrollLeft || 0),
       canvasTop: Math.round(el.scrollTop || 0),
       frameLeft: Math.round(frame.scrollLeft || 0),
@@ -2065,7 +2065,7 @@ function meaningfulDomFallbackTarget(el) {
     });
   }
   function requestPreviewScrollRestore(){
-    window.parent.postMessage({ type: 'od:preview-scroll-request' }, '*');
+    window.parent.postMessage({ type: 'sw:preview-scroll-request' }, '*');
   }
   function findCommentTargetByIdentity(elementId, selector){
     var el = null;
@@ -2085,7 +2085,7 @@ function meaningfulDomFallbackTarget(el) {
     var el = findCommentTargetByIdentity(activeCommentElementId, activeCommentSelector);
     if (!el) return;
     var payload = targetFrom(el, commentEnabled && mode === 'picker' && !inspectEnabled);
-    if (payload) window.parent.postMessage(Object.assign({}, payload, { type: 'od:comment-active-target-update' }), '*');
+    if (payload) window.parent.postMessage(Object.assign({}, payload, { type: 'sw:comment-active-target-update' }), '*');
   }
   function schedulePostActiveCommentTarget(){
     if (!active() || !activeCommentElementId || postActiveTargetPending) return;
@@ -2097,7 +2097,7 @@ function meaningfulDomFallbackTarget(el) {
   }
   function postTargets(){
     if (!active()) return;
-    window.parent.postMessage({ type: 'od:comment-targets', targets: allTargets() }, '*');
+    window.parent.postMessage({ type: 'sw:comment-targets', targets: allTargets() }, '*');
   }
   function schedulePostTargets(){
     if (!active() || postTargetsPending) return;
@@ -2119,13 +2119,13 @@ function meaningfulDomFallbackTarget(el) {
   }
   // Coalesce live stroke updates to one post per frame. The stroke array still
   // grows synchronously on every pointermove, but the host (which re-renders
-  // the comment overlay on each od:pod-stroke) only sees ~60 updates/sec
+  // the comment overlay on each sw:pod-stroke) only sees ~60 updates/sec
   // instead of one per raw pointer event.
   function schedulePostStroke(){
     if (strokeFrame !== null) return;
     strokeFrame = requestAnimationFrame(function(){
       strokeFrame = null;
-      postStroke('od:pod-stroke');
+      postStroke('sw:pod-stroke');
     });
   }
   function canUseDomFallback(){
@@ -2354,11 +2354,11 @@ function meaningfulDomFallbackTarget(el) {
   window.addEventListener('message', function(ev){
     var data = ev && ev.data;
     if (!data || !data.type) return;
-    if (data.type === 'od:preview-runtime-state-restore') {
+    if (data.type === 'sw:preview-runtime-state-restore') {
       scheduleRuntimeStateRestore(data.state);
       return;
     }
-    if (data.type === 'od:comment-mode') {
+    if (data.type === 'sw:comment-mode') {
       commentEnabled = !!data.enabled;
       mode = data.mode === 'pod' ? 'pod' : 'picker';
       document.documentElement.toggleAttribute('data-sw-comment-mode', commentEnabled);
@@ -2372,11 +2372,11 @@ function meaningfulDomFallbackTarget(el) {
       if (!commentEnabled || mode !== 'pod') {
         drawing = false;
         stroke = [];
-        try { window.parent.postMessage({ type: 'od:pod-clear' }, '*'); } catch (_) {}
+        try { window.parent.postMessage({ type: 'sw:pod-clear' }, '*'); } catch (_) {}
       }
       return;
     }
-    if (data.type === 'od:preview-scroll-restore') {
+    if (data.type === 'sw:preview-scroll-restore') {
       var frame = document.scrollingElement || document.documentElement;
       var el = previewScrollElement();
       if (frame) frame.scrollTo(Number(data.frameLeft || 0), Number(data.frameTop || 0));
@@ -2384,37 +2384,37 @@ function meaningfulDomFallbackTarget(el) {
       setTimeout(postPreviewScroll, 0);
       return;
     }
-    if (data.type === 'od:comment-active-target') {
+    if (data.type === 'sw:comment-active-target') {
       activeCommentElementId = data.elementId ? String(data.elementId) : null;
       activeCommentSelector = data.selector ? String(data.selector) : null;
       schedulePostActiveCommentTarget();
       return;
     }
-    if (data.type === 'od:preview-scroll-by') {
+    if (data.type === 'sw:preview-scroll-by') {
       previewScrollBy(data.left, data.top);
       return;
     }
 
-    if (data.type === 'od:inspect-mode') {
+    if (data.type === 'sw:inspect-mode') {
       inspectEnabled = !!data.enabled;
       document.documentElement.toggleAttribute('data-sw-inspect-mode', inspectEnabled);
       if (active()) setTimeout(postTargets, 0);
       else hoveredId = null;
       return;
     }
-    if (data.type === 'od:inspect-set') {
+    if (data.type === 'sw:inspect-set') {
       applyOverride(data.elementId, data.selector, data.prop, data.value);
       return;
     }
-    if (data.type === 'od:inspect-reset') {
+    if (data.type === 'sw:inspect-reset') {
       resetOverrides(data.elementId);
       return;
     }
-    if (data.type === 'od:inspect-extract') {
+    if (data.type === 'sw:inspect-extract') {
       postOverrides();
       return;
     }
-    if (data.type === 'od:inspect-replay') {
+    if (data.type === 'sw:inspect-replay') {
       // Replace the in-memory map with the host's authoritative set so
       // unsaved edits survive a srcdoc rebuild (toggling inspect off/on,
       // switching to comment, any other reload reloads the iframe from
@@ -2458,7 +2458,7 @@ function meaningfulDomFallbackTarget(el) {
     var payload = targetFrom(result.target, commentEnabled && mode === 'picker' && !inspectEnabled);
     if (!payload || payload.elementId === hoveredId) return;
     hoveredId = payload.elementId;
-    window.parent.postMessage(Object.assign({}, payload, { type: 'od:comment-hover' }), '*');
+    window.parent.postMessage(Object.assign({}, payload, { type: 'sw:comment-hover' }), '*');
   }, true);
   document.addEventListener('mouseout', function(ev){
     if (!pickerActive()) return;
@@ -2470,7 +2470,7 @@ function meaningfulDomFallbackTarget(el) {
       next = next.parentElement;
     }
     hoveredId = null;
-    window.parent.postMessage({ type: 'od:comment-leave' }, '*');
+    window.parent.postMessage({ type: 'sw:comment-leave' }, '*');
   }, true);
   document.addEventListener('click', function(ev){
     if (!pickerActive()) return;
@@ -2512,7 +2512,7 @@ function meaningfulDomFallbackTarget(el) {
     var pinId = 'pin-' + Date.now().toString(36) + '-' + Math.floor(Math.random() * 1e6).toString(36);
     var pinSlideIndex = deckSlideIndexForPayload();
     var pinPayload = {
-      type: 'od:comment-target',
+      type: 'sw:comment-target',
       // Synthetic selector / label so daemon upsert validation (which
       // requires both to be non-empty) accepts the saved free-pin.
       selector: '[data-sw-pin="' + pinId + '"]',
@@ -2535,7 +2535,7 @@ function meaningfulDomFallbackTarget(el) {
     stroke = [relativePoint(ev)];
     ev.preventDefault();
     ev.stopPropagation();
-    postStroke('od:pod-stroke');
+    postStroke('sw:pod-stroke');
   }, true);
   document.addEventListener('pointermove', function(ev){
     if (!drawing || mode !== 'pod') return;
@@ -2555,7 +2555,7 @@ function meaningfulDomFallbackTarget(el) {
       ev.preventDefault();
       ev.stopPropagation();
     }
-    postStroke('od:pod-select');
+    postStroke('sw:pod-select');
   }
   document.addEventListener('pointerup', finishStroke, true);
   document.addEventListener('pointercancel', finishStroke, true);
@@ -2594,7 +2594,7 @@ function meaningfulDomFallbackTarget(el) {
   setTimeout(requestPreviewScrollRestore, 0);
   setTimeout(requestPreviewScrollRestore, 80);
   setTimeout(requestPreviewScrollRestore, 240);
-  window.__odScheduleCommentTargets = schedulePostTargets;
+  window.__swScheduleCommentTargets = schedulePostTargets;
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', postTargets);
   else setTimeout(postTargets, 0);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', postPreviewScroll);
@@ -2739,12 +2739,12 @@ function injectDeckStageShadowChromeHiding(doc: string): string {
 }
 
 // Screens keydown listeners for keyboard slide navigation by their source
-// text, the same way odMaybeHandlesSlideMessages screens message listeners:
+// text, the same way swMaybeHandlesSlideMessages screens message listeners:
 // od bridges and artifact shortcut helpers register keydown listeners of
 // their own, and counting those would put every deck on the key-probe path.
 // Shared between the head-start registry hook and the deck bridge's own
 // addEventListener patches.
-const NAV_KEYDOWN_LISTENER_PROBE = `function odLooksLikeNavKeydownListener(listener) {
+const NAV_KEYDOWN_LISTENER_PROBE = `function swLooksLikeNavKeydownListener(listener) {
     try {
       var source = '';
       if (typeof listener === 'function') source = String(listener);
@@ -2762,7 +2762,7 @@ const NAV_KEYDOWN_LISTENER_PROBE = `function odLooksLikeNavKeydownListener(liste
 // addEventListener patches to see, and external script bytes are invisible
 // to the build-time source scan — so this hook must run before any artifact
 // script, at the start of <head>. The deck bridge marks its own top-of-file
-// keydown listeners via __odDeckBridgeOwnListenerInstall so they are not
+// keydown listeners via __swDeckBridgeOwnListenerInstall so they are not
 // mistaken for artifact navigation.
 function injectDeckKeydownRegistryHook(doc: string): string {
   const hook = `<script data-sw-deck-keydown-registry>(function(){
@@ -2773,10 +2773,10 @@ function injectDeckKeydownRegistryHook(doc: string): string {
       target.addEventListener = function(type, listener, options){
         if (
           type === 'keydown' &&
-          window.__odDeckBridgeOwnListenerInstall !== true &&
-          odLooksLikeNavKeydownListener(listener)
+          window.__swDeckBridgeOwnListenerInstall !== true &&
+          swLooksLikeNavKeydownListener(listener)
         ) {
-          window.__odArtifactKeydownNavigation = true;
+          window.__swArtifactKeydownNavigation = true;
         }
         return original.call(this, type, listener, options);
       };
@@ -2796,7 +2796,7 @@ function injectDeckKeydownRegistryHook(doc: string): string {
 // listeners of their own, and matching those would put every deck on the
 // key-probe path. Requiring a navigation-key token alongside the keydown
 // registration keeps unrelated keyboard handling (shortcuts, form helpers)
-// from triggering probes, mirroring how odMaybeHandlesSlideMessages screens
+// from triggering probes, mirroring how swMaybeHandlesSlideMessages screens
 // message listeners. This scan only sees inline bytes; keyboard runtimes in
 // external scripts are caught at runtime by injectDeckKeydownRegistryHook.
 function detectArtifactKeyboardNavigation(artifactHtml: string): boolean {
@@ -2851,12 +2851,12 @@ function injectDeckBridge(
   // The framework branch's own listener source mentions navigation keys, so
   // without this marker the head-start registry hook would classify every
   // framework deck as artifact-keyboard-navigable.
-  window.__odDeckBridgeOwnListenerInstall = true;
+  window.__swDeckBridgeOwnListenerInstall = true;
   if (${JSON.stringify(isFrameworkDeck)}) {
     window.addEventListener('keydown', function(ev){
       var key = ev && ev.key;
       if (key === 'Escape') {
-        try { window.parent.postMessage({ type: 'od:present-escape' }, '*'); } catch (_) {}
+        try { window.parent.postMessage({ type: 'sw:present-escape' }, '*'); } catch (_) {}
         return;
       }
       if (ev.metaKey || ev.ctrlKey || ev.altKey || ev.shiftKey) return;
@@ -2877,11 +2877,11 @@ function injectDeckBridge(
   } else {
     window.addEventListener('keydown', function(ev){
       if (ev && ev.key === 'Escape') {
-        try { window.parent.postMessage({ type: 'od:present-escape' }, '*'); } catch (_) {}
+        try { window.parent.postMessage({ type: 'sw:present-escape' }, '*'); } catch (_) {}
       }
     }, true);
   }
-  window.__odDeckBridgeOwnListenerInstall = false;
+  window.__swDeckBridgeOwnListenerInstall = false;
   function slides(){
     // Structured selectors first so decorative .slide markup in non-deck
     // pages (icons, badges, code samples) is not counted as deck slides;
@@ -3199,12 +3199,12 @@ function injectDeckBridge(
   // bridge); the addEventListener patches below catch later registrations.
   // Decks with no keyboard handling at all skip the probe entirely, so their
   // direct-DOM fallback stays synchronous.
-  var odHasArtifactKeydownListener = ${JSON.stringify(hasInlineKeydownListener)};
+  var swHasArtifactKeydownListener = ${JSON.stringify(hasInlineKeydownListener)};
   function artifactHasKeydownNavigation(){
-    if (odHasArtifactKeydownListener) return true;
+    if (swHasArtifactKeydownListener) return true;
     // Set by the head-start registry hook, which sees registrations made
     // before this bridge executes (external-script keyboard runtimes).
-    try { return window.__odArtifactKeydownNavigation === true; } catch (_) { return false; }
+    try { return window.__swArtifactKeydownNavigation === true; } catch (_) { return false; }
   }
   function trackTransformSnapshot(){
     var track = transformTrack(slides());
@@ -3368,7 +3368,7 @@ function injectDeckBridge(
       var progressWidth = count ? ((i + 1) / count * 100) + '%' : '0';
       updateDeckChrome(i, count);
       window.parent.postMessage({
-        type: 'od:slide-state',
+        type: 'sw:slide-state',
         active: i,
         count: count,
       }, '*');
@@ -3385,12 +3385,12 @@ function injectDeckBridge(
       if (i !== lastCommentTargetSlideIndex) {
         lastCommentTargetSlideIndex = i;
         try {
-          if (typeof window.__odScheduleCommentTargets === 'function') window.__odScheduleCommentTargets();
+          if (typeof window.__swScheduleCommentTargets === 'function') window.__swScheduleCommentTargets();
         } catch (_) {}
       }
     } catch (e) {}
   }
-  window.__odDeckSlideState = function(){
+  window.__swDeckSlideState = function(){
     var list = slides();
     return { active: activeIndex(list), count: list.length };
   };
@@ -3401,10 +3401,10 @@ function injectDeckBridge(
     didRestoreInitialSlide = true;
     gotoIndex(initialSlideIndex);
   }
-  var odSlideMessageBeforeIndex = -1;
-  var odDeckBridgeInstallingMessageListener = false;
-  var odHasExternalSlideMessageListener = ${JSON.stringify(hasInlineSlideMessageListener)};
-  function odMaybeHandlesSlideMessages(listener) {
+  var swSlideMessageBeforeIndex = -1;
+  var swDeckBridgeInstallingMessageListener = false;
+  var swHasExternalSlideMessageListener = ${JSON.stringify(hasInlineSlideMessageListener)};
+  function swMaybeHandlesSlideMessages(listener) {
     try {
       var source = '';
       if (typeof listener === 'function') source = String(listener);
@@ -3417,49 +3417,49 @@ function injectDeckBridge(
   }
   ${NAV_KEYDOWN_LISTENER_PROBE}
   try {
-    var odOriginalAddEventListener = window.addEventListener;
+    var swOriginalAddEventListener = window.addEventListener;
     window.addEventListener = function(type, listener, options) {
       if (
         type === 'message' &&
-        !odDeckBridgeInstallingMessageListener &&
-        odMaybeHandlesSlideMessages(listener)
+        !swDeckBridgeInstallingMessageListener &&
+        swMaybeHandlesSlideMessages(listener)
       ) {
-        odHasExternalSlideMessageListener = true;
+        swHasExternalSlideMessageListener = true;
       }
-      if (type === 'keydown' && odLooksLikeNavKeydownListener(listener)) {
-        odHasArtifactKeydownListener = true;
+      if (type === 'keydown' && swLooksLikeNavKeydownListener(listener)) {
+        swHasArtifactKeydownListener = true;
       }
-      return odOriginalAddEventListener.call(this, type, listener, options);
+      return swOriginalAddEventListener.call(this, type, listener, options);
     };
   } catch (_) {}
   try {
-    var odOriginalDocumentAddEventListener = document.addEventListener;
+    var swOriginalDocumentAddEventListener = document.addEventListener;
     document.addEventListener = function(type, listener, options) {
-      if (type === 'keydown' && odLooksLikeNavKeydownListener(listener)) {
-        odHasArtifactKeydownListener = true;
+      if (type === 'keydown' && swLooksLikeNavKeydownListener(listener)) {
+        swHasArtifactKeydownListener = true;
       }
-      return odOriginalDocumentAddEventListener.call(this, type, listener, options);
+      return swOriginalDocumentAddEventListener.call(this, type, listener, options);
     };
   } catch (_) {}
   function addOdSlideMessageListener(listener, options) {
-    odDeckBridgeInstallingMessageListener = true;
+    swDeckBridgeInstallingMessageListener = true;
     try { window.addEventListener('message', listener, options); }
-    finally { odDeckBridgeInstallingMessageListener = false; }
+    finally { swDeckBridgeInstallingMessageListener = false; }
   }
   addOdSlideMessageListener(function(ev){
     var data = ev && ev.data;
-    if (!data || data.type !== 'od:slide') return;
+    if (!data || data.type !== 'sw:slide') return;
     var before = activeIndex(slides());
-    odSlideMessageBeforeIndex = before;
+    swSlideMessageBeforeIndex = before;
     setTimeout(function(){
       if (activeIndex(slides()) !== before) report();
     }, 0);
   }, true);
   addOdSlideMessageListener(function(ev){
     var data = ev && ev.data;
-    if (!data || data.type !== 'od:slide') return;
-    var before = odSlideMessageBeforeIndex;
-    odSlideMessageBeforeIndex = -1;
+    if (!data || data.type !== 'sw:slide') return;
+    var before = swSlideMessageBeforeIndex;
+    swSlideMessageBeforeIndex = -1;
     function applyBridgeFallback() {
       var current = activeIndex(slides());
       if (data.action === 'go' && typeof data.index === 'number') {
@@ -3470,7 +3470,7 @@ function injectDeckBridge(
         gotoIndex(data.index);
         return;
       }
-      // Some generated decks ship their own od:slide listener. Let every
+      // Some generated decks ship their own sw:slide listener. Let every
       // listener for this message event settle first; then, if the artifact
       // already moved from the captured index, report instead of applying the
       // same command again.
@@ -3484,7 +3484,7 @@ function injectDeckBridge(
       report();
       return;
     }
-    if (odHasExternalSlideMessageListener) {
+    if (swHasExternalSlideMessageListener) {
       setTimeout(applyBridgeFallback, 0);
       return;
     }
@@ -3492,8 +3492,8 @@ function injectDeckBridge(
   });
   function ownDeckButton(id, action){
     var btn = document.getElementById(id);
-    if (!btn || btn.__odDeckOwned) return;
-    btn.__odDeckOwned = true;
+    if (!btn || btn.__swDeckOwned) return;
+    btn.__swDeckOwned = true;
     btn.addEventListener('click', function(e){
       e.preventDefault();
       e.stopImmediatePropagation();
@@ -3505,8 +3505,8 @@ function injectDeckBridge(
   // Report once on load and on every scroll-end so the host stays in sync.
   window.addEventListener('load', function(){ setTimeout(restoreInitialSlide, 200); });
   document.addEventListener('scroll', function(){
-    clearTimeout(window.__odReportT);
-    window.__odReportT = setTimeout(report, 120);
+    clearTimeout(window.__swReportT);
+    window.__swReportT = setTimeout(report, 120);
   }, { passive: true, capture: true });
   // Nudge the deck's own fit/resize listener after layout settles. Fixed-canvas
   // decks (e.g. ".canvas { width: 1920px }" + "transform: scale(...)") compute
@@ -3550,8 +3550,8 @@ function injectDeckBridge(
     if (!list.length) { setTimeout(observeSlides, 150); return; }
     try {
       var mo = new MutationObserver(function(){
-        clearTimeout(window.__odReportT2);
-        window.__odReportT2 = setTimeout(report, 60);
+        clearTimeout(window.__swReportT2);
+        window.__swReportT2 = setTimeout(report, 60);
       });
       for (var i = 0; i < list.length; i++) {
         mo.observe(list[i], { attributes: true, attributeFilter: ['class', 'style', 'hidden', 'aria-hidden'] });
@@ -3571,10 +3571,10 @@ function injectDeckBridge(
 }
 
 // The tweaks bridge lets the host toolbar toggle the visibility of the artifact's
-// native tweaks panel. Bidirectional: host posts `od:tweaks-panel-visible` to
-// drive panel visibility; bridge posts `od:tweaks-panel-state` back whenever the
+// native tweaks panel. Bidirectional: host posts `sw:tweaks-panel-visible` to
+// drive panel visibility; bridge posts `sw:tweaks-panel-state` back whenever the
 // artifact's own `× close` button or `T` shortcut flips the `.tw-hidden` class,
-// so the toolbar toggle stays in sync. Also reports `od:tweaks-available` so the
+// so the toolbar toggle stays in sync. Also reports `sw:tweaks-available` so the
 // host can disable the toggle on artifacts without a `.tw-panel`.
 function injectTweaksBridge(doc: string): string {
   // Hide-state styling mirrors the artifact's own `.tw-hidden` (transform +
@@ -3618,7 +3618,7 @@ function injectTweaksBridge(doc: string): string {
     if (!panel) return;
     try {
       parent.postMessage({
-        type: 'od:tweaks-panel-state',
+        type: 'sw:tweaks-panel-state',
         visible: !panel.classList.contains('tw-hidden'),
       }, '*');
     } catch (e) {}
@@ -3627,7 +3627,7 @@ function injectTweaksBridge(doc: string): string {
   function postAvailability(){
     try {
       parent.postMessage({
-        type: 'od:tweaks-available',
+        type: 'sw:tweaks-available',
         available: !!panelEl(),
       }, '*');
     } catch (e) {}
@@ -3673,7 +3673,7 @@ function injectTweaksBridge(doc: string): string {
   }
 
   window.addEventListener('message', function(ev){
-    if (!ev.data || ev.data.type !== 'od:tweaks-panel-visible') return;
+    if (!ev.data || ev.data.type !== 'sw:tweaks-panel-visible') return;
     setPanelVisible(!!ev.data.visible);
   });
 })();</script>`;

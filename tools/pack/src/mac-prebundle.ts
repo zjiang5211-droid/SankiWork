@@ -10,7 +10,7 @@ export const MAC_PREBUNDLED_DAEMON_CLI_RELATIVE_PATH = "app/prebundled/daemon/da
 export const MAC_PREBUNDLED_DAEMON_SIDECAR_RELATIVE_PATH = "app/prebundled/daemon/daemon-sidecar.mjs";
 export const MAC_PREBUNDLE_ESBUILD_TARGET = "node24";
 export const MAC_DAEMON_PREBUNDLE_ESM_REQUIRE_BANNER =
-  'import { createRequire as __odCreateRequire } from "node:module"; const require = __odCreateRequire(import.meta.url);';
+  'import { createRequire as __swCreateRequire } from "node:module"; const require = __swCreateRequire(import.meta.url);';
 export const MAC_PREBUNDLE_ENTRYPOINTS_DIR_NAME = "prebundle-entrypoints";
 
 // Runtime externals the prebundled daemon loads from node_modules at boot

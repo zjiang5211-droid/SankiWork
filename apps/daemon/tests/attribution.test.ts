@@ -102,7 +102,7 @@ describe('download attribution service', () => {
       const fetchImpl = vi.fn(async () => new Response(JSON.stringify({
         status: 'consumed',
         webDistinctId: 'web-anon-1',
-        properties: { od_utm_source: 'twitter', od_referrer: 'https://example.com' },
+        properties: { sw_utm_source: 'twitter', sw_referrer: 'https://example.com' },
       }), { status: 200 }));
       const service = createAttributionService({
         analytics,
@@ -163,7 +163,7 @@ describe('download attribution service', () => {
   it('mints a first-party browser bridge only with metrics consent and a ledger secret', async () => {
     await withTempData(async (dataDir) => {
       const fetchImpl = vi.fn(async () => new Response(JSON.stringify({
-        url: 'https://sanki-ai.cloud/clipper?od_bridge=odbr_12345678',
+        url: 'https://sanki-ai.cloud/clipper?sw_bridge=odbr_12345678',
       }), { status: 200 }));
       const service = createAttributionService({
         analytics: analyticsStub(),
@@ -174,7 +174,7 @@ describe('download attribution service', () => {
       });
 
       await expect(service.bridgeUrl('https://sanki-ai.cloud/clipper')).resolves.toBe(
-        'https://sanki-ai.cloud/clipper?od_bridge=odbr_12345678',
+        'https://sanki-ai.cloud/clipper?sw_bridge=odbr_12345678',
       );
       expect(fetchImpl).toHaveBeenCalledWith(
         'https://ledger.test/api/attribution/bridge/mint',
@@ -219,7 +219,7 @@ describe('download attribution service', () => {
         appConfig: { readAppConfig: async () => ({ installationId: 'install-recovered', telemetry: { metrics: true } }) },
         env: { SW_ATTRIBUTION_LEDGER_URL: 'https://ledger.test/api/attribution' },
         fetchImpl: vi.fn(async () => new Response(JSON.stringify({
-          status: 'already_consumed_same', webDistinctId: 'web-recovered', properties: { od_utm_source: 'retry' },
+          status: 'already_consumed_same', webDistinctId: 'web-recovered', properties: { sw_utm_source: 'retry' },
         }), { status: 200 })) as unknown as typeof fetch,
         paths: { RUNTIME_DATA_DIR: dataDir },
       });

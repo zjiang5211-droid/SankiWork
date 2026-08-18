@@ -65,8 +65,8 @@ class WorkspaceBillingInterestRegistry {
       this.acceptedGeneration != null
     )
       ? {
-          'x-od-workspace-runtime-client-id': this.clientId,
-          'x-od-workspace-runtime-generation': this.acceptedGeneration.toString(),
+          'x-sw-workspace-runtime-client-id': this.clientId,
+          'x-sw-workspace-runtime-generation': this.acceptedGeneration.toString(),
         }
       : {};
   }

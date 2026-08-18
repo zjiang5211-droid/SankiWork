@@ -82,8 +82,8 @@ function teamContext(
 function requestScope(init?: RequestInit): [string | null, string | null] {
   const headers = new Headers(init?.headers);
   return [
-    headers.get('x-od-workspace-id'),
-    headers.get('x-od-workspace-member-id'),
+    headers.get('x-sw-workspace-id'),
+    headers.get('x-sw-workspace-member-id'),
   ];
 }
 
@@ -114,8 +114,8 @@ describe('persisted project Workspace transport scope', () => {
       expect.objectContaining({
         cache: 'no-store',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'workspace-a',
-          'x-od-workspace-member-id': 'member-a',
+          'x-sw-workspace-id': 'workspace-a',
+          'x-sw-workspace-member-id': 'member-a',
         }),
       }),
     );
@@ -227,8 +227,8 @@ describe('persisted project Workspace transport scope', () => {
       expect.objectContaining({
         cache: 'no-store',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'workspace-a',
-          'x-od-workspace-member-id': 'member-a',
+          'x-sw-workspace-id': 'workspace-a',
+          'x-sw-workspace-member-id': 'member-a',
         }),
       }),
     );
@@ -246,8 +246,8 @@ describe('persisted project Workspace transport scope', () => {
       expect.objectContaining({
         method: 'DELETE',
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'workspace-a',
-          'x-od-workspace-member-id': 'member-a',
+          'x-sw-workspace-id': 'workspace-a',
+          'x-sw-workspace-member-id': 'member-a',
         }),
       }),
     );

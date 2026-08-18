@@ -1,7 +1,7 @@
 // Review follow-up on the splash boot-stage PR (#4223): the first stage
 // update (the daemon phase) is fired from the packaged entry right after the
 // splash window is created — potentially before the splash data-URL has
-// finished loading and defined `window.__odSplashSetStage`. Without a
+// finished loading and defined `window.__swSplashSetStage`. Without a
 // load-ready guard that update reaches a renderer that has no setter yet, so
 // the "Starting the local engine" label silently never renders on exactly the
 // slow cold-boot path this feature targets.
@@ -117,10 +117,10 @@ describe('splash boot-stage replay guard', () => {
     // same total so the renderer can render "N/total" and fill the bar.
     const [firstCall, lastCall] = splash.executed;
     const firstPayload = JSON.parse(
-      firstCall.match(/__odSplashSetStage\((\{.*\})\);/)?.[1] ?? '{}',
+      firstCall.match(/__swSplashSetStage\((\{.*\})\);/)?.[1] ?? '{}',
     ) as { step: number; total: number; label: string };
     const lastPayload = JSON.parse(
-      lastCall.match(/__odSplashSetStage\((\{.*\})\);/)?.[1] ?? '{}',
+      lastCall.match(/__swSplashSetStage\((\{.*\})\);/)?.[1] ?? '{}',
     ) as { step: number; total: number; label: string };
 
     expect(firstPayload.step).toBe(1);

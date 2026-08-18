@@ -31,10 +31,10 @@ export async function writeNsisInclude(config: ToolPackConfig, paths: WinPaths):
     `!include LogicLib.nsh
 !include nsDialogs.nsh
 
-Var /GLOBAL odRemoveLocalData
-Var /GLOBAL odRemoveLocalDataCheckbox
-Var /GLOBAL odLocalDataRoot
-Var /GLOBAL odDownloadAttributionUrl
+Var /GLOBAL swRemoveLocalData
+Var /GLOBAL swRemoveLocalDataCheckbox
+Var /GLOBAL swLocalDataRoot
+Var /GLOBAL swDownloadAttributionUrl
 
 LangString SW_REMOVE_LOCAL_DATA_TITLE 1033 "Remove local data"
 LangString SW_REMOVE_LOCAL_DATA_TITLE 2052 "删除本地数据"
@@ -64,7 +64,7 @@ LangString SW_REMOVE_LOCAL_DATA_CHECKBOX 1065 "حذف داده‌های محلی
 
 Function SankiWorkReadDownloadAttribution
   ClearErrors
-  StrCpy $odDownloadAttributionUrl ""
+  StrCpy $swDownloadAttributionUrl ""
   FileOpen $0 "$EXEPATH:Zone.Identifier" r
   \${If} \${Errors}
     Return
@@ -76,19 +76,19 @@ Function SankiWorkReadDownloadAttribution
     \${EndIf}
     StrCpy $2 $1 8
     \${If} $2 == "HostUrl="
-      StrCpy $odDownloadAttributionUrl $1 "" 8
+      StrCpy $swDownloadAttributionUrl $1 "" 8
       \${ExitDo}
     \${EndIf}
   \${Loop}
   FileClose $0
-  \${If} $odDownloadAttributionUrl == ""
+  \${If} $swDownloadAttributionUrl == ""
     Return
   \${EndIf}
-  StrCpy $odDownloadAttributionUrl $odDownloadAttributionUrl -2
+  StrCpy $swDownloadAttributionUrl $swDownloadAttributionUrl -2
   CreateDirectory "${installerObservationRoot}"
   FileOpen $3 "${installerObservationRoot}\\download-attribution.json" w
   \${IfNot} \${Errors}
-    FileWrite $3 "{$\\"rawUrl$\\":$\\"$odDownloadAttributionUrl$\\",$\\"source$\\":$\\"windows_zone_identifier$\\"}$\\r$\\n"
+    FileWrite $3 "{$\\"rawUrl$\\":$\\"$swDownloadAttributionUrl$\\",$\\"source$\\":$\\"windows_zone_identifier$\\"}$\\r$\\n"
     FileClose $3
   \${EndIf}
 FunctionEnd
@@ -98,8 +98,8 @@ FunctionEnd
 !macroend
 
 Function un.SankiWorkLocalDataPage
-  StrCpy $odRemoveLocalData "1"
-  StrCpy $odLocalDataRoot "${localDataRoot}"
+  StrCpy $swRemoveLocalData "1"
+  StrCpy $swLocalDataRoot "${localDataRoot}"
   nsDialogs::Create 1018
   Pop $0
   \${If} $0 == error
@@ -108,28 +108,28 @@ Function un.SankiWorkLocalDataPage
 
   \${NSD_CreateLabel} 0 0 100% 24u "$(SW_REMOVE_LOCAL_DATA_HINT)"
   Pop $0
-  \${NSD_CreateCheckbox} 0 34u 100% 36u "$(SW_REMOVE_LOCAL_DATA_CHECKBOX) $odLocalDataRoot"
-  Pop $odRemoveLocalDataCheckbox
-  \${NSD_Check} $odRemoveLocalDataCheckbox
+  \${NSD_CreateCheckbox} 0 34u 100% 36u "$(SW_REMOVE_LOCAL_DATA_CHECKBOX) $swLocalDataRoot"
+  Pop $swRemoveLocalDataCheckbox
+  \${NSD_Check} $swRemoveLocalDataCheckbox
   nsDialogs::Show
 FunctionEnd
 
 Function un.SankiWorkLocalDataPageLeave
-  \${NSD_GetState} $odRemoveLocalDataCheckbox $0
+  \${NSD_GetState} $swRemoveLocalDataCheckbox $0
   \${If} $0 == \${BST_CHECKED}
-    StrCpy $odRemoveLocalData "1"
+    StrCpy $swRemoveLocalData "1"
   \${Else}
-    StrCpy $odRemoveLocalData "0"
+    StrCpy $swRemoveLocalData "0"
   \${EndIf}
 FunctionEnd
 
 !macro customUnInstall
-  \${If} $odLocalDataRoot == ""
-    StrCpy $odLocalDataRoot "${localDataRoot}"
+  \${If} $swLocalDataRoot == ""
+    StrCpy $swLocalDataRoot "${localDataRoot}"
   \${EndIf}
-  \${If} $odRemoveLocalData != "0"
-    DetailPrint "Removing local SankiWork data: $odLocalDataRoot"
-    RMDir /r "$odLocalDataRoot"
+  \${If} $swRemoveLocalData != "0"
+    DetailPrint "Removing local SankiWork data: $swLocalDataRoot"
+    RMDir /r "$swLocalDataRoot"
   \${EndIf}
 !macroend
 `,

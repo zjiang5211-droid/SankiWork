@@ -49,8 +49,8 @@ export function renderTailwindV4Css(bindings: readonly Pick<DerivedDesignTokenBi
     '',
     '@theme {',
   ];
-  for (const [tailwindName, odToken] of TAILWIND_V4_THEME_BINDINGS) {
-    if (declared.has(odToken)) lines.push(`  ${tailwindName}: var(${odToken});`);
+  for (const [tailwindName, swToken] of TAILWIND_V4_THEME_BINDINGS) {
+    if (declared.has(swToken)) lines.push(`  ${tailwindName}: var(${swToken});`);
   }
   lines.push('}', '');
   return lines.join('\n');

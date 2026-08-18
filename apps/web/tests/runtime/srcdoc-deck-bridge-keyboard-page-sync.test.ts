@@ -149,7 +149,7 @@ function setupCustomCounterDeck(options: CustomDeckOptions = {}) {
 function slideStatesOf(parentPostMessage: ReturnType<typeof vi.fn>) {
   return parentPostMessage.mock.calls
     .map((call) => call[0])
-    .filter((message) => message?.type === 'od:slide-state');
+    .filter((message) => message?.type === 'sw:slide-state');
 }
 
 describe('deck bridge - keyboard paging keeps page counters in sync', () => {
@@ -157,7 +157,7 @@ describe('deck bridge - keyboard paging keeps page counters in sync', () => {
     const { win, parentPostMessage, track, pagerCur } = setupCustomCounterDeck();
 
     win.dispatchEvent(new win.MessageEvent('message', {
-      data: { type: 'od:slide', action: 'next' },
+      data: { type: 'sw:slide', action: 'next' },
     }));
     await new Promise<void>((resolve) => win.setTimeout(resolve, 360));
 
@@ -183,7 +183,7 @@ describe('deck bridge - keyboard paging keeps page counters in sync', () => {
     });
 
     win.dispatchEvent(new win.MessageEvent('message', {
-      data: { type: 'od:slide', action: 'next' },
+      data: { type: 'sw:slide', action: 'next' },
     }));
     await new Promise<void>((resolve) => win.setTimeout(resolve, 360));
 
@@ -228,7 +228,7 @@ describe('deck bridge - keyboard paging keeps page counters in sync', () => {
     });
 
     win.dispatchEvent(new win.MessageEvent('message', {
-      data: { type: 'od:slide', action: 'next' },
+      data: { type: 'sw:slide', action: 'next' },
     }));
     await new Promise<void>((resolve) => win.setTimeout(resolve, 360));
 
@@ -247,12 +247,12 @@ describe('deck bridge - keyboard paging keeps page counters in sync', () => {
       `<!doctype html><html><body>${slideMarkup}${navScript}</body></html>`,
       { deck: true, previewFocusGuard: true },
     );
-    expect(withNav).toContain('odHasArtifactKeydownListener = true');
+    expect(withNav).toContain('swHasArtifactKeydownListener = true');
 
     const withoutNav = buildSrcdoc(
       `<!doctype html><html><body>${slideMarkup}</body></html>`,
       { deck: true, previewFocusGuard: true },
     );
-    expect(withoutNav).toContain('odHasArtifactKeydownListener = false');
+    expect(withoutNav).toContain('swHasArtifactKeydownListener = false');
   });
 });

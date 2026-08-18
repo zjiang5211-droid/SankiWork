@@ -8,7 +8,7 @@
  * string so both the web and daemon runtimes inject exactly the same script.
  */
 
-export const PREVIEW_OBSERVABILITY_MESSAGE_TYPE = 'od:preview-observability';
+export const PREVIEW_OBSERVABILITY_MESSAGE_TYPE = 'sw:preview-observability';
 export const PREVIEW_OBSERVABILITY_PROTOCOL_VERSION = 1;
 export const PREVIEW_OBSERVABILITY_BRIDGE_MARKER = 'data-sw-preview-observability';
 export const PREVIEW_WHITE_SCREEN_TIMEOUT_MS = 5_000;
@@ -132,8 +132,8 @@ export function parsePreviewObservabilityMessage(
 export function buildPreviewObservabilityBridge(): string {
   return `<script ${PREVIEW_OBSERVABILITY_BRIDGE_MARKER}>
 (function(){
-  if (window.__odPreviewObservability) return;
-  window.__odPreviewObservability = true;
+  if (window.__swPreviewObservability) return;
+  window.__swPreviewObservability = true;
   var TYPE = ${JSON.stringify(PREVIEW_OBSERVABILITY_MESSAGE_TYPE)};
   var VERSION = ${PREVIEW_OBSERVABILITY_PROTOCOL_VERSION};
   var WHITE_SCREEN_TIMEOUT = ${PREVIEW_WHITE_SCREEN_TIMEOUT_MS};

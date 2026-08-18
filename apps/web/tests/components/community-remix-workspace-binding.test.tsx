@@ -268,8 +268,8 @@ function installDaemonStub(options: { refusePatch?: boolean } = {}): DaemonSpy {
     }
     if (pathname === '/api/workspace/context') {
       spy.contextReads += 1;
-      spy.contextWorkspaceId = headerOf(init, 'x-od-workspace-id');
-      spy.contextWorkspaceMemberId = headerOf(init, 'x-od-workspace-member-id');
+      spy.contextWorkspaceId = headerOf(init, 'x-sw-workspace-id');
+      spy.contextWorkspaceMemberId = headerOf(init, 'x-sw-workspace-member-id');
       return jsonResponse({ context: teamContext() });
     }
     if (pathname === '/api/workspace/billing') {
@@ -279,8 +279,8 @@ function installDaemonStub(options: { refusePatch?: boolean } = {}): DaemonSpy {
 
     if (pathname === `/api/plugins/${TEMPLATE_ID}/duplicate-project`) {
       spy.duplicateInit = init;
-      const workspaceId = headerOf(init, 'x-od-workspace-id');
-      const memberId = headerOf(init, 'x-od-workspace-member-id');
+      const workspaceId = headerOf(init, 'x-sw-workspace-id');
+      const memberId = headerOf(init, 'x-sw-workspace-member-id');
       // resolveCreatedProjectWorkspace: no identity headers at all is the
       // legacy caller, and the bind step is skipped entirely.
       spy.boundWorkspaceId = workspaceId && memberId ? workspaceId : null;
@@ -297,7 +297,7 @@ function installDaemonStub(options: { refusePatch?: boolean } = {}): DaemonSpy {
 
     if (pathname === `/api/projects/${REMIXED_PROJECT_ID}` && init?.method === 'PATCH') {
       spy.patchInit = init;
-      const workspaceId = headerOf(init, 'x-od-workspace-id');
+      const workspaceId = headerOf(init, 'x-sw-workspace-id');
       // enforceWorkspaceResourceMutation: a workspace-aware caller is checked
       // against the row for ITS OWN workspace; no row means no standing.
       if (options.refusePatch || (workspaceId && spy.boundWorkspaceId !== workspaceId)) {
@@ -416,8 +416,8 @@ describe('Community Remix workspace binding', () => {
     fireEvent.click(await screen.findByRole('button', { name: 'Remix template' }));
 
     await waitFor(() => expect(daemon.duplicateInit).toBeDefined());
-    expect(headerOf(daemon.duplicateInit, 'x-od-workspace-id')).toBe(TEAM_WORKSPACE_ID);
-    expect(headerOf(daemon.duplicateInit, 'x-od-workspace-member-id')).toBe(TEAM_MEMBER_ID);
+    expect(headerOf(daemon.duplicateInit, 'x-sw-workspace-id')).toBe(TEAM_WORKSPACE_ID);
+    expect(headerOf(daemon.duplicateInit, 'x-sw-workspace-member-id')).toBe(TEAM_MEMBER_ID);
     // The whole point of the headers: the copied project is a member of this
     // workspace, so it can appear in 草稿 / 全部项目.
     expect(daemon.boundWorkspaceId).toBe(TEAM_WORKSPACE_ID);
@@ -468,8 +468,8 @@ describe('Community Remix workspace binding', () => {
     fireEvent.click(await screen.findByRole('button', { name: 'Remix template' }));
 
     await waitFor(() => expect(daemon.duplicateInit).toBeDefined());
-    expect(headerOf(daemon.duplicateInit, 'x-od-workspace-id')).toBe(TEAM_WORKSPACE_ID);
-    expect(headerOf(daemon.duplicateInit, 'x-od-workspace-member-id')).toBe(TEAM_MEMBER_ID);
+    expect(headerOf(daemon.duplicateInit, 'x-sw-workspace-id')).toBe(TEAM_WORKSPACE_ID);
+    expect(headerOf(daemon.duplicateInit, 'x-sw-workspace-member-id')).toBe(TEAM_MEMBER_ID);
     expect(daemon.boundWorkspaceId).toBe(TEAM_WORKSPACE_ID);
 
     await waitFor(() => expect(daemon.patchStatus).not.toBeNull());

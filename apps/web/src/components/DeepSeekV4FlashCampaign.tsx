@@ -51,7 +51,7 @@ interface Props {
   onUseCampaignModel?: (agentId: string, modelId: string) => void;
   /**
    * Telemetry opt-in (config.telemetry.metrics). Gates the AMR analytics
-   * mirror of the recorded entry AND the od_device_id on the plans URL —
+   * mirror of the recorded entry AND the sw_device_id on the plans URL —
    * the same treatment the workbench badge and the model-switcher upgrade
    * already apply to this campaign's other touchpoints.
    */

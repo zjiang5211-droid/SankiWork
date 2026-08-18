@@ -244,8 +244,8 @@ describe('sw project CLI', () => {
     expect(result.stderr).toBe('');
     expect(stub.requests).toHaveLength(1);
     expect(stub.requests[0]!.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'member-1',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'member-1',
     });
   });
 
@@ -343,9 +343,9 @@ describe('sw project CLI', () => {
       url: '/api/workspaces/ws-1/projects?view=team',
     });
     expect(stub.requests[0]!.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'member-1',
-      'x-od-workspace-role': 'admin',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'member-1',
+      'x-sw-workspace-role': 'admin',
     });
   });
 
@@ -372,8 +372,8 @@ describe('sw project CLI', () => {
       url: '/api/workspaces/ws-personal/projects',
     });
     expect(stub.requests[1]!.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-personal',
-      'x-od-workspace-member-id': 'mem-personal',
+      'x-sw-workspace-id': 'ws-personal',
+      'x-sw-workspace-member-id': 'mem-personal',
     });
   });
 
@@ -405,8 +405,8 @@ describe('sw project CLI', () => {
       url: '/api/workspaces/ws-1/projects',
     });
     expect(stub.requests[0]!.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'member-1',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'member-1',
     });
   });
 
@@ -503,8 +503,8 @@ describe('sw project CLI', () => {
       body: JSON.stringify({ email: 'teammate@example.com', role: 'member' }),
     });
     expect(stub.requests[0]!.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'member-1',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'member-1',
     });
   });
 
@@ -535,8 +535,8 @@ describe('sw project CLI', () => {
       url: '/api/workspace/projects/team',
     });
     expect(stub.requests[0]!.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'member-1',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'member-1',
     });
   });
 
@@ -567,8 +567,8 @@ describe('sw project CLI', () => {
       url: '/api/workspace/members',
     });
     expect(stub.requests[0]!.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'member-1',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'member-1',
     });
   });
 
@@ -617,8 +617,8 @@ describe('sw project CLI', () => {
       url: '/api/workspace/skills/team',
     });
     expect(stub.requests[0]!.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'member-1',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'member-1',
     });
   });
 
@@ -654,9 +654,9 @@ describe('sw project CLI', () => {
       body: JSON.stringify({ projectIds: ['project-1', 'project-2'] }),
     });
     expect(stub.requests[0]!.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'member-1',
-      'x-od-workspace-role': 'admin',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'member-1',
+      'x-sw-workspace-role': 'admin',
     });
   });
 });

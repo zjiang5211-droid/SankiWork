@@ -239,9 +239,9 @@ function velaServiceHeaders(
     .update(`${timestamp}\n${eventId}\n${digest}`)
     .digest("base64url");
   return {
-    "x-od-service-event-id": eventId,
-    "x-od-service-signature": signature,
-    "x-od-service-timestamp": String(timestamp),
+    "x-sw-service-event-id": eventId,
+    "x-sw-service-signature": signature,
+    "x-sw-service-timestamp": String(timestamp),
   };
 }
 

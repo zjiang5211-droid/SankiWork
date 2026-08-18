@@ -52,7 +52,7 @@ afterEach(() => {
 
 describe('useBrandReadyPrompt', () => {
   it('exposes ready state even when the one-shot prompt was already dismissed', async () => {
-    window.sessionStorage.setItem('od:brand-ready-prompt:brand-1', '1');
+    window.sessionStorage.setItem('sw:brand-ready-prompt:brand-1', '1');
     mockBrandsResponse();
 
     const { result } = renderHook(() => useBrandReadyPrompt(BRAND_METADATA));
@@ -174,7 +174,7 @@ describe('useBrandReadyPrompt', () => {
     });
     expect(result.current.status).toBe('extracting');
     expect(result.current.browserAssist).toBeNull();
-    expect(window.sessionStorage.getItem('od:brand-browser-assist:brand-1')).toBeNull();
+    expect(window.sessionStorage.getItem('sw:brand-browser-assist:brand-1')).toBeNull();
   });
 
   it('surfaces browser assist for an anti-bot failed extraction', async () => {
@@ -205,7 +205,7 @@ describe('useBrandReadyPrompt', () => {
   });
 
   it('keeps browser assist discoverable even after an earlier assist display', async () => {
-    window.sessionStorage.setItem('od:brand-browser-assist:brand-1', '1');
+    window.sessionStorage.setItem('sw:brand-browser-assist:brand-1', '1');
     mockBrandsResponse([
       {
         meta: {

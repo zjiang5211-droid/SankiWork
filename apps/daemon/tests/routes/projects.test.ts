@@ -1393,8 +1393,8 @@ describe('project locations routes', () => {
     const extDir = makeTempDir();
     // Create a project directory with a valid manifest
     const projectDir = path.join(extDir, 'scan-test-proj');
-    const odDir = path.join(projectDir, '.sankiwork');
-    await mkdir(odDir, { recursive: true });
+    const swDir = path.join(projectDir, '.sankiwork');
+    await mkdir(swDir, { recursive: true });
     const manifest = {
       schemaVersion: 1 as const,
       id: 'scan-test-proj',

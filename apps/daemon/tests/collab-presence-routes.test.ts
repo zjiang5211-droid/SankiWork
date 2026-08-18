@@ -410,8 +410,8 @@ describe('collab presence routes', () => {
     );
 
     const headers = {
-      'x-od-workspace-id': context.workspaceId,
-      'x-od-workspace-member-id': context.workspaceMemberId,
+      'x-sw-workspace-id': context.workspaceId,
+      'x-sw-workspace-member-id': context.workspaceMemberId,
     };
     await expect(api.json('/api/projects/p1/presence', { headers })).resolves.toMatchObject({
       status: 200,
@@ -1018,8 +1018,8 @@ describe('collab presence routes', () => {
       },
     );
     const headers = {
-      'x-od-workspace-id': context.workspaceId,
-      'x-od-workspace-member-id': context.workspaceMemberId,
+      'x-sw-workspace-id': context.workspaceId,
+      'x-sw-workspace-member-id': context.workspaceMemberId,
     };
 
     expect((await api.json('/api/projects/p1/presence', { headers })).status).toBe(200);
@@ -1120,8 +1120,8 @@ describe('collab presence routes', () => {
       },
     );
     const headers = {
-      'x-od-workspace-id': context.workspaceId,
-      'x-od-workspace-member-id': context.workspaceMemberId,
+      'x-sw-workspace-id': context.workspaceId,
+      'x-sw-workspace-member-id': context.workspaceMemberId,
     };
 
     expect((await api.json('/api/projects/p1/presence/heartbeat', {

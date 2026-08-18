@@ -1524,9 +1524,9 @@ describe('POST /api/integrations/vela/login', () => {
           sourceProduct: 'sankiwork',
           sourceDetail: 'onboarding_amr_sign_in_continue',
           occurredAt: '2026-06-16T08:00:00.000Z',
-          odDeviceId: 'body-should-not-win',
+          swDeviceId: 'body-should-not-win',
         },
-      }, { 'x-od-analytics-device-id': 'sw-install-abc' });
+      }, { 'x-sw-analytics-device-id': 'sw-install-abc' });
       expect(status).toBe(202);
 
       await waitForFile(dumpPath);
@@ -1597,13 +1597,13 @@ describe('POST /api/integrations/vela/login', () => {
           pluginWorkflowId: '019f9414-85e8-7f20-8d8f-7f868b2d4b5f',
         },
         {
-          'x-od-analytics-device-id': 'sw-install-plugin',
-          'x-od-analytics-client-type': 'external_mcp',
-          'x-od-analytics-entry-surface': 'external_mcp',
-          'x-od-analytics-external-plugin-id': 'sankiwork',
-          'x-od-analytics-external-plugin-version': '0.4.0',
-          'x-od-analytics-distribution-mechanism': 'git_marketplace',
-          'x-od-analytics-publisher-class': 'sankiwork_first_party',
+          'x-sw-analytics-device-id': 'sw-install-plugin',
+          'x-sw-analytics-client-type': 'external_mcp',
+          'x-sw-analytics-entry-surface': 'external_mcp',
+          'x-sw-analytics-external-plugin-id': 'sankiwork',
+          'x-sw-analytics-external-plugin-version': '0.4.0',
+          'x-sw-analytics-distribution-mechanism': 'git_marketplace',
+          'x-sw-analytics-publisher-class': 'sankiwork_first_party',
         },
       );
       expect(status).toBe(202);
@@ -1640,13 +1640,13 @@ describe('POST /api/integrations/vela/login', () => {
           pluginWorkflowId: '019f9414-85e8-7f20-8d8f-7f868b2d4b5f',
         },
         {
-          'x-od-analytics-device-id': 'sw-install-plugin',
-          'x-od-analytics-client-type': 'external_mcp',
-          'x-od-analytics-entry-surface': 'external_mcp',
-          'x-od-analytics-external-plugin-id': 'sankiwork',
-          'x-od-analytics-external-plugin-version': '0.4.0',
-          'x-od-analytics-distribution-mechanism': 'git_marketplace',
-          'x-od-analytics-publisher-class': 'sankiwork_first_party',
+          'x-sw-analytics-device-id': 'sw-install-plugin',
+          'x-sw-analytics-client-type': 'external_mcp',
+          'x-sw-analytics-entry-surface': 'external_mcp',
+          'x-sw-analytics-external-plugin-id': 'sankiwork',
+          'x-sw-analytics-external-plugin-version': '0.4.0',
+          'x-sw-analytics-distribution-mechanism': 'git_marketplace',
+          'x-sw-analytics-publisher-class': 'sankiwork_first_party',
         },
       );
       expect(status).toBe(202);
@@ -1678,7 +1678,7 @@ describe('POST /api/integrations/vela/login', () => {
           sourceProduct: 'sankiwork',
           sourceDetail: 'onboarding_amr_sign_in_continue',
           occurredAt: '2026-06-16T08:00:00.000Z',
-          odDeviceId: 'body-should-be-dropped',
+          swDeviceId: 'body-should-be-dropped',
         },
       });
       expect(status).toBe(202);
@@ -1709,9 +1709,9 @@ describe('POST /api/integrations/vela/login', () => {
           sourceProduct: 'sankiwork',
           sourceDetail: 'onboarding_amr_sign_in_continue',
           occurredAt: '2026-06-16T08:00:00.000Z',
-          odDeviceId: 'body-should-be-dropped',
+          swDeviceId: 'body-should-be-dropped',
         },
-      }, { 'x-od-analytics-device-id': 'sw-install-abc' });
+      }, { 'x-sw-analytics-device-id': 'sw-install-abc' });
       expect(status).toBe(202);
 
       await waitForFile(dumpPath);
@@ -2553,9 +2553,9 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         `${baseUrl}/api/integrations/vela/analytics-entry`,
         { payload },
         {
-          'x-od-analytics-device-id': 'sw-device-1',
-          'x-od-analytics-session-id': 'sw-session-1',
-          'x-od-analytics-locale': 'zh-CN',
+          'x-sw-analytics-device-id': 'sw-device-1',
+          'x-sw-analytics-session-id': 'sw-session-1',
+          'x-sw-analytics-locale': 'zh-CN',
         },
       );
 
@@ -2632,8 +2632,8 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         `${baseUrl}/api/integrations/vela/analytics-entry`,
         { payload },
         {
-          'x-od-analytics-device-id': 'sw-device-campaign',
-          'x-od-analytics-session-id': 'sw-session-campaign',
+          'x-sw-analytics-device-id': 'sw-device-campaign',
+          'x-sw-analytics-session-id': 'sw-session-campaign',
         },
       );
 
@@ -2683,26 +2683,26 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
-      odRole: 'pm',
-      odOrgSize: 'startup',
-      odUseCase: ['product', 'design-system'],
-      odSource: 'github',
+      swRole: 'pm',
+      swOrgSize: 'startup',
+      swUseCase: ['product', 'design-system'],
+      swSource: 'github',
     };
 
     try {
       const { status } = await postJson<{ mirrored: boolean }>(
         `${baseUrl}/api/integrations/vela/analytics-entry`,
         { payload },
-        { 'x-od-analytics-device-id': 'sw-device-2' },
+        { 'x-sw-analytics-device-id': 'sw-device-2' },
       );
 
       expect(status).toBe(202);
       expect(requests).toHaveLength(1);
       expect(requests[0]?.events[0]?.payload).toMatchObject({
-        odRole: 'pm',
-        odOrgSize: 'startup',
-        odUseCase: ['product', 'design-system'],
-        odSource: 'github',
+        swRole: 'pm',
+        swOrgSize: 'startup',
+        swUseCase: ['product', 'design-system'],
+        swSource: 'github',
       });
     } finally {
       await new Promise<void>((resolve) => {
@@ -2744,11 +2744,11 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       sourceDetail: 'onboarding_amr_sign_in_continue',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
       profileOccurredAt: '2026-06-03T12:03:00.000Z',
-      odDeviceId: 'body-device-should-not-win',
-      odRole: 'pm',
-      odOrgSize: 'startup',
-      odUseCase: ['product', 'design-system'],
-      odSource: 'github',
+      swDeviceId: 'body-device-should-not-win',
+      swRole: 'pm',
+      swOrgSize: 'startup',
+      swUseCase: ['product', 'design-system'],
+      swSource: 'github',
     };
 
     try {
@@ -2756,9 +2756,9 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         `${baseUrl}/api/integrations/vela/analytics-profile`,
         { payload },
         {
-          'x-od-analytics-device-id': 'sw-device-1',
-          'x-od-analytics-session-id': 'sw-session-1',
-          'x-od-analytics-locale': 'zh-CN',
+          'x-sw-analytics-device-id': 'sw-device-1',
+          'x-sw-analytics-session-id': 'sw-session-1',
+          'x-sw-analytics-locale': 'zh-CN',
         },
       );
 
@@ -2781,7 +2781,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
               locale: 'zh-CN',
               traceId: 'sw-amr-entry-profile',
             },
-            payload: { ...payload, odDeviceId: 'sw-device-1' },
+            payload: { ...payload, swDeviceId: 'sw-device-1' },
           },
         ],
       });
@@ -2805,27 +2805,27 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
     };
     // Valid optional values pass through; an over-long value rejects the event.
-    expect(parseAmrEntryAnalyticsPayload({ payload: { ...base, odRole: 'student' } }))
-      .toMatchObject({ odRole: 'student' });
+    expect(parseAmrEntryAnalyticsPayload({ payload: { ...base, swRole: 'student' } }))
+      .toMatchObject({ swRole: 'student' });
     expect(
       parseAmrEntryAnalyticsPayload({
-        payload: { ...base, odRole: 'x'.repeat(65) },
+        payload: { ...base, swRole: 'x'.repeat(65) },
       }),
     ).toBeNull();
     // useCase is an array; valid lists pass through, a bad element rejects.
     expect(
       parseAmrEntryAnalyticsPayload({
-        payload: { ...base, odUseCase: ['product', 'landing'], odSource: 'github' },
+        payload: { ...base, swUseCase: ['product', 'landing'], swSource: 'github' },
       }),
-    ).toMatchObject({ odUseCase: ['product', 'landing'], odSource: 'github' });
+    ).toMatchObject({ swUseCase: ['product', 'landing'], swSource: 'github' });
     expect(
       parseAmrEntryAnalyticsPayload({
-        payload: { ...base, odUseCase: ['product', 'x'.repeat(65)] },
+        payload: { ...base, swUseCase: ['product', 'x'.repeat(65)] },
       }),
     ).toBeNull();
     expect(
       parseAmrEntryAnalyticsPayload({
-        payload: { ...base, odUseCase: 'not-an-array' },
+        payload: { ...base, swUseCase: 'not-an-array' },
       }),
     ).toBeNull();
   });
@@ -2846,14 +2846,14 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
 
     expect(
       parseAmrOnboardingProfileAnalyticsPayload({
-        payload: { ...base, odRole: 'pm', odDeviceId: 'sw-install-abc' },
+        payload: { ...base, swRole: 'pm', swDeviceId: 'sw-install-abc' },
       }),
-    ).toMatchObject({ odRole: 'pm', odDeviceId: 'sw-install-abc' });
+    ).toMatchObject({ swRole: 'pm', swDeviceId: 'sw-install-abc' });
     expect(parseAmrOnboardingProfileAnalyticsPayload({ payload: base }))
       .toBeNull();
     expect(
       parseAmrOnboardingProfileAnalyticsPayload({
-        payload: { ...base, odRole: 'x'.repeat(65) },
+        payload: { ...base, swRole: 'x'.repeat(65) },
       }),
     ).toBeNull();
 
@@ -2878,7 +2878,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       sourceDetail: 'settings_amr_console',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
       profileOccurredAt: '2026-06-03T12:03:00.000Z',
-      odRole: 'pm',
+      swRole: 'pm',
     };
 
     expect(parseAmrOnboardingProfileAnalyticsPayload({ payload })).toBeNull();
@@ -2937,7 +2937,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
     };
 
     try {
-      // No x-od-analytics-* headers => readAnalyticsContext returns null =>
+      // No x-sw-analytics-* headers => readAnalyticsContext returns null =>
       // opted out. The route must short-circuit before any external fetch.
       const { status, body } = await postJson<{ mirrored: boolean }>(
         `${baseUrl}/api/integrations/vela/analytics-entry`,
@@ -3002,9 +3002,9 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         `${baseUrl}/api/integrations/vela/analytics-entry`,
         { payload },
         {
-          'x-od-analytics-device-id': 'sw-device-1',
-          'x-od-analytics-session-id': 'sw-session-1',
-          'x-od-analytics-locale': 'zh-CN',
+          'x-sw-analytics-device-id': 'sw-device-1',
+          'x-sw-analytics-session-id': 'sw-session-1',
+          'x-sw-analytics-locale': 'zh-CN',
         },
       );
 

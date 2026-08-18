@@ -7137,14 +7137,14 @@ function initialSlidesPage(title: string, body = DEFAULT_SLIDES_PAGE_BODY): stri
       }
       function focusDeck() { try { window.focus(); document.body.focus({ preventScroll: true }); } catch (_) {} }
       function onKey(e) {
-        if (e.__odDeckKeyHandled) return;
+        if (e.__swDeckKeyHandled) return;
         var t = e.target;
         if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
         if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
-        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.__odDeckKeyHandled = true; e.preventDefault(); go(idx + 1); }
-        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.__odDeckKeyHandled = true; e.preventDefault(); go(idx - 1); }
-        else if (e.key === 'Home' || String(e.key).toLowerCase() === 'r') { e.__odDeckKeyHandled = true; e.preventDefault(); go(0); }
-        else if (e.key === 'End') { e.__odDeckKeyHandled = true; e.preventDefault(); go(slides.length - 1); }
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.__swDeckKeyHandled = true; e.preventDefault(); go(idx + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.__swDeckKeyHandled = true; e.preventDefault(); go(idx - 1); }
+        else if (e.key === 'Home' || String(e.key).toLowerCase() === 'r') { e.__swDeckKeyHandled = true; e.preventDefault(); go(0); }
+        else if (e.key === 'End') { e.__swDeckKeyHandled = true; e.preventDefault(); go(slides.length - 1); }
       }
       window.addEventListener('keydown', onKey, true);
       document.addEventListener('keydown', onKey, true);
@@ -7773,8 +7773,8 @@ function PageCreatorPresetFrame({
   // Rendering at the design width and scaling to fit — the same approach as
   // PreviewModal — previews every template proportionally regardless of whether
   // it ships a self-scaling stage.
-  const odMode = (preset.plugin?.manifest?.od as { mode?: unknown } | undefined)?.mode;
-  const isDeck = odMode === 'deck' || preset.category === 'slides';
+  const swMode = (preset.plugin?.manifest?.od as { mode?: unknown } | undefined)?.mode;
+  const isDeck = swMode === 'deck' || preset.category === 'slides';
   const frameClass = isDeck
     ? 'page-creator-card-frame page-creator-card-frame--deck'
     : 'page-creator-card-frame';

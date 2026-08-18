@@ -106,9 +106,9 @@ it('revokes the run tool token when startup fails before spawn', async () => {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-od-analytics-device-id': 'token-leak-test',
-      'x-od-analytics-session-id': 'token-leak-session',
-      'x-od-analytics-client-type': 'web',
+      'x-sw-analytics-device-id': 'token-leak-test',
+      'x-sw-analytics-session-id': 'token-leak-session',
+      'x-sw-analytics-client-type': 'web',
     },
     body: JSON.stringify({
       projectId,

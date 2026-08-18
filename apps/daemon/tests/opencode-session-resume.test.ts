@@ -349,9 +349,9 @@ async function sendRunAndWait(
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-od-analytics-device-id': 'opencode-resume-test',
-      'x-od-analytics-session-id': 'opencode-resume-session',
-      'x-od-analytics-client-type': 'web',
+      'x-sw-analytics-device-id': 'opencode-resume-test',
+      'x-sw-analytics-session-id': 'opencode-resume-session',
+      'x-sw-analytics-client-type': 'web',
     },
     body: JSON.stringify({
       projectId,

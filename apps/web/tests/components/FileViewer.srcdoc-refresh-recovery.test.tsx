@@ -92,7 +92,7 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
     fireEvent.load(recoveredFrame);
     expect(postMessage).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'od:srcdoc-transport-activate',
+        type: 'sw:srcdoc-transport-activate',
         html: expect.stringContaining('version-two'),
       }),
       '*',
@@ -130,13 +130,13 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
       // still abort the about:srcdoc navigation after this message.
       fireEvent.load(refreshedFrame);
       const probe = postMessage.mock.calls.find(
-        ([message]) => (message as { type?: unknown }).type === 'od:srcdoc-transport-ready-probe',
+        ([message]) => (message as { type?: unknown }).type === 'sw:srcdoc-transport-ready-probe',
       )?.[0] as { generation?: string; probeId?: string } | undefined;
       expect(probe?.probeId).toBeTruthy();
       window.dispatchEvent(new MessageEvent('message', {
         source: refreshedFrame.contentWindow,
         data: {
-          type: 'od:srcdoc-transport-activated',
+          type: 'sw:srcdoc-transport-activated',
           generation: transportGeneration(refreshedFrame),
           probeId: probe!.probeId,
         },
@@ -168,13 +168,13 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
     });
 
     const firstProbe = postMessage.mock.calls.find(
-      ([message]) => (message as { type?: unknown }).type === 'od:srcdoc-transport-ready-probe',
+      ([message]) => (message as { type?: unknown }).type === 'sw:srcdoc-transport-ready-probe',
     )?.[0] as { generation?: string; probeId?: string } | undefined;
     expect(firstProbe?.probeId).toBeTruthy();
 
     fireEvent.load(frame);
     const probes = postMessage.mock.calls.filter(
-      ([message]) => (message as { type?: unknown }).type === 'od:srcdoc-transport-ready-probe',
+      ([message]) => (message as { type?: unknown }).type === 'sw:srcdoc-transport-ready-probe',
     );
     expect(probes).toHaveLength(1);
 
@@ -182,7 +182,7 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
         data: {
-          type: 'od:srcdoc-transport-activated',
+          type: 'sw:srcdoc-transport-activated',
           generation: firstProbe!.generation,
           probeId: firstProbe!.probeId,
         },
@@ -215,7 +215,7 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: abortedFrame.contentWindow,
         data: {
-          type: 'od:srcdoc-transport-activated',
+          type: 'sw:srcdoc-transport-activated',
           generation: transportGeneration(abortedFrame),
         },
       }));
@@ -256,7 +256,7 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: refreshedFrame.contentWindow,
         data: {
-          type: 'od:srcdoc-transport-activated',
+          type: 'sw:srcdoc-transport-activated',
           generation: transportGeneration(refreshedFrame),
         },
       }));

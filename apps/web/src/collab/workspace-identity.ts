@@ -8,14 +8,14 @@ import type { WorkspaceCollabContext } from '@sankiwork/contracts';
  */
 export function workspaceProjectHeaders(context: WorkspaceCollabContext): HeadersInit {
   return {
-    'x-od-workspace-id': context.workspaceId,
-    'x-od-workspace-type': context.workspaceType,
-    'x-od-workspace-member-id': context.workspaceMemberId,
-    'x-od-workspace-role': context.role,
-    'x-od-workspace-lifecycle-state': context.lifecycleState,
-    'x-od-workspace-member-status': context.memberStatus,
-    'x-od-workspace-can-share-projects': String(context.permissions.canShareProjects),
-    'x-od-workspace-can-write-synced-files': String(context.permissions.canWriteSyncedFiles),
+    'x-sw-workspace-id': context.workspaceId,
+    'x-sw-workspace-type': context.workspaceType,
+    'x-sw-workspace-member-id': context.workspaceMemberId,
+    'x-sw-workspace-role': context.role,
+    'x-sw-workspace-lifecycle-state': context.lifecycleState,
+    'x-sw-workspace-member-status': context.memberStatus,
+    'x-sw-workspace-can-share-projects': String(context.permissions.canShareProjects),
+    'x-sw-workspace-can-write-synced-files': String(context.permissions.canWriteSyncedFiles),
   };
 }
 

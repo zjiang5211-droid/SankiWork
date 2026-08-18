@@ -51,12 +51,12 @@ function listen(app: express.Express): Promise<string> {
 
 function workspaceHeaders(): Record<string, string> {
   return {
-    'x-od-workspace-id': 'workspace-a',
-    'x-od-workspace-member-id': 'member-a',
-    'x-od-workspace-type': 'team',
-    'x-od-workspace-role': 'owner',
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-id': 'workspace-a',
+    'x-sw-workspace-member-id': 'member-a',
+    'x-sw-workspace-type': 'team',
+    'x-sw-workspace-role': 'owner',
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-lifecycle-state': 'active',
   };
 }
 
@@ -143,10 +143,10 @@ async function startListRoute(input: {
           verifyWorkspaceRequestAuthority: async (req: any) => ({
             ok: true as const,
             context: workspaceContextFromDirectoryItem({
-              workspaceId: req.get('x-od-workspace-id'),
+              workspaceId: req.get('x-sw-workspace-id'),
               workspaceName: 'Workspace A',
               workspaceType: 'team',
-              workspaceMemberId: req.get('x-od-workspace-member-id'),
+              workspaceMemberId: req.get('x-sw-workspace-member-id'),
               role: 'owner',
               memberStatus: 'active',
               lifecycleState: 'active',
@@ -242,10 +242,10 @@ describe('design-system explicit Workspace request scope', () => {
     const requestContext = (request: unknown) => {
       const req = request as express.Request;
       return workspaceContextFromDirectoryItem({
-      workspaceId: req.get('x-od-workspace-id') ?? '',
+      workspaceId: req.get('x-sw-workspace-id') ?? '',
       workspaceName: 'Workspace fixture',
       workspaceType: 'team',
-      workspaceMemberId: req.get('x-od-workspace-member-id') ?? '',
+      workspaceMemberId: req.get('x-sw-workspace-member-id') ?? '',
       role: 'owner',
       memberStatus: 'active',
       lifecycleState: 'active',
@@ -296,7 +296,7 @@ describe('design-system explicit Workspace request scope', () => {
             ...(options?.workspaceId !== undefined ? { workspaceId: options.workspaceId } : {}),
           }),
         resolveWorkspaceScope: async (req?: express.Request) =>
-          req?.get('x-od-workspace-id') ?? null,
+          req?.get('x-sw-workspace-id') ?? null,
         listAllSkills: async () => [],
         listAllDesignTemplates: async () => [],
         listAllSkillLikeEntries: async () => [],
@@ -339,12 +339,12 @@ describe('design-system explicit Workspace request scope', () => {
     await expect(listIds(workspaceHeaders())).resolves.toContain(createdBody.designSystemId);
     await expect(listIds({
       ...workspaceHeaders(),
-      'x-od-workspace-member-id': 'member-b',
+      'x-sw-workspace-member-id': 'member-b',
     })).resolves.not.toContain(createdBody.designSystemId);
     await expect(listIds({
       ...workspaceHeaders(),
-      'x-od-workspace-id': 'workspace-b',
-      'x-od-workspace-member-id': 'member-b',
+      'x-sw-workspace-id': 'workspace-b',
+      'x-sw-workspace-member-id': 'member-b',
     })).resolves.not.toContain(createdBody.designSystemId);
   });
 
@@ -367,10 +367,10 @@ describe('design-system explicit Workspace request scope', () => {
       verifyWorkspaceRequestAuthority: async (req: any) => ({
         ok: true as const,
         context: workspaceContextFromDirectoryItem({
-          workspaceId: req.get('x-od-workspace-id'),
+          workspaceId: req.get('x-sw-workspace-id'),
           workspaceName: 'Workspace A',
           workspaceType: 'team',
-          workspaceMemberId: req.get('x-od-workspace-member-id'),
+          workspaceMemberId: req.get('x-sw-workspace-member-id'),
           role: 'owner',
           memberStatus: 'active',
           lifecycleState: 'active',
@@ -402,7 +402,7 @@ describe('design-system explicit Workspace request scope', () => {
       method: 'POST',
       headers: {
         ...workspaceHeaders(),
-        'x-od-workspace-member-id': 'member-b',
+        'x-sw-workspace-member-id': 'member-b',
         'content-type': 'application/json',
       },
       body: JSON.stringify({ source: 'local', path: source }),
@@ -434,7 +434,7 @@ describe('design-system explicit Workspace request scope', () => {
     const response = await fetch(`${baseUrl}/api/design-systems`, {
       headers: {
         ...workspaceHeaders(),
-        'x-od-workspace-member-id': 'member-b',
+        'x-sw-workspace-member-id': 'member-b',
       },
     });
     expect(response.status).toBe(200);
@@ -445,8 +445,8 @@ describe('design-system explicit Workspace request scope', () => {
     const workspaceB = await fetch(`${baseUrl}/api/design-systems`, {
       headers: {
         ...workspaceHeaders(),
-        'x-od-workspace-id': 'workspace-b',
-        'x-od-workspace-member-id': 'member-b',
+        'x-sw-workspace-id': 'workspace-b',
+        'x-sw-workspace-member-id': 'member-b',
       },
     });
     expect(workspaceB.status).toBe(200);
@@ -509,7 +509,7 @@ describe('design-system explicit Workspace request scope', () => {
       options?.workspaceId === 'workspace-a' ? [summary] : []);
     const baseUrl = await startListRoute({
       resolveWorkspaceScope: async (req) =>
-        req?.get('x-od-workspace-id') === 'workspace-a' ? 'workspace-a' : null,
+        req?.get('x-sw-workspace-id') === 'workspace-a' ? 'workspace-a' : null,
       listAllDesignSystems,
     });
 
@@ -558,7 +558,7 @@ describe('design-system explicit Workspace request scope', () => {
       _input: unknown,
       req?: express.Request,
     ): Promise<DesignSystemSummary> => {
-      if (req?.get('x-od-workspace-id') !== 'workspace-a') throw scopeError(400);
+      if (req?.get('x-sw-workspace-id') !== 'workspace-a') throw scopeError(400);
       return create();
     };
     const app = express();

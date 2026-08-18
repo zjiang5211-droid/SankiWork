@@ -1985,7 +1985,7 @@ function normalizeCloudflareDomainPrefix(raw: unknown) {
 }
 
 function cloudflarePagesDnsMarker(projectId: string, projectName: string, pagesTarget: string) {
-  return `od:cfp:${shortCloudflareHash(projectId || projectName)}:${shortCloudflareHash(pagesTarget || projectName)}`;
+  return `sw:cfp:${shortCloudflareHash(projectId || projectName)}:${shortCloudflareHash(pagesTarget || projectName)}`;
 }
 
 function shortCloudflareHash(value: unknown) {

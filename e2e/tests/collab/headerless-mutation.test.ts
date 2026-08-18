@@ -82,14 +82,14 @@ function workspaceHeaders(input: {
   workspaceType?: 'personal' | 'team';
 }): Record<string, string> {
   return {
-    'x-od-workspace-id': input.workspaceId,
-    'x-od-workspace-type': input.workspaceType ?? 'personal',
-    'x-od-workspace-member-id': input.workspaceMemberId,
-    'x-od-workspace-role': 'owner',
-    'x-od-workspace-lifecycle-state': 'active',
-    'x-od-workspace-member-status': 'active',
-    'x-od-workspace-can-share-projects': 'true',
-    'x-od-workspace-can-write-synced-files': 'true',
+    'x-sw-workspace-id': input.workspaceId,
+    'x-sw-workspace-type': input.workspaceType ?? 'personal',
+    'x-sw-workspace-member-id': input.workspaceMemberId,
+    'x-sw-workspace-role': 'owner',
+    'x-sw-workspace-lifecycle-state': 'active',
+    'x-sw-workspace-member-status': 'active',
+    'x-sw-workspace-can-share-projects': 'true',
+    'x-sw-workspace-can-write-synced-files': 'true',
   };
 }
 
@@ -272,7 +272,7 @@ describe('a headerless caller can mutate only unbound local projects', () => {
   // 不然就是 P0 事故」
   //
   // A signed-out client can only SEE unbound projects: the no-scope catalog
-  // (`routes/project/index.ts:2432-2443`) reads no `x-od-workspace-*` at all and
+  // (`routes/project/index.ts:2432-2443`) reads no `x-sw-workspace-*` at all and
   // joins through `listUnboundProjects`, so "every unbound (never-claimed) project
   // must be visible (pre-workspace-isolation compatibility) while every project
   // some workspace HAS claimed must not leak to a caller with no identity to check
@@ -374,7 +374,7 @@ describe('a headerless caller can mutate only unbound local projects', () => {
           expect(created.code, `sw project create failed: ${created.stderr}`).toBe(0);
           const projectId = (JSON.parse(created.stdout) as CreatedProject).project.id;
 
-          // `sw` attaches no `x-od-workspace-*` headers on this path — only
+          // `sw` attaches no `x-sw-workspace-*` headers on this path — only
           // `sw workspace …` builds those — so this is the headerless shape by
           // construction, not by test contrivance.
           const duplicated = await od(daemonUrl, [

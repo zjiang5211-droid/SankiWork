@@ -106,11 +106,11 @@ const DOWNLOAD_COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000;
       const cta = dialog.querySelector('[data-download-prompt-cta]');
 
       const KEYS = {
-        pageViews: 'od_download_prompt_page_views_v2',
-        activeSeconds: 'od_download_prompt_active_seconds_v1',
-        shown: 'od_download_prompt_shown_v1',
-        dismissedAt: 'od_download_prompt_dismissed_at_v1',
-        downloadedAt: 'od_download_prompt_downloaded_at_v1',
+        pageViews: 'sw_download_prompt_page_views_v2',
+        activeSeconds: 'sw_download_prompt_active_seconds_v1',
+        shown: 'sw_download_prompt_shown_v1',
+        dismissedAt: 'sw_download_prompt_dismissed_at_v1',
+        downloadedAt: 'sw_download_prompt_downloaded_at_v1',
       };
       let timer = 0;
       let dismissReason = '';
@@ -135,8 +135,8 @@ const DOWNLOAD_COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000;
         return true;
       };
       const track = (name, props) => {
-        if (typeof window.__odTrack !== 'function') return;
-        window.__odTrack(name, Object.assign({
+        if (typeof window.__swTrack !== 'function') return;
+        window.__swTrack(name, Object.assign({
           page_name: pageName,
           locale,
           area: 'engagement_download_prompt',
@@ -284,7 +284,7 @@ const DOWNLOAD_COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000;
 
       // QA escape hatch: `?download_prompt=preview` opens the real modal
       // immediately without changing production trigger thresholds.
-      window.__odDownloadPrompt = {
+      window.__swDownloadPrompt = {
         show: (trigger = 'manual_preview') => show(trigger, true),
       };
       if (new URLSearchParams(window.location.search).get('download_prompt') === 'preview') {

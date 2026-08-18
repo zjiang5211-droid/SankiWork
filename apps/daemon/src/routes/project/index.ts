@@ -264,7 +264,7 @@ type WorkspaceProjectAccessInput = WorkspaceResourceAccessInput;
  * A team share must live in a team workspace — see `collab/team-share-scope.ts`
  * for why a `visibility: 'team'` row pinned to a personal workspace is a
  * permanently-broken address rather than a scope. Two independent witnesses can
- * refuse it, and either alone is enough: the caller's own `x-od-workspace-type`
+ * refuse it, and either alone is enough: the caller's own `x-sw-workspace-type`
  * claim (a client that says "personal" and asks for a team share has stated the
  * contradiction itself), and the workspace directory the daemon has already read
  * (which catches a caller whose headers are simply wrong). With neither, the
@@ -472,14 +472,14 @@ export async function ensureReferencedProjectDir(
 
 const URL_PREVIEW_SCROLL_BRIDGE = `<script data-sw-url-scroll-bridge>
 (function(){
-  if (window.__odUrlScrollBridge) return;
-  window.__odUrlScrollBridge = true;
+  if (window.__swUrlScrollBridge) return;
+  window.__swUrlScrollBridge = true;
   var pending = false;
   var contentSizePending = false;
   var lastContentSizeRequest = null;
   var contentSizeDocumentEpoch = '';
   try {
-    contentSizeDocumentEpoch = new URLSearchParams(window.location.search).get('odPreviewEpoch') || '';
+    contentSizeDocumentEpoch = new URLSearchParams(window.location.search).get('swPreviewEpoch') || '';
   } catch (_) {}
   function scrollElement(){
     return document.querySelector('.design-canvas') || document.scrollingElement || document.documentElement;
@@ -519,7 +519,7 @@ const URL_PREVIEW_SCROLL_BRIDGE = `<script data-sw-url-scroll-bridge>
     if (!lastContentSizeRequest) return;
     var size = measureContentSize();
     window.parent.postMessage({
-      type: 'od:preview-content-size',
+      type: 'sw:preview-content-size',
       measurementId: lastContentSizeRequest.measurementId,
       generation: lastContentSizeRequest.generation,
       documentEpoch: contentSizeDocumentEpoch,
@@ -540,7 +540,7 @@ const URL_PREVIEW_SCROLL_BRIDGE = `<script data-sw-url-scroll-bridge>
     if (!el) return;
     var frame = document.scrollingElement || document.documentElement;
     window.parent.postMessage({
-      type: 'od:preview-scroll',
+      type: 'sw:preview-scroll',
       canvasLeft: Math.round(el.scrollLeft || 0),
       canvasTop: Math.round(el.scrollTop || 0),
       frameLeft: Math.round(frame.scrollLeft || 0),
@@ -575,24 +575,24 @@ const URL_PREVIEW_SCROLL_BRIDGE = `<script data-sw-url-scroll-bridge>
     }
   }
   function requestRestore(){
-    window.parent.postMessage({ type: 'od:preview-scroll-request' }, '*');
+    window.parent.postMessage({ type: 'sw:preview-scroll-request' }, '*');
   }
   window.addEventListener('message', function(ev){
     var data = ev && ev.data;
     if (!data || !data.type) return;
-    if (data.type === 'od:preview-scroll-restore') {
+    if (data.type === 'sw:preview-scroll-restore') {
       scrollTo(document.scrollingElement || document.documentElement, data.frameLeft, data.frameTop);
       scrollTo(scrollElement(), data.canvasLeft, data.canvasTop);
       setTimeout(post, 0);
       return;
     }
-    if (data.type === 'od:preview-scroll-by') {
+    if (data.type === 'sw:preview-scroll-by') {
       scrollBy(scrollElement(), data.left, data.top);
       schedule();
       scheduleContentSize();
       return;
     }
-    if (data.type === 'od:preview-content-size-request') {
+    if (data.type === 'sw:preview-content-size-request') {
       if (typeof data.measurementId !== 'string' || typeof data.generation !== 'string') return;
       lastContentSizeRequest = {
         measurementId: data.measurementId,
@@ -644,8 +644,8 @@ function sameOrchestratorWorkspace(a: unknown, b: unknown): boolean {
 
 const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
 (function(){
-  if (window.__odUrlSelectionBridge) return;
-  window.__odUrlSelectionBridge = true;
+  if (window.__swUrlSelectionBridge) return;
+  window.__swUrlSelectionBridge = true;
   var commentEnabled = false;
   var mode = 'picker';
   var hoveredId = null;
@@ -658,7 +658,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
   var activeCommentSelector = null;
   var activeTargetPending = false;
   function postReady(){
-    window.parent.postMessage({ type: 'od:url-selection-bridge-ready', href: window.location.href }, '*');
+    window.parent.postMessage({ type: 'sw:url-selection-bridge-ready', href: window.location.href }, '*');
   }
   function esc(value){
     try { return window.CSS && CSS.escape ? CSS.escape(value) : String(value).replace(/"/g, '\\\\"'); }
@@ -772,7 +772,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
       html = match ? match[0] : '';
     } catch (_) {}
     var payload = {
-      type: 'od:comment-target',
+      type: 'sw:comment-target',
       elementId: id,
       selector: selector,
       label: tag + cls,
@@ -808,7 +808,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
   }
   function postTargets(){
     if (!active()) return;
-    window.parent.postMessage({ type: 'od:comment-targets', targets: allTargets() }, '*');
+    window.parent.postMessage({ type: 'sw:comment-targets', targets: allTargets() }, '*');
   }
   function schedulePostTargets(){
     if (!active() || postTargetsPending) return;
@@ -840,7 +840,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
     var el = findCommentTargetByIdentity(activeCommentElementId, activeCommentSelector);
     if (!el) return;
     var payload = targetFrom(el, commentEnabled && mode === 'picker');
-    if (payload) window.parent.postMessage(Object.assign({}, payload, { type: 'od:comment-active-target-update' }), '*');
+    if (payload) window.parent.postMessage(Object.assign({}, payload, { type: 'sw:comment-active-target-update' }), '*');
   }
   function schedulePostActiveCommentTarget(){
     if (!active() || !activeCommentElementId || activeTargetPending) return;
@@ -904,7 +904,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
     if (strokeFrame !== null) return;
     strokeFrame = requestAnimationFrame(function(){
       strokeFrame = null;
-      postStroke('od:pod-stroke');
+      postStroke('sw:pod-stroke');
     });
   }
   // The host switches a plain URL preview to a bridge-enabled srcDoc when
@@ -1004,19 +1004,19 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
   window.addEventListener('message', function(ev){
     var data = ev && ev.data;
     if (!data || !data.type) return;
-    if (data.type === 'od:url-selection-bridge-probe') {
+    if (data.type === 'sw:url-selection-bridge-probe') {
       postReady();
       return;
     }
-    if (data.type === 'od:preview-runtime-state-capture' && data.id) {
+    if (data.type === 'sw:preview-runtime-state-capture' && data.id) {
       window.parent.postMessage({
-        type: 'od:preview-runtime-state-captured',
+        type: 'sw:preview-runtime-state-captured',
         id: String(data.id),
         state: captureRuntimeState()
       }, '*');
       return;
     }
-    if (data.type === 'od:comment-mode') {
+    if (data.type === 'sw:comment-mode') {
       commentEnabled = !!data.enabled;
       mode = data.mode === 'pod' ? 'pod' : 'picker';
       document.documentElement.toggleAttribute('data-sw-comment-mode', commentEnabled);
@@ -1030,11 +1030,11 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
       if (!commentEnabled || mode !== 'pod') {
         drawing = false;
         stroke = [];
-        try { window.parent.postMessage({ type: 'od:pod-clear' }, '*'); } catch (_) {}
+        try { window.parent.postMessage({ type: 'sw:pod-clear' }, '*'); } catch (_) {}
       }
       return;
     }
-    if (data.type === 'od:comment-active-target') {
+    if (data.type === 'sw:comment-active-target') {
       activeCommentElementId = data.elementId ? String(data.elementId) : null;
       activeCommentSelector = data.selector ? String(data.selector) : null;
       schedulePostActiveCommentTarget();
@@ -1047,7 +1047,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
     var payload = targetFrom(result.target, true);
     if (!payload || payload.elementId === hoveredId) return;
     hoveredId = payload.elementId;
-    window.parent.postMessage(Object.assign({}, payload, { type: 'od:comment-hover' }), '*');
+    window.parent.postMessage(Object.assign({}, payload, { type: 'sw:comment-hover' }), '*');
   }, true);
   document.addEventListener('mouseout', function(ev){
     if (!commentEnabled || mode !== 'picker') return;
@@ -1059,7 +1059,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
       next = next.parentElement;
     }
     hoveredId = null;
-    window.parent.postMessage({ type: 'od:comment-leave' }, '*');
+    window.parent.postMessage({ type: 'sw:comment-leave' }, '*');
   }, true);
   document.addEventListener('click', function(ev){
     if (!commentEnabled || mode !== 'picker') return;
@@ -1089,7 +1089,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
     var pinY = Math.round(ev.clientY);
     var pinId = 'pin-' + Date.now().toString(36) + '-' + Math.floor(Math.random() * 1e6).toString(36);
     window.parent.postMessage({
-      type: 'od:comment-target',
+      type: 'sw:comment-target',
       elementId: pinId,
       selector: '[data-sw-pin="' + pinId + '"]',
       label: 'pin',
@@ -1107,7 +1107,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
     stroke = [relativePoint(ev)];
     ev.preventDefault();
     ev.stopPropagation();
-    postStroke('od:pod-stroke');
+    postStroke('sw:pod-stroke');
   }, true);
   document.addEventListener('pointermove', function(ev){
     if (!drawing || mode !== 'pod') return;
@@ -1127,7 +1127,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
       ev.preventDefault();
       ev.stopPropagation();
     }
-    postStroke('od:pod-select');
+    postStroke('sw:pod-select');
   }
   document.addEventListener('pointerup', finishStroke, true);
   document.addEventListener('pointercancel', finishStroke, true);
@@ -1145,8 +1145,8 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
 
 const URL_PREVIEW_SNAPSHOT_BRIDGE = `<script data-sw-url-snapshot-bridge>
 (function(){
-  if (window.__odUrlSnapshotBridge) return;
-  window.__odUrlSnapshotBridge = true;
+  if (window.__swUrlSnapshotBridge) return;
+  window.__swUrlSnapshotBridge = true;
   var SNAPSHOT_STYLE_PROPS = [
     'display','position','box-sizing','width','height','min-width','max-width','min-height','max-height',
     'margin','margin-top','margin-right','margin-bottom','margin-left',
@@ -1300,22 +1300,22 @@ const URL_PREVIEW_SNAPSHOT_BRIDGE = `<script data-sw-url-snapshot-bridge>
         ctx.fillRect(0, 0, w, h);
         ctx.drawImage(img, 0, 0, w, h);
         if (canvasLooksBlank(ctx, canvas.width, canvas.height)) {
-          window.parent.postMessage({ type: 'od:snapshot:result', id: id, error: 'empty-render' }, '*');
+          window.parent.postMessage({ type: 'sw:snapshot:result', id: id, error: 'empty-render' }, '*');
           return;
         }
-        window.parent.postMessage({ type: 'od:snapshot:result', id: id, dataUrl: canvas.toDataURL('image/png'), w: canvas.width, h: canvas.height }, '*');
+        window.parent.postMessage({ type: 'sw:snapshot:result', id: id, dataUrl: canvas.toDataURL('image/png'), w: canvas.width, h: canvas.height }, '*');
       } catch (err) {
-        window.parent.postMessage({ type: 'od:snapshot:result', id: id, error: String(err && err.message || err) }, '*');
+        window.parent.postMessage({ type: 'sw:snapshot:result', id: id, error: String(err && err.message || err) }, '*');
       }
     };
     img.onerror = function(){
-      window.parent.postMessage({ type: 'od:snapshot:result', id: id, error: 'snapshot image failed' }, '*');
+      window.parent.postMessage({ type: 'sw:snapshot:result', id: id, error: 'snapshot image failed' }, '*');
     };
     img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
   window.addEventListener('message', function(ev){
     var data = ev && ev.data;
-    if (!data || data.type !== 'od:snapshot' || !data.id) return;
+    if (!data || data.type !== 'sw:snapshot' || !data.id) return;
     waitForImages().then(function(){ renderSnapshot(String(data.id)); });
   });
 })();
@@ -2483,7 +2483,7 @@ export function registerProjectRoutes(app: Express, ctx: RegisterProjectRoutesDe
    * mine" signal a read never had.
    *
    * But that owner is NOT the request's own claim. `workspaceProjectContextFromRequest`
-   * only PARSES `x-od-workspace-*`, which is an unauthenticated hint any local
+   * only PARSES `x-sw-workspace-*`, which is an unauthenticated hint any local
    * caller can forge, and this row's `createdByWorkspaceMemberId` is what
    * `workspaceResourceAccess` turns into `selfCreated` — the bit that grants a
    * non-privileged member mutation rights over it. Writing the header value
@@ -2927,7 +2927,7 @@ export function registerProjectRoutes(app: Express, ctx: RegisterProjectRoutesDe
           }
         }
       }
-      // This is the NO-SCOPE catalog: no `x-od-workspace-*` headers are read
+      // This is the NO-SCOPE catalog: no `x-sw-workspace-*` headers are read
       // here at all, so every unbound (never-claimed) project must be visible
       // (pre-workspace-isolation compatibility) while every project some
       // workspace HAS claimed must not leak to a caller with no identity to
@@ -4199,8 +4199,8 @@ export function registerProjectRoutes(app: Express, ctx: RegisterProjectRoutesDe
     }
     const binding = getWorkspaceProjectByProjectId(db, project.id);
     const hasWorkspaceClaim =
-      headerValue(req, 'x-od-workspace-id') !== null
-      || headerValue(req, 'x-od-workspace-member-id') !== null;
+      headerValue(req, 'x-sw-workspace-id') !== null
+      || headerValue(req, 'x-sw-workspace-member-id') !== null;
     if (binding && !hasWorkspaceClaim) {
       // This is the same session-generation keyed authority broker used by the
       // shell directory and ordinary read gate. A cold shell + bootstrap joins
@@ -6004,7 +6004,7 @@ export function registerProjectFileRoutes(app: Express, ctx: RegisterProjectFile
           const bridged = applyUrlPreviewBridgesToHtml(
             transformed,
             file.mime,
-            req.query.odPreviewBridge,
+            req.query.swPreviewBridge,
           );
           const workspaceId = typeof req.query.workspaceId === 'string'
             ? req.query.workspaceId
@@ -6028,7 +6028,7 @@ export function registerProjectFileRoutes(app: Express, ctx: RegisterProjectFile
           // Plain raw-file reads (code view, download, API clients) must keep
           // returning the same bytes as before. The containment base is only a
           // URL-preview transport detail requested by FileViewer.
-          if (req.query.odPreviewBridge === undefined) return html;
+          if (req.query.swPreviewBridge === undefined) return html;
           const headerContext = workspaceProjectContextFromRequest(req);
           const previewWorkspace = workspaceId && workspaceMemberId
             ? { workspaceId, workspaceMemberId }
@@ -6112,7 +6112,7 @@ export function registerProjectFileRoutes(app: Express, ctx: RegisterProjectFile
             projectsRoot: PROJECTS_DIR,
             readProjectFile,
           });
-          return applyUrlPreviewBridgesToHtml(transformed, file.mime, req.query.odPreviewBridge);
+          return applyUrlPreviewBridgesToHtml(transformed, file.mime, req.query.swPreviewBridge);
         },
       );
     } catch (err: any) {

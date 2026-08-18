@@ -1459,18 +1459,18 @@ desktopMacDescribe('mac desktop settings smoke', () => {
           throw new Error('failed to seed project file: ' + fileResp.status);
         }
 
-        window.__odDesktopOpenHref = null;
-        window.__odDesktopOpenClickCount = 0;
-        if (!window.__odDesktopOpenCaptureInstalled) {
+        window.__swDesktopOpenHref = null;
+        window.__swDesktopOpenClickCount = 0;
+        if (!window.__swDesktopOpenCaptureInstalled) {
           document.addEventListener('click', (event) => {
             const target = event.target instanceof Element ? event.target.closest('a') : null;
             if (!(target instanceof HTMLAnchorElement)) return;
             if (target.textContent?.trim() !== 'Open') return;
-            window.__odDesktopOpenHref = target.getAttribute('href');
-            window.__odDesktopOpenClickCount += 1;
+            window.__swDesktopOpenHref = target.getAttribute('href');
+            window.__swDesktopOpenClickCount += 1;
             event.preventDefault();
           }, true);
-          window.__odDesktopOpenCaptureInstalled = true;
+          window.__swDesktopOpenCaptureInstalled = true;
         }
 
         window.location.assign('/projects/' + encodeURIComponent(projectId) + '/files/desktop-open.html');
@@ -1509,8 +1509,8 @@ desktopMacDescribe('mac desktop settings smoke', () => {
 
     const clickCapture = await desktop.eval<{ count: number; href: string | null }>(`
       (() => ({
-        count: typeof window.__odDesktopOpenClickCount === 'number' ? window.__odDesktopOpenClickCount : 0,
-        href: typeof window.__odDesktopOpenHref === 'string' ? window.__odDesktopOpenHref : null,
+        count: typeof window.__swDesktopOpenClickCount === 'number' ? window.__swDesktopOpenClickCount : 0,
+        href: typeof window.__swDesktopOpenHref === 'string' ? window.__swDesktopOpenHref : null,
       }))()
     `);
     expect(clickCapture.count).toBeGreaterThan(0);

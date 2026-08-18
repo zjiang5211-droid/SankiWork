@@ -2470,7 +2470,7 @@ function AppInner() {
 
   const refreshSkills = useCallback(async () => {
     // Always scoped. `GET /api/skills` is fail-closed on a missing
-    // `x-od-workspace-id` (`skills.ts`: `if (!scopeId) return !ownerId;`), so a
+    // `x-sw-workspace-id` (`skills.ts`: `if (!scopeId) return !ownerId;`), so a
     // headerless read is not the "unfiltered" list — it is the list with every
     // workspace-claimed skill removed, including the ones claimed by the
     // workspace the user is actually in.
@@ -3146,50 +3146,50 @@ function AppInner() {
         ) {
           try {
             window.sessionStorage.setItem(
-              `od:auto-send-first:${result.project.id}`,
+              `sw:auto-send-first:${result.project.id}`,
               '1',
             );
             if (derivedPendingPrompt !== undefined) {
               window.sessionStorage.setItem(
-                `od:auto-send-prompt:${result.project.id}`,
+                `sw:auto-send-prompt:${result.project.id}`,
                 derivedPendingPrompt,
               );
             } else {
               window.sessionStorage.removeItem(
-                `od:auto-send-prompt:${result.project.id}`,
+                `sw:auto-send-prompt:${result.project.id}`,
               );
             }
             if (input.amrGatePrecheckWitness) {
               window.sessionStorage.setItem(
-                `od:auto-send-amr-gate-witness:${result.project.id}`,
+                `sw:auto-send-amr-gate-witness:${result.project.id}`,
                 JSON.stringify(input.amrGatePrecheckWitness),
               );
             } else {
               window.sessionStorage.removeItem(
-                `od:auto-send-amr-gate-witness:${result.project.id}`,
+                `sw:auto-send-amr-gate-witness:${result.project.id}`,
               );
             }
             window.sessionStorage.removeItem(
-              `od:auto-send-amr-gate-ok:${result.project.id}`,
+              `sw:auto-send-amr-gate-ok:${result.project.id}`,
             );
             if (firstMessageAttachments.length > 0) {
               window.sessionStorage.setItem(
-                `od:auto-send-attachments:${result.project.id}`,
+                `sw:auto-send-attachments:${result.project.id}`,
                 JSON.stringify(firstMessageAttachments),
               );
             } else {
               window.sessionStorage.removeItem(
-                `od:auto-send-attachments:${result.project.id}`,
+                `sw:auto-send-attachments:${result.project.id}`,
               );
             }
             if (input.initialRunContext && Object.keys(input.initialRunContext).length > 0) {
               window.sessionStorage.setItem(
-                `od:auto-send-context:${result.project.id}`,
+                `sw:auto-send-context:${result.project.id}`,
                 JSON.stringify(input.initialRunContext),
               );
             } else {
               window.sessionStorage.removeItem(
-                `od:auto-send-context:${result.project.id}`,
+                `sw:auto-send-context:${result.project.id}`,
               );
             }
           } catch {
@@ -3318,11 +3318,11 @@ function AppInner() {
         sourceWorkspaceContext,
       );
       try {
-        window.sessionStorage.setItem(`od:auto-send-first:${result.project.id}`, '1');
+        window.sessionStorage.setItem(`sw:auto-send-first:${result.project.id}`, '1');
         const pendingPrompt = input.pendingPrompt ?? result.project.pendingPrompt;
         if (pendingPrompt !== undefined) {
           window.sessionStorage.setItem(
-            `od:auto-send-prompt:${result.project.id}`,
+            `sw:auto-send-prompt:${result.project.id}`,
             pendingPrompt,
           );
         }
@@ -3388,12 +3388,12 @@ function AppInner() {
       if (!outcome.ok) return outcome;
       try {
         window.sessionStorage.setItem(
-          `od:auto-send-first:${outcome.project.id}`,
+          `sw:auto-send-first:${outcome.project.id}`,
           '1',
         );
         if (outcome.project.pendingPrompt !== undefined) {
           window.sessionStorage.setItem(
-            `od:auto-send-prompt:${outcome.project.id}`,
+            `sw:auto-send-prompt:${outcome.project.id}`,
             outcome.project.pendingPrompt,
           );
         }

@@ -166,7 +166,7 @@ describe('OdCard brand browser assist', () => {
     });
     expect(onConfirm).toHaveBeenCalledWith(ASSIST_CARD);
     expect(screen.getByRole('button', { name: 'Open browser assist' })).toBeTruthy();
-    expect(window.localStorage.getItem('od:brand-browser-assist-decision:brand-123')).toBe('done');
+    expect(window.localStorage.getItem('sw:brand-browser-assist-decision:brand-123')).toBe('done');
   });
 
   it('marks browser assist done when the handler opens or focuses the browser tab', async () => {
@@ -180,11 +180,11 @@ describe('OdCard brand browser assist', () => {
     });
     expect(screen.getByRole('button', { name: 'Open browser assist' })).toBeTruthy();
     expect(screen.getByText(/Open Browser and clear any human check/)).toBeTruthy();
-    expect(window.localStorage.getItem('od:brand-browser-assist-decision:brand-123')).toBe('done');
+    expect(window.localStorage.getItem('sw:brand-browser-assist-decision:brand-123')).toBe('done');
   });
 
   it('keeps browser assist available after a saved opened state remounts', () => {
-    window.localStorage.setItem('od:brand-browser-assist-decision:brand-123', 'done');
+    window.localStorage.setItem('sw:brand-browser-assist-decision:brand-123', 'done');
 
     renderAssistCard(vi.fn().mockResolvedValue({ ok: true }));
 

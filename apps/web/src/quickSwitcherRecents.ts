@@ -3,7 +3,7 @@
 // the right home: recents are a UX nicety, not source-of-truth state, and
 // keeping them client-side avoids a daemon round-trip on every open.
 
-const PREFIX = 'od:qs-recents:';
+const PREFIX = 'sw:qs-recents:';
 export const RECENTS_LIMIT = 6;
 
 function key(projectId: string): string {

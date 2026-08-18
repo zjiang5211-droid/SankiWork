@@ -92,8 +92,8 @@ describe('RoutinesSection Workspace scope', () => {
       workspaceId: 'workspace-a',
       workspaceMemberId: 'member-a',
     });
-    expect(creates[0]!.headers.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(creates[0]!.headers.get('x-od-workspace-member-id')).toBe('member-a');
+    expect(creates[0]!.headers.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(creates[0]!.headers.get('x-sw-workspace-member-id')).toBe('member-a');
   });
 
   it('keeps a stale A card action scoped to A while the shell switches to B', async () => {
@@ -122,7 +122,7 @@ describe('RoutinesSection Workspace scope', () => {
       const url = input.toString();
       const headers = new Headers(init?.headers);
       if (url === '/api/routines' && !init?.method) {
-        if (headers.get('x-od-workspace-id') === 'workspace-b') {
+        if (headers.get('x-sw-workspace-id') === 'workspace-b') {
           return await new Promise<Response>(() => {});
         }
         return Response.json({ routines: [routineA] });
@@ -144,8 +144,8 @@ describe('RoutinesSection Workspace scope', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Pause' }));
 
     await waitFor(() => expect(patches).toHaveLength(1));
-    expect(patches[0]!.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(patches[0]!.get('x-od-workspace-member-id')).toBe('member-a');
+    expect(patches[0]!.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(patches[0]!.get('x-sw-workspace-member-id')).toBe('member-a');
   });
 
   it('uses the routine scope for list, run, history, and delete requests', async () => {
@@ -210,8 +210,8 @@ describe('RoutinesSection Workspace scope', () => {
       'GET /api/routines/routine-a/runs?limit=10',
       'DELETE /api/routines/routine-a',
     ]) {
-      expect(observed.get(key)?.get('x-od-workspace-id'), key).toBe('workspace-a');
-      expect(observed.get(key)?.get('x-od-workspace-member-id'), key).toBe('member-a');
+      expect(observed.get(key)?.get('x-sw-workspace-id'), key).toBe('workspace-a');
+      expect(observed.get(key)?.get('x-sw-workspace-member-id'), key).toBe('member-a');
     }
   });
 });

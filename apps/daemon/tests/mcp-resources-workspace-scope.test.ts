@@ -82,10 +82,10 @@ describe('MCP workspace-scoped resource handlers (#6770)', () => {
     // both carry the workspace headers — this is the regression from #6770:
     // before the fix they were headerless and the daemon returned the NO-SCOPE
     // catalog, hiding claimed Personal design systems from the MCP client.
-    expect((skillCall?.init?.headers as Record<string, string>)['x-od-workspace-id']).toBe('ws-personal');
-    expect((skillCall?.init?.headers as Record<string, string>)['x-od-workspace-member-id']).toBe('mem-1');
-    expect((dsCall?.init?.headers as Record<string, string>)['x-od-workspace-id']).toBe('ws-personal');
-    expect((dsCall?.init?.headers as Record<string, string>)['x-od-workspace-member-id']).toBe('mem-1');
+    expect((skillCall?.init?.headers as Record<string, string>)['x-sw-workspace-id']).toBe('ws-personal');
+    expect((skillCall?.init?.headers as Record<string, string>)['x-sw-workspace-member-id']).toBe('mem-1');
+    expect((dsCall?.init?.headers as Record<string, string>)['x-sw-workspace-id']).toBe('ws-personal');
+    expect((dsCall?.init?.headers as Record<string, string>)['x-sw-workspace-member-id']).toBe('mem-1');
 
     // the personal design system actually shows up
     const uris = result.resources.map((r) => r.uri);
@@ -148,8 +148,8 @@ describe('MCP workspace-scoped resource handlers (#6770)', () => {
     expect(read).toBeTruthy();
     // Without this header, the daemon returns `404 design system not found`
     // for a Personal design system the workspace actually owns (#6770).
-    expect((read?.init?.headers as Record<string, string>)['x-od-workspace-id']).toBe('ws-personal');
-    expect((read?.init?.headers as Record<string, string>)['x-od-workspace-member-id']).toBe('mem-1');
+    expect((read?.init?.headers as Record<string, string>)['x-sw-workspace-id']).toBe('ws-personal');
+    expect((read?.init?.headers as Record<string, string>)['x-sw-workspace-member-id']).toBe('mem-1');
 
     expect(result.contents[0]?.mimeType).toBe('text/markdown');
     expect(result.contents[0]?.text).toContain('palette: indigo/violet');

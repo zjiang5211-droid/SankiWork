@@ -229,13 +229,13 @@ export function buildPath(route: Route): string {
 // warning. The `history` API call itself stays synchronous so the URL
 // bar updates immediately; only the `useRoute()` subscriber updates
 // are deferred past the current render.
-// Each history entry carries a monotonic depth (`odIndex`) so `goBack()` can
+// Each history entry carries a monotonic depth (`swIndex`) so `goBack()` can
 // tell whether there is an in-app entry behind the current one. We store it in
 // `history.state` — nothing else reads host history state — so it survives
 // reloads and the browser's own back/forward. The very first entry (a fresh
 // load or deep link) has no state, which reads as index 0.
 interface HistoryState {
-  odIndex: number;
+  swIndex: number;
 }
 
 export type NavigationGuard = () => boolean | Promise<boolean>;
@@ -296,7 +296,7 @@ function runGuardedNavigation(action: (sequence: number) => void): void {
 
 function readHistoryIndex(): number {
   const state = window.history.state as Partial<HistoryState> | null;
-  return typeof state?.odIndex === 'number' ? state.odIndex : 0;
+  return typeof state?.swIndex === 'number' ? state.swIndex : 0;
 }
 
 function readHistoryLocation(): AcceptedHistoryLocation {
@@ -331,9 +331,9 @@ function repairHistoryTraversal(
     return;
   }
 
-  // A foreign/deep-link entry may not carry a distinct odIndex. Preserve the
+  // A foreign/deep-link entry may not carry a distinct swIndex. Preserve the
   // accepted route without recursively dispatching another popstate.
-  window.history.pushState({ odIndex: previous.index }, '', previous.pathname);
+  window.history.pushState({ swIndex: previous.index }, '', previous.pathname);
   acceptedHistoryLocation = previous;
 }
 
@@ -426,7 +426,7 @@ function commitNavigation(route: Route, opts: NavigationOptions = {}): void {
   const index = readHistoryIndex();
   // `replace` keeps the current depth (it swaps the entry in place); a push
   // adds one level so the entry we are leaving becomes the "previous layer".
-  const nextState: HistoryState = { odIndex: opts.replace ? index : index + 1 };
+  const nextState: HistoryState = { swIndex: opts.replace ? index : index + 1 };
   if (opts.replace) {
     window.history.replaceState(nextState, '', target);
   } else {
@@ -452,7 +452,7 @@ export function navigate(route: Route, opts: NavigationOptions = {}): void {
 // history stack (which `navigate()` builds via pushState) so "back" lands on
 // the real previous layer — Projects, Tasks, a design system, wherever — not a
 // hardcoded destination. When the current entry is the first in-app entry
-// (`odIndex` 0: deep link or fresh load), there is nothing in-app to pop, so we
+// (`swIndex` 0: deep link or fresh load), there is nothing in-app to pop, so we
 // navigate to `fallback` instead of letting `history.back()` escape the app.
 export function goBack(fallback: Route): void {
   runGuardedNavigation((sequence) => {

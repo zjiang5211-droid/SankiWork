@@ -49,9 +49,9 @@ describe('GenUIInbox Workspace transport', () => {
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(3));
     for (const [, init] of fetchMock.mock.calls) {
       const headers = new Headers(init?.headers);
-      expect(headers.get('x-od-workspace-id')).toBe('workspace-team');
-      expect(headers.get('x-od-workspace-member-id')).toBe('member-1');
-      expect(headers.get('x-od-workspace-can-write-synced-files')).toBe('true');
+      expect(headers.get('x-sw-workspace-id')).toBe('workspace-team');
+      expect(headers.get('x-sw-workspace-member-id')).toBe('member-1');
+      expect(headers.get('x-sw-workspace-can-write-synced-files')).toBe('true');
     }
   });
 
@@ -62,6 +62,6 @@ describe('GenUIInbox Workspace transport', () => {
     render(<GenUIInbox projectId="legacy-project" />);
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
-    expect(new Headers(fetchMock.mock.calls[0]?.[1]?.headers).has('x-od-workspace-id')).toBe(false);
+    expect(new Headers(fetchMock.mock.calls[0]?.[1]?.headers).has('x-sw-workspace-id')).toBe(false);
   });
 });

@@ -492,14 +492,14 @@ describe('AMR chat-run end-to-end', () => {
           });
 
           const headers = {
-            'x-od-workspace-id': workspace.workspaceId,
-            'x-od-workspace-type': workspace.workspaceType,
-            'x-od-workspace-member-id': workspace.workspaceMemberId,
-            'x-od-workspace-role': workspace.role,
-            'x-od-workspace-member-status': workspace.memberStatus,
-            'x-od-workspace-lifecycle-state': workspace.lifecycleState,
-            'x-od-workspace-can-share-projects': 'true',
-            'x-od-workspace-can-write-synced-files': 'true',
+            'x-sw-workspace-id': workspace.workspaceId,
+            'x-sw-workspace-type': workspace.workspaceType,
+            'x-sw-workspace-member-id': workspace.workspaceMemberId,
+            'x-sw-workspace-role': workspace.role,
+            'x-sw-workspace-member-status': workspace.memberStatus,
+            'x-sw-workspace-lifecycle-state': workspace.lifecycleState,
+            'x-sw-workspace-can-share-projects': 'true',
+            'x-sw-workspace-can-write-synced-files': 'true',
           };
           const project = await requestJson<ProjectResponse>(webUrl, '/api/projects', {
             method: 'POST',

@@ -1743,7 +1743,7 @@ test('[P1] completed hidden-page run sends the configured desktop notification',
   );
   await page.addInitScript(() => {
     const notifications: Array<{ title: string; body?: string }> = [];
-    Object.defineProperty(window, '__odTestNotifications', {
+    Object.defineProperty(window, '__swTestNotifications', {
       value: notifications,
       configurable: true,
     });
@@ -1842,8 +1842,8 @@ test('[P1] completed hidden-page run sends the configured desktop notification',
   await expect
     .poll(async () =>
       page.evaluate(() => (window as typeof window & {
-        __odTestNotifications?: Array<{ title: string; body?: string }>;
-      }).__odTestNotifications ?? []),
+        __swTestNotifications?: Array<{ title: string; body?: string }>;
+      }).__swTestNotifications ?? []),
     )
     .toContainEqual(expect.objectContaining({
       title: 'Task completed',
@@ -1882,7 +1882,7 @@ test('[P1] failed foreground run still sends the configured desktop notification
   );
   await page.addInitScript(() => {
     const notifications: Array<{ title: string; body?: string }> = [];
-    Object.defineProperty(window, '__odTestNotifications', {
+    Object.defineProperty(window, '__swTestNotifications', {
       value: notifications,
       configurable: true,
     });
@@ -1979,8 +1979,8 @@ test('[P1] failed foreground run still sends the configured desktop notification
   await expect
     .poll(async () =>
       page.evaluate(() => (window as typeof window & {
-        __odTestNotifications?: Array<{ title: string; body?: string }>;
-      }).__odTestNotifications ?? []),
+        __swTestNotifications?: Array<{ title: string; body?: string }>;
+      }).__swTestNotifications ?? []),
     )
     .toContainEqual(expect.objectContaining({
       title: 'Task failed',
@@ -2543,14 +2543,14 @@ function deckHtml(): string {
       const slides = Array.from(document.querySelectorAll('.slide'));
       function render() { slides.forEach((slide, index) => { slide.hidden = index !== active; }); }
       window.addEventListener('message', (event) => {
-        if (!event.data || event.data.type !== 'od:slide') return;
+        if (!event.data || event.data.type !== 'sw:slide') return;
         if (event.data.action === 'next') active = Math.min(slides.length - 1, active + 1);
         if (event.data.action === 'prev') active = Math.max(0, active - 1);
         render();
-        window.parent.postMessage({ type: 'od:slide-state', active, count: slides.length }, '*');
+        window.parent.postMessage({ type: 'sw:slide-state', active, count: slides.length }, '*');
       });
       render();
-      window.parent.postMessage({ type: 'od:slide-state', active, count: slides.length }, '*');
+      window.parent.postMessage({ type: 'sw:slide-state', active, count: slides.length }, '*');
     </script>
   </body>
 </html>`;

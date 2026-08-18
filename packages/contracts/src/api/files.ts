@@ -61,7 +61,7 @@ export type ProjectFileVersionPromptSource = 'message' | 'project' | 'manual' | 
 
 export type ArtifactOriginEntrySurface =
   | 'sankiwork_ui'
-  | 'od_cli'
+  | 'sw_cli'
   | 'external_mcp'
   | 'unknown';
 

@@ -34,7 +34,7 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
     // IntersectionObserver) can emit events without re-implementing the guard.
     // Reads window.posthog on every call (no cached reference) so the snippet
     // queue still receives events fired before array.js finishes loading.
-    window.__odTrack = function (name, props) {
+    window.__swTrack = function (name, props) {
       try { if (window.posthog) window.posthog.capture(name, props || {}); } catch (e) {}
     };
 
@@ -42,15 +42,15 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
     // enters a conversion path. Later Pricing clicks preserve that first-touch
     // id/source and add a separate conversion source, allowing Vela's final
     // payment event to report both entry and checkout placement.
-    window.__odRecordCampaignEntry = function (sourceDetail, campaignId) {
+    window.__swRecordCampaignEntry = function (sourceDetail, campaignId) {
       var inbound = null;
       try { inbound = new URLSearchParams(window.location.search || ''); } catch (e) {}
-      var inboundEntryId = inbound && inbound.get('od_entry_id');
-      var inboundEntrySource = inbound && inbound.get('od_entry_source');
-      var inboundEntryAt = inbound && inbound.get('od_entry_at');
+      var inboundEntryId = inbound && inbound.get('sw_entry_id');
+      var inboundEntrySource = inbound && inbound.get('sw_entry_source');
+      var inboundEntryAt = inbound && inbound.get('sw_entry_at');
       // Consent-gated device id survives desktop → Pricing → Cloud. Only the
       // inbound query is a source of truth here; callers never mint a device id.
-      var inboundDeviceId = inbound && inbound.get('od_device_id');
+      var inboundDeviceId = inbound && inbound.get('sw_device_id');
       var random = '';
       try {
         random = window.crypto && typeof window.crypto.randomUUID === 'function'
@@ -63,24 +63,24 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
         source_detail: inboundEntrySource || String(sourceDetail || 'unknown'),
         entry_occurred_at: inboundEntryAt || new Date().toISOString(),
         conversion_source: String(sourceDetail || 'unknown'),
-        // Explicit only: do not inherit a stale inbound od_campaign_id. Pricing
+        // Explicit only: do not inherit a stale inbound sw_campaign_id. Pricing
         // passes undefined once the window closes so post-window CTAs stay clean.
         campaign_id: campaignId || undefined,
         device_id: inboundDeviceId || undefined,
       };
     };
 
-    window.__odAttributedUrl = function (href, attribution) {
+    window.__swAttributedUrl = function (href, attribution) {
       try {
         var target = new URL(href, window.location.href);
         if (attribution) {
-          target.searchParams.set('od_origin', attribution.source_product || 'sankiwork');
-          target.searchParams.set('od_entry_id', attribution.entry_id || '');
-          target.searchParams.set('od_entry_source', attribution.source_detail || 'unknown');
-          target.searchParams.set('od_entry_at', attribution.entry_occurred_at || new Date().toISOString());
-          target.searchParams.set('od_conversion_source', attribution.conversion_source || attribution.source_detail || 'unknown');
-          if (attribution.campaign_id) target.searchParams.set('od_campaign_id', attribution.campaign_id);
-          if (attribution.device_id) target.searchParams.set('od_device_id', attribution.device_id);
+          target.searchParams.set('sw_origin', attribution.source_product || 'sankiwork');
+          target.searchParams.set('sw_entry_id', attribution.entry_id || '');
+          target.searchParams.set('sw_entry_source', attribution.source_detail || 'unknown');
+          target.searchParams.set('sw_entry_at', attribution.entry_occurred_at || new Date().toISOString());
+          target.searchParams.set('sw_conversion_source', attribution.conversion_source || attribution.source_detail || 'unknown');
+          if (attribution.campaign_id) target.searchParams.set('sw_campaign_id', attribution.campaign_id);
+          if (attribution.device_id) target.searchParams.set('sw_device_id', attribution.device_id);
         }
         return target.toString();
       } catch (e) { return href; }
@@ -115,11 +115,11 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
       return out;
     };
 
-    window.__odPrepareDownloadLink = function (link, href) {
-      if (!DOWNLOAD_ATTRIBUTION_URL || !link || link.__odAttributionInFlight) return false;
+    window.__swPrepareDownloadLink = function (link, href) {
+      if (!DOWNLOAD_ATTRIBUTION_URL || !link || link.__swAttributionInFlight) return false;
       var lower = String(href || '').toLowerCase();
       if (lower.indexOf(REPO + '/releases') === -1 && lower.indexOf('download.sanki-ai.cloud/') === -1) return false;
-      link.__odAttributionInFlight = true;
+      link.__swAttributionInFlight = true;
       var fallback = function () {
         try { window.location.href = href; } catch (e) {}
       };
@@ -160,7 +160,7 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
     // PostHog to identify the current browser person as that installation.
     // Third-party links never receive this parameter.
     var bridgeToken = '';
-    try { bridgeToken = new URLSearchParams(window.location.search || '').get('od_bridge') || ''; } catch (e) {}
+    try { bridgeToken = new URLSearchParams(window.location.search || '').get('sw_bridge') || ''; } catch (e) {}
     if (bridgeToken) {
       fetch('/api/attribution/bridge/consume', {
         method: 'POST',
@@ -172,8 +172,8 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
           var installationId = body && body.installationId;
           if (typeof installationId === 'string' && installationId && window.posthog && typeof window.posthog.identify === 'function') {
             window.posthog.identify(installationId, {
-              od_source_resolution: 'client_web_bridge',
-              od_source_bound_at: new Date().toISOString(),
+              sw_source_resolution: 'client_web_bridge',
+              sw_source_bound_at: new Date().toISOString(),
             });
           }
         })
@@ -201,12 +201,12 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
     var click = function (el, element, extra) {
       var props = { page_name: PAGE, locale: localeNow(), area: areaOf(el), element: element };
       if (extra) for (var k in extra) props[k] = extra[k];
-      window.__odTrack('ui_click', props);
+      window.__swTrack('ui_click', props);
     };
 
     // Semantic page_view (in addition to PostHog's auto $pageview) so the
     // landing funnel reads consistently with the rest of 埋点文档2.0.
-    window.__odTrack('page_view', { page_name: PAGE, locale: localeNow() });
+    window.__swTrack('page_view', { page_name: PAGE, locale: localeNow() });
 
     // (a) Click delegation — one event, element discriminator. First match wins.
     document.addEventListener('click', function (event) {
@@ -256,7 +256,7 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
       var placementOf = function (el) { return (el.getAttribute && el.getAttribute('data-download-placement')) || areaOf(el); };
       if (lowerHref.indexOf(REPO + '/releases') !== -1 || /\\.(dmg|exe|appimage|deb|zip)(\\?|$)/.test(lowerHref)) {
         click(link, 'download_desktop', { platform: platformNow(), link_url: href, download_target: 'direct', placement: placementOf(link) });
-        if (window.__odPrepareDownloadLink && window.__odPrepareDownloadLink(link, href)) {
+        if (window.__swPrepareDownloadLink && window.__swPrepareDownloadLink(link, href)) {
           event.preventDefault();
         }
         return;

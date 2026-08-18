@@ -172,10 +172,10 @@ export interface AmrEntryAnalyticsPayload {
   // Optional self-reported onboarding profile, forwarded to AMR for paid-
   // conversion segmentation. Open strings (not a union) so a new onboarding
   // option never forces a contract bump on either side. useCase is multi-select.
-  odRole?: string;
-  odOrgSize?: string;
-  odUseCase?: string[];
-  odSource?: string;
+  swRole?: string;
+  swOrgSize?: string;
+  swUseCase?: string[];
+  swSource?: string;
 }
 
 export interface AmrOnboardingProfileAnalyticsPayload {
@@ -189,11 +189,11 @@ export interface AmrOnboardingProfileAnalyticsPayload {
   sourceDetail: TrackingAmrEntrySource;
   entryOccurredAt: string;
   profileOccurredAt: string;
-  odDeviceId?: string;
-  odRole?: string;
-  odOrgSize?: string;
-  odUseCase?: string[];
-  odSource?: string;
+  swDeviceId?: string;
+  swRole?: string;
+  swOrgSize?: string;
+  swUseCase?: string[];
+  swSource?: string;
 }
 
 export interface AmrEntryAnalyticsContext {
@@ -1555,13 +1555,13 @@ export function parseVelaLoginAttribution(input: unknown): AmrEntryAttribution |
   ) {
     return null;
   }
-  const odDeviceId = sanitizeSankiWorkDeviceId(value.odDeviceId);
+  const swDeviceId = sanitizeSankiWorkDeviceId(value.swDeviceId);
   return {
     entryId: value.entryId,
     sourceProduct: value.sourceProduct,
     sourceDetail: value.sourceDetail as TrackingAmrEntrySource,
     occurredAt: value.occurredAt,
-    ...(odDeviceId ? { odDeviceId } : {}),
+    ...(swDeviceId ? { swDeviceId } : {}),
   };
 }
 
@@ -1583,10 +1583,10 @@ export function parseAmrEntryAnalyticsPayload(
   const conversionSource = raw.conversionSource;
   const hasCampaignId = campaignId !== undefined;
   const hasConversionSource = conversionSource !== undefined;
-  const odRole = sanitizeOptionalProfileValue(raw.odRole);
-  const odOrgSize = sanitizeOptionalProfileValue(raw.odOrgSize);
-  const odSource = sanitizeOptionalProfileValue(raw.odSource);
-  const odUseCase = sanitizeOptionalProfileList(raw.odUseCase);
+  const swRole = sanitizeOptionalProfileValue(raw.swRole);
+  const swOrgSize = sanitizeOptionalProfileValue(raw.swOrgSize);
+  const swSource = sanitizeOptionalProfileValue(raw.swSource);
+  const swUseCase = sanitizeOptionalProfileList(raw.swUseCase);
   if (
     pageName !== 'sankiwork'
     || typeof sourcePageName !== 'string'
@@ -1613,10 +1613,10 @@ export function parseAmrEntryAnalyticsPayload(
         || !AMR_ENTRY_CAMPAIGN_CONVERSION_SOURCES.has(
           conversionSource as TrackingCampaignConversionSource,
         )))
-    || odRole === INVALID_PROFILE_VALUE
-    || odOrgSize === INVALID_PROFILE_VALUE
-    || odSource === INVALID_PROFILE_VALUE
-    || odUseCase === INVALID_PROFILE_VALUE
+    || swRole === INVALID_PROFILE_VALUE
+    || swOrgSize === INVALID_PROFILE_VALUE
+    || swSource === INVALID_PROFILE_VALUE
+    || swUseCase === INVALID_PROFILE_VALUE
   ) {
     return null;
   }
@@ -1634,10 +1634,10 @@ export function parseAmrEntryAnalyticsPayload(
     ...(hasConversionSource
       ? { conversionSource: conversionSource as TrackingCampaignConversionSource }
       : {}),
-    ...(odRole ? { odRole } : {}),
-    ...(odOrgSize ? { odOrgSize } : {}),
-    ...(odUseCase ? { odUseCase } : {}),
-    ...(odSource ? { odSource } : {}),
+    ...(swRole ? { swRole } : {}),
+    ...(swOrgSize ? { swOrgSize } : {}),
+    ...(swUseCase ? { swUseCase } : {}),
+    ...(swSource ? { swSource } : {}),
   };
 }
 
@@ -1656,11 +1656,11 @@ export function parseAmrOnboardingProfileAnalyticsPayload(
   const sourceDetail = raw.sourceDetail;
   const entryOccurredAt = raw.entryOccurredAt;
   const profileOccurredAt = raw.profileOccurredAt;
-  const odDeviceId = sanitizeSankiWorkDeviceId(raw.odDeviceId);
-  const odRole = sanitizeOptionalProfileValue(raw.odRole);
-  const odOrgSize = sanitizeOptionalProfileValue(raw.odOrgSize);
-  const odSource = sanitizeOptionalProfileValue(raw.odSource);
-  const odUseCase = sanitizeOptionalProfileList(raw.odUseCase);
+  const swDeviceId = sanitizeSankiWorkDeviceId(raw.swDeviceId);
+  const swRole = sanitizeOptionalProfileValue(raw.swRole);
+  const swOrgSize = sanitizeOptionalProfileValue(raw.swOrgSize);
+  const swSource = sanitizeOptionalProfileValue(raw.swSource);
+  const swUseCase = sanitizeOptionalProfileList(raw.swUseCase);
   if (
     pageName !== 'sankiwork'
     || sourcePageName !== 'onboarding'
@@ -1677,11 +1677,11 @@ export function parseAmrOnboardingProfileAnalyticsPayload(
     || !Number.isFinite(Date.parse(entryOccurredAt))
     || typeof profileOccurredAt !== 'string'
     || !Number.isFinite(Date.parse(profileOccurredAt))
-    || odRole === INVALID_PROFILE_VALUE
-    || odOrgSize === INVALID_PROFILE_VALUE
-    || odSource === INVALID_PROFILE_VALUE
-    || odUseCase === INVALID_PROFILE_VALUE
-    || (!odRole && !odOrgSize && !odSource && !odUseCase)
+    || swRole === INVALID_PROFILE_VALUE
+    || swOrgSize === INVALID_PROFILE_VALUE
+    || swSource === INVALID_PROFILE_VALUE
+    || swUseCase === INVALID_PROFILE_VALUE
+    || (!swRole && !swOrgSize && !swSource && !swUseCase)
   ) {
     return null;
   }
@@ -1696,11 +1696,11 @@ export function parseAmrOnboardingProfileAnalyticsPayload(
     sourceDetail: sourceDetail as TrackingAmrEntrySource,
     entryOccurredAt,
     profileOccurredAt,
-    ...(odDeviceId ? { odDeviceId } : {}),
-    ...(odRole ? { odRole } : {}),
-    ...(odOrgSize ? { odOrgSize } : {}),
-    ...(odUseCase ? { odUseCase } : {}),
-    ...(odSource ? { odSource } : {}),
+    ...(swDeviceId ? { swDeviceId } : {}),
+    ...(swRole ? { swRole } : {}),
+    ...(swOrgSize ? { swOrgSize } : {}),
+    ...(swUseCase ? { swUseCase } : {}),
+    ...(swSource ? { swSource } : {}),
   };
 }
 
@@ -1811,8 +1811,8 @@ function velaLoginAttributionEnv(
     SANKIWORK_AMR_ENTRY_SOURCE: attribution.sourceDetail,
     SANKIWORK_AMR_ENTRY_AT: attribution.occurredAt,
     SANKIWORK_AMR_ORIGIN: attribution.sourceProduct,
-    ...(attribution.odDeviceId
-      ? { SANKIWORK_AMR_DEVICE_ID: attribution.odDeviceId }
+    ...(attribution.swDeviceId
+      ? { SANKIWORK_AMR_DEVICE_ID: attribution.swDeviceId }
       : {}),
   };
 }
@@ -1854,7 +1854,7 @@ function buildAmrOnboardingProfileAnalyticsCommon(
 ) {
   const context = deps.analyticsContext ?? null;
   const anonymousId =
-    context?.deviceId?.trim() || payload.odDeviceId || payload.entryId;
+    context?.deviceId?.trim() || payload.swDeviceId || payload.entryId;
   const sessionId = context?.sessionId?.trim() || payload.entryId;
   return {
     eventId: `sw-onboarding-profile-${payload.entryId}`,

@@ -257,8 +257,8 @@ describe('GET /api/runs/:runId/genui/:surfaceId enriches with snapshot spec', ()
       getWorkspaceProjectByProjectId: (_db, candidateProjectId) =>
         getWorkspaceProjectByProjectId(db, candidateProjectId),
       verifyWorkspaceRequestAuthority: async (req: any) => {
-        const workspaceId = req.get('x-od-workspace-id')?.trim();
-        const workspaceMemberId = req.get('x-od-workspace-member-id')?.trim();
+        const workspaceId = req.get('x-sw-workspace-id')?.trim();
+        const workspaceMemberId = req.get('x-sw-workspace-member-id')?.trim();
         if (
           workspaceId !== WORKSPACE_ID
           || workspaceMemberId !== WORKSPACE_MEMBER_ID
@@ -295,8 +295,8 @@ describe('GET /api/runs/:runId/genui/:surfaceId enriches with snapshot spec', ()
         `${startedRouteServer.url}/api/runs/${encodeURIComponent(runId)}/genui/discovery`,
         {
           headers: {
-            'x-od-workspace-id': WORKSPACE_ID,
-            'x-od-workspace-member-id': WORKSPACE_MEMBER_ID,
+            'x-sw-workspace-id': WORKSPACE_ID,
+            'x-sw-workspace-member-id': WORKSPACE_MEMBER_ID,
           },
         },
       );

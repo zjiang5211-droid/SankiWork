@@ -67,8 +67,8 @@ function requestNeedsCreator(request: RequestRecord): boolean {
 
 function authorize(request: RequestRecord): { status: number; code?: string } {
   if (projectIdForRequest(request) === 'unbound-project') return { status: 200 };
-  const workspaceId = request.headers['x-od-workspace-id'];
-  const memberId = request.headers['x-od-workspace-member-id'];
+  const workspaceId = request.headers['x-sw-workspace-id'];
+  const memberId = request.headers['x-sw-workspace-member-id'];
   if (!workspaceId || !memberId) {
     return { status: 401, code: 'WORKSPACE_CONTEXT_REQUIRED' };
   }
@@ -408,8 +408,8 @@ describe('project command CLI explicit Workspace scope', () => {
         fixture.requests('bound-project'),
       );
       for (const request of requests) {
-        expect(request.headers['x-od-workspace-id']).toBe(TEAM_WORKSPACE_ID);
-        expect(request.headers['x-od-workspace-member-id']).toBe(CREATOR_MEMBER_ID);
+        expect(request.headers['x-sw-workspace-id']).toBe(TEAM_WORKSPACE_ID);
+        expect(request.headers['x-sw-workspace-member-id']).toBe(CREATOR_MEMBER_ID);
       }
     });
 
@@ -426,8 +426,8 @@ describe('project command CLI explicit Workspace scope', () => {
         fixture.requests('unbound-project'),
       );
       for (const request of requests) {
-        expect(request.headers['x-od-workspace-id']).toBeUndefined();
-        expect(request.headers['x-od-workspace-member-id']).toBeUndefined();
+        expect(request.headers['x-sw-workspace-id']).toBeUndefined();
+        expect(request.headers['x-sw-workspace-member-id']).toBeUndefined();
       }
     });
   }
@@ -444,7 +444,7 @@ describe('project command CLI explicit Workspace scope', () => {
 
       expect(result.code, result.stderr).toBe(0);
       expect(requests).toHaveLength(1);
-      expect(requests[0]?.headers['x-od-workspace-member-id']).toBe(OTHER_MEMBER_ID);
+      expect(requests[0]?.headers['x-sw-workspace-member-id']).toBe(OTHER_MEMBER_ID);
     });
   }
 
@@ -460,7 +460,7 @@ describe('project command CLI explicit Workspace scope', () => {
 
       expect(result.code).not.toBe(0);
       expect(requests.length).toBeGreaterThan(0);
-      expect(requests.at(-1)?.headers['x-od-workspace-member-id']).toBe(OTHER_MEMBER_ID);
+      expect(requests.at(-1)?.headers['x-sw-workspace-member-id']).toBe(OTHER_MEMBER_ID);
       expect(requests).toHaveLength(fixture.label === 'plugin run and follow' ? 2 : 1);
     });
   }
@@ -478,7 +478,7 @@ describe('project command CLI explicit Workspace scope', () => {
 
     expect(result.code).not.toBe(0);
     expect(requests).toHaveLength(1);
-    expect(requests[0]?.headers['x-od-workspace-id']).toBe(OTHER_WORKSPACE_ID);
+    expect(requests[0]?.headers['x-sw-workspace-id']).toBe(OTHER_WORKSPACE_ID);
   });
 
   it.each([

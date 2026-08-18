@@ -1353,8 +1353,8 @@ describe('DesignSystemCreationFlow', () => {
       'context/source-context.md',
       expect.stringContaining('Placeholder component shells are not sufficient'),
     );
-    expect(window.sessionStorage.getItem(`od:auto-send-first:${project.id}`)).toBe('1');
-    expect(window.sessionStorage.getItem(`od:auto-send-prompt:${project.id}`)).toContain(
+    expect(window.sessionStorage.getItem(`sw:auto-send-first:${project.id}`)).toBe('1');
+    expect(window.sessionStorage.getItem(`sw:auto-send-prompt:${project.id}`)).toContain(
       'context/source-context.md',
     );
     expect(onCreated).toHaveBeenCalledWith(project.id, project, `conv-${project.id}`);
@@ -1525,8 +1525,8 @@ describe('DesignSystemCreationFlow', () => {
       undefined,
       null,
     );
-    expect(window.sessionStorage.getItem(`od:auto-send-first:${project.id}`)).toBe('1');
-    expect(window.sessionStorage.getItem(`od:auto-send-prompt:${project.id}`)).toContain(
+    expect(window.sessionStorage.getItem(`sw:auto-send-first:${project.id}`)).toBe('1');
+    expect(window.sessionStorage.getItem(`sw:auto-send-prompt:${project.id}`)).toContain(
       'context/source-context.md',
     );
     expect(onCreated).toHaveBeenCalledWith(

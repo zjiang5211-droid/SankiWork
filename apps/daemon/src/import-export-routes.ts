@@ -247,7 +247,7 @@ export function registerImportRoutes(app: Express, ctx: RegisterImportRoutesDeps
             },
           );
         }
-        const headerValue = req.get('x-od-desktop-import-token');
+        const headerValue = req.get('x-sw-desktop-import-token');
         const token = typeof headerValue === 'string' ? headerValue : '';
         const now = Date.now();
         pruneExpiredImportNonces(now);
@@ -380,7 +380,7 @@ export function registerImportRoutes(app: Express, ctx: RegisterImportRoutesDeps
             },
           );
         }
-        const headerValue = req.get('x-od-desktop-import-token');
+        const headerValue = req.get('x-sw-desktop-import-token');
         const token = typeof headerValue === 'string' ? headerValue : '';
         const now = Date.now();
         pruneExpiredImportNonces(now);

@@ -90,12 +90,12 @@ describe('Team plugin apply retraction gate', () => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'x-od-workspace-id': 'ws-team',
-        'x-od-workspace-type': 'team',
-        'x-od-workspace-member-id': 'member-team',
-        'x-od-workspace-role': 'member',
-        'x-od-workspace-lifecycle-state': 'active',
-        'x-od-workspace-member-status': 'active',
+        'x-sw-workspace-id': 'ws-team',
+        'x-sw-workspace-type': 'team',
+        'x-sw-workspace-member-id': 'member-team',
+        'x-sw-workspace-role': 'member',
+        'x-sw-workspace-lifecycle-state': 'active',
+        'x-sw-workspace-member-status': 'active',
       },
       body: '{}',
     });

@@ -73,7 +73,7 @@ describe('useBrandExtract workspace headers', () => {
   // Red-spec companion to the daemon-side fix in brand-routes.ts
   // (bindBrandProjectIntoRequestWorkspace): the daemon can only bind a freshly
   // extracted brand/design-system project into the caller's team workspace
-  // when the POST /api/brands request actually carries the x-od-workspace-*
+  // when the POST /api/brands request actually carries the x-sw-workspace-*
   // headers. Before this fix, `run()` never attached them at all — DesignSystem-
   // Flow.tsx had `workspaceContext` in scope (used a few lines later for
   // `prepareCreatedDesignSystemProject`) but never threaded it into
@@ -89,9 +89,9 @@ describe('useBrandExtract workspace headers', () => {
 
     expect(calls).toHaveLength(1);
     expect(calls[0]?.url).toBe('/api/brands');
-    expect(calls[0]?.headers['x-od-workspace-id']).toBe('ws-team-1');
-    expect(calls[0]?.headers['x-od-workspace-member-id']).toBe('member-owner');
-    expect(calls[0]?.headers['x-od-workspace-type']).toBe('team');
+    expect(calls[0]?.headers['x-sw-workspace-id']).toBe('ws-team-1');
+    expect(calls[0]?.headers['x-sw-workspace-member-id']).toBe('member-owner');
+    expect(calls[0]?.headers['x-sw-workspace-type']).toBe('team');
   });
 
   it('omits workspace headers when no workspace context is provided (signed-out / single-player)', async () => {
@@ -103,6 +103,6 @@ describe('useBrandExtract workspace headers', () => {
     });
 
     expect(calls).toHaveLength(1);
-    expect(calls[0]?.headers['x-od-workspace-id']).toBeUndefined();
+    expect(calls[0]?.headers['x-sw-workspace-id']).toBeUndefined();
   });
 });

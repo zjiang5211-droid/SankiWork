@@ -38,12 +38,12 @@ test('home campaign banner can be dismissed without nesting a button in its link
   assert.match(source, /aria-label=\{campaignCopy\.closeLabel\}/);
   assert.match(source, /\.home-campaign-banner__close\s*\{[\s\S]*right:\s*14px;/);
   assert.match(source, /home-campaign-banner-dismissed/);
-  assert.match(source, /window\.__odTrack\('surface_view'/);
+  assert.match(source, /window\.__swTrack\('surface_view'/);
   assert.match(source, /area:\s*'campaign_banner'/);
-  assert.match(source, /window\.__odRecordCampaignEntry\?\.\('landing_home_banner', 'deepseek_v4_pro'\)/);
+  assert.match(source, /window\.__swRecordCampaignEntry\?\.\('landing_home_banner', 'deepseek_v4_pro'\)/);
   assert.match(source, /const eligible = Date\.now\(\) >= startAt && Date\.now\(\) < endAt/);
   assert.match(source, /\.\.\.\(eligible \? \{ campaign_id: 'deepseek_v4_pro' \} : \{\}\)/);
-  assert.match(source, /window\.__odAttributedUrl/);
+  assert.match(source, /window\.__swAttributedUrl/);
   assert.match(source, /localStorage\.setItem\(dismissKey, '1'\)/);
   assert.match(source, /<div class="home-campaign-banner"/);
   assert.doesNotMatch(source, /<a class="home-campaign-banner"/);

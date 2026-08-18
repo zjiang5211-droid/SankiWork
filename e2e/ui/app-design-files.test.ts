@@ -992,7 +992,7 @@ test('[P0] @critical HTML file list and previews stay stable across repeated swi
   const alphaHeading = page.frameLocator('[data-testid="artifact-preview-frame"]').getByRole('heading', {
     name: 'Stable Alpha',
   });
-  type WarmFrame = HTMLIFrameElement & { __odWarmLoadCount?: number };
+  type WarmFrame = HTMLIFrameElement & { __swWarmLoadCount?: number };
   const captureWarmFrame = async (fileName: string) => {
     const activeFrame = page.locator(`iframe[title="${fileName}"][data-sw-active="true"]`);
     await expect(activeFrame).toHaveCount(1);
@@ -1000,9 +1000,9 @@ test('[P0] @critical HTML file list and previews stay stable across repeated swi
     if (!handle) throw new Error(`Missing active preview frame for ${fileName}`);
     await handle.evaluate((node) => {
       const frame = node as WarmFrame;
-      frame.__odWarmLoadCount = 0;
+      frame.__swWarmLoadCount = 0;
       frame.addEventListener('load', () => {
-        frame.__odWarmLoadCount = (frame.__odWarmLoadCount ?? 0) + 1;
+        frame.__swWarmLoadCount = (frame.__swWarmLoadCount ?? 0) + 1;
       });
     });
     return handle;
@@ -1021,7 +1021,7 @@ test('[P0] @critical HTML file list and previews stay stable across repeated swi
       ).toBe(true);
     }
     expect(
-      await handle.evaluate((node) => (node as WarmFrame).__odWarmLoadCount ?? 0),
+      await handle.evaluate((node) => (node as WarmFrame).__swWarmLoadCount ?? 0),
       `${fileName} iframe navigated again`,
     ).toBe(0);
   };
@@ -1102,7 +1102,7 @@ test('[P0] @critical HTML file list and previews stay stable across repeated swi
       childList: true,
       subtree: true,
     });
-    (window as typeof window & { __odFileSwitchStability?: typeof state }).__odFileSwitchStability = state;
+    (window as typeof window & { __swFileSwitchStability?: typeof state }).__swFileSwitchStability = state;
   });
 
   for (let round = 0; round < 3; round += 1) {
@@ -1135,8 +1135,8 @@ test('[P0] @critical HTML file list and previews stay stable across repeated swi
   }
 
   const loadingSeen = await page.evaluate(() => (
-    window as typeof window & { __odFileSwitchStability?: { loadingSeen: boolean } }
-  ).__odFileSwitchStability?.loadingSeen ?? false);
+    window as typeof window & { __swFileSwitchStability?: { loadingSeen: boolean } }
+  ).__swFileSwitchStability?.loadingSeen ?? false);
   expect(loadingSeen, 'a warm file list or preview returned to a loading state').toBe(false);
   // Both previews are warm before measurement. Switching among already-open
   // tabs must keep their iframe documents connected and never reload raw HTML.

@@ -83,8 +83,8 @@ async function fixture() {
   registerPluginAssetRoutes(app, {
     db: {} as never,
     verifyWorkspaceRequestAuthority: async (req: any) => {
-      const workspaceId = req.get('x-od-workspace-id')?.trim();
-      const workspaceMemberId = req.get('x-od-workspace-member-id')?.trim();
+      const workspaceId = req.get('x-sw-workspace-id')?.trim();
+      const workspaceMemberId = req.get('x-sw-workspace-member-id')?.trim();
       if (workspaceId === 'workspace-removed') {
         return {
           ok: false,
@@ -201,8 +201,8 @@ describe('Plugin preview and asset Workspace authority', () => {
       `${baseUrl}/api/plugins/same-plugin/asset/assets/secret.txt?workspaceId=workspace-b&workspaceMemberId=member-b`,
       {
         headers: {
-          'x-od-workspace-id': 'workspace-a',
-          'x-od-workspace-member-id': 'member-a',
+          'x-sw-workspace-id': 'workspace-a',
+          'x-sw-workspace-member-id': 'member-a',
         },
       },
     );

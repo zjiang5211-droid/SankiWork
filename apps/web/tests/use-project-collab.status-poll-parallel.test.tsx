@@ -71,8 +71,8 @@ describe('useProjectCollab: status waits for explicit workspace authority', () =
       const headers = new Headers(init?.headers);
       scopedCalls.push({
         pathname,
-        workspaceId: headers.get('x-od-workspace-id'),
-        workspaceMemberId: headers.get('x-od-workspace-member-id'),
+        workspaceId: headers.get('x-sw-workspace-id'),
+        workspaceMemberId: headers.get('x-sw-workspace-member-id'),
       });
       if (pathname.endsWith('/collab/status')) {
         return new Response(JSON.stringify({
@@ -160,7 +160,7 @@ describe('useProjectCollab: status waits for explicit workspace authority', () =
       const pathname = new URL(String(input), 'http://d.local').pathname;
       scopedCalls.push({
         pathname,
-        workspaceId: new Headers(init?.headers).get('x-od-workspace-id'),
+        workspaceId: new Headers(init?.headers).get('x-sw-workspace-id'),
       });
       if (pathname.endsWith('/collab/status')) {
         return { ok: true, status: 200, json: async () => ({ publishedVersion: 1, syncState: 'synced' }) } as unknown as Response;

@@ -424,7 +424,7 @@ export function requestPreviewSnapshotResult(
         h?: number;
         error?: string;
       } | null;
-      if (!d || d.type !== 'od:snapshot:result' || d.id !== id) return;
+      if (!d || d.type !== 'sw:snapshot:result' || d.id !== id) return;
       if (done) return;
       done = true;
       window.removeEventListener('message', onMsg);
@@ -433,7 +433,7 @@ export function requestPreviewSnapshotResult(
     }
     window.addEventListener('message', onMsg);
     try {
-      win.postMessage({ type: 'od:snapshot', id, ...(options.full ? { full: true } : {}) }, '*');
+      win.postMessage({ type: 'sw:snapshot', id, ...(options.full ? { full: true } : {}) }, '*');
     } catch {
       done = true;
       window.removeEventListener('message', onMsg);
@@ -1448,7 +1448,7 @@ export function isUsablePrintSize(width: unknown, height: unknown): boolean {
  * This fixes one #4458 blank-PDF path: the in-iframe handshake used to
  * report the content size after a fixed two animation frames, which can fire
  * before a heavier artifact has finished layout (size still 0). The desktop
- * bridge then has no usable `__odPrintSize`, falls back to the wrapper
+ * bridge then has no usable `__swPrintSize`, falls back to the wrapper
  * viewport, and prints a blank page. Waiting for a non-zero size avoids that.
  *
  * Injected into the handshake via `toString()`; the function is self-contained
@@ -1487,7 +1487,7 @@ function injectPrintScript(doc: string, title: string): string {
   // settled. If the handshake script is blocked entirely (for example by a
   // CSP that forbids inline scripts), fall back to the historical load+delay
   // behavior instead of waiting for the full ready deadline.
-  const script = `<script>(function(){try{document.title=${safeTitle}}catch(e){}function doPrint(){try{window.focus();window.print()}catch(e){}}function afterStableFrames(fn){requestAnimationFrame(function(){requestAnimationFrame(fn)})}window.addEventListener('load',function(){if(typeof window.__odPrintReady!=='boolean'){setTimeout(doPrint,300);return}var deadline=Date.now()+30000;var handshakeStartDeadline=Date.now()+1000;(function waitForReady(){if(window.__odPrintReady===true){afterStableFrames(doPrint);return}if(window.__odPrintReadyStarted===false&&Date.now()>=handshakeStartDeadline){setTimeout(doPrint,300);return}if(Date.now()>=deadline){afterStableFrames(doPrint);return}setTimeout(waitForReady,50)})()})})();</script>`;
+  const script = `<script>(function(){try{document.title=${safeTitle}}catch(e){}function doPrint(){try{window.focus();window.print()}catch(e){}}function afterStableFrames(fn){requestAnimationFrame(function(){requestAnimationFrame(fn)})}window.addEventListener('load',function(){if(typeof window.__swPrintReady!=='boolean'){setTimeout(doPrint,300);return}var deadline=Date.now()+30000;var handshakeStartDeadline=Date.now()+1000;(function waitForReady(){if(window.__swPrintReady===true){afterStableFrames(doPrint);return}if(window.__swPrintReadyStarted===false&&Date.now()>=handshakeStartDeadline){setTimeout(doPrint,300);return}if(Date.now()>=deadline){afterStableFrames(doPrint);return}setTimeout(waitForReady,50)})()})})();</script>`;
   if (/<\/head>/i.test(doc)) return doc.replace(/<\/head>/i, `${script}</head>`);
   if (/<\/body>/i.test(doc)) return doc.replace(/<\/body>/i, `${script}</body>`);
   return doc + script;
@@ -1515,7 +1515,7 @@ function injectPrintReadyHandshake(doc: string, nonce: string): string {
   // The nonce is a per-export random UUID that verifies the readiness signal
   // came from our injected handshake, not a spoofed message from untrusted
   // artifact code.
-  const script = `<script data-sw-print-ready>(function(){window.parent.postMessage({type:'SW_PRINT_READY_STARTED',nonce:'${nonce}'},'*');function waitForImages(){var imgs=Array.from(document.images).filter(function(img){if(img.loading==='lazy')img.loading='eager';return !img.complete});return Promise.all(imgs.map(function(img){return new Promise(function(r){img.addEventListener('load',r,{once:true});img.addEventListener('error',r,{once:true});if(img.complete)r()})}))}function cssUrlValues(value){var urls=[];if(!value||value==='none')return urls;value.replace(/url\\((['"]?)(.*?)\\1\\)/g,function(_,q,rawUrl){if(rawUrl&&!/^data:/i.test(rawUrl))urls.push(rawUrl);return''});return urls}function waitForCssBackgroundImages(){var urls=new Set();Array.from(document.querySelectorAll('*')).forEach(function(el){var style=window.getComputedStyle(el);cssUrlValues(style.backgroundImage).forEach(function(url){urls.add(url)});cssUrlValues(style.borderImageSource).forEach(function(url){urls.add(url)});cssUrlValues(style.listStyleImage).forEach(function(url){urls.add(url)})});return Promise.all(Array.from(urls).map(function(url){return new Promise(function(r){var img=new Image();img.onload=r;img.onerror=r;img.src=url})}))}function nextFrame(){return new Promise(function(r){requestAnimationFrame(function(){r(true)})})}Promise.all([document.fonts&&document.fonts.ready?document.fonts.ready.catch(function(){}):Promise.resolve(),new Promise(function(r){if(document.readyState==='complete')r();else window.addEventListener('load',r,{once:true})})]).then(function(){return Promise.all([waitForImages(),waitForCssBackgroundImages()])}).then(nextFrame).then(nextFrame).then(function(){var __odReport=${reportPrintSizeWhenStable.toString()};function measure(){var de=document.documentElement;var b=document.body||de;return {width:Math.max(de.scrollWidth,b.scrollWidth,de.offsetWidth,b.offsetWidth),height:Math.max(de.scrollHeight,b.scrollHeight,de.offsetHeight,b.offsetHeight)}}__odReport(measure,function(size){window.parent.postMessage({type:'SW_PRINT_READY',nonce:'${nonce}',width:size.width,height:size.height},'*')},30)})})();<\/script>`;
+  const script = `<script data-sw-print-ready>(function(){window.parent.postMessage({type:'SW_PRINT_READY_STARTED',nonce:'${nonce}'},'*');function waitForImages(){var imgs=Array.from(document.images).filter(function(img){if(img.loading==='lazy')img.loading='eager';return !img.complete});return Promise.all(imgs.map(function(img){return new Promise(function(r){img.addEventListener('load',r,{once:true});img.addEventListener('error',r,{once:true});if(img.complete)r()})}))}function cssUrlValues(value){var urls=[];if(!value||value==='none')return urls;value.replace(/url\\((['"]?)(.*?)\\1\\)/g,function(_,q,rawUrl){if(rawUrl&&!/^data:/i.test(rawUrl))urls.push(rawUrl);return''});return urls}function waitForCssBackgroundImages(){var urls=new Set();Array.from(document.querySelectorAll('*')).forEach(function(el){var style=window.getComputedStyle(el);cssUrlValues(style.backgroundImage).forEach(function(url){urls.add(url)});cssUrlValues(style.borderImageSource).forEach(function(url){urls.add(url)});cssUrlValues(style.listStyleImage).forEach(function(url){urls.add(url)})});return Promise.all(Array.from(urls).map(function(url){return new Promise(function(r){var img=new Image();img.onload=r;img.onerror=r;img.src=url})}))}function nextFrame(){return new Promise(function(r){requestAnimationFrame(function(){r(true)})})}Promise.all([document.fonts&&document.fonts.ready?document.fonts.ready.catch(function(){}):Promise.resolve(),new Promise(function(r){if(document.readyState==='complete')r();else window.addEventListener('load',r,{once:true})})]).then(function(){return Promise.all([waitForImages(),waitForCssBackgroundImages()])}).then(nextFrame).then(nextFrame).then(function(){var __swReport=${reportPrintSizeWhenStable.toString()};function measure(){var de=document.documentElement;var b=document.body||de;return {width:Math.max(de.scrollWidth,b.scrollWidth,de.offsetWidth,b.offsetWidth),height:Math.max(de.scrollHeight,b.scrollHeight,de.offsetHeight,b.offsetHeight)}}__swReport(measure,function(size){window.parent.postMessage({type:'SW_PRINT_READY',nonce:'${nonce}',width:size.width,height:size.height},'*')},30)})})();<\/script>`;
   if (/<\/head>/i.test(doc)) return doc.replace(/<\/head>/i, `${script}</head>`);
   if (/<\/body>/i.test(doc)) return doc.replace(/<\/body>/i, `${script}</body>`);
   return doc + script;
@@ -1523,15 +1523,15 @@ function injectPrintReadyHandshake(doc: string, nonce: string): string {
 
 function injectParentPrintReadyCache(doc: string, nonce: string): string {
   // Cache the readiness flag and the content size the artifact reports through
-  // the handshake. window.__odPrintSize is read by inferPageSize() in
+  // the handshake. window.__swPrintSize is read by inferPageSize() in
   // apps/desktop/src/main/pdf-export.ts to size the PDF page to the real
   // artifact rather than the wrapper viewport (issue #4067). Width/height are
   // validated as positive finite numbers so a malformed message cannot poison
   // the page size; the nonce + source check keep untrusted frames from spoofing
-  // either signal. window.__odPrintReadyStarted distinguishes a live handshake
+  // either signal. window.__swPrintReadyStarted distinguishes a live handshake
   // from a CSP-blocked one so the browser fallback can preserve the historical
   // quick print path when the inner script never runs.
-  const script = `<script>window.__odPrintReady=false;window.__odPrintReadyStarted=false;window.__odPrintSize=null;var __odUsable=${isUsablePrintSize.toString()};window.addEventListener('message',function(e){if(e.data&&e.data.nonce==='${nonce}'&&(e.source===window||(window.frames&&e.source===window.frames[0]))){if(e.data.type==='SW_PRINT_READY_STARTED'){window.__odPrintReadyStarted=true;return}if(e.data.type==='SW_PRINT_READY'){window.__odPrintReady=true;if(__odUsable(e.data.width,e.data.height))window.__odPrintSize={width:e.data.width,height:e.data.height}}}});<\/script>`;
+  const script = `<script>window.__swPrintReady=false;window.__swPrintReadyStarted=false;window.__swPrintSize=null;var __swUsable=${isUsablePrintSize.toString()};window.addEventListener('message',function(e){if(e.data&&e.data.nonce==='${nonce}'&&(e.source===window||(window.frames&&e.source===window.frames[0]))){if(e.data.type==='SW_PRINT_READY_STARTED'){window.__swPrintReadyStarted=true;return}if(e.data.type==='SW_PRINT_READY'){window.__swPrintReady=true;if(__swUsable(e.data.width,e.data.height))window.__swPrintSize={width:e.data.width,height:e.data.height}}}});<\/script>`;
   if (/<head>/i.test(doc)) return doc.replace(/<head>/i, `<head>${script}`);
   return script + doc;
 }
@@ -1665,7 +1665,7 @@ function runExportCapture(
         notes?: string; error?: string;
       } | null;
       if (!d || d.id !== req.id) return;
-      if (d.type === 'od:export-capture:slide') {
+      if (d.type === 'sw:export-capture:slide') {
         lastActivity = Date.now();
         onSlide(
           {
@@ -1677,12 +1677,12 @@ function runExportCapture(
           },
           d.total ?? 1,
         );
-      } else if (d.type === 'od:export-capture:done') {
+      } else if (d.type === 'sw:export-capture:done') {
         if (finished) return;
         finished = true;
         cleanup();
         resolve();
-      } else if (d.type === 'od:export-capture:error') {
+      } else if (d.type === 'sw:export-capture:error') {
         if (finished) return;
         finished = true;
         cleanup();
@@ -1699,7 +1699,7 @@ function runExportCapture(
     }, 2_000);
     window.addEventListener('message', onMsg);
     try {
-      win.postMessage({ type: 'od:export-capture', ...req }, '*');
+      win.postMessage({ type: 'sw:export-capture', ...req }, '*');
     } catch (err) {
       finished = true;
       cleanup();

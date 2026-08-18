@@ -83,7 +83,7 @@ describe('useTeamProjects workspace-switch races', () => {
           }
           if (url.includes('/api/workspace/projects/team')) {
             const workspaceId = new Headers(init?.headers).get(
-              'x-od-workspace-id',
+              'x-sw-workspace-id',
             );
             if (workspaceId === CONTEXTS.a.workspaceId) {
               return new Promise<Response>((_resolve, reject) => {
@@ -297,7 +297,7 @@ describe('useTeamProjects workspace-switch races', () => {
           return Promise.resolve(jsonResponse({ context: CONTEXTS[activeWorkspace] }));
         }
         if (url.includes('/api/workspace/projects/team')) {
-          const workspaceId = new Headers(init?.headers).get('x-od-workspace-id');
+          const workspaceId = new Headers(init?.headers).get('x-sw-workspace-id');
           return Promise.resolve(jsonResponse({
             projects: workspaceId === CONTEXTS.a.workspaceId ? [A_PROJECT] : [B_PROJECT],
           }));
@@ -557,7 +557,7 @@ describe('useTeamProjects workspace-switch races', () => {
           }
           if (url.includes('/api/workspace/projects/team')) {
             const workspaceId = new Headers(init?.headers).get(
-              'x-od-workspace-id',
+              'x-sw-workspace-id',
             );
             if (workspaceId === CONTEXTS.a.workspaceId) {
               return Promise.resolve(jsonResponse({ projects: [A_PROJECT] }));

@@ -70,7 +70,7 @@ interface Props {
   agentsById: Map<string, AgentInfo>;
   locale: string;
   /** The caller's current workspace identity, forwarded to `streamViaDaemon`
-   *  so a side-chat send carries the same `x-od-workspace-*` headers the
+   *  so a side-chat send carries the same `x-sw-workspace-*` headers the
    *  primary chat loop sends — otherwise a team-bound project's side chat
    *  401s against the daemon's workspace mutation gate. */
   workspaceContext?: WorkspaceCollabContext | null;

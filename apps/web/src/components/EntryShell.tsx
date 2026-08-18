@@ -2781,7 +2781,7 @@ function OnboardingView({
         Date.now(),
       );
       amrAuthAttemptIdRef.current = provisionalAuthAttemptId;
-      const odDeviceId = amrHandoffDeviceId({
+      const swDeviceId = amrHandoffDeviceId({
         metricsConsent: config.telemetry?.metrics === true,
         resolvedDeviceId: getResolvedDeviceId(),
         installationId: config.installationId,
@@ -2789,7 +2789,7 @@ function OnboardingView({
       amrLoginStartPendingRef.current = true;
       const loginResult = await startVelaLogin(
         attribution,
-        odDeviceId,
+        swDeviceId,
         provisionalAuthAttemptId,
       ).finally(() => {
         amrLoginStartPendingRef.current = false;

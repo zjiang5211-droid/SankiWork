@@ -209,7 +209,7 @@ describe('PluginsView Team panel workspace scope', () => {
       vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
         const url = String(input);
         const headers = new Headers(init?.headers);
-        const workspaceId = headers.get('x-od-workspace-id');
+        const workspaceId = headers.get('x-sw-workspace-id');
         if (url.endsWith('/plugins/team')) {
           if (workspaceId === 'ws-b') throw new Error('workspace B hub unavailable');
           return jsonResponse({ ids: [] });

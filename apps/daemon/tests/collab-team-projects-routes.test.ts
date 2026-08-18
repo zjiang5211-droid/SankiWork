@@ -121,9 +121,9 @@ describe('GET /api/workspace/projects/team', () => {
     });
 
     const response = await get({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'wm-1',
-      'x-od-workspace-type': 'team',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'wm-1',
+      'x-sw-workspace-type': 'team',
     });
 
     expect(response).toEqual({ status: 200, body: { projects: PROJECTS } });
@@ -156,9 +156,9 @@ describe('GET /api/workspace/projects/team', () => {
     });
 
     const response = await get({
-      'x-od-workspace-id': 'team-a',
-      'x-od-workspace-member-id': 'member-a',
-      'x-od-workspace-type': 'team',
+      'x-sw-workspace-id': 'team-a',
+      'x-sw-workspace-member-id': 'member-a',
+      'x-sw-workspace-type': 'team',
     });
 
     expect(response.status).toBe(200);
@@ -205,9 +205,9 @@ describe('GET /api/workspace/projects/team', () => {
     });
 
     const response = await get({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'wm-1',
-      'x-od-workspace-type': 'team',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'wm-1',
+      'x-sw-workspace-type': 'team',
     });
     expect(response.status).toBe(200);
     expect(calls).toEqual(['ws-1']);
@@ -237,9 +237,9 @@ describe('GET /api/workspace/projects/team', () => {
     });
 
     const response = await get({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'wm-1',
-      'x-od-workspace-type': 'team',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'wm-1',
+      'x-sw-workspace-type': 'team',
     });
 
     expect(response.status).toBe(503);
@@ -273,9 +273,9 @@ describe('GET /api/workspace/projects/team', () => {
     });
 
     const response = await get({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'wm-1',
-      'x-od-workspace-type': 'team',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'wm-1',
+      'x-sw-workspace-type': 'team',
     });
 
     expect(response.status).toBe(200);
@@ -315,9 +315,9 @@ describe('GET /api/workspace/projects/team', () => {
     });
 
     const response = await get({
-      'x-od-workspace-id': 'personal-1',
-      'x-od-workspace-member-id': 'wm-personal',
-      'x-od-workspace-type': 'personal',
+      'x-sw-workspace-id': 'personal-1',
+      'x-sw-workspace-member-id': 'wm-personal',
+      'x-sw-workspace-type': 'personal',
     });
     expect(response.status).toBe(403);
     expect(response.body).toMatchObject({ error: 'WORKSPACE_ACCESS_DENIED' });

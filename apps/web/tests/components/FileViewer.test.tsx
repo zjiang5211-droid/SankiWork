@@ -240,13 +240,13 @@ function srcDocActivationMessages(calls: readonly (readonly unknown[])[]) {
   return calls
     .map(([message]) => message)
     .filter((message): message is {
-      type: 'od:srcdoc-transport-activate';
+      type: 'sw:srcdoc-transport-activate';
       html: string;
       generation: string;
     } => {
       if (typeof message !== 'object' || message === null) return false;
       const data = message as { type?: unknown; html?: unknown; generation?: unknown };
-      return data.type === 'od:srcdoc-transport-activate'
+      return data.type === 'sw:srcdoc-transport-activate'
         && typeof data.html === 'string'
         && typeof data.generation === 'string';
     });
@@ -287,7 +287,7 @@ function latestPreviewContentSizeRequest(source: Window) {
   const postMessage = source.postMessage as ReturnType<typeof vi.fn>;
   const request = previewContentSizeRequests(source)
     .reverse()
-    .find((data) => data.type === 'od:preview-content-size-request');
+    .find((data) => data.type === 'sw:preview-content-size-request');
   if (!request?.measurementId || !request.generation) {
     throw new Error('Expected a witnessed preview content-size request');
   }
@@ -305,7 +305,7 @@ function previewContentSizeRequests(source: Window) {
       canvasWidth?: number;
       previewScale?: number;
     })
-    .filter((data) => data.type === 'od:preview-content-size-request');
+    .filter((data) => data.type === 'sw:preview-content-size-request');
 }
 
 function postPreviewContentWidth(source: Window, scrollWidth: number, clientWidth = scrollWidth) {
@@ -322,7 +322,7 @@ function postPreviewContentSizeResponse(
   window.dispatchEvent(new MessageEvent('message', {
     source,
     data: {
-      type: 'od:preview-content-size',
+      type: 'sw:preview-content-size',
       measurementId: request.measurementId,
       generation: request.generation,
       documentEpoch: request.documentEpoch,
@@ -405,11 +405,11 @@ function installPreviewSnapshotBridge(iframe: HTMLIFrameElement) {
   if (!source) throw new Error('Expected preview iframe contentWindow');
   return vi.spyOn(source, 'postMessage').mockImplementation((message: unknown) => {
     const data = message as { type?: string; id?: string } | null;
-    if (!data || data.type !== 'od:snapshot' || !data.id) return;
+    if (!data || data.type !== 'sw:snapshot' || !data.id) return;
     window.dispatchEvent(new MessageEvent('message', {
       source,
       data: {
-        type: 'od:snapshot:result',
+        type: 'sw:snapshot:result',
         id: data.id,
         dataUrl: TEST_SNAPSHOT_DATA_URL,
         w: 2,
@@ -743,8 +743,8 @@ describe('FileViewer preview scale', () => {
     expect(rawReads[0]?.url).toContain('workspaceId=ws-1');
     expect(rawReads[0]?.url).toContain('workspaceMemberId=wm-1');
     expect(rawReads[0]?.init?.headers).toMatchObject({
-      'x-od-workspace-id': 'ws-1',
-      'x-od-workspace-member-id': 'wm-1',
+      'x-sw-workspace-id': 'ws-1',
+      'x-sw-workspace-member-id': 'wm-1',
     });
   });
 
@@ -854,7 +854,7 @@ describe('FileViewer preview scale', () => {
     );
     await waitFor(() => expect(rawReads).toHaveLength(1));
     expect(rawReads[0]?.url).not.toContain('workspaceId=');
-    expect(new Headers(rawReads[0]?.init?.headers).get('x-od-workspace-id')).toBeNull();
+    expect(new Headers(rawReads[0]?.init?.headers).get('x-sw-workspace-id')).toBeNull();
 
     local.rerender(
       <CollabProvider value={{
@@ -1455,7 +1455,7 @@ describe('FileViewer SVG artifacts', () => {
     const { container } = render(<Shell />);
 
     const firstFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(firstFrame.getAttribute('src')).toContain('/api/projects/project-1/raw/page.html?v=1710000000&r=0&odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability&odPreviewEpoch=');
+    expect(firstFrame.getAttribute('src')).toContain('/api/projects/project-1/raw/page.html?v=1710000000&r=0&swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability&swPreviewEpoch=');
     const firstSrc = firstFrame.getAttribute('src');
 
     fireEvent.click(screen.getByRole('button', { name: 'Leave project' }));
@@ -1813,7 +1813,7 @@ describe('FileViewer SVG artifacts', () => {
     expect(markup).toContain('data-sw-render-mode="url-load"');
     expect(markup).toContain('data-sw-render-mode="url-load" data-sw-active="true"');
     expect(markup).toContain('data-sw-render-mode="srcdoc" data-sw-active="false"');
-    expect(markup).toContain('src="/api/projects/project-1/raw/page.html?v=1710000000&amp;r=0&amp;odPreviewBridge=scroll&amp;odPreviewBridge=selection&amp;odPreviewBridge=snapshot&amp;odPreviewBridge=observability&amp;odPreviewEpoch=preview-document-');
+    expect(markup).toContain('src="/api/projects/project-1/raw/page.html?v=1710000000&amp;r=0&amp;swPreviewBridge=scroll&amp;swPreviewBridge=selection&amp;swPreviewBridge=snapshot&amp;swPreviewBridge=observability&amp;swPreviewEpoch=preview-document-');
     expect(markup).toContain('sandbox="allow-scripts allow-downloads"');
   });
 
@@ -1915,7 +1915,7 @@ describe('FileViewer SVG artifacts', () => {
 
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'od:brand-extraction-stop-request' },
+        data: { type: 'sw:brand-extraction-stop-request' },
         source: frame.contentWindow,
       }));
     });
@@ -1981,13 +1981,13 @@ describe('FileViewer SVG artifacts', () => {
     );
 
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(frame.getAttribute('src')).toContain('/api/projects/project-1/raw/page.html?v=1710000000&r=0&odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability&odPreviewEpoch=');
+    expect(frame.getAttribute('src')).toContain('/api/projects/project-1/raw/page.html?v=1710000000&r=0&swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability&swPreviewEpoch=');
 
     fireEvent.click(screen.getByRole('button', { name: /reload preview/i }));
 
     const reloadedFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     expect(reloadedFrame).toBe(frame);
-    expect(reloadedFrame.getAttribute('src')).toContain('/api/projects/project-1/raw/page.html?v=1710000000&r=1&odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability&odPreviewEpoch=');
+    expect(reloadedFrame.getAttribute('src')).toContain('/api/projects/project-1/raw/page.html?v=1710000000&r=1&swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability&swPreviewEpoch=');
   });
 
   it('keeps raw file-watch refresh measurements on the refreshed document epoch', async () => {
@@ -2038,7 +2038,7 @@ describe('FileViewer SVG artifacts', () => {
     };
     const { rerender } = render(<FileViewer {...props} />);
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    const initialEpoch = new URL(frame.src).searchParams.get('odPreviewEpoch');
+    const initialEpoch = new URL(frame.src).searchParams.get('swPreviewEpoch');
     expect(initialEpoch).toMatch(/^preview-document-\d+$/);
 
     rerender(<FileViewer {...props} filesRefreshKey={7} />);
@@ -2048,14 +2048,14 @@ describe('FileViewer SVG artifacts', () => {
     const refreshedUrl = new URL(frame.src, window.location.href);
     expect(refreshedUrl.pathname).toBe('/api/projects/project-1/raw/page.html');
     expect(refreshedUrl.searchParams.get('fr')).toBe('7');
-    expect(refreshedUrl.searchParams.get('odPreviewEpoch')).toMatch(/^preview-document-\d+$/);
-    expect(refreshedUrl.searchParams.get('odPreviewEpoch')).not.toBe(initialEpoch);
+    expect(refreshedUrl.searchParams.get('swPreviewEpoch')).toMatch(/^preview-document-\d+$/);
+    expect(refreshedUrl.searchParams.get('swPreviewEpoch')).not.toBe(initialEpoch);
 
     frame.setAttribute('src', refreshedUrl.toString());
     fireEvent.load(frame);
     const previewWindow = frame.contentWindow!;
     const refreshedRequest = latestPreviewContentSizeRequest(previewWindow);
-    expect(refreshedRequest.documentEpoch).toBe(refreshedUrl.searchParams.get('odPreviewEpoch'));
+    expect(refreshedRequest.documentEpoch).toBe(refreshedUrl.searchParams.get('swPreviewEpoch'));
     act(() => postPreviewContentSizeResponse(previewWindow, refreshedRequest, 1440, 900));
     await waitFor(() => {
       expect(screen.getByRole('button', { name: '63%' })).toBeTruthy();
@@ -2330,7 +2330,7 @@ describe('FileViewer SVG artifacts', () => {
     postMessage.mockClear();
     analyticsTrackMock.mockClear();
     fireEvent.keyDown(window, { key: 'ArrowRight' });
-    expect(postMessage).not.toHaveBeenCalledWith({ type: 'od:slide', action: 'next' }, '*');
+    expect(postMessage).not.toHaveBeenCalledWith({ type: 'sw:slide', action: 'next' }, '*');
     expect(analyticsTrackMock).not.toHaveBeenCalled();
   });
 
@@ -2393,7 +2393,7 @@ describe('FileViewer SVG artifacts', () => {
       },
     });
     const workerHtml = '<!doctype html><html><body><script>new Worker("worker.js")</script></body></html>';
-    const poweredSrc = 'http://localhost:43111/api/projects/project-1/powered/worker.html?v=1000&r=0&odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability';
+    const poweredSrc = 'http://localhost:43111/api/projects/project-1/powered/worker.html?v=1000&r=0&swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability';
 
     const { rerender } = render(
       <FileViewer
@@ -2407,10 +2407,10 @@ describe('FileViewer SVG artifacts', () => {
     await waitFor(() => {
       const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
       expect(frame.getAttribute('data-sw-powered')).toBe('true');
-      expect(frame.getAttribute('src')).toContain(`${poweredSrc}&odPreviewEpoch=`);
+      expect(frame.getAttribute('src')).toContain(`${poweredSrc}&swPreviewEpoch=`);
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    const initialEpoch = new URL(frame.src).searchParams.get('odPreviewEpoch');
+    const initialEpoch = new URL(frame.src).searchParams.get('swPreviewEpoch');
     expect(initialEpoch).toMatch(/^preview-document-\d+$/);
 
     rerender(
@@ -2428,14 +2428,14 @@ describe('FileViewer SVG artifacts', () => {
     const refreshedUrl = new URL(frame.src);
     expect(refreshedUrl.pathname).toBe('/api/projects/project-1/powered/worker.html');
     expect(refreshedUrl.searchParams.get('fr')).toBe('7');
-    expect(refreshedUrl.searchParams.get('odPreviewEpoch')).toMatch(/^preview-document-\d+$/);
-    expect(refreshedUrl.searchParams.get('odPreviewEpoch')).not.toBe(initialEpoch);
+    expect(refreshedUrl.searchParams.get('swPreviewEpoch')).toMatch(/^preview-document-\d+$/);
+    expect(refreshedUrl.searchParams.get('swPreviewEpoch')).not.toBe(initialEpoch);
 
     frame.setAttribute('src', refreshedUrl.toString());
     fireEvent.load(frame);
     const previewWindow = frame.contentWindow!;
     const refreshedRequest = latestPreviewContentSizeRequest(previewWindow);
-    expect(refreshedRequest.documentEpoch).toBe(refreshedUrl.searchParams.get('odPreviewEpoch'));
+    expect(refreshedRequest.documentEpoch).toBe(refreshedUrl.searchParams.get('swPreviewEpoch'));
     act(() => postPreviewContentSizeResponse(previewWindow, refreshedRequest, 1440, 900));
     await waitFor(() => {
       expect(screen.getByRole('button', { name: '63%' })).toBeTruthy();
@@ -2460,8 +2460,8 @@ describe('FileViewer SVG artifacts', () => {
       expect(nextRevisionUrl.searchParams.get('fr')).toBeNull();
     });
     const nextRevisionFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    const nextRevisionEpoch = new URL(nextRevisionFrame.src).searchParams.get('odPreviewEpoch');
-    expect(nextRevisionEpoch).not.toBe(refreshedUrl.searchParams.get('odPreviewEpoch'));
+    const nextRevisionEpoch = new URL(nextRevisionFrame.src).searchParams.get('swPreviewEpoch');
+    expect(nextRevisionEpoch).not.toBe(refreshedUrl.searchParams.get('swPreviewEpoch'));
 
     rerender(
       <FileViewer
@@ -2478,7 +2478,7 @@ describe('FileViewer SVG artifacts', () => {
       const resizedRevisionUrl = new URL(resizedRevisionFrame.src);
       expect(resizedRevisionFrame.getAttribute('data-sw-powered')).toBe('true');
       expect(resizedRevisionUrl.origin).toBe('http://localhost:43111');
-      expect(resizedRevisionUrl.searchParams.get('odPreviewEpoch')).not.toBe(nextRevisionEpoch);
+      expect(resizedRevisionUrl.searchParams.get('swPreviewEpoch')).not.toBe(nextRevisionEpoch);
     });
   });
 
@@ -2571,7 +2571,7 @@ describe('FileViewer SVG artifacts', () => {
         projectId="project-1"
         projectKind="prototype"
         file={file}
-        liveHtml='<html><body><script>window.__odArtifactBootCount = (window.__odArtifactBootCount || 0) + 1;</script><main data-od-id="hero">Hero</main></body></html>'
+        liveHtml='<html><body><script>window.__swArtifactBootCount = (window.__swArtifactBootCount || 0) + 1;</script><main data-od-id="hero">Hero</main></body></html>'
       />,
     );
 
@@ -2583,7 +2583,7 @@ describe('FileViewer SVG artifacts', () => {
     expect(initialUrlFrame?.getAttribute('data-sw-active')).toBe('true');
     expect(initialSrcDocFrame?.getAttribute('data-sw-active')).toBe('false');
     expect(initialSrcDocFrame?.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
-    expect(initialSrcDocFrame?.srcdoc).not.toContain('__odArtifactBootCount');
+    expect(initialSrcDocFrame?.srcdoc).not.toContain('__swArtifactBootCount');
 
     fireEvent.click(screen.getByRole('tab', { name: 'Code' }));
     expect(screen.getByRole('tab', { name: 'Code' }).getAttribute('aria-selected')).toBe('true');
@@ -2596,7 +2596,7 @@ describe('FileViewer SVG artifacts', () => {
     });
     const srcDocFrame = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement | null;
     expect(srcDocFrame?.getAttribute('data-sw-active')).toBe('false');
-    expect(srcDocFrame?.srcdoc).toContain('__odArtifactBootCount');
+    expect(srcDocFrame?.srcdoc).toContain('__swArtifactBootCount');
     const srcDocPostSpy = vi.spyOn(srcDocFrame!.contentWindow!, 'postMessage');
     fireEvent.load(srcDocFrame!);
 
@@ -2606,7 +2606,7 @@ describe('FileViewer SVG artifacts', () => {
     expect(readyGeneration).toBeTruthy();
     const readinessProbe = srcDocPostSpy.mock.calls.find(
       ([message]) => (
-        (message as { type?: unknown }).type === 'od:srcdoc-transport-ready-probe'
+        (message as { type?: unknown }).type === 'sw:srcdoc-transport-ready-probe'
         && (message as { generation?: unknown }).generation === readyGeneration
       ),
     )?.[0] as { generation?: string; probeId?: string } | undefined;
@@ -2618,7 +2618,7 @@ describe('FileViewer SVG artifacts', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: srcDocFrame?.contentWindow,
         data: {
-          type: 'od:srcdoc-transport-activated',
+          type: 'sw:srcdoc-transport-activated',
           generation: readyGeneration,
         },
       }));
@@ -2627,7 +2627,7 @@ describe('FileViewer SVG artifacts', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: srcDocFrame?.contentWindow,
         data: {
-          type: 'od:srcdoc-transport-activated',
+          type: 'sw:srcdoc-transport-activated',
           generation: `${readyGeneration}-stale`,
         },
       }));
@@ -2642,7 +2642,7 @@ describe('FileViewer SVG artifacts', () => {
         .find((value) => (
           typeof value === 'object' &&
           value !== null &&
-          (value as { type?: unknown }).type === 'od:preview-runtime-state-capture'
+          (value as { type?: unknown }).type === 'sw:preview-runtime-state-capture'
         )) as { type: string; id: string } | undefined;
       expect(message?.id).toBeTruthy();
       return message!;
@@ -2657,7 +2657,7 @@ describe('FileViewer SVG artifacts', () => {
         .filter((value): value is { type: string; id: string } => (
           typeof value === 'object'
           && value !== null
-          && (value as { type?: unknown }).type === 'od:preview-runtime-state-capture'
+          && (value as { type?: unknown }).type === 'sw:preview-runtime-state-capture'
         ));
       expect(messages.length).toBeGreaterThanOrEqual(2);
       expect(messages.at(-1)?.id).toBe(captureRequest.id);
@@ -2681,7 +2681,7 @@ describe('FileViewer SVG artifacts', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: urlFrame.contentWindow,
         data: {
-          type: 'od:preview-runtime-state-captured',
+          type: 'sw:preview-runtime-state-captured',
           id: retriedCaptureRequest.id,
           state: capturedState,
         },
@@ -2699,13 +2699,13 @@ describe('FileViewer SVG artifacts', () => {
     expect(urlFrameAfter?.getAttribute('data-sw-active')).toBe('false');
     expect(urlFrameAfter?.getAttribute('src')).toBe('about:blank');
     expect(srcDocFrameAfter).toBe(srcDocFrame);
-    expect(srcDocFrameAfter?.srcdoc).toContain('__odArtifactBootCount');
+    expect(srcDocFrameAfter?.srcdoc).toContain('__swArtifactBootCount');
     expect(srcDocFrameAfter?.srcdoc).toContain('data-sw-edit-bridge');
 
     const restoreCalls = () => srcDocPostSpy.mock.calls.filter(([message]) => (
       typeof message === 'object'
       && message !== null
-      && (message as { type?: unknown }).type === 'od:preview-runtime-state-restore'
+      && (message as { type?: unknown }).type === 'sw:preview-runtime-state-restore'
     ));
     expect(restoreCalls()).toHaveLength(0);
 
@@ -2713,7 +2713,7 @@ describe('FileViewer SVG artifacts', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: srcDocFrameAfter?.contentWindow,
         data: {
-          type: 'od:srcdoc-transport-activated',
+          type: 'sw:srcdoc-transport-activated',
           generation: readinessProbe!.generation,
           probeId: readinessProbe!.probeId,
         },
@@ -2721,7 +2721,7 @@ describe('FileViewer SVG artifacts', () => {
     });
     await waitFor(() => {
       expect(srcDocPostSpy).toHaveBeenCalledWith(
-        { type: 'od:preview-runtime-state-restore', state: capturedState },
+        { type: 'sw:preview-runtime-state-restore', state: capturedState },
         '*',
       );
     });
@@ -2733,7 +2733,7 @@ describe('FileViewer SVG artifacts', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: srcDocFrameAfter?.contentWindow,
         data: {
-          type: 'od:srcdoc-transport-activated',
+          type: 'sw:srcdoc-transport-activated',
           generation: readyGeneration,
         },
       }));
@@ -3839,7 +3839,7 @@ describe('FileViewer SVG artifacts', () => {
     const { container } = render(<Switcher />);
     const getFrame = () => container.querySelector<HTMLIFrameElement>('[data-testid="artifact-preview-frame"]');
     const initialFrame = getFrame();
-    expect(initialFrame?.getAttribute('src')).toContain('/api/projects/project-1/raw/first.html?v=1710000000&r=0&odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability&odPreviewEpoch=');
+    expect(initialFrame?.getAttribute('src')).toContain('/api/projects/project-1/raw/first.html?v=1710000000&r=0&swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability&swPreviewEpoch=');
 
     const observationsBeforeSwitch = observedCommittedSrcs.length;
     fireEvent.click(screen.getByRole('button', { name: 'Switch file' }));
@@ -3847,9 +3847,9 @@ describe('FileViewer SVG artifacts', () => {
     const nextFrame = getFrame();
     expect(nextFrame).toBeTruthy();
     expect(observedCommittedSrcs[observationsBeforeSwitch]).toContain(
-      '/api/projects/project-1/raw/second.html?v=1710000000&r=0&odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability&odPreviewEpoch=',
+      '/api/projects/project-1/raw/second.html?v=1710000000&r=0&swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability&swPreviewEpoch=',
     );
-    expect(nextFrame?.getAttribute('src')).toContain('/api/projects/project-1/raw/second.html?v=1710000000&r=0&odPreviewBridge=scroll&odPreviewBridge=selection&odPreviewBridge=snapshot&odPreviewBridge=observability&odPreviewEpoch=');
+    expect(nextFrame?.getAttribute('src')).toContain('/api/projects/project-1/raw/second.html?v=1710000000&r=0&swPreviewBridge=scroll&swPreviewBridge=selection&swPreviewBridge=snapshot&swPreviewBridge=observability&swPreviewEpoch=');
   });
 
   it('allows downloads in the in-tab HTML presentation iframe', { timeout: 10_000 }, async () => {
@@ -3948,7 +3948,7 @@ describe('FileViewer SVG artifacts', () => {
     expect(container.querySelector('.html-viewer.is-tab-present')).toBeTruthy();
 
     window.dispatchEvent(new MessageEvent('message', {
-      data: { type: 'od:present-escape' },
+      data: { type: 'sw:present-escape' },
       source: frame.contentWindow,
     }));
 
@@ -5471,7 +5471,7 @@ describe('FileViewer SVG artifacts', () => {
 
   // recvq56lzckGtE: publishing a file from a real team workspace 403'd against
   // the daemon's `canShareProjectsForRequest` gate (daemon routes,
-  // collab-sync.ts), which reads `x-od-workspace-can-share-projects` etc. and
+  // collab-sync.ts), which reads `x-sw-workspace-can-share-projects` etc. and
   // falls back to a headerless context re-read (often false/denied) when those
   // headers are missing. `publishProjectFilePublic`/`fetchProjectFilePublicPublication`/
   // `unpublishProjectFilePublic` never attached `workspaceProjectHeaders`, unlike
@@ -5510,9 +5510,9 @@ describe('FileViewer SVG artifacts', () => {
 
     await waitFor(() => expect(calls.some((call) => call.url.includes('publish-public'))).toBe(true));
     const publishCall = calls.find((call) => call.url.includes('publish-public'));
-    expect(publishCall?.headers['x-od-workspace-id']).toBe(context.workspaceId);
-    expect(publishCall?.headers['x-od-workspace-member-id']).toBe(context.workspaceMemberId);
-    expect(publishCall?.headers['x-od-workspace-can-share-projects']).toBe(
+    expect(publishCall?.headers['x-sw-workspace-id']).toBe(context.workspaceId);
+    expect(publishCall?.headers['x-sw-workspace-member-id']).toBe(context.workspaceMemberId);
+    expect(publishCall?.headers['x-sw-workspace-can-share-projects']).toBe(
       String(context.permissions.canShareProjects),
     );
   });
@@ -6089,7 +6089,7 @@ describe('FileViewer SVG artifacts', () => {
 
     fireEvent.keyDown(window, { key: 'ArrowRight' });
 
-    expect(postMessage).toHaveBeenCalledWith({ type: 'od:slide', action: 'next' }, '*');
+    expect(postMessage).toHaveBeenCalledWith({ type: 'sw:slide', action: 'next' }, '*');
 
     postMessage.mockClear();
     const search = within(versionDialog).getByRole('searchbox', { name: 'Search…' }) as HTMLInputElement;
@@ -6208,9 +6208,9 @@ describe('FileViewer SVG artifacts', () => {
       const versionRead = fetchMock.mock.calls.find(
         ([input]) => String(input) === '/api/projects/project-1/files/index.html/versions/v1',
       );
-      expect(new Headers(versionRead?.[1]?.headers).get('x-od-workspace-id'))
+      expect(new Headers(versionRead?.[1]?.headers).get('x-sw-workspace-id'))
         .toBe(workspaceContext.workspaceId);
-      expect(new Headers(versionRead?.[1]?.headers).get('x-od-workspace-member-id'))
+      expect(new Headers(versionRead?.[1]?.headers).get('x-sw-workspace-member-id'))
         .toBe(workspaceContext.workspaceMemberId);
       const exportCall = fetchMock.mock.calls.find(
         ([input]) => String(input) === '/api/projects/project-1/export/html',
@@ -7097,7 +7097,7 @@ describe('FileViewer tweaks toolbar', () => {
         window.dispatchEvent(new MessageEvent('message', {
           source: activeFrame.contentWindow,
           data: {
-            type: 'od:preview-observability',
+            type: 'sw:preview-observability',
             version: 1,
             event: 'runtime_error',
             message: 'active preview failed',
@@ -7106,7 +7106,7 @@ describe('FileViewer tweaks toolbar', () => {
         window.dispatchEvent(new MessageEvent('message', {
           source: inactiveFrame.contentWindow,
           data: {
-            type: 'od:preview-observability',
+            type: 'sw:preview-observability',
             version: 1,
             event: 'runtime_error',
             message: 'hidden preview failed',
@@ -7141,7 +7141,7 @@ describe('FileViewer tweaks toolbar', () => {
         window.dispatchEvent(new MessageEvent('message', {
           source: retainedFrame.contentWindow,
           data: {
-            type: 'od:preview-observability',
+            type: 'sw:preview-observability',
             version: 1,
             event: 'white_screen',
             message: 'retained preview looks blank',
@@ -7290,8 +7290,8 @@ describe('FileViewer tweaks toolbar', () => {
       ),
       expect.objectContaining({
         headers: expect.objectContaining({
-          'x-od-workspace-id': 'ws-1',
-          'x-od-workspace-member-id': 'wm-1',
+          'x-sw-workspace-id': 'ws-1',
+          'x-sw-workspace-member-id': 'wm-1',
         }),
       }),
     );
@@ -7351,14 +7351,14 @@ describe('FileViewer tweaks toolbar', () => {
       const postMessage = vi.spyOn(initialFrame.contentWindow!, 'postMessage');
       fireEvent.load(initialFrame);
       const initialProbe = postMessage.mock.calls.find(
-        ([message]) => (message as { type?: unknown }).type === 'od:srcdoc-transport-ready-probe',
+        ([message]) => (message as { type?: unknown }).type === 'sw:srcdoc-transport-ready-probe',
       )?.[0] as { probeId?: string } | undefined;
       expect(initialProbe?.probeId).toBeTruthy();
       act(() => {
         window.dispatchEvent(new MessageEvent('message', {
           source: initialFrame.contentWindow,
           data: {
-            type: 'od:srcdoc-transport-activated',
+            type: 'sw:srcdoc-transport-activated',
             generation: initialGeneration,
             probeId: initialProbe!.probeId,
           },
@@ -7494,14 +7494,14 @@ describe('FileViewer tweaks toolbar', () => {
     const urlFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     const srcDocFrame = screen.getByTestId('artifact-preview-frame-srcdoc') as HTMLIFrameElement;
     expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
-    expect(urlFrame.getAttribute('src')).toContain('odPreviewBridge=snapshot');
+    expect(urlFrame.getAttribute('src')).toContain('swPreviewBridge=snapshot');
     expect(srcDocFrame.getAttribute('data-sw-active')).toBe('false');
 
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: urlFrame.contentWindow,
         data: {
-          type: 'od:url-selection-bridge-ready',
+          type: 'sw:url-selection-bridge-ready',
           href: new URL(urlFrame.getAttribute('src') ?? '', window.location.href).href,
         },
       }));
@@ -7783,7 +7783,7 @@ describe('FileViewer tweaks toolbar', () => {
     const probe = await waitFor(() => {
       const value = postMessage.mock.calls.find(
         ([message]) => (
-          (message as { type?: unknown }).type === 'od:srcdoc-transport-ready-probe'
+          (message as { type?: unknown }).type === 'sw:srcdoc-transport-ready-probe'
           && (message as { generation?: unknown }).generation === materializedGeneration
         ),
       )?.[0] as { generation?: string; probeId?: string } | undefined;
@@ -7795,7 +7795,7 @@ describe('FileViewer tweaks toolbar', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: materializedFrame.contentWindow,
         data: {
-          type: 'od:srcdoc-transport-activated',
+          type: 'sw:srcdoc-transport-activated',
           generation: probe.generation,
           probeId: probe.probeId,
         },
@@ -7893,14 +7893,14 @@ describe('FileViewer tweaks toolbar', () => {
 
     const urlFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
-    expect(urlFrame.getAttribute('src')).toContain('odPreviewBridge=scroll');
+    expect(urlFrame.getAttribute('src')).toContain('swPreviewBridge=scroll');
 
     const srcDocFrame = screen.getByTestId('artifact-preview-frame-srcdoc') as HTMLIFrameElement;
     const postSpy = vi.spyOn(srcDocFrame.contentWindow!, 'postMessage');
     window.dispatchEvent(new MessageEvent('message', {
       source: urlFrame.contentWindow,
       data: {
-        type: 'od:preview-scroll',
+        type: 'sw:preview-scroll',
         frameLeft: 4,
         frameTop: 640,
         canvasLeft: 0,
@@ -7913,7 +7913,7 @@ describe('FileViewer tweaks toolbar', () => {
     await waitFor(() => {
       expect(postSpy).toHaveBeenCalledWith(
         expect.objectContaining({
-          type: 'od:preview-scroll-restore',
+          type: 'sw:preview-scroll-restore',
           frameLeft: 4,
           frameTop: 640,
           canvasTop: 640,
@@ -7934,13 +7934,13 @@ describe('FileViewer tweaks toolbar', () => {
     const srcDocFrame = screen.getByTestId('artifact-preview-frame-srcdoc') as HTMLIFrameElement;
     const postSpy = vi.spyOn(urlFrame.contentWindow!, 'postMessage');
     expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
-    expect(urlFrame.getAttribute('src')).toContain('odPreviewBridge=selection');
+    expect(urlFrame.getAttribute('src')).toContain('swPreviewBridge=selection');
     expect(srcDocFrame.getAttribute('data-sw-active')).toBe('false');
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: urlFrame.contentWindow,
         data: {
-          type: 'od:url-selection-bridge-ready',
+          type: 'sw:url-selection-bridge-ready',
           href: new URL(urlFrame.getAttribute('src') ?? '', window.location.href).href,
         },
       }));
@@ -7954,7 +7954,7 @@ describe('FileViewer tweaks toolbar', () => {
       expect(urlFrame.getAttribute('data-sw-active')).toBe('true');
       expect(srcDocFrame.getAttribute('data-sw-active')).toBe('false');
       expect(postSpy).toHaveBeenCalledWith(
-        { type: 'od:comment-mode', enabled: true, mode: 'inspect' },
+        { type: 'sw:comment-mode', enabled: true, mode: 'inspect' },
         '*',
       );
     });
@@ -7990,20 +7990,20 @@ describe('FileViewer tweaks toolbar', () => {
     const urlFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
     const srcA = urlFrame.getAttribute('src') ?? '';
-    expect(srcA).toContain('odPreviewBridge=selection');
+    expect(srcA).toContain('swPreviewBridge=selection');
 
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: urlFrame.contentWindow,
         data: {
-          type: 'od:url-selection-bridge-ready',
+          type: 'sw:url-selection-bridge-ready',
           href: new URL(srcA, window.location.href).href,
         },
       }));
     });
 
     // Same file with a new mtime keeps the pooled iframe element and its
-    // WindowProxy; only the src (v=/odPreviewEpoch cache bust) changes.
+    // WindowProxy; only the src (v=/swPreviewEpoch cache bust) changes.
     rerender(
       <FileViewer projectId="project-1" projectKind="prototype" file={htmlPreviewFile({ mtime: 1710000002 })}
         liveHtml='<html><body><main data-od-id="hero">Hero</main></body></html>'
@@ -8023,7 +8023,7 @@ describe('FileViewer tweaks toolbar', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: urlFrame.contentWindow,
         data: {
-          type: 'od:url-selection-bridge-ready',
+          type: 'sw:url-selection-bridge-ready',
           href: new URL(srcA, window.location.href).href,
         },
       }));
@@ -8062,7 +8062,7 @@ describe('FileViewer tweaks toolbar', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: urlFrame.contentWindow,
         data: {
-          type: 'od:url-selection-bridge-ready',
+          type: 'sw:url-selection-bridge-ready',
           href: new URL(urlFrame.getAttribute('src') ?? '', window.location.href).href,
         },
       }));
@@ -8071,7 +8071,7 @@ describe('FileViewer tweaks toolbar', () => {
     fireEvent.click(screen.getByTestId('comment-panel-toggle'));
 
     // A matching-href ready keeps Comment on the URL-load engine instead of
-    // falling back to srcdoc. od:comment-mode delivery to the URL frame is
+    // falling back to srcdoc. sw:comment-mode delivery to the URL frame is
     // covered by the "keeps the URL-loaded preview mounted when opening
     // comments" test.
     await waitFor(() => {
@@ -8093,7 +8093,7 @@ describe('FileViewer tweaks toolbar', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: urlFrame.contentWindow,
-        data: { type: 'od:url-selection-bridge-ready' },
+        data: { type: 'sw:url-selection-bridge-ready' },
       }));
     });
 
@@ -8399,7 +8399,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -8748,8 +8748,8 @@ describe('FileViewer tweaks toolbar', () => {
       );
       expect(src.searchParams.get('v')).toBe('1710000000');
       expect(src.searchParams.get('r')).toBe('0');
-      expect(src.searchParams.getAll('odPreviewBridge')).toEqual(['scroll', 'selection', 'snapshot', 'observability']);
-      expect(src.searchParams.get('odPreviewEpoch')).toMatch(/^preview-document-\d+$/);
+      expect(src.searchParams.getAll('swPreviewBridge')).toEqual(['scroll', 'selection', 'snapshot', 'observability']);
+      expect(src.searchParams.get('swPreviewEpoch')).toMatch(/^preview-document-\d+$/);
     });
 
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
@@ -8957,7 +8957,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -9020,7 +9020,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -9161,7 +9161,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -9220,7 +9220,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-targets',
+        type: 'sw:comment-targets',
         targets: [{
           elementId: 'hero',
           selector: '[data-od-id="hero"]',
@@ -9239,7 +9239,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -9298,7 +9298,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-targets',
+        type: 'sw:comment-targets',
         targets: [{
           elementId: 'hero',
           selector: '[data-od-id="hero"]',
@@ -9317,7 +9317,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'mood',
         selector: '[data-od-id="mood"]',
         label: 'Mood',
@@ -9372,7 +9372,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'mood',
         selector: '[data-od-id="mood"]',
         label: 'Mood',
@@ -9449,12 +9449,12 @@ describe('FileViewer tweaks toolbar', () => {
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od:slide-state', active: 3, count: 18 },
+      data: { type: 'sw:slide-state', active: 3, count: 18 },
     }));
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-targets',
+        type: 'sw:comment-targets',
         targets: [{
           elementId: 'slide-four-title',
           selector: '[data-od-id="slide-four-title"]',
@@ -9566,7 +9566,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -9617,7 +9617,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -9690,7 +9690,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'p',
@@ -9756,7 +9756,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -9861,7 +9861,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -9904,7 +9904,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -9951,7 +9951,7 @@ describe('FileViewer tweaks toolbar', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
       data: {
-        type: 'od:comment-target',
+        type: 'sw:comment-target',
         elementId: 'hero',
         selector: '[data-od-id="hero"]',
         label: 'Hero',
@@ -10021,7 +10021,7 @@ describe('FileViewer tweaks toolbar', () => {
 
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { ...target, type: 'od:comment-hover' },
+      data: { ...target, type: 'sw:comment-hover' },
     }));
 
     expect(screen.queryByTestId('annotation-hover-style-summary')).toBeNull();
@@ -10032,7 +10032,7 @@ describe('FileViewer tweaks toolbar', () => {
 
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { ...target, type: 'od:comment-target' },
+      data: { ...target, type: 'sw:comment-target' },
     }));
 
     const summary = await screen.findByTestId('comment-popover-style-summary');
@@ -10075,18 +10075,18 @@ describe('FileViewer tweaks toolbar', () => {
 
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { ...target, type: 'od:comment-hover' },
+      data: { ...target, type: 'sw:comment-hover' },
     }));
 
     const card = await screen.findByTestId('annotation-hover-popover');
 
     // Pointer crosses from the element onto the floating card. The iframe sees
-    // that as a mouseout and posts od:comment-leave; the card's own mouseenter
+    // that as a mouseout and posts sw:comment-leave; the card's own mouseenter
     // fires first and pins it, so the leave must be ignored and the card stays.
     fireEvent.mouseEnter(card);
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od:comment-leave' },
+      data: { type: 'sw:comment-leave' },
     }));
 
     // Give React a chance to (wrongly) unmount before asserting it did not.
@@ -10126,18 +10126,18 @@ describe('FileViewer tweaks toolbar', () => {
 
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { ...target, type: 'od:comment-hover' },
+      data: { ...target, type: 'sw:comment-hover' },
     }));
 
     const card = await screen.findByTestId('annotation-hover-popover');
 
     // Real-world ordering the synchronous teardown got wrong: the iframe's async
-    // od:comment-leave lands BEFORE the card's mouseenter has had a chance to pin
+    // sw:comment-leave lands BEFORE the card's mouseenter has had a chance to pin
     // it. The dismiss must be deferred so the imminent mouseenter cancels it —
     // otherwise the card tears down for a frame and flickers on the way in.
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od:comment-leave' },
+      data: { type: 'sw:comment-leave' },
     }));
     fireEvent.mouseEnter(card);
 
@@ -10171,7 +10171,7 @@ describe('FileViewer tweaks toolbar', () => {
 
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { ...target, type: 'od:comment-hover' },
+      data: { ...target, type: 'sw:comment-hover' },
     }));
 
     const card = await screen.findByTestId('annotation-hover-popover');
@@ -10188,7 +10188,7 @@ describe('FileViewer tweaks toolbar', () => {
     // dismiss, so the card stays put rather than blinking out.
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { ...target, type: 'od:comment-hover' },
+      data: { ...target, type: 'sw:comment-hover' },
     }));
 
     await new Promise((resolve) => setTimeout(resolve, 140));
@@ -11306,7 +11306,7 @@ describe('serializeInspectOverrides', () => {
 
   // The vulnerability we're regression-testing: artifact code rendered with
   // scripts enabled can call window.parent.postMessage({ type:
-  // 'od:inspect-overrides', overrides, css: '</style><script>...</script>' })
+  // 'sw:inspect-overrides', overrides, css: '</style><script>...</script>' })
   // — ev.source still matches iframe.contentWindow, so the host listener
   // accepts it. The fix is that the host re-derives CSS from the structured
   // `overrides` field under its own allow-list and ignores the inbound `css`
@@ -11360,7 +11360,7 @@ describe('serializeInspectOverrides', () => {
 // Regression for nexu-io/open-design#362: the host owns the inspect override
 // map authoritatively. Hydration parses the artifact source on load so an
 // initial Save-to-source preserves prior rules even when the user edits a
-// different element, and forging the iframe's od:inspect-overrides reply
+// different element, and forging the iframe's sw:inspect-overrides reply
 // cannot inject overrides — the host never ingests it.
 describe('parseInspectOverridesFromSource', () => {
   it('returns an empty map when the source has no override block', () => {

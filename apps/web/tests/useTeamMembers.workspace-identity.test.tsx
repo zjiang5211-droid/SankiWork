@@ -96,8 +96,8 @@ beforeEach(() => {
       }
       if (url.includes('/api/workspace/members')) {
         const headers = new Headers(init?.headers);
-        const workspaceId = headers.get('x-od-workspace-id');
-        const workspaceMemberId = headers.get('x-od-workspace-member-id');
+        const workspaceId = headers.get('x-sw-workspace-id');
+        const workspaceMemberId = headers.get('x-sw-workspace-member-id');
         const workspace = activeWorkspace;
         if (failedMembersWorkspaces.has(workspace)) {
           membersReads.push({ workspace, workspaceId, workspaceMemberId, resolve: () => {} });
@@ -196,7 +196,7 @@ describe('useTeamMembers caches the roster per workspace identity', () => {
         }
         if (url.includes('/api/workspace/members')) {
           const headers = new Headers(init?.headers);
-          const workspaceId = headers.get('x-od-workspace-id');
+          const workspaceId = headers.get('x-sw-workspace-id');
           const workspace =
             workspaceId === CONTEXTS.b.workspaceId ? 'b' : 'a';
           return Promise.resolve(jsonResponse({ members: ROSTERS[workspace] }));

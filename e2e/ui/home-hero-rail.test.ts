@@ -1132,7 +1132,7 @@ test('[P1] home staged workspace context auto-sends into the first project run',
     ]),
   );
   await expect
-    .poll(() => page.evaluate((id) => window.sessionStorage.getItem(`od:auto-send-context:${id}`), projectId))
+    .poll(() => page.evaluate((id) => window.sessionStorage.getItem(`sw:auto-send-context:${id}`), projectId))
     .toBeNull();
 });
 
@@ -1596,7 +1596,7 @@ test('[P1] live dashboard preset sends the active workspace name to plugin apply
     });
   });
   await page.route('**/api/workspace/context', async (route) => {
-    const workspaceId = route.request().headers()['x-od-workspace-id'];
+    const workspaceId = route.request().headers()['x-sw-workspace-id'];
     const selected = workspaceId === teamWorkspace.workspaceId
       ? teamWorkspace
       : personalWorkspace;

@@ -22,9 +22,9 @@ import { workspaceProjectHeaders } from '../state/projects';
 // Design systems tab to preselect when it mounts. ProjectView's "design system
 // ready" prompt sets this right before navigating home; `DesignSystemsTab` reads
 // and clears it once. We piggyback on sessionStorage (the same pattern the brand
-// create flow uses for `od:auto-send-first:*`) because `/design-systems/:id` is
+// create flow uses for `sw:auto-send-first:*`) because `/design-systems/:id` is
 // already the *detail* route, so the preselection can't ride on the URL path.
-export const DESIGN_SYSTEM_FOCUS_KEY = 'od:focus-design-system';
+export const DESIGN_SYSTEM_FOCUS_KEY = 'sw:focus-design-system';
 
 /** Record the design system the next Design-systems tab mount should preselect.
  *  Best-effort: private-mode / SSR storage failures are swallowed (the tab just

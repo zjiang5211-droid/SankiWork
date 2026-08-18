@@ -542,7 +542,7 @@ export function AmrLoginPill({
         startedAt,
       );
       authAttemptIdRef.current = provisionalAuthAttemptId;
-      const odDeviceId = amrHandoffDeviceId({
+      const swDeviceId = amrHandoffDeviceId({
         metricsConsent,
         resolvedDeviceId: getResolvedDeviceId(),
         installationId,
@@ -550,7 +550,7 @@ export function AmrLoginPill({
       loginStartPendingRef.current = true;
       const result = await startVelaLogin(
         attribution,
-        odDeviceId,
+        swDeviceId,
         provisionalAuthAttemptId,
       ).finally(() => {
         loginStartPendingRef.current = false;

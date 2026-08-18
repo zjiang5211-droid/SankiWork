@@ -3738,7 +3738,7 @@ describe('SettingsDialog execution settings Local CLI interactions', () => {
 
     statusStage = 'signed-in';
     window.dispatchEvent(
-      new CustomEvent('od:amr-login-status-change', {
+      new CustomEvent('sw:amr-login-status-change', {
         detail: { reason: 'status-changed' },
       }),
     );

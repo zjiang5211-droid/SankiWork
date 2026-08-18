@@ -300,8 +300,8 @@ describe('HomeView workspace-scoped plugin catalog', () => {
 
     expect(screen.getByTestId('plugin-catalog').textContent).not.toContain('plugin-a');
     await waitFor(() => expect(pluginRequests).toHaveLength(2));
-    expect(pluginRequests[1]?.headers.get('x-od-workspace-id')).toBe('workspace-b');
-    expect(pluginRequests[1]?.headers.get('x-od-workspace-member-id')).toBe('member-b');
+    expect(pluginRequests[1]?.headers.get('x-sw-workspace-id')).toBe('workspace-b');
+    expect(pluginRequests[1]?.headers.get('x-sw-workspace-member-id')).toBe('member-b');
 
     b.resolve(new Response(JSON.stringify({ plugins: [plugin('plugin-b')] }), {
       status: 200,
@@ -515,8 +515,8 @@ describe('HomeView workspace-scoped plugin catalog', () => {
 
     await waitFor(() => expect(projectCreates).toHaveLength(1));
     const requestHeaders = new Headers(projectCreates[0]?.headers);
-    expect(requestHeaders.has('x-od-workspace-id')).toBe(false);
-    expect(requestHeaders.has('x-od-workspace-member-id')).toBe(false);
+    expect(requestHeaders.has('x-sw-workspace-id')).toBe(false);
+    expect(requestHeaders.has('x-sw-workspace-member-id')).toBe(false);
   });
 
   it('restarts a cold plugin read after a transient identity mask instead of joining the cancelled request', async () => {

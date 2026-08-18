@@ -94,10 +94,10 @@ describe('CollabDemoView', () => {
     expect(calls.some((c) => c.method === 'POST' && c.url.endsWith('/collab/changed'))).toBe(true);
     expect(calls.some((c) => c.method === 'POST' && c.url.endsWith('/collab/publish'))).toBe(true);
     const syncIntent = calls.find((c) => c.url.endsWith('/collab/sync-intent'));
-    expect(syncIntent?.headers.get('x-od-workspace-id')).toBe(
+    expect(syncIntent?.headers.get('x-sw-workspace-id')).toBe(
       TEAM_CONTEXT.workspaceId,
     );
-    expect(syncIntent?.headers.get('x-od-workspace-member-id')).toBe(
+    expect(syncIntent?.headers.get('x-sw-workspace-member-id')).toBe(
       TEAM_CONTEXT.workspaceMemberId,
     );
   });

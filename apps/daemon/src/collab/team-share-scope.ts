@@ -22,7 +22,7 @@
 // Detection needs one fact the row alone cannot carry: whether a workspace id is
 // personal or team. Two independent sources answer that, and either is enough to
 // refuse:
-//   1. the caller's own assertion (`x-od-workspace-type`), and
+//   1. the caller's own assertion (`x-sw-workspace-type`), and
 //   2. the workspace directory B already serves the daemon (`typeOf` below).
 // Both are allowed to be silent. An UNKNOWN workspace is never refused — this
 // guard only ever fires on positive evidence that the target is personal, so it
@@ -92,7 +92,7 @@ export function createWorkspaceTypeRegistry(): WorkspaceTypeRegistry {
  * there is no evidence against it (including "not enough information").
  *
  * `assertedType` is the caller's own claim about the workspace it is acting in
- * (the `x-od-workspace-type` request header). A caller that says "personal" and
+ * (the `x-sw-workspace-type` request header). A caller that says "personal" and
  * asks for a team share has stated the contradiction itself; that alone is
  * grounds to refuse, without consulting anything else.
  */

@@ -39,7 +39,7 @@ describe('AmrArtifactUpgradeHomeCard', () => {
 
     fireEvent.click(screen.getByTestId('amr-artifact-upgrade-home-plans'));
     expect(open).toHaveBeenCalledWith(
-      expect.stringContaining('od_entry_source=home_artifact_upgrade'),
+      expect.stringContaining('sw_entry_source=home_artifact_upgrade'),
       '_blank',
       'noopener,noreferrer',
     );

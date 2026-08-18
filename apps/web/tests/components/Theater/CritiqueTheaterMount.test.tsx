@@ -236,8 +236,8 @@ describe('<TestCritiqueTheaterMount> (Phase 9.1)', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Interrupt' }));
 
     const headers = new Headers(interruptInit?.headers);
-    expect(headers.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(headers.get('x-od-workspace-member-id')).toBe('member-a');
+    expect(headers.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(headers.get('x-sw-workspace-member-id')).toBe('member-a');
   });
 
   it('pins project A through a shell Workspace refresh instead of reconnecting as B or unbound', async () => {
@@ -279,8 +279,8 @@ describe('<TestCritiqueTheaterMount> (Phase 9.1)', () => {
     });
     const firstScopeRead = vi.mocked(fetch).mock.calls[0]!;
     const firstScopeHeaders = new Headers(firstScopeRead[1]?.headers);
-    expect(firstScopeHeaders.get('x-od-workspace-id')).toBe('workspace-a');
-    expect(firstScopeHeaders.get('x-od-workspace-member-id')).toBe('member-a');
+    expect(firstScopeHeaders.get('x-sw-workspace-id')).toBe('workspace-a');
+    expect(firstScopeHeaders.get('x-sw-workspace-member-id')).toBe('member-a');
     expect(handles[0]!.workspaceContext?.workspaceId).toBe('workspace-a');
 
     // The navigation rail broadcasts this when the shell moves to B. The

@@ -55,7 +55,7 @@ describe('deck bridge - visible-gated reveal decks', () => {
     const { win, slides } = setupVisibleRevealDeck();
 
     win.dispatchEvent(
-      new win.MessageEvent('message', { data: { type: 'od:slide', action: 'next' } }),
+      new win.MessageEvent('message', { data: { type: 'sw:slide', action: 'next' } }),
     );
 
     const [first, second] = slides;

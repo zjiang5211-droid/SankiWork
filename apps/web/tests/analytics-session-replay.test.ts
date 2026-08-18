@@ -138,8 +138,8 @@ describe('PostHog session replay configuration', () => {
   it('flushes person properties staged before PostHog init finishes', async () => {
     const { getAnalyticsClient, setAnalyticsPersonProperties } = await import('../src/analytics/client');
     setAnalyticsPersonProperties({
-      od_app_user_id: 'usr_amr_42',
-      od_source_resolved: 'social',
+      sw_app_user_id: 'usr_amr_42',
+      sw_source_resolved: 'social',
     });
 
     await getAnalyticsClient({
@@ -151,8 +151,8 @@ describe('PostHog session replay configuration', () => {
     });
 
     expect(lastPersonProperties).toEqual({
-      od_app_user_id: 'usr_amr_42',
-      od_source_resolved: 'social',
+      sw_app_user_id: 'usr_amr_42',
+      sw_source_resolved: 'social',
     });
   });
 });

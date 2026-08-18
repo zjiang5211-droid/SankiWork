@@ -53,8 +53,8 @@ const TEAM_DIRECTORY_ITEM = {
 };
 
 const TEAM_HEADERS = {
-  'x-od-workspace-id': 'wm-1',
-  'x-od-workspace-member-id': 'wm-1',
+  'x-sw-workspace-id': 'wm-1',
+  'x-sw-workspace-member-id': 'wm-1',
 };
 
 const TEAM_WORKSPACE_SETTINGS_URL = resolveWorkspaceSettingsUrl('wm-1', undefined);
@@ -324,8 +324,8 @@ describe('collab context routes', () => {
 
     const explicitA = await api.req('/api/workspace/context', {
       headers: {
-        'x-od-workspace-id': 'ws-a',
-        'x-od-workspace-member-id': 'wm-a',
+        'x-sw-workspace-id': 'ws-a',
+        'x-sw-workspace-member-id': 'wm-a',
       },
     });
     expect(explicitA.status).toBe(200);
@@ -342,8 +342,8 @@ describe('collab context routes', () => {
     });
     const response = await api.req('/api/workspace/context', {
       headers: {
-        'x-od-workspace-id': 'ws-a',
-        'x-od-workspace-member-id': 'wm-a',
+        'x-sw-workspace-id': 'ws-a',
+        'x-sw-workspace-member-id': 'wm-a',
       },
     });
     expect(response.status).toBe(503);
@@ -364,8 +364,8 @@ describe('collab context routes', () => {
     });
     const response = await api.req('/api/workspace/context', {
       headers: {
-        'x-od-workspace-id': 'ws-a',
-        'x-od-workspace-member-id': 'wm-a',
+        'x-sw-workspace-id': 'ws-a',
+        'x-sw-workspace-member-id': 'wm-a',
       },
     });
     expect(response.status).toBe(401);
@@ -449,10 +449,10 @@ describe('collab context routes', () => {
 
 describe('workspace billing routes', () => {
   const teamHeaders = (workspaceId = 'wm-1', workspaceMemberId = 'member-1') => ({
-    'x-od-workspace-id': workspaceId,
-    'x-od-workspace-member-id': workspaceMemberId,
+    'x-sw-workspace-id': workspaceId,
+    'x-sw-workspace-member-id': workspaceMemberId,
     // This claim is deliberately not authority. The directory row below is.
-    'x-od-workspace-role': 'owner',
+    'x-sw-workspace-role': 'owner',
   });
   const teamDirectory = (workspaceId = 'wm-1') => [{
     workspaceId,
@@ -896,8 +896,8 @@ describe('workspace billing routes', () => {
       }),
     });
     const headers = {
-      'x-od-workspace-runtime-client-id': 'window-1',
-      'x-od-workspace-runtime-generation': '1',
+      'x-sw-workspace-runtime-client-id': 'window-1',
+      'x-sw-workspace-runtime-generation': '1',
     };
 
     const initial = await api.req(
@@ -939,8 +939,8 @@ describe('workspace billing routes', () => {
     const request = (generation: string) =>
       api.req('/api/workspace/billing?scope=workspace&workspaceId=wm-1', {
         headers: {
-          'x-od-workspace-runtime-client-id': 'window-1',
-          'x-od-workspace-runtime-generation': generation,
+          'x-sw-workspace-runtime-client-id': 'window-1',
+          'x-sw-workspace-runtime-generation': generation,
         },
       });
 
@@ -1343,9 +1343,9 @@ describe('workspace billing routes', () => {
 
 describe('POST /api/workspace/invite', () => {
   const headers = {
-    'x-od-workspace-id': 'wm-1',
-    'x-od-workspace-member-id': 'wm-1',
-    'x-od-workspace-role': 'owner',
+    'x-sw-workspace-id': 'wm-1',
+    'x-sw-workspace-member-id': 'wm-1',
+    'x-sw-workspace-role': 'owner',
   };
   const directory = (role: 'admin' | 'member' = 'admin') => ({
     ok: true,
@@ -1530,9 +1530,9 @@ describe('GET /api/workspace/members', () => {
 
     const response = await api.req('/api/workspace/members', {
       headers: {
-        'x-od-workspace-id': 'team-a',
-        'x-od-workspace-member-id': 'member-a',
-        'x-od-workspace-role': 'owner',
+        'x-sw-workspace-id': 'team-a',
+        'x-sw-workspace-member-id': 'member-a',
+        'x-sw-workspace-role': 'owner',
       },
     });
 
@@ -1569,8 +1569,8 @@ describe('GET /api/workspace/members', () => {
 
     const response = await api.req('/api/workspace/members', {
       headers: {
-        'x-od-workspace-id': 'team-a',
-        'x-od-workspace-member-id': 'member-a',
+        'x-sw-workspace-id': 'team-a',
+        'x-sw-workspace-member-id': 'member-a',
       },
     });
 

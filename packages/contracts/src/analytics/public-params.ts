@@ -20,7 +20,7 @@ export const EVENT_SCHEMA_VERSION = 4;
 export type AnalyticsClientType = 'web' | 'desktop' | 'external_mcp';
 export type AnalyticsEntrySurface =
   | 'sankiwork_ui'
-  | 'od_cli'
+  | 'sw_cli'
   | 'external_mcp';
 export type AnalyticsHostProduct =
   | 'codex_desktop'
@@ -135,25 +135,25 @@ export interface AnalyticsConfigureGlobals {
 // Wire format used between web and daemon to bridge identity. Web sets these
 // on every fetch/SSE request; daemon reads them off req.headers when emitting
 // server-side events so the distinct_id matches.
-export const ANALYTICS_HEADER_DEVICE_ID = 'x-od-analytics-device-id';
-export const ANALYTICS_HEADER_SESSION_ID = 'x-od-analytics-session-id';
-export const ANALYTICS_HEADER_CLIENT_TYPE = 'x-od-analytics-client-type';
-export const ANALYTICS_HEADER_LOCALE = 'x-od-analytics-locale';
-export const ANALYTICS_HEADER_REQUEST_ID = 'x-od-analytics-request-id';
-export const ANALYTICS_HEADER_ENTRY_SURFACE = 'x-od-analytics-entry-surface';
-export const ANALYTICS_HEADER_HOST_PRODUCT = 'x-od-analytics-host-product';
+export const ANALYTICS_HEADER_DEVICE_ID = 'x-sw-analytics-device-id';
+export const ANALYTICS_HEADER_SESSION_ID = 'x-sw-analytics-session-id';
+export const ANALYTICS_HEADER_CLIENT_TYPE = 'x-sw-analytics-client-type';
+export const ANALYTICS_HEADER_LOCALE = 'x-sw-analytics-locale';
+export const ANALYTICS_HEADER_REQUEST_ID = 'x-sw-analytics-request-id';
+export const ANALYTICS_HEADER_ENTRY_SURFACE = 'x-sw-analytics-entry-surface';
+export const ANALYTICS_HEADER_HOST_PRODUCT = 'x-sw-analytics-host-product';
 export const ANALYTICS_HEADER_EXTERNAL_PLUGIN_ID =
-  'x-od-analytics-external-plugin-id';
+  'x-sw-analytics-external-plugin-id';
 export const ANALYTICS_HEADER_EXTERNAL_PLUGIN_VERSION =
-  'x-od-analytics-external-plugin-version';
+  'x-sw-analytics-external-plugin-version';
 export const ANALYTICS_HEADER_DISTRIBUTION_MECHANISM =
-  'x-od-analytics-distribution-mechanism';
+  'x-sw-analytics-distribution-mechanism';
 export const ANALYTICS_HEADER_PUBLISHER_CLASS =
-  'x-od-analytics-publisher-class';
+  'x-sw-analytics-publisher-class';
 export const ANALYTICS_HEADER_ATTRIBUTION_QUALITY =
-  'x-od-analytics-attribution-quality';
+  'x-sw-analytics-attribution-quality';
 export const ANALYTICS_HEADER_MCP_SESSION_ID =
-  'x-od-analytics-mcp-session-id';
+  'x-sw-analytics-mcp-session-id';
 
 // Daemon serves the PostHog public config so the web bundle never embeds the
 // key at build time; loading via /api/analytics/config keeps POSTHOG_KEY /

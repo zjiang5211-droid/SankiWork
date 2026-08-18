@@ -63,12 +63,12 @@ async function listen(app: express.Express): Promise<string> {
 
 function localHeaders(): Record<string, string> {
   return {
-    'x-od-workspace-id': AUTHORITY.workspaceId,
-    'x-od-workspace-member-id': AUTHORITY.workspaceMemberId,
-    'x-od-workspace-type': AUTHORITY.workspaceType,
-    'x-od-workspace-role': AUTHORITY.role,
-    'x-od-workspace-member-status': AUTHORITY.memberStatus,
-    'x-od-workspace-lifecycle-state': AUTHORITY.lifecycleState,
+    'x-sw-workspace-id': AUTHORITY.workspaceId,
+    'x-sw-workspace-member-id': AUTHORITY.workspaceMemberId,
+    'x-sw-workspace-type': AUTHORITY.workspaceType,
+    'x-sw-workspace-role': AUTHORITY.role,
+    'x-sw-workspace-member-status': AUTHORITY.memberStatus,
+    'x-sw-workspace-lifecycle-state': AUTHORITY.lifecycleState,
   };
 }
 

@@ -122,8 +122,8 @@ async function startFirstOpenDaemon(options: {
   registerCollabSyncRoutes(app, {
     collab: runtime,
     verifyWorkspaceRequest: async (req) =>
-      req.header('x-od-workspace-id') === context.workspaceId
-      && req.header('x-od-workspace-member-id') === context.workspaceMemberId
+      req.header('x-sw-workspace-id') === context.workspaceId
+      && req.header('x-sw-workspace-member-id') === context.workspaceMemberId
         ? context
         : null,
     verifyWorkspaceScope: async (scope) =>
@@ -148,8 +148,8 @@ async function startFirstOpenDaemon(options: {
     base: `http://127.0.0.1:${address.port}`,
     rows,
     headers: {
-      'x-od-workspace-id': context.workspaceId,
-      'x-od-workspace-member-id': context.workspaceMemberId,
+      'x-sw-workspace-id': context.workspaceId,
+      'x-sw-workspace-member-id': context.workspaceMemberId,
     },
   };
 }

@@ -132,8 +132,8 @@ function runPromptEnhancer(options: {
       if (options.runPageCountTimeout && delay === 1200) callback();
       return 1;
     },
-    __odTrack: undefined,
-    __odDownloadPrompt: undefined,
+    __swTrack: undefined,
+    __swDownloadPrompt: undefined,
   };
   const navigator = {
     userAgent: options.device?.userAgent ??
@@ -453,7 +453,7 @@ test('download prompt: three repeated visits to the same route trigger page-coun
   assert.equal(second.dialog.open, false);
   assert.equal(third.dialog.open, true);
   assert.equal(third.ctaAttributes.get('data-download-prompt-trigger'), 'page_count');
-  assert.equal(sessionStorage.getItem('od_download_prompt_page_views_v2'), '3');
+  assert.equal(sessionStorage.getItem('sw_download_prompt_page_views_v2'), '3');
 });
 
 test('download prompt: CTA attribution and modal lifecycle are tracked', () => {

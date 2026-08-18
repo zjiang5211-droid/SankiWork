@@ -132,14 +132,14 @@ describe('version history on a readonly shared mirror', () => {
 
   function memberHeaders(memberId: string, role: 'owner' | 'member') {
     return {
-      'x-od-workspace-id': WORKSPACE_ID,
-      'x-od-workspace-member-id': memberId,
-      'x-od-workspace-type': 'team',
-      'x-od-workspace-role': role,
-      'x-od-workspace-lifecycle-state': 'active',
-      'x-od-workspace-member-status': 'active',
-      'x-od-workspace-can-share-projects': 'true',
-      'x-od-workspace-can-write-synced-files': 'true',
+      'x-sw-workspace-id': WORKSPACE_ID,
+      'x-sw-workspace-member-id': memberId,
+      'x-sw-workspace-type': 'team',
+      'x-sw-workspace-role': role,
+      'x-sw-workspace-lifecycle-state': 'active',
+      'x-sw-workspace-member-status': 'active',
+      'x-sw-workspace-can-share-projects': 'true',
+      'x-sw-workspace-can-write-synced-files': 'true',
     };
   }
 

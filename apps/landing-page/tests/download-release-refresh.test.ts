@@ -109,7 +109,7 @@ test('download page refreshes the complete stable release snapshot on entry', as
   };
   const window = {
     matchMedia: () => ({ matches: false, addEventListener() {} }),
-    __odTrack: undefined,
+    __swTrack: undefined,
     posthog: undefined,
   };
   const navigator = {
@@ -270,7 +270,7 @@ test('download page keeps the static snapshot when stable metadata is incomplete
   };
   const window = {
     matchMedia: () => ({ matches: false, addEventListener() {} }),
-    __odTrack: undefined,
+    __swTrack: undefined,
     posthog: undefined,
   };
   const navigator = {
@@ -368,7 +368,7 @@ test('download page refreshes the neutral release link when no desktop platform 
   };
   const window = {
     matchMedia: () => ({ matches: true, addEventListener() {} }),
-    __odTrack: undefined,
+    __swTrack: undefined,
     posthog: undefined,
   };
   const navigator = {

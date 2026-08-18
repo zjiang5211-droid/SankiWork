@@ -167,8 +167,8 @@ async function start(deps: Parameters<typeof registerProjectRoutes>[1]) {
 function headers() {
   return {
     'content-type': 'application/json',
-    'x-od-workspace-id': WORKSPACE_ID,
-    'x-od-workspace-member-id': MEMBER_ID,
+    'x-sw-workspace-id': WORKSPACE_ID,
+    'x-sw-workspace-member-id': MEMBER_ID,
   };
 }
 

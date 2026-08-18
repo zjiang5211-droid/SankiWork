@@ -157,7 +157,7 @@ describe('readonly viewers skip the publish-public probe (Batch A §4.4)', () =>
     );
     expect(publicationCall).toBeTruthy();
     const headers = new Headers(publicationCall?.[1]?.headers);
-    expect(headers.get('x-od-workspace-id')).toBe('ws-1');
-    expect(headers.get('x-od-workspace-member-id')).toBe('wm-1');
+    expect(headers.get('x-sw-workspace-id')).toBe('ws-1');
+    expect(headers.get('x-sw-workspace-member-id')).toBe('wm-1');
   });
 });

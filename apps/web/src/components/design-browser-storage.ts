@@ -12,11 +12,11 @@ export type BrowserHistoryEntry = {
 export const DESIGN_BROWSER_HISTORY_LIMIT = 80;
 
 export function designBrowserHistoryStorageKey(projectId: string): string {
-  return `od:design-browser:${projectId}:history:v1`;
+  return `sw:design-browser:${projectId}:history:v1`;
 }
 
 export function designBrowserViewportStorageKey(projectId: string): string {
-  return `od:design-browser:${projectId}:viewport:v1`;
+  return `sw:design-browser:${projectId}:viewport:v1`;
 }
 
 /** Drop per-project Design Browser localStorage after a successful project delete. */

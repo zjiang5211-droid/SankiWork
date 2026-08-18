@@ -170,9 +170,9 @@ export function createAttributionService(deps: Omit<RegisterAttributionRoutesDep
       anonymousDistinctId: ledger.webDistinctId,
       distinctId: installationId,
       properties: {
-        od_source_bound_at: now().toISOString(),
-        od_source_resolution: 'download_token',
-        od_download_token_source: attribution.source,
+        sw_source_bound_at: now().toISOString(),
+        sw_source_resolution: 'download_token',
+        sw_download_token_source: attribution.source,
         ...ledger.properties,
       },
       insertId: `download-attribution-${attribution.token}`,
