@@ -8,8 +8,8 @@ export const PLUGIN_SHARE_ACTIONS = [
 export type PluginShareAction = (typeof PLUGIN_SHARE_ACTIONS)[number];
 
 export const PLUGIN_SHARE_ACTION_PLUGIN_IDS: Record<PluginShareAction, string> = {
-  'publish-github': 'od-plugin-publish-github',
-  'contribute-sankiwork': 'od-plugin-contribute-open-design',
+  'publish-github': 'sw-plugin-publish-github',
+  'contribute-sankiwork': 'sw-plugin-contribute-sankiwork',
 };
 
 export interface CreatePluginShareProjectRequest {

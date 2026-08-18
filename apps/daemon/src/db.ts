@@ -603,7 +603,7 @@ function migrateWorkspaceProjectsSingleHome(db: SqliteDb): void {
   const dropped = collapse();
   if (dropped > 0) {
     console.warn(
-      `[od] bound ${dropped} duplicated workspace project row(s) to a single workspace each. ` +
+      `[sw] bound ${dropped} duplicated workspace project row(s) to a single workspace each. ` +
         'A project belongs to one workspace; the extras came from an older blanket back-fill.',
     );
   }

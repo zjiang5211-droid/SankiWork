@@ -66,8 +66,8 @@
         "isIndexed": true
       }
     },
-    "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/": {
-      "url": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
+    "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/": {
+      "url": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
       "inspectedAt": "2026-05-21T03:04:23.233Z",
       "result": {
         "verdict": "PASS",
@@ -75,14 +75,14 @@
         "pageFetchState": "SUCCESSFUL",
         "indexingState": "INDEXING_ALLOWED",
         "lastCrawlTime": "2026-05-19T09:20:41Z",
-        "googleCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
-        "userCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
+        "googleCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
+        "userCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
         "robotsTxtState": "ALLOWED",
         "isIndexed": true
       }
     },
-    "https://sanki-ai.cloud/blog/why-we-built-open-design-as-a-skill-layer/": {
-      "url": "https://sanki-ai.cloud/blog/why-we-built-open-design-as-a-skill-layer/",
+    "https://sanki-ai.cloud/blog/why-we-built-sankiwork-as-a-skill-layer/": {
+      "url": "https://sanki-ai.cloud/blog/why-we-built-sankiwork-as-a-skill-layer/",
       "inspectedAt": "2026-05-20T03:04:04.911Z",
       "result": {
         "verdict": "NEUTRAL",
@@ -123,7 +123,7 @@
       }
     },
     {
-      "url": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
+      "url": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
       "inspectedAt": "2026-05-21T03:04:23.233Z",
       "result": {
         "verdict": "PASS",
@@ -131,8 +131,8 @@
         "pageFetchState": "SUCCESSFUL",
         "indexingState": "INDEXING_ALLOWED",
         "lastCrawlTime": "2026-05-19T09:20:41Z",
-        "googleCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
-        "userCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
+        "googleCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
+        "userCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
         "robotsTxtState": "ALLOWED",
         "isIndexed": true
       }
@@ -153,7 +153,7 @@
       }
     },
     {
-      "url": "https://sanki-ai.cloud/blog/why-we-built-open-design-as-a-skill-layer/",
+      "url": "https://sanki-ai.cloud/blog/why-we-built-sankiwork-as-a-skill-layer/",
       "inspectedAt": "2026-05-20T03:04:04.911Z",
       "result": {
         "verdict": "NEUTRAL",
@@ -189,7 +189,7 @@
       }
     },
     {
-      "url": "https://sanki-ai.cloud/blog/why-we-built-open-design-as-a-skill-layer/",
+      "url": "https://sanki-ai.cloud/blog/why-we-built-sankiwork-as-a-skill-layer/",
       "inspectedAt": "2026-05-19T10:12:21.077Z",
       "result": {
         "verdict": "NEUTRAL",
@@ -201,7 +201,7 @@
       }
     },
     {
-      "url": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
+      "url": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
       "inspectedAt": "2026-05-19T10:12:14.760Z",
       "result": {
         "verdict": "PASS",
@@ -209,8 +209,8 @@
         "pageFetchState": "SUCCESSFUL",
         "indexingState": "INDEXING_ALLOWED",
         "lastCrawlTime": "2026-05-19T09:20:41Z",
-        "googleCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
-        "userCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
+        "googleCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
+        "userCanonical": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
         "robotsTxtState": "ALLOWED",
         "isIndexed": true
       }
@@ -403,9 +403,9 @@
         "position": 7.94392523364486
       }
     },
-    "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/": {
+    "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/": {
       "7": {
-        "url": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
+        "url": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
         "queriedAt": "2026-05-21T03:04:42.666Z",
         "windowDays": 7,
         "startDate": "2026-05-13",
@@ -416,7 +416,7 @@
         "position": 0
       },
       "28": {
-        "url": "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/",
+        "url": "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/",
         "queriedAt": "2026-05-21T03:04:42.755Z",
         "windowDays": 28,
         "startDate": "2026-04-22",
@@ -427,9 +427,9 @@
         "position": 0
       }
     },
-    "https://sanki-ai.cloud/blog/why-we-built-open-design-as-a-skill-layer/": {
+    "https://sanki-ai.cloud/blog/why-we-built-sankiwork-as-a-skill-layer/": {
       "7": {
-        "url": "https://sanki-ai.cloud/blog/why-we-built-open-design-as-a-skill-layer/",
+        "url": "https://sanki-ai.cloud/blog/why-we-built-sankiwork-as-a-skill-layer/",
         "queriedAt": "2026-05-20T03:04:12.457Z",
         "windowDays": 7,
         "startDate": "2026-05-12",
@@ -440,7 +440,7 @@
         "position": 0
       },
       "28": {
-        "url": "https://sanki-ai.cloud/blog/why-we-built-open-design-as-a-skill-layer/",
+        "url": "https://sanki-ai.cloud/blog/why-we-built-sankiwork-as-a-skill-layer/",
         "queriedAt": "2026-05-20T03:04:12.540Z",
         "windowDays": 28,
         "startDate": "2026-04-21",
@@ -458,7 +458,7 @@
     "https://sanki-ai.cloud/blog/byok-reality-check-5-things-that-break/": "2026-05-19T10:11:55.870Z",
     "https://sanki-ai.cloud/blog/layout-layer-canvas-used-to-hide/": "2026-05-19T10:12:02.175Z",
     "https://sanki-ai.cloud/blog/open-source-alternative-to-claude-design/": "2026-05-19T10:12:08.472Z",
-    "https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/": "2026-05-19T10:12:14.760Z",
-    "https://sanki-ai.cloud/blog/why-we-built-open-design-as-a-skill-layer/": "2026-05-19T10:12:21.077Z"
+    "https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/": "2026-05-19T10:12:14.760Z",
+    "https://sanki-ai.cloud/blog/why-we-built-sankiwork-as-a-skill-layer/": "2026-05-19T10:12:21.077Z"
   }
 }

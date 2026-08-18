@@ -25,7 +25,7 @@ describe('GithubStarBadge', () => {
     expect(screen.getByText('40K+')).toBeTruthy();
     await waitFor(() =>
       expect(globalThis.fetch).toHaveBeenCalledWith(
-        '/api/github/open-design',
+        '/api/github/sankiwork',
         expect.objectContaining({ signal: expect.any(AbortSignal) }),
       ),
     );

@@ -13,12 +13,12 @@ const baseManifest = (od: NonNullable<PluginManifest['od']> | undefined): Plugin
 
 const scenarios: ScenarioRegistryEntry[] = [
   {
-    id: 'od-new-generation',
+    id: 'sw-new-generation',
     taskKind: 'new-generation',
     pipeline: { stages: [{ id: 'discovery', atoms: ['discovery-question-form'] }] },
   },
   {
-    id: 'od-code-migration',
+    id: 'sw-code-migration',
     taskKind: 'code-migration',
     pipeline: { stages: [{ id: 'import', atoms: ['code-import'] }] },
   },
@@ -40,7 +40,7 @@ describe('resolveAppliedPipeline', () => {
     const manifest = baseManifest({ taskKind: 'code-migration' });
     const out = resolveAppliedPipeline({ manifest, scenarios });
     expect(out.source).toBe('scenario');
-    expect(out.scenarioId).toBe('od-code-migration');
+    expect(out.scenarioId).toBe('sw-code-migration');
     expect(out.pipeline?.stages?.[0]?.id).toBe('import');
   });
 
@@ -48,7 +48,7 @@ describe('resolveAppliedPipeline', () => {
     const manifest = baseManifest({});
     const out = resolveAppliedPipeline({ manifest, scenarios });
     expect(out.source).toBe('scenario');
-    expect(out.scenarioId).toBe('od-new-generation');
+    expect(out.scenarioId).toBe('sw-new-generation');
   });
 
   it("returns source='none' when the manifest is itself a scenario", () => {
@@ -80,6 +80,6 @@ describe('resolveAppliedPipeline', () => {
     });
     const out = resolveAppliedPipeline({ manifest, scenarios });
     expect(out.source).toBe('scenario');
-    expect(out.scenarioId).toBe('od-new-generation');
+    expect(out.scenarioId).toBe('sw-new-generation');
   });
 });

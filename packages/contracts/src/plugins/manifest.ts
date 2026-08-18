@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-// `open-design.json` schema (v1). Mirrors docs/schemas/open-design.plugin.v1.json
+// `sankiwork.json` schema (v1). Mirrors docs/schemas/sankiwork.plugin.v1.json
 // with one addition: this Zod schema is permissive on the top level so adapter
 // outputs (synthesized PluginManifest from SKILL.md frontmatter or claude
 // plugin.json) parse cleanly without losing forward-compatible fields.

@@ -31,7 +31,7 @@ beforeEach(async () => {
   sourceFolder = path.join(tmpRoot, 'source-plugin');
   await mkdir(sourceFolder, { recursive: true });
   await writeFile(
-    path.join(sourceFolder, 'open-design.json'),
+    path.join(sourceFolder, 'sankiwork.json'),
     JSON.stringify({
       name: 'sample-plugin',
       version: '1.0.0',
@@ -91,10 +91,10 @@ describe('installFromLocalFolder', () => {
     })) {
       if (event.kind === 'error') throw new Error(event.message);
     }
-    const installedManifest = path.join(pluginsRoot, 'sample-plugin', 'open-design.json');
+    const installedManifest = path.join(pluginsRoot, 'sample-plugin', 'sankiwork.json');
     const before = await readFile(installedManifest, 'utf8');
     await writeFile(
-      path.join(sourceFolder, 'open-design.json'),
+      path.join(sourceFolder, 'sankiwork.json'),
       JSON.stringify({ name: 'sample-plugin', version: '9.9.9', title: 'Attacker overwrite' }),
     );
 
@@ -146,7 +146,7 @@ describe('installFromLocalFolder', () => {
   });
 
   it('persists marketplace provenance and inherited trust for resolved installs', async () => {
-    const lockfilePath = path.join(tmpRoot, '.sankiwork', 'od-plugin-lock.json');
+    const lockfilePath = path.join(tmpRoot, '.sankiwork', 'sw-plugin-lock.json');
     const manifest = JSON.stringify({
       specVersion: '1.0.0',
       name: 'fixture-registry',
@@ -347,7 +347,7 @@ describe('plugin install diagnostics', () => {
   });
 
   it('classifies a real README-only folder as an invalid manifest', async () => {
-    await rm(path.join(sourceFolder, 'open-design.json'));
+    await rm(path.join(sourceFolder, 'sankiwork.json'));
     await writeFile(path.join(sourceFolder, 'README.md'), '# Not a plugin\n');
 
     const events = [];
@@ -376,8 +376,8 @@ describe('plugin install diagnostics', () => {
         },
       },
     })],
-  ])('classifies open-design.json with %s as an invalid manifest', async (_label, manifest) => {
-    await writeFile(path.join(sourceFolder, 'open-design.json'), manifest);
+  ])('classifies sankiwork.json with %s as an invalid manifest', async (_label, manifest) => {
+    await writeFile(path.join(sourceFolder, 'sankiwork.json'), manifest);
 
     const events = [];
     for await (const event of installPlugin(db, {

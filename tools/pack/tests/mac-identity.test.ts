@@ -46,7 +46,7 @@ function makeConfig(root: string, namespace: string): ToolPackConfig {
 describe("resolveMacInstallIdentity", () => {
   it("keeps stable builds on the canonical mac identity", () => {
     expect(resolveMacInstallIdentity(makeConfig("/work", "release-stable"))).toMatchObject({
-      appId: "io.open-design.desktop",
+      appId: "io.sankiwork.desktop",
       installerTitle: "SankiWork",
       productName: "SankiWork",
       publicAppBundleName: "SankiWork.app",
@@ -58,7 +58,7 @@ describe("resolveMacInstallIdentity", () => {
     const config = makeConfig("/work", "release-beta");
 
     expect(resolveMacInstallIdentity(config)).toEqual({
-      appId: "io.open-design.desktop.beta",
+      appId: "io.sankiwork.desktop.beta",
       executableName: "SankiWork Beta",
       installerTitle: "SankiWork Beta",
       productName: "SankiWork Beta",
@@ -72,7 +72,7 @@ describe("resolveMacInstallIdentity", () => {
     const config = makeConfig("/work", "release-preview");
 
     expect(resolveMacInstallIdentity(config)).toEqual({
-      appId: "io.open-design.desktop.preview",
+      appId: "io.sankiwork.desktop.preview",
       executableName: "SankiWork Preview",
       installerTitle: "SankiWork Preview",
       productName: "SankiWork Preview",
@@ -90,7 +90,7 @@ describe("resolveMacInstallIdentity", () => {
     const prereleaseNamespaceConfig = makeConfig("/work", "release-prerelease");
 
     expect(resolveMacInstallIdentity(prereleaseVersionConfig)).toEqual({
-      appId: "io.open-design.desktop.prerelease",
+      appId: "io.sankiwork.desktop.prerelease",
       executableName: "SankiWork Prerelease",
       installerTitle: "SankiWork Prerelease",
       productName: "SankiWork Prerelease",

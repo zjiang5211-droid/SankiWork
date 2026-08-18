@@ -21,9 +21,9 @@ description: 8月6日—8月13日，所有付费套餐均可在 SankiWork Cloud 
 >
 > | 平台 | 架构 | 安装包 |
 > |---|---|---|
-> | macOS | Apple Silicon (arm64) | [open-design-0.18.1-mac-arm64.dmg](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-mac-arm64.dmg) |
-> | macOS | Intel (x64) | [open-design-0.18.1-mac-x64.dmg](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-mac-x64.dmg) |
-> | Windows | x64 | [open-design-0.18.1-win-x64-setup.exe](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-win-x64-setup.exe) |
+> | macOS | Apple Silicon (arm64) | [sankiwork-0.18.1-mac-arm64.dmg](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-mac-arm64.dmg) |
+> | macOS | Intel (x64) | [sankiwork-0.18.1-mac-x64.dmg](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-mac-x64.dmg) |
+> | Windows | x64 | [sankiwork-0.18.1-win-x64-setup.exe](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-win-x64-setup.exe) |
 
 ## ✨ 新增
 

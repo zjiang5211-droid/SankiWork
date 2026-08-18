@@ -96,7 +96,7 @@ describe('bundleStandaloneHtml', () => {
     expect(result.html).toContain('data:image/svg+xml;base64,PHN2Zy8+');
     expect(result.html).toContain('data:image/svg+xml;base64,PHN2ZyBpZD0ic2hhcGUiLz4=#shape');
     expect(result.html).toContain('type="importmap"');
-    expect(result.html).toContain('od-project:/scripts/motion.js');
+    expect(result.html).toContain('sw-project:/scripts/motion.js');
     expect(result.html).toContain('data:text/javascript;base64,');
     expect(result.html).not.toMatch(/(?:src|href)=["'](?:\.\.\/|\/assets\/)/);
     expect(result.html).not.toContain('./shared-worker.js');
@@ -250,7 +250,7 @@ describe('bundleStandaloneHtml', () => {
 
     expect(result.html).toMatch(/<link rel="stylesheet" disabled href="data:text\/css;base64,/u);
     expect(result.html).toMatch(/<link rel="alternate stylesheet" title="Dark" href="data:text\/css;base64,/u);
-    expect(result.html).not.toContain('<style data-od-inline-asset');
+    expect(result.html).not.toContain('<style data-sw-inline-asset');
     expect(result.html).not.toContain('styles/disabled.css');
     expect(result.html).not.toContain('styles/dark.css');
   });
@@ -322,7 +322,7 @@ describe('bundleStandaloneHtml', () => {
       'https://cdn.example.com/hero.png',
       'https://cdn.example.com/site.css',
     ]);
-    expect(result.html).toContain('data-od-external-dependencies');
+    expect(result.html).toContain('data-sw-external-dependencies');
     expect(result.html).toContain('https://cdn.example.com/hero.png');
   });
 

@@ -2645,7 +2645,7 @@ describe('collab sync routes', () => {
   // existing `project-metadata-changed` thin signal (notifyProjectMetadataChanged)
   // so the open project view re-fetches the record and the title follows.
   it('notifies notifyProjectMetadataChanged when a pull replaces the placeholder record with the real name (recvqhwv6RPU1j)', async () => {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-pull-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-pull-'));
     tempDirs.push(dir);
     await writeProjectManifest(dir, {
       schemaVersion: 1,
@@ -2753,7 +2753,7 @@ describe('collab sync routes', () => {
   });
 
   it('registers a pulled shared project under its real name from the manifest', async () => {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-pull-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-pull-'));
     tempDirs.push(dir);
     // The shared tree carries the owner's project manifest; register-on-pull
     // reads it so the local record shows the real name after opening.
@@ -2788,11 +2788,11 @@ describe('collab sync routes', () => {
   });
 
   it('infers a pulled shared project name from the bundled skill manifest when no project manifest exists', async () => {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-pull-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-pull-'));
     tempDirs.push(dir);
     await mkdir(path.join(dir, '.sankiwork-skills', 'fs-emerald'), { recursive: true });
     await writeFile(
-      path.join(dir, '.sankiwork-skills', 'fs-emerald', 'open-design.json'),
+      path.join(dir, '.sankiwork-skills', 'fs-emerald', 'sankiwork.json'),
       JSON.stringify({ title: 'Emerald Editorial', name: 'example-fs-emerald-editorial' }),
     );
 
@@ -2812,11 +2812,11 @@ describe('collab sync routes', () => {
   });
 
   it('repairs an existing placeholder pulled project name once pulled files expose a title', async () => {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-pull-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-pull-'));
     tempDirs.push(dir);
     await mkdir(path.join(dir, '.sankiwork-skills', 'fs-emerald'), { recursive: true });
     await writeFile(
-      path.join(dir, '.sankiwork-skills', 'fs-emerald', 'open-design.json'),
+      path.join(dir, '.sankiwork-skills', 'fs-emerald', 'sankiwork.json'),
       JSON.stringify({ title: 'Emerald Editorial' }),
     );
 
@@ -3238,7 +3238,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-route-'));
     tempDirs.push(root);
     const liveDir = path.join(root, 'project');
-    const stageDir = path.join(root, '.project.sankiwork-pull-stage-test');
+    const stageDir = path.join(root, '.project.sw-pull-stage-test');
     await mkdir(stageDir);
     await writeFile(path.join(stageDir, 'index.html'), '<title>Staged project</title>');
     const receipt = authorizedReceipt('authorized-fast', 5);
@@ -3320,8 +3320,8 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     tempDirs.push(root);
     const projectId = 'authorized-retry';
     const stageDirs = [
-      path.join(root, `.${projectId}.od-pull-stage-first`),
-      path.join(root, `.${projectId}.od-pull-stage-second`),
+      path.join(root, `.${projectId}.sw-pull-stage-first`),
+      path.join(root, `.${projectId}.sw-pull-stage-second`),
     ];
     await Promise.all(stageDirs.map(async (stageDir) => {
       await mkdir(stageDir);
@@ -3388,8 +3388,8 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     tempDirs.push(root);
     const projectId = 'authorized-retry-bound';
     const stageDirs = [
-      path.join(root, `.${projectId}.od-pull-stage-first`),
-      path.join(root, `.${projectId}.od-pull-stage-second`),
+      path.join(root, `.${projectId}.sw-pull-stage-first`),
+      path.join(root, `.${projectId}.sw-pull-stage-second`),
     ];
     await Promise.all(stageDirs.map(async (stageDir) => {
       await mkdir(stageDir);
@@ -3454,7 +3454,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-retry-cleanup-'));
     tempDirs.push(root);
     const projectId = 'authorized-retry-cleanup';
-    const stageDir = path.join(root, `.${projectId}.od-pull-stage-first`);
+    const stageDir = path.join(root, `.${projectId}.sw-pull-stage-first`);
     await mkdir(stageDir);
     await writeFile(path.join(stageDir, 'index.html'), '<title>Unclean stage</title>');
     let now = Date.parse('2026-08-02T12:00:00.000Z');
@@ -3517,7 +3517,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const liveDir = path.join(root, projectId);
     const stageDir = path.join(
       root,
-      `.${projectId}.od-pull-stage-overlap`,
+      `.${projectId}.sw-pull-stage-overlap`,
     );
     await mkdir(liveDir);
     await writeFile(path.join(liveDir, 'index.html'), 'old');
@@ -3645,7 +3645,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     tempDirs.push(root);
     const projectId = 'cross-lane-pull';
     const liveDir = path.join(root, projectId);
-    const stageDir = path.join(root, `.${projectId}.od-pull-stage-test`);
+    const stageDir = path.join(root, `.${projectId}.sw-pull-stage-test`);
     await mkdir(liveDir);
     await writeFile(path.join(liveDir, 'index.html'), '<title>Version four</title>');
     await mkdir(stageDir);
@@ -3845,7 +3845,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     tempDirs.push(root);
     const projectId = 'cross-lane-retry';
     const liveDir = path.join(root, projectId);
-    const stageDir = path.join(root, `.${projectId}.od-pull-stage-test`);
+    const stageDir = path.join(root, `.${projectId}.sw-pull-stage-test`);
     await mkdir(stageDir);
     await writeFile(path.join(stageDir, 'index.html'), '<title>Version five</title>');
     let durableVersion = 4;
@@ -3972,7 +3972,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     tempDirs.push(root);
     const projectId = 'authorized-transient-route';
     const liveDir = path.join(root, projectId);
-    const stageDir = path.join(root, `.${projectId}.od-pull-stage-test`);
+    const stageDir = path.join(root, `.${projectId}.sw-pull-stage-test`);
     await mkdir(liveDir);
     await writeFile(path.join(liveDir, 'index.html'), '<title>Old project</title>');
     await mkdir(stageDir);
@@ -4075,7 +4075,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-log-'));
     tempDirs.push(root);
     const liveDir = path.join(root, 'project');
-    const stageDir = path.join(root, '.project.sankiwork-pull-stage-test');
+    const stageDir = path.join(root, '.project.sw-pull-stage-test');
     await mkdir(stageDir);
     await writeFile(path.join(stageDir, 'index.html'), '<title>Staged project</title>');
     let snapshot = {
@@ -4123,7 +4123,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
       expect(stage).toHaveBeenCalledTimes(1);
       expect(promote).toHaveBeenCalledTimes(1);
       expect(warn).toHaveBeenCalledWith(
-        '[od] failed to promote authorized team project',
+        '[sw] failed to promote authorized team project',
         {
           projectId: 'authorized-log',
           version: 5,
@@ -4466,7 +4466,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
     const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-preempt-'));
     tempDirs.push(root);
     const liveDir = path.join(root, 'preempt');
-    const stage4 = path.join(root, '.preempt.sankiwork-pull-stage-v4');
+    const stage4 = path.join(root, '.preempt.sw-pull-stage-v4');
     await mkdir(liveDir);
     await writeFile(path.join(liveDir, 'index.html'), '<title>Version three</title>');
     await mkdir(stage4);

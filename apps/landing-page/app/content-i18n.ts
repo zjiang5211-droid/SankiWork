@@ -600,7 +600,7 @@ const BLOG_TOPIC_TITLES: Record<string, Partial<Record<Exclude<LandingLocaleCode
     tr: 'Claude Design için açık kaynak alternatif',
     uk: 'open-source альтернатива Claude Design',
   },
-  'port-figma-workflow-open-design-plugin': {
+  'port-figma-workflow-sankiwork-plugin': {
     zh: '把 Figma 工作流迁移成 SankiWork 插件',
     'zh-tw': '把 Figma 工作流遷移成 SankiWork 外掛',
     ja: 'FigmaワークフローをSankiWorkプラグインへ移植する',
@@ -619,7 +619,7 @@ const BLOG_TOPIC_TITLES: Record<string, Partial<Record<Exclude<LandingLocaleCode
     tr: 'Figma akışını SankiWork eklentisine taşıma',
     uk: 'перенесення Figma-процесу в плагін SankiWork',
   },
-  'why-we-built-open-design-as-a-skill-layer': {
+  'why-we-built-sankiwork-as-a-skill-layer': {
     zh: '为什么把 SankiWork 做成 Skill 层',
     'zh-tw': '為什麼把 SankiWork 做成 Skill 層',
     ja: 'SankiWorkをSkillレイヤーとして作った理由',

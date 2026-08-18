@@ -127,12 +127,12 @@ interface MirrorContext {
   /**
    * Targets we've already copied. Keyed on the *destination* path
    * because the same source file can legitimately need to land at two
-   * different out-locations: e.g. `open-design-landing/assets/hero.png`
-   * is a same-folder ref for the `example-open-design-landing` entry
-   * (lands at `out/plugins/example-open-design-landing/assets/hero.png`)
-   * AND a cross-folder ref for `example-open-design-landing-deck`
-   * (whose iframe URL `../open-design-landing/assets/hero.png` resolves
-   * to `out/plugins/open-design-landing/assets/hero.png`). Tracking by
+   * different out-locations: e.g. `sankiwork-landing/assets/hero.png`
+   * is a same-folder ref for the `example-sankiwork-landing` entry
+   * (lands at `out/plugins/example-sankiwork-landing/assets/hero.png`)
+   * AND a cross-folder ref for `example-sankiwork-landing-deck`
+   * (whose iframe URL `../sankiwork-landing/assets/hero.png` resolves
+   * to `out/plugins/sankiwork-landing/assets/hero.png`). Tracking by
    * source path would deduplicate the second copy and 404 the deck.
    */
   visitedTargets: Set<string>;
@@ -281,7 +281,7 @@ for (const bucket of BUNDLED_BUCKETS_WITH_EXAMPLE) {
   if (!existsSync(bucketDir)) continue;
   for (const slug of listDirs(bucketDir)) {
     const slugDir = path.join(bucketDir, slug);
-    const manifestPath = path.join(slugDir, 'open-design.json');
+    const manifestPath = path.join(slugDir, 'sankiwork.json');
     if (!existsSync(manifestPath)) continue;
 
     let manifest: { name?: unknown; od?: { preview?: { entry?: unknown } } };

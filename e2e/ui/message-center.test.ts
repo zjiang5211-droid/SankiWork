@@ -34,7 +34,7 @@ async function seedEntryHome(page: Page, options?: { locale?: string }) {
     );
   }, { key: STORAGE_KEY, locale: options?.locale ?? null });
 
-  await page.route('**/api/github/open-design', async (route) => {
+  await page.route('**/api/github/sankiwork', async (route) => {
     await route.fulfill({ json: { stargazers_count: 80300 } });
   });
 

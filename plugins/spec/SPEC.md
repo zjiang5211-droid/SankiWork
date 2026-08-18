@@ -26,12 +26,12 @@ The folder name, `name`, and manifest `name` should match. Use lowercase letters
 
 ## 2. Enriched SankiWork Plugin
 
-Add `open-design.json` when the plugin should appear in SankiWork as a marketplace card or starter:
+Add `sankiwork.json` when the plugin should appear in SankiWork as a marketplace card or starter:
 
 ```text
 my-plugin/
   SKILL.md
-  open-design.json
+  sankiwork.json
   README.md
   preview/
   examples/
@@ -40,7 +40,7 @@ my-plugin/
   evals/
 ```
 
-`open-design.json` points at the skill and declares the product surface:
+`sankiwork.json` points at the skill and declares the product surface:
 
 ```json
 {
@@ -208,7 +208,7 @@ Also add `evals/trigger-queries.json` for activation testing when the descriptio
 Before opening a PR:
 
 1. Validate JSON syntax.
-2. Confirm `open-design.json` includes `specVersion` and a bumped plugin `version` when behavior changed.
+2. Confirm `sankiwork.json` includes `specVersion` and a bumped plugin `version` when behavior changed.
 3. Run `pnpm guard`.
 4. Run `pnpm --filter @sankiwork/plugin-runtime typecheck`.
 5. If available, run `sw plugin validate ./path/to/plugin`.

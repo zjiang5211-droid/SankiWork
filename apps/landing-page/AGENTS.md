@@ -13,10 +13,10 @@ legacy live-artifact templates.
 
 Tightly coupled with:
 
-- Design template: `design-templates/open-design-landing/` — agent workflow + the source-of-truth
+- Design template: `design-templates/sankiwork-landing/` — agent workflow + the source-of-truth
   `example.html` known-good rendering for the homepage hero.
 - Design system: `design-systems/atelier-zero/DESIGN.md` — token spec.
-- Image assets: `design-templates/open-design-landing/assets/*.png` are uploaded to
+- Image assets: `design-templates/sankiwork-landing/assets/*.png` are uploaded to
   Cloudflare R2 (`sankiwork-static`) and served through
   `static.sanki-ai.cloud` with Image Resizing (`format=auto`). Do not
   commit local mirrored PNGs into `apps/landing-page/public/assets/`.
@@ -45,7 +45,7 @@ Tightly coupled with:
   CDN-ready HTML/CSS plus a small inline enhancement script;
   no React runtime ships to browsers.
 - All styles split between `app/globals.css` (homepage, kept in
-  lockstep with `design-templates/open-design-landing/example.html`) and
+  lockstep with `design-templates/sankiwork-landing/example.html`) and
   `app/sub-pages.css` (catalog/facet/detail pages).
 - All page imagery is referenced through `app/image-assets.ts`, which
   builds Cloudflare Image Resizing URLs for the R2 originals.
@@ -87,7 +87,7 @@ Tightly coupled with:
   counts and its `{skills}`/`{systems}` substitution stays as a no-op
   hook, so if the description ever surfaces a count again it must route
   through `getCatalogCounts()`.
-- When the canonical `design-templates/open-design-landing/example.html`
+- When the canonical `design-templates/sankiwork-landing/example.html`
   changes, the corresponding section JSX in `app/page.tsx` and rules
   in `app/globals.css` must be updated to match. Those two files are
   kept in lockstep; the rest of the landing-page sources are not.
@@ -101,28 +101,28 @@ Tightly coupled with:
 Deploys are split across **two Cloudflare Pages projects** so a merge to
 `main` can never publish to the live site on its own:
 
-- Production project `open-design-landing` → `sanki-ai.cloud`.
-- Staging project `open-design-landing-staging` → `staging.sanki-ai.cloud`.
+- Production project `sankiwork-landing` → `sanki-ai.cloud`.
+- Staging project `sankiwork-landing-staging` → `staging.sanki-ai.cloud`.
 
 The safety gate is project separation: only the manual production workflow
 ever names the production project.
 
 - `.github/workflows/landing-page-staging.yml` runs on push to `main` and
-  deploys to the **staging project** (`open-design-landing-staging`,
+  deploys to the **staging project** (`sankiwork-landing-staging`,
   `staging.sanki-ai.cloud`).
 - `.github/workflows/landing-page-production.yml` is **manual**
   (`workflow_dispatch`) and is the only workflow that names the production
-  project (`open-design-landing`, `sanki-ai.cloud`). Gate it with required
+  project (`sankiwork-landing`, `sanki-ai.cloud`). Gate it with required
   reviewers on the GitHub `production` environment.
 - `.github/workflows/landing-page-ci.yml` runs on PRs: it validates the build
   and, for same-repo branches, deploys a per-PR preview into the staging
   project (`--branch=pr-<number>` →
-  `pr-<number>.open-design-landing-staging.pages.dev`) and comments the URL.
+  `pr-<number>.sankiwork-landing-staging.pages.dev`) and comments the URL.
 
 The staging workflow triggers when **any** of these change:
 
 - `apps/landing-page/**`
-- `design-templates/open-design-landing/**`
+- `design-templates/sankiwork-landing/**`
 - `design-templates/**`
 - `skills/**`
 - `design-systems/**`
@@ -157,6 +157,6 @@ pnpm --filter @sankiwork/landing-page build        # static export → out/
   and route entries that match the existing index/detail/facet pattern.
 - New section added to the canonical landing page → port it into
   `app/page.tsx` and `app/globals.css` keeping lockstep with
-  `design-templates/open-design-landing/example.html`.
+  `design-templates/sankiwork-landing/example.html`.
 - Brand re-keying for a non-SankiWork tenant → fork the app, update
   copy, swap PNGs. Do not parameterize this app for multi-tenancy.

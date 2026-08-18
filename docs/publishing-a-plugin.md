@@ -12,7 +12,7 @@ sw plugin scaffold --id figma-workflow --title "Figma workflow" --out ./plugins/
 The scaffold command creates `./plugins/community/figma-workflow/`. Plugin IDs
 must be lowercase, start with a letter, and use only `[a-z0-9._-]`; slash-
 separated registry paths are used by catalogs, not by `sw plugin scaffold`.
-The generated `open-design.json` is the SankiWork sidecar next to `SKILL.md`.
+The generated `sankiwork.json` is the SankiWork sidecar next to `SKILL.md`.
 
 ## 2. Validate And Pack
 
@@ -22,7 +22,7 @@ sw plugin pack ./plugins/community/figma-workflow
 ```
 
 The registry accepts anything that validates and packs. The source repository
-does not need a special layout beyond `SKILL.md` plus `open-design.json`.
+does not need a special layout beyond `SKILL.md` plus `sankiwork.json`.
 `sw plugin pack` writes the archive next to the plugin folder by default.
 
 ## 3. Authenticate
@@ -43,7 +43,7 @@ sw plugin publish figma-workflow --to sankiwork --repo https://github.com/acme/f
 
 v1 opens the GitHub registry review flow. The publish payload includes the
 plugin ID, version, repo, capability summary, and target registry entry path.
-After merge, CI regenerates `open-design-marketplace.json`.
+After merge, CI regenerates `sankiwork-marketplace.json`.
 
 ## 5. Install From The Registry
 

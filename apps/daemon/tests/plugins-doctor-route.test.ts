@@ -62,7 +62,7 @@ describe('POST /api/plugins/:id/doctor', () => {
     const folder = path.join(pluginRoot, pluginId);
     await mkdir(folder, { recursive: true });
     await writeFile(
-      path.join(folder, 'open-design.json'),
+      path.join(folder, 'sankiwork.json'),
       JSON.stringify({
         $schema: 'https://sanki-ai.cloud/schemas/plugin.v1.json',
         name: pluginId,

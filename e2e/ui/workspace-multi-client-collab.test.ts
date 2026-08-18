@@ -842,7 +842,7 @@ test('[P0] two isolated clients converge shared plugins and skills without scope
     await writeProjectTextFile(
       ownerPage,
       projectId,
-      'plugin-source/open-design.json',
+      'plugin-source/sankiwork.json',
       JSON.stringify({
         $schema: 'https://sanki-ai.cloud/schemas/plugin.v1.json',
         name: pluginId,

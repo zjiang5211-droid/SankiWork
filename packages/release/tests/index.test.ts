@@ -54,7 +54,7 @@ describe("@sankiwork/release", () => {
     expect(releaseChannelDescriptor("prerelease").productName).toBe("SankiWork Prerelease");
     expect(releaseChannelDescriptor("betas").productName).toBe("SankiWork Betas");
     expect(releaseInstallIdentity("prerelease")).toEqual({
-      appId: "io.open-design.desktop.prerelease",
+      appId: "io.sankiwork.desktop.prerelease",
       executableName: "SankiWork Prerelease",
       productName: "SankiWork Prerelease",
     });

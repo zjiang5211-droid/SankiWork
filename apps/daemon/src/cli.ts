@@ -2423,7 +2423,7 @@ async function runPlugin(args) {
 
 // Phase 4 / spec §14.1 — `sw plugin scaffold` interactive starter.
 //
-// Side-effect: writes a SKILL.md + open-design.json starter under
+// Side-effect: writes a SKILL.md + sankiwork.json starter under
 // `<targetDir>/<id>/`. Default targetDir is process.cwd() so a code
 // agent can drop the scaffold into the current repo root.
 async function runPluginScaffold(rest) {
@@ -2440,7 +2440,7 @@ async function runPluginScaffold(rest) {
                      [--mode <mode>] [--scenario <scenario>]
                      [--out <dir>] [--with-claude-plugin]
 
-Writes <out|cwd>/<id>/{SKILL.md,open-design.json,README.md}.`);
+Writes <out|cwd>/<id>/{SKILL.md,sankiwork.json,README.md}.`);
     process.exit(rest.length === 0 ? 2 : 0);
   }
   const id = typeof flags.id === 'string' && flags.id.length > 0
@@ -2606,7 +2606,7 @@ rejection at install).
 Exit codes:
   0  archive written
   2  CLI usage error
-  4  pack-time error (missing open-design.json, invalid JSON, etc)`);
+  4  pack-time error (missing sankiwork.json, invalid JSON, etc)`);
     process.exit(rest.length === 0 ? 2 : 0);
   }
   const folder = rest[0];
@@ -3587,7 +3587,7 @@ function resolveCliEntryVersion(entry, range) {
 
 // Plan §3.MM1 — `sw plugin manifest <id>`. Prints just the parsed
 // manifest JSON, no wrapper. Useful for plugin authors who want to
-// compare the daemon's view to their on-disk open-design.json
+// compare the daemon's view to their on-disk sankiwork.json
 // without scrolling past the registry record fields (sourceKind /
 // fsPath / installedAt etc).
 async function runPluginManifest(rest) {
@@ -4675,7 +4675,7 @@ async function runPluginPublish(rest) {
     console.log(`Usage:
   sw plugin publish <pluginId> --to sankiwork|anthropics-skills|awesome-agent-skills|clawhub|skills-sh
                     [--repo <github-url>] [--snapshot-id <id>] [--open] [--json]
-  sw plugin publish <pluginId> --to marketplace-json --catalog ./open-design-marketplace.json --repo <github-url>
+  sw plugin publish <pluginId> --to marketplace-json --catalog ./sankiwork-marketplace.json --repo <github-url>
 
 The CLI prints the catalog's submission URL + a pre-filled PR body.
 Pass --open to auto-launch the system browser. Use --snapshot-id to
@@ -4812,7 +4812,7 @@ GitHub API as a last resort. It never publishes to placeholder owners.`);
     import('node:os'),
   ]);
   const absFolder = resolve(process.cwd(), folder);
-  const manifestPath = resolve(absFolder, 'open-design.json');
+  const manifestPath = resolve(absFolder, 'sankiwork.json');
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   const host = typeof flags.host === 'string' ? flags.host : 'github.com';
   const target = await resolvePluginGithubTarget({ host, owner: flags.owner, manifest, purpose: 'publish-repo' });
@@ -4970,7 +4970,7 @@ fork of nexu-io/open-design, pushes a branch, and opens the PR form with --web.`
     import('node:os'),
   ]);
   const absFolder = resolve(process.cwd(), folder);
-  const manifestPath = resolve(absFolder, 'open-design.json');
+  const manifestPath = resolve(absFolder, 'sankiwork.json');
   const manifest = JSON.parse(await fsp.readFile(manifestPath, 'utf8'));
   const host = typeof flags.host === 'string' ? flags.host : 'github.com';
   const target = await resolvePluginGithubTarget({ host, owner: flags.owner, manifest, purpose: 'sankiwork-pr' });
@@ -5951,7 +5951,7 @@ function printFigmaUsage() {
   sw figma import --project <id> --figma-url <url> [--notes "<text>"] [--json]
 
 Imports a Figma design into a project. A .fig file is decoded fully offline
-(no Figma account); a Figma URL runs through the od-figma-migration scenario
+(no Figma account); a Figma URL runs through the sw-figma-migration scenario
 (OAuth). Either way it stages a figma/ snapshot the agent reshapes into a
 webpage.
 
@@ -6005,7 +6005,7 @@ async function runFigma(args) {
   if (figmaUrl && !file) {
     const runBody = {
       projectId: flags.project,
-      pluginId: 'od-figma-migration',
+      pluginId: 'sw-figma-migration',
       pluginInputs: { figmaUrl, ...(flags.notes ? { notes: flags.notes } : {}) },
     };
     const runResp = await fetch(`${base}/api/runs`, {
@@ -8605,7 +8605,7 @@ async function runDaemonStart(flags) {
     openBrowser: !headless,
     port,
   });
-  console.log(`[od] listening on ${runtime.url} (${headless ? 'headless' : 'desktop'})`);
+  console.log(`[sw] listening on ${runtime.url} (${headless ? 'headless' : 'desktop'})`);
 
   await new Promise((resolve) => {
     let shuttingDown = false;

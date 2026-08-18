@@ -2,7 +2,7 @@
 
 A small community plugin for exercising the SankiWork import UI. It is meant
 to be boring in exactly the useful way: the folder has the portable `SKILL.md`
-floor, the enriched `open-design.json` sidecar, and a minimal Claude-compatible
+floor, the enriched `sankiwork.json` sidecar, and a minimal Claude-compatible
 plugin manifest.
 
 ## Test Paths

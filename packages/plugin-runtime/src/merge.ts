@@ -1,7 +1,7 @@
 import type { PluginManifest } from '@sankiwork/contracts';
 
-// Merge a sidecar `open-design.json` PluginManifest with one or more adapter
-// outputs. `open-design.json` always wins (spec §5.4); adapter values fill
+// Merge a sidecar `sankiwork.json` PluginManifest with one or more adapter
+// outputs. `sankiwork.json` always wins (spec §5.4); adapter values fill
 // gaps so a plugin that ships only SKILL.md still reaches a fully-formed
 // manifest. Foreign content lands in `compat.*` lists rather than being
 // dropped.

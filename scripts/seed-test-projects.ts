@@ -139,7 +139,7 @@ const DECKS: SeedFixture[] = [
 
 const WEBS: SeedFixture[] = [
   {
-    skillId: 'open-design-landing',
+    skillId: 'sankiwork-landing',
     sourceKind: 'skill',
     kind: 'prototype',
     name: 'Editorial landing — Atelier Zero',

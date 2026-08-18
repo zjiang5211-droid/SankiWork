@@ -13,7 +13,7 @@ metadata:
 
 1. Read `plugins/spec/SPEC.md` and the closest example plugin.
 2. Identify the target lane, mode, trigger description, required atoms, inputs, and capabilities.
-3. Scaffold a plugin folder with `SKILL.md`, `open-design.json`, `README.md`, and evals when useful.
+3. Scaffold a plugin folder with `SKILL.md`, `sankiwork.json`, `README.md`, and evals when useful.
 4. Validate JSON and run available repo checks.
 5. Prepare publish or PR instructions.
 

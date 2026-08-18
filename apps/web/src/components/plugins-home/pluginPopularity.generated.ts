@@ -41,7 +41,7 @@ export const PLUGIN_POPULARITY_META: PluginPopularityMeta = {
 export const PLUGIN_POPULARITY: Readonly<Record<string, number>> = {
   'example-web-prototype': 1.0,
   'example-simple-deck': 0.876,
-  'example-open-design-landing': 0.7041,
+  'example-sankiwork-landing': 0.7041,
   'example-mobile-app': 0.6979,
   'example-web-clone': 0.6679,
   'example-gamified-app': 0.6248,
@@ -91,7 +91,7 @@ export const PLUGIN_POPULARITY: Readonly<Record<string, number>> = {
   'example-huashu-golden-circle': 0.4297,
   'example-html-ppt-zhangzara-cobalt-grid': 0.4293,
   'example-html-ppt-weekly-report': 0.4278,
-  'example-open-design-landing-deck': 0.4251,
+  'example-sankiwork-landing-deck': 0.4251,
   'example-docs-page': 0.4241,
   'image-template-profile-avatar-anime-girl-to-cinematic-photo': 0.4237,
   'image-template-3d-stone-staircase-evolution-infographic': 0.4216,

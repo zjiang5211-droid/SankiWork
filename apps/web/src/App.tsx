@@ -915,7 +915,7 @@ function AppInner() {
   // screen (subsequent failures show up as `$exception`).
   useEffect(() => {
     if (typeof document !== 'undefined') {
-      document.documentElement.setAttribute('data-od-app-mounted', '1');
+      document.documentElement.setAttribute('data-sw-app-mounted', '1');
       document.querySelectorAll('.od-loading-shell').forEach((node) => node.remove());
     }
   }, []);
@@ -3255,7 +3255,7 @@ function AppInner() {
   const handleCreateProjectFromDesignSystem = useCallback(
     async (designSystemId: string, designSystemTitle: string) => {
       // "Create with this design system" must NOT assume a prototype. Route
-      // the click through the hidden default design router (od-default) —
+      // the click through the hidden default design router (sw-default) —
       // exactly like a free-form Home prompt. The preset prompt seeds the
       // conversation and is auto-sent so the router can infer the task type
       // from the brief, asking only when the route remains ambiguous. `kind`

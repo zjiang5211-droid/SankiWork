@@ -1282,12 +1282,12 @@ describe('listPlugins', () => {
 
   it('hides plugins marked od.hidden from UI-facing lists', async () => {
     const visible = {
-      id: 'od-new-generation',
+      id: 'sw-new-generation',
       title: 'New generation',
       manifest: { od: { kind: 'scenario' } },
     };
     const hidden = {
-      id: 'od-default',
+      id: 'sw-default',
       title: 'Default design router',
       manifest: { od: { kind: 'scenario', hidden: true } },
     };
@@ -1298,17 +1298,17 @@ describe('listPlugins', () => {
 
     const rows = await listPlugins();
 
-    expect(rows.map((row) => row.id)).toEqual(['od-new-generation']);
+    expect(rows.map((row) => row.id)).toEqual(['sw-new-generation']);
   });
 
   it('can include hidden plugins for installed-entry matching', async () => {
     const visible = {
-      id: 'od-new-generation',
+      id: 'sw-new-generation',
       title: 'New generation',
       manifest: { od: { kind: 'scenario' } },
     };
     const hidden = {
-      id: 'od-default',
+      id: 'sw-default',
       title: 'Default design router',
       manifest: { od: { kind: 'scenario', hidden: true } },
     };
@@ -1319,7 +1319,7 @@ describe('listPlugins', () => {
 
     const rows = await listPlugins({ includeHidden: true });
 
-    expect(rows.map((row) => row.id)).toEqual(['od-default', 'od-new-generation']);
+    expect(rows.map((row) => row.id)).toEqual(['sw-default', 'sw-new-generation']);
   });
 
   it('keeps a settled signed-out catalog request headerless', async () => {
@@ -1623,7 +1623,7 @@ describe('installGeneratedPluginFolder', () => {
     const fetchMock = vi.fn<typeof fetch>(async () => new Response(
       JSON.stringify({
         ok: false,
-        warnings: ['Missing open-design.json'],
+        warnings: ['Missing sankiwork.json'],
         message: 'Plugin validation failed.',
         log: ['Validating generated-plugin'],
       }),
@@ -1635,7 +1635,7 @@ describe('installGeneratedPluginFolder', () => {
 
     expect(outcome).toMatchObject({
       ok: false,
-      warnings: ['Missing open-design.json'],
+      warnings: ['Missing sankiwork.json'],
       message: 'Plugin validation failed.',
       log: ['Validating generated-plugin'],
     });
@@ -1863,7 +1863,7 @@ describe('createPluginShareProject', () => {
         },
         conversationId: 'conversation-1',
         appliedPluginSnapshotId: 'snapshot-1',
-        actionPluginId: 'od-plugin-publish-github',
+        actionPluginId: 'sw-plugin-publish-github',
         sourcePluginId: 'sample-plugin',
         stagedPath: 'plugin-source/sample-plugin',
         prompt: 'Publish it',

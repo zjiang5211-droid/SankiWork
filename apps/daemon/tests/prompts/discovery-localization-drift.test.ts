@@ -28,14 +28,14 @@ describe('discovery prompt localization rules', () => {
 });
 
 describe('task-type form ownership', () => {
-  it.each(promptPaths)('%s does not duplicate the od-default task-type form', (path) => {
+  it.each(promptPaths)('%s does not duplicate the sw-default task-type form', (path) => {
     const source = readFileSync(resolve(repoRoot, path), 'utf8');
     expect(source).not.toContain('<question-form id="task-type"');
   });
 
-  it('keeps the single conditional task-type form in od-default', () => {
+  it('keeps the single conditional task-type form in sw-default', () => {
     const source = readFileSync(
-      resolve(repoRoot, 'plugins/_official/scenarios/od-default/SKILL.md'),
+      resolve(repoRoot, 'plugins/_official/scenarios/sw-default/SKILL.md'),
       'utf8',
     );
     const formStart = source.indexOf('<question-form id="task-type"');
@@ -132,19 +132,19 @@ describe('active skill clarification policy', () => {
 describe('product clarification copy', () => {
   it.each([
     {
-      path: 'design-templates/open-design-landing/inputs.example.json',
+      path: 'design-templates/sankiwork-landing/inputs.example.json',
       required: 'When unresolved choices would materially change the result',
     },
     {
-      path: 'design-templates/open-design-landing/example.html',
+      path: 'design-templates/sankiwork-landing/example.html',
       required: 'When unresolved choices would materially change the result',
     },
     {
-      path: 'plugins/_official/examples/open-design-landing/example.html',
+      path: 'plugins/_official/examples/sankiwork-landing/example.html',
       required: 'When unresolved choices would materially change the result',
     },
     {
-      path: 'design-templates/open-design-landing-deck/inputs.example.json',
+      path: 'design-templates/sankiwork-landing-deck/inputs.example.json',
       required: 'only when they materially affect the result',
     },
     {

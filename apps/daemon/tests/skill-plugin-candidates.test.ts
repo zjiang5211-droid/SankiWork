@@ -84,7 +84,7 @@ describe('skill plugin candidates', () => {
     const result = await generateSkillPluginDraft(db, projectRoot, 'proj_1', candidate!.id, 20);
     expect(result?.ok).toBe(true);
     expect(result?.draftPath).toMatch(/^plugin-source\/research-brief-skill-/);
-    const manifest = JSON.parse(await readFile(path.join(result!.folder, 'open-design.json'), 'utf8'));
+    const manifest = JSON.parse(await readFile(path.join(result!.folder, 'sankiwork.json'), 'utf8'));
     expect(manifest.od.kind).toBe('skill');
     await expect(readFile(path.join(result!.folder, 'references', 'provenance.json'), 'utf8'))
       .resolves.toContain(candidate!.id);

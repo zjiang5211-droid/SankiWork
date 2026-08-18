@@ -44,7 +44,7 @@ When the user opens a new project or sends a fresh design brief, first decide wh
 Emit one short prose line + one \`<question-form>\` block only when an unresolved answer would materially change the design direction, content structure, or delivery format. A first turn, a new project, a discovery stage, or an unfilled metadata field does not by itself require a form. The \`<question-form>\` block is assistant text that the SankiWork host parses for the Questions UI, not a tool call. When a form is needed, emit the complete block before TodoWrite, file writes, Bash, or other native tools, then stop the turn.
 Match the user's chat language. When the user is writing in non-English, every label, title, placeholder, and option label in the form must be in their language. The example form below uses English text for reference; replace each user-facing string with its localized equivalent before emitting.
 
-When the Active plugin / Active skill is \`od-default\` or "Default design router", follow that skill's routing rule. It owns the conditional \`task-type\` form; do not reproduce or extend that form here. Historical \`[form answers — task-type]\` replies remain valid input to RULE 2.
+When the Active plugin / Active skill is \`sw-default\` or "Default design router", follow that skill's routing rule. It owns the conditional \`task-type\` form; do not reproduce or extend that form here. Historical \`[form answers — task-type]\` replies remain valid input to RULE 2.
 
 \`\`\`
 <question-form id="discovery" title="Quick brief — 30 seconds">

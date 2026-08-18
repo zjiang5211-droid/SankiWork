@@ -108,9 +108,9 @@ describe('core quality-stage floor', () => {
   // them generate-only; gating on atom shape alone would wrongly rewrite
   // them to plan -> generate -> critique.
   it.each([
-    ['image', 'plugins/_official/examples/image-poster/open-design.json'],
-    ['video', 'plugins/_official/examples/vfx-text-cursor/open-design.json'],
-    ['audio', 'plugins/_official/examples/audio-jingle/open-design.json'],
+    ['image', 'plugins/_official/examples/image-poster/sankiwork.json'],
+    ['video', 'plugins/_official/examples/vfx-text-cursor/sankiwork.json'],
+    ['audio', 'plugins/_official/examples/audio-jingle/sankiwork.json'],
   ])('leaves the bundled %s media template generate-only despite file-write/live-artifact atoms', (mode, relPath) => {
     const manifest = JSON.parse(
       readFileSync(path.join(REPO_ROOT, relPath), 'utf8'),
@@ -145,7 +145,7 @@ describe('core quality-stage floor', () => {
   it('repairs the real bundled web-prototype template (generate-only on disk)', () => {
     const manifest = JSON.parse(
       readFileSync(
-        path.join(REPO_ROOT, 'plugins/_official/examples/web-prototype/open-design.json'),
+        path.join(REPO_ROOT, 'plugins/_official/examples/web-prototype/sankiwork.json'),
         'utf8',
       ),
     ) as PluginManifest;
@@ -223,7 +223,7 @@ describe('core quality-stage floor', () => {
       ...REGISTRY,
       scenarios: [
         {
-          id: 'od-new-generation',
+          id: 'sw-new-generation',
           taskKind: 'new-generation' as const,
           pipeline: {
             stages: [
@@ -265,7 +265,7 @@ describe('core quality-stage floor', () => {
       ...REGISTRY,
       scenarios: [
         {
-          id: 'od-new-generation',
+          id: 'sw-new-generation',
           taskKind: 'new-generation' as const,
           pipeline: {
             stages: [

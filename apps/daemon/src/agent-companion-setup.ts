@@ -234,7 +234,7 @@ async function installDeepSeekHarnessCompanionOnce(options: {
     );
   } catch (error) {
     console.error(
-      '[od] DeepSeek Harness connection component install failed',
+      '[sw] DeepSeek Harness connection component install failed',
       commandFailureDetail(error) ?? 'no command diagnostics were available',
     );
     throw new AgentCompanionSetupError(

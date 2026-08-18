@@ -11,14 +11,14 @@
 // bundled skill+template (decks, web prototypes) point to the
 // specialised plugin so the agent gets a real seed (`assets/template.html`),
 // a layout vocabulary (`references/layouts.md`), and a P0 checklist —
-// instead of routing through the generic od-new-generation router and
+// instead of routing through the generic sw-new-generation router and
 // re-inventing every slide/section's CSS from scratch. The latter is
 // the root cause of decks that overflow the 1080px canvas, mismatched
 // type scales, and "different aesthetic every turn" drift.
 //
-// Generic / catch-all kinds (template, other) keep od-new-generation,
+// Generic / catch-all kinds (template, other) keep sw-new-generation,
 // which runs discovery → plan → generate → critique without a
-// surface-specific seed. Media kinds keep od-media-generation, which
+// surface-specific seed. Media kinds keep sw-media-generation, which
 // dispatches through the media contract instead of emitting HTML.
 
 import type { ProjectKind, ProjectMetadata } from '../api/projects.js';
@@ -37,20 +37,20 @@ export type TaskKind = AppliedPluginSnapshot['taskKind'];
 // Kept as a string-literal union so a typo surfaces as a type error in
 // both the web shell and the daemon resolver.
 export type DefaultScenarioPluginId =
-  | 'od-default'
-  | 'od-new-generation'
-  | 'od-media-generation'
-  | 'od-plugin-authoring'
-  | 'od-figma-migration'
-  | 'od-code-migration'
-  | 'od-tune-collab'
+  | 'sw-default'
+  | 'sw-new-generation'
+  | 'sw-media-generation'
+  | 'sw-plugin-authoring'
+  | 'sw-figma-migration'
+  | 'sw-code-migration'
+  | 'sw-tune-collab'
   | 'example-live-artifact'
   | 'example-simple-deck'
   | 'example-web-clone'
   | 'example-web-prototype';
 
 export const DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID =
-  'od-default' satisfies DefaultScenarioPluginId;
+  'sw-default' satisfies DefaultScenarioPluginId;
 
 export const DEFAULT_SCENARIO_PLUGIN_BY_KIND: Record<ProjectKind, DefaultScenarioPluginId> = {
   // Prototypes bind to web-prototype's seed template (single-file HTML,
@@ -61,19 +61,19 @@ export const DEFAULT_SCENARIO_PLUGIN_BY_KIND: Record<ProjectKind, DefaultScenari
   // closing, plus an overflow checklist that catches the
   // "headline + subtitle + absolute footer" collision).
   deck:      'example-simple-deck',
-  template:  'od-new-generation',
-  brand:     'od-new-generation',
-  image:     'od-media-generation',
-  video:     'od-media-generation',
-  audio:     'od-media-generation',
-  other:     'od-new-generation',
+  template:  'sw-new-generation',
+  brand:     'sw-new-generation',
+  image:     'sw-media-generation',
+  video:     'sw-media-generation',
+  audio:     'sw-media-generation',
+  other:     'sw-new-generation',
 };
 
 export const DEFAULT_SCENARIO_PLUGIN_BY_TASK_KIND: Record<TaskKind, DefaultScenarioPluginId> = {
-  'new-generation':  'od-new-generation',
-  'figma-migration': 'od-figma-migration',
-  'code-migration':  'od-code-migration',
-  'tune-collab':     'od-tune-collab',
+  'new-generation':  'sw-new-generation',
+  'figma-migration': 'sw-figma-migration',
+  'code-migration':  'sw-code-migration',
+  'tune-collab':     'sw-tune-collab',
 };
 
 export function defaultScenarioPluginIdForKind(

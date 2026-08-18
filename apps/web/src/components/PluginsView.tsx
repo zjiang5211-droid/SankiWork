@@ -2568,7 +2568,7 @@ export function ExtensionsMarketplace({
                   <p>
                     {t('pluginsView.uploadFolderBody', {
                       kind: pluginKindLabel(createKind, t),
-                      manifest: createKind === 'plugin' ? 'open-design.json / SKILL.md' : 'SKILL.md',
+                      manifest: createKind === 'plugin' ? 'sankiwork.json / SKILL.md' : 'SKILL.md',
                     })}
                   </p>
                   <input
@@ -3811,7 +3811,7 @@ function PluginImportModal({
           {kind === 'zip' ? (
             <FileImportPanel
               title="Upload zip"
-              body="Choose a .zip archive containing open-design.json, SKILL.md, or .claude-plugin/plugin.json."
+              body="Choose a .zip archive containing sankiwork.json, SKILL.md, or .claude-plugin/plugin.json."
               accept=".zip,application/zip"
               working={working}
               fileLabel={zipFile?.name ?? 'No zip selected'}

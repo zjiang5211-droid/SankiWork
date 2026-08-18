@@ -94,7 +94,7 @@ function logCommandTermination(
       `error=${detail.error instanceof Error ? detail.error.name : 'unknown'}`,
     );
   }
-  console.warn(`[od] vela_command_termination ${fields.join(' ')}`);
+  console.warn(`[sw] vela_command_termination ${fields.join(' ')}`);
 }
 
 export function velaWorkspaceCommandOptions(

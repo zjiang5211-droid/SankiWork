@@ -11,7 +11,7 @@ i18n:
     bodyHtml: |
       <p>如果你在 2026 年用过托管式 AI 设计产品，多半已经注意到账单在悄悄往上走。一层订阅费，叠加按席位的收费，再叠加一道没人公开的推理加价。这笔账故意算不清楚。</p>
       <p>SankiWork 不运行推理。我们在 token 上没有差价。整个工作流都是围绕 <strong>自带密钥（BYOK）</strong> 构建的——你把 daemon 指向任意一个兼容 OpenAI 的端点，粘贴你自己的 API 密钥，就完成了。</p>
-      <p>这篇文章会解释我们为什么做出这个选择、它在底层是怎么工作的，以及它在日常工作流中究竟改变了什么。如果你想了解背后更宏观的理念论证，<a href="/blog/why-we-built-open-design-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a> 是配套的姊妹篇——这一篇则是上手实操版。</p>
+      <p>这篇文章会解释我们为什么做出这个选择、它在底层是怎么工作的，以及它在日常工作流中究竟改变了什么。如果你想了解背后更宏观的理念论证，<a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a> 是配套的姊妹篇——这一篇则是上手实操版。</p>
       <h2>这里说的「BYOK」到底是什么意思</h2>
       <p>在 AI 工具领域，「BYOK」其实有两种定义，它们并不是一回事：</p>
       <ul>
@@ -170,7 +170,7 @@ i18n:
       <p>这就是 BYOK 故事的全部。没有特别的档位，没有升级流程，没有跟我们之间的计费关系。你付费给模型服务商，你保管你的密钥，你保管你的 prompt。我们提供这一层。</p>
       <h2>延伸阅读</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a>——选择交付一个薄薄的层、而非一款托管应用，背后的赌注</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a>——选择交付一个薄薄的层、而非一款托管应用，背后的赌注</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">BYOK 现实检验：会出问题的 5 件事</a>——自带密钥诚实的权衡取舍与毛刺所在</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 个 skill、72 个 system：SankiWork 库是怎么运作的</a>——无论你跑哪个模型都保持不变的那些 <code>SKILL.md</code> / <code>DESIGN.md</code> 文件</li>
       </ul>
@@ -180,7 +180,7 @@ i18n:
     bodyHtml: |
       <p>如果你在 2026 年用過代管式 AI 設計產品，你大概已經注意到帳單一直往上爬。訂閱費疊在按席位收費之上，再疊上一層誰都不公開的推論加價。這套數學是故意算得不透明的。</p>
       <p>SankiWork 不跑推論。我們不在 token 上抽利潤。整個工作流程都圍繞著<strong>自備金鑰（BYOK）</strong>打造——你把 daemon 指向任何 OpenAI 相容的端點，貼上你自己的 API 金鑰，就完成了。</p>
-      <p>這篇文章說明我們為什麼做出這個選擇、它在底層如何運作，以及它在你的日常工作流程中到底改變了什麼。如果你想了解背後更大的理念論述，<a href="/blog/why-we-built-open-design-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>是它的姊妹篇——這一篇則是實作版。</p>
+      <p>這篇文章說明我們為什麼做出這個選擇、它在底層如何運作，以及它在你的日常工作流程中到底改變了什麼。如果你想了解背後更大的理念論述，<a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>是它的姊妹篇——這一篇則是實作版。</p>
       <h2>這裡的「BYOK」到底是什麼意思</h2>
       <p>在 AI 工具圈裡，BYOK 有兩種定義在流傳，而它們並不是同一回事：</p>
       <ul>
@@ -339,7 +339,7 @@ i18n:
       <p>這就是 BYOK 的全部故事。沒有特殊層級、沒有升級流程、沒有跟我們的帳務關係。你付費給模型供應商，你保有你的金鑰，你保有你的提示。我們提供的是那一層。</p>
       <h2>延伸閱讀</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>——選擇出貨一層薄層而非一個代管 app 背後的賭注</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>——選擇出貨一層薄層而非一個代管 app 背後的賭注</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">BYOK 現實檢驗：會出問題的 5 件事</a>——自備金鑰誠實的取捨與粗糙邊角</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 個技能、72 個系統：SankiWork 函式庫如何運作</a>——不管你跑哪個模型都保持不變的 <code>SKILL.md</code> / <code>DESIGN.md</code> 檔案</li>
       </ul>
@@ -349,7 +349,7 @@ i18n:
     bodyHtml: |
       <p>2026 年にホスト型の AI デザイン製品を使ったことがあるなら、請求額がじわじわ増えていることに気づいているはずです。シート単位の課金の上にサブスクリプションが乗り、さらにその上に誰も公表していない推論マークアップが重なる。この計算は意図的に不透明になっています。</p>
       <p>SankiWork は推論を実行しません。トークンにマージンを乗せることもありません。ワークフロー全体が <strong>bring-your-own-key（BYOK）</strong> を中心に構築されています。daemon を任意の OpenAI 互換エンドポイントに向け、自分の API キーを貼り付ければ、それで完了です。</p>
-      <p>この記事では、なぜその選択をしたのか、内部でどう動くのか、そして日々のワークフローで実際に何が変わるのかを説明します。その背景にあるより大きな哲学的な議論を知りたい方には、<a href="/blog/why-we-built-open-design-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a>が対になる記事です。こちらは実践編になります。</p>
+      <p>この記事では、なぜその選択をしたのか、内部でどう動くのか、そして日々のワークフローで実際に何が変わるのかを説明します。その背景にあるより大きな哲学的な議論を知りたい方には、<a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a>が対になる記事です。こちらは実践編になります。</p>
       <h2>ここでの「BYOK」が本当に意味するもの</h2>
       <p>AI ツールの分野には BYOK の定義が 2 つ出回っており、両者は同じものではありません。</p>
       <ul>
@@ -428,7 +428,7 @@ i18n:
       <p>これが BYOK のすべてです。特別な階層も、アップグレードのフローも、私たちとの請求関係もありません。あなたはモデルプロバイダーに支払い、自分のキーを保持し、自分のプロンプトを保持します。私たちはレイヤーを提供するだけです。</p>
       <h2>関連する読み物</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a> — ホスト型アプリではなく薄いレイヤーを出すという賭けの裏側</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a> — ホスト型アプリではなく薄いレイヤーを出すという賭けの裏側</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">BYOK の現実チェック：壊れる 5 つのこと</a> — 自分のキーを持ち込むことの正直なトレードオフと粗い部分</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 のスキル、72 のシステム：SankiWork ライブラリの仕組み</a> — どのモデルを動かしても変わらない <code>SKILL.md</code> / <code>DESIGN.md</code> ファイル</li>
       </ul>
@@ -438,7 +438,7 @@ i18n:
     bodyHtml: |
       <p>2026년에 호스팅형 AI 디자인 제품을 써봤다면, 청구서가 슬금슬금 올라가는 것을 아마 눈치챘을 것입니다. 좌석당 요금 위에 구독료가 얹히고, 그 위에 아무도 공개하지 않는 추론 마진이 또 한 겹 쌓입니다. 그 계산은 일부러 불투명하게 만들어진 것입니다.</p>
       <p>SankiWork은 추론을 실행하지 않습니다. 우리는 토큰에 마진을 붙이지 않습니다. 전체 워크플로는 <strong>자신의 키 가져오기(BYOK)</strong>를 중심으로 설계되어 있습니다 — daemon을 OpenAI 호환 엔드포인트 어디로든 가리키고, 자신의 API 키를 붙여넣으면 끝입니다.</p>
-      <p>이 글에서는 우리가 왜 그런 선택을 했는지, 내부에서 어떻게 작동하는지, 그리고 그것이 일상 워크플로에서 실제로 무엇을 바꾸는지 설명합니다. 그 뒤에 깔린 더 큰 철학적 논의가 궁금하다면, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">우리가 SankiWork을 제품이 아닌 스킬 레이어로 만든 이유</a>가 짝이 되는 글입니다 — 이 글은 직접 손으로 해보는 버전입니다.</p>
+      <p>이 글에서는 우리가 왜 그런 선택을 했는지, 내부에서 어떻게 작동하는지, 그리고 그것이 일상 워크플로에서 실제로 무엇을 바꾸는지 설명합니다. 그 뒤에 깔린 더 큰 철학적 논의가 궁금하다면, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">우리가 SankiWork을 제품이 아닌 스킬 레이어로 만든 이유</a>가 짝이 되는 글입니다 — 이 글은 직접 손으로 해보는 버전입니다.</p>
       <h2>여기서 “BYOK”가 정말로 의미하는 것</h2>
       <p>AI 도구 업계에는 BYOK에 대한 두 가지 정의가 떠돌고 있는데, 둘은 같은 것이 아닙니다:</p>
       <ul>
@@ -517,7 +517,7 @@ i18n:
       <p>그것이 BYOK 이야기의 전부입니다. 특별한 등급도, 업그레이드 흐름도, 우리와의 청구 관계도 없습니다. 여러분은 모델 공급자에게 결제하고, 키를 직접 보관하며, 프롬프트를 직접 지킵니다. 우리는 레이어를 제공합니다.</p>
       <h2>관련 읽을거리</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">우리가 SankiWork을 제품이 아닌 스킬 레이어로 만든 이유</a> — 호스팅형 앱 대신 얇은 레이어를 출시한 데 깔린 베팅</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">우리가 SankiWork을 제품이 아닌 스킬 레이어로 만든 이유</a> — 호스팅형 앱 대신 얇은 레이어를 출시한 데 깔린 베팅</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">BYOK 현실 점검: 깨지는 5가지</a> — 자신의 키를 가져올 때의 솔직한 트레이드오프와 거친 부분들</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">스킬 31개, 시스템 72개: SankiWork 라이브러리가 작동하는 방식</a> — 어떤 모델을 돌리든 변하지 않는 <code>SKILL.md</code> / <code>DESIGN.md</code> 파일들</li>
       </ul>
@@ -527,7 +527,7 @@ i18n:
     bodyHtml: |
       <p>Wenn du 2026 ein gehostetes KI-Design-Produkt genutzt hast, ist dir wahrscheinlich aufgefallen, dass die Rechnung schleichend steigt. Ein Abo obendrauf auf eine Pro-Platz-Gebühr, geschichtet über einen Inferenz-Aufschlag, den niemand veröffentlicht. Die Rechnung ist absichtlich undurchsichtig.</p>
       <p>SankiWork führt keine Inferenz aus. Wir haben keine Marge auf Tokens. Der gesamte Workflow ist um <strong>Bring-your-own-Key (BYOK)</strong> herum gebaut — du richtest den daemon auf einen beliebigen OpenAI-kompatiblen Endpunkt, fügst deinen eigenen API-Key ein, und das war's.</p>
-      <p>Dieser Beitrag erklärt, warum wir diese Entscheidung getroffen haben, wie sie unter der Haube funktioniert und was sie in deinem Arbeitsalltag tatsächlich verändert. Wenn du das größere philosophische Argument dahinter willst, ist <a href="/blog/why-we-built-open-design-as-a-skill-layer/">warum wir SankiWork als Skill-Layer gebaut haben, nicht als Produkt</a> das begleitende Stück — dieses hier ist die praktische Version.</p>
+      <p>Dieser Beitrag erklärt, warum wir diese Entscheidung getroffen haben, wie sie unter der Haube funktioniert und was sie in deinem Arbeitsalltag tatsächlich verändert. Wenn du das größere philosophische Argument dahinter willst, ist <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">warum wir SankiWork als Skill-Layer gebaut haben, nicht als Produkt</a> das begleitende Stück — dieses hier ist die praktische Version.</p>
       <h2>Was „BYOK“ hier wirklich bedeutet</h2>
       <p>Im Bereich der KI-Tools kursieren zwei Definitionen von BYOK, und sie sind nicht dasselbe:</p>
       <ul>
@@ -600,7 +600,7 @@ i18n:
       <p>Das ist die gesamte BYOK-Geschichte. Es gibt keine spezielle Stufe, keinen Upgrade-Flow, keine Abrechnungsbeziehung mit uns. Du zahlst den Modellanbieter, du behältst deine Keys, du behältst deine Prompts. Wir liefern die Ebene.</p>
       <h2>Weiterführende Lektüre</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Warum wir SankiWork als Skill-Layer gebaut haben, nicht als Produkt</a> — die Wette dahinter, eine dünne Ebene auszuliefern statt einer gehosteten App</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Warum wir SankiWork als Skill-Layer gebaut haben, nicht als Produkt</a> — die Wette dahinter, eine dünne Ebene auszuliefern statt einer gehosteten App</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">Der BYOK-Reality-Check: 5 Dinge, die kaputtgehen</a> — die ehrlichen Trade-offs und rauen Kanten, wenn man seinen eigenen Key mitbringt</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 Skills, 72 Systeme: wie die SankiWork-Bibliothek funktioniert</a> — die <code>SKILL.md</code>-/<code>DESIGN.md</code>-Dateien, die konstant bleiben, egal welches Modell du betreibst</li>
       </ul>
@@ -610,7 +610,7 @@ i18n:
     bodyHtml: |
       <p>Si vous avez utilisé un produit de design IA hébergé en 2026, vous avez probablement remarqué la facture qui grimpe. Un abonnement par-dessus une facturation par siège, le tout superposé à une majoration d'inférence que personne ne publie. Le calcul est opaque, et c'est voulu.</p>
       <p>SankiWork n'exécute pas d'inférence. Nous n'avons aucune marge sur les tokens. L'ensemble du workflow est construit autour du <strong>bring-your-own-key (BYOK)</strong> — vous pointez le daemon vers n'importe quel endpoint compatible OpenAI, vous collez votre propre clé API, et c'est terminé.</p>
-      <p>Cet article explique pourquoi nous avons fait ce choix, comment cela fonctionne en coulisses, et ce que cela change réellement dans votre workflow au quotidien. Si vous voulez l'argument philosophique plus large derrière tout ça, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">pourquoi nous avons conçu SankiWork comme une couche de skills</a> en est le pendant — celui-ci est la version pratique.</p>
+      <p>Cet article explique pourquoi nous avons fait ce choix, comment cela fonctionne en coulisses, et ce que cela change réellement dans votre workflow au quotidien. Si vous voulez l'argument philosophique plus large derrière tout ça, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">pourquoi nous avons conçu SankiWork comme une couche de skills</a> en est le pendant — celui-ci est la version pratique.</p>
       <h2>Ce que « BYOK » signifie vraiment ici</h2>
       <p>Il y a deux définitions de BYOK qui circulent dans l'univers de l'outillage IA, et ce ne sont pas la même chose :</p>
       <ul>
@@ -769,7 +769,7 @@ i18n:
       <p>Voilà toute l'histoire du BYOK. Aucun palier spécial, aucun parcours de mise à niveau, aucune relation de facturation avec nous. Vous payez le fournisseur du modèle, vous gardez vos clés, vous gardez vos prompts. Nous fournissons la couche.</p>
       <h2>Lectures associées</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a> — le pari derrière le fait de livrer une couche fine plutôt qu'une application hébergée</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a> — le pari derrière le fait de livrer une couche fine plutôt qu'une application hébergée</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">Le bilan de réalité du BYOK : 5 choses qui cassent</a> — les compromis honnêtes et les aspérités du fait d'apporter sa propre clé</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systems : comment fonctionne la bibliothèque SankiWork</a> — les fichiers <code>SKILL.md</code> / <code>DESIGN.md</code> qui restent constants quel que soit le modèle que vous exécutez</li>
       </ul>
@@ -779,7 +779,7 @@ i18n:
     bodyHtml: |
       <p>Если вы пользовались каким-либо облачным ИI-продуктом для дизайна в 2026 году, вы наверняка заметили, что счёт постепенно растёт. Подписка поверх платы за каждое рабочее место, а сверху ещё и наценка за инференс, которую никто не публикует. Расчёты непрозрачны намеренно.</p>
       <p>SankiWork не выполняет инференс. У нас нет наценки на токены. Весь рабочий процесс построен вокруг принципа <strong>bring-your-own-key (BYOK)</strong> — вы направляете daemon на любой совместимый с OpenAI эндпоинт, вставляете собственный API-ключ, и на этом всё.</p>
-      <p>В этой статье объясняется, почему мы сделали такой выбор, как это работает под капотом и что это на самом деле меняет в вашей повседневной работе. Если вас интересует более широкий философский аргумент, стоящий за этим, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">почему мы построили SankiWork как слой навыков, а не как продукт</a> — это сопутствующая статья, а эта — её практическая версия.</p>
+      <p>В этой статье объясняется, почему мы сделали такой выбор, как это работает под капотом и что это на самом деле меняет в вашей повседневной работе. Если вас интересует более широкий философский аргумент, стоящий за этим, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">почему мы построили SankiWork как слой навыков, а не как продукт</a> — это сопутствующая статья, а эта — её практическая версия.</p>
       <h2>Что на самом деле здесь означает «BYOK»</h2>
       <p>В сфере ИИ-инструментов ходят два определения BYOK, и это не одно и то же:</p>
       <ul>
@@ -940,7 +940,7 @@ i18n:
       <p>Это вся история BYOK. Нет особого уровня, нет процесса апгрейда, нет биллинговых отношений с нами. Вы платите провайдеру модели, вы сохраняете свои ключи, вы сохраняете свои промпты. Мы предоставляем слой.</p>
       <h2>Дополнительное чтение</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Почему мы построили SankiWork как слой навыков, а не как продукт</a> — ставка, стоящая за решением выпустить тонкий слой вместо облачного приложения</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Почему мы построили SankiWork как слой навыков, а не как продукт</a> — ставка, стоящая за решением выпустить тонкий слой вместо облачного приложения</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">Проверка реальности BYOK: 5 вещей, которые ломаются</a> — честные компромиссы и шероховатости использования собственного ключа</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 навык, 72 системы: как работает библиотека SankiWork</a> — файлы <code>SKILL.md</code> / <code>DESIGN.md</code>, которые остаются неизменными независимо от того, какую модель вы запускаете</li>
       </ul>
@@ -950,7 +950,7 @@ i18n:
     bodyHtml: |
       <p>Si has usado un producto de diseño con IA alojado en 2026, probablemente hayas notado que la factura va subiendo. Una suscripción sobre un cargo por puesto, superpuesto a un margen de inferencia que nadie publica. Las cuentas son opacas a propósito.</p>
       <p>SankiWork no ejecuta inferencia. No tenemos un margen sobre los tokens. Todo el flujo de trabajo está construido en torno a <strong>bring-your-own-key (BYOK)</strong>: apuntas el daemon a cualquier endpoint compatible con OpenAI, pegas tu propia clave de API y listo.</p>
-      <p>Este artículo explica por qué tomamos esa decisión, cómo funciona internamente y qué cambia realmente en tu flujo de trabajo diario. Si quieres el argumento filosófico más amplio detrás de esto, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">por qué construimos SankiWork como una capa de skills, no como un producto</a> es la pieza complementaria; esta es la versión práctica.</p>
+      <p>Este artículo explica por qué tomamos esa decisión, cómo funciona internamente y qué cambia realmente en tu flujo de trabajo diario. Si quieres el argumento filosófico más amplio detrás de esto, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">por qué construimos SankiWork como una capa de skills, no como un producto</a> es la pieza complementaria; esta es la versión práctica.</p>
       <h2>Qué significa realmente «BYOK» aquí</h2>
       <p>Hay dos definiciones de BYOK dando vueltas en el espacio de las herramientas de IA, y no son lo mismo:</p>
       <ul>
@@ -1109,7 +1109,7 @@ i18n:
       <p>Esa es toda la historia de BYOK. No hay ningún nivel especial, ningún flujo de mejora, ninguna relación de facturación con nosotros. Pagas al proveedor del modelo, conservas tus claves, conservas tus prompts. Nosotros proporcionamos la capa.</p>
       <h2>Lecturas relacionadas</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Por qué construimos SankiWork como una capa de skills, no como un producto</a>: la apuesta detrás de enviar una capa fina en lugar de una app alojada</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Por qué construimos SankiWork como una capa de skills, no como un producto</a>: la apuesta detrás de enviar una capa fina en lugar de una app alojada</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">El examen de realidad de BYOK: 5 cosas que se rompen</a>: los compromisos honestos y las aristas de traer tu propia clave</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 sistemas: cómo funciona la biblioteca de SankiWork</a>: los archivos <code>SKILL.md</code> / <code>DESIGN.md</code> que permanecen constantes sin importar qué modelo ejecutes</li>
       </ul>
@@ -1119,7 +1119,7 @@ i18n:
     bodyHtml: |
       <p>Se você usou algum produto de design com IA hospedado em 2026, provavelmente notou a conta subindo aos poucos. Uma assinatura em cima de uma cobrança por assento, sobreposta a uma margem de inferência que ninguém divulga. A conta é opaca de propósito.</p>
       <p>O SankiWork não roda inferência. Não temos margem sobre tokens. Todo o fluxo de trabalho é construído em torno de <strong>bring-your-own-key (BYOK)</strong> — você aponta o daemon para qualquer endpoint compatível com OpenAI, cola sua própria API key e pronto.</p>
-      <p>Este post explica por que fizemos essa escolha, como ela funciona por baixo dos panos e o que ela realmente muda no seu dia a dia. Se você quer o argumento filosófico mais amplo por trás disso, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">por que construímos o SankiWork como uma camada de skills, não um produto</a> é o texto complementar — este aqui é a versão prática.</p>
+      <p>Este post explica por que fizemos essa escolha, como ela funciona por baixo dos panos e o que ela realmente muda no seu dia a dia. Se você quer o argumento filosófico mais amplo por trás disso, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">por que construímos o SankiWork como uma camada de skills, não um produto</a> é o texto complementar — este aqui é a versão prática.</p>
       <h2>O que “BYOK” realmente significa aqui</h2>
       <p>Existem duas definições de BYOK circulando pelo espaço de ferramentas de IA, e elas não são a mesma coisa:</p>
       <ul>
@@ -1278,7 +1278,7 @@ i18n:
       <p>Essa é toda a história do BYOK. Não há nível especial, nenhum fluxo de upgrade, nenhuma relação de faturamento conosco. Você paga o provedor do modelo, você mantém suas chaves, você mantém seus prompts. Nós fornecemos a camada.</p>
       <h2>Leitura relacionada</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Por que construímos o SankiWork como uma camada de skills, não um produto</a> — a aposta por trás de entregar uma camada fina em vez de um app hospedado</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Por que construímos o SankiWork como uma camada de skills, não um produto</a> — a aposta por trás de entregar uma camada fina em vez de um app hospedado</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">O teste de realidade do BYOK: 5 coisas que quebram</a> — os trade-offs honestos e as arestas de trazer sua própria chave</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 sistemas: como funciona a biblioteca do SankiWork</a> — os arquivos <code>SKILL.md</code> / <code>DESIGN.md</code> que permanecem constantes não importa qual modelo você rode</li>
       </ul>
@@ -1288,7 +1288,7 @@ i18n:
     bodyHtml: |
       <p>Se hai usato un prodotto di design AI ospitato nel 2026, probabilmente hai notato la bolletta che lievita. Un abbonamento sopra un costo per postazione, stratificato sopra un ricarico sull'inferenza che nessuno pubblica. La matematica è opaca di proposito.</p>
       <p>SankiWork non esegue inferenza. Non abbiamo un margine sui token. L'intero flusso di lavoro è costruito attorno al <strong>bring-your-own-key (BYOK)</strong>: punti il daemon a qualsiasi endpoint compatibile con OpenAI, incolli la tua API key e hai finito.</p>
-      <p>Questo articolo spiega perché abbiamo fatto questa scelta, come funziona sotto il cofano e cosa cambia davvero nel tuo flusso di lavoro quotidiano. Se vuoi l'argomentazione filosofica più ampia che ci sta dietro, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a> è il pezzo complementare: questo è la versione pratica.</p>
+      <p>Questo articolo spiega perché abbiamo fatto questa scelta, come funziona sotto il cofano e cosa cambia davvero nel tuo flusso di lavoro quotidiano. Se vuoi l'argomentazione filosofica più ampia che ci sta dietro, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a> è il pezzo complementare: questo è la versione pratica.</p>
       <h2>Cosa significa davvero "BYOK" qui</h2>
       <p>Ci sono due definizioni di BYOK che circolano nel mondo degli strumenti AI, e non sono la stessa cosa:</p>
       <ul>
@@ -1369,7 +1369,7 @@ i18n:
       <p>Questa è l'intera storia del BYOK. Non c'è un livello speciale, nessun flusso di upgrade, nessuna relazione di fatturazione con noi. Paghi il provider del modello, conservi le tue chiavi, conservi i tuoi prompt. Noi forniamo il livello.</p>
       <h2>Letture correlate</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>: la scommessa dietro il rilasciare un livello sottile anziché un'app ospitata</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>: la scommessa dietro il rilasciare un livello sottile anziché un'app ospitata</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">La verifica della realtà di BYOK: 5 cose che si rompono</a>: i compromessi onesti e gli spigoli grezzi del portare la tua chiave</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 sistemi: come funziona la libreria di SankiWork</a>: i file <code>SKILL.md</code> / <code>DESIGN.md</code> che restano costanti indipendentemente dal modello che esegui</li>
       </ul>
@@ -1379,7 +1379,7 @@ i18n:
     bodyHtml: |
       <p>Nếu bạn đã dùng một sản phẩm thiết kế AI được host trong năm 2026, có lẽ bạn đã nhận ra hóa đơn cứ tăng dần. Một gói thuê bao chồng lên phí tính theo từng chỗ ngồi, lại chồng tiếp lên một khoản markup suy luận mà chẳng ai công bố. Phép toán cố tình mờ ám.</p>
       <p>SankiWork không chạy suy luận. Chúng tôi không lấy chênh lệch trên token. Toàn bộ quy trình được xây dựng quanh <strong>bring-your-own-key (BYOK)</strong> — bạn trỏ daemon tới bất kỳ endpoint tương thích OpenAI nào, dán API key của riêng bạn vào, thế là xong.</p>
-      <p>Bài viết này giải thích vì sao chúng tôi chọn cách đó, nó hoạt động ra sao bên dưới, và nó thực sự thay đổi điều gì trong quy trình hằng ngày của bạn. Nếu bạn muốn lập luận triết lý lớn hơn đằng sau nó, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a> là bài đồng hành — còn bài này là phiên bản thực hành.</p>
+      <p>Bài viết này giải thích vì sao chúng tôi chọn cách đó, nó hoạt động ra sao bên dưới, và nó thực sự thay đổi điều gì trong quy trình hằng ngày của bạn. Nếu bạn muốn lập luận triết lý lớn hơn đằng sau nó, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a> là bài đồng hành — còn bài này là phiên bản thực hành.</p>
       <h2>“BYOK” thực sự nghĩa là gì ở đây</h2>
       <p>Có hai định nghĩa về BYOK đang lan truyền trong không gian công cụ AI, và chúng không phải là một:</p>
       <ul>
@@ -1538,7 +1538,7 @@ i18n:
       <p>Đó là toàn bộ câu chuyện BYOK. Không có bậc đặc biệt, không có luồng nâng cấp, không có mối quan hệ thanh toán nào với chúng tôi. Bạn trả tiền cho nhà cung cấp model, bạn giữ key của mình, bạn giữ prompt của mình. Chúng tôi cung cấp lớp ở giữa.</p>
       <h2>Đọc thêm</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a> — canh bạc đằng sau việc ship một lớp mỏng thay vì một ứng dụng được host</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a> — canh bạc đằng sau việc ship một lớp mỏng thay vì một ứng dụng được host</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">Kiểm tra thực tế BYOK: 5 thứ dễ hỏng</a> — những đánh đổi thành thật và các chỗ gồ ghề của việc mang theo key của riêng bạn</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 system: thư viện SankiWork hoạt động ra sao</a> — các tệp <code>SKILL.md</code> / <code>DESIGN.md</code> giữ nguyên bất kể bạn chạy model nào</li>
       </ul>
@@ -1548,7 +1548,7 @@ i18n:
     bodyHtml: |
       <p>Jeśli korzystałeś z hostowanego produktu projektowego z AI w 2026 roku, prawdopodobnie zauważyłeś, że rachunek rośnie. Subskrypcja na wierzchu opłaty za stanowisko, nałożona na narzut za wnioskowanie, którego nikt nie publikuje. Ta matematyka jest nieprzejrzysta celowo.</p>
       <p>SankiWork nie uruchamia wnioskowania. Nie mamy marży na tokenach. Cały workflow jest zbudowany wokół zasady <strong>bring-your-own-key (BYOK)</strong> — wskazujesz daemon dowolnemu endpointowi zgodnemu z OpenAI, wklejasz własny klucz API i gotowe.</p>
-      <p>Ten wpis wyjaśnia, dlaczego dokonaliśmy tego wyboru, jak to działa pod maską i co tak naprawdę zmienia w Twoim codziennym workflow. Jeśli chcesz poznać szerszy argument filozoficzny stojący za tym, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a> to tekst towarzyszący — ten jest wersją praktyczną.</p>
+      <p>Ten wpis wyjaśnia, dlaczego dokonaliśmy tego wyboru, jak to działa pod maską i co tak naprawdę zmienia w Twoim codziennym workflow. Jeśli chcesz poznać szerszy argument filozoficzny stojący za tym, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a> to tekst towarzyszący — ten jest wersją praktyczną.</p>
       <h2>Co tak naprawdę oznacza tutaj „BYOK”</h2>
       <p>W przestrzeni narzędzi AI krążą dwie definicje BYOK i nie są one tym samym:</p>
       <ul>
@@ -1707,7 +1707,7 @@ i18n:
       <p>To cała historia BYOK. Nie ma specjalnego poziomu, procesu aktualizacji ani relacji rozliczeniowej z nami. Płacisz dostawcy modelu, zachowujesz swoje klucze, zachowujesz swoje prompty. My dostarczamy warstwę.</p>
       <h2>Powiązane lektury</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a> — zakład stojący za dostarczeniem cienkiej warstwy zamiast hostowanej aplikacji</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a> — zakład stojący za dostarczeniem cienkiej warstwy zamiast hostowanej aplikacji</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">Test rzeczywistości BYOK: 5 rzeczy, które się psują</a> — uczciwe kompromisy i chropowate krawędzie przynoszenia własnego klucza</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 umiejętności, 72 systemy: jak działa biblioteka SankiWork</a> — pliki <code>SKILL.md</code> / <code>DESIGN.md</code>, które pozostają stałe niezależnie od tego, który model uruchamiasz</li>
       </ul>
@@ -1717,7 +1717,7 @@ i18n:
     bodyHtml: |
       <p>Jika Anda pernah memakai produk desain AI berbasis hosting pada tahun 2026, Anda mungkin sudah menyadari tagihan yang terus merangkak naik. Langganan di atas biaya per kursi, ditumpuk lagi di atas markup inferensi yang tidak pernah dipublikasikan siapa pun. Matematikanya sengaja dibuat tidak transparan.</p>
       <p>SankiWork tidak menjalankan inferensi. Kami tidak mengambil margin atas token. Seluruh alur kerja dibangun di sekitar <strong>bring-your-own-key (BYOK)</strong> — Anda mengarahkan daemon ke endpoint apa pun yang kompatibel dengan OpenAI, menempelkan API key Anda sendiri, dan selesai.</p>
-      <p>Tulisan ini menjelaskan mengapa kami membuat pilihan itu, bagaimana cara kerjanya di balik layar, dan apa yang sebenarnya berubah dalam alur kerja sehari-hari Anda. Jika Anda ingin argumen filosofis yang lebih besar di baliknya, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a> adalah tulisan pendampingnya — yang ini adalah versi praktiknya.</p>
+      <p>Tulisan ini menjelaskan mengapa kami membuat pilihan itu, bagaimana cara kerjanya di balik layar, dan apa yang sebenarnya berubah dalam alur kerja sehari-hari Anda. Jika Anda ingin argumen filosofis yang lebih besar di baliknya, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a> adalah tulisan pendampingnya — yang ini adalah versi praktiknya.</p>
       <h2>Apa arti “BYOK” yang sebenarnya di sini</h2>
       <p>Ada dua definisi BYOK yang beredar di ruang tooling AI, dan keduanya bukan hal yang sama:</p>
       <ul>
@@ -1876,7 +1876,7 @@ i18n:
       <p>Itulah keseluruhan cerita BYOK. Tidak ada tingkatan khusus, tidak ada alur upgrade, tidak ada hubungan penagihan dengan kami. Anda membayar penyedia model, Anda menyimpan key Anda, Anda menyimpan prompt Anda. Kami menyediakan lapisannya.</p>
       <h2>Bacaan terkait</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a> — taruhan di balik pengiriman lapisan tipis alih-alih aplikasi berbasis hosting</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a> — taruhan di balik pengiriman lapisan tipis alih-alih aplikasi berbasis hosting</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">Pemeriksaan realitas BYOK: 5 hal yang rusak</a> — trade-off jujur dan sisi-sisi kasar dari membawa key Anda sendiri</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 sistem: cara kerja pustaka SankiWork</a> — file <code>SKILL.md</code> / <code>DESIGN.md</code> yang tetap konstan tidak peduli model mana yang Anda jalankan</li>
       </ul>
@@ -1886,7 +1886,7 @@ i18n:
     bodyHtml: |
       <p>Als je in 2026 een gehost AI-ontwerpproduct hebt gebruikt, is het je waarschijnlijk opgevallen dat de rekening steeds hoger wordt. Een abonnement bovenop een tarief per stoel, gestapeld op een inferentie-opslag die niemand publiceert. De rekensom is opzettelijk ondoorzichtig.</p>
       <p>SankiWork draait geen inferentie. We hebben geen marge op tokens. De hele workflow is opgebouwd rond <strong>bring-your-own-key (BYOK)</strong> — je richt de daemon op elk OpenAI-compatibel endpoint, plakt je eigen API-sleutel en je bent klaar.</p>
-      <p>Dit bericht legt uit waarom we die keuze hebben gemaakt, hoe het onder de motorkap werkt en wat het daadwerkelijk verandert in je dagelijkse workflow. Als je het grotere filosofische argument erachter wilt, dan is <a href="/blog/why-we-built-open-design-as-a-skill-layer/">waarom we SankiWork als een skill-laag bouwden, niet als een product</a> het bijbehorende stuk — dit is de praktische versie.</p>
+      <p>Dit bericht legt uit waarom we die keuze hebben gemaakt, hoe het onder de motorkap werkt en wat het daadwerkelijk verandert in je dagelijkse workflow. Als je het grotere filosofische argument erachter wilt, dan is <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">waarom we SankiWork als een skill-laag bouwden, niet als een product</a> het bijbehorende stuk — dit is de praktische versie.</p>
       <h2>Wat “BYOK” hier echt betekent</h2>
       <p>Er zijn twee definities van BYOK die rondzweven in de wereld van AI-tooling, en ze zijn niet hetzelfde:</p>
       <ul>
@@ -2049,7 +2049,7 @@ i18n:
       <p>Dat is het hele BYOK-verhaal. Er is geen speciaal niveau, geen upgrade-flow, geen facturatierelatie met ons. Je betaalt de modelprovider, je houdt je sleutels, je houdt je prompts. Wij leveren de laag.</p>
       <h2>Gerelateerde lectuur</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Waarom we SankiWork als een skill-laag bouwden, niet als een product</a> — de gok achter het leveren van een dunne laag in plaats van een gehoste app</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Waarom we SankiWork als een skill-laag bouwden, niet als een product</a> — de gok achter het leveren van een dunne laag in plaats van een gehoste app</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">De BYOK-realiteitscheck: 5 dingen die stukgaan</a> — de eerlijke afwegingen en ruwe randjes van het meebrengen van je eigen sleutel</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systemen: hoe de SankiWork-bibliotheek werkt</a> — de <code>SKILL.md</code>- / <code>DESIGN.md</code>-bestanden die constant blijven, ongeacht welk model je draait</li>
       </ul>
@@ -2059,7 +2059,7 @@ i18n:
     bodyHtml: |
       <p>إذا كنت قد استخدمت منتج تصميم بالذكاء الاصطناعي مُستضافًا في عام 2026، فلا بد أنك لاحظت الفاتورة وهي تتسلل نحو الأعلى. اشتراك فوق رسوم لكل مقعد، مُكدّسة فوق هامش استدلال لا يُعلنه أحد. الحسابات غامضة عن قصد.</p>
       <p>لا يُشغّل SankiWork الاستدلال. ليس لدينا هامش ربح على الرموز (tokens). سير العمل بأكمله مبني حول مبدأ <strong>أحضر مفتاحك الخاص (BYOK)</strong> — تُوجّه الـ daemon إلى أي نقطة نهاية متوافقة مع OpenAI، وتلصق مفتاح API الخاص بك، وانتهى الأمر.</p>
-      <p>تشرح هذه المقالة لماذا اتخذنا هذا الخيار، وكيف يعمل تحت الغطاء، وما الذي يغيّره فعليًا في سير عملك اليومي. وإذا أردت الحجة الفلسفية الأكبر وراءه، فإن مقالة <a href="/blog/why-we-built-open-design-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a> هي القطعة المُرافقة — وهذه هي النسخة العملية التطبيقية.</p>
+      <p>تشرح هذه المقالة لماذا اتخذنا هذا الخيار، وكيف يعمل تحت الغطاء، وما الذي يغيّره فعليًا في سير عملك اليومي. وإذا أردت الحجة الفلسفية الأكبر وراءه، فإن مقالة <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a> هي القطعة المُرافقة — وهذه هي النسخة العملية التطبيقية.</p>
       <h2>ما الذي يعنيه «BYOK» حقًا هنا</h2>
       <p>هناك تعريفان لـ BYOK يدوران في فضاء أدوات الذكاء الاصطناعي، وهما ليسا الشيء نفسه:</p>
       <ul>
@@ -2132,7 +2132,7 @@ i18n:
       <p>هذه هي قصة BYOK بأكملها. لا طبقة خاصة، ولا تدفّق ترقية، ولا علاقة فوترة معنا. تدفع لمزوّد النموذج، وتحتفظ بمفاتيحك، وتحتفظ بمُحثّاتك. ونحن نوفّر الطبقة.</p>
       <h2>قراءات ذات صلة</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a> — الرهان وراء شحن طبقة رفيعة بدلًا من تطبيق مُستضاف</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a> — الرهان وراء شحن طبقة رفيعة بدلًا من تطبيق مُستضاف</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">مراجعة الواقع لـ BYOK: 5 أشياء تتعطّل</a> — المفاضلات الصريحة والحواف الخشنة لإحضار مفتاحك الخاص</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 مهارة، 72 نظامًا: كيف تعمل مكتبة SankiWork</a> — ملفات <code>SKILL.md</code> / <code>DESIGN.md</code> التي تبقى ثابتة بغضّ النظر عن النموذج الذي تُشغّله</li>
       </ul>
@@ -2142,7 +2142,7 @@ i18n:
     bodyHtml: |
       <p>2026'da barındırılan bir yapay zeka tasarım ürünü kullandıysanız, faturanın yavaşça arttığını muhtemelen fark etmişsinizdir. Koltuk başına ücretin üzerine bir abonelik, onun da üzerine kimsenin açıklamadığı bir çıkarım kâr marjı. Hesap, bilerek belirsizdir.</p>
       <p>SankiWork çıkarım çalıştırmaz. Token'lar üzerinde bir kâr marjımız yok. Tüm iş akışı <strong>bring-your-own-key (BYOK)</strong> etrafında kuruludur — daemon'u OpenAI uyumlu herhangi bir uç noktaya yöneltir, kendi API anahtarınızı yapıştırır ve işiniz biter.</p>
-      <p>Bu yazı, bu tercihi neden yaptığımızı, perde arkasında nasıl çalıştığını ve günlük iş akışınızda gerçekte neyi değiştirdiğini açıklıyor. Bunun arkasındaki daha geniş felsefi argümanı isterseniz, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> tamamlayıcı yazıdır — bu ise uygulamaya dönük versiyonudur.</p>
+      <p>Bu yazı, bu tercihi neden yaptığımızı, perde arkasında nasıl çalıştığını ve günlük iş akışınızda gerçekte neyi değiştirdiğini açıklıyor. Bunun arkasındaki daha geniş felsefi argümanı isterseniz, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> tamamlayıcı yazıdır — bu ise uygulamaya dönük versiyonudur.</p>
       <h2>"BYOK" burada gerçekte ne anlama geliyor</h2>
       <p>Yapay zeka araç ekosisteminde dolaşan BYOK'un iki tanımı var ve bunlar aynı şey değil:</p>
       <ul>
@@ -2303,7 +2303,7 @@ i18n:
       <p>Tüm BYOK hikayesi bundan ibaret. Özel bir kademe, yükseltme akışı, bizimle bir faturalandırma ilişkisi yok. Model sağlayıcısına ödersiniz, anahtarlarınızı saklarsınız, istemlerinizi saklarsınız. Biz katmanı sağlarız.</p>
       <h2>İlgili okumalar</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> — barındırılan bir uygulama yerine ince bir katman sunma bahsi</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> — barındırılan bir uygulama yerine ince bir katman sunma bahsi</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">BYOK gerçeklik kontrolü: bozulan 5 şey</a> — kendi anahtarınızı getirmenin dürüst ödünleşimleri ve pürüzleri</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 beceri, 72 sistem: SankiWork kütüphanesi nasıl çalışır</a> — hangi modeli çalıştırırsanız çalıştırın sabit kalan <code>SKILL.md</code> / <code>DESIGN.md</code> dosyaları</li>
       </ul>
@@ -2313,7 +2313,7 @@ i18n:
     bodyHtml: |
       <p>Якщо ви користувалися хмарним AI-продуктом для дизайну у 2026 році, ви, ймовірно, помітили, що рахунок повзе вгору. Підписка поверх плати за кожне місце, накладена поверх націнки на інференс, яку ніхто не публікує. Ця математика непрозора навмисно.</p>
       <p>SankiWork не виконує інференс. У нас немає націнки на токени. Увесь робочий процес побудований навколо <strong>принципу «приноси власний ключ» (BYOK)</strong> — ви спрямовуєте daemon на будь-яку сумісну з OpenAI кінцеву точку, вставляєте власний API-ключ, і все готово.</p>
-      <p>Цей допис пояснює, чому ми зробили такий вибір, як це працює під капотом і що це насправді змінює у вашій щоденній роботі. Якщо вам потрібен ширший філософський аргумент за цим, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">чому ми побудували SankiWork як рівень навичок, а не продукт</a> — це супутній матеріал, а цей є практичною версією.</p>
+      <p>Цей допис пояснює, чому ми зробили такий вибір, як це працює під капотом і що це насправді змінює у вашій щоденній роботі. Якщо вам потрібен ширший філософський аргумент за цим, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">чому ми побудували SankiWork як рівень навичок, а не продукт</a> — це супутній матеріал, а цей є практичною версією.</p>
       <h2>Що насправді означає «BYOK» тут</h2>
       <p>У просторі AI-інструментів циркулюють два визначення BYOK, і це не одне й те саме:</p>
       <ul>
@@ -2472,7 +2472,7 @@ i18n:
       <p>Це вся історія BYOK. Немає жодного особливого рівня, жодного процесу апгрейду, жодних білінгових відносин з нами. Ви платите провайдеру моделі, ви зберігаєте свої ключі, ви зберігаєте свої запити. Ми надаємо рівень.</p>
       <h2>Пов’язане для читання</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Чому ми побудували SankiWork як рівень навичок, а не продукт</a> — ставка за рішенням постачати тонкий рівень замість хмарного застосунку</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Чому ми побудували SankiWork як рівень навичок, а не продукт</a> — ставка за рішенням постачати тонкий рівень замість хмарного застосунку</li>
       <li><a href="/blog/byok-reality-check-5-things-that-break/">Перевірка реальності BYOK: 5 речей, які ламаються</a> — чесні компроміси та гострі кути використання власного ключа</li>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 навичка, 72 системи: як працює бібліотека SankiWork</a> — файли <code>SKILL.md</code> / <code>DESIGN.md</code>, що лишаються незмінними незалежно від того, яку модель ви запускаєте</li>
       </ul>
@@ -2482,7 +2482,7 @@ If you've used a hosted AI design product in 2026, you've probably noticed the b
 
 SankiWork doesn't run inference. We don't have a margin on tokens. The entire workflow is built around **bring-your-own-key (BYOK)** — you point the daemon at any OpenAI-compatible endpoint, paste your own API key, and you're done.
 
-This post explains why we made that choice, how it works under the hood, and what it actually changes in your day-to-day workflow. If you want the bigger philosophical argument behind it, [why we built SankiWork as a skill layer, not a product](/blog/why-we-built-open-design-as-a-skill-layer/) is the companion piece — this one is the hands-on version.
+This post explains why we made that choice, how it works under the hood, and what it actually changes in your day-to-day workflow. If you want the bigger philosophical argument behind it, [why we built SankiWork as a skill layer, not a product](/blog/why-we-built-sankiwork-as-a-skill-layer/) is the companion piece — this one is the hands-on version.
 
 ## What "BYOK" really means here
 
@@ -2619,6 +2619,6 @@ That's the entire BYOK story. There's no special tier, no upgrade flow, no billi
 
 ## Related reading
 
-- [Why we built SankiWork as a skill layer, not a product](/blog/why-we-built-open-design-as-a-skill-layer/) — the bet behind shipping a thin layer instead of a hosted app
+- [Why we built SankiWork as a skill layer, not a product](/blog/why-we-built-sankiwork-as-a-skill-layer/) — the bet behind shipping a thin layer instead of a hosted app
 - [The BYOK reality check: 5 things that break](/blog/byok-reality-check-5-things-that-break/) — the honest trade-offs and rough edges of bringing your own key
 - [31 skills, 72 systems: how the SankiWork library works](/blog/31-skills-72-systems-how-the-library-works/) — the `SKILL.md` / `DESIGN.md` files that stay constant no matter which model you run

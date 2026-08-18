@@ -315,7 +315,7 @@ describe('EntryShell settings menu', () => {
           stale: false,
         });
       }
-      if (url.endsWith('/api/github/open-design')) {
+      if (url.endsWith('/api/github/sankiwork')) {
         return jsonResponse({
           repo: 'nexu-io/open-design',
           stargazers_count: 56100,
@@ -478,7 +478,7 @@ describe('EntryShell project reopen request priority', () => {
             stale: false,
           });
         }
-        if (url.endsWith('/api/github/open-design')) {
+        if (url.endsWith('/api/github/sankiwork')) {
           return jsonResponse({
             repo: 'nexu-io/open-design',
             stargazers_count: 0,
@@ -576,7 +576,7 @@ describe('EntryShell new project rail', () => {
             stale: false,
           });
         }
-        if (url.endsWith('/api/github/open-design')) {
+        if (url.endsWith('/api/github/sankiwork')) {
           return jsonResponse({
             repo: 'nexu-io/open-design',
             stargazers_count: 0,
@@ -636,7 +636,7 @@ describe('EntryShell Home submit handoff', () => {
       if (url.endsWith('/api/plugins')) return jsonResponse({ plugins: [] });
       if (url.endsWith('/api/mcp/servers')) return jsonResponse({ servers: [] });
       if (url.endsWith('/api/community/discord')) return jsonResponse({ stale: true });
-      if (url.endsWith('/api/github/open-design')) return jsonResponse({ stale: true });
+      if (url.endsWith('/api/github/sankiwork')) return jsonResponse({ stale: true });
       return jsonResponse({});
     }) as typeof fetch;
     let resolveCreate: (accepted: boolean) => void = () => undefined;

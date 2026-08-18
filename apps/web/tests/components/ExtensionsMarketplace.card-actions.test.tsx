@@ -405,7 +405,7 @@ describe('ExtensionsMarketplace import', () => {
     const folderInput = await waitFor(() =>
       container.querySelector<HTMLInputElement>('input[webkitdirectory]')!,
     );
-    const folderFile = new File(['{}'], 'open-design.json', { type: 'application/json' });
+    const folderFile = new File(['{}'], 'sankiwork.json', { type: 'application/json' });
     fireEvent.change(folderInput, { target: { files: [folderFile] } });
     fireEvent.click(screen.getByTestId('plugin-create-upload-folder'));
 

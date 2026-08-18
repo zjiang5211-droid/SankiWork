@@ -34,7 +34,7 @@ describe('PLUGIN_AUTHORING_PROMPT_TEMPLATE', () => {
   it('still asks the agent to scaffold generated-plugin with SKILL.md + manifest', () => {
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('generated-plugin');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('SKILL.md');
-    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('open-design.json');
+    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('sankiwork.json');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('plugin.repo');
   });
 
@@ -97,7 +97,7 @@ describe('PLUGIN_AUTHORING_PROMPT_TEMPLATE', () => {
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(
       /Do NOT\W*assume the standalone `jq` binary is installed/i,
     );
-    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(/cat .*open-design\.json/);
+    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(/cat .*sankiwork\.json/);
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('node -e');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(/`gh \.\.\. --jq` flag is fine|gh ships its own embedded library/i);
   });

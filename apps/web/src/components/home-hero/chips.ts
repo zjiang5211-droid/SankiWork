@@ -51,7 +51,7 @@ export type ChipAction =
     }
   | {
       kind: 'apply-figma-migration';
-      pluginId: 'od-figma-migration';
+      pluginId: 'sw-figma-migration';
       projectKind: ProjectKind;
       inputs?: Record<string, unknown>;
       projectMetadata?: ProjectMetadata;
@@ -111,7 +111,7 @@ export const HOME_HERO_CHIPS: ReadonlyArray<HomeHeroChip> = [
     // which ships `assets/template.html` (single-file HTML prototype
     // seed), `references/layouts.md` (paste-ready section layouts), and
     // a P0 checklist. The previous routing to the generic
-    // od-new-generation router left the agent to invent every section's
+    // sw-new-generation router left the agent to invent every section's
     // CSS, producing inconsistent type scales and density between turns.
     // Web-prototype's manifest owns the editable `{{fidelity}}`,
     // `{{artifactKind}}`, `{{audience}}`, `{{designSystem}}`, and
@@ -197,7 +197,7 @@ export const HOME_HERO_CHIPS: ReadonlyArray<HomeHeroChip> = [
     // `references/layouts.md` (cover, body, big-stat, three-point,
     // pipeline, dark quote, before/after, closing), and a P0/P1/P2
     // checklist that catches overflow at 1280×800 / 1440×900. The
-    // previous routing to od-new-generation gave the agent only the
+    // previous routing to sw-new-generation gave the agent only the
     // generic deck-framework directive — which fixed nav but not slide
     // layout — so density bugs (168px headline + absolute footer
     // collision) shipped on default decks.
@@ -215,12 +215,12 @@ export const HOME_HERO_CHIPS: ReadonlyArray<HomeHeroChip> = [
     description: 'Resumes, reports & PDFs',
     hint: 'Draft a polished document — resume, report, or PDF — you can export.',
     // Documents (resumes / reports / PDFs) route through the generic
-    // od-new-generation scenario under the `other` kind; there is no
+    // sw-new-generation scenario under the `other` kind; there is no
     // dedicated bundled document seed yet, so the agent composes the
     // document layout from the brief.
     action: {
       kind: 'apply-scenario',
-      pluginId: 'od-new-generation',
+      pluginId: 'sw-new-generation',
       projectKind: 'other',
       inputs: {
         artifactKind: 'document',
@@ -296,7 +296,7 @@ export const HOME_HERO_CHIPS: ReadonlyArray<HomeHeroChip> = [
     description: 'Posters, graphics & art',
     action: {
       kind: 'apply-scenario',
-      pluginId: 'od-media-generation',
+      pluginId: 'sw-media-generation',
       projectKind: 'image',
       inputs: {
         mediaKind: 'image',
@@ -314,7 +314,7 @@ export const HOME_HERO_CHIPS: ReadonlyArray<HomeHeroChip> = [
     description: 'Clips, reels & promos',
     action: {
       kind: 'apply-scenario',
-      pluginId: 'od-media-generation',
+      pluginId: 'sw-media-generation',
       projectKind: 'video',
       inputs: {
         mediaKind: 'video',
@@ -332,7 +332,7 @@ export const HOME_HERO_CHIPS: ReadonlyArray<HomeHeroChip> = [
     description: 'Voiceovers, music & SFX',
     action: {
       kind: 'apply-scenario',
-      pluginId: 'od-media-generation',
+      pluginId: 'sw-media-generation',
       projectKind: 'audio',
       inputs: {
         mediaKind: 'audio',
@@ -358,7 +358,7 @@ export const HOME_HERO_CHIPS: ReadonlyArray<HomeHeroChip> = [
     hint: 'Migrate a Figma frame into the active design system.',
     action: {
       kind: 'apply-figma-migration',
-      pluginId: 'od-figma-migration',
+      pluginId: 'sw-figma-migration',
       projectKind: 'prototype',
       inputs: {
         figmaUrl: 'the Figma file URL you provide',

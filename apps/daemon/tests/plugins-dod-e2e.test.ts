@@ -61,7 +61,7 @@ async function freshFixture(targetPath: string, version = '1.0.0') {
       capabilities: ['prompt:inject'],
     },
   };
-  await writeFile(path.join(targetPath, 'open-design.json'), JSON.stringify(manifest, null, 2));
+  await writeFile(path.join(targetPath, 'sankiwork.json'), JSON.stringify(manifest, null, 2));
   await writeFile(
     path.join(targetPath, 'SKILL.md'),
     '---\nname: sample-plugin\ndescription: fixture\n---\n# Sample\n',
@@ -213,7 +213,7 @@ describe('Plan §8 e2e — daemon-side anchors', () => {
         capabilities: ['prompt:inject'],
       },
     };
-    await writeFile(path.join(folder, 'open-design.json'), JSON.stringify(manifest));
+    await writeFile(path.join(folder, 'sankiwork.json'), JSON.stringify(manifest));
     await writeFile(
       path.join(folder, 'SKILL.md'),
       '---\nname: connector-plugin\ndescription: requires slack\n---\n# Connector\n',

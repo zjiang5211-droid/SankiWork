@@ -96,7 +96,7 @@ describe('workspace Team plugin retraction', () => {
       const pluginSource = join(ownerSuite.scratchDir, 'workspace-retraction-plugin-source');
       await mkdir(pluginSource, { recursive: true });
       await writeFile(
-        join(pluginSource, 'open-design.json'),
+        join(pluginSource, 'sankiwork.json'),
         JSON.stringify({
           name: PLUGIN_ID,
           version: '1.0.0',

@@ -102,7 +102,7 @@ beforeEach(async () => {
   const pluginFolder = path.join(pluginRoot, PLUGIN_ID);
   await mkdir(pluginFolder, { recursive: true });
   await writeFile(
-    path.join(pluginFolder, 'open-design.json'),
+    path.join(pluginFolder, 'sankiwork.json'),
     JSON.stringify({
       $schema: 'https://sanki-ai.cloud/schemas/plugin.v1.json',
       name: PLUGIN_ID,

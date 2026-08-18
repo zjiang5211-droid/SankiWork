@@ -134,12 +134,12 @@ describe('sortByVisualAppeal', () => {
         },
       }),
       fixture({
-        id: 'example-open-design-landing',
+        id: 'example-sankiwork-landing',
         od: { mode: 'prototype', preview: { type: 'html', entry: './index.html' } },
       }),
     ];
     const sorted = sortByVisualAppeal(records).map((r) => r.id);
-    expect(sorted[0]).toBe('example-open-design-landing');
+    expect(sorted[0]).toBe('example-sankiwork-landing');
   });
 
   it('keeps numeric featured rank ahead of media bonuses', () => {

@@ -35,7 +35,7 @@ function srcDocHtml(label: string): string {
 
 function transportGeneration(frame: HTMLIFrameElement): string {
   const generation = frame.srcdoc.match(
-    /data-od-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
+    /data-sw-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
   )?.[1];
   if (!generation) throw new Error('srcDoc transport generation missing');
   return generation;
@@ -86,7 +86,7 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
 
     const recoveredFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     expect(recoveredFrame).not.toBe(refreshedFrame);
-    expect(recoveredFrame.srcdoc).toContain('data-od-lazy-srcdoc-transport');
+    expect(recoveredFrame.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
 
     const postMessage = vi.spyOn(recoveredFrame.contentWindow!, 'postMessage');
     fireEvent.load(recoveredFrame);
@@ -224,7 +224,7 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
 
     const recoveredFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     expect(recoveredFrame).not.toBe(abortedFrame);
-    expect(recoveredFrame.srcdoc).toContain('data-od-lazy-srcdoc-transport');
+    expect(recoveredFrame.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
   });
 
   it('revalidates an early activation acknowledgement after the frame load completes', () => {
@@ -269,6 +269,6 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
 
     const recoveredFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     expect(recoveredFrame).not.toBe(refreshedFrame);
-    expect(recoveredFrame.srcdoc).toContain('data-od-lazy-srcdoc-transport');
+    expect(recoveredFrame.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
   });
 });

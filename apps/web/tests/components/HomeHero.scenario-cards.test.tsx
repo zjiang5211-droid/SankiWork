@@ -112,7 +112,7 @@ describe('HomeHero scenario cards', () => {
       projectMetadata: { kind: 'prototype', fidelity: 'wireframe' },
     });
     expect(findChip('document')?.action).toMatchObject({
-      pluginId: 'od-new-generation',
+      pluginId: 'sw-new-generation',
       projectKind: 'other',
     });
   });

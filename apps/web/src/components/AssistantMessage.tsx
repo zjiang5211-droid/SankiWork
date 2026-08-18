@@ -268,7 +268,7 @@ function SkillPluginCandidateCard({
       } else {
         setNotice({ message: "Plugin draft created." });
       }
-      if (draftPath && onRequestOpenFile) onRequestOpenFile(`${draftPath}/open-design.json`);
+      if (draftPath && onRequestOpenFile) onRequestOpenFile(`${draftPath}/sankiwork.json`);
     } catch (err) {
       setNotice({ message: err instanceof Error ? err.message : String(err) });
     } finally {
@@ -372,7 +372,7 @@ interface Props {
   hiddenPluginActionPaths?: Set<string>;
   // Click handler for the post-completion "Share to SankiWork" submission
   // action. ProjectView wires this to handleSend with the bundled
-  // `od-share-to-community` trigger prompt.
+  // `sw-share-to-community` trigger prompt.
   onShareToSankiWork?: () => void;
   shareToSankiWorkBusy?: boolean;
   // Consecutive messages from the same assistant share one identity header.

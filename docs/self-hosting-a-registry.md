@@ -1,6 +1,6 @@
 # Self-hosting An SankiWork Registry
 
-An SankiWork registry is a source of `open-design-marketplace.json` plus the
+An SankiWork registry is a source of `sankiwork-marketplace.json` plus the
 review process that produces it. In v1 this can be a static GitHub repository,
 GitHub Enterprise, S3/R2, or any HTTPS host.
 
@@ -8,11 +8,11 @@ GitHub Enterprise, S3/R2, or any HTTPS host.
 
 ```text
 plugins/registry/
-  official/open-design-marketplace.json
-  community/open-design-marketplace.json
+  official/sankiwork-marketplace.json
+  community/sankiwork-marketplace.json
 plugins/community/<vendor>/<plugin-name>/
   SKILL.md
-  open-design.json
+  sankiwork.json
 ```
 
 The machine-readable URL is the raw JSON file:

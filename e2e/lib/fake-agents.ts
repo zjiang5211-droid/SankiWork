@@ -273,7 +273,7 @@ async function emitPluginAuthoringRun() {
   const folder = join(projectDir(), 'generated-plugin');
   await mkdir(join(folder, 'examples'), { recursive: true });
   await writeFileFs(
-    join(folder, 'open-design.json'),
+    join(folder, 'sankiwork.json'),
     JSON.stringify({
       specVersion: 1,
       name: 'generated-plugin',
@@ -296,7 +296,7 @@ async function emitPluginAuthoringRun() {
     'utf8',
   );
   const summary = [
-    'Created generated-plugin with open-design.json, SKILL.md, and examples/demo.md.',
+    'Created generated-plugin with sankiwork.json, SKILL.md, and examples/demo.md.',
     'sw plugin validate: passed',
     'sw plugin pack: generated-plugin-0.1.0.tgz',
     'sw plugin install --source: passed',

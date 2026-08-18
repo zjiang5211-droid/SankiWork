@@ -217,7 +217,7 @@ function scopeBoundaryErrors(): string[] {
     "apps/packaged/tests/index.test.ts",
     "tools/pack/src/index.ts",
     "tools/pack/tests/index.test.ts",
-    "tools/pack/resources/linux/open-design.desktop.template",
+    "tools/pack/resources/linux/sankiwork.desktop.template",
   ]) {
     const evaluation = evaluateScopeOutputs([filePath], "certain", {
       deriveWorkspaceValidationFromTestScopes: true,

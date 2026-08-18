@@ -84,7 +84,7 @@ export function emitSharedProjectPullTiming(
   const atMs = finiteNonNegative(event.atMs) ?? Date.now();
   const receivedAtMs = finiteNonNegative(event.receivedAtMs);
   console.info(
-    `[od] shared_project_pull_profile ${JSON.stringify({
+    `[sw] shared_project_pull_profile ${JSON.stringify({
       event: 'shared_project_pull_profile',
       schemaVersion: 1,
       phase: event.phase,
@@ -175,7 +175,7 @@ export function emitVelaResourcePullProfile(
       }
     }
     console.info(
-      `[od] shared_project_pull_profile ${JSON.stringify({
+      `[sw] shared_project_pull_profile ${JSON.stringify({
         event: 'shared_project_pull_profile',
         schemaVersion: 1,
         phase: 'vela-child-done',

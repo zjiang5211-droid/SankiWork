@@ -345,7 +345,7 @@ function buildInlineStyleBlock(tag: string, href: string, css: string): string {
   }
   const attrString = carried.length === 0 ? '' : ` ${carried.join(' ')}`;
   return (
-    `<style data-od-inline-asset="${escapeHtmlAttr(href)}"${attrString}>\n` +
+    `<style data-sw-inline-asset="${escapeHtmlAttr(href)}"${attrString}>\n` +
     `${css.replace(/<\/style/gi, '<\\/style')}\n</style>`
   );
 }

@@ -2,7 +2,7 @@
 //
 // - Scans `<daemonDataDir>/plugins/<id>/` (the OD-canonical install root) for
 //   manifest folders.
-// - Resolves a plugin folder into either an `open-design.json`-anchored
+// - Resolves a plugin folder into either an `sankiwork.json`-anchored
 //   manifest or a synthesized one derived from `SKILL.md` /
 //   `.claude-plugin/plugin.json` (per spec §3 compatibility matrix).
 // - Persists discovered records into the `installed_plugins` SQLite row so
@@ -110,7 +110,11 @@ export async function resolvePluginFolder(opts: ResolveOptions): Promise<Resolve
     return { ok: false, errors: [`Plugin path is not a directory: ${folder}`], warnings };
   }
 
-  const sidecarPath = path.join(folder, 'open-design.json');
+  // SankiWork sidecar manifest; legacy `open-design.json` is honored for
+  // plugins installed before the rebrand (data-dir compatibility).
+  const sidecarPath = fs.existsSync(path.join(folder, 'sankiwork.json'))
+    ? path.join(folder, 'sankiwork.json')
+    : path.join(folder, 'sankiwork.json');
   const skillPath = path.join(folder, 'SKILL.md');
   const claudePath = path.join(folder, '.claude-plugin', 'plugin.json');
 
@@ -119,7 +123,7 @@ export async function resolvePluginFolder(opts: ResolveOptions): Promise<Resolve
     const rawSidecar = await fsp.readFile(sidecarPath, 'utf8');
     const parsed: ManifestParseResult = parseManifest(rawSidecar);
     if (!parsed.ok) {
-      errors.push(...parsed.errors.map((e) => `open-design.json: ${e}`));
+      errors.push(...parsed.errors.map((e) => `${path.basename(sidecarPath)}: ${e}`));
     } else {
       sidecar = parsed.manifest;
       warnings.push(...parsed.warnings);
@@ -143,7 +147,7 @@ export async function resolvePluginFolder(opts: ResolveOptions): Promise<Resolve
   if (!sidecar && adapters.length === 0) {
     return {
       ok: false,
-      errors: [...errors, `Plugin folder contains no SKILL.md, no .claude-plugin/plugin.json, and no open-design.json: ${folder}`],
+      errors: [...errors, `Plugin folder contains no SKILL.md, no .claude-plugin/plugin.json, and no sankiwork.json (or legacy open-design.json): ${folder}`],
       warnings,
     };
   }

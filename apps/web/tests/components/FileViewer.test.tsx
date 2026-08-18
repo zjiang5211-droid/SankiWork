@@ -2582,7 +2582,7 @@ describe('FileViewer SVG artifacts', () => {
     expect(initialSrcDocFrame).toBeTruthy();
     expect(initialUrlFrame?.getAttribute('data-od-active')).toBe('true');
     expect(initialSrcDocFrame?.getAttribute('data-od-active')).toBe('false');
-    expect(initialSrcDocFrame?.srcdoc).toContain('data-od-lazy-srcdoc-transport');
+    expect(initialSrcDocFrame?.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
     expect(initialSrcDocFrame?.srcdoc).not.toContain('__odArtifactBootCount');
 
     fireEvent.click(screen.getByRole('tab', { name: 'Code' }));
@@ -2601,7 +2601,7 @@ describe('FileViewer SVG artifacts', () => {
     fireEvent.load(srcDocFrame!);
 
     const readyGeneration = srcDocFrame?.srcdoc.match(
-      /data-od-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
+      /data-sw-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
     )?.[1];
     expect(readyGeneration).toBeTruthy();
     const readinessProbe = srcDocPostSpy.mock.calls.find(
@@ -3743,7 +3743,7 @@ describe('FileViewer SVG artifacts', () => {
     const srcDocFrame = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement | null;
     expect(srcDocFrame?.getAttribute('data-od-active')).toBe('true');
     expect(srcDocFrame?.srcdoc).toContain('data-od-id="results"');
-    expect(srcDocFrame?.srcdoc).not.toContain('data-od-lazy-srcdoc-transport');
+    expect(srcDocFrame?.srcdoc).not.toContain('data-sw-lazy-srcdoc-transport');
     expect(srcDocFrame?.srcdoc).toContain('data-od-sandbox-shim');
   });
 
@@ -4113,7 +4113,7 @@ describe('FileViewer SVG artifacts', () => {
     expect(markup).toContain('data-od-render-mode="srcdoc"');
     expect(markup).toContain('data-od-render-mode="srcdoc" data-od-active="true"');
     expect(markup).toContain('data-od-render-mode="url-load" data-od-active="false"');
-    expect(markup).not.toContain('data-od-lazy-srcdoc-transport');
+    expect(markup).not.toContain('data-sw-lazy-srcdoc-transport');
     expect(markup).toContain('sandbox="allow-scripts allow-downloads"');
   });
 
@@ -7229,8 +7229,8 @@ describe('FileViewer tweaks toolbar', () => {
       const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
       expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
       expect(activeFrame.srcdoc).toContain('data-od-selection-bridge');
-      expect(activeFrame.srcdoc).toContain('data-od-snapshot-bridge');
-      expect(activeFrame.srcdoc).not.toContain('data-od-lazy-srcdoc-transport');
+      expect(activeFrame.srcdoc).toContain('data-sw-snapshot-bridge');
+      expect(activeFrame.srcdoc).not.toContain('data-sw-lazy-srcdoc-transport');
       return activeFrame;
     });
     await waitFor(() => {
@@ -7344,7 +7344,7 @@ describe('FileViewer tweaks toolbar', () => {
 
       const initialFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
       const initialGeneration = initialFrame.srcdoc.match(
-        /data-od-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
+        /data-sw-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
       )?.[1];
       expect(initialGeneration).toBeTruthy();
 
@@ -7383,7 +7383,7 @@ describe('FileViewer tweaks toolbar', () => {
         '<base href="/api/projects/project-1/preview/scope-1/">',
       );
       const scopedGeneration = scopedFrame.srcdoc.match(
-        /data-od-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
+        /data-sw-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
       )?.[1];
       expect(scopedGeneration).toBeTruthy();
       expect(scopedGeneration).not.toBe(initialGeneration);
@@ -7397,7 +7397,7 @@ describe('FileViewer tweaks toolbar', () => {
 
       const recoveredFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
       expect(recoveredFrame).not.toBe(scopedFrame);
-      expect(recoveredFrame.srcdoc).toContain('data-od-lazy-srcdoc-transport');
+      expect(recoveredFrame.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
     } finally {
       previewBaseResponse.resolve(new Response('', { status: 404 }));
       vi.useRealTimers();
@@ -7674,7 +7674,7 @@ describe('FileViewer tweaks toolbar', () => {
     await new Promise((r) => setTimeout(r, 50));
     {
       const f = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
-      expect(f.srcdoc).toContain('data-od-lazy-srcdoc-transport');
+      expect(f.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
       expect(f.srcdoc).not.toContain('Materialize me');
     }
 
@@ -7760,7 +7760,7 @@ describe('FileViewer tweaks toolbar', () => {
     // Passive preview still uses the lazy shell; the first real materialization
     // happens only after the user enters an interactive mode.
     const initialSrcDocFrame = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
-    expect(initialSrcDocFrame.srcdoc).toContain('data-od-lazy-srcdoc-transport');
+    expect(initialSrcDocFrame.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
     const postMessage = vi.spyOn(initialSrcDocFrame.contentWindow!, 'postMessage');
 
     // Materialize once via Draw. The manual-edit bridge must already be present
@@ -7776,7 +7776,7 @@ describe('FileViewer tweaks toolbar', () => {
     });
     const materializedFrame = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
     const materializedGeneration = materializedFrame.srcdoc.match(
-      /data-od-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
+      /data-sw-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
     )?.[1];
     expect(materializedGeneration).toBeTruthy();
     fireEvent.load(materializedFrame);

@@ -3799,7 +3799,7 @@ function homeHeroChipTitle(chip: HomeHeroChip, t: ReturnType<typeof useT>): stri
 // HOME_PROMPT_EXAMPLES) rather than plugins, so hide the base plugin to keep the
 // preset rail empty for web-clone and let those text cards show instead.
 const EXAMPLE_PRESET_HIDDEN_PLUGIN_IDS = new Set<string>([
-  'od-media-generation',
+  'sw-media-generation',
   'example-web-clone',
 ]);
 

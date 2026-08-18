@@ -7,7 +7,7 @@
 //   node --experimental-strip-types scripts/batch-design-system-test.ts \
 //     --prompt "Design a pricing landing page for an AI notes app" \
 //     --design-systems default,kami \
-//     --skill open-design-landing \
+//     --skill sankiwork-landing \
 //     --agent claude
 //
 // Config-file equivalent:
@@ -16,7 +16,7 @@
 //   {
 //     "prompt": "Design a pricing landing page for an AI notes app",
 //     "designSystems": ["default", "kami"],
-//     "skillId": "open-design-landing",
+//     "skillId": "sankiwork-landing",
 //     "agentId": "claude",
 //     "metadata": { "kind": "prototype", "platform": "responsive" },
 //     "concurrency": 2,
@@ -205,7 +205,7 @@ Example config:
   {
     "prompt": "Build a responsive pricing page for an AI notes app",
     "designSystems": ["default", "kami"],
-    "skillId": "open-design-landing",
+    "skillId": "sankiwork-landing",
     "agentId": "claude",
     "metadata": { "kind": "prototype", "platform": "responsive" },
     "concurrency": 2,

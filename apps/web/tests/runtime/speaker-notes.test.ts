@@ -177,7 +177,7 @@ describe('speaker notes HTML helpers', () => {
     const match = /<script type="application\/json" id="od-presenter-data">([\s\S]*?)<\/script>/.exec(html);
     expect(match).not.toBeNull();
     const data = JSON.parse(match![1] ?? '{}') as { previewHtml?: string };
-    expect(data.previewHtml).toContain('data-od-presenter-frame-chrome');
+    expect(data.previewHtml).toContain('data-sw-presenter-frame-chrome');
     expect(data.previewHtml).toContain('.deck-counter,');
     expect(data.previewHtml).toContain('.deck-floating-nav,');
     expect(data.previewHtml).toContain('[role="navigation"][aria-label*="Deck"]');
@@ -217,7 +217,7 @@ describe('speaker notes HTML helpers', () => {
     expect(data.previewHtmlBySlide).toHaveLength(2);
     expect(data.previewHtmlBySlide?.[0]).toContain('slide one');
     expect(data.previewHtmlBySlide?.[1]).toContain('slide two');
-    expect(data.previewHtmlBySlide?.[0]).toContain('data-od-presenter-frame-chrome');
+    expect(data.previewHtmlBySlide?.[0]).toContain('data-sw-presenter-frame-chrome');
     expect(html).toContain('data.previewHtmlBySlide[target]');
   });
 

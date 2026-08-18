@@ -1043,7 +1043,7 @@ export async function _readMcpResource(
       ],
     };
   }
-  const m = String(uri || '').match(/^od:\/\/(skills|design-systems)\/([^/]+)\/(.+)$/);
+  const m = String(uri || '').match(/^sankiwork:\/\/(skills|design-systems)\/([^/]+)\/(.+)$/);
   if (!m) {
     throw new Error(`unsupported resource URI: ${uri}`);
   }

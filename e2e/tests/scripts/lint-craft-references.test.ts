@@ -68,7 +68,7 @@ test("bad bundled scenario manifest craft references are reported", async () => 
   const fixtureRoot = await mkdtemp(path.join(os.tmpdir(), "lint-craft-references-"));
   const manifestPath = path.join(
     fixtureRoot,
-    "plugins/_official/scenarios/bad-scenario/open-design.json",
+    "plugins/_official/scenarios/bad-scenario/sankiwork.json",
   );
   await mkdir(path.dirname(manifestPath), { recursive: true });
   await writeFile(
@@ -81,7 +81,7 @@ test("bad bundled scenario manifest craft references are reported", async () => 
     assert.deepEqual(findCraftReferenceViolations(references, new Set(), new Set()), [
       {
         kind: "unresolved",
-        manifestPath: "plugins/_official/scenarios/bad-scenario/open-design.json",
+        manifestPath: "plugins/_official/scenarios/bad-scenario/sankiwork.json",
         slug: "typograpy",
       },
     ]);

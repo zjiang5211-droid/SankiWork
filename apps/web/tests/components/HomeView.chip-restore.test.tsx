@@ -34,7 +34,7 @@ import { HomeView } from '../../src/components/HomeView';
 // through JSON. This test drives a REAL `unmount()` + fresh `render()` (not
 // just a re-render) to reproduce the actual teardown Settings causes.
 const DEFAULT_PLUGIN = {
-  id: 'od-new-generation',
+  id: 'sw-new-generation',
   title: 'New generation',
   version: '0.1.0',
   trust: 'bundled' as const,
@@ -45,7 +45,7 @@ const DEFAULT_PLUGIN = {
   installedAt: 0,
   updatedAt: 0,
   manifest: {
-    name: 'od-new-generation',
+    name: 'sw-new-generation',
     title: 'New generation',
     version: '0.1.0',
     description: 'Create new design artifacts',

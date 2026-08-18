@@ -87,7 +87,7 @@ const DEFAULT_LIMITS: StandaloneHtmlLimits = {
 };
 
 const TEXT_JAVASCRIPT_MIME = 'text/javascript';
-const PROJECT_MODULE_PREFIX = 'od-project:/';
+const PROJECT_MODULE_PREFIX = 'sw-project:/';
 const IMPORT_RE = /^\s*(?:url\(\s*)?(?:(['"])(.*?)\1|([^\s)'";]+))\s*\)?([\s\S]*)$/u;
 const EMBEDDABLE_LINK_RELATIONS = new Set([
   'apple-touch-icon',
@@ -281,7 +281,7 @@ class StandaloneBundler {
         replacements.push({
           start: location.startOffset,
           end: location.endOffset,
-          value: `<style data-od-inline-asset="${escapeHtmlAttribute(href)}"${kept}>${escapeStyleBody(css)}</style>`,
+          value: `<style data-sw-inline-asset="${escapeHtmlAttribute(href)}"${kept}>${escapeStyleBody(css)}</style>`,
         });
         wholeNodeReplacements.add(node);
       } else if (hasEmbeddableLinkRelation(rel)) {
@@ -414,7 +414,7 @@ class StandaloneBundler {
     const dependencies = [...this.externalDependencies].sort();
     if (dependencies.length === 0) return html;
     const json = safeJsonForHtml(dependencies);
-    const marker = `<script type="application/json" data-od-external-dependencies>${json}</script>`;
+    const marker = `<script type="application/json" data-sw-external-dependencies>${json}</script>`;
     this.assertOutputBytes(Buffer.byteLength(html, 'utf8') + Buffer.byteLength(marker, 'utf8'), chain);
     return injectIntoHead(html, marker);
   }

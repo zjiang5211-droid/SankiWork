@@ -376,7 +376,7 @@ sw skills list --json
 
 **為什麼用 MCP？** 每次迭代都匯出再重新附上一個 zip 會打斷心流。MCP 直接揭露設計來源——agent 看到的永遠是即時檔案。
 
-**對於從零開始的 agent，** 安裝程式會放置 `~/.config/<agent>/open-design.json`（或對應平台的等價檔案），外加一段可複製貼上的 MCP 片段。Cursor 會得到一鍵 deeplink；Claude Code 會得到一行 `claude mcp add-json`；其餘每一個 agent 都會得到符合其設定所需 schema 的 JSON。完整的各 agent 流程 → 桌面應用程式中的 **Settings → MCP server**，或 [`docs/agent-adapters.md`](../../docs/agent-adapters.md)。
+**對於從零開始的 agent，** 安裝程式會放置 `~/.config/<agent>/sankiwork.json`（或對應平台的等價檔案），外加一段可複製貼上的 MCP 片段。Cursor 會得到一鍵 deeplink；Claude Code 會得到一行 `claude mcp add-json`；其餘每一個 agent 都會得到符合其設定所需 schema 的 JSON。完整的各 agent 流程 → 桌面應用程式中的 **Settings → MCP server**，或 [`docs/agent-adapters.md`](../../docs/agent-adapters.md)。
 
 **安全模型。** 預設唯讀，daemon 綁定於 `127.0.0.1`，SSRF 在代理邊界被阻擋。要在區域網路曝露，需明確設定 `SW_BIND_HOST` 加上 `SW_ALLOWED_ORIGINS`。連接器憑證與即時 artifact 預覽路由無論如何都僅限 loopback。
 
@@ -450,11 +450,11 @@ sw skills list --json
 
 ## 外掛
 
-**277 個官方外掛與 183 個可混搭參考範例**位於 [`plugins/_official/`](../../plugins/_official/)。每個項目都是以 `open-design.json` 為核心的可攜式外掛目錄，並帶有類型所需的 payload，例如 agent 工作流程的 `SKILL.md`、媒體範本的 `template.json`，或設計系統項目的 `DESIGN.md`。直接跳到某個分類：
+**277 個官方外掛與 183 個可混搭參考範例**位於 [`plugins/_official/`](../../plugins/_official/)。每個項目都是以 `sankiwork.json` 為核心的可攜式外掛目錄，並帶有類型所需的 payload，例如 agent 工作流程的 `SKILL.md`、媒體範本的 `template.json`，或設計系統項目的 `DESIGN.md`。直接跳到某個分類：
 
 | 分類 | 數量 | 內容 |
 |---|---|---|
-| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | 完整的設計情境——[`od-default`](../../plugins/_official/scenarios/od-default/)、[`od-design-refine`](../../plugins/_official/scenarios/od-design-refine/)、[`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/)、[`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/)、[`od-react-export`](../../plugins/_official/scenarios/od-react-export/)、[`od-nextjs-export`](../../plugins/_official/scenarios/od-nextjs-export/)、[`od-vue-export`](../../plugins/_official/scenarios/od-vue-export/)、[`od-media-generation`](../../plugins/_official/scenarios/od-media-generation/)、[`od-new-generation`](../../plugins/_official/scenarios/od-new-generation/)、[`od-tune-collab`](../../plugins/_official/scenarios/od-tune-collab/)、[`od-plugin-authoring`](../../plugins/_official/scenarios/od-plugin-authoring/), [`od-share-to-community`](../../plugins/_official/scenarios/od-share-to-community/), [`od-web-effect-extractor`](../../plugins/_official/scenarios/od-web-effect-extractor/) |
+| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | 完整的設計情境——[`sw-default`](../../plugins/_official/scenarios/sw-default/)、[`sw-design-refine`](../../plugins/_official/scenarios/sw-design-refine/)、[`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/)、[`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/)、[`sw-react-export`](../../plugins/_official/scenarios/sw-react-export/)、[`sw-nextjs-export`](../../plugins/_official/scenarios/sw-nextjs-export/)、[`sw-vue-export`](../../plugins/_official/scenarios/sw-vue-export/)、[`sw-media-generation`](../../plugins/_official/scenarios/sw-media-generation/)、[`sw-new-generation`](../../plugins/_official/scenarios/sw-new-generation/)、[`sw-tune-collab`](../../plugins/_official/scenarios/sw-tune-collab/)、[`sw-plugin-authoring`](../../plugins/_official/scenarios/sw-plugin-authoring/), [`sw-share-to-community`](../../plugins/_official/scenarios/sw-share-to-community/), [`sw-web-effect-extractor`](../../plugins/_official/scenarios/sw-web-effect-extractor/) |
 | [`image-templates/`](../../plugins/_official/image-templates/) | 45 | 一次性圖片 prompt——編輯、電影感、產品、肖像 |
 | [`video-templates/`](../../plugins/_official/video-templates/) | 63 | HyperFrames / Seedance / Veo 動態範本 |
 | [`design-systems/`](../../plugins/_official/design-systems/) | 143 | 包裝成外掛的品牌 `DESIGN.md` |
@@ -466,8 +466,8 @@ sw skills list --json
 ### 外掛能做什麼
 
 - 🤖 **在任何編碼 agent 中執行**——[Claude Code](../../docs/agent-adapters.md)、Codex、Cursor、Copilot、[OpenClaw](https://github.com/openclaw/openclaw)、[Antigravity](https://antigravity.google)、Hermes、Kimi…透過 agent 早已熟悉的同一套 skill 協定。
-- 🔁 **遷移 Figma / Pencil 工作流程** → React、Next.js 或 Vue 原始碼。參見 [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/)。
-- 🛠️ **把既有的程式碼庫翻新至品牌規格**——把一個外掛指向某個 `git` 儲存庫 + `DESIGN.md`，就能得到一個 PR。參見 [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/)。
+- 🔁 **遷移 Figma / Pencil 工作流程** → React、Next.js 或 Vue 原始碼。參見 [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/)。
+- 🛠️ **把既有的程式碼庫翻新至品牌規格**——把一個外掛指向某個 `git` 儲存庫 + `DESIGN.md`，就能得到一個 PR。參見 [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/)。
 - 💾 **持久保存自訂工作流程**——你團隊可重複使用的範本，與隨附範本並列放置。
 
 ### 使用外掛
@@ -481,29 +481,29 @@ sw skills list --json
 ```bash
 sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
 sw plugin search "landing page"      # search by keyword
-sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-sw plugin apply od-default --input brief="a one-page pitch for our seed round"
-sw plugin upgrade od-default         # upgrade
-sw plugin uninstall od-default       # uninstall
+sw plugin info sw-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install sw-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply sw-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade sw-default         # upgrade
+sw plugin uninstall sw-default       # uninstall
 ```
 
 每個指令都支援 `--json`，因此你可以把它透過 `jq` / `xargs` 接進自動化流程。
 
 ### 建立外掛
 
-SankiWork 外掛必須包含 `open-design.json` 以及其類型所需的 payload。工作流程 skill 或 scenario 也包含 `SKILL.md`；僅 manifest 的範本與設計系統項目則使用各自的 payload：
+SankiWork 外掛必須包含 `sankiwork.json` 以及其類型所需的 payload。工作流程 skill 或 scenario 也包含 `SKILL.md`；僅 manifest 的範本與設計系統項目則使用各自的 payload：
 
 ```
 my-plugin/
-├── open-design.json    ← required: marketplace metadata + inputs + pipeline + capabilities
+├── sankiwork.json    ← required: marketplace metadata + inputs + pipeline + capabilities
 ├── SKILL.md            ← agent-skill/scenario entries only; omit for other plugin types
 ├── README.md           ← optional: usage, install, registry links
 ├── preview/            ← optional: index.html / poster.png (strongly recommended for visual plugins)
 └── examples/           ← optional: concrete use cases
 ```
 
-`open-design.json` 的核心欄位：`specVersion`（目前為 `1.0.0`）、`name`（穩定 ID）、`version`（semver）、選用的 `compat.agentSkills[].path`（項目公開 Agent Skill 時指向 `./SKILL.md`）、`od.kind`（`skill` / `scenario` / `atom` / `bundle`）、`od.taskKind`（`new-generation` / `figma-migration` / `code-migration` / `tune-collab`）、`od.mode`（輸出介面，例如 `prototype` / `deck` / `live-artifact` / `image` / `video` / `hyperframes` / `audio` / `design-system` / `scenario`）、`od.capabilities[]`（**宣告最小集合**——受限安裝預設只授予 `prompt:inject`）、`od.inputs[]`（套用時的參數）。
+`sankiwork.json` 的核心欄位：`specVersion`（目前為 `1.0.0`）、`name`（穩定 ID）、`version`（semver）、選用的 `compat.agentSkills[].path`（項目公開 Agent Skill 時指向 `./SKILL.md`）、`od.kind`（`skill` / `scenario` / `atom` / `bundle`）、`od.taskKind`（`new-generation` / `figma-migration` / `code-migration` / `tune-collab`）、`od.mode`（輸出介面，例如 `prototype` / `deck` / `live-artifact` / `image` / `video` / `hyperframes` / `audio` / `design-system` / `scenario`）、`od.capabilities[]`（**宣告最小集合**——受限安裝預設只授予 `prompt:inject`）、`od.inputs[]`（套用時的參數）。
 
 在本地搭建骨架並驗證：
 
@@ -617,7 +617,7 @@ SankiWork 之所以能持續前進，是因為貢獻者——設計師、工程�
 |---|---|---|
 | 一個新的 **skill** | 放進一個含 `SKILL.md` + `assets/` + `references/` 的資料夾 | [`skills/`](../../skills/) · 規格見 [`docs/skills-protocol.md`](../../docs/skills-protocol.md) |
 | 一套新的 **設計系統** | 放進以 `DESIGN.md` 為核心的套件；按需加入 `manifest.json`、`tokens.css`、元件、資產或來源資訊 | [`design-systems/<brand>/`](../../design-systems/) |
-| 一個新的 **外掛** | 在某個分類資料夾下放進 `open-design.json` + 對應類型的 payload | [`plugins/community/`](../../plugins/community/) · 規格見 [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · agent 開發指南見 [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
+| 一個新的 **外掛** | 在某個分類資料夾下放進 `sankiwork.json` + 對應類型的 payload | [`plugins/community/`](../../plugins/community/) · 規格見 [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · agent 開發指南見 [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
 | 支援一個新的 **編碼 agent CLI** | Runtime 定義 + registry 項目；僅新 wire format 需要 parser | [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runtimes/defs/) |
 | 修錯誤或打磨 UI | 瀏覽 [`good-first-issue`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) 標籤 | [Issues →](https://github.com/nexu-io/open-design/issues) |
 | 翻譯文件 | 更新 `README.<lang>.md` 檔案 | [`TRANSLATIONS.md`](../../TRANSLATIONS.md) |

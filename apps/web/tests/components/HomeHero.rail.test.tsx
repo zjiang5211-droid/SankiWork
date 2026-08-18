@@ -464,7 +464,7 @@ describe('HomeHero intent rail', () => {
 
   it('disables every template while a plugin apply is in flight', () => {
     const { onPickChip } = renderHero({
-      pendingPluginId: 'od-figma-migration',
+      pendingPluginId: 'sw-figma-migration',
       pendingChipId: 'figma',
     });
     openTemplatePicker();
@@ -500,19 +500,19 @@ describe('HomeHero intent rail', () => {
     expect(findChip('create-brand-kit')?.icon).toBe('swatchbook');
   });
 
-  it('media chips route to od-media-generation with the matching project kind', () => {
+  it('media chips route to sw-media-generation with the matching project kind', () => {
     expect(findChip('image')?.action).toMatchObject({
       kind: 'apply-scenario',
-      pluginId: 'od-media-generation',
+      pluginId: 'sw-media-generation',
       projectKind: 'image',
     });
-    expect(findChip('video')?.action).toMatchObject({ pluginId: 'od-media-generation', projectKind: 'video' });
-    expect(findChip('audio')?.action).toMatchObject({ pluginId: 'od-media-generation', projectKind: 'audio' });
+    expect(findChip('video')?.action).toMatchObject({ pluginId: 'sw-media-generation', projectKind: 'video' });
+    expect(findChip('audio')?.action).toMatchObject({ pluginId: 'sw-media-generation', projectKind: 'audio' });
   });
 
   it('prototype and slide-deck chips route to their specialised bundled scenario plugin', () => {
     // Prototype now binds to web-prototype's seed template instead of
-    // the generic od-new-generation router. Same for Slide deck →
+    // the generic sw-new-generation router. Same for Slide deck →
     // simple-deck. See packages/contracts/src/plugins/scenario-defaults.ts
     // for the rationale (battle-tested seed + layouts + checklist).
     expect(findChip('prototype')?.action).toMatchObject({ pluginId: 'example-web-prototype', projectKind: 'prototype' });

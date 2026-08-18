@@ -74,7 +74,7 @@ setTimeout(() => process.exit(0), 250);
       body: JSON.stringify({
         id: projectId,
         name: 'Project skill critique label fixture',
-        skillId: 'open-design-landing-deck',
+        skillId: 'sankiwork-landing-deck',
         designSystemId: 'sleek',
         metadata: { critiqueTheaterEnabled: true },
       }),
@@ -110,7 +110,7 @@ setTimeout(() => process.exit(0), 250);
     const metricsResponse = await fetch(`${baseUrl}/api/metrics`);
     const metrics = await metricsResponse.text();
     expect(metrics).toContain(
-      'sankiwork_critique_runs_total{status="shipped",adapter="qwen",skill="open-design-landing-deck"} 1',
+      'sankiwork_critique_runs_total{status="shipped",adapter="qwen",skill="sankiwork-landing-deck"} 1',
     );
     expect(metrics).not.toContain('skill="unknown"');
     expect(metrics).not.toContain('skill="editorial-collage-deck"');

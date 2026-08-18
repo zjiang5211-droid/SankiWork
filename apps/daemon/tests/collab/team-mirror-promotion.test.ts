@@ -48,7 +48,7 @@ async function fixture(live = true) {
   const root = await mkdtemp(path.join(os.tmpdir(), 'od-team-promote-'));
   roots.push(root);
   const liveDir = path.join(root, 'project-1');
-  const stageDir = await mkdtemp(path.join(root, '.project-1.sankiwork-pull-stage-'));
+  const stageDir = await mkdtemp(path.join(root, '.project-1.sw-pull-stage-'));
   const journalDir = path.join(root, '.journals');
   if (live) {
     await mkdir(liveDir);
@@ -191,7 +191,7 @@ describe('authorized team mirror promotion', () => {
     expect(commit).toHaveBeenCalledTimes(1);
     expect(await readFile(path.join(fx.liveDir, 'index.html'), 'utf8')).toBe('new');
     expect(await readdir(fx.journalDir)).toEqual([]);
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-recovery-'))).toBe(false);
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-recovery-'))).toBe(false);
   });
 
   it('keeps one complete live tree addressable at every async durability boundary', async () => {
@@ -275,7 +275,7 @@ describe('authorized team mirror promotion', () => {
     await expect(lstat(fx.stageDir)).rejects.toMatchObject({ code: 'ENOENT' });
     expect(await readdir(fx.journalDir)).toEqual([]);
     expect((await readdir(fx.root)).some(
-      (name) => name.includes('.sankiwork-pull-recovery-'),
+      (name) => name.includes('.sw-pull-recovery-'),
     )).toBe(false);
   });
 
@@ -325,7 +325,7 @@ describe('authorized team mirror promotion', () => {
     await expect(lstat(fx.stageDir)).rejects.toMatchObject({ code: 'ENOENT' });
     expect(await readdir(fx.journalDir)).toEqual([]);
     expect((await readdir(fx.root)).some(
-      (name) => name.includes('.sankiwork-pull-recovery-'),
+      (name) => name.includes('.sw-pull-recovery-'),
     )).toBe(false);
   });
 
@@ -349,7 +349,7 @@ describe('authorized team mirror promotion', () => {
     })).rejects.toThrow('sqlite unavailable');
 
     expect(await readFile(path.join(fx.liveDir, 'index.html'), 'utf8')).toBe('old');
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-stage-'))).toBe(false);
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-stage-'))).toBe(false);
     expect(await readdir(fx.journalDir)).toEqual([]);
   });
 
@@ -386,7 +386,7 @@ describe('authorized team mirror promotion', () => {
     );
     expect(await readFile(path.join(fx.liveDir, 'index.html'), 'utf8')).toBe('new');
     expect(await readdir(fx.journalDir)).toHaveLength(1);
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-recovery-')))
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-recovery-')))
       .toBe(true);
 
     await recoverAuthorizedTeamProjectPromotions({
@@ -397,7 +397,7 @@ describe('authorized team mirror promotion', () => {
 
     expect(await readFile(path.join(fx.liveDir, 'index.html'), 'utf8')).toBe('new');
     expect(await readdir(fx.journalDir)).toEqual([]);
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-recovery-')))
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-recovery-')))
       .toBe(false);
   });
 
@@ -455,7 +455,7 @@ describe('authorized team mirror promotion', () => {
 
     expect(commit).not.toHaveBeenCalled();
     expect(await readFile(path.join(fx.liveDir, 'index.html'), 'utf8')).toBe('old');
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-stage-'))).toBe(false);
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-stage-'))).toBe(false);
   });
 
   it('refuses to promote a replacement raced into the authorized stage path', async () => {
@@ -487,7 +487,7 @@ describe('authorized team mirror promotion', () => {
 
   it('rolls back a promoted-but-uncommitted journal on startup', async () => {
     const fx = await fixture();
-    const recoveryDir = path.join(fx.root, '.project-1.sankiwork-pull-recovery-crash');
+    const recoveryDir = path.join(fx.root, '.project-1.sw-pull-recovery-crash');
     const { rename } = await import('node:fs/promises');
     await rename(fx.liveDir, recoveryDir);
     await rename(fx.stageDir, fx.liveDir);
@@ -517,12 +517,12 @@ describe('authorized team mirror promotion', () => {
 
     expect(await readFile(path.join(fx.liveDir, 'index.html'), 'utf8')).toBe('old');
     expect(await readdir(fx.journalDir)).toEqual([]);
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-recovery-'))).toBe(false);
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-recovery-'))).toBe(false);
   });
 
   it('restores old live from a prepared journal when the live rename was durable first', async () => {
     const fx = await fixture();
-    const recoveryDir = path.join(fx.root, '.project-1.sankiwork-pull-recovery-crash');
+    const recoveryDir = path.join(fx.root, '.project-1.sw-pull-recovery-crash');
     const { rename } = await import('node:fs/promises');
     const originalLiveIdentity = await lstat(fx.liveDir).then((entry) => ({
       dev: String(entry.dev),
@@ -552,8 +552,8 @@ describe('authorized team mirror promotion', () => {
 
     expect(await readFile(path.join(fx.liveDir, 'index.html'), 'utf8')).toBe('old');
     expect(await readdir(fx.journalDir)).toEqual([]);
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-stage-'))).toBe(false);
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-recovery-'))).toBe(false);
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-stage-'))).toBe(false);
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-recovery-'))).toBe(false);
   });
 
   it('rejects a prepared live-move journal that omitted the original live identity', async () => {
@@ -565,7 +565,7 @@ describe('authorized team mirror promotion', () => {
       receipt: receipt(),
       liveDir: fx.liveDir,
       stageDir: fx.stageDir,
-      recoveryDir: path.join(fx.root, '.project-1.sankiwork-pull-recovery-crash'),
+      recoveryDir: path.join(fx.root, '.project-1.sw-pull-recovery-crash'),
       liveExisted: true,
       phase: 'prepared',
       promotedIdentity: fx.stageIdentity,
@@ -596,7 +596,7 @@ describe('authorized team mirror promotion', () => {
       receipt: receipt(),
       liveDir: fx.liveDir,
       stageDir: fx.stageDir,
-      recoveryDir: path.join(fx.root, '.project-1.sankiwork-pull-recovery-crash'),
+      recoveryDir: path.join(fx.root, '.project-1.sw-pull-recovery-crash'),
       liveExisted: false,
       phase: 'prepared',
       promotedIdentity: fx.stageIdentity,
@@ -615,7 +615,7 @@ describe('authorized team mirror promotion', () => {
 
   it('finalizes recovery cleanup when SQLite proves the promoted version committed', async () => {
     const fx = await fixture();
-    const recoveryDir = path.join(fx.root, '.project-1.sankiwork-pull-recovery-crash');
+    const recoveryDir = path.join(fx.root, '.project-1.sw-pull-recovery-crash');
     const { rename } = await import('node:fs/promises');
     await rename(fx.liveDir, recoveryDir);
     await rename(fx.stageDir, fx.liveDir);
@@ -651,12 +651,12 @@ describe('authorized team mirror promotion', () => {
 
     expect(await readFile(path.join(fx.liveDir, 'index.html'), 'utf8')).toBe('new');
     expect(await readdir(fx.journalDir)).toEqual([]);
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-recovery-'))).toBe(false);
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-recovery-'))).toBe(false);
   });
 
   it('cleans an older superseded journal without touching the newer live tree', async () => {
     const fx = await fixture();
-    const recoveryDir = path.join(fx.root, '.project-1.sankiwork-pull-recovery-crash');
+    const recoveryDir = path.join(fx.root, '.project-1.sw-pull-recovery-crash');
     const { rename } = await import('node:fs/promises');
     await rename(fx.liveDir, recoveryDir);
     await rename(fx.stageDir, fx.liveDir);
@@ -698,7 +698,7 @@ describe('authorized team mirror promotion', () => {
       ino: String(entry.ino),
     }))).toEqual(newerLiveIdentity);
     expect(await readdir(fx.journalDir)).toEqual([]);
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-recovery-')))
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-recovery-')))
       .toBe(false);
   });
 
@@ -733,7 +733,7 @@ describe('authorized team mirror promotion', () => {
     expect(await readdir(fx.journalDir)).toHaveLength(1);
 
     const retryStageDir = await mkdtemp(
-      path.join(fx.root, '.project-1.sankiwork-pull-stage-'),
+      path.join(fx.root, '.project-1.sw-pull-stage-'),
     );
     await writeFile(path.join(retryStageDir, 'index.html'), 'same-v5-retry');
     const retryStageIdentity = await lstat(retryStageDir).then((entry) => ({
@@ -785,13 +785,13 @@ describe('authorized team mirror promotion', () => {
       ino: String(entry.ino),
     }))).toEqual(retryLiveIdentity);
     expect(await readdir(fx.journalDir)).toEqual([]);
-    expect((await readdir(fx.root)).some((name) => name.includes('.sankiwork-pull-recovery-')))
+    expect((await readdir(fx.root)).some((name) => name.includes('.sw-pull-recovery-')))
       .toBe(false);
   });
 
   it('preserves an unexpected live inode during startup rollback', async () => {
     const fx = await fixture();
-    const recoveryDir = path.join(fx.root, '.project-1.sankiwork-pull-recovery-crash');
+    const recoveryDir = path.join(fx.root, '.project-1.sw-pull-recovery-crash');
     const { rename } = await import('node:fs/promises');
     await rename(fx.liveDir, recoveryDir);
     await rename(fx.stageDir, fx.liveDir);
@@ -845,7 +845,7 @@ describe('authorized team mirror promotion', () => {
       receipt: receipt(),
       liveDir: outside,
       stageDir: fx.stageDir,
-      recoveryDir: path.join(fx.root, '.project-1.sankiwork-pull-recovery-crash'),
+      recoveryDir: path.join(fx.root, '.project-1.sw-pull-recovery-crash'),
       liveExisted: false,
       phase: 'promoted',
       promotedIdentity: fx.stageIdentity,

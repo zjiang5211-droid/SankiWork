@@ -367,7 +367,7 @@ sw skills list --json
 
 **لماذا MCP؟** تصدير ملف مضغوط وإعادة إرفاقه في كل دورة يكسر الانسياب. يكشف MCP مصدر التصميم مباشرة — فيرى الوكيل دائمًا الملف الحي.
 
-**بالنسبة لوكيل يبدأ من الصفر،** يضع المثبِّت `~/.config/<agent>/open-design.json` (أو ما يكافئه على المنصة) إضافة إلى مقتطف MCP جاهز للصق. يحصل Cursor على رابط عميق بنقرة واحدة؛ ويحصل Claude Code على سطر `claude mcp add-json` واحد؛ ويحصل كل وكيل آخر على JSON بالمخطط الذي تتوقعه إعداداته. سير العمل الكامل لكل وكيل ← **Settings → MCP server** في تطبيق سطح المكتب، أو [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
+**بالنسبة لوكيل يبدأ من الصفر،** يضع المثبِّت `~/.config/<agent>/sankiwork.json` (أو ما يكافئه على المنصة) إضافة إلى مقتطف MCP جاهز للصق. يحصل Cursor على رابط عميق بنقرة واحدة؛ ويحصل Claude Code على سطر `claude mcp add-json` واحد؛ ويحصل كل وكيل آخر على JSON بالمخطط الذي تتوقعه إعداداته. سير العمل الكامل لكل وكيل ← **Settings → MCP server** في تطبيق سطح المكتب، أو [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
 
 **نموذج الأمان.** للقراءة فقط افتراضيًا، ويرتبط الـ daemon بـ `127.0.0.1`، ويُمنع SSRF عند حافة الوكيل. يتطلب الكشف على الشبكة المحلية تعيين `SW_BIND_HOST` صريح إضافة إلى `SW_ALLOWED_ORIGINS`. تبقى بيانات اعتماد الموصِّلات ومسارات معاينة المخرجات الحية على loopback فقط أيًا كان.
 
@@ -441,11 +441,11 @@ sw skills list --json
 
 ## الإضافات
 
-**277 إضافة رسمية و183 مثالًا قابلًا لإعادة المزج** في [`plugins/_official/`](../../plugins/_official/). كل إدخال مجلد قابل للنقل يرتكز على `open-design.json` وحمولة نوعه: `SKILL.md` لسير العمل، أو `template.json` لقوالب الوسائط، أو `DESIGN.md` لأنظمة التصميم.
+**277 إضافة رسمية و183 مثالًا قابلًا لإعادة المزج** في [`plugins/_official/`](../../plugins/_official/). كل إدخال مجلد قابل للنقل يرتكز على `sankiwork.json` وحمولة نوعه: `SKILL.md` لسير العمل، أو `template.json` لقوالب الوسائط، أو `DESIGN.md` لأنظمة التصميم.
 
 | الفئة | العدد | المحتويات |
 |---|---|---|
-| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | سيناريوهات تصميم كاملة — [`od-default`](../../plugins/_official/scenarios/od-default/)، [`od-design-refine`](../../plugins/_official/scenarios/od-design-refine/)، [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/)، [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/)، [`od-react-export`](../../plugins/_official/scenarios/od-react-export/)، [`od-nextjs-export`](../../plugins/_official/scenarios/od-nextjs-export/)، [`od-vue-export`](../../plugins/_official/scenarios/od-vue-export/)، [`od-media-generation`](../../plugins/_official/scenarios/od-media-generation/)، [`od-new-generation`](../../plugins/_official/scenarios/od-new-generation/)، [`od-tune-collab`](../../plugins/_official/scenarios/od-tune-collab/)، [`od-plugin-authoring`](../../plugins/_official/scenarios/od-plugin-authoring/), [`od-share-to-community`](../../plugins/_official/scenarios/od-share-to-community/), [`od-web-effect-extractor`](../../plugins/_official/scenarios/od-web-effect-extractor/) |
+| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | سيناريوهات تصميم كاملة — [`sw-default`](../../plugins/_official/scenarios/sw-default/)، [`sw-design-refine`](../../plugins/_official/scenarios/sw-design-refine/)، [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/)، [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/)، [`sw-react-export`](../../plugins/_official/scenarios/sw-react-export/)، [`sw-nextjs-export`](../../plugins/_official/scenarios/sw-nextjs-export/)، [`sw-vue-export`](../../plugins/_official/scenarios/sw-vue-export/)، [`sw-media-generation`](../../plugins/_official/scenarios/sw-media-generation/)، [`sw-new-generation`](../../plugins/_official/scenarios/sw-new-generation/)، [`sw-tune-collab`](../../plugins/_official/scenarios/sw-tune-collab/)، [`sw-plugin-authoring`](../../plugins/_official/scenarios/sw-plugin-authoring/), [`sw-share-to-community`](../../plugins/_official/scenarios/sw-share-to-community/), [`sw-web-effect-extractor`](../../plugins/_official/scenarios/sw-web-effect-extractor/) |
 | [`image-templates/`](../../plugins/_official/image-templates/) | 45 | موجّهات صور بلقطة واحدة — تحريرية، سينمائية، منتجات، بورتريه |
 | [`video-templates/`](../../plugins/_official/video-templates/) | 63 | قوالب حركة HyperFrames / Seedance / Veo |
 | [`design-systems/`](../../plugins/_official/design-systems/) | 143 | ملفات `DESIGN.md` للعلامات التجارية مغلَّفة كإضافات |
@@ -457,8 +457,8 @@ sw skills list --json
 ### ما يمكن للإضافات فعله
 
 - 🤖 **التشغيل في أي وكيل برمجة** — [Claude Code](../../docs/agent-adapters.md) وCodex وCursor وCopilot و[OpenClaw](https://github.com/openclaw/openclaw) و[Antigravity](https://antigravity.google) وHermes وKimi… عبر بروتوكول المهارات نفسه الذي يعرفه الوكيل أصلًا.
-- 🔁 **نقل سير عمل Figma / Pencil** ← شفرة React أو Next.js أو Vue. راجع [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/).
-- 🛠️ **تحديث قاعدة شفرة موجودة وفق مواصفة علامة تجارية** — وجّه إضافة نحو مستودع `git` + ملف `DESIGN.md`، واحصل على PR. راجع [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/).
+- 🔁 **نقل سير عمل Figma / Pencil** ← شفرة React أو Next.js أو Vue. راجع [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/).
+- 🛠️ **تحديث قاعدة شفرة موجودة وفق مواصفة علامة تجارية** — وجّه إضافة نحو مستودع `git` + ملف `DESIGN.md`، واحصل على PR. راجع [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/).
 - 💾 **الاحتفاظ بسير عمل مخصّص** — تجلس قوالب فريقك القابلة لإعادة الاستخدام بجوار القوالب المشحونة.
 
 ### استخدام الإضافات
@@ -472,22 +472,22 @@ sw skills list --json
 ```bash
 sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
 sw plugin search "landing page"      # search by keyword
-sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-sw plugin apply od-default --input brief="a one-page pitch for our seed round"
-sw plugin upgrade od-default         # upgrade
-sw plugin uninstall od-default       # uninstall
+sw plugin info sw-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install sw-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply sw-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade sw-default         # upgrade
+sw plugin uninstall sw-default       # uninstall
 ```
 
 يدعم كل أمر `--json`، فتستطيع تمريره عبر `jq` / `xargs` إلى الأتمتة.
 
 ### بناء إضافة
 
-تتطلب إضافة SankiWork ملف `open-design.json` وحمولة نوعها. تتضمن المهارات والسيناريوهات أيضًا `SKILL.md`؛ وتستخدم الأنواع الأخرى حمولتها الخاصة:
+تتطلب إضافة SankiWork ملف `sankiwork.json` وحمولة نوعها. تتضمن المهارات والسيناريوهات أيضًا `SKILL.md`؛ وتستخدم الأنواع الأخرى حمولتها الخاصة:
 
 ```
 my-plugin/
-├── open-design.json    ← required: marketplace metadata + inputs + pipeline + capabilities
+├── sankiwork.json    ← required: marketplace metadata + inputs + pipeline + capabilities
 ├── SKILL.md            ← required for agent-skill/scenario entries; omit for other plugin types
 ├── README.md           ← optional: usage, install, registry links
 ├── preview/            ← optional: index.html / poster.png (strongly recommended for visual plugins)
@@ -607,7 +607,7 @@ pnpm guard && pnpm --filter @sankiwork/plugin-runtime typecheck
 |---|---|---|
 | **مهارة** جديدة | أسقِط مجلدًا يحوي `SKILL.md` + `assets/` + `references/` | [`skills/`](../../skills/) · المواصفة في [`docs/skills-protocol.md`](../../docs/skills-protocol.md) |
 | **نظام تصميم** جديد | أسقِط حزمة تتمحور حول `DESIGN.md`، وأضف `manifest.json` أو `tokens.css` أو المكوّنات أو الأصول أو بيانات المصدر عند الحاجة | [`design-systems/<brand>/`](../../design-systems/) |
-| **إضافة** جديدة | أسقِط `open-design.json` + حمولة النوع ضمن مجلد فئة | [`plugins/community/`](../../plugins/community/) · المواصفة في [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · دليل تطوير الوكيل في [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
+| **إضافة** جديدة | أسقِط `sankiwork.json` + حمولة النوع ضمن مجلد فئة | [`plugins/community/`](../../plugins/community/) · المواصفة في [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · دليل تطوير الوكيل في [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
 | دعم **واجهة CLI** جديدة لوكيل برمجة | تعريف runtime + تسجيل؛ parser فقط لتنسيق جديد | [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runtimes/defs/) |
 | إصلاح خطأ أو تحسين الواجهة | تصفّح تصنيف [`good-first-issue`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) | [Issues ←](https://github.com/nexu-io/open-design/issues) |
 | ترجمة الوثائق | حدّث ملفات `README.<lang>.md` | [`TRANSLATIONS.md`](../../TRANSLATIONS.md) |

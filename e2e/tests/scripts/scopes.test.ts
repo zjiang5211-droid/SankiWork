@@ -506,7 +506,7 @@ const GOLDEN_CASES: readonly GoldenCase[] = [
     files: [
       "apps/desktop/src/main/index.ts",
       "apps/packaged/tests/launcher.test.ts",
-      "tools/pack/resources/linux/open-design.desktop.template",
+      "tools/pack/resources/linux/sankiwork.desktop.template",
     ],
     expected: expectedPlan({
       ciMode: "full",
@@ -694,7 +694,7 @@ test("packaged-leaf core matches only its certain rule with the guarded effects"
   const files = [
     "apps/desktop/src/main.ts",
     "apps/packaged/tests/main.test.ts",
-    "tools/pack/resources/linux/open-design.desktop.template",
+    "tools/pack/resources/linux/sankiwork.desktop.template",
   ];
   for (const file of files) {
     const matched = scopeRules.filter((rule) => matchesRuleMatch(file, rule.match)).map((rule) => rule.id);

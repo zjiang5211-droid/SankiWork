@@ -1,11 +1,11 @@
 # Staging has an independent binding set and namespace so test traffic cannot
 # consume production download or browser-bridge attribution tokens.
-name = "open-design-landing-staging"
+name = "sankiwork-landing-staging"
 pages_build_output_dir = "out"
 compatibility_date = "2026-05-26"
 
 # Vela's CONTACT_SALES_SERVICE_SECRET is an encrypted Pages secret and must be
-# configured independently on the open-design-landing-staging project before
+# configured independently on the sankiwork-landing-staging project before
 # deployment. Never reuse the production secret value here.
 [[kv_namespaces]]
 binding = "CONTACT_LEADS"
@@ -21,6 +21,6 @@ id = "90e2e8eb690e40c3830d70e407e592d8"
 
 [[d1_databases]]
 binding = "ATTRIBUTION_DB"
-database_name = "open-design-landing-staging-attribution"
+database_name = "sankiwork-landing-staging-attribution"
 database_id = "056f7710-df65-4b63-a9d5-f2f8cc1fda14"
 migrations_dir = "migrations"

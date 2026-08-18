@@ -352,7 +352,7 @@ function defaultPluginInputsForCreate(
     };
   }
 
-  if (pluginId === 'od-new-generation') {
+  if (pluginId === 'sw-new-generation') {
     const templateLabel = input.metadata.templateLabel?.trim();
     const artifactKind =
       kind === 'template'
@@ -367,7 +367,7 @@ function defaultPluginInputsForCreate(
     };
   }
 
-  if (pluginId !== 'od-media-generation') return null;
+  if (pluginId !== 'sw-media-generation') return null;
   if (kind !== 'image' && kind !== 'video' && kind !== 'audio') return null;
 
   const promptTemplate = input.metadata.promptTemplate;
@@ -1359,7 +1359,7 @@ export function EntryShell({
   // Stage B of plugin-driven-flow-plan: the rail can stamp a
   // `projectKind` on the payload so the created project records the
   // chosen surface (image / video / audio, etc.). Free-form Home
-  // submits now arrive with the hidden od-default router plugin and
+  // submits now arrive with the hidden sw-default router plugin and
   // projectKind='other', so the agent infers the task type and asks only
   // when the brief cannot be routed reliably.
   async function handlePluginLoopSubmit(payload: PluginLoopSubmit) {

@@ -12,7 +12,7 @@ This community plugin packages a reviewable UI kit for the HiCatcat G2 AR glasse
 ## Files
 
 - `SKILL.md` - Agent instructions.
-- `open-design.json` - Plugin manifest.
+- `sankiwork.json` - Plugin manifest.
 - `index.html` - Browser-reviewable UI kit entry.
 - `colors_and_type.css` - G2 token CSS.
 - `components/` - React/Babel component files used by `index.html`.
@@ -28,6 +28,6 @@ The root element uses `data-g2-mode="regular"`. Change it to `data-g2-mode="comp
 
 The plugin is valid when:
 
-- Every path named in `SKILL.md` and `open-design.json` exists.
+- Every path named in `SKILL.md` and `sankiwork.json` exists.
 - `index.html` references `./colors_and_type.css` and files under `./components/`.
 - The visual direction stays aligned with G2 AR glasses HUD tokens.

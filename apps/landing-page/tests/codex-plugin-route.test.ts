@@ -12,12 +12,12 @@ const LOCALIZED_PAGE = new URL(
   '../app/pages/[locale]/codex-plugin/index.astro',
   import.meta.url,
 );
-const OLD_PAGE = new URL('../app/pages/open-design-pugin/index.astro', import.meta.url);
+const OLD_PAGE = new URL('../app/pages/sankiwork-pugin/index.astro', import.meta.url);
 const REDIRECTS = new URL('../public/_redirects', import.meta.url);
 const HEADER = new URL('../app/_components/header.tsx', import.meta.url);
 const FOOTER = new URL('../app/_components/site-footer.astro', import.meta.url);
-const COPY = new URL('../app/open-design-plugin-i18n.ts', import.meta.url);
-const LOCALE_DIR = new URL('../app/open-design-plugin-locales/', import.meta.url);
+const COPY = new URL('../app/sankiwork-plugin-i18n.ts', import.meta.url);
+const LOCALE_DIR = new URL('../app/sankiwork-plugin-locales/', import.meta.url);
 const ACTIVE_LOCALES = ['de', 'es', 'fr', 'it', 'ja', 'ko', 'pt-br', 'ru', 'tr', 'zh'];
 
 describe('Codex plugin landing route', () => {
@@ -33,7 +33,7 @@ describe('Codex plugin landing route', () => {
       readFile(FOOTER, 'utf8'),
     ]);
 
-    assert.doesNotMatch(redirects, /open-design-pugin/);
+    assert.doesNotMatch(redirects, /sankiwork-pugin/);
     assert.match(header, /href\('\/codex-plugin\/\'\)/);
     assert.match(footer, /href\('\/codex-plugin\/\'\)/);
   });

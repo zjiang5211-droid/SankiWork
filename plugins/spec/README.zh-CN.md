@@ -4,7 +4,7 @@
 
 这个文件夹是给 SankiWork 插件作者使用的可共享规范包。它既适合人直接阅读，也适合交给 Claude Code、Codex、Cursor、OpenClaw、Hermes Agent 或其他兼容 Agent Skills 的编码 agent 使用。
 
-SankiWork 插件遵循和 Agent Skills 兼容的可移植形态：一个包含 `SKILL.md` 的文件夹，可选添加 assets、references、scripts 和 examples。SankiWork 额外使用 `open-design.json` 作为 sidecar，让同一个文件夹可以出现在 OD 插件库里、填充首页输入框、声明 inputs 和 GenUI surfaces、运行 OD atom pipeline，并参与发布或 PR 流程。
+SankiWork 插件遵循和 Agent Skills 兼容的可移植形态：一个包含 `SKILL.md` 的文件夹，可选添加 assets、references、scripts 和 examples。SankiWork 额外使用 `sankiwork.json` 作为 sidecar，让同一个文件夹可以出现在 OD 插件库里、填充首页输入框、声明 inputs 和 GenUI surfaces、运行 OD atom pipeline，并参与发布或 PR 流程。
 
 ## 文件夹地图
 
@@ -40,7 +40,7 @@ SankiWork 插件遵循和 Agent Skills 兼容的可移植形态：一个包含 `
 1. 复制 `templates/` 到一个新的插件文件夹。
 2. 把文件夹名和 frontmatter `name` 改成小写 id，例如 `launch-deck`。
 3. 在 `SKILL.md` 里写清触发描述，格式建议是：“Use this plugin when...”
-4. 填写 `open-design.json`：`specVersion`、title、插件 `version`、tags、`od.taskKind`、`od.mode`、`od.useCase.query`、`od.pipeline`、inputs 和 capabilities。
+4. 填写 `sankiwork.json`：`specVersion`、title、插件 `version`、tags、`od.taskKind`、`od.mode`、`od.useCase.query`、`od.pipeline`、inputs 和 capabilities。
 5. 如果插件有视觉输出，添加一个小的 `examples/` 或 `preview/` artifact。
 6. 本地校验：
 
@@ -59,7 +59,7 @@ sw plugin apply <plugin-id> --input key=value
 
 ## 兼容性承诺
 
-包含 `SKILL.md` 的文件夹可以作为普通 skill 被兼容 Agent Skills 的客户端使用。添加 `open-design.json` 不应该降低可移植性；它只增加 SankiWork 产品行为。
+包含 `SKILL.md` 的文件夹可以作为普通 skill 被兼容 Agent Skills 的客户端使用。添加 `sankiwork.json` 不应该降低可移植性；它只增加 SankiWork 产品行为。
 
 参考：
 

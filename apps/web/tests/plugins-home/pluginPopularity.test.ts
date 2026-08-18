@@ -34,7 +34,7 @@ describe('pluginPopularity', () => {
     for (const id of [...ALWAYS_LAST, ...PLUGIN_NO_PREVIEW]) {
       expect(isSunkToBottom(id)).toBe(true);
     }
-    expect(isSunkToBottom('example-open-design-landing')).toBe(false);
+    expect(isSunkToBottom('example-sankiwork-landing')).toBe(false);
   });
 
   it('orders a sunk tile after a normal one regardless of usage', () => {

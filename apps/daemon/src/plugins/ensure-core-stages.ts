@@ -14,7 +14,7 @@
 // This floor guarantees that any pipeline producing a code/document
 // design artifact (a `generate` stage whose atoms include `file-write`
 // or `live-artifact`) carries a `plan` and a `critique` stage, whether
-// the artifact came from a free-form prompt (od-default / od-new-generation,
+// the artifact came from a free-form prompt (sw-default / sw-new-generation,
 // which already declare both — a no-op here) or a template/plugin.
 //
 // Deliberately OUT OF SCOPE:
@@ -52,7 +52,7 @@ const DESIGN_ARTIFACT_ATOMS = new Set(['file-write', 'live-artifact']);
 const MEDIA_MODES = new Set(['image', 'video', 'audio']);
 
 // Mirrors the `plan` / `critique` stages declared by the bundled
-// od-new-generation scenario, minus `direction-picker` (see header).
+// sw-new-generation scenario, minus `direction-picker` (see header).
 function buildPlanStage(): PipelineStage {
   return { id: 'plan', atoms: ['todo-write'] };
 }

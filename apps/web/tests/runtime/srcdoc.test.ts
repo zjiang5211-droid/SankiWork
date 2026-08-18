@@ -87,7 +87,7 @@ describe('buildSrcdoc', () => {
   it('injects the snapshot bridge used by draw annotations', () => {
     const srcdoc = buildSrcdoc('<main style="color:red">Hero</main>');
 
-    expect(srcdoc).toContain('data-od-snapshot-bridge');
+    expect(srcdoc).toContain('data-sw-snapshot-bridge');
     expect(srcdoc).toContain("data.type !== 'od:snapshot'");
     expect(srcdoc).toContain("type: 'od:snapshot:result'");
     expect(srcdoc).toContain('copyComputedStyle');

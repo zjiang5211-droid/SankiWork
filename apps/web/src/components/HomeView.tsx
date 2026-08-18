@@ -1134,7 +1134,7 @@ export function HomeView({
   // When the active plugin was bound through a chip, the badge shows
   // the chip label (e.g. "Prototype") instead of the underlying plugin
   // record title (e.g. "New generation (default scenario)"). Several
-  // chips share od-new-generation, so surfacing the raw plugin title
+  // chips share sw-new-generation, so surfacing the raw plugin title
   // would mislabel what the user actually picked.
   const activeBadge = useMemo(() => {
     if (!active) return { title: null as string | null, isExplicitPlugin: false };
@@ -1609,7 +1609,7 @@ export function HomeView({
   // driver of the next run — i.e. set it as the active plugin so its own
   // pipeline + SKILL.md/asset context are applied — rather than only
   // attaching it as background context. Without this, the submit path
-  // falls back to the hidden od-default scenario and the plugin's design
+  // falls back to the hidden sw-default scenario and the plugin's design
   // brief never reaches the agent.
   //
   // Prompt handling preserves the legacy context-use semantics:
@@ -2317,14 +2317,14 @@ export function HomeView({
       focusPromptAtEnd();
     }, {
       before: active?.record.id ?? null,
-      after: 'od-plugin-authoring',
+      after: 'sw-plugin-authoring',
     });
   }
 
   useEffect(() => {
     if (!pendingAuthoringChipId || pluginsLoading) return;
-    const authoringRecord = plugins.find((plugin) => plugin.id === 'od-plugin-authoring');
-    const record = authoringRecord ?? plugins.find((plugin) => plugin.id === 'od-new-generation');
+    const authoringRecord = plugins.find((plugin) => plugin.id === 'sw-plugin-authoring');
+    const record = authoringRecord ?? plugins.find((plugin) => plugin.id === 'sw-new-generation');
     setPendingAuthoringChipId(null);
     if (!record) {
       setPendingChipId(null);
@@ -2605,7 +2605,7 @@ export function HomeView({
       // the snapshot would suppress the discovery flow even though
       // `onSubmit.pluginInputs` was stripped. Stripping only removes non-required
       // fields (`subject`/`style`/`aspect`/`mediaKind` stay), so the
-      // od-media-generation apply still validates.
+      // sw-media-generation apply still validates.
       const submittedPluginInputs = submittedActive
         ? stripArtifactFooterInputs(submittedApplyInputs)
         : defaultInputs;
@@ -3267,7 +3267,7 @@ const ARTIFACT_FOOTER_FIELD_NAMES = new Set([
   // …) so they must be stripped before submission. The prompt may infer its
   // own defaults or ask only when the choice is material. `subject` / `style`
   // / `aspect` / `mediaKind` are intentionally
-  // NOT listed: the od-media-generation apply still validates against them.
+  // NOT listed: the sw-media-generation apply still validates against them.
   'model',
   'ratio',
   'resolution',

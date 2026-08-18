@@ -32,7 +32,7 @@ describe('inlineRelativeAssets', () => {
     const html =
       '<!doctype html><html><head><link rel="stylesheet" href="a.css"></head><body></body></html>';
     const out = await inlineRelativeAssets(html, 'index.html', readerFrom({ 'a.css': 'body{color:red}' }));
-    expect(out).toContain('<style data-od-inline-asset="a.css">');
+    expect(out).toContain('<style data-sw-inline-asset="a.css">');
     expect(out).toContain('body{color:red}');
     expect(out).not.toContain('<link rel="stylesheet" href="a.css">');
   });
@@ -152,7 +152,7 @@ describe('inlineRelativeAssets', () => {
     expect(out.match(/BODY/g)?.length).toBe(2);
   });
 
-  it('HTML-escapes the href value in data-od-inline-asset attr', async () => {
+  it('HTML-escapes the href value in data-sw-inline-asset attr', async () => {
     // Using `&` only — the realistic case for filenames that need escaping.
     // `<`, `>`, `"` are forbidden in real filenames on most platforms and
     // additionally break the tag-matching regex (a limitation inherited
@@ -161,8 +161,8 @@ describe('inlineRelativeAssets', () => {
     const href = 'weird&name.css';
     const html = `<link rel="stylesheet" href="${href}">`;
     const out = await inlineRelativeAssets(html, 'index.html', readerFrom({ [href]: '.x{}' }));
-    expect(out).toContain('data-od-inline-asset="weird&amp;name.css"');
-    expect(out).not.toContain(`data-od-inline-asset="${href}"`);
+    expect(out).toContain('data-sw-inline-asset="weird&amp;name.css"');
+    expect(out).not.toContain(`data-sw-inline-asset="${href}"`);
   });
 
   it('does not treat "disabled" inside a quoted attribute value as the disabled boolean attr', async () => {
@@ -178,7 +178,7 @@ describe('inlineRelativeAssets', () => {
     const html =
       '<link rel="stylesheet" href="x.css" data-note="content disabled stuff">';
     const out = await inlineRelativeAssets(html, 'index.html', readerFrom({ 'x.css': '.x{}' }));
-    expect(out).toMatch(/<style\b[^>]*data-od-inline-asset/);
+    expect(out).toMatch(/<style\b[^>]*data-sw-inline-asset/);
     expect(out).not.toMatch(/<style\b[^>]*\bdisabled\b/);
   });
 
@@ -536,7 +536,7 @@ describe('GET /api/projects/:id/export/*?inline=1 route', () => {
     expect(body).toContain(jsBody);
     expect(body).not.toContain('href="app.css"');
     expect(body).not.toContain('src="app.js"');
-    expect(body).toContain('<style data-od-inline-asset="app.css">');
+    expect(body).toContain('<style data-sw-inline-asset="app.css">');
   });
 
   it('returns 400 BAD_REQUEST when ?inline is missing', async () => {
@@ -637,7 +637,7 @@ describe('GET /api/projects/:id/export/*?inline=1 route', () => {
     expect(body).not.toContain('/src/main.tsx');
     expect(body).not.toContain('/assets/app.js');
     expect(body).not.toContain('/assets/app.css');
-    expect(body).toContain('data-od-inline-asset="assets/app.css"');
+    expect(body).toContain('data-sw-inline-asset="assets/app.css"');
   });
 
   it('exports a nested Vite dev HTML entry through its sibling built dist artifact', async () => {
@@ -666,7 +666,7 @@ describe('GET /api/projects/:id/export/*?inline=1 route', () => {
     expect(body).not.toContain('/src/main.tsx');
     expect(body).not.toContain('/assets/nested.js');
     expect(body).not.toContain('/assets/nested.css');
-    expect(body).toContain('data-od-inline-asset="assets/nested.css"');
+    expect(body).toContain('data-sw-inline-asset="assets/nested.css"');
   });
 
   it('sends Content-Security-Policy: sandbox allow-scripts to block daemon-origin privilege escalation', async () => {

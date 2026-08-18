@@ -28,7 +28,7 @@ import type { ConnectorProbe } from './connector-gate.js';
 
 export interface ValidatePluginFolderInput {
   // Path to the plugin folder. Must contain at least one of
-  // `open-design.json` / `SKILL.md` / `.claude-plugin/plugin.json`
+  // `sankiwork.json` / `SKILL.md` / `.claude-plugin/plugin.json`
   // for resolvePluginFolder() to succeed.
   folder: string;
   // Optional pre-fetched registry. Tests pass a stub; CLI fetches

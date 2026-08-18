@@ -365,7 +365,7 @@ sw skills list --json
 
 **Por que MCP?** Exportar e reanexar um zip a cada iteração quebra o fluxo. O MCP expõe a fonte de design diretamente — o agente sempre vê o arquivo ao vivo.
 
-**Para um agente começando do zero,** o instalador coloca `~/.config/<agent>/open-design.json` (ou o equivalente da plataforma) além de um snippet MCP de copiar e colar. O Cursor recebe um deeplink de um clique; o Claude Code recebe um one-liner `claude mcp add-json`; todo outro agente recebe JSON no schema que sua configuração espera. Fluxo completo por agente → **Settings → MCP server** no app de desktop, ou [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
+**Para um agente começando do zero,** o instalador coloca `~/.config/<agent>/sankiwork.json` (ou o equivalente da plataforma) além de um snippet MCP de copiar e colar. O Cursor recebe um deeplink de um clique; o Claude Code recebe um one-liner `claude mcp add-json`; todo outro agente recebe JSON no schema que sua configuração espera. Fluxo completo por agente → **Settings → MCP server** no app de desktop, ou [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
 
 **Modelo de segurança.** Somente leitura por padrão, o daemon faz bind em `127.0.0.1` e o SSRF é bloqueado na borda do proxy. A exposição na LAN exige um `SW_BIND_HOST` explícito mais `SW_ALLOWED_ORIGINS`. Credenciais de conector e rotas de preview de artefatos ao vivo permanecem somente em loopback, independentemente disso.
 
@@ -439,11 +439,11 @@ Reimporte a biblioteca via [`scripts/sync-design-systems.ts`](../../scripts/sync
 
 ## Plugins
 
-**277 plugins oficiais e 183 exemplos remixáveis** ficam em [`plugins/_official/`](../../plugins/_official/). Cada entrada é um diretório portátil ancorado por `open-design.json` e o payload do tipo: `SKILL.md` para workflows, `template.json` para templates de mídia ou `DESIGN.md` para design systems.
+**277 plugins oficiais e 183 exemplos remixáveis** ficam em [`plugins/_official/`](../../plugins/_official/). Cada entrada é um diretório portátil ancorado por `sankiwork.json` e o payload do tipo: `SKILL.md` para workflows, `template.json` para templates de mídia ou `DESIGN.md` para design systems.
 
 | Categoria | Quantidade | Conteúdo |
 |---|---|---|
-| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | Cenários de design completos — [`od-default`](../../plugins/_official/scenarios/od-default/), [`od-design-refine`](../../plugins/_official/scenarios/od-design-refine/), [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/), [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/), [`od-react-export`](../../plugins/_official/scenarios/od-react-export/), [`od-nextjs-export`](../../plugins/_official/scenarios/od-nextjs-export/), [`od-vue-export`](../../plugins/_official/scenarios/od-vue-export/), [`od-media-generation`](../../plugins/_official/scenarios/od-media-generation/), [`od-new-generation`](../../plugins/_official/scenarios/od-new-generation/), [`od-tune-collab`](../../plugins/_official/scenarios/od-tune-collab/), [`od-plugin-authoring`](../../plugins/_official/scenarios/od-plugin-authoring/), [`od-share-to-community`](../../plugins/_official/scenarios/od-share-to-community/), [`od-web-effect-extractor`](../../plugins/_official/scenarios/od-web-effect-extractor/) |
+| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | Cenários de design completos — [`sw-default`](../../plugins/_official/scenarios/sw-default/), [`sw-design-refine`](../../plugins/_official/scenarios/sw-design-refine/), [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/), [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/), [`sw-react-export`](../../plugins/_official/scenarios/sw-react-export/), [`sw-nextjs-export`](../../plugins/_official/scenarios/sw-nextjs-export/), [`sw-vue-export`](../../plugins/_official/scenarios/sw-vue-export/), [`sw-media-generation`](../../plugins/_official/scenarios/sw-media-generation/), [`sw-new-generation`](../../plugins/_official/scenarios/sw-new-generation/), [`sw-tune-collab`](../../plugins/_official/scenarios/sw-tune-collab/), [`sw-plugin-authoring`](../../plugins/_official/scenarios/sw-plugin-authoring/), [`sw-share-to-community`](../../plugins/_official/scenarios/sw-share-to-community/), [`sw-web-effect-extractor`](../../plugins/_official/scenarios/sw-web-effect-extractor/) |
 | [`image-templates/`](../../plugins/_official/image-templates/) | 45 | Prompts de imagem one-shot — editorial, cinematográfico, produto, retrato |
 | [`video-templates/`](../../plugins/_official/video-templates/) | 63 | Templates de motion HyperFrames / Seedance / Veo |
 | [`design-systems/`](../../plugins/_official/design-systems/) | 143 | `DESIGN.md` de marca empacotados como plugins |
@@ -455,8 +455,8 @@ Também [`plugins/community/`](../../plugins/community/) para plugins da comunid
 ### O que os plugins podem fazer
 
 - 🤖 **Rodar em qualquer coding agent** — [Claude Code](../../docs/agent-adapters.md), Codex, Cursor, Copilot, [OpenClaw](https://github.com/openclaw/openclaw), [Antigravity](https://antigravity.google), Hermes, Kimi… pelo mesmo protocolo de skill que o agente já conhece.
-- 🔁 **Migrar fluxos do Figma / Pencil** → código React, Next.js ou Vue. Veja [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/).
-- 🛠️ **Renovar uma base de código existente para uma especificação de marca** — aponte um plugin para um repositório `git` + `DESIGN.md` e receba um PR. Veja [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/).
+- 🔁 **Migrar fluxos do Figma / Pencil** → código React, Next.js ou Vue. Veja [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/).
+- 🛠️ **Renovar uma base de código existente para uma especificação de marca** — aponte um plugin para um repositório `git` + `DESIGN.md` e receba um PR. Veja [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/).
 - 💾 **Persistir fluxos de trabalho personalizados** — os templates reutilizáveis do seu time ficam ao lado dos que já vêm na caixa.
 
 ### Usando plugins
@@ -470,22 +470,22 @@ Os plugins têm paridade total entre a **interface web** e a **CLI `sw`** — os
 ```bash
 sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
 sw plugin search "landing page"      # search by keyword
-sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-sw plugin apply od-default --input brief="a one-page pitch for our seed round"
-sw plugin upgrade od-default         # upgrade
-sw plugin uninstall od-default       # uninstall
+sw plugin info sw-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install sw-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply sw-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade sw-default         # upgrade
+sw plugin uninstall sw-default       # uninstall
 ```
 
 Todo comando suporta `--json`, então você pode encadeá-lo com `jq` / `xargs` para dentro de automações.
 
 ### Construindo um plugin
 
-Um plugin do SankiWork exige `open-design.json` e o payload do tipo. Skills e cenários também incluem `SKILL.md`; outros tipos usam seu payload próprio:
+Um plugin do SankiWork exige `sankiwork.json` e o payload do tipo. Skills e cenários também incluem `SKILL.md`; outros tipos usam seu payload próprio:
 
 ```
 my-plugin/
-├── open-design.json    ← required: marketplace metadata + inputs + pipeline + capabilities
+├── sankiwork.json    ← required: marketplace metadata + inputs + pipeline + capabilities
 ├── SKILL.md            ← required for agent-skill/scenario entries; omit for other plugin types
 ├── README.md           ← optional: usage, install, registry links
 ├── preview/            ← optional: index.html / poster.png (strongly recommended for visual plugins)
@@ -605,7 +605,7 @@ O SankiWork continua avançando porque os contribuidores — designers, engenhei
 |---|---|---|
 | Uma nova **skill** | Solte uma pasta com `SKILL.md` + `assets/` + `references/` | [`skills/`](../../skills/) · spec em [`docs/skills-protocol.md`](../../docs/skills-protocol.md) |
 | Um novo **design system** | Solte um pacote centrado em `DESIGN.md`; adicione `manifest.json`, `tokens.css`, componentes, assets ou procedência quando necessário | [`design-systems/<brand>/`](../../design-systems/) |
-| Um novo **plugin** | Solte `open-design.json` + o payload específico do tipo numa pasta de categoria | [`plugins/community/`](../../plugins/community/) · spec em [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · guia de dev por agente em [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
+| Um novo **plugin** | Solte `sankiwork.json` + o payload específico do tipo numa pasta de categoria | [`plugins/community/`](../../plugins/community/) · spec em [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · guia de dev por agente em [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
 | Suportar uma nova **CLI de coding agent** | Definição de runtime + registro; parser só para formato novo | [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runtimes/defs/) |
 | Corrigir um bug ou polir a UI | Explore a label [`good-first-issue`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) | [Issues →](https://github.com/nexu-io/open-design/issues) |
 | Traduzir a documentação | Atualize os arquivos `README.<lang>.md` | [`TRANSLATIONS.md`](../../TRANSLATIONS.md) |

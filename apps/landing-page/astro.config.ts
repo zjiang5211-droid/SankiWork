@@ -105,7 +105,7 @@ const editorialPaperTheme: ShikiThemeObject = {
 // build the `<link rel="canonical">` / `og:url` tags.
 //
 // `sanki-ai.cloud` is the live domain bound to the Cloudflare Pages
-// project (`open-design-landing`); the env override exists so preview
+// project (`sankiwork-landing`); the env override exists so preview
 // builds (Cloudflare Pages preview deployments, local previews on a
 // different host) can stamp their own URL without forking the config.
 const site = process.env.SW_LANDING_SITE ?? 'https://sanki-ai.cloud';

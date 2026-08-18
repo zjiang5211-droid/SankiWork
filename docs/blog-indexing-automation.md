@@ -15,7 +15,7 @@ This file is the operating manual for the active implementation in
 | `landing-page-production` promotion finishes successfully | `blog-indexing-on-deploy.yml` | New blog URLs are detected, verified ready, submitted to IndexNow, the sitemap-index is re-submitted to GSC, baseline URL Inspection is captured, and baseline Search Analytics is queried. Staging deploys (`landing-page-staging`) never trigger this. |
 
 `blog-indexing-on-deploy.yml` opens or refreshes the
-`automation/blog-indexing-status` PR through the `open-design-bot`
+`automation/blog-indexing-status` PR through the `sankiwork-bot`
 GitHub App. The human-readable indexing view is
 `docs/blog-indexing-status.md`; the canonical indexing state is the
 sidecar `docs/blog-indexing-status.json`.

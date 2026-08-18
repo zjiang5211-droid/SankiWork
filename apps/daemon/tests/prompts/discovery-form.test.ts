@@ -46,7 +46,7 @@ describe('discovery.ts — on-demand clarification policy', () => {
     expect(DISCOVERY_AND_PHILOSOPHY).toContain('**Hard cap: 5 questions per form — never more.**');
   });
 
-  it('leaves the task-type form to od-default while accepting historical answers', () => {
+  it('leaves the task-type form to sw-default while accepting historical answers', () => {
     expect(DISCOVERY_AND_PHILOSOPHY).not.toContain('<question-form id="task-type"');
     expect(DISCOVERY_AND_PHILOSOPHY).toContain(
       'It owns the conditional `task-type` form; do not reproduce or extend that form here',

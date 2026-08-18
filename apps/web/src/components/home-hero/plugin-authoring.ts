@@ -37,7 +37,7 @@ export const PLUGIN_AUTHORING_PROMPT_TEMPLATE = [
   '',
   'Run the agent-assisted plugin authoring flow end to end. Follow docs/plugins-spec.md and produce a folder named generated-plugin with:',
   '- SKILL.md describing the agent behavior and workflow',
-  '- open-design.json with valid metadata: specVersion, name, version, description, mode, task kind, inputs, plus any pipeline / context references the workflow needs',
+  '- sankiwork.json with valid metadata: specVersion, name, version, description, mode, task kind, inputs, plus any pipeline / context references the workflow needs',
   '- plugin.repo is optional during scaffolding, but do not silently omit it: check `gh --version` and `gh auth status`, then prefer the local account login printed by auth status. Only use `gh api user --jq .login` as a fallback when auth status does not expose a login. If `gh` is missing, not logged in, rate-limited, or cannot resolve a real owner, omit plugin.repo instead of inventing an owner and explicitly report the auth problem with `gh auth refresh -h github.com -s repo,workflow`, `gh auth login -h github.com -s repo,workflow`, or `sw plugin publish-repo generated-plugin --owner <github-login-or-org>` as recovery commands. Never write placeholder owners such as `sankiwork-user`, `<vendor>`, `example-user`, `your-org`, or `your-username` into the final manifest.',
   '- optional examples/ and assets/ when useful',
   '',
@@ -52,7 +52,7 @@ export const PLUGIN_AUTHORING_PROMPT_TEMPLATE = [
   '',
   'Point the user at whichever button they want next; do NOT recreate those flows as freeform shell suggestions in this summary. Recreating them drifts from the button prompts\' guarantees and is the source of the bug that closed #2332.',
   '',
-  '**Do NOT** assume the standalone `jq` binary is installed (it is not part of the OD agent runtime baseline and is missing from default macOS / Windows shells). When you need to read the manifest, prefer your built-in file-reading tool, then `cat generated-plugin/open-design.json` followed by manual JSON parsing, then `node -e \'console.log(JSON.parse(require("fs").readFileSync("generated-plugin/open-design.json","utf8")))\'`. The `gh ... --jq` flag is fine because gh ships its own embedded library; the brew-installed standalone `jq` is NOT.',
+  '**Do NOT** assume the standalone `jq` binary is installed (it is not part of the OD agent runtime baseline and is missing from default macOS / Windows shells). When you need to read the manifest, prefer your built-in file-reading tool, then `cat generated-plugin/sankiwork.json` followed by manual JSON parsing, then `node -e \'console.log(JSON.parse(require("fs").readFileSync("generated-plugin/sankiwork.json","utf8")))\'`. The `gh ... --jq` flag is fine because gh ships its own embedded library; the brew-installed standalone `jq` is NOT.',
 ].join('\n');
 
 export const PLUGIN_AUTHORING_PROMPT = buildPluginAuthoringPrompt(PLUGIN_AUTHORING_DEFAULT_GOAL);

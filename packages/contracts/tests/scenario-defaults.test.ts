@@ -18,15 +18,15 @@ describe('defaultScenarioPluginIdForKind', () => {
     const expected: Record<string, string> = {
       // Surfaces with a battle-tested seed template + layouts +
       // checklist bind to the specialised example plugin, not the
-      // generic od-new-generation router. See scenario-defaults.ts.
+      // generic sw-new-generation router. See scenario-defaults.ts.
       prototype: 'example-web-prototype',
       deck:      'example-simple-deck',
-      template:  'od-new-generation',
-      brand:     'od-new-generation',
-      image:     'od-media-generation',
-      video:     'od-media-generation',
-      audio:     'od-media-generation',
-      other:     'od-new-generation',
+      template:  'sw-new-generation',
+      brand:     'sw-new-generation',
+      image:     'sw-media-generation',
+      video:     'sw-media-generation',
+      audio:     'sw-media-generation',
+      other:     'sw-new-generation',
     };
     for (const [kind, pluginId] of Object.entries(expected)) {
       expect(defaultScenarioPluginIdForKind(kind as never)).toBe(pluginId);
@@ -49,18 +49,18 @@ describe('defaultScenarioPluginIdForKind', () => {
   });
 
   it('exposes the hidden free-form Home fallback plugin separately from kind defaults', () => {
-    expect(DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID).toBe('od-default');
-    expect(DEFAULT_SCENARIO_PLUGIN_BY_KIND.other).toBe('od-new-generation');
+    expect(DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID).toBe('sw-default');
+    expect(DEFAULT_SCENARIO_PLUGIN_BY_KIND.other).toBe('sw-new-generation');
   });
 });
 
 describe('defaultScenarioPluginIdForTaskKind', () => {
   it('maps every taskKind to the matching scenario plugin', () => {
-    expect(defaultScenarioPluginIdForTaskKind('new-generation')).toBe('od-new-generation');
-    expect(defaultScenarioPluginIdForTaskKind('figma-migration')).toBe('od-figma-migration');
-    expect(defaultScenarioPluginIdForTaskKind('code-migration')).toBe('od-code-migration');
-    expect(defaultScenarioPluginIdForTaskKind('tune-collab')).toBe('od-tune-collab');
-    expect(DEFAULT_SCENARIO_PLUGIN_BY_TASK_KIND['new-generation']).toBe('od-new-generation');
+    expect(defaultScenarioPluginIdForTaskKind('new-generation')).toBe('sw-new-generation');
+    expect(defaultScenarioPluginIdForTaskKind('figma-migration')).toBe('sw-figma-migration');
+    expect(defaultScenarioPluginIdForTaskKind('code-migration')).toBe('sw-code-migration');
+    expect(defaultScenarioPluginIdForTaskKind('tune-collab')).toBe('sw-tune-collab');
+    expect(DEFAULT_SCENARIO_PLUGIN_BY_TASK_KIND['new-generation']).toBe('sw-new-generation');
   });
 
   it('returns null when the taskKind is missing', () => {

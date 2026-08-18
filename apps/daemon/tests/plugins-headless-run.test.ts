@@ -256,8 +256,8 @@ describe('Plan §8 e2e-3 (entry slice) — headless install → project → run'
       }>;
     };
     const plugin = (listBody.plugins ?? []).find((record) =>
-      record.id === 'example-open-design-landing-deck' ||
-      record.manifest?.name === 'example-open-design-landing-deck',
+      record.id === 'example-sankiwork-landing-deck' ||
+      record.manifest?.name === 'example-sankiwork-landing-deck',
     );
     expect(plugin).toBeTruthy();
 
@@ -277,14 +277,14 @@ describe('Plan §8 e2e-3 (entry slice) — headless install → project → run'
     expect(body.error).toMatchObject({
       code: 'UNSUPPORTED_DUPLICATE_DEPENDENCIES',
     });
-    expect(body.error?.message).toContain('../open-design-landing/assets/hero.png');
+    expect(body.error?.message).toContain('../sankiwork-landing/assets/hero.png');
   });
 
   it('surfaces duplicate daemon errors through CLI structured stderr', async () => {
     const result = await runCliResult([
       'plugin',
       'duplicate',
-      'example-open-design-landing-deck',
+      'example-sankiwork-landing-deck',
       '--json',
     ]);
 
@@ -294,7 +294,7 @@ describe('Plan §8 e2e-3 (entry slice) — headless install → project → run'
       error?: { code?: string; message?: string };
     };
     expect(body.error?.code).toBe('UNSUPPORTED_DUPLICATE_DEPENDENCIES');
-    expect(body.error?.message).toContain('../open-design-landing/assets/hero.png');
+    expect(body.error?.message).toContain('../sankiwork-landing/assets/hero.png');
   });
 
   it('walks install → project create → run start → status with snapshot pinned', async () => {
@@ -413,7 +413,7 @@ describe('Plan §8 e2e-3 (entry slice) — headless install → project → run'
       prompt: string;
     };
     expect(shareBody.ok).toBe(true);
-    expect(shareBody.actionPluginId).toBe('od-plugin-publish-github');
+    expect(shareBody.actionPluginId).toBe('sw-plugin-publish-github');
     expect(shareBody.sourcePluginId).toBe('sample-plugin');
     expect(shareBody.appliedPluginSnapshotId).toBeTruthy();
     expect(shareBody.stagedPath).toBe('plugin-source/sample-plugin');
@@ -428,7 +428,7 @@ describe('Plan §8 e2e-3 (entry slice) — headless install → project → run'
     expect(filesResp.status).toBe(200);
     const filesBody = (await filesResp.json()) as { files: Array<{ name: string }> };
     const fileNames = filesBody.files.map((file) => file.name).sort();
-    expect(fileNames).toContain('plugin-source/sample-plugin/open-design.json');
+    expect(fileNames).toContain('plugin-source/sample-plugin/sankiwork.json');
     expect(fileNames).toContain('plugin-source/sample-plugin/SKILL.md');
 
     const snapshotResp = await fetch(
@@ -439,7 +439,7 @@ describe('Plan §8 e2e-3 (entry slice) — headless install → project → run'
       pluginId: string;
       inputs?: Record<string, string | number | boolean>;
     };
-    expect(snapshot.pluginId).toBe('od-plugin-publish-github');
+    expect(snapshot.pluginId).toBe('sw-plugin-publish-github');
     expect(snapshot.inputs).toMatchObject({
       source_plugin_id: 'sample-plugin',
       plugin_context_path: 'plugin-source/sample-plugin',
@@ -461,7 +461,7 @@ describe('Plan §8 e2e-3 (entry slice) — headless install → project → run'
       prompt: string;
     };
     expect(contributeBody.ok).toBe(true);
-    expect(contributeBody.actionPluginId).toBe('od-plugin-contribute-open-design');
+    expect(contributeBody.actionPluginId).toBe('sw-plugin-contribute-sankiwork');
     expect(contributeBody.sourcePluginId).toBe('sample-plugin');
     expect(contributeBody.appliedPluginSnapshotId).toBeTruthy();
     expect(contributeBody.stagedPath).toBe('plugin-source/sample-plugin');
@@ -656,7 +656,7 @@ process.exit(result.status ?? 0);
     const fixture = path.join(pluginRoot, pluginId);
     await mkdir(fixture, { recursive: true });
     await writeFile(
-      path.join(fixture, 'open-design.json'),
+      path.join(fixture, 'sankiwork.json'),
       JSON.stringify({
         $schema: 'https://sanki-ai.cloud/schemas/plugin.v1.json',
         name: pluginId,
@@ -793,7 +793,7 @@ process.stdin.on('end', () => {
     const fixture = path.join(tmpRoot, 'pipeline-plugin');
     await fs.mkdir(fixture, { recursive: true });
     await fs.writeFile(
-      path.join(fixture, 'open-design.json'),
+      path.join(fixture, 'sankiwork.json'),
       JSON.stringify({
         $schema: 'https://sanki-ai.cloud/schemas/plugin.v1.json',
         name: 'pipeline-plugin',

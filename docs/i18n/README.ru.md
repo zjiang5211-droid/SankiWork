@@ -374,7 +374,7 @@ sw skills list --json
 
 **Почему MCP?** Экспорт и повторное прикрепление zip на каждой итерации ломает поток. MCP открывает дизайн-источник напрямую — агент всегда видит живой файл.
 
-**Для агента, начинающего с нуля,** установщик размещает `~/.config/<agent>/open-design.json` (или эквивалент для платформы) плюс готовый к копированию MCP-сниппет. Cursor получает диплинк в один клик; Claude Code получает однострочник `claude mcp add-json`; каждый другой агент получает JSON в той схеме, которую ожидает его конфигурация. Полный процесс для каждого агента → **Settings → MCP server** в десктопном приложении или [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
+**Для агента, начинающего с нуля,** установщик размещает `~/.config/<agent>/sankiwork.json` (или эквивалент для платформы) плюс готовый к копированию MCP-сниппет. Cursor получает диплинк в один клик; Claude Code получает однострочник `claude mcp add-json`; каждый другой агент получает JSON в той схеме, которую ожидает его конфигурация. Полный процесс для каждого агента → **Settings → MCP server** в десктопном приложении или [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
 
 **Модель безопасности.** Только для чтения по умолчанию, демон привязывается к `127.0.0.1`, а SSRF блокируется на границе прокси. Доступ из LAN требует явного `SW_BIND_HOST` плюс `SW_ALLOWED_ORIGINS`. Учётные данные коннекторов и маршруты предпросмотра живых артефактов остаются только loopback в любом случае.
 
@@ -450,11 +450,11 @@ sw skills list --json
 
 ## Плагины
 
-**277 официальных плагинов и 183 ремиксуемых примера** находятся в [`plugins/_official/`](../../plugins/_official/). Каждый элемент — каталог с `open-design.json` и payload своего типа: `SKILL.md` для workflow, `template.json` для медиа-шаблонов или `DESIGN.md` для дизайн-систем.
+**277 официальных плагинов и 183 ремиксуемых примера** находятся в [`plugins/_official/`](../../plugins/_official/). Каждый элемент — каталог с `sankiwork.json` и payload своего типа: `SKILL.md` для workflow, `template.json` для медиа-шаблонов или `DESIGN.md` для дизайн-систем.
 
 | Категория | Кол-во | Содержимое |
 |---|---|---|
-| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | Полные дизайн-сценарии — [`od-default`](../../plugins/_official/scenarios/od-default/), [`od-design-refine`](../../plugins/_official/scenarios/od-design-refine/), [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/), [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/), [`od-react-export`](../../plugins/_official/scenarios/od-react-export/), [`od-nextjs-export`](../../plugins/_official/scenarios/od-nextjs-export/), [`od-vue-export`](../../plugins/_official/scenarios/od-vue-export/), [`od-media-generation`](../../plugins/_official/scenarios/od-media-generation/), [`od-new-generation`](../../plugins/_official/scenarios/od-new-generation/), [`od-tune-collab`](../../plugins/_official/scenarios/od-tune-collab/), [`od-plugin-authoring`](../../plugins/_official/scenarios/od-plugin-authoring/), [`od-share-to-community`](../../plugins/_official/scenarios/od-share-to-community/), [`od-web-effect-extractor`](../../plugins/_official/scenarios/od-web-effect-extractor/) |
+| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | Полные дизайн-сценарии — [`sw-default`](../../plugins/_official/scenarios/sw-default/), [`sw-design-refine`](../../plugins/_official/scenarios/sw-design-refine/), [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/), [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/), [`sw-react-export`](../../plugins/_official/scenarios/sw-react-export/), [`sw-nextjs-export`](../../plugins/_official/scenarios/sw-nextjs-export/), [`sw-vue-export`](../../plugins/_official/scenarios/sw-vue-export/), [`sw-media-generation`](../../plugins/_official/scenarios/sw-media-generation/), [`sw-new-generation`](../../plugins/_official/scenarios/sw-new-generation/), [`sw-tune-collab`](../../plugins/_official/scenarios/sw-tune-collab/), [`sw-plugin-authoring`](../../plugins/_official/scenarios/sw-plugin-authoring/), [`sw-share-to-community`](../../plugins/_official/scenarios/sw-share-to-community/), [`sw-web-effect-extractor`](../../plugins/_official/scenarios/sw-web-effect-extractor/) |
 | [`image-templates/`](../../plugins/_official/image-templates/) | 45 | Одношаговые промпты для изображений — редакционные, кинематографичные, продуктовые, портретные |
 | [`video-templates/`](../../plugins/_official/video-templates/) | 63 | Моушн-шаблоны HyperFrames / Seedance / Veo |
 | [`design-systems/`](../../plugins/_official/design-systems/) | 143 | Брендовые `DESIGN.md`, обёрнутые в плагины |
@@ -466,8 +466,8 @@ sw skills list --json
 ### Что умеют плагины
 
 - 🤖 **Работают в любом кодинг-агенте** — [Claude Code](../../docs/agent-adapters.md), Codex, Cursor, Copilot, [OpenClaw](https://github.com/openclaw/openclaw), [Antigravity](https://antigravity.google), Hermes, Kimi… через тот же протокол навыков, который агент уже знает.
-- 🔁 **Мигрируют рабочие процессы Figma / Pencil** → исходники React, Next.js или Vue. См. [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/).
-- 🛠️ **Обновляют существующую кодовую базу под спецификацию бренда** — направьте плагин на `git`-репозиторий + `DESIGN.md`, получите PR. См. [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/).
+- 🔁 **Мигрируют рабочие процессы Figma / Pencil** → исходники React, Next.js или Vue. См. [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/).
+- 🛠️ **Обновляют существующую кодовую базу под спецификацию бренда** — направьте плагин на `git`-репозиторий + `DESIGN.md`, получите PR. См. [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/).
 - 💾 **Сохраняют кастомные рабочие процессы** — переиспользуемые шаблоны вашей команды лежат рядом с поставляемыми.
 
 ### Использование плагинов
@@ -481,22 +481,22 @@ sw skills list --json
 ```bash
 sw plugin list                       # список установленных плагинов (фильтры --task-kind / --mode / --tag)
 sw plugin search "landing page"      # поиск по ключевым словам
-sw plugin info od-default            # метаданные, входы и возможности плагина
-sw plugin install od-figma-migration # установка из registry; также принимает ./local-folder или ссылку https://…
-sw plugin apply od-default --input brief="одностраничный питч для нашего seed-раунда"
-sw plugin upgrade od-default         # обновление
-sw plugin uninstall od-default       # удаление
+sw plugin info sw-default            # метаданные, входы и возможности плагина
+sw plugin install sw-figma-migration # установка из registry; также принимает ./local-folder или ссылку https://…
+sw plugin apply sw-default --input brief="одностраничный питч для нашего seed-раунда"
+sw plugin upgrade sw-default         # обновление
+sw plugin uninstall sw-default       # удаление
 ```
 
 Каждая команда поддерживает `--json`, так что вы можете пропускать вывод через `jq` / `xargs` в автоматизацию.
 
 ### Создание плагина
 
-Плагину SankiWork нужны `open-design.json` и payload его типа. Навыки и сценарии также содержат `SKILL.md`; остальные типы используют свой payload:
+Плагину SankiWork нужны `sankiwork.json` и payload его типа. Навыки и сценарии также содержат `SKILL.md`; остальные типы используют свой payload:
 
 ```
 my-plugin/
-├── open-design.json    ← обязательно: метаданные + inputs + pipeline + capabilities
+├── sankiwork.json    ← обязательно: метаданные + inputs + pipeline + capabilities
 ├── SKILL.md            ← обязательно для agent-skill/scenario; для других типов не требуется
 ├── README.md           ← опционально: использование, установка, ссылки на registry
 ├── preview/            ← опционально: index.html / poster.png (очень желательно для визуальных плагинов)
@@ -620,7 +620,7 @@ SankiWork продолжает двигаться, потому что конт�
 |---|---|---|
 | Новый **навык** | Бросьте папку с `SKILL.md` + `assets/` + `references/` | [`skills/`](../../skills/) · спецификация в [`docs/skills-protocol.md`](../../docs/skills-protocol.md) |
 | Новую **дизайн-систему** | Бросьте пакет с `DESIGN.md` в основе; при необходимости добавьте `manifest.json`, `tokens.css`, компоненты, ресурсы или сведения о происхождении | [`design-systems/<brand>/`](../../design-systems/) |
-| Новый **плагин** | Бросьте `open-design.json` + полезную нагрузку соответствующего типа в папку категории | [`plugins/community/`](../../plugins/community/) · спецификация в [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · руководство по разработке для агентов в [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
+| Новый **плагин** | Бросьте `sankiwork.json` + полезную нагрузку соответствующего типа в папку категории | [`plugins/community/`](../../plugins/community/) · спецификация в [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · руководство по разработке для агентов в [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
 | Поддержку нового **CLI кодинг-агента** | Определение runtime + регистрация; парсер только для нового формата | [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runtimes/defs/) |
 | Исправить баг или отполировать UI | Просмотрите метку [`good-first-issue`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) | [Issues →](https://github.com/nexu-io/open-design/issues) |
 | Перевести документацию | Обновите файлы `README.<lang>.md` | [`TRANSLATIONS.md`](../../TRANSLATIONS.md) |

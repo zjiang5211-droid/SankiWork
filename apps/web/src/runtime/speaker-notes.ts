@@ -99,7 +99,7 @@ export function upsertSpeakerNotesInHtml(source: string, notes: readonly string[
 }
 
 function buildPresenterFrameHtml(previewHtml: string): string {
-  const chromeHidingStyle = `<style data-od-presenter-frame-chrome>
+  const chromeHidingStyle = `<style data-sw-presenter-frame-chrome>
 .deck-counter,
 .deck-hint,
 .deck-nav,

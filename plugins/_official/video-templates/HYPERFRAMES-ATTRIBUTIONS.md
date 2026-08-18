@@ -2,7 +2,7 @@
 
 These 23 templates were imported into SankiWork from
 [`nexu-io/html-video`](https://github.com/nexu-io/html-video) (Apache-2.0).
-Each plugin's `open-design.json` (`license`, `author`, `od.provenance`,
+Each plugin's `sankiwork.json` (`license`, `author`, `od.provenance`,
 `od.attribution`) and `template.json` (`source`) carry the canonical
 per-template record; this file is the directory-level summary required by the
 upstream licenses. Studio names recorded under `provenance.origin` are factual

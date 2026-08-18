@@ -9,7 +9,7 @@ SankiWork registry v1 复用 GitHub 作为后端。CLI 是 canonical workflow；
 sw plugin scaffold --id vendor/plugin-name --title "Plugin name" --out ./plugins/community
 ```
 
-公开 registry ID 必须是 `vendor/plugin-name`。生成的 `open-design.json`
+公开 registry ID 必须是 `vendor/plugin-name`。生成的 `sankiwork.json`
 需要包含 `plugin.repo`，指向插件的源码仓库或源码子目录。
 
 ## 2. 校验和打包
@@ -20,7 +20,7 @@ sw plugin pack ./plugins/community/plugin-name --out ./dist
 ```
 
 registry 接受任何能通过 validate 和 pack 的插件。源码仓库不需要特殊结构，
-只需要 `SKILL.md` 和 `open-design.json`。
+只需要 `SKILL.md` 和 `sankiwork.json`。
 
 ## 3. 登录
 
@@ -40,7 +40,7 @@ sw plugin publish vendor/plugin-name --to sankiwork --repo https://github.com/ve
 
 v1 会打开 GitHub registry review flow。发布 payload 包含插件 ID、版本、
 源码仓库、能力摘要、包 digest 和 registry entry path。合并之后，CI 重新生成
-`open-design-marketplace.json`。
+`sankiwork-marketplace.json`。
 
 ## 5. 从 registry 安装
 

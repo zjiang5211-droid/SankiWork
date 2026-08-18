@@ -76,7 +76,7 @@ describe('DISCOVERY_AND_PHILOSOPHY (contracts copy) — prompt routing parity', 
     expect(prompt).not.toContain('surface the actual stderr / exit status');
   });
 
-  it('keeps clarification on demand and leaves task-type routing to od-default', () => {
+  it('keeps clarification on demand and leaves task-type routing to sw-default', () => {
     expect(DISCOVERY_AND_PHILOSOPHY).toContain(
       'A first turn, a new project, a discovery stage, or an unfilled metadata field does not by itself require a form.',
     );

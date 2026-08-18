@@ -31,7 +31,7 @@ afterEach(async () => {
 async function pluginManifest(folder: string, title: string): Promise<void> {
   await mkdir(folder, { recursive: true });
   await writeFile(
-    path.join(folder, 'open-design.json'),
+    path.join(folder, 'sankiwork.json'),
     JSON.stringify({ name: 'shared-id', title, version: '1.0.0' }),
   );
 }

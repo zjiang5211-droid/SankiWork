@@ -190,11 +190,11 @@ async function removeJournal(
 }
 
 function expectedStagePrefix(liveDir: string): string {
-  return `.${path.basename(liveDir)}.od-pull-stage-`;
+  return `.${path.basename(liveDir)}.sw-pull-stage-`;
 }
 
 function expectedRecoveryPrefix(liveDir: string): string {
-  return `.${path.basename(liveDir)}.od-pull-recovery-`;
+  return `.${path.basename(liveDir)}.sw-pull-recovery-`;
 }
 
 async function validatePromotionPaths(input: {

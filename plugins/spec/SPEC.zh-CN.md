@@ -26,12 +26,12 @@ description: Use this plugin when the user wants...
 
 ## 2. 增强版 SankiWork 插件
 
-当插件需要出现在 SankiWork marketplace 卡片或 starter 中时，添加 `open-design.json`：
+当插件需要出现在 SankiWork marketplace 卡片或 starter 中时，添加 `sankiwork.json`：
 
 ```text
 my-plugin/
   SKILL.md
-  open-design.json
+  sankiwork.json
   README.md
   preview/
   examples/
@@ -40,7 +40,7 @@ my-plugin/
   evals/
 ```
 
-`open-design.json` 指向 skill，并声明产品表面：
+`sankiwork.json` 指向 skill，并声明产品表面：
 
 ```json
 {
@@ -208,7 +208,7 @@ preview 应展示真实输出形态，而不是装饰性的 splash screen。
 打开 PR 前：
 
 1. 校验 JSON 语法。
-2. 确认 `open-design.json` 包含 `specVersion`，并在行为变化时 bump 插件 `version`。
+2. 确认 `sankiwork.json` 包含 `specVersion`，并在行为变化时 bump 插件 `version`。
 3. 运行 `pnpm guard`。
 4. 运行 `pnpm --filter @sankiwork/plugin-runtime typecheck`。
 5. 如果可用，运行 `sw plugin validate ./path/to/plugin`。

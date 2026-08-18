@@ -30,7 +30,7 @@ type NotificationOptionsWithBrowserExtensions = NotificationOptions & {
 
 let ctx: AudioContext | null = null;
 const activeNotifications = new Set<Notification>();
-const SERVICE_WORKER_URL = '/od-notifications-sw.js';
+const SERVICE_WORKER_URL = '/sw-notifications-sw.js';
 
 function getCtx(): AudioContext | null {
   if (typeof window === 'undefined') return null;

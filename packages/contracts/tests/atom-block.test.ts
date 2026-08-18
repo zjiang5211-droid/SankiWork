@@ -56,7 +56,7 @@ describe('renderActiveStageBlock', () => {
   });
 });
 
-// Issue #6238 — an atom shared by multiple pipeline stages (od-default
+// Issue #6238 — an atom shared by multiple pipeline stages (sw-default
 // declares `discovery-question-form` in both `task-type` and
 // `discovery`) must have its full SKILL.md body inlined exactly once;
 // later stages reference the earlier inline instead of repeating it.

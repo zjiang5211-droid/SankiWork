@@ -55,7 +55,7 @@ export const SHOWCASE_WORKS: readonly ShowcaseWork[] = [
   {
     id: 'sankiwork-y2k',
     type: 'landing',
-    cover: '/showcase/opendesign-y2k.jpg',
+    cover: '/showcase/sankiwork-y2k.jpg',
     madeWith: 'SankiWork',
   },
   {

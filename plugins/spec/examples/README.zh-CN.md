@@ -20,4 +20,4 @@
 - `extend-plugin-author` - extend 主类。
 
 使用这些示例作为可复制模式，然后为你的真实插件大幅裁剪。
-示例 `open-design-marketplace.json` 在 catalog 顶层有版本，每个 entry 也固定列入的插件版本，便于 registry snapshot 审计。
+示例 `sankiwork-marketplace.json` 在 catalog 顶层有版本，每个 entry 也固定列入的插件版本，便于 registry snapshot 审计。

@@ -83,7 +83,9 @@ export async function resolveProjectChildDirectory(projectRoot: string, relative
 }
 
 export async function folderLooksLikePlugin(folder: string) {
-  const names = ['open-design.json', 'SKILL.md', path.join('.claude-plugin', 'plugin.json')];
+  // `sankiwork.json` is the current sidecar name; `open-design.json` is the
+  // legacy pre-rebrand name still found in older installed plugins.
+  const names = ['sankiwork.json', 'open-design.json', 'SKILL.md', path.join('.claude-plugin', 'plugin.json')];
   for (const name of names) {
     if (fs.existsSync(path.join(folder, name))) return true;
   }

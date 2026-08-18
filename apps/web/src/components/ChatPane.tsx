@@ -603,7 +603,7 @@ interface Props {
   hiddenPluginActionPaths?: Set<string>;
   // "Share to SankiWork" button on each completed assistant message —
   // wired by ProjectView to handleSend with the bundled
-  // `od-share-to-community` scenario's trigger prompt.
+  // `sw-share-to-community` scenario's trigger prompt.
   onShareToSankiWork?: (assistantMessageId: string) => void;
   shareToSankiWorkBusyMessageId?: string | null;
   forceStreamingMessageIds?: Set<string>;

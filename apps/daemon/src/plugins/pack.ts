@@ -8,7 +8,7 @@
 // would download.
 //
 // What we put in the archive:
-//   - open-design.json (required; this is what the installer
+//   - sankiwork.json (required; this is what the installer
 //     resolves first)
 //   - SKILL.md / .claude-plugin/plugin.json when present
 //   - Any other plain files under the folder
@@ -30,7 +30,7 @@ import { promises as fsp } from 'node:fs';
 import { c as tarCreate } from 'tar';
 
 export interface PackPluginInput {
-  // Path to the plugin folder. Must contain open-design.json.
+  // Path to the plugin folder. Must contain sankiwork.json.
   folder: string;
   // Absolute path of the output archive. Default:
   // `<folder>/../<folder-basename>-<version>.tgz` when the manifest
@@ -67,15 +67,15 @@ export class PackPluginError extends Error {
 export async function packPlugin(input: PackPluginInput): Promise<PackPluginResult> {
   const folder = path.resolve(input.folder);
 
-  // Confirm the folder shape — open-design.json must exist + parse.
+  // Confirm the folder shape — sankiwork.json must exist + parse.
   let manifestRaw: string;
   try {
-    manifestRaw = await fsp.readFile(path.join(folder, 'open-design.json'), 'utf8');
+    manifestRaw = await fsp.readFile(path.join(folder, 'sankiwork.json'), 'utf8');
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
-      throw new PackPluginError(`folder ${folder} does not contain open-design.json`);
+      throw new PackPluginError(`folder ${folder} does not contain sankiwork.json`);
     }
-    throw new PackPluginError(`failed to read open-design.json: ${(err as Error).message}`);
+    throw new PackPluginError(`failed to read sankiwork.json: ${(err as Error).message}`);
   }
   let pluginId: string | undefined;
   let pluginVersion: string | undefined;
@@ -84,7 +84,7 @@ export async function packPlugin(input: PackPluginInput): Promise<PackPluginResu
     if (typeof parsed.name === 'string'    && parsed.name.length    > 0) pluginId      = parsed.name;
     if (typeof parsed.version === 'string' && parsed.version.length > 0) pluginVersion = parsed.version;
   } catch (err) {
-    throw new PackPluginError(`open-design.json failed to parse as JSON: ${(err as Error).message}`);
+    throw new PackPluginError(`sankiwork.json failed to parse as JSON: ${(err as Error).message}`);
   }
 
   const folderBase = path.basename(folder);

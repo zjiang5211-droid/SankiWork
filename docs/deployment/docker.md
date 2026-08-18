@@ -88,8 +88,8 @@ and the `SW_API_TOKEN` value from `deploy/.env` as the password. You should then
 see the SankiWork interface. Docker bridge peers remain authenticated; no host
 networking override is required.
 
-![SankiWork home (desktop)](../screenshots/deployment/docker/01-open-design-home.png)
-![SankiWork home (mobile)](../screenshots/deployment/docker/03-open-design-mobile.png)
+![SankiWork home (desktop)](../screenshots/deployment/docker/01-sankiwork-home.png)
+![SankiWork home (mobile)](../screenshots/deployment/docker/03-sankiwork-mobile.png)
 
 ## Common Issues
 

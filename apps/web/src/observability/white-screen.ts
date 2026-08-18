@@ -8,7 +8,7 @@
 // Success condition (anything below is treated as "still showing a
 // pre-mount skeleton" and the timer keeps running):
 //
-//   1. The App component has set `data-od-app-mounted="1"` on
+//   1. The App component has set `data-sw-app-mounted="1"` on
 //      `<html>` (its very first `useEffect` runs that). This is the
 //      authoritative marker — once App has rendered at all, any later
 //      tree crash is a `$exception` story, not a white-screen story.
@@ -34,7 +34,7 @@ const MIN_VISIBLE_TEXT = 10;
 // whether the app rendered something meaningful. `od-loading-shell` is
 // the dynamic-import fallback rendered by `client-app.tsx`.
 const LOADING_SHELL_CLASSES = new Set(['od-loading-shell']);
-const APP_MOUNTED_ATTR = 'data-od-app-mounted';
+const APP_MOUNTED_ATTR = 'data-sw-app-mounted';
 
 export function installWhiteScreenDetector(): () => void {
   if (typeof window === 'undefined') return () => undefined;

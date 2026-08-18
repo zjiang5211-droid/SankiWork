@@ -49,9 +49,9 @@ beforeEach(async () => {
   const atomB = path.join(tmpRoot, 'atoms', 'todo-write');
   await mkdir(atomA, { recursive: true });
   await mkdir(atomB, { recursive: true });
-  await writeFile(path.join(atomA, 'open-design.json'), SAMPLE_MANIFEST('discovery-question-form'));
+  await writeFile(path.join(atomA, 'sankiwork.json'), SAMPLE_MANIFEST('discovery-question-form'));
   await writeFile(path.join(atomA, 'SKILL.md'), SAMPLE_SKILL('discovery-question-form', 'Ask the user about audience.'));
-  await writeFile(path.join(atomB, 'open-design.json'), SAMPLE_MANIFEST('todo-write'));
+  await writeFile(path.join(atomB, 'sankiwork.json'), SAMPLE_MANIFEST('todo-write'));
   await writeFile(path.join(atomB, 'SKILL.md'), SAMPLE_SKILL('todo-write', 'Commit a numbered plan.'));
 
   await registerBundledPlugins({ db, bundledRoot: tmpRoot });
@@ -96,7 +96,7 @@ describe('renderActiveStageBlock + loadAtomBodies (end-to-end stage block)', () 
 describe('renderActiveStageBlocks + loadAtomBodies (issue #6238 cross-stage dedup)', () => {
   it('inlines an atom shared by two stages exactly once, mirroring the server composer loop', async () => {
     // Same shape as the `activeStageBlocks` build in server.ts and the
-    // od-default pipeline: `discovery-question-form` declared by both
+    // sw-default pipeline: `discovery-question-form` declared by both
     // `task-type` and `discovery`.
     const stages = [
       { id: 'task-type', atoms: ['discovery-question-form'] },

@@ -19,7 +19,8 @@ const EXCLUDED_DIR_NAMES = new Set([
 
 const EXCLUDED_FILE_NAMES = new Set([
   '.DS_Store',
-  'open-design.json',
+  'sankiwork.json',
+  'open-design.json', // legacy pre-rebrand sidecar name
   'SKILL.md',
 ]);
 

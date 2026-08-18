@@ -57,11 +57,11 @@ describe('plugins/_official/atoms roster', () => {
     expect(dirs).toEqual(EXPECTED_ATOMS);
   });
 
-  it('every atom folder ships SKILL.md + open-design.json (the spec §3 cross-catalog floor)', async () => {
+  it('every atom folder ships SKILL.md + sankiwork.json (the spec §3 cross-catalog floor)', async () => {
     for (const id of EXPECTED_ATOMS) {
       const folder = path.join(atomsRoot, id);
       const skill = await stat(path.join(folder, 'SKILL.md'));
-      const manifest = await stat(path.join(folder, 'open-design.json'));
+      const manifest = await stat(path.join(folder, 'sankiwork.json'));
       expect(skill.isFile()).toBe(true);
       expect(manifest.isFile()).toBe(true);
     }

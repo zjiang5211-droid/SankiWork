@@ -595,7 +595,7 @@ const BLANK_PAGE_PRESETS: ProjectPagePreset[] = [
 
 const COMMUNITY_PAGE_PRESETS: ProjectPagePreset[] = [
   {
-    id: 'community-open-design-landing',
+    id: 'community-sankiwork-landing',
     category: 'prototype',
     title: pageText('SankiWork Landing', 'SankiWork 落地页', 'SankiWork 落地頁'),
     description: pageText(
@@ -604,7 +604,7 @@ const COMMUNITY_PAGE_PRESETS: ProjectPagePreset[] = [
       '帶強主視覺、信任證明和產品敘事的編輯風落地頁。',
     ),
     icon: 'globe',
-    fileBaseName: 'open-design-landing',
+    fileBaseName: 'sankiwork-landing',
     source: 'community',
     featured: true,
   },
@@ -7498,7 +7498,7 @@ async function inlineDesignSystemPreviewRelativeAssets(
       return {
         from: tag,
         to: [
-          `<style data-od-inline-asset="${escapeDesignSystemPreviewAttr(href)}">`,
+          `<style data-sw-inline-asset="${escapeDesignSystemPreviewAttr(href)}">`,
           safeCss,
           '</style>',
         ].join('\n'),
@@ -7525,7 +7525,7 @@ async function inlineDesignSystemPreviewRelativeAssets(
       return {
         from: tag,
         to: [
-          `<script${attrs} data-od-inline-asset="${escapeDesignSystemPreviewAttr(src)}">`,
+          `<script${attrs} data-sw-inline-asset="${escapeDesignSystemPreviewAttr(src)}">`,
           js.replace(/<\/script/gi, '<\\/script'),
           '</script>',
         ].join('\n'),

@@ -135,7 +135,7 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 1. 进入 Plugins。
 2. Installed 里确认 official starters 可见。
 3. Available 里确认 official 已安装项显示 `Use`，未安装项显示 `Install`。
-4. Sources 添加一个 raw `open-design-marketplace.json` URL，刷新、改 trust、移除。
+4. Sources 添加一个 raw `sankiwork-marketplace.json` URL，刷新、改 trust、移除。
 5. 导入本地 fixture plugin，点详情，确认 Source、Capabilities、Workflow、Share 菜单可见。
 6. Home 里用 `@` 搜索刚导入的 plugin，创建项目，确认项目消息里出现 plugin chip。
 
@@ -145,7 +145,7 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 
 | ID | 场景 | 核心断言 | 覆盖 |
 | --- | --- | --- | --- |
-| PS-A01 | Plugin manifest schema | `open-design.json` v1 字段、taskKind、inputs、pipeline、genui、capabilities 可解析 | `packages/contracts/tests/plugins-manifest.test.ts` |
+| PS-A01 | Plugin manifest schema | `sankiwork.json` v1 字段、taskKind、inputs、pipeline、genui、capabilities 可解析 | `packages/contracts/tests/plugins-manifest.test.ts` |
 | PS-A02 | Marketplace schema | `official/trusted/restricted` trust vocabulary，versions/integrity/publisher 等字段可 passthrough | `packages/contracts/src/plugins/marketplace.ts` + package tests |
 | PS-A03 | RegistryBackend protocol | static/GitHub/DB 后端共享 list/search/resolve/publish 语义 | `packages/registry-protocol/tests/backend.test.ts`、`apps/daemon/tests/registry-backends.test.ts` |
 | PS-A04 | Plugin block renderer | snapshot 渲染的 prompt block 稳定，不在 daemon/contracts 双份漂移 | `packages/contracts/src/prompts/plugin-block.ts`、`apps/daemon/tests/plugins-dod-e2e.test.ts` |
@@ -156,9 +156,9 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 | --- | --- | --- | --- |
 | PS-B01 | SKILL.md-only fallback | `SKILL.md` frontmatter 可合成 schema-valid `PluginManifest` | `packages/plugin-runtime/tests/adapter-agent-skill.test.ts` |
 | PS-B02 | Claude plugin adapter | `.claude-plugin/plugin.json` 可作为兼容输入 | `packages/plugin-runtime/tests/parsers.test.ts`、`validate.test.ts` |
-| PS-B03 | Sidecar manifest wins | `open-design.json` 覆盖 adapter fallback，不复制 SKILL.md body | `packages/plugin-runtime/tests/merge.test.ts` |
+| PS-B03 | Sidecar manifest wins | `sankiwork.json` 覆盖 adapter fallback，不复制 SKILL.md body | `packages/plugin-runtime/tests/merge.test.ts` |
 | PS-B04 | Deterministic digest | 同一 manifest/source 产出稳定 digest，升级后 digest 改变 | `packages/plugin-runtime/tests/digest.test.ts`、`plugins-dod-e2e.test.ts` |
-| PS-B05 | Metadata-only preset | 只有 `open-design.json` 的目录必须被 doctor 标为 non-runnable | `apps/daemon/tests/plugins-validate.test.ts`、`plugins-verify.test.ts` |
+| PS-B05 | Metadata-only preset | 只有 `sankiwork.json` 的目录必须被 doctor 标为 non-runnable | `apps/daemon/tests/plugins-validate.test.ts`、`plugins-verify.test.ts` |
 
 ### C. Install, Apply, Snapshot
 
@@ -272,7 +272,7 @@ pnpm tools-dev run web --daemon-port 17456 --web-port 17573
 | ID | 步骤 | 期望 |
 | --- | --- | --- |
 | MAN-016 | `pnpm --filter @sankiwork/landing-page build` | 静态 `/plugins` 和 `search.json` 生成成功 |
-| MAN-017 | 复制 `plugins/registry/community/open-design-marketplace.json` 到临时 URL 或本地 fixture server | daemon 能 add/search/install |
+| MAN-017 | 复制 `plugins/registry/community/sankiwork-marketplace.json` 到临时 URL 或本地 fixture server | daemon 能 add/search/install |
 | MAN-018 | 按 `docs/self-hosting-a-registry.md` 新建第三方 catalog | 只需替换 catalog name/url/source 两类配置，不改 daemon/web 代码 |
 | MAN-019 | 用 `sw plugin publish --to marketplace-json --catalog <path>` | catalog 稳定 upsert，source 可复现 |
 
@@ -303,7 +303,7 @@ Registry v1 只有在以下额外条件满足后才能标为“fully done”：
 | pipeline 事件缺失 | `firePipelineForRun()` 是否在 `POST /api/runs` 路径触发 |
 | connector token 绕过 | `connector-gate.ts`、`tool-tokens.ts`、`/api/tools/connectors/execute` 二次校验 |
 | UI 装完 plugin 后找不到 | `PluginsView` tab/test id、`buildAvailablePlugins()` name matching |
-| public registry 页面缺条目 | `plugins/registry/*/open-design-marketplace.json`、`apps/landing-page/app/plugin-registry.ts` |
+| public registry 页面缺条目 | `plugins/registry/*/sankiwork-marketplace.json`、`apps/landing-page/app/plugin-registry.ts` |
 
 ## 7. 维护规则
 

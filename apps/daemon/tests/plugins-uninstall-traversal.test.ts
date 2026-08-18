@@ -64,7 +64,7 @@ beforeAll(async () => {
   orphanFolder = path.join(pluginsRoot, 'orphan-plugin');
   await mkdir(orphanFolder, { recursive: true });
   await writeFile(
-    path.join(orphanFolder, 'open-design.json'),
+    path.join(orphanFolder, 'sankiwork.json'),
     JSON.stringify({ name: 'orphan-plugin', title: 'Orphan plugin', version: '0.0.1' }),
   );
   const resolved = await resolvePluginFolder({

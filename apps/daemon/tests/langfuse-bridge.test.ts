@@ -311,7 +311,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
         attachment_id: expect.stringMatching(/^att_[0-9a-f]{16}$/),
         object_class: 'attachment',
         storage_ref: expect.stringMatching(
-          /^od:\/\/objects\/workspaces\/unknown\/projects\/proj-1\/runs\/run-id-1\/attachment\/att_[0-9a-f]{16}$/,
+          /^sankiwork:\/\/objects\/workspaces\/unknown\/projects\/proj-1\/runs\/run-id-1\/attachment\/att_[0-9a-f]{16}$/,
         ),
         project_id: 'proj-1',
         run_id: 'run-id-1',
@@ -338,7 +338,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
         object_class: 'artifact',
         type: 'html',
         storage_ref: expect.stringMatching(
-          /^od:\/\/objects\/workspaces\/unknown\/projects\/proj-1\/runs\/run-id-1\/artifact\/art_[0-9a-f]{16}$/,
+          /^sankiwork:\/\/objects\/workspaces\/unknown\/projects\/proj-1\/runs\/run-id-1\/artifact\/art_[0-9a-f]{16}$/,
         ),
         project_id: 'proj-1',
         run_id: 'run-id-1',

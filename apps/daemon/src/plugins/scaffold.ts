@@ -2,7 +2,7 @@
 //
 // Pure, file-system-side helper that materialises the §17.2 "enriched
 // plugin" shape on disk: SKILL.md (canonical anchor, with the od:
-// frontmatter the skills protocol expects) + open-design.json (sidecar
+// frontmatter the skills protocol expects) + sankiwork.json (sidecar
 // with the v1 schema reference). Authors can drop the result into a
 // new git repo and start iterating immediately; `sw plugin install ./<id>`
 // will pick it up via the local-folder backend.
@@ -54,7 +54,7 @@ export async function scaffoldPlugin(input: ScaffoldInput): Promise<ScaffoldResu
   try {
     const entries = await fsp.readdir(folder).catch(() => []);
     const conflicts = entries.filter((e) =>
-      e === 'SKILL.md' || e === 'open-design.json' || e === '.claude-plugin' || e === 'README.md',
+      e === 'SKILL.md' || e === 'sankiwork.json' || e === '.claude-plugin' || e === 'README.md',
     );
     if (conflicts.length > 0) {
       throw new ScaffoldError(`destination ${folder} already contains ${conflicts.join(', ')}; refusing to overwrite`);
@@ -124,7 +124,7 @@ export async function scaffoldPlugin(input: ScaffoldInput): Promise<ScaffoldResu
       capabilities: ['prompt:inject'],
     },
   };
-  const manifestPath = path.join(folder, 'open-design.json');
+  const manifestPath = path.join(folder, 'sankiwork.json');
   await fsp.writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
   written.push(manifestPath);
 
@@ -143,10 +143,10 @@ export async function scaffoldPlugin(input: ScaffoldInput): Promise<ScaffoldResu
     '## Files',
     '',
     '- `SKILL.md` — the canonical agent skill body.',
-    '- `open-design.json` — the versioned SankiWork marketplace sidecar.',
+    '- `sankiwork.json` — the versioned SankiWork marketplace sidecar.',
     '',
     'Edit `SKILL.md` to teach the agent how to perform the workflow.',
-    'Edit `open-design.json` to refine the marketplace card and inputs.',
+    'Edit `sankiwork.json` to refine the marketplace card and inputs.',
     '',
   ].join('\n');
   const readmePath = path.join(folder, 'README.md');

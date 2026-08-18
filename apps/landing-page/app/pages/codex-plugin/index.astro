@@ -4,13 +4,13 @@
  * nexu-io/open-design-agent-plugins repository.
  *
  * English is the authoritative source. Complete translated copy for every
- * active landing locale lives in `open-design-plugin-locales/`.
+ * active landing locale lives in `sankiwork-plugin-locales/`.
  */
 import Layout from '../../_components/sub-page-layout.astro';
 import LazyImg from '../../_components/lazy-img.astro';
 import { getLocaleDefinition, localeFromPath, localizedHref } from '../../i18n';
-import { getSankiWorkPluginCopy } from '../../open-design-plugin-i18n';
-import '../../open-design-pugin.css';
+import { getSankiWorkPluginCopy } from '../../sankiwork-plugin-i18n';
+import '../../sankiwork-pugin.css';
 
 const SITE = Astro.site?.toString() ?? 'https://sanki-ai.cloud/';
 const locale = localeFromPath(Astro.url.pathname);
@@ -25,25 +25,25 @@ const INSTALL_INSTRUCTION =
   '/goal Read https://sanki-ai.cloud/codex-plugin/ to install SankiWork for Codex and set up a new task for me.';
 const codexRunFrames = [
   {
-    src: '/open-design-pugin/codex-real-plugin-detail.png',
+    src: '/sankiwork-pugin/codex-real-plugin-detail.png',
     width: 895,
     height: 580,
     displayWidth: 820,
   },
   {
-    src: '/open-design-pugin/codex-real-cafe-prompt.png',
+    src: '/sankiwork-pugin/codex-real-cafe-prompt.png',
     width: 384,
     height: 271,
     displayWidth: 360,
   },
   {
-    src: '/open-design-pugin/codex-real-cafe-running.png',
+    src: '/sankiwork-pugin/codex-real-cafe-running.png',
     width: 1676,
     height: 1075,
     displayWidth: 1080,
   },
   {
-    src: '/open-design-pugin/codex-real-cafe-result.png',
+    src: '/sankiwork-pugin/codex-real-cafe-result.png',
     width: 1682,
     height: 1070,
     displayWidth: 1080,
@@ -198,7 +198,7 @@ const jsonLd = [
 
       <figure class="odp-flow-overview">
         <img
-          src="/open-design-pugin/codex-real-workspace-overview.webp"
+          src="/sankiwork-pugin/codex-real-workspace-overview.webp"
           alt={copy.demo.overviewAlt}
           width="1936"
           height="1082"

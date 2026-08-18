@@ -327,12 +327,12 @@ describe('migrateLegacyDataDirSync', () => {
       migrateLegacyDataDirSync({ legacyDir, dataDir, logger: makeLogger() }),
     ).toThrowError(LegacyMigrationError);
 
-    // No .od-migrate-* sibling left behind.
+    // No .sw-migrate-* sibling left behind.
     const parent = path.dirname(dataDir);
     const base = path.basename(dataDir);
     const leftovers = fs
       .readdirSync(parent)
-      .filter((entry) => entry.startsWith(`${base}.od-migrate-`));
+      .filter((entry) => entry.startsWith(`${base}.sw-migrate-`));
     expect(leftovers).toEqual([]);
 
     fs.rmSync(escapeTarget, { recursive: true, force: true });
@@ -347,7 +347,7 @@ describe('migrateLegacyDataDirSync', () => {
     // the user mid-migration.
     const stagingDir = path.join(
       path.dirname(dataDir),
-      `${path.basename(dataDir)}.od-migrate-rollback-test`,
+      `${path.basename(dataDir)}.sw-migrate-rollback-test`,
     );
     fs.mkdirSync(stagingDir, { recursive: true });
     writeFile(path.join(stagingDir, 'app.sqlite'), 'staged-sqlite');

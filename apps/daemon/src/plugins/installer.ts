@@ -102,7 +102,7 @@ export interface InstallOptions {
   manifestDigest?: string;
   archiveIntegrity?: string;
   // Optional runtime-data lockfile path. Daemon routes pass
-  // `<SW_DATA_DIR>/od-plugin-lock.json`; tests can point at temp dirs.
+  // `<SW_DATA_DIR>/sw-plugin-lock.json`; tests can point at temp dirs.
   lockfilePath?: string;
   // Called after manifest identity is known but before existing bytes or the
   // installed_plugins row can be replaced. Workspace-aware callers use this

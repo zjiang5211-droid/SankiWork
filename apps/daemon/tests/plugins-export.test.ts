@@ -63,17 +63,17 @@ function persistSampleSnapshot() {
 }
 
 describe('exportPlugin', () => {
-  it('target=od writes SKILL.md + open-design.json + README.md', async () => {
+  it('target=od writes SKILL.md + sankiwork.json + README.md', async () => {
     const snap = persistSampleSnapshot();
     const result = await exportPlugin({ db, snapshotId: snap.snapshotId, target: 'od', outDir: tmpDir });
     expect(result.snapshotId).toBe(snap.snapshotId);
     expect(result.files.map((f) => path.basename(f)).sort()).toEqual([
       'README.md',
       'SKILL.md',
-      'open-design.json',
+      'sankiwork.json',
     ]);
     const manifest = JSON.parse(
-      await readFile(path.join(result.folder, 'open-design.json'), 'utf8'),
+      await readFile(path.join(result.folder, 'sankiwork.json'), 'utf8'),
     );
     expect(manifest.provenance.snapshotId).toBe(snap.snapshotId);
     expect(manifest.provenance.manifestSourceDigest).toBe('a'.repeat(64));

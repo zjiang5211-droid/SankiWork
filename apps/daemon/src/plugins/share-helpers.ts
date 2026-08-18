@@ -82,14 +82,14 @@ export function renderPluginBriefTemplate(
 }
 
 export async function readProjectPluginManifest(folder: string): Promise<ProjectPluginManifest> {
-  const raw = await fs.promises.readFile(path.join(folder, 'open-design.json'), 'utf8');
+  const raw = await fs.promises.readFile(path.join(folder, 'sankiwork.json'), 'utf8');
   const manifest = parseJsonObject(raw);
   const name = typeof manifest.name === 'string' && manifest.name.trim()
     ? manifest.name.trim()
     : path.basename(folder);
   if (/[/\\]/.test(name) || /^\.+$/.test(name)) {
     throw new Error(
-      `open-design.json in ${folder}: name "${name}" must not contain path separators or consist only of dots`,
+      `sankiwork.json in ${folder}: name "${name}" must not contain path separators or consist only of dots`,
     );
   }
   return {
@@ -283,13 +283,13 @@ export function isPluginAuthoringRun(
   run: RunLike | null | undefined,
   getSnapshot: PluginSnapshotReader,
 ): boolean {
-  if (run?.pluginId === 'od-plugin-authoring') return true;
+  if (run?.pluginId === 'sw-plugin-authoring') return true;
   if (
     typeof run?.appliedPluginSnapshotId === 'string'
     && run.appliedPluginSnapshotId.length > 0
   ) {
     const snapshot = getSnapshot(db, run.appliedPluginSnapshotId);
-    return snapshot?.pluginId === 'od-plugin-authoring';
+    return snapshot?.pluginId === 'sw-plugin-authoring';
   }
   return false;
 }
@@ -297,7 +297,7 @@ export function isPluginAuthoringRun(
 export async function hasGeneratedPluginArtifacts(projectRoot: string | null | undefined): Promise<boolean> {
   if (!projectRoot || typeof projectRoot !== 'string') return false;
   const required = [
-    path.join(projectRoot, 'generated-plugin', 'open-design.json'),
+    path.join(projectRoot, 'generated-plugin', 'sankiwork.json'),
     path.join(projectRoot, 'generated-plugin', 'SKILL.md'),
   ];
   try {

@@ -5,7 +5,7 @@
 // account) into a `figma/` snapshot; the modal shows the recovered inventory
 // and hands the host a ready-to-send reshape prompt. A pasted Figma URL is
 // delegated to the host (`onFigmaUrl`), which routes it through the existing
-// od-figma-migration scenario (OAuth lives in the run pipeline).
+// sw-figma-migration scenario (OAuth lives in the run pipeline).
 //
 // Copy is intentionally inline (matching LibraryUploadModal); only the "+"
 // menu entry label is i18n-keyed.

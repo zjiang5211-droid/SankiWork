@@ -97,19 +97,25 @@ export function marketplaceRegistryBaseUrl(): string {
   return `https://raw.githubusercontent.com/${repo}/${ref}/${registryPath}`;
 }
 
+// Current marketplace index filename plus the legacy pre-rebrand name, so
+// URLs for marketplace indexes published before the rebrand still validate.
+const MARKETPLACE_MANIFEST_NAMES = ['sankiwork-marketplace.json', 'open-design-marketplace.json'];
+
 export function marketplaceManifestUrlForRegistry(id: string): string {
   const registryId = id.trim().replace(/^\/+|\/+$/g, '');
-  return `${marketplaceRegistryBaseUrl()}/${registryId}/open-design-marketplace.json`;
+  return `${marketplaceRegistryBaseUrl()}/${registryId}/sankiwork-marketplace.json`;
 }
 
 function registryIdFromBaseUrl(url: string, baseUrl: string): string | null {
   const base = baseUrl.replace(/\/+$/, '');
-  if (!url.startsWith(`${base}/`) || !url.endsWith('/open-design-marketplace.json')) {
+  if (!url.startsWith(`${base}/`)) {
     return null;
   }
+  const name = MARKETPLACE_MANIFEST_NAMES.find((n) => url.endsWith(`/${n}`));
+  if (!name) return null;
   const id = url
     .slice(base.length + 1)
-    .replace(/\/open-design-marketplace\.json$/, '');
+    .replace(new RegExp(`/${name.replace(/\./g, '\\.')}$`), '');
   return id && !id.includes('/') ? id : null;
 }
 
@@ -122,11 +128,12 @@ export function marketplaceRegistryIdFromUrl(url: string): string | null {
 
   const publicBases = [PUBLIC_MARKETPLACE_BASE_URL, PUBLIC_PLUGINS_BASE_URL];
   for (const base of publicBases) {
-    if (trimmed === `${base}/open-design-marketplace.json`) return 'official';
-    if (trimmed.startsWith(`${base}/`) && trimmed.endsWith('/open-design-marketplace.json')) {
+    if (trimmed === `${base}/sankiwork-marketplace.json`) return 'official';
+    if (trimmed.startsWith(`${base}/`) && MARKETPLACE_MANIFEST_NAMES.some((n) => trimmed.endsWith(`/${n}`))) {
+      const name = MARKETPLACE_MANIFEST_NAMES.find((n) => trimmed.endsWith(`/${n}`))!;
       const id = trimmed
         .slice(base.length + 1)
-        .replace(/\/open-design-marketplace\.json$/, '');
+        .replace(new RegExp(`/${name.replace(/\./g, '\\.')}$`), '');
       if (id && !id.includes('/')) return id;
     }
   }
@@ -146,7 +153,7 @@ export function marketplaceRegistryIdFromUrl(url: string): string | null {
     );
     const id = marker >= 0 ? parts[marker + 2] : undefined;
     const filename = marker >= 0 ? parts[marker + 3] : undefined;
-    return id && filename === 'open-design-marketplace.json' ? id : null;
+    return id && filename && MARKETPLACE_MANIFEST_NAMES.includes(filename) ? id : null;
   } catch {
     return null;
   }

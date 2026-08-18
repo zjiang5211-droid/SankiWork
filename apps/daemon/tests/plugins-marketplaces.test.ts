@@ -164,7 +164,7 @@ describe('marketplaces', () => {
     )).toBe(marketplaceManifestUrlForRegistry('community'));
   });
 
-  it('requires a raw open-design-marketplace.json document, not a GitHub tree page', async () => {
+  it('requires a raw sankiwork-marketplace.json document, not a GitHub tree page', async () => {
     const result = await addMarketplace(db, {
       url: 'https://github.com/nexu-io/open-design/tree/garnet-hemisphere/plugins/registry/community',
       fetcher: fixtureFetcher('<!doctype html><html><body>GitHub tree page</body></html>'),
@@ -279,7 +279,7 @@ describe('marketplaces', () => {
 
   it('seeds the checked-in default community registry as restricted and resolvable', async () => {
     const communityManifest = await readFile(
-      new URL('../../../plugins/registry/community/open-design-marketplace.json', import.meta.url),
+      new URL('../../../plugins/registry/community/sankiwork-marketplace.json', import.meta.url),
       'utf8',
     );
 
@@ -303,7 +303,7 @@ describe('marketplaces', () => {
 
   it('keeps the checked-in official registry populated from bundled plugins', async () => {
     const officialManifestText = await readFile(
-      new URL('../../../plugins/registry/official/open-design-marketplace.json', import.meta.url),
+      new URL('../../../plugins/registry/official/sankiwork-marketplace.json', import.meta.url),
       'utf8',
     );
     const officialManifest = JSON.parse(officialManifestText) as {
@@ -338,7 +338,7 @@ describe('marketplaces', () => {
 
   it('keeps checked-in community registry entries pointed at source folders that can pack', async () => {
     const communityManifest = JSON.parse(await readFile(
-      new URL('../../../plugins/registry/community/open-design-marketplace.json', import.meta.url),
+      new URL('../../../plugins/registry/community/sankiwork-marketplace.json', import.meta.url),
       'utf8',
     )) as {
       plugins?: Array<{ name?: string; source?: string }>;
@@ -350,7 +350,7 @@ describe('marketplaces', () => {
     expect(sourceSubpath).toBe('plugins/community/registry-starter');
 
     const sourceManifest = await readFile(
-      new URL(`../../../${sourceSubpath}/open-design.json`, import.meta.url),
+      new URL(`../../../${sourceSubpath}/sankiwork.json`, import.meta.url),
       'utf8',
     );
     expect(JSON.parse(sourceManifest)).toMatchObject({

@@ -1,6 +1,6 @@
 # SankiWork Plugin Registry — Plan (living)
 
-> **One sentence:** Turn the existing `open-design-marketplace.json` federation
+> **One sentence:** Turn the existing `sankiwork-marketplace.json` federation
 > into a real npm-/clawhub-/skills.sh-style **registry**: GitHub repo as the v1
 > storage backend, `sw` CLI as the canonical client, official site as one
 > rendered consumer, and the whole thing pluggable so a third party can stand
@@ -32,7 +32,7 @@ References (shape, not API):
   managed DB later must be a one-file swap, not a refactor.
 - [ ] **R3. `SKILL.md` floor stays portable.** A plugin published to OD's
   registry must still install cleanly as a plain agent skill in Claude
-  Code / Cursor / Codex / Gemini CLI / OpenClaw / Hermes. `open-design.json`
+  Code / Cursor / Codex / Gemini CLI / OpenClaw / Hermes. `sankiwork.json`
   remains an additive sidecar (per spec §1).
 - [x] **R4. Trust vocabulary is one set, everywhere.** Contracts, daemon, CLI,
   UI, and website all use **`official` / `trusted` / `restricted`**. (Today
@@ -73,7 +73,7 @@ Concrete relationship:
 
 ```text
 Plugin source repo
-  open-design.json includes plugin.repo
+  sankiwork.json includes plugin.repo
         |
         | sw plugin validate / pack / publish
         v
@@ -83,8 +83,8 @@ Plugin artifact
         v
 Registry index
   v1: sankiwork/plugin-registry or this repo
-      community/**/open-design.json
-      generated open-design-marketplace.json
+      community/**/sankiwork.json
+      generated sankiwork-marketplace.json
   future: DatabaseRegistryBackend
         |
         | sw marketplace search / sw plugin install
@@ -150,18 +150,18 @@ Create plugin
   -> sw plugin login/whoami through gh
   -> sw plugin publish
   -> GitHub registry PR
-  -> generated open-design-marketplace.json
+  -> generated sankiwork-marketplace.json
   -> Available for downstream users after refresh
 ```
 
 The `Create plugin` button should therefore launch an agent workflow that helps
-the user describe the plugin, writes `SKILL.md` and `open-design.json`, adds
+the user describe the plugin, writes `SKILL.md` and `sankiwork.json`, adds
 examples/preview metadata, validates locally, installs a test copy, packs it,
 and then drives the GitHub-backed publish PR. The CLI remains canonical; the
 agent is the product wrapper around the CLI workflow.
 
 v1 registry scope is intentionally simple: a GitHub repo with reviewable source
-entries plus a generated `open-design-marketplace.json`. The JSON is what
+entries plus a generated `sankiwork-marketplace.json`. The JSON is what
 daemon/CLI/UI fetch; the source entries are what humans review in PRs. This can
 start in the main SankiWork repo, but the code path must still be expressed as
 `RegistryBackend` so moving to `sankiwork/plugin-registry` or a database later
@@ -181,7 +181,7 @@ apps/daemon/src/registry/                ← side-effect zone
   ├── http-backend.ts                    ← already-exists shape (marketplace.json)
   ├── local-backend.ts                   ← dev/test fixture
   ├── cache.ts                           ← on-disk cache + ETag refresh
-  ├── lockfile.ts                        ← od-plugin-lock.json writer/reader
+  ├── lockfile.ts                        ← sw-plugin-lock.json writer/reader
   └── publish.ts                         ← orchestrates pack → fork → PR
 ```
 
@@ -215,7 +215,7 @@ own `marketplace.json` URL at it.
 sankiwork/plugin-registry/
 ├── plugins/
 │   └── <vendor>/<plugin-name>/
-│       ├── manifest.json              ← latest copy of open-design.json
+│       ├── manifest.json              ← latest copy of sankiwork.json
 │       ├── versions/
 │       │   ├── 0.1.0.json             ← frozen manifest snapshot per version
 │       │   └── 0.2.0.json
@@ -224,7 +224,7 @@ sankiwork/plugin-registry/
 │       └── tarball.txt                ← canonical archive URL (GitHub release)
 ├── marketplace.json                   ← generated index; what daemons fetch
 ├── schema/
-│   └── open-design.marketplace.v1.json
+│   └── sankiwork.marketplace.v1.json
 ├── .github/workflows/
 │   ├── validate-pr.yml                ← schema + manifest + license + a11y
 │   └── publish-index.yml              ← rebuild + commit marketplace.json
@@ -247,7 +247,7 @@ stable after publish; rename means new id plus alias/deprecation metadata.
 
 **Source repo policy:** accept "anything that packs". The source repo does not
 need a special layout if `sw plugin validate` and `sw plugin pack` pass. The
-manifest must include `plugin.repo` in `open-design.json`, pointing to the
+manifest must include `plugin.repo` in `sankiwork.json`, pointing to the
 canonical source repository or subdirectory.
 
 **Tarball fallback:** GitHub Releases are the default archive host, but raw
@@ -322,7 +322,7 @@ swap symlink, rollback on failure).
 Two consumers of the same `marketplace.json`:
 
 - **Official site (sanki-ai.cloud/plugins)** — static, SSG against
-  repo-owned `plugins/registry/*/open-design-marketplace.json` sources. Browse,
+  repo-owned `plugins/registry/*/sankiwork-marketplace.json` sources. Browse,
   search, copy install command, render plugin details, preview asset,
   capability & permission summary, version history, publisher links, and
   canonical SEO pages. `sanki-ai.cloud/marketplace` can be kept as an alias
@@ -369,7 +369,7 @@ This repo now has the first registry closure in place:
   source/ref, manifest digest, and archive integrity. Snapshot records carry
   the same audit trail for agent/runtime replay.
 - The packaged daemon seeds built-in `official` and `community` registry
-  sources from `plugins/registry/*/open-design-marketplace.json`. `official` is
+  sources from `plugins/registry/*/sankiwork-marketplace.json`. `official` is
   verified and can also hydrate bundled preinstalls; `community` is restricted
   by default and feeds Available entries for user-initiated installs.
 - Bundled official plugins now carry `sourceMarketplaceId=official` and
@@ -403,7 +403,7 @@ This repo now has the first registry closure in place:
   scaffold/validate/local install/pack/login/whoami/publish expectations.
 - Registry evaluation cases now live in
   [`docs/testing/plugin-registry-eval-cases.md`](../testing/plugin-registry-eval-cases.md).
-  The first covered set locks raw `open-design-marketplace.json` source input,
+  The first covered set locks raw `sankiwork-marketplace.json` source input,
   populated official seed loading, default community seed loading,
   provenance/trust inheritance, bundled official `Use` behavior in Available,
   direct GitHub imports, the Create/Publish agent handoff surfaces, version
@@ -495,7 +495,7 @@ first, headless, JSON-emitting.
   `/plugins` remains registry discovery/management.
 - [x] **P2.4 Agent-assisted Create plugin flow.** The `Create plugin` action
   should start an agent workflow that gathers intent, scaffolds the plugin,
-  writes `SKILL.md`/`open-design.json`, validates, installs a local test copy,
+  writes `SKILL.md`/`sankiwork.json`, validates, installs a local test copy,
   packs, checks `gh` login/whoami, and publishes by opening a GitHub registry
   PR through `sw plugin publish`. Current slice upgrades the product prompt,
   CLI wrapper, marketplace-json self-host publish, and tested GitHub PR
@@ -519,7 +519,7 @@ first, headless, JSON-emitting.
   external GitHub repo is an operational launch step, not a code blocker.
 - [x] **P3.2 Static site renderer.** `apps/landing-page` now
   statically generates `sanki-ai.cloud/plugins` and per-plugin detail routes
-  from `plugins/registry/*/open-design-marketplace.json` plus bundled official
+  from `plugins/registry/*/sankiwork-marketplace.json` plus bundled official
   manifests, with SEO metadata, search JSON, and `sankiwork://` detail links.
 - [x] **P3.3 Submission guide.** `docs/publishing-a-plugin.md` + zh-CN. The
   guide must be runnable end-to-end with `sw plugin init` →
@@ -530,7 +530,7 @@ first, headless, JSON-emitting.
   exit option exists.
 - [x] **P3.5 `sw plugin publish --to marketplace-json`.** Lets third-party
   catalog owners accept submissions from their own users using the same CLI by
-  writing/upserting their own static `open-design-marketplace.json`.
+  writing/upserting their own static `sankiwork-marketplace.json`.
 - [x] **P3.6 Registry doctor.** `sw marketplace doctor` validates every entry
   is downloadable, manifest parseable, checksum match, permissions present.
   Surface in web Sources tab too.
@@ -564,7 +564,7 @@ first, headless, JSON-emitting.
    but public publish requires the namespaced id.
 2. **Plugin source-of-truth repo.** The source repo can be any shape that
    survives `sw plugin validate` and `sw plugin pack`. Registry publish
-   requires a `plugin.repo` field in `open-design.json` pointing to source.
+   requires a `plugin.repo` field in `sankiwork.json` pointing to source.
 3. **Tarball hosting fallback.** If GitHub Releases are unavailable
    (enterprise / mirror), raw HTTPS or object-storage archive URLs are
    accepted with mandatory integrity hash.

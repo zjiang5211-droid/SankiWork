@@ -149,7 +149,7 @@ describe('/api/chat', () => {
       'sample-plugin',
     );
     await fsp.cp(baseFixtureDir, fixtureDir, { recursive: true });
-    const manifestPath = resolve(fixtureDir, 'open-design.json');
+    const manifestPath = resolve(fixtureDir, 'sankiwork.json');
     const manifest = JSON.parse(await fsp.readFile(manifestPath, 'utf8')) as {
       name: string;
       title: string;
@@ -1211,7 +1211,7 @@ process.stdin.resume();
 process.stdin.on('end', () => {
   const pluginDir = path.join(process.cwd(), 'generated-plugin');
   fs.mkdirSync(pluginDir, { recursive: true });
-  fs.writeFileSync(path.join(pluginDir, 'open-design.json'), JSON.stringify({ name: 'generated-plugin' }, null, 2));
+  fs.writeFileSync(path.join(pluginDir, 'sankiwork.json'), JSON.stringify({ name: 'generated-plugin' }, null, 2));
   fs.writeFileSync(path.join(pluginDir, 'SKILL.md'), '# Generated plugin\\n');
   console.log(JSON.stringify({ type: 'step_start' }));
   console.log(JSON.stringify({ type: 'text', part: { text: '我来帮你创建一个通用的 SankiWork 插件脚手架。先读取文档规范，再生成插件文件。' } }));
@@ -1227,7 +1227,7 @@ process.stdin.on('end', () => {
             agentId: 'opencode',
             projectId,
             conversationId,
-            pluginId: 'od-plugin-authoring',
+            pluginId: 'sw-plugin-authoring',
             message: '请创建一个可刷新、可审计、由 API 驱动的 SankiWork 插件脚手架。',
           }),
         });
@@ -1244,7 +1244,7 @@ process.stdin.on('end', () => {
         const filesResponse = await fetch(`${baseUrl}/api/projects/${projectId}/files`);
         expect(filesResponse.status).toBe(200);
         const filesBody = await filesResponse.json() as { files: Array<{ name: string }> };
-        expect(filesBody.files.some((file) => file.name === 'generated-plugin/open-design.json')).toBe(true);
+        expect(filesBody.files.some((file) => file.name === 'generated-plugin/sankiwork.json')).toBe(true);
         expect(filesBody.files.some((file) => file.name === 'generated-plugin/SKILL.md')).toBe(true);
       },
     );
@@ -1291,7 +1291,7 @@ process.stdin.on('end', () => {
             agentId: 'opencode',
             projectId,
             conversationId,
-            pluginId: 'od-plugin-authoring',
+            pluginId: 'sw-plugin-authoring',
             message: '请创建一个可刷新、可审计、由 API 驱动的 SankiWork 插件脚手架。',
           }),
         });
@@ -1305,7 +1305,7 @@ process.stdin.on('end', () => {
           pluginId: string | null;
           appliedPluginSnapshotId: string | null;
         };
-        expect(pluginId).toBe('od-plugin-authoring');
+        expect(pluginId).toBe('sw-plugin-authoring');
         expect(appliedPluginSnapshotId).toBeTruthy();
 
         const eventsResponse = await fetch(`${baseUrl}/api/runs/${runId}/events`);
@@ -1323,7 +1323,7 @@ process.stdin.on('end', () => {
     );
   });
   it('does not fail plugin authoring when the turn-1 reply is a clarifying question-form awaiting the brief', async () => {
-    // The `od-plugin-authoring` plugin's turn-1 flow is to emit a
+    // The `sw-plugin-authoring` plugin's turn-1 flow is to emit a
     // `<question-form>` collecting the plugin brief, then STOP and wait for
     // the user to answer — artifacts only land on the follow-up turn. The
     // missing-artifacts guard must not treat that expected pause as a
@@ -1369,7 +1369,7 @@ process.stdin.on('end', () => {
             agentId: 'opencode',
             projectId,
             conversationId,
-            pluginId: 'od-plugin-authoring',
+            pluginId: 'sw-plugin-authoring',
             message: '帮我做个插件。',
           }),
         });
@@ -1433,7 +1433,7 @@ process.stdin.on('end', () => {
             agentId: 'opencode',
             projectId,
             conversationId,
-            pluginId: 'od-plugin-authoring',
+            pluginId: 'sw-plugin-authoring',
             message: '帮我做个插件。',
           }),
         });
@@ -1497,7 +1497,7 @@ process.stdin.on('end', () => {
             agentId: 'opencode',
             projectId,
             conversationId,
-            pluginId: 'od-plugin-authoring',
+            pluginId: 'sw-plugin-authoring',
             message: '帮我做个插件。',
           }),
         });
@@ -1559,7 +1559,7 @@ process.stdin.on('end', () => {
             agentId: 'opencode',
             projectId,
             conversationId,
-            pluginId: 'od-plugin-authoring',
+            pluginId: 'sw-plugin-authoring',
             message: '帮我做个插件。',
           }),
         });
@@ -1806,7 +1806,7 @@ process.stdin.on('data', (chunk) => {
 });
 process.stdin.on('end', () => {
   const checks = [
-    prompt.includes('## Composed skill — open-design-landing-deck') ? 'has-deck-skill-header' : 'missing-deck-skill-header',
+    prompt.includes('## Composed skill — sankiwork-landing-deck') ? 'has-deck-skill-header' : 'missing-deck-skill-header',
     prompt.includes('# Slide deck — fixed framework (this is non-negotiable for deck mode)') ? 'has-deck-framework' : 'missing-deck-framework',
   ];
   console.log(JSON.stringify({ type: 'step_start' }));
@@ -1822,7 +1822,7 @@ process.stdin.on('end', () => {
           body: JSON.stringify({
             agentId: 'opencode',
             message: 'build an editorial brand deck',
-            skillIds: ['open-design-landing-deck'],
+            skillIds: ['sankiwork-landing-deck'],
           }),
         });
         const body = await response.text();
@@ -1848,7 +1848,7 @@ process.stdin.on('data', (chunk) => {
 process.stdin.on('end', () => {
   const checks = [
     prompt.includes('# imagegen') ? 'has-base-image-skill-body' : 'missing-base-image-skill-body',
-    prompt.includes('## Composed skill — open-design-landing-deck') ? 'has-composed-deck-skill-header' : 'missing-composed-deck-skill-header',
+    prompt.includes('## Composed skill — sankiwork-landing-deck') ? 'has-composed-deck-skill-header' : 'missing-composed-deck-skill-header',
     prompt.includes('## Media generation contract (load-bearing — overrides softer wording above)') ? 'has-image-contract' : 'missing-image-contract',
     prompt.includes('# Slide deck — fixed framework (this is non-negotiable for deck mode)') ? 'unexpected-deck-framework' : 'kept-deck-framework-out',
   ];
@@ -1866,7 +1866,7 @@ process.stdin.on('end', () => {
             agentId: 'opencode',
             message: 'generate an image while also referencing a deck template',
             skillId: 'imagegen',
-            skillIds: ['open-design-landing-deck'],
+            skillIds: ['sankiwork-landing-deck'],
           }),
         });
         const body = await response.text();
@@ -2222,10 +2222,10 @@ process.stdin.on('data', (chunk) => {
   prompt += chunk;
 });
 process.stdin.on('end', () => {
-  const hasDuplicateComposedAlias = prompt.includes('## Composed skill — open-design-landing');
+  const hasDuplicateComposedAlias = prompt.includes('## Composed skill — sankiwork-landing');
   const checks = [
     hasDuplicateComposedAlias ? 'duplicate-alias-composed-skill' : 'deduped-alias-composed-skill',
-    prompt.includes('# open-design-landing') ? 'has-base-alias-skill-body' : 'missing-base-alias-skill-body',
+    prompt.includes('# sankiwork-landing') ? 'has-base-alias-skill-body' : 'missing-base-alias-skill-body',
   ];
   console.log(JSON.stringify({ type: 'step_start' }));
   console.log(JSON.stringify({ type: 'text', part: { text: checks.join('\\n') } }));
@@ -2241,7 +2241,7 @@ process.stdin.on('end', () => {
             agentId: 'opencode',
             message: 'build the SankiWork landing page',
             skillId: 'editorial-collage',
-            skillIds: ['open-design-landing'],
+            skillIds: ['sankiwork-landing'],
           }),
         });
         const body = await response.text();

@@ -6,7 +6,7 @@
  * SW_PROMPT_CORE=slim); classic remains the fallback.
  *
  * Runtime-owned conditional layers stay outside this document:
- * - The od-default task-type router form lives in its active skill.
+ * - The sw-default task-type router form lives in its active skill.
  * - Per-platform delivery contracts are injected only when a project names
  *   a platform or multiple targets.
  * - Deck framework rules remain in the deck-gated directive.

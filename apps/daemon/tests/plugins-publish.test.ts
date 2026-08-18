@@ -68,8 +68,8 @@ describe('buildPublishLink', () => {
     const link = buildPublishLink({ catalog: 'sankiwork', meta: META });
     expect(link.catalogLabel).toBe('nexu-io/open-design');
     expect(link.url).toMatch(/^https:\/\/github\.com\/nexu-io\/open-design\/issues\/new\?/);
-    expect(link.prBody).toContain('plugins/community/<plugin-name>/open-design.json');
-    expect(link.prBody).toContain('plugins/registry/community/open-design-marketplace.json');
+    expect(link.prBody).toContain('plugins/community/<plugin-name>/sankiwork.json');
+    expect(link.prBody).toContain('plugins/registry/community/sankiwork-marketplace.json');
   });
 
   it('falls back to owner/repo placeholder when repoUrl is missing for skills-sh', () => {
@@ -105,7 +105,7 @@ describe('upsertMarketplaceJsonEntry', () => {
       version: '1.0.0',
       title: 'Sample Plugin',
       publisher: {
-        github: 'sankiwork',
+        github: 'open-design',
       },
     });
     expect(outcome.manifest.plugins).toHaveLength(1);

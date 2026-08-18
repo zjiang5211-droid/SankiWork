@@ -234,8 +234,8 @@ page templates, and image/video/audio templates.
 **Accept when:**
 
 - Bundled first-party plugins live under `plugins/_official/<tier>/<id>/`; portable specification examples live under `plugins/spec/examples/<id>/` and are not treated as installed catalog entries.
-- Each portable plugin has a `SKILL.md`. SankiWork display, input, preview, pipeline, capability, and source metadata lives in `open-design.json`, not in the portable skill body.
-- `open-design.json` conforms to `docs/schemas/open-design.plugin.v1.json` and references only supported atoms, design systems, craft docs, assets, scripts, MCP servers, or connectors.
+- Each portable plugin has a `SKILL.md`. SankiWork display, input, preview, pipeline, capability, and source metadata lives in `sankiwork.json`, not in the portable skill body.
+- `sankiwork.json` conforms to `docs/schemas/sankiwork.plugin.v1.json` and references only supported atoms, design systems, craft docs, assets, scripts, MCP servers, or connectors.
 - Plugin content stays portable and does not import app-private source.
 - Contribution-facing spec documentation updates its matching `*.zh-CN.md` mirror.
 - Validation follows `plugins/AGENTS.md`, including plugin-runtime typechecking and `sw plugin validate` when the built CLI is available.
@@ -243,9 +243,9 @@ page templates, and image/video/audio templates.
 **Block when:**
 
 - A spec example is placed in the bundled registration subtree or described as auto-installed.
-- SankiWork-only marketplace/runtime metadata is embedded in `SKILL.md` instead of `open-design.json`.
+- SankiWork-only marketplace/runtime metadata is embedded in `SKILL.md` instead of `sankiwork.json`.
 - The plugin imports app internals, bypasses supported extension points, or adds new runtime semantics without updating the plugin contract and consumers.
-- An enriched or bundled example lacks its skill, `open-design.json`, referenced assets, or required bilingual documentation update.
+- An enriched or bundled example lacks its skill, `sankiwork.json`, referenced assets, or required bilingual documentation update.
 
 ### 4.7 Craft additions (`craft/`)
 

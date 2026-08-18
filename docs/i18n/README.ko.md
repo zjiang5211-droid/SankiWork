@@ -365,7 +365,7 @@ sw skills list --json
 
 **왜 MCP인가?** 반복할 때마다 zip을 내보내고 다시 첨부하는 일은 흐름을 끊습니다. MCP는 디자인 소스를 직접 노출합니다 — 에이전트는 언제나 살아 있는 파일을 봅니다.
 
-**처음부터 시작하는 에이전트라면,** 설치 프로그램이 `~/.config/<agent>/open-design.json`(또는 플랫폼에 해당하는 경로)과 복사해 붙여넣을 수 있는 MCP 스니펫을 배치합니다. Cursor는 원클릭 딥링크를, Claude Code는 `claude mcp add-json` 한 줄을, 그 외 모든 에이전트는 각자의 설정이 기대하는 스키마의 JSON을 받습니다. 전체 에이전트별 흐름 → 데스크톱 앱의 **Settings → MCP server**, 또는 [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
+**처음부터 시작하는 에이전트라면,** 설치 프로그램이 `~/.config/<agent>/sankiwork.json`(또는 플랫폼에 해당하는 경로)과 복사해 붙여넣을 수 있는 MCP 스니펫을 배치합니다. Cursor는 원클릭 딥링크를, Claude Code는 `claude mcp add-json` 한 줄을, 그 외 모든 에이전트는 각자의 설정이 기대하는 스키마의 JSON을 받습니다. 전체 에이전트별 흐름 → 데스크톱 앱의 **Settings → MCP server**, 또는 [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
 
 **보안 모델.** 기본은 읽기 전용이며, 데몬은 `127.0.0.1`에 바인딩되고, SSRF는 프록시 경계에서 차단됩니다. LAN 노출에는 명시적인 `SW_BIND_HOST`와 `SW_ALLOWED_ORIGINS`가 필요합니다. 커넥터 자격 증명과 라이브 아티팩트 미리보기 경로는 어떤 경우에도 루프백 전용으로 유지됩니다.
 
@@ -439,11 +439,11 @@ sw skills list --json
 
 ## 플러그인
 
-**277개의 공식 플러그인과 183개의 리믹스 가능한 예제**가 [`plugins/_official/`](../../plugins/_official/)에 있습니다. 각 항목은 `open-design.json`과 타입별 payload를 갖는 이식 가능한 디렉터리입니다. 워크플로는 `SKILL.md`, 미디어 템플릿은 `template.json`, 디자인 시스템은 `DESIGN.md`를 사용합니다.
+**277개의 공식 플러그인과 183개의 리믹스 가능한 예제**가 [`plugins/_official/`](../../plugins/_official/)에 있습니다. 각 항목은 `sankiwork.json`과 타입별 payload를 갖는 이식 가능한 디렉터리입니다. 워크플로는 `SKILL.md`, 미디어 템플릿은 `template.json`, 디자인 시스템은 `DESIGN.md`를 사용합니다.
 
 | 카테고리 | 개수 | 내용 |
 |---|---|---|
-| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | 완전한 디자인 시나리오 — [`od-default`](../../plugins/_official/scenarios/od-default/), [`od-design-refine`](../../plugins/_official/scenarios/od-design-refine/), [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/), [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/), [`od-react-export`](../../plugins/_official/scenarios/od-react-export/), [`od-nextjs-export`](../../plugins/_official/scenarios/od-nextjs-export/), [`od-vue-export`](../../plugins/_official/scenarios/od-vue-export/), [`od-media-generation`](../../plugins/_official/scenarios/od-media-generation/), [`od-new-generation`](../../plugins/_official/scenarios/od-new-generation/), [`od-tune-collab`](../../plugins/_official/scenarios/od-tune-collab/), [`od-plugin-authoring`](../../plugins/_official/scenarios/od-plugin-authoring/), [`od-share-to-community`](../../plugins/_official/scenarios/od-share-to-community/), [`od-web-effect-extractor`](../../plugins/_official/scenarios/od-web-effect-extractor/) |
+| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | 완전한 디자인 시나리오 — [`sw-default`](../../plugins/_official/scenarios/sw-default/), [`sw-design-refine`](../../plugins/_official/scenarios/sw-design-refine/), [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/), [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/), [`sw-react-export`](../../plugins/_official/scenarios/sw-react-export/), [`sw-nextjs-export`](../../plugins/_official/scenarios/sw-nextjs-export/), [`sw-vue-export`](../../plugins/_official/scenarios/sw-vue-export/), [`sw-media-generation`](../../plugins/_official/scenarios/sw-media-generation/), [`sw-new-generation`](../../plugins/_official/scenarios/sw-new-generation/), [`sw-tune-collab`](../../plugins/_official/scenarios/sw-tune-collab/), [`sw-plugin-authoring`](../../plugins/_official/scenarios/sw-plugin-authoring/), [`sw-share-to-community`](../../plugins/_official/scenarios/sw-share-to-community/), [`sw-web-effect-extractor`](../../plugins/_official/scenarios/sw-web-effect-extractor/) |
 | [`image-templates/`](../../plugins/_official/image-templates/) | 45 | 원샷 이미지 프롬프트 — 에디토리얼, 시네마틱, 제품, 인물 |
 | [`video-templates/`](../../plugins/_official/video-templates/) | 63 | HyperFrames / Seedance / Veo 모션 템플릿 |
 | [`design-systems/`](../../plugins/_official/design-systems/) | 143 | 플러그인으로 감싼 브랜드 `DESIGN.md` |
@@ -455,8 +455,8 @@ sw skills list --json
 ### 플러그인이 할 수 있는 일
 
 - 🤖 **어떤 코딩 에이전트에서든 실행** — [Claude Code](../../docs/agent-adapters.md), Codex, Cursor, Copilot, [OpenClaw](https://github.com/openclaw/openclaw), [Antigravity](https://antigravity.google), Hermes, Kimi… 에이전트가 이미 알고 있는 동일한 스킬 프로토콜을 통해.
-- 🔁 **Figma / Pencil 워크플로 마이그레이션** → React, Next.js, 또는 Vue 소스. [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/)을 참고하세요.
-- 🛠️ **기존 코드베이스를 브랜드 사양에 맞게 새롭게** — 플러그인을 `git` 저장소 + `DESIGN.md`에 겨누면 PR을 받습니다. [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/)을 참고하세요.
+- 🔁 **Figma / Pencil 워크플로 마이그레이션** → React, Next.js, 또는 Vue 소스. [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/)을 참고하세요.
+- 🛠️ **기존 코드베이스를 브랜드 사양에 맞게 새롭게** — 플러그인을 `git` 저장소 + `DESIGN.md`에 겨누면 PR을 받습니다. [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/)을 참고하세요.
 - 💾 **커스텀 워크플로 영구 저장** — 팀의 재사용 가능한 템플릿이 기본 제공 템플릿 옆에 놓입니다.
 
 ### 플러그인 사용하기
@@ -470,22 +470,22 @@ sw skills list --json
 ```bash
 sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
 sw plugin search "landing page"      # search by keyword
-sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-sw plugin apply od-default --input brief="a one-page pitch for our seed round"
-sw plugin upgrade od-default         # upgrade
-sw plugin uninstall od-default       # uninstall
+sw plugin info sw-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install sw-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply sw-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade sw-default         # upgrade
+sw plugin uninstall sw-default       # uninstall
 ```
 
 모든 명령은 `--json`을 지원하므로 `jq` / `xargs`를 거쳐 자동화로 파이프할 수 있습니다.
 
 ### 플러그인 만들기
 
-SankiWork 플러그인에는 `open-design.json`과 타입별 payload가 필요합니다. 스킬과 시나리오는 `SKILL.md`도 포함하고 다른 타입은 자체 payload를 사용합니다:
+SankiWork 플러그인에는 `sankiwork.json`과 타입별 payload가 필요합니다. 스킬과 시나리오는 `SKILL.md`도 포함하고 다른 타입은 자체 payload를 사용합니다:
 
 ```
 my-plugin/
-├── open-design.json    ← required: marketplace metadata + inputs + pipeline + capabilities
+├── sankiwork.json    ← required: marketplace metadata + inputs + pipeline + capabilities
 ├── SKILL.md            ← required for agent-skill/scenario entries; omit for other plugin types
 ├── README.md           ← optional: usage, install, registry links
 ├── preview/            ← optional: index.html / poster.png (strongly recommended for visual plugins)
@@ -605,7 +605,7 @@ SankiWork가 계속 나아가는 것은 기여자들 — 디자이너, 엔지니
 |---|---|---|
 | 새 **스킬** | `SKILL.md` + `assets/` + `references/`가 있는 폴더를 넣기 | [`skills/`](../../skills/) · 사양은 [`docs/skills-protocol.md`](../../docs/skills-protocol.md)에 |
 | 새 **디자인 시스템** | `DESIGN.md` 중심의 패키지를 넣고 필요하면 `manifest.json`, `tokens.css`, 컴포넌트, 에셋, 출처 정보를 추가 | [`design-systems/<brand>/`](../../design-systems/) |
-| 새 **플러그인** | 카테고리 폴더 아래에 `open-design.json` + 유형별 페이로드를 넣기 | [`plugins/community/`](../../plugins/community/) · 사양은 [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md)에 · 에이전트 개발 가이드는 [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md)에 |
+| 새 **플러그인** | 카테고리 폴더 아래에 `sankiwork.json` + 유형별 페이로드를 넣기 | [`plugins/community/`](../../plugins/community/) · 사양은 [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md)에 · 에이전트 개발 가이드는 [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md)에 |
 | 새 **코딩 에이전트 CLI** 지원 | Runtime 정의 + registry entry; 새 wire format에만 parser 추가 | [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runtimes/defs/) |
 | 버그 수정 또는 UI 다듬기 | [`good-first-issue`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) 라벨 둘러보기 | [Issues →](https://github.com/nexu-io/open-design/issues) |
 | 문서 번역 | `README.<lang>.md` 파일 업데이트 | [`TRANSLATIONS.md`](../../TRANSLATIONS.md) |

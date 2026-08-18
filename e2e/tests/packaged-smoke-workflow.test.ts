@@ -1054,7 +1054,7 @@ process.stdin.on("end", () => {
     // release/** is guarded by the "Protected branches (preview/*, release/v*)" ruleset whose
     // pull_request rule rejects a direct push (GH013) unless the pusher is a bypass actor. The
     // release-cut bake writes the authoritative manifest straight onto the release branch, so it
-    // must push as open-design-bot — a bypass actor on that ruleset — not github-actions[bot],
+    // must push as sankiwork-bot — a bypass actor on that ruleset — not github-actions[bot],
     // which is NOT and gets rejected (this stranded release/v0.14.2's manifest). These three auth
     // invariants only work together; a refactor that drops any one silently reintroduces the
     // GH013 regression, so lock them here rather than rely on YAML review.
@@ -1064,7 +1064,7 @@ process.stdin.on("end", () => {
     //    token on push and re-authenticate as github-actions[bot] (the same override fixed in the
     //    post-merge bake — #5357).
     expect(workflow).toContain("persist-credentials: false");
-    // 2. The run mints an open-design-bot token via the BOT_APP_* creds — the App that IS a bypass
+    // 2. The run mints an sankiwork-bot token via the BOT_APP_* creds — the App that IS a bypass
     //    actor on the release ruleset. RELEASE_BOT_APP_ID (used by the post-merge bake) is a
     //    different App and is NOT a bypass actor, so pin the correct credentials, not just the
     //    generic token action.
@@ -2582,11 +2582,11 @@ process.stdin.on("end", () => {
       expect(stagingDeployWorkflow).toContain("Prepare staging Pages configuration");
       expect(stagingDeployWorkflow).toContain("cp apps/landing-page/wrangler.staging.toml apps/landing-page/wrangler.toml");
       expect(stagingDeployWorkflow).toContain('wranglerVersion: "4.110.0"');
-      expect(stagingDeployWorkflow).toContain("d1 migrations apply open-design-landing-staging-attribution --remote");
+      expect(stagingDeployWorkflow).toContain("d1 migrations apply sankiwork-landing-staging-attribution --remote");
       expect(stagingDeployWorkflow).not.toContain("--config wrangler.staging.toml");
     }
     expect(productionWorkflow).toContain('wranglerVersion: "4.110.0"');
-    expect(productionWorkflow).toContain("d1 migrations apply open-design-landing-attribution --remote");
+    expect(productionWorkflow).toContain("d1 migrations apply sankiwork-landing-attribution --remote");
     expect(productionWorkflow).toContain("Publish immutable DeepSeek Harness bootstrap installers to R2");
     expect(productionWorkflow).toContain("DSH_BOOTSTRAP_VERSION: v1");
     expect(productionWorkflow).toContain("DSH_BOOTSTRAP_SOURCE_DIR: apps/landing-page/public");

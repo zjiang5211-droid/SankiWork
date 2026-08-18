@@ -2,7 +2,7 @@ import type { Express } from 'express';
 import type { SkillInfo } from './skills.js';
 import type { DesignSystemSummary } from './design-systems/index.js';
 import type { RoutineRoutesService } from './routes/routine.js';
-import type { SankiWorkPublicMetadataService } from './services/open-design-public-metadata.js';
+import type { SankiWorkPublicMetadataService } from './services/sankiwork-public-metadata.js';
 import type { ResourceHubPrincipal } from './collab/resource-principal.js';
 import type {
   AuthorizeProjectRequest,

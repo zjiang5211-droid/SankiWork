@@ -35,7 +35,7 @@ beforeEach(async () => {
   pluginsRoot = path.join(tmp, 'plugins');
   sourceFolder = path.join(tmp, 'source-plugin');
   await mkdir(sourceFolder, { recursive: true });
-  await writeFile(path.join(sourceFolder, 'open-design.json'), JSON.stringify({
+  await writeFile(path.join(sourceFolder, 'sankiwork.json'), JSON.stringify({
     name: 'event-fixture',
     version: '1.0.0',
     title: 'Event fixture',
@@ -127,7 +127,7 @@ describe('installer producer hooks', () => {
       source: sourceFolder,
       roots: { userPluginsRoot: pluginsRoot },
     }));
-    await writeFile(path.join(sourceFolder, 'open-design.json'), JSON.stringify({
+    await writeFile(path.join(sourceFolder, 'sankiwork.json'), JSON.stringify({
       name: 'event-fixture',
       version: '1.1.0',
       title: 'Event fixture',

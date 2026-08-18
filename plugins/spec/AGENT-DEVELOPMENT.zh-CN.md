@@ -9,7 +9,7 @@
 创建一个可移植的 SankiWork 插件，使它可以：
 
 1. 通过 `SKILL.md` 作为普通 Agent Skill 运行。
-2. 通过 `open-design.json` 安装到 SankiWork。
+2. 通过 `sankiwork.json` 安装到 SankiWork。
 3. 在本地完成校验。
 4. 发布为独立开源仓库，或作为 PR 提交给 SankiWork。
 
@@ -18,7 +18,7 @@
 编辑前先阅读：
 
 - `plugins/spec/SPEC.zh-CN.md`
-- `docs/schemas/open-design.plugin.v1.json`
+- `docs/schemas/sankiwork.plugin.v1.json`
 - 需要更深入产品语义时阅读 `docs/plugins-spec.zh-CN.md`
 - 当用户要求发布到 SankiWork 以外的 registry 时，阅读 `plugins/spec/PUBLISHING-REGISTRIES.zh-CN.md`
 - `plugins/spec/examples/` 下最接近的示例
@@ -31,12 +31,12 @@
 ```text
 <plugin-id>/
   SKILL.md
-  open-design.json
+  sankiwork.json
   README.md
 ```
 
 3. 保持 `SKILL.md` 可移植。它可以提到 SankiWork 行为，但核心 workflow 必须在任何 Agent Skills 兼容 agent 中都能理解。
-4. 把 OD 专属 display、`specVersion`、插件 `version`、inputs、preview、pipeline、atoms、connectors 和 capabilities 放进 `open-design.json`。
+4. 把 OD 专属 display、`specVersion`、插件 `version`、inputs、preview、pipeline、atoms、connectors 和 capabilities 放进 `sankiwork.json`。
 5. 只有在能明显提升 agent 输出质量时，才添加 `examples/`、`preview/`、`assets/` 或 `references/`。
 6. 当插件行为足够复杂、容易回归时，添加 `evals/evals.json`。
 7. 如果要对外发布，准备适配 skills.sh、ClawHub 和 canonical GitHub source 的 registry-safe README 段落。
@@ -47,7 +47,7 @@
 
 - `SKILL.md` 有清晰的 “Use this plugin when...” 触发描述。
 - workflow 写明期望输出文件或 handoff 结果。
-- `open-design.json` 符合 v1 形态，并显式携带 `specVersion` 与插件 `version`。
+- `sankiwork.json` 符合 v1 形态，并显式携带 `specVersion` 与插件 `version`。
 - 声明的 atoms 是已知一方 atoms，或明确标注为未来工作。
 - capabilities 是最小必要集合。
 - 视觉类插件包含 preview 或具体示例输出。

@@ -263,7 +263,7 @@ const RUNNING_POLL_MS = 2000;
 const MIN_SPLASH_MS = 2000;
 // While the splash is up, the real web app loads in a hidden main window. We
 // reveal it only once the web bundle reports it has actually mounted (it sets
-// `data-od-app-mounted="1"` on first paint of the real UI), so the user never
+// `data-sw-app-mounted="1"` on first paint of the real UI), so the user never
 // sees the web's own "Loading SankiWork…" shell flash between the splash and
 // the app. Poll cadence + a hard ceiling so a missing mount signal can never
 // strand the user on the splash forever.
@@ -2748,7 +2748,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
   };
 
   // Hold the splash until BOTH (a) the web bundle reports it has mounted — it
-  // sets `data-od-app-mounted="1"` on first paint of the real UI — so we never
+  // sets `data-sw-app-mounted="1"` on first paint of the real UI — so we never
   // reveal the web's own dark "Loading SankiWork…" shell, and (b) the splash
   // has been up at least MIN_SPLASH_MS so the brand clip plays through. A hard
   // ceiling guarantees the user is never stranded on the splash if the mount
@@ -2762,7 +2762,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     const deadline = Date.now() + WEB_MOUNT_REVEAL_TIMEOUT_MS;
     while (!stopped && !window.isDestroyed() && Date.now() < deadline) {
       const mounted = await window.webContents
-        .executeJavaScript(`document.documentElement.getAttribute("data-od-app-mounted") === "1"`, true)
+        .executeJavaScript(`document.documentElement.getAttribute("data-sw-app-mounted") === "1"`, true)
         .catch(() => false);
       if (mounted === true) break;
       await delay(WEB_MOUNT_POLL_MS);

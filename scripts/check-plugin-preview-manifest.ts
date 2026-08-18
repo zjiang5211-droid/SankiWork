@@ -41,7 +41,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-/** Every plugin id (`name` in open-design.json) shipped under the given roots. */
+/** Every plugin id (`name` in sankiwork.json) shipped under the given roots. */
 export async function collectPluginIds(
   roots: readonly string[] = PLUGIN_ROOTS,
 ): Promise<Set<string>> {
@@ -60,7 +60,7 @@ export async function collectPluginIds(
         pending.push(path.join(dir, entry.name));
         continue;
       }
-      if (entry.name !== "open-design.json") continue;
+      if (entry.name !== "sankiwork.json") continue;
       try {
         const manifest: unknown = JSON.parse(await readFile(path.join(dir, entry.name), "utf8"));
         if (isRecord(manifest) && typeof manifest.name === "string" && manifest.name.length > 0) {

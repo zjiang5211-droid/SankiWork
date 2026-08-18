@@ -762,7 +762,7 @@ export const zhTW: Dict = {
   "collabPresence.viewingProjectOther": "正在查看此專案",
   "entry.followXLabel": "在 X 上追蹤 @OpenDesignHQ",
   "entry.followThreadsLabel": "Follow SankiWork on Threads",
-  "entry.followInstagramLabel": "在 Instagram 上追蹤 @opendesign.ai",
+  "entry.followInstagramLabel": "在 Instagram 上追蹤 @sankiwork.ai",
   "entry.followLinkedinLabel": "在 LinkedIn 上追蹤 SankiWork",
   "entry.followXiaohongshuLabel": "在小紅書上追蹤 SankiWork",
   "entry.youtubeLabel": "SankiWork on YouTube",
@@ -3173,9 +3173,9 @@ export const zhTW: Dict = {
     "滿意的專案可透過「分享」選單儲存為範本，下次直接複用。",
   "designFiles.usefulInfoTip15": "部署後可以直接生成社群分享卡片。",
   "designFiles.usefulInfoTip16":
-    "在 Threads 上追蹤 @opendesign.ai，看團隊幕後動態。",
+    "在 Threads 上追蹤 @sankiwork.ai，看團隊幕後動態。",
   "designFiles.usefulInfoTip17":
-    "在 Instagram 上追蹤 @opendesign.ai，獲取設計靈感。",
+    "在 Instagram 上追蹤 @sankiwork.ai，獲取設計靈感。",
   "designFiles.usefulInfoTip18":
     "在 YouTube 上訂閱 SankiWork，觀看教學和示範。",
   "designFiles.usefulInfoTip19":

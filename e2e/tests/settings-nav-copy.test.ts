@@ -4,7 +4,7 @@
  * When the daemon or the agent tells a user to go fix something —
  * "no Fal API key — configure it in Settings → …" — it names a place in the
  * app. Nothing tied that name to the screen it points at, so it drifted: media
- * errors and the od-media-generation skill kept pointing at a section called
+ * errors and the sw-media-generation skill kept pointing at a section called
  * "Media" after the nav item had been renamed to "Media providers"
  * (`媒体生成提供商` in zh-CN), and users following the instruction found no such
  * entry. That was V0.19.1 acceptance bug recvre8FrTE2Oa.
@@ -175,7 +175,7 @@ describe('destinations quoted to users', () => {
   });
 
   it.each([
-    'plugins/_official/scenarios/od-media-generation/SKILL.md',
+    'plugins/_official/scenarios/sw-media-generation/SKILL.md',
     'apps/daemon/src/prompts/system.ts',
     'packages/contracts/src/prompts/system.ts',
     'skills/hatch-pet/SKILL.md',

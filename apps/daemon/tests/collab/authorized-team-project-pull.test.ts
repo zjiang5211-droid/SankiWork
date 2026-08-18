@@ -91,7 +91,7 @@ describe('authorized staged team-project pull', () => {
         calls.push({ args, workspaceId });
         const stageDir = args[2]!;
         expect(path.dirname(stageDir)).toBe(root);
-        expect(path.basename(stageDir)).toMatch(/^\.project-1\.sankiwork-pull-stage-/u);
+        expect(path.basename(stageDir)).toMatch(/^\.project-1\.sw-pull-stage-/u);
         expect(await readdir(stageDir)).toEqual([]);
         await writeFile(path.join(stageDir, 'index.html'), 'new');
         return JSON.stringify(receipt());
@@ -117,7 +117,7 @@ describe('authorized staged team-project pull', () => {
     expect(await readFile(path.join(staged.stageDir, 'index.html'), 'utf8')).toBe('new');
     expect(await readFile(path.join(liveDir, 'index.html'), 'utf8')).toBe('old');
     await staged.cleanup();
-    expect((await readdir(root)).filter((name) => name.includes('.sankiwork-pull-stage-'))).toEqual([]);
+    expect((await readdir(root)).filter((name) => name.includes('.sw-pull-stage-'))).toEqual([]);
   });
 
   it.each([
@@ -229,7 +229,7 @@ describe('authorized staged team-project pull', () => {
     })).rejects.toThrow();
 
     expect(await readFile(path.join(liveDir, 'index.html'), 'utf8')).toBe('old');
-    expect((await readdir(root)).filter((name) => name.includes('.sankiwork-pull-stage-'))).toEqual([]);
+    expect((await readdir(root)).filter((name) => name.includes('.sw-pull-stage-'))).toEqual([]);
   });
 
   it('cleans the owned stage and leaves live untouched when aborted', async () => {
@@ -265,7 +265,7 @@ describe('authorized staged team-project pull', () => {
 
     await expect(staged).rejects.toMatchObject({ name: 'AbortError' });
     expect(await readFile(path.join(liveDir, 'index.html'), 'utf8')).toBe('old');
-    expect((await readdir(root)).filter((name) => name.includes('.sankiwork-pull-stage-'))).toEqual([]);
+    expect((await readdir(root)).filter((name) => name.includes('.sw-pull-stage-'))).toEqual([]);
   });
 
   it('adopts the materialized inode when Vela replaces the initially-empty stage', async () => {
@@ -290,7 +290,7 @@ describe('authorized staged team-project pull', () => {
     await staged.cleanup();
 
     expect(await readFile(path.join(liveDir, 'index.html'), 'utf8')).toBe('old');
-    expect((await readdir(root)).filter((name) => name.includes('.sankiwork-pull-stage-'))).toEqual([]);
+    expect((await readdir(root)).filter((name) => name.includes('.sw-pull-stage-'))).toEqual([]);
   });
 
   it('restores and preserves a swapped caller directory raced into cleanup', async () => {

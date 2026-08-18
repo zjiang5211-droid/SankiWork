@@ -89,7 +89,7 @@ async function listManifests(): Promise<string[]> {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {
         await walk(full);
-      } else if (entry.isFile() && entry.name === 'open-design.json') {
+      } else if (entry.isFile() && entry.name === 'sankiwork.json') {
         out.push(full);
       }
     }
@@ -233,8 +233,8 @@ function classify(manifest: Manifest, relPath: string): { scenario: Scenario; re
     taskKind === 'figma-migration' ||
     taskKind === 'code-migration' ||
     taskKind === 'tune-collab' ||
-    id === 'od-plugin-authoring' ||
-    id === 'od-design-refine' ||
+    id === 'sw-plugin-authoring' ||
+    id === 'sw-design-refine' ||
     id.endsWith('-export') ||
     id.startsWith('od-')
       && (id.includes('export') || id.includes('migration') || id.includes('tune') || id.includes('refine'))

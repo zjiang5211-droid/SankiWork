@@ -147,13 +147,13 @@ describe('renderSlimCoreCharter — frozen protocol markers', () => {
 });
 
 describe('slim core — moved-out content stays out (ownership)', () => {
-  it('carries no task-type router form; od-default SKILL.md owns it', () => {
+  it('carries no task-type router form; sw-default SKILL.md owns it', () => {
     const charter = renderSlimCoreCharter('filesystem');
     expect(charter).not.toContain('<question-form id="task-type"');
     // The single source of truth ships with the router skill and reaches the
-    // prompt via the `## Active skill` section when od-default is active.
+    // prompt via the `## Active skill` section when sw-default is active.
     const routerSkill = readFileSync(
-      path.join(repoRoot, 'plugins/_official/scenarios/od-default/SKILL.md'),
+      path.join(repoRoot, 'plugins/_official/scenarios/sw-default/SKILL.md'),
       'utf8',
     );
     expect(routerSkill).toContain('<question-form id="task-type"');
@@ -251,11 +251,11 @@ describe('composeSystemPrompt — promptCoreVariant switch', () => {
     );
   });
 
-  it('composes od-default + discovery atom without any unconditional form trigger', () => {
+  it('composes sw-default + discovery atom without any unconditional form trigger', () => {
     const stripFrontmatter = (raw: string) => raw.replace(/^---[\s\S]*?\n---\r?\n/, '').trim();
     const routerSkill = stripFrontmatter(
       readFileSync(
-        path.join(repoRoot, 'plugins/_official/scenarios/od-default/SKILL.md'),
+        path.join(repoRoot, 'plugins/_official/scenarios/sw-default/SKILL.md'),
         'utf8',
       ),
     );
@@ -277,7 +277,7 @@ describe('composeSystemPrompt — promptCoreVariant switch', () => {
       promptCoreVariant: 'slim',
       skillName: 'Default design router',
       skillBody: routerSkill,
-      pluginBlock: '\n\n## Active plugin\n\nThe user applied od-default.',
+      pluginBlock: '\n\n## Active plugin\n\nThe user applied sw-default.',
       activeStageBlocks: [stageBlock],
     });
 

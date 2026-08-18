@@ -18,7 +18,7 @@ export interface ManifestParseFailure {
 
 export type ManifestParseResult = ManifestParseSuccess | ManifestParseFailure;
 
-// Read raw `open-design.json` text into a typed PluginManifest. The Zod
+// Read raw `sankiwork.json` text into a typed PluginManifest. The Zod
 // schema is permissive (passthrough), so unknown forward-compatible fields
 // survive parse without complaint. Warnings carry adapter hints — e.g. a
 // claude-plugin sidecar that declared an unmappable capability.
@@ -30,7 +30,7 @@ export function parseManifest(raw: string): ManifestParseResult {
     return {
       ok: false,
       warnings: [],
-      errors: [`open-design.json is not valid JSON: ${(err as Error).message}`],
+      errors: [`sankiwork.json is not valid JSON: ${(err as Error).message}`],
     };
   }
   return parseManifestObject(json);

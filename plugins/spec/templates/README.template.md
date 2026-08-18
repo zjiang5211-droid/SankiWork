@@ -21,7 +21,7 @@ sw plugin apply plugin-id --input artifact=prototype --input audience=founders -
 ## Files
 
 - `SKILL.md` - portable agent instructions.
-- `open-design.json` - versioned SankiWork marketplace and apply metadata.
+- `sankiwork.json` - versioned SankiWork marketplace and apply metadata.
 - `examples/` - sample output or fixture prompts.
 - `evals/` - repeatable quality checks.
 

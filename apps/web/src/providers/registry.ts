@@ -1520,7 +1520,7 @@ export type LatestGithubReleaseInfo = {
 
 export async function fetchLatestGithubReleaseInfo(): Promise<LatestGithubReleaseInfo | null> {
   try {
-    const resp = await fetch('/api/github/open-design/releases/latest');
+    const resp = await fetch('/api/github/sankiwork/releases/latest');
     if (!resp.ok) return null;
     const json = (await resp.json()) as Partial<SankiWorkGithubLatestReleaseResponse>;
     if (typeof json.tag_name !== 'string' || typeof json.html_url !== 'string') return null;

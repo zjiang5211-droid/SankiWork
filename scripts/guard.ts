@@ -88,7 +88,7 @@ const residualAllowedExactPaths = new Set([
   "apps/daemon/bin/sw.mjs",
   "apps/packaged/esbuild.config.mjs",
   // Browser service workers must be served as JavaScript files.
-  "apps/web/public/od-notifications-sw.js",
+  "apps/web/public/sw-notifications-sw.js",
   // Vendored dom-to-pptx browser bundle used by the packaged desktop renderer
   // for editable PPTX export. It is loaded into the off-screen Chromium page as
   // an upstream browser asset, not compiled as project-owned TypeScript.

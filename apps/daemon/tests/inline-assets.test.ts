@@ -23,7 +23,7 @@ describe('inlineRelativeAssets (FS-backed)', () => {
   let root: string;
 
   beforeEach(() => {
-    root = mkdtempSync(path.join(tmpdir(), 'od-inline-assets-'));
+    root = mkdtempSync(path.join(tmpdir(), 'sw-inline-assets-'));
   });
 
   afterEach(() => {
@@ -62,7 +62,7 @@ describe('inlineRelativeAssets (FS-backed)', () => {
     write('a.css', 'body{color:red}');
     const html = '<!doctype html><html><head><link rel="stylesheet" href="a.css"></head><body></body></html>';
     const out = await inlineRelativeAssets(html, 'index.html', fsReader());
-    expect(out).toContain('<style data-od-inline-asset="a.css">');
+    expect(out).toContain('<style data-sw-inline-asset="a.css">');
     expect(out).toContain('body{color:red}');
     expect(out).not.toContain('<link rel="stylesheet" href="a.css">');
   });

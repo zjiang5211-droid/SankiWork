@@ -763,7 +763,7 @@ describe('PluginsView', () => {
 
     fireEvent.click(await screen.findByTestId('plugins-import-button'));
     fireEvent.click(screen.getByRole('button', { name: /upload folder/i }));
-    const folderFile = new File(['{}'], 'open-design.json', { type: 'application/json' });
+    const folderFile = new File(['{}'], 'sankiwork.json', { type: 'application/json' });
     fireEvent.change(screen.getByTestId('plugins-folder-input'), {
       target: { files: [folderFile] },
     });
@@ -777,14 +777,14 @@ describe('PluginsView', () => {
       makePlugin('official-plugin', 'bundled', 'bundled'),
       makePlugin('user-plugin', 'github', 'restricted'),
       makePlugin(
-        'od-plugin-publish-github',
+        'sw-plugin-publish-github',
         'bundled',
         'bundled',
         'Publish Plugin to GitHub',
         'Creates a public GitHub repository for a local SankiWork plugin using the GitHub CLI.',
       ),
       makePlugin(
-        'od-plugin-contribute-open-design',
+        'sw-plugin-contribute-sankiwork',
         'bundled',
         'bundled',
         'Contribute Plugin to SankiWork',
@@ -805,7 +805,7 @@ describe('PluginsView', () => {
       },
       conversationId: 'conversation-1',
       appliedPluginSnapshotId: 'snapshot-1',
-      actionPluginId: 'od-plugin-publish-github',
+      actionPluginId: 'sw-plugin-publish-github',
       sourcePluginId: 'user-plugin',
       stagedPath: 'plugin-source/user-plugin',
       prompt: 'Publish it',

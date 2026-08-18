@@ -34,7 +34,7 @@ beforeEach(() => {
   });
   vi.useFakeTimers({ shouldAdvanceTime: false });
   document.body.innerHTML = '';
-  document.documentElement.removeAttribute('data-od-app-mounted');
+  document.documentElement.removeAttribute('data-sw-app-mounted');
 });
 
 afterEach(() => {
@@ -42,7 +42,7 @@ afterEach(() => {
   clearExceptionTrackingContext();
   globalThis.fetch = ORIGINAL_FETCH;
   document.body.innerHTML = '';
-  document.documentElement.removeAttribute('data-od-app-mounted');
+  document.documentElement.removeAttribute('data-sw-app-mounted');
 });
 
 function lastSentEvent(): { event: string; properties: Record<string, unknown> } | null {
@@ -75,9 +75,9 @@ describe('observability/white-screen', () => {
     });
   });
 
-  it('does NOT fire when the app sets the data-od-app-mounted marker before the timeout', () => {
+  it('does NOT fire when the app sets the data-sw-app-mounted marker before the timeout', () => {
     // Simulate App.tsx's first useEffect setting the attribute.
-    document.documentElement.setAttribute('data-od-app-mounted', '1');
+    document.documentElement.setAttribute('data-sw-app-mounted', '1');
 
     installWhiteScreenDetector();
     vi.advanceTimersByTime(6000);

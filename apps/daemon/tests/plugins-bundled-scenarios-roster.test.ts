@@ -6,7 +6,7 @@
 // The daemon's bundled boot walker registers all sibling scenarios; the
 // canonical winner per taskKind is selected by `collectBundledScenarios`
 // using the `od-<taskKind>` id rule, so additional scenarios (e.g.
-// `od-media-generation`) can ride along without hijacking the
+// `sw-media-generation`) can ride along without hijacking the
 // pipeline-fallback.
 
 import path from 'node:path';
@@ -22,14 +22,14 @@ const officialMarketplacePath = path.join(
   'plugins',
   'registry',
   'official',
-  'open-design-marketplace.json',
+  'sankiwork-marketplace.json',
 );
 
 const CANONICAL = new Map<string, { taskKind: string; pipelineStages: string[] }>([
-  ['od-new-generation',  { taskKind: 'new-generation',  pipelineStages: ['discovery', 'plan', 'generate', 'critique'] }],
-  ['od-figma-migration', { taskKind: 'figma-migration', pipelineStages: ['extract', 'tokens', 'generate', 'critique'] }],
-  ['od-code-migration',  { taskKind: 'code-migration',  pipelineStages: ['import', 'tokens', 'plan', 'verify', 'review', 'handoff'] }],
-  ['od-tune-collab',     { taskKind: 'tune-collab',     pipelineStages: ['direction', 'patch', 'critique', 'handoff'] }],
+  ['sw-new-generation',  { taskKind: 'new-generation',  pipelineStages: ['discovery', 'plan', 'generate', 'critique'] }],
+  ['sw-figma-migration', { taskKind: 'figma-migration', pipelineStages: ['extract', 'tokens', 'generate', 'critique'] }],
+  ['sw-code-migration',  { taskKind: 'code-migration',  pipelineStages: ['import', 'tokens', 'plan', 'verify', 'review', 'handoff'] }],
+  ['sw-tune-collab',     { taskKind: 'tune-collab',     pipelineStages: ['direction', 'patch', 'critique', 'handoff'] }],
 ]);
 
 // Non-canonical scenarios. These ride on a canonical taskKind but
@@ -39,15 +39,15 @@ const CANONICAL = new Map<string, { taskKind: string; pipelineStages: string[] }
 // starters sit here too: they are user-facing plugins for downstream
 // handoff, but they must not become the canonical tune-collab fallback.
 const SIBLINGS = new Map<string, { taskKind: string }>([
-  ['od-default',          { taskKind: 'new-generation' }],
-  ['od-media-generation', { taskKind: 'new-generation' }],
-  ['od-plugin-authoring', { taskKind: 'new-generation' }],
-  ['od-share-to-community', { taskKind: 'new-generation' }],
-  ['od-web-effect-extractor', { taskKind: 'new-generation' }],
-  ['od-design-refine',    { taskKind: 'tune-collab' }],
-  ['od-react-export',     { taskKind: 'tune-collab' }],
-  ['od-nextjs-export',    { taskKind: 'tune-collab' }],
-  ['od-vue-export',       { taskKind: 'tune-collab' }],
+  ['sw-default',          { taskKind: 'new-generation' }],
+  ['sw-media-generation', { taskKind: 'new-generation' }],
+  ['sw-plugin-authoring', { taskKind: 'new-generation' }],
+  ['sw-share-to-community', { taskKind: 'new-generation' }],
+  ['sw-web-effect-extractor', { taskKind: 'new-generation' }],
+  ['sw-design-refine',    { taskKind: 'tune-collab' }],
+  ['sw-react-export',     { taskKind: 'tune-collab' }],
+  ['sw-nextjs-export',    { taskKind: 'tune-collab' }],
+  ['sw-vue-export',       { taskKind: 'tune-collab' }],
 ]);
 
 describe('plugins/_official/scenarios roster', () => {
@@ -60,7 +60,7 @@ describe('plugins/_official/scenarios roster', () => {
 
   for (const [folder, expected] of CANONICAL) {
     it(`${folder} declares od.kind='scenario' + the canonical pipeline shape`, async () => {
-      const manifestPath = path.join(scenariosRoot, folder, 'open-design.json');
+      const manifestPath = path.join(scenariosRoot, folder, 'sankiwork.json');
       const skillPath = path.join(scenariosRoot, folder, 'SKILL.md');
       expect((await stat(manifestPath)).isFile()).toBe(true);
       expect((await stat(skillPath)).isFile()).toBe(true);
@@ -75,7 +75,7 @@ describe('plugins/_official/scenarios roster', () => {
 
   for (const [folder, expected] of SIBLINGS) {
     it(`${folder} declares od.kind='scenario' + a non-empty pipeline + the documented taskKind`, async () => {
-      const manifestPath = path.join(scenariosRoot, folder, 'open-design.json');
+      const manifestPath = path.join(scenariosRoot, folder, 'sankiwork.json');
       const skillPath = path.join(scenariosRoot, folder, 'SKILL.md');
       expect((await stat(manifestPath)).isFile()).toBe(true);
       expect((await stat(skillPath)).isFile()).toBe(true);
@@ -92,14 +92,14 @@ describe('plugins/_official/scenarios roster', () => {
     });
   }
 
-  it('od-default is hidden, loads its router skill, and never auto-raises task type', async () => {
-    const manifestPath = path.join(scenariosRoot, 'od-default', 'open-design.json');
-    const skillPath = path.join(scenariosRoot, 'od-default', 'SKILL.md');
+  it('sw-default is hidden, loads its router skill, and never auto-raises task type', async () => {
+    const manifestPath = path.join(scenariosRoot, 'sw-default', 'sankiwork.json');
+    const skillPath = path.join(scenariosRoot, 'sw-default', 'SKILL.md');
     const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
     const skill = await readFile(skillPath, 'utf8');
     const marketplace = JSON.parse(await readFile(officialMarketplacePath, 'utf8'));
     const registryEntry = marketplace.plugins.find(
-      (plugin: { name?: string }) => plugin.name === 'sankiwork/od-default',
+      (plugin: { name?: string }) => plugin.name === 'sankiwork/sw-default',
     );
     expect(manifest.od.hidden).toBe(true);
     expect(manifest.od.context?.craft).toEqual(
@@ -145,8 +145,8 @@ describe('plugins/_official/scenarios roster', () => {
     }
   });
 
-  it('od-new-generation declares the default craft rails for anti-slop HTML output', async () => {
-    const manifestPath = path.join(scenariosRoot, 'od-new-generation', 'open-design.json');
+  it('sw-new-generation declares the default craft rails for anti-slop HTML output', async () => {
+    const manifestPath = path.join(scenariosRoot, 'sw-new-generation', 'sankiwork.json');
     const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
     expect(manifest.od.context?.craft).toEqual(
       expect.arrayContaining(['typography', 'color', 'anti-ai-slop']),

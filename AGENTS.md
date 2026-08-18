@@ -353,11 +353,11 @@ To avoid starting daemon, web, and desktop through inconsistent env, port, names
 
 ## Versioning（SankiWork 版本纪律）
 
-SankiWork 采用语义化版本（SemVer `主.次.修订`），初始版本 **1.0.0**（2026-08-18 从 Open Design v0.19.2 基线重品牌后确立）。
+SankiWork 采用语义化版本（SemVer `主.次.修订`），初始版本 **1.0.0**（2026-08-18 从 Open Design v0.19.2 基线重品牌后确立）；P2 品牌资产与数据兼容完成后升至 **1.1.0**（当前版本）。
 
 **硬性规则**：
 1. **每次阶段完成必须更新版本号**。任何阶段（P1 品牌替换、P2 品牌资产、P3 云端等）完成后，AI 代理必须先升版本再提交，禁止不升版本直接提交。
-2. **主产品版本 = 所有对齐包版本**，一处改动必须全量同步（当前对齐集：根 `package.json`、`apps/*`、`e2e`、`packages/contracts|download|host|launcher-proto|platform|release|sidecar|sidecar-proto`、`tools/dev|pack|release`，全部 1.0.0）。验证命令：
+2. **主产品版本 = 所有对齐包版本**，一处改动必须全量同步（当前对齐集：根 `package.json`、`apps/*`、`e2e`、`packages/contracts|download|host|launcher-proto|platform|release|sidecar|sidecar-proto`、`tools/dev|pack|release`，当前全部 1.1.0）。验证命令：
    ```bash
    rg -o '"version": "[^"]*"' --glob 'package.json' | sort | uniq -c
    ```

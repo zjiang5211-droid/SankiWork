@@ -3,36 +3,36 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "open-design",
+      "name": "sankiwork",
       "devDependencies": {
-        "@open-design/components": "workspace:*",
-        "@open-design/daemon": "workspace:*",
-        "@open-design/tools-dev": "workspace:*",
-        "@open-design/tools-pack": "workspace:*",
-        "@open-design/tools-release": "workspace:*",
-        "@open-design/tools-serve": "workspace:*",
+        "@sankiwork/components": "workspace:*",
+        "@sankiwork/daemon": "workspace:*",
+        "@sankiwork/tools-dev": "workspace:*",
+        "@sankiwork/tools-pack": "workspace:*",
+        "@sankiwork/tools-release": "workspace:*",
+        "@sankiwork/tools-serve": "workspace:*",
         "@types/node": "20.19.39",
         "tsx": "4.22.3",
         "typescript": "5.9.3",
       },
     },
     "apps/daemon": {
-      "name": "@open-design/daemon",
+      "name": "@sankiwork/daemon",
       "version": "0.15.1",
       "bin": {
         "od": "./bin/od.mjs",
       },
       "dependencies": {
         "@modelcontextprotocol/sdk": "1.29.0",
-        "@open-design/agui-adapter": "workspace:*",
-        "@open-design/contracts": "workspace:*",
-        "@open-design/diagnostics": "workspace:*",
-        "@open-design/platform": "workspace:*",
-        "@open-design/plugin-runtime": "workspace:*",
-        "@open-design/registry-protocol": "workspace:*",
-        "@open-design/release": "workspace:*",
-        "@open-design/sidecar": "workspace:*",
-        "@open-design/sidecar-proto": "workspace:*",
+        "@sankiwork/agui-adapter": "workspace:*",
+        "@sankiwork/contracts": "workspace:*",
+        "@sankiwork/diagnostics": "workspace:*",
+        "@sankiwork/platform": "workspace:*",
+        "@sankiwork/plugin-runtime": "workspace:*",
+        "@sankiwork/registry-protocol": "workspace:*",
+        "@sankiwork/release": "workspace:*",
+        "@sankiwork/sidecar": "workspace:*",
+        "@sankiwork/sidecar-proto": "workspace:*",
         "@opentelemetry/api": "1.9.1",
         "better-sqlite3": "12.10.0",
         "blake3-wasm": "2.1.5",
@@ -60,17 +60,17 @@
       },
     },
     "apps/desktop": {
-      "name": "@open-design/desktop",
+      "name": "@sankiwork/desktop",
       "version": "0.15.1",
       "dependencies": {
-        "@open-design/diagnostics": "workspace:*",
-        "@open-design/download": "workspace:*",
-        "@open-design/host": "workspace:*",
-        "@open-design/launcher-proto": "workspace:*",
-        "@open-design/platform": "workspace:*",
-        "@open-design/release": "workspace:*",
-        "@open-design/sidecar": "workspace:*",
-        "@open-design/sidecar-proto": "workspace:*",
+        "@sankiwork/diagnostics": "workspace:*",
+        "@sankiwork/download": "workspace:*",
+        "@sankiwork/host": "workspace:*",
+        "@sankiwork/launcher-proto": "workspace:*",
+        "@sankiwork/platform": "workspace:*",
+        "@sankiwork/release": "workspace:*",
+        "@sankiwork/sidecar": "workspace:*",
+        "@sankiwork/sidecar-proto": "workspace:*",
       },
       "devDependencies": {
         "@types/node": "24.12.2",
@@ -80,7 +80,7 @@
       },
     },
     "apps/landing-page": {
-      "name": "@open-design/landing-page",
+      "name": "@sankiwork/landing-page",
       "version": "0.15.1",
       "dependencies": {
         "@astrojs/rss": "4.0.18",
@@ -107,18 +107,18 @@
       },
     },
     "apps/packaged": {
-      "name": "@open-design/packaged",
+      "name": "@sankiwork/packaged",
       "version": "0.15.1",
       "dependencies": {
-        "@open-design/contracts": "workspace:*",
-        "@open-design/daemon": "workspace:*",
-        "@open-design/desktop": "workspace:*",
-        "@open-design/launcher-proto": "workspace:*",
-        "@open-design/platform": "workspace:*",
-        "@open-design/release": "workspace:*",
-        "@open-design/sidecar": "workspace:*",
-        "@open-design/sidecar-proto": "workspace:*",
-        "@open-design/web": "workspace:*",
+        "@sankiwork/contracts": "workspace:*",
+        "@sankiwork/daemon": "workspace:*",
+        "@sankiwork/desktop": "workspace:*",
+        "@sankiwork/launcher-proto": "workspace:*",
+        "@sankiwork/platform": "workspace:*",
+        "@sankiwork/release": "workspace:*",
+        "@sankiwork/sidecar": "workspace:*",
+        "@sankiwork/sidecar-proto": "workspace:*",
+        "@sankiwork/web": "workspace:*",
       },
       "devDependencies": {
         "@types/node": "24.12.2",
@@ -129,7 +129,7 @@
       },
     },
     "apps/web": {
-      "name": "@open-design/web",
+      "name": "@sankiwork/web",
       "version": "0.15.1",
       "dependencies": {
         "@anthropic-ai/sdk": "0.32.1",
@@ -137,12 +137,12 @@
         "@formkit/auto-animate": "0.9.0",
         "@lexical/react": "0.36.2",
         "@lexical/utils": "0.36.2",
-        "@open-design/components": "workspace:*",
-        "@open-design/contracts": "workspace:*",
-        "@open-design/host": "workspace:*",
-        "@open-design/platform": "workspace:*",
-        "@open-design/sidecar": "workspace:*",
-        "@open-design/sidecar-proto": "workspace:*",
+        "@sankiwork/components": "workspace:*",
+        "@sankiwork/contracts": "workspace:*",
+        "@sankiwork/host": "workspace:*",
+        "@sankiwork/platform": "workspace:*",
+        "@sankiwork/sidecar": "workspace:*",
+        "@sankiwork/sidecar-proto": "workspace:*",
         "@xterm/addon-fit": "0.10.0",
         "@xterm/xterm": "5.5.0",
         "jspdf": "4.2.1",
@@ -174,12 +174,12 @@
       },
     },
     "e2e": {
-      "name": "@open-design/e2e",
+      "name": "@sankiwork/e2e",
       "version": "0.15.1",
       "devDependencies": {
         "@aws-sdk/client-s3": "3.1050.0",
-        "@open-design/contracts": "workspace:*",
-        "@open-design/release": "workspace:*",
+        "@sankiwork/contracts": "workspace:*",
+        "@sankiwork/release": "workspace:*",
         "@playwright/test": "1.60.0",
         "@types/node": "20.19.39",
         "@types/pngjs": "6.0.5",
@@ -191,10 +191,10 @@
       },
     },
     "packages/agui-adapter": {
-      "name": "@open-design/agui-adapter",
+      "name": "@sankiwork/agui-adapter",
       "version": "0.5.0",
       "dependencies": {
-        "@open-design/contracts": "workspace:*",
+        "@sankiwork/contracts": "workspace:*",
       },
       "devDependencies": {
         "@types/node": "20.19.39",
@@ -204,7 +204,7 @@
       },
     },
     "packages/components": {
-      "name": "@open-design/components",
+      "name": "@sankiwork/components",
       "version": "0.8.0",
       "devDependencies": {
         "@testing-library/react": "16.3.2",
@@ -222,10 +222,10 @@
       },
     },
     "packages/contracts": {
-      "name": "@open-design/contracts",
+      "name": "@sankiwork/contracts",
       "version": "0.15.1",
       "dependencies": {
-        "@open-design/release": "workspace:*",
+        "@sankiwork/release": "workspace:*",
         "zod": "3.25.76",
       },
       "devDependencies": {
@@ -235,7 +235,7 @@
       },
     },
     "packages/diagnostics": {
-      "name": "@open-design/diagnostics",
+      "name": "@sankiwork/diagnostics",
       "version": "0.2.0",
       "dependencies": {
         "jszip": "3.10.1",
@@ -248,10 +248,10 @@
       },
     },
     "packages/download": {
-      "name": "@open-design/download",
+      "name": "@sankiwork/download",
       "version": "0.15.1",
       "dependencies": {
-        "@open-design/platform": "workspace:*",
+        "@sankiwork/platform": "workspace:*",
       },
       "devDependencies": {
         "@types/node": "24.12.2",
@@ -261,10 +261,10 @@
       },
     },
     "packages/host": {
-      "name": "@open-design/host",
+      "name": "@sankiwork/host",
       "version": "0.15.1",
       "dependencies": {
-        "@open-design/release": "workspace:*",
+        "@sankiwork/release": "workspace:*",
       },
       "devDependencies": {
         "@types/node": "24.12.2",
@@ -274,11 +274,11 @@
       },
     },
     "packages/launcher-proto": {
-      "name": "@open-design/launcher-proto",
+      "name": "@sankiwork/launcher-proto",
       "version": "0.15.1",
       "dependencies": {
-        "@open-design/release": "workspace:*",
-        "@open-design/sidecar-proto": "workspace:*",
+        "@sankiwork/release": "workspace:*",
+        "@sankiwork/sidecar-proto": "workspace:*",
       },
       "devDependencies": {
         "@types/node": "24.12.2",
@@ -288,7 +288,7 @@
       },
     },
     "packages/metatool": {
-      "name": "@open-design/metatool",
+      "name": "@sankiwork/metatool",
       "version": "0.1.0",
       "dependencies": {
         "zod": "3.25.76",
@@ -301,7 +301,7 @@
       },
     },
     "packages/platform": {
-      "name": "@open-design/platform",
+      "name": "@sankiwork/platform",
       "version": "0.15.1",
       "devDependencies": {
         "@types/node": "24.12.2",
@@ -311,10 +311,10 @@
       },
     },
     "packages/plugin-runtime": {
-      "name": "@open-design/plugin-runtime",
+      "name": "@sankiwork/plugin-runtime",
       "version": "0.5.0",
       "dependencies": {
-        "@open-design/contracts": "workspace:*",
+        "@sankiwork/contracts": "workspace:*",
         "zod": "3.25.76",
       },
       "devDependencies": {
@@ -325,7 +325,7 @@
       },
     },
     "packages/registry-protocol": {
-      "name": "@open-design/registry-protocol",
+      "name": "@sankiwork/registry-protocol",
       "version": "0.5.0",
       "dependencies": {
         "zod": "3.25.76",
@@ -337,7 +337,7 @@
       },
     },
     "packages/release": {
-      "name": "@open-design/release",
+      "name": "@sankiwork/release",
       "version": "0.15.1",
       "devDependencies": {
         "@types/node": "24.12.2",
@@ -348,7 +348,7 @@
       },
     },
     "packages/sidecar": {
-      "name": "@open-design/sidecar",
+      "name": "@sankiwork/sidecar",
       "version": "0.15.1",
       "devDependencies": {
         "@types/node": "24.12.2",
@@ -358,10 +358,10 @@
       },
     },
     "packages/sidecar-proto": {
-      "name": "@open-design/sidecar-proto",
+      "name": "@sankiwork/sidecar-proto",
       "version": "0.15.1",
       "dependencies": {
-        "@open-design/release": "workspace:*",
+        "@sankiwork/release": "workspace:*",
       },
       "devDependencies": {
         "@types/node": "24.12.2",
@@ -371,15 +371,15 @@
       },
     },
     "tools/dev": {
-      "name": "@open-design/tools-dev",
+      "name": "@sankiwork/tools-dev",
       "version": "0.15.1",
       "bin": {
         "tools-dev": "./bin/tools-dev.mjs",
       },
       "dependencies": {
-        "@open-design/platform": "workspace:*",
-        "@open-design/sidecar": "workspace:*",
-        "@open-design/sidecar-proto": "workspace:*",
+        "@sankiwork/platform": "workspace:*",
+        "@sankiwork/sidecar": "workspace:*",
+        "@sankiwork/sidecar-proto": "workspace:*",
         "cac": "6.7.14",
       },
       "devDependencies": {
@@ -390,7 +390,7 @@
       },
     },
     "tools/pack": {
-      "name": "@open-design/tools-pack",
+      "name": "@sankiwork/tools-pack",
       "version": "0.15.1",
       "bin": {
         "tools-pack": "./bin/tools-pack.mjs",
@@ -398,11 +398,11 @@
       "dependencies": {
         "@electron/notarize": "3.1.1",
         "@electron/rebuild": "4.0.4",
-        "@open-design/launcher-proto": "workspace:*",
-        "@open-design/platform": "workspace:*",
-        "@open-design/release": "workspace:*",
-        "@open-design/sidecar": "workspace:*",
-        "@open-design/sidecar-proto": "workspace:*",
+        "@sankiwork/launcher-proto": "workspace:*",
+        "@sankiwork/platform": "workspace:*",
+        "@sankiwork/release": "workspace:*",
+        "@sankiwork/sidecar": "workspace:*",
+        "@sankiwork/sidecar-proto": "workspace:*",
         "cac": "6.7.14",
         "electron-builder": "26.8.1",
         "resedit": "1.7.2",
@@ -419,13 +419,13 @@
       },
     },
     "tools/release": {
-      "name": "@open-design/tools-release",
+      "name": "@sankiwork/tools-release",
       "version": "0.15.1",
       "bin": {
         "tools-release": "./bin/tools-release.mjs",
       },
       "dependencies": {
-        "@open-design/release": "workspace:*",
+        "@sankiwork/release": "workspace:*",
         "cac": "6.7.14",
         "yaml": "2.9.0",
       },
@@ -438,13 +438,13 @@
       },
     },
     "tools/serve": {
-      "name": "@open-design/tools-serve",
+      "name": "@sankiwork/tools-serve",
       "version": "0.6.0",
       "bin": {
         "tools-serve": "./bin/tools-serve.mjs",
       },
       "dependencies": {
-        "@open-design/release": "workspace:*",
+        "@sankiwork/release": "workspace:*",
         "cac": "6.7.14",
       },
       "devDependencies": {
@@ -871,53 +871,53 @@
 
     "@nodable/entities": ["@nodable/entities@2.1.0", "", {}, "sha512-nyT7T3nbMyBI/lvr6L5TyWbFJAI9FTgVRakNoBqCD+PmID8DzFrrNdLLtHMwMszOtqZa8PAOV24ZqDnQrhQINA=="],
 
-    "@open-design/agui-adapter": ["@open-design/agui-adapter@workspace:packages/agui-adapter"],
+    "@sankiwork/agui-adapter": ["@sankiwork/agui-adapter@workspace:packages/agui-adapter"],
 
-    "@open-design/components": ["@open-design/components@workspace:packages/components"],
+    "@sankiwork/components": ["@sankiwork/components@workspace:packages/components"],
 
-    "@open-design/contracts": ["@open-design/contracts@workspace:packages/contracts"],
+    "@sankiwork/contracts": ["@sankiwork/contracts@workspace:packages/contracts"],
 
-    "@open-design/daemon": ["@open-design/daemon@workspace:apps/daemon"],
+    "@sankiwork/daemon": ["@sankiwork/daemon@workspace:apps/daemon"],
 
-    "@open-design/desktop": ["@open-design/desktop@workspace:apps/desktop"],
+    "@sankiwork/desktop": ["@sankiwork/desktop@workspace:apps/desktop"],
 
-    "@open-design/diagnostics": ["@open-design/diagnostics@workspace:packages/diagnostics"],
+    "@sankiwork/diagnostics": ["@sankiwork/diagnostics@workspace:packages/diagnostics"],
 
-    "@open-design/download": ["@open-design/download@workspace:packages/download"],
+    "@sankiwork/download": ["@sankiwork/download@workspace:packages/download"],
 
-    "@open-design/e2e": ["@open-design/e2e@workspace:e2e"],
+    "@sankiwork/e2e": ["@sankiwork/e2e@workspace:e2e"],
 
-    "@open-design/host": ["@open-design/host@workspace:packages/host"],
+    "@sankiwork/host": ["@sankiwork/host@workspace:packages/host"],
 
-    "@open-design/landing-page": ["@open-design/landing-page@workspace:apps/landing-page"],
+    "@sankiwork/landing-page": ["@sankiwork/landing-page@workspace:apps/landing-page"],
 
-    "@open-design/launcher-proto": ["@open-design/launcher-proto@workspace:packages/launcher-proto"],
+    "@sankiwork/launcher-proto": ["@sankiwork/launcher-proto@workspace:packages/launcher-proto"],
 
-    "@open-design/metatool": ["@open-design/metatool@workspace:packages/metatool"],
+    "@sankiwork/metatool": ["@sankiwork/metatool@workspace:packages/metatool"],
 
-    "@open-design/packaged": ["@open-design/packaged@workspace:apps/packaged"],
+    "@sankiwork/packaged": ["@sankiwork/packaged@workspace:apps/packaged"],
 
-    "@open-design/platform": ["@open-design/platform@workspace:packages/platform"],
+    "@sankiwork/platform": ["@sankiwork/platform@workspace:packages/platform"],
 
-    "@open-design/plugin-runtime": ["@open-design/plugin-runtime@workspace:packages/plugin-runtime"],
+    "@sankiwork/plugin-runtime": ["@sankiwork/plugin-runtime@workspace:packages/plugin-runtime"],
 
-    "@open-design/registry-protocol": ["@open-design/registry-protocol@workspace:packages/registry-protocol"],
+    "@sankiwork/registry-protocol": ["@sankiwork/registry-protocol@workspace:packages/registry-protocol"],
 
-    "@open-design/release": ["@open-design/release@workspace:packages/release"],
+    "@sankiwork/release": ["@sankiwork/release@workspace:packages/release"],
 
-    "@open-design/sidecar": ["@open-design/sidecar@workspace:packages/sidecar"],
+    "@sankiwork/sidecar": ["@sankiwork/sidecar@workspace:packages/sidecar"],
 
-    "@open-design/sidecar-proto": ["@open-design/sidecar-proto@workspace:packages/sidecar-proto"],
+    "@sankiwork/sidecar-proto": ["@sankiwork/sidecar-proto@workspace:packages/sidecar-proto"],
 
-    "@open-design/tools-dev": ["@open-design/tools-dev@workspace:tools/dev"],
+    "@sankiwork/tools-dev": ["@sankiwork/tools-dev@workspace:tools/dev"],
 
-    "@open-design/tools-pack": ["@open-design/tools-pack@workspace:tools/pack"],
+    "@sankiwork/tools-pack": ["@sankiwork/tools-pack@workspace:tools/pack"],
 
-    "@open-design/tools-release": ["@open-design/tools-release@workspace:tools/release"],
+    "@sankiwork/tools-release": ["@sankiwork/tools-release@workspace:tools/release"],
 
-    "@open-design/tools-serve": ["@open-design/tools-serve@workspace:tools/serve"],
+    "@sankiwork/tools-serve": ["@sankiwork/tools-serve@workspace:tools/serve"],
 
-    "@open-design/web": ["@open-design/web@workspace:apps/web"],
+    "@sankiwork/web": ["@sankiwork/web@workspace:apps/web"],
 
     "@opentelemetry/api": ["@opentelemetry/api@1.9.1", "", {}, "sha512-gLyJlPHPZYdAk1JENA9LeHejZe1Ti77/pTeFm/nMXmQH/HFZlcS/O2XJB+L8fkbrNSqhdtlvjBVjxwUYanNH5Q=="],
 
@@ -3021,61 +3021,61 @@
 
     "@modelcontextprotocol/sdk/zod": ["zod@4.4.2", "", {}, "sha512-IynmDyxsEsb9RKzO3J9+4SxXnl2FTFSzNBaKKaMV6tsSk0rw9gYw9gs+JFCq/qk2LCZ78KDwyj+Z289TijSkUw=="],
 
-    "@open-design/desktop/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/desktop/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/desktop/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/desktop/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/download/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/download/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/download/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/download/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/host/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/host/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/host/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/host/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/launcher-proto/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/launcher-proto/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/launcher-proto/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/launcher-proto/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/metatool/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/metatool/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/metatool/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/metatool/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/packaged/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/packaged/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/packaged/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/packaged/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/platform/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/platform/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/platform/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/platform/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/release/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/release/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/release/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/release/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/sidecar/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/sidecar/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/sidecar/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/sidecar/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/sidecar-proto/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/sidecar-proto/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/sidecar-proto/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/sidecar-proto/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/tools-dev/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/tools-dev/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/tools-dev/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/tools-dev/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/tools-pack/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/tools-pack/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/tools-pack/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/tools-pack/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/tools-release/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/tools-release/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/tools-release/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/tools-release/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
-    "@open-design/tools-serve/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
+    "@sankiwork/tools-serve/@types/node": ["@types/node@24.12.2", "", { "dependencies": { "undici-types": "7.16.0" } }, "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g=="],
 
-    "@open-design/tools-serve/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
+    "@sankiwork/tools-serve/typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
     "@opentelemetry/otlp-transformer/@opentelemetry/resources": ["@opentelemetry/resources@2.2.0", "", { "dependencies": { "@opentelemetry/core": "2.2.0", "@opentelemetry/semantic-conventions": "1.40.0" }, "peerDependencies": { "@opentelemetry/api": "1.9.1" } }, "sha512-1pNQf/JazQTMA0BiO5NINUzH0cbLbbl7mntLa4aJNmCCXSj0q03T5ZXXL0zw4G55TjdL9Tz32cznGClf+8zr5A=="],
 
@@ -3359,33 +3359,33 @@
 
     "@electron/get/fs-extra/universalify": ["universalify@0.1.2", "", {}, "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg=="],
 
-    "@open-design/desktop/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/desktop/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/download/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/download/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/host/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/host/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/launcher-proto/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/launcher-proto/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/metatool/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/metatool/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/packaged/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/packaged/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/platform/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/platform/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/release/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/release/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/sidecar-proto/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/sidecar-proto/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/sidecar/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/sidecar/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/tools-dev/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/tools-dev/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/tools-pack/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/tools-pack/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/tools-release/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/tools-release/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
-    "@open-design/tools-serve/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "@sankiwork/tools-serve/@types/node/undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
     "@radix-ui/react-roving-focus/@radix-ui/react-id/@radix-ui/react-use-layout-effect": ["@radix-ui/react-use-layout-effect@1.0.0", "", { "dependencies": { "@babel/runtime": "7.29.2" }, "peerDependencies": { "react": "18.3.1" } }, "sha512-6Tpkq+R6LOlmQb1R5NNETLG0B4YP0wc+klfXafpUCj6JGyaUc8il7/kUZ7m59rGbXGczE9Bs+iz2qloqsZBduQ=="],
 

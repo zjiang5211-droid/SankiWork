@@ -70,7 +70,7 @@ beforeEach(async () => {
     '<section class="slide hero dark"><p>fallback body via assets</p></section>',
   );
   await writeFile(
-    path.join(folder, 'open-design.json'),
+    path.join(folder, 'sankiwork.json'),
     JSON.stringify({
       $schema: 'https://sanki-ai.cloud/schemas/plugin.v1.json',
       name: PLUGIN_ID,

@@ -121,7 +121,7 @@ export async function collectCraftReferences(root: string = repoRoot): Promise<C
   ).flat();
   const pluginManifests = await collectNamedManifests(
     path.join(root, pluginManifestRoot),
-    "open-design.json",
+    "sankiwork.json",
   );
   const references: CraftReference[] = [];
 

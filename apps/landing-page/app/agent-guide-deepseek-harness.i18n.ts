@@ -407,7 +407,7 @@ export const DEEPSEEK_HARNESS_EN_GUIDE: AgentGuideCopy = {
           },
           {
             kind: 'image',
-            src: '/agents/deepseek-harness-design/deepseek-harness-design-open-design-settings.webp',
+            src: '/agents/deepseek-harness-design/deepseek-harness-design-sankiwork-settings.webp',
             alt: 'SankiWork Models and providers settings showing DeepSeek Harness installed, synced from CLI, and ready to test',
             caption: 'This is the checkpoint: detected Harness version, “Synced from CLI,” and a working Test action.',
           },
@@ -422,7 +422,7 @@ export const DEEPSEEK_HARNESS_EN_GUIDE: AgentGuideCopy = {
           },
           {
             kind: 'image',
-            src: '/agents/deepseek-harness-design/deepseek-harness-design-open-design-workspace.webp',
+            src: '/agents/deepseek-harness-design/deepseek-harness-design-sankiwork-workspace.webp',
             alt: 'SankiWork workspace showing a DeepSeek Harness task beside a generated branded landing page preview',
             caption: 'DeepSeek Harness edits the real workspace; SankiWork keeps the request, progress, preview, and final artifact together.',
           },
@@ -740,7 +740,7 @@ export const DEEPSEEK_HARNESS_ZH_GUIDE: AgentGuideCopy = {
           },
           {
             kind: 'image',
-            src: '/agents/deepseek-harness-design/deepseek-harness-design-open-design-settings.webp',
+            src: '/agents/deepseek-harness-design/deepseek-harness-design-sankiwork-settings.webp',
             alt: 'SankiWork 的模型与提供商设置显示 DeepSeek Harness 已安装、已从 CLI 同步并可测试',
             caption: '这里是连接成功的检查点：已识别 Harness 版本、显示“已从 CLI 同步”，并且“测试”可以正常通过。',
           },
@@ -752,7 +752,7 @@ export const DEEPSEEK_HARNESS_ZH_GUIDE: AgentGuideCopy = {
           },
           {
             kind: 'image',
-            src: '/agents/deepseek-harness-design/deepseek-harness-design-open-design-workspace.webp',
+            src: '/agents/deepseek-harness-design/deepseek-harness-design-sankiwork-workspace.webp',
             alt: 'SankiWork 工作区左侧显示 DeepSeek Harness 任务，右侧预览生成的品牌落地页',
             caption: 'DeepSeek Harness 修改真实工作区，SankiWork 把需求、进度、预览与最终产物放在一起。',
           },

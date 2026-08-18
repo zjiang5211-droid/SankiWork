@@ -760,7 +760,7 @@ export const zhCN: Dict = {
   "collabPresence.viewingProjectOther": "正在查看此项目",
   "entry.followXLabel": "在 X 上关注 @OpenDesignHQ",
   "entry.followThreadsLabel": "Follow SankiWork on Threads",
-  "entry.followInstagramLabel": "在 Instagram 上关注 @opendesign.ai",
+  "entry.followInstagramLabel": "在 Instagram 上关注 @sankiwork.ai",
   "entry.followLinkedinLabel": "在 LinkedIn 上关注 SankiWork",
   "entry.followXiaohongshuLabel": "在小红书上关注 SankiWork",
   "entry.youtubeLabel": "SankiWork on YouTube",
@@ -3165,9 +3165,9 @@ export const zhCN: Dict = {
     "满意的项目可通过「分享」菜单保存为模板，下次直接复用。",
   "designFiles.usefulInfoTip15": "部署后可以直接生成社媒分享卡片。",
   "designFiles.usefulInfoTip16":
-    "在 Threads 上关注 @opendesign.ai，看团队幕后动态。",
+    "在 Threads 上关注 @sankiwork.ai，看团队幕后动态。",
   "designFiles.usefulInfoTip17":
-    "在 Instagram 上关注 @opendesign.ai，获取设计灵感。",
+    "在 Instagram 上关注 @sankiwork.ai，获取设计灵感。",
   "designFiles.usefulInfoTip18":
     "在 YouTube 上订阅 SankiWork，观看教程和演示。",
   "designFiles.usefulInfoTip19":

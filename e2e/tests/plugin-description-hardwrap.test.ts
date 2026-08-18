@@ -36,7 +36,7 @@ async function findManifests(dir: string): Promise<string[]> {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       out.push(...(await findManifests(full)));
-    } else if (entry.name === 'open-design.json') {
+    } else if (entry.name === 'sankiwork.json') {
       out.push(full);
     }
   }

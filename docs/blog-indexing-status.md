@@ -28,8 +28,8 @@ for the post-deploy indexing architecture.
 | byok-reality-check-5-things-that-break | neutral | Discovered - currently not indexed | — | 2026-05-21 | 0 | 0 | 0.0% | — |
 | layout-layer-canvas-used-to-hide | indexed | Submitted and indexed | 2026-05-19 | 2026-05-21 | 0 | 0 | 0.0% | — |
 | open-source-alternative-to-claude-design | indexed | Submitted and indexed | 2026-05-15 | 2026-05-21 | 107 | 4 | 3.7% | 7.9 |
-| port-figma-workflow-open-design-plugin | indexed | Submitted and indexed | 2026-05-19 | 2026-05-21 | 0 | 0 | 0.0% | — |
-| why-we-built-open-design-as-a-skill-layer | neutral | Discovered - currently not indexed | — | 2026-05-20 | 0 | 0 | 0.0% | — |
+| port-figma-workflow-sankiwork-plugin | indexed | Submitted and indexed | 2026-05-19 | 2026-05-21 | 0 | 0 | 0.0% | — |
+| why-we-built-sankiwork-as-a-skill-layer | neutral | Discovered - currently not indexed | — | 2026-05-20 | 0 | 0 | 0.0% | — |
 
 ## Recent inspections
 
@@ -37,13 +37,13 @@ for the post-deploy indexing architecture.
 |---|---|---|---|---|
 | 2026-05-21 | open-source-alternative-to-claude-design | indexed | Submitted and indexed | https://sanki-ai.cloud/blog/open-source-alternative-to-claude-design/ |
 | 2026-05-21 | byok-reality-check-5-things-that-break | neutral | Discovered - currently not indexed | — |
-| 2026-05-21 | port-figma-workflow-open-design-plugin | indexed | Submitted and indexed | https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/ |
+| 2026-05-21 | port-figma-workflow-sankiwork-plugin | indexed | Submitted and indexed | https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/ |
 | 2026-05-21 | layout-layer-canvas-used-to-hide | indexed | Submitted and indexed | https://sanki-ai.cloud/blog/layout-layer-canvas-used-to-hide/ |
-| 2026-05-20 | why-we-built-open-design-as-a-skill-layer | neutral | Discovered - currently not indexed | — |
+| 2026-05-20 | why-we-built-sankiwork-as-a-skill-layer | neutral | Discovered - currently not indexed | — |
 | 2026-05-20 | byok-design-workflow-claude-codex-qwen | neutral | Discovered - currently not indexed | — |
 | 2026-05-20 | 31-skills-72-systems-how-the-library-works | neutral | Discovered - currently not indexed | — |
-| 2026-05-19 | why-we-built-open-design-as-a-skill-layer | neutral | Discovered - currently not indexed | — |
-| 2026-05-19 | port-figma-workflow-open-design-plugin | indexed | Submitted and indexed | https://sanki-ai.cloud/blog/port-figma-workflow-open-design-plugin/ |
+| 2026-05-19 | why-we-built-sankiwork-as-a-skill-layer | neutral | Discovered - currently not indexed | — |
+| 2026-05-19 | port-figma-workflow-sankiwork-plugin | indexed | Submitted and indexed | https://sanki-ai.cloud/blog/port-figma-workflow-sankiwork-plugin/ |
 | 2026-05-19 | open-source-alternative-to-claude-design | indexed | Submitted and indexed | https://sanki-ai.cloud/blog/open-source-alternative-to-claude-design/ |
 | 2026-05-19 | layout-layer-canvas-used-to-hide | indexed | Submitted and indexed | https://sanki-ai.cloud/blog/layout-layer-canvas-used-to-hide/ |
 | 2026-05-19 | byok-reality-check-5-things-that-break | neutral | Discovered - currently not indexed | — |

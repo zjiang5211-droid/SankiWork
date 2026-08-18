@@ -66,7 +66,7 @@ design-templates/kami-deck/
 
 - [`kami-landing`](../kami-landing/) — long-form one-pager sister.
 - [`design-systems/kami/DESIGN.md`](../../design-systems/kami/DESIGN.md) — token spec.
-- [`open-design-landing-deck`](../open-design-landing-deck/) — same
+- [`sankiwork-landing-deck`](../sankiwork-landing-deck/) — same
   swipe nav model, different visual language (Atelier Zero).
 - Upstream: [`tw93/kami`](https://github.com/tw93/kami) — original
   Claude skill (MIT) the design system adapts.

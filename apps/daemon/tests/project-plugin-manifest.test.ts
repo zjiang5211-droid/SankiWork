@@ -8,7 +8,7 @@ describe('readProjectPluginManifest', () => {
   async function withManifest(name: string, fn: (folder: string) => Promise<void>) {
     const folder = await mkdtemp(path.join(tmpdir(), 'od-plugin-manifest-'));
     try {
-      await writeFile(path.join(folder, 'open-design.json'), JSON.stringify({ name }), 'utf8');
+      await writeFile(path.join(folder, 'sankiwork.json'), JSON.stringify({ name }), 'utf8');
       await fn(folder);
     } finally {
       await rm(folder, { recursive: true, force: true });

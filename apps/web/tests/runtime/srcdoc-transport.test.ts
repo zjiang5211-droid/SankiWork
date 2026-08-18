@@ -11,7 +11,7 @@ import {
 
 function extractShellScript(shellHtml: string): string {
   const match = shellHtml.match(
-    /<script\s+data-od-lazy-srcdoc-transport>([\s\S]*?)<\/script>/,
+    /<script\s+data-sw-lazy-srcdoc-transport>([\s\S]*?)<\/script>/,
   );
   if (!match || match[1] == null) {
     throw new Error('lazy transport shell script not found');
@@ -183,8 +183,8 @@ describe('srcDoc transport activation witness', () => {
       { transportActivationGeneration: 'generation-1' },
     );
 
-    expect(doc.indexOf('data-od-srcdoc-transport-activation')).toBeGreaterThan(-1);
-    expect(doc.indexOf('data-od-srcdoc-transport-activation')).toBeLessThan(
+    expect(doc.indexOf('data-sw-srcdoc-transport-activation')).toBeGreaterThan(-1);
+    expect(doc.indexOf('data-sw-srcdoc-transport-activation')).toBeLessThan(
       doc.indexOf('src="slow-app.js"'),
     );
   });

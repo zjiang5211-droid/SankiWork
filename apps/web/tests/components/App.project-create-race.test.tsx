@@ -815,7 +815,7 @@ describe('App project creation routing', () => {
         pendingPrompt: 'Publish the retained plugin share prompt',
       },
       conversationId: 'conv-plugin-share',
-      actionPluginId: 'od-plugin-publish-github',
+      actionPluginId: 'sw-plugin-publish-github',
       sourcePluginId: 'plugin-source',
       stagedPath: 'plugin-source',
       prompt: 'Publish the retained plugin share prompt',
@@ -1533,7 +1533,7 @@ describe('App project creation routing', () => {
           // No prototype assumption: the click binds the hidden default
           // router so the agent asks (via the task-type question-form) what
           // to build, then auto-sends a preset prompt that names the system.
-          pluginId: 'od-default',
+          pluginId: 'sw-default',
           conversationMode: 'design',
           pendingPrompt: expect.stringContaining('Slack'),
           pluginInputs: expect.objectContaining({

@@ -447,7 +447,7 @@ function cloudError(res: Response, error: unknown) {
   // The full failure — command line, stderr — is diagnostic gold but must not
   // reach the renderer; keep it daemon-side.
   console.warn(
-    `[od] collab_presence_upstream_failure kind=${classified.kind} status=${classified.status} `
+    `[sw] collab_presence_upstream_failure kind=${classified.kind} status=${classified.status} `
       + `detail=${JSON.stringify(error instanceof Error ? error.message : String(error))}`,
   );
   return sendClassifiedCloudError(res, classified);

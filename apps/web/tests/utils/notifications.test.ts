@@ -69,7 +69,7 @@ describe('showCompletionNotification', () => {
     });
 
     expect(result).toBe('shown');
-    expect(register).toHaveBeenCalledWith('/od-notifications-sw.js');
+    expect(register).toHaveBeenCalledWith('/sw-notifications-sw.js');
     expect(showNotification).toHaveBeenCalledWith(
       'Task completed',
       expect.objectContaining({

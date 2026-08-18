@@ -133,7 +133,7 @@ export function createVelaResourcePullBatcher(
         }
         queue.push({
           request: {
-            key: `od-pull-${nextKey++}`,
+            key: `sw-pull-${nextKey++}`,
             kind: request.kind,
             resourceId: request.resourceId,
             dir: request.dir,

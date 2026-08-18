@@ -122,6 +122,34 @@ export interface ResolveDataDirOptions {
   requireExplicit?: boolean;
 }
 
+const DATA_DIR_NAME = '.sankiwork';
+const LEGACY_DATA_DIR_NAME = '.od';
+
+/**
+ * One-time compatibility migration from the legacy Open Design data dir
+ * (`.od`) to the SankiWork data dir (`.sankiwork`). Runs only for the
+ * default project-scoped data dir: when the target does not exist and the
+ * legacy dir does, the legacy dir is renamed in place (same filesystem) so
+ * existing projects / settings / plugins keep working after the rebrand.
+ * Failure to migrate is reported loudly but does not block startup — the
+ * app starts with a fresh `.sankiwork` and the legacy dir is left intact.
+ */
+function migrateLegacyDataDir(projectRoot: string): void {
+  const legacyDir = path.join(projectRoot, LEGACY_DATA_DIR_NAME);
+  const dataDir = path.join(projectRoot, DATA_DIR_NAME);
+  if (fs.existsSync(dataDir) || !fs.existsSync(legacyDir)) return;
+  try {
+    fs.renameSync(legacyDir, dataDir);
+    console.warn(`[sw] migrated legacy data dir ${legacyDir} -> ${dataDir}`);
+  } catch (err) {
+    const e = err as Error;
+    console.warn(
+      `[sw] legacy data dir ${legacyDir} found but could not be migrated: ${e.message}; ` +
+        `starting with a fresh ${dataDir} (legacy dir left untouched)`,
+    );
+  }
+}
+
 export function resolveDataDir(
   raw: string | undefined,
   projectRoot: string,
@@ -132,7 +160,8 @@ export function resolveDataDir(
     if (options.requireExplicit) {
       throw new Error('SW_DATA_DIR is required when SW_SANDBOX_MODE is enabled');
     }
-    return path.join(projectRoot, '.sankiwork');
+    migrateLegacyDataDir(projectRoot);
+    return path.join(projectRoot, DATA_DIR_NAME);
   }
 
   const resolved = resolveProjectRelativePath(value, projectRoot);

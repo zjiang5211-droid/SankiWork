@@ -64,14 +64,14 @@ const REGISTRY = {
   atoms: [],
 };
 
-describe('bundled od-default application', () => {
+describe('bundled sw-default application', () => {
   it('applies without a forced task-type stage or GenUI surface', async () => {
     const pluginDir = path.resolve(
       import.meta.dirname,
-      '../../../plugins/_official/scenarios/od-default',
+      '../../../plugins/_official/scenarios/sw-default',
     );
     const manifest = JSON.parse(
-      await readFile(path.join(pluginDir, 'open-design.json'), 'utf8'),
+      await readFile(path.join(pluginDir, 'sankiwork.json'), 'utf8'),
     ) as PluginManifest;
     const craftIds = manifest.od?.context?.craft ?? [];
     const atomIds = [
@@ -147,19 +147,19 @@ describe('plugin-local SKILL.md ref detection', () => {
 });
 
 describe('loadPluginLocalSkill', () => {
-  it('loads the bundled od-default router from its real manifest', async () => {
+  it('loads the bundled sw-default router from its real manifest', async () => {
     const pluginDir = path.resolve(
       import.meta.dirname,
-      '../../../plugins/_official/scenarios/od-default',
+      '../../../plugins/_official/scenarios/sw-default',
     );
     const manifest = JSON.parse(
-      await readFile(path.join(pluginDir, 'open-design.json'), 'utf8'),
+      await readFile(path.join(pluginDir, 'sankiwork.json'), 'utf8'),
     ) as PluginManifest;
     const local = await loadPluginLocalSkill(pluginRecord(pluginDir, manifest));
 
     expect(local).not.toBeNull();
     expect(local!.relpath).toBe('SKILL.md');
-    expect(local!.body).toContain('# od-default (hidden scenario)');
+    expect(local!.body).toContain('# sw-default (hidden scenario)');
     expect(local!.body).toContain('Route first; clarify only when needed');
   });
 

@@ -5,7 +5,7 @@
 //      tag must NOT leak into the audio example gallery — its home is the
 //      Video / HyperFrames chips. (Regression: the audio rule used a bare
 //      substring `hasPart('audio')` that matched `audio-reactive`.)
-//   2. The generic `od-media-generation` catch-all router must never appear
+//   2. The generic `sw-media-generation` catch-all router must never appear
 //      as an example preset under any media chip, so the "Media generation
 //      (default scenario)" card neither shows up nor shows up pre-selected.
 
@@ -76,9 +76,9 @@ const audioJingle = make({
   scenario: 'marketing',
 });
 
-// Mirrors plugins/_official/scenarios/od-media-generation (catch-all default).
+// Mirrors plugins/_official/scenarios/sw-media-generation (catch-all default).
 const mediaGeneration = make({
-  id: 'od-media-generation',
+  id: 'sw-media-generation',
   title: 'Media generation (default scenario)',
   tags: ['scenario', 'first-party', 'media-generation', 'image', 'video', 'audio'],
 });
@@ -104,6 +104,6 @@ describe('homeHeroExamplePluginsForChip — audio chip', () => {
     const ids = homeHeroExamplePluginsForChip('audio', installed, 'en').map((p) => p.id);
     expect(ids).toContain('example-audio-jingle');
     expect(ids).not.toContain('video-template-hyperframes-brand-sizzle-reel');
-    expect(ids).not.toContain('od-media-generation');
+    expect(ids).not.toContain('sw-media-generation');
   });
 });

@@ -267,7 +267,7 @@ async function mountHomeShell(initial: WorkspaceCollabContext): Promise<Harness>
     if (url.endsWith('/api/plugins')) return jsonResponse({ plugins: [] });
     if (url.endsWith('/api/mcp/servers')) return jsonResponse({ servers: [] });
     if (url.endsWith('/api/community/discord')) return jsonResponse({ stale: true });
-    if (url.endsWith('/api/github/open-design')) return jsonResponse({ stale: true });
+    if (url.endsWith('/api/github/sankiwork')) return jsonResponse({ stale: true });
     return jsonResponse({});
   }) as typeof fetch;
 

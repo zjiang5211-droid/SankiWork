@@ -166,7 +166,7 @@ export async function generateSkillPluginDraft(
   const folder = path.join(projectRoot, ...draftPath.split('/'));
   await fs.mkdir(path.join(folder, 'references'), { recursive: true });
   await fs.writeFile(path.join(folder, 'SKILL.md'), synthesizeSkill(candidate), 'utf8');
-  await fs.writeFile(path.join(folder, 'open-design.json'), JSON.stringify(buildManifest(slug, candidate), null, 2) + '\n', 'utf8');
+  await fs.writeFile(path.join(folder, 'sankiwork.json'), JSON.stringify(buildManifest(slug, candidate), null, 2) + '\n', 'utf8');
   await fs.writeFile(path.join(folder, 'references', 'provenance.json'), JSON.stringify({
     candidateId: candidate.id,
     projectId: candidate.projectId,
@@ -308,7 +308,7 @@ function isExplicitSkillPluginUrl(value: string): boolean {
     return false;
   }
   if (url.hostname !== 'github.com') return false;
-  return /\/(?:SKILL\.md|open-design\.json)$/u.test(decodeURIComponent(url.pathname));
+  return /\/(?:SKILL\.md|sankiwork\.json)$/u.test(decodeURIComponent(url.pathname));
 }
 
 function deriveCandidateTitle(ref: SkillPluginCandidateSourceRef): string {

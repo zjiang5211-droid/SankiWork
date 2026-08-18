@@ -102,7 +102,7 @@ if (args[0] === 'resource' && args[1] === 'pull') {
     '<!doctype html><html><body data-e2e="first-materialized">shared</body></html>',
   );
   writeFileSync(
-    targetDir + '/open-design.json',
+    targetDir + '/sankiwork.json',
     JSON.stringify({ name: 'First-open materialized project', createdAt: 1, updatedAt: 2 }),
   );
   process.stdout.write(JSON.stringify({ version: 7, versionId: 'v7' }) + '\\n');

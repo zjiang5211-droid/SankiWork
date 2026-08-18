@@ -676,7 +676,7 @@ test('[P1] plugin authoring produces a generated-plugin scaffold with action car
     pluginId?: string;
     pendingPrompt?: string;
   };
-  expect(projectBody.pluginId).toBe('od-plugin-authoring');
+  expect(projectBody.pluginId).toBe('sw-plugin-authoring');
   expect(projectBody.pendingPrompt).toContain('produce a folder named generated-plugin');
 
   const runRequest = await runRequestPromise;
@@ -687,18 +687,18 @@ test('[P1] plugin authoring produces a generated-plugin scaffold with action car
   await expectWorkspaceReady(page);
   const { projectId, conversationId } = await currentProjectContext(page);
   await expectProjectFilesToContain(page, projectId, [
-    'generated-plugin/open-design.json',
+    'generated-plugin/sankiwork.json',
     'generated-plugin/SKILL.md',
     'generated-plugin/examples/demo.md',
   ]);
-  await expectProjectFileToContain(page, projectId, 'generated-plugin/open-design.json', '"name": "generated-plugin"');
+  await expectProjectFileToContain(page, projectId, 'generated-plugin/sankiwork.json', '"name": "generated-plugin"');
   await expectProjectFileToContain(page, projectId, 'generated-plugin/SKILL.md', '# Generated Plugin');
 
   await expectRestoredDelayedAssistantMessage(page, projectId, conversationId, {
     producedFiles: [
       'generated-plugin/examples/demo.md',
       'generated-plugin/SKILL.md',
-      'generated-plugin/open-design.json',
+      'generated-plugin/sankiwork.json',
     ],
     expectedThinking: false,
   });

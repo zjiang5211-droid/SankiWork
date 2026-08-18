@@ -6,7 +6,7 @@ const discoveryAtomPath = fileURLToPath(
   new URL('../../../plugins/_official/atoms/discovery-question-form/SKILL.md', import.meta.url),
 );
 const simpleDeckManifestPath = fileURLToPath(
-  new URL('../../../plugins/_official/examples/simple-deck/open-design.json', import.meta.url),
+  new URL('../../../plugins/_official/examples/simple-deck/sankiwork.json', import.meta.url),
 );
 
 describe('bundled discovery-question-form atom prompt contract', () => {

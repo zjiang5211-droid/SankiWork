@@ -1846,7 +1846,7 @@ export function registerProjectRoutes(app: Express, ctx: RegisterProjectRoutesDe
     reason: TeamShareScopeRefusal,
   ) {
     console.warn(
-      `[od] refused a team share into workspace ${ctx.workspaceId} (${reason}): ` +
+      `[sw] refused a team share into workspace ${ctx.workspaceId} (${reason}): ` +
         'a team share requires a team workspace; a personal workspace has no team plane.',
     );
     return sendApiError(

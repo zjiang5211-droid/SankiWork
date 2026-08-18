@@ -20,7 +20,7 @@ afterEach(async () => {
 });
 
 describe('scaffoldPlugin', () => {
-  it('writes SKILL.md + open-design.json + README.md by default', async () => {
+  it('writes SKILL.md + sankiwork.json + README.md by default', async () => {
     const result = await scaffoldPlugin({
       targetDir: tmpDir,
       id:        'sample-plugin',
@@ -29,13 +29,13 @@ describe('scaffoldPlugin', () => {
     expect(result.files.map((f) => path.basename(f)).sort()).toEqual([
       'README.md',
       'SKILL.md',
-      'open-design.json',
+      'sankiwork.json',
     ]);
     const skillBody = await readFile(path.join(result.folder, 'SKILL.md'), 'utf8');
     expect(skillBody).toMatch(/^---/);
     expect(skillBody).toMatch(/name: sample-plugin/);
     const manifest = JSON.parse(
-      await readFile(path.join(result.folder, 'open-design.json'), 'utf8'),
+      await readFile(path.join(result.folder, 'sankiwork.json'), 'utf8'),
     );
     expect(manifest.name).toBe('sample-plugin');
     expect(manifest.od.taskKind).toBe('new-generation');
@@ -48,7 +48,7 @@ describe('scaffoldPlugin', () => {
       id:        'my-cool-plugin',
     });
     const manifest = JSON.parse(
-      await readFile(path.join(result.folder, 'open-design.json'), 'utf8'),
+      await readFile(path.join(result.folder, 'sankiwork.json'), 'utf8'),
     );
     expect(manifest.title).toBe('My Cool Plugin');
   });

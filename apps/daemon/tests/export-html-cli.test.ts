@@ -102,6 +102,6 @@ describe('sw export --format html', () => {
     ).toString('base64'));
     expect(html).not.toContain('assets/logo.svg');
     expect(html).not.toContain('src="scripts/main.js"');
-    expect(html).toContain('od-project:/scripts/main.js');
+    expect(html).toContain('sw-project:/scripts/main.js');
   });
 });

@@ -1,4 +1,4 @@
-// Loader for `plugins/_official/<bucket>/<slug>/open-design.json` —
+// Loader for `plugins/_official/<bucket>/<slug>/sankiwork.json` —
 // the bundled-plugin catalogue the daemon registers on startup and
 // the in-app Plugins home displays. Authoritative source of truth for
 // the marketing site's `/plugins/...` routes; mirroring it keeps the
@@ -7,7 +7,7 @@
 //
 // Why a parallel loader instead of extending `catalog.ts`:
 //   - Catalog reads SKILL.md frontmatter through Astro Content
-//     Collections; bundled plugins ship `open-design.json` (a
+//     Collections; bundled plugins ship `sankiwork.json` (a
 //     manifest, not Markdown), so the data shape is different and
 //     forcing one loader to handle both invites schema confusion.
 //   - The manifest's `od.preview.poster` is already a CDN URL — no
@@ -464,7 +464,7 @@ export function getBundledPlugins(): ReadonlyArray<BundledPluginRecord> {
       const full = path.join(dir, name);
       if (!statSync(full).isDirectory()) continue;
       const record = loadOne({
-        manifestPath: path.join(root, bucket, name, 'open-design.json'),
+        manifestPath: path.join(root, bucket, name, 'sankiwork.json'),
         slugDir: path.join(root, bucket, name),
         slug: name,
         bucket,
@@ -509,7 +509,7 @@ export function getDetailPlugins(): ReadonlyArray<BundledPluginRecord> {
         if (name.startsWith('_') || name.startsWith('.')) continue;
         if (!statSync(path.join(dir, name)).isDirectory()) continue;
         const record = loadOne({
-          manifestPath: path.join(dir, name, 'open-design.json'),
+          manifestPath: path.join(dir, name, 'sankiwork.json'),
           slugDir: path.join(dir, name),
           slug: name,
           bucket,
@@ -527,7 +527,7 @@ export function getDetailPlugins(): ReadonlyArray<BundledPluginRecord> {
       const dir = path.join(community, name);
       if (!statSync(dir).isDirectory()) continue;
       const record = loadOne({
-        manifestPath: path.join(dir, 'open-design.json'),
+        manifestPath: path.join(dir, 'sankiwork.json'),
         slugDir: dir,
         slug: name,
         bucket: 'community',

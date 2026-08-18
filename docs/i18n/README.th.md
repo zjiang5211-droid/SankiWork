@@ -361,7 +361,7 @@ sw skills list --json
 
 **ทำไมต้อง MCP?** การ export แล้ว attach zip ใหม่ทุก iteration ทำให้ flow สะดุด. MCP เปิด source ของ design โดยตรง — agent เห็นไฟล์ live เสมอ.
 
-**สำหรับ agent ที่เริ่มจากศูนย์,** installer จะวาง `~/.config/<agent>/open-design.json` (หรือ path ตาม platform) พร้อม MCP snippet สำหรับ copy-paste. Cursor ได้ deeplink แบบ one-click; Claude Code ได้ one-liner `claude mcp add-json`; agent อื่นได้ JSON ตาม schema config ของตัวเอง. Flow ต่อ agent แบบเต็ม → **Settings → MCP server** ใน desktop app หรือ [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
+**สำหรับ agent ที่เริ่มจากศูนย์,** installer จะวาง `~/.config/<agent>/sankiwork.json` (หรือ path ตาม platform) พร้อม MCP snippet สำหรับ copy-paste. Cursor ได้ deeplink แบบ one-click; Claude Code ได้ one-liner `claude mcp add-json`; agent อื่นได้ JSON ตาม schema config ของตัวเอง. Flow ต่อ agent แบบเต็ม → **Settings → MCP server** ใน desktop app หรือ [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
 
 **Security model.** ค่าเริ่มต้นเป็น read-only, daemon bind กับ `127.0.0.1`, และ SSRF ถูกบล็อกที่ proxy edge. การเปิดให้ LAN ต้องตั้ง `SW_BIND_HOST` พร้อม `SW_ALLOWED_ORIGINS` อย่างชัดเจน. Connector credentials และ live-artifact preview routes ยังเป็น loopback-only เสมอ.
 
@@ -435,11 +435,11 @@ Re-import library ผ่าน [`scripts/sync-design-systems.ts`](../../scripts/
 
 ## Plugins
 
-**Official plugins 277 ตัวและ remixable reference examples 183 รายการ** อยู่ใน [`plugins/_official/`](../../plugins/_official/). แต่ละ entry เป็น portable plugin directory ที่ยึด `open-design.json` เป็นหลัก พร้อม payload ตาม type เช่น `SKILL.md` สำหรับ agent workflow, `template.json` สำหรับ media template หรือ `DESIGN.md` สำหรับ design-system entry. ไปที่ category ได้ทันที:
+**Official plugins 277 ตัวและ remixable reference examples 183 รายการ** อยู่ใน [`plugins/_official/`](../../plugins/_official/). แต่ละ entry เป็น portable plugin directory ที่ยึด `sankiwork.json` เป็นหลัก พร้อม payload ตาม type เช่น `SKILL.md` สำหรับ agent workflow, `template.json` สำหรับ media template หรือ `DESIGN.md` สำหรับ design-system entry. ไปที่ category ได้ทันที:
 
 | Category | Count | Contents |
 |---|---|---|
-| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | Complete design scenarios — [`od-default`](../../plugins/_official/scenarios/od-default/), [`od-design-refine`](../../plugins/_official/scenarios/od-design-refine/), [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/), [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/), [`od-react-export`](../../plugins/_official/scenarios/od-react-export/), [`od-nextjs-export`](../../plugins/_official/scenarios/od-nextjs-export/), [`od-vue-export`](../../plugins/_official/scenarios/od-vue-export/), [`od-media-generation`](../../plugins/_official/scenarios/od-media-generation/), [`od-new-generation`](../../plugins/_official/scenarios/od-new-generation/), [`od-tune-collab`](../../plugins/_official/scenarios/od-tune-collab/), [`od-plugin-authoring`](../../plugins/_official/scenarios/od-plugin-authoring/), [`od-share-to-community`](../../plugins/_official/scenarios/od-share-to-community/), [`od-web-effect-extractor`](../../plugins/_official/scenarios/od-web-effect-extractor/) |
+| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | Complete design scenarios — [`sw-default`](../../plugins/_official/scenarios/sw-default/), [`sw-design-refine`](../../plugins/_official/scenarios/sw-design-refine/), [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/), [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/), [`sw-react-export`](../../plugins/_official/scenarios/sw-react-export/), [`sw-nextjs-export`](../../plugins/_official/scenarios/sw-nextjs-export/), [`sw-vue-export`](../../plugins/_official/scenarios/sw-vue-export/), [`sw-media-generation`](../../plugins/_official/scenarios/sw-media-generation/), [`sw-new-generation`](../../plugins/_official/scenarios/sw-new-generation/), [`sw-tune-collab`](../../plugins/_official/scenarios/sw-tune-collab/), [`sw-plugin-authoring`](../../plugins/_official/scenarios/sw-plugin-authoring/), [`sw-share-to-community`](../../plugins/_official/scenarios/sw-share-to-community/), [`sw-web-effect-extractor`](../../plugins/_official/scenarios/sw-web-effect-extractor/) |
 | [`image-templates/`](../../plugins/_official/image-templates/) | 45 | One-shot image prompts — editorial, cinematic, product, portrait |
 | [`video-templates/`](../../plugins/_official/video-templates/) | 63 | HyperFrames / Seedance / Veo motion templates |
 | [`design-systems/`](../../plugins/_official/design-systems/) | 143 | Brand `DESIGN.md` ที่ wrap เป็น plugins |
@@ -451,8 +451,8 @@ Re-import library ผ่าน [`scripts/sync-design-systems.ts`](../../scripts/
 ### Plugin ทำอะไรได้บ้าง
 
 - 🤖 **รันใน coding agent ใดก็ได้** — [Claude Code](../../docs/agent-adapters.md), Codex, Cursor, Copilot, [OpenClaw](https://github.com/openclaw/openclaw), [Antigravity](https://antigravity.google), Hermes, Kimi… ผ่าน skill protocol เดียวกับที่ agent รู้จักอยู่แล้ว.
-- 🔁 **Migrate workflow จาก Figma / Pencil** → source แบบ React, Next.js หรือ Vue. ดู [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/).
-- 🛠️ **Refresh codebase เดิมให้ตรง brand spec** — ชี้ plugin ไปที่ `git` repo + `DESIGN.md` แล้วได้ PR. ดู [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/).
+- 🔁 **Migrate workflow จาก Figma / Pencil** → source แบบ React, Next.js หรือ Vue. ดู [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/).
+- 🛠️ **Refresh codebase เดิมให้ตรง brand spec** — ชี้ plugin ไปที่ `git` repo + `DESIGN.md` แล้วได้ PR. ดู [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/).
 - 💾 **Persist custom workflows** — reusable templates ของทีมคุณอยู่ข้าง ๆ ของที่ ship มากับระบบ.
 
 ### การใช้ plugins
@@ -466,29 +466,29 @@ Plugins มี parity เต็มระหว่าง **web UI** และ **`
 ```bash
 sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
 sw plugin search "landing page"      # search by keyword
-sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-sw plugin apply od-default --input brief="a one-page pitch for our seed round"
-sw plugin upgrade od-default         # upgrade
-sw plugin uninstall od-default       # uninstall
+sw plugin info sw-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install sw-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply sw-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade sw-default         # upgrade
+sw plugin uninstall sw-default       # uninstall
 ```
 
 ทุก command รองรับ `--json` จึง pipe ผ่าน `jq` / `xargs` เข้า automation ได้.
 
 ### การสร้าง plugin
 
-SankiWork plugin ต้องมี `open-design.json` พร้อม payload ที่ type นั้นกำหนด. Workflow skill หรือ scenario มี `SKILL.md` เพิ่ม; manifest-only template และ design-system entry ใช้ payload ของตัวเอง:
+SankiWork plugin ต้องมี `sankiwork.json` พร้อม payload ที่ type นั้นกำหนด. Workflow skill หรือ scenario มี `SKILL.md` เพิ่ม; manifest-only template และ design-system entry ใช้ payload ของตัวเอง:
 
 ```
 my-plugin/
-├── open-design.json    ← required: marketplace metadata + inputs + pipeline + capabilities
+├── sankiwork.json    ← required: marketplace metadata + inputs + pipeline + capabilities
 ├── SKILL.md            ← required for agent-skill/scenario entries; omit for other plugin types
 ├── README.md           ← optional: usage, install, registry links
 ├── preview/            ← optional: index.html / poster.png (strongly recommended for visual plugins)
 └── examples/           ← optional: concrete use cases
 ```
 
-Field หลักของ `open-design.json`: `specVersion` (ปัจจุบัน `1.0.0`), `name` (stable ID), `version` (semver), optional `compat.agentSkills[].path` (ชี้ไป `./SKILL.md` เมื่อ entry expose Agent Skill), `od.kind` (`skill` / `scenario` / `atom` / `bundle`), `od.taskKind` (`new-generation` / `figma-migration` / `code-migration` / `tune-collab`), `od.mode` (output surface เช่น `prototype` / `deck` / `live-artifact` / `image` / `video` / `hyperframes` / `audio` / `design-system` / `scenario`), `od.capabilities[]` (**ประกาศเท่าที่จำเป็นขั้นต่ำ** — restricted install ให้แค่ `prompt:inject` โดย default), `od.inputs[]` (parameter ตอน apply).
+Field หลักของ `sankiwork.json`: `specVersion` (ปัจจุบัน `1.0.0`), `name` (stable ID), `version` (semver), optional `compat.agentSkills[].path` (ชี้ไป `./SKILL.md` เมื่อ entry expose Agent Skill), `od.kind` (`skill` / `scenario` / `atom` / `bundle`), `od.taskKind` (`new-generation` / `figma-migration` / `code-migration` / `tune-collab`), `od.mode` (output surface เช่น `prototype` / `deck` / `live-artifact` / `image` / `video` / `hyperframes` / `audio` / `design-system` / `scenario`), `od.capabilities[]` (**ประกาศเท่าที่จำเป็นขั้นต่ำ** — restricted install ให้แค่ `prompt:inject` โดย default), `od.inputs[]` (parameter ตอน apply).
 
 Scaffold + validate ในเครื่อง:
 
@@ -602,7 +602,7 @@ SankiWork เดินหน้าได้เพราะ contributors — desi
 |---|---|---|
 | **skill** ใหม่ | วาง folder ที่มี `SKILL.md` + `assets/` + `references/` | [`skills/`](../../skills/) · spec ใน [`docs/skills-protocol.md`](../../docs/skills-protocol.md) |
 | **design system** ใหม่ | วาง package ที่มี `DESIGN.md` เป็นแกน และเพิ่ม `manifest.json`, `tokens.css`, components, assets หรือ provenance ตามต้องการ | [`design-systems/<brand>/`](../../design-systems/) |
-| **plugin** ใหม่ | วาง `open-design.json` + payload เฉพาะประเภทใน category folder | [`plugins/community/`](../../plugins/community/) · spec ใน [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · agent dev guide ใน [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
+| **plugin** ใหม่ | วาง `sankiwork.json` + payload เฉพาะประเภทใน category folder | [`plugins/community/`](../../plugins/community/) · spec ใน [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · agent dev guide ใน [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
 | รองรับ **coding-agent CLI** ใหม่ | Runtime definition + registry entry; เพิ่ม parser เฉพาะ wire format ใหม่ | [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runtimes/defs/) |
 | แก้ bug หรือ polish UI | ดู label [`good-first-issue`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) | [Issues →](https://github.com/nexu-io/open-design/issues) |
 | แปล docs | อัปเดตไฟล์ `README.<lang>.md` | [`TRANSLATIONS.md`](../../TRANSLATIONS.md) |

@@ -52,9 +52,9 @@ export interface PluginLoopSubmit {
   // chip the rail tells the submit handler which `ProjectKind` to
   // stamp on the new project's metadata. The daemon-side default
   // binding then resolves to the matching scenario plugin (image /
-  // video / audio → od-media-generation, others → od-new-generation).
+  // video / audio → sw-media-generation, others → sw-new-generation).
   // Null means the caller did not stamp an explicit kind. HomeView's
-  // free-form fallback uses `other` and binds the hidden od-default
+  // free-form fallback uses `other` and binds the hidden sw-default
   // router plugin so the agent infers the task type and asks only when
   // the brief cannot be routed reliably.
   projectKind?: ProjectKind | null;

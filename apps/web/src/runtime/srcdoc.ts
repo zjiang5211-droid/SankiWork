@@ -50,7 +50,7 @@ export type SrcdocOptions = {
    */
   freezeMotion?: boolean;
   /** Monotonically-increasing reload counter. When provided, it is embedded as
-   * a `data-od-reload-key` attribute on `<html>` so that the srcdoc string
+   * a `data-sw-reload-key` attribute on `<html>` so that the srcdoc string
    * differs across reloads even when the underlying HTML bytes are identical.
    * This guarantees that the iframe's `srcdoc` attribute is updated in the DOM
    * and the browser re-parses the document (issue #4650). */
@@ -452,7 +452,7 @@ export function buildSrcdoc(
   // when the underlying HTML bytes are identical.  This ensures the browser
   // sees a changed `srcdoc` attribute and re-parses the document (issue #4650).
   return options.reloadKey !== undefined
-    ? withTransport.replace(/(<html\b)([^>]*>)/i, `$1 data-od-reload-key="${options.reloadKey}"$2`)
+    ? withTransport.replace(/(<html\b)([^>]*>)/i, `$1 data-sw-reload-key="${options.reloadKey}"$2`)
     : withTransport;
 }
 
@@ -475,7 +475,7 @@ export function buildLazySrcdocTransport(): string {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script data-od-lazy-srcdoc-transport>(function(){
+    <script data-sw-lazy-srcdoc-transport>(function(){
       window.addEventListener('message', function(ev){
         var data = ev && ev.data;
         if (!data || data.type !== 'od:srcdoc-transport-activate' || typeof data.html !== 'string' || typeof data.generation !== 'string' || !data.generation) return;
@@ -529,7 +529,7 @@ export function canActivateSrcDocTransport(state: SrcDocActivationInputs): boole
 
 function injectSrcdocTransportActivationBridge(doc: string, generation: string): string {
   const encodedGeneration = JSON.stringify(generation);
-  const script = `<script data-od-srcdoc-transport-activation>(function(){
+  const script = `<script data-sw-srcdoc-transport-activation>(function(){
   var generation = ${encodedGeneration};
   function announceReady(probeId){
     if (!generation) return;
@@ -564,7 +564,7 @@ function injectSrcdocTransportActivationBridge(doc: string, generation: string):
 }
 
 function injectSnapshotBridge(doc: string): string {
-  const script = `<script data-od-snapshot-bridge>(function(){
+  const script = `<script data-sw-snapshot-bridge>(function(){
   var SNAPSHOT_STYLE_PROPS = [
     'display','position','box-sizing','width','height','min-width','max-width','min-height','max-height',
     'margin','margin-top','margin-right','margin-bottom','margin-left',

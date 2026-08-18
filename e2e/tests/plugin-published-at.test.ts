@@ -9,7 +9,7 @@
 // This guard keeps the signal from silently eroding: every bundled plugin
 // manifest must declare a parseable ISO 8601 `publishedAt`. When adding a
 // new template, stamp the authoring time — `date -u +%Y-%m-%dT%H:%M:%SZ` —
-// next to `version` in `open-design.json`. Do not copy the date from a
+// next to `version` in `sankiwork.json`. Do not copy the date from a
 // neighboring template: a wrong-but-parseable date places the template at
 // the wrong spot in the Newest shelf, which this check cannot see.
 
@@ -33,7 +33,7 @@ async function findManifests(dir: string): Promise<string[]> {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       out.push(...(await findManifests(full)));
-    } else if (entry.name === 'open-design.json') {
+    } else if (entry.name === 'sankiwork.json') {
       out.push(full);
     }
   }

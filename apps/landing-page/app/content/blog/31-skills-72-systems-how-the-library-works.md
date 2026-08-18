@@ -16,7 +16,7 @@ i18n:
       <li><strong>Adapter</strong>——由哪个 agent 来干活</li>
       <li><strong>daemon</strong>——把它们串接起来的那个循环</li>
       </ol>
-      <p>每个原语都是一个装着文件的文件夹。它们谁都不需要数据库、插件运行时或托管服务。这就是整个库的全部——没有藏在登录墙后面的第五个概念。这篇文章会逐一走过它们，并展示当你把 agent 指向一份真实的 brief 时会发生什么。如果你想在了解「怎么做」之前先了解我们<em>为什么</em>把它塑造成这个样子，请从 <a href="/blog/why-we-built-open-design-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a> 读起。</p>
+      <p>每个原语都是一个装着文件的文件夹。它们谁都不需要数据库、插件运行时或托管服务。这就是整个库的全部——没有藏在登录墙后面的第五个概念。这篇文章会逐一走过它们，并展示当你把 agent 指向一份真实的 brief 时会发生什么。如果你想在了解「怎么做」之前先了解我们<em>为什么</em>把它塑造成这个样子，请从 <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a> 读起。</p>
       <h2>Skill：能力的基本单位</h2>
       <p>一个 skill 就是一个文件夹，里面装着一个 <code>SKILL.md</code> 以及零个或多个辅助文件。这个 Markdown 文件是 agent 的契约——文件夹里其余的一切都是为了帮助 agent 兑现它。</p>
       <h3>一个 skill 文件夹的解剖</h3>
@@ -140,7 +140,7 @@ i18n:
       <p>如果你曾眼看着一代又一代设计工具死去、还把你的文件一并带走，你就会明白这笔交换为什么值得。</p>
       <h2>延伸阅读</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a>——这四个原语背后的赌注</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a>——这四个原语背后的赌注</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">BYOK 设计工作流：用你自己的密钥运行 Claude、Codex 或 Qwen</a>——adapter 如何连接到你早已付费的那个 agent</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">画布曾经藏起来的那一层版式</a>——为什么 DESIGN.md 里的 posture 规则胜过在画布上拖框</li>
       </ul>
@@ -155,7 +155,7 @@ i18n:
       <li><strong>轉接器（Adapters）</strong>——由哪個 agent 來幹活</li>
       <li><strong>daemon</strong>——把它們串接在一起的迴圈</li>
       </ol>
-      <p>每個基本元件都是一個檔案資料夾。它們都不需要資料庫、外掛執行環境或代管服務。這就是整個函式庫——沒有藏在登入牆後面的第五個概念。這篇文章會逐一帶你走過每一個，並展示當你把 agent 指向一份真實簡報時會發生什麼。如果你想在了解<em>怎麼做</em>之前，先看我們<em>為什麼</em>把它塑造成這樣的論述，那就從<a href="/blog/why-we-built-open-design-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>開始。</p>
+      <p>每個基本元件都是一個檔案資料夾。它們都不需要資料庫、外掛執行環境或代管服務。這就是整個函式庫——沒有藏在登入牆後面的第五個概念。這篇文章會逐一帶你走過每一個，並展示當你把 agent 指向一份真實簡報時會發生什麼。如果你想在了解<em>怎麼做</em>之前，先看我們<em>為什麼</em>把它塑造成這樣的論述，那就從<a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>開始。</p>
       <h2>技能：能力的單位</h2>
       <p>一個技能是一個資料夾，裡面含有一個 <code>SKILL.md</code> 以及零個或多個輔助檔案。那個 Markdown 檔案是 agent 的契約——資料夾裡其餘的一切，都是為了幫助 agent 達成它而存在的。</p>
       <h3>一個技能資料夾的解剖</h3>
@@ -279,7 +279,7 @@ i18n:
       <p>如果你看著一代又一代的設計工具死去、還把你的檔案一起帶走，你就會明白為什麼這個取捨值得。</p>
       <h2>延伸閱讀</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>——這四個基本元件背後的賭注</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>——這四個基本元件背後的賭注</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">BYOK 設計工作流程：用你自己的金鑰跑 Claude、Codex 或 Qwen</a>——轉接器如何連到你已經在付費的那個 agent</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">畫布過去藏起來的那一層版面</a>——為什麼一份 DESIGN.md 裡的姿態規則勝過在畫布上拖拉方塊</li>
       </ul>
@@ -294,7 +294,7 @@ i18n:
       <li><strong>アダプター</strong> — どのエージェントが作業を行うか</li>
       <li><strong>daemon</strong> — それらを結びつけるループ</li>
       </ol>
-      <p>各プリミティブはファイルのフォルダです。どれもデータベース、プラグインランタイム、ホスト型サービスを必要としません。これがライブラリのすべてです。ログイン壁の裏に隠れた 5 つ目の概念はありません。この記事ではそれぞれを順に見ていき、あなたがエージェントを実際のブリーフに向けたときに何が起きるかを示します。<em>どうやって</em>の前に<em>なぜ</em>こう形作ったのかという議論を知りたい方は、<a href="/blog/why-we-built-open-design-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a>から始めてください。</p>
+      <p>各プリミティブはファイルのフォルダです。どれもデータベース、プラグインランタイム、ホスト型サービスを必要としません。これがライブラリのすべてです。ログイン壁の裏に隠れた 5 つ目の概念はありません。この記事ではそれぞれを順に見ていき、あなたがエージェントを実際のブリーフに向けたときに何が起きるかを示します。<em>どうやって</em>の前に<em>なぜ</em>こう形作ったのかという議論を知りたい方は、<a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a>から始めてください。</p>
       <h2>スキル：能力の単位</h2>
       <p>スキルは、1 つの <code>SKILL.md</code> と 0 個以上の補助ファイルを含むフォルダです。Markdown ファイルはエージェントの契約です。フォルダ内のそれ以外のすべては、エージェントがそれを達成するのを助けるためにあります。</p>
       <h3>スキルフォルダの解剖</h3>
@@ -391,7 +391,7 @@ i18n:
       <p>一世代分のデザインツールが、あなたのファイルを道連れにして死んでいくのを見てきたなら、このトレードに価値がある理由がわかるはずです。</p>
       <h2>関連する読み物</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a> — 4 つのプリミティブの裏側にある賭け</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a> — 4 つのプリミティブの裏側にある賭け</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">BYOK デザインワークフロー：自分のキーで Claude、Codex、Qwen を動かす</a> — アダプターが、あなたがすでに支払っているエージェントにどう接続するか</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">キャンバスが隠していたレイアウトレイヤー</a> — なぜ DESIGN.md の姿勢ルールが、キャンバス上でボックスをドラッグするよりも勝るのか</li>
       </ul>
@@ -406,7 +406,7 @@ i18n:
       <li><strong>어댑터(Adapters)</strong> — 어떤 에이전트가 그 작업을 하는가</li>
       <li><strong>daemon</strong> — 이들을 서로 엮어 주는 루프</li>
       </ol>
-      <p>각 기본 요소는 파일들이 담긴 폴더 하나입니다. 그중 어느 것도 데이터베이스, 플러그인 런타임, 호스팅 서비스를 필요로 하지 않습니다. 이것이 라이브러리의 전부입니다 — 로그인 장벽 뒤에 숨어 있는 다섯 번째 개념 같은 건 없습니다. 이 글은 각 요소를 차례로 짚어 보고, 실제 브리프를 에이전트에게 던졌을 때 어떤 일이 벌어지는지 보여 줍니다. <em>어떻게</em> 만들었는지보다 <em>왜</em> 이런 형태로 만들었는지에 대한 논거가 먼저 궁금하다면, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">우리가 SankiWork를 제품이 아니라 스킬 레이어로 만든 이유</a>부터 읽어 보세요.</p>
+      <p>각 기본 요소는 파일들이 담긴 폴더 하나입니다. 그중 어느 것도 데이터베이스, 플러그인 런타임, 호스팅 서비스를 필요로 하지 않습니다. 이것이 라이브러리의 전부입니다 — 로그인 장벽 뒤에 숨어 있는 다섯 번째 개념 같은 건 없습니다. 이 글은 각 요소를 차례로 짚어 보고, 실제 브리프를 에이전트에게 던졌을 때 어떤 일이 벌어지는지 보여 줍니다. <em>어떻게</em> 만들었는지보다 <em>왜</em> 이런 형태로 만들었는지에 대한 논거가 먼저 궁금하다면, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">우리가 SankiWork를 제품이 아니라 스킬 레이어로 만든 이유</a>부터 읽어 보세요.</p>
       <h2>스킬: 역량의 단위</h2>
       <p>스킬은 하나의 <code>SKILL.md</code>와 0개 이상의 보조 파일을 담은 폴더입니다. 이 Markdown 파일이 에이전트의 계약서이며 — 폴더 안의 다른 모든 것은 에이전트가 그 계약을 충족하도록 돕기 위해 존재합니다.</p>
       <h3>스킬 폴더의 해부</h3>
@@ -543,7 +543,7 @@ i18n:
       <p>한 세대의 디자인 도구가 당신의 파일을 함께 끌고 사라지는 것을 지켜본 적이 있다면, 이 맞교환이 왜 그만한 가치가 있는지 이해할 것입니다.</p>
       <h2>함께 읽기</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">우리가 SankiWork를 제품이 아니라 스킬 레이어로 만든 이유</a> — 네 가지 기본 요소 뒤에 있는 베팅</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">우리가 SankiWork를 제품이 아니라 스킬 레이어로 만든 이유</a> — 네 가지 기본 요소 뒤에 있는 베팅</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">BYOK 디자인 워크플로: Claude, Codex, Qwen을 당신의 키로 실행하기</a> — 어댑터가 이미 당신이 비용을 내고 있는 에이전트에 연결되는 방식</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">캔버스가 숨겨 온 레이아웃 레이어</a> — DESIGN.md의 태도 규칙이 캔버스 위에서 박스를 끌어다 놓는 것을 이기는 이유</li>
       </ul>
@@ -558,7 +558,7 @@ i18n:
       <li><strong>Adapter</strong> — welcher Agent die Arbeit erledigt</li>
       <li><strong>Der daemon</strong> — die Schleife, die sie miteinander verbindet</li>
       </ol>
-      <p>Jedes Primitiv ist ein Ordner mit Dateien. Keines von ihnen erfordert eine Datenbank, eine Plugin-Runtime oder einen gehosteten Dienst. Das ist die ganze Bibliothek — es gibt kein fünftes Konzept, das sich hinter einer Login-Hürde versteckt. Dieser Beitrag geht jedes der Primitive der Reihe nach durch und zeigt, was passiert, wenn man seinen Agenten auf ein echtes Briefing ansetzt. Wer das Argument dafür sucht, <em>warum</em> wir es so geformt haben, bevor es um das <em>Wie</em> geht, beginnt am besten mit <a href="/blog/why-we-built-open-design-as-a-skill-layer/">warum wir SankiWork als Skill-Schicht gebaut haben, nicht als Produkt</a>.</p>
+      <p>Jedes Primitiv ist ein Ordner mit Dateien. Keines von ihnen erfordert eine Datenbank, eine Plugin-Runtime oder einen gehosteten Dienst. Das ist die ganze Bibliothek — es gibt kein fünftes Konzept, das sich hinter einer Login-Hürde versteckt. Dieser Beitrag geht jedes der Primitive der Reihe nach durch und zeigt, was passiert, wenn man seinen Agenten auf ein echtes Briefing ansetzt. Wer das Argument dafür sucht, <em>warum</em> wir es so geformt haben, bevor es um das <em>Wie</em> geht, beginnt am besten mit <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">warum wir SankiWork als Skill-Schicht gebaut haben, nicht als Produkt</a>.</p>
       <h2>Skills: die Einheit der Fähigkeit</h2>
       <p>Ein Skill ist ein Ordner, der eine <code>SKILL.md</code> und null oder mehr unterstützende Dateien enthält. Die Markdown-Datei ist der Vertrag des Agenten — alles andere im Ordner ist dazu da, dem Agenten zu helfen, ihn zu erfüllen.</p>
       <h3>Anatomie eines Skill-Ordners</h3>
@@ -695,7 +695,7 @@ i18n:
       <p>Wenn du miterlebt hast, wie eine ganze Generation von Design-Tools gestorben ist und deine Dateien mitgenommen hat, wirst du verstehen, warum dieser Kompromiss es wert ist.</p>
       <h2>Weiterführende Lektüre</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Warum wir SankiWork als Skill-Schicht gebaut haben, nicht als Produkt</a> — die Wette hinter den vier Primitiven</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Warum wir SankiWork als Skill-Schicht gebaut haben, nicht als Produkt</a> — die Wette hinter den vier Primitiven</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">BYOK Design-Workflow: Claude, Codex oder Qwen mit dem eigenen Schlüssel betreiben</a> — wie Adapter sich mit dem Agenten verbinden, für den du bereits zahlst</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">Die Layout-Schicht, die die Canvas früher verbarg</a> — warum Haltungsregeln in einer DESIGN.md das Ziehen von Boxen auf einer Canvas schlagen</li>
       </ul>
@@ -710,7 +710,7 @@ i18n:
       <li><strong>Adaptateurs</strong> — quel agent effectue le travail</li>
       <li><strong>Le daemon</strong> — la boucle qui les relie ensemble</li>
       </ol>
-      <p>Chaque primitive est un dossier de fichiers. Aucune ne nécessite de base de données, d'environnement d'exécution de plugins ou de service hébergé. C'est toute la bibliothèque — il n'y a pas de cinquième concept caché derrière un mur de connexion. Cet article parcourt chacune tour à tour et montre ce qui se passe lorsque vous pointez votre agent vers un vrai brief. Si vous voulez l'argument expliquant <em>pourquoi</em> nous l'avons façonné ainsi avant le <em>comment</em>, commencez par <a href="/blog/why-we-built-open-design-as-a-skill-layer/">pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a>.</p>
+      <p>Chaque primitive est un dossier de fichiers. Aucune ne nécessite de base de données, d'environnement d'exécution de plugins ou de service hébergé. C'est toute la bibliothèque — il n'y a pas de cinquième concept caché derrière un mur de connexion. Cet article parcourt chacune tour à tour et montre ce qui se passe lorsque vous pointez votre agent vers un vrai brief. Si vous voulez l'argument expliquant <em>pourquoi</em> nous l'avons façonné ainsi avant le <em>comment</em>, commencez par <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a>.</p>
       <h2>Skills : l'unité de capacité</h2>
       <p>Un skill est un dossier contenant un <code>SKILL.md</code> et zéro ou plusieurs fichiers de support. Le fichier Markdown est le contrat de l'agent — tout le reste du dossier est là pour aider l'agent à l'honorer.</p>
       <h3>Anatomie d'un dossier de skill</h3>
@@ -834,7 +834,7 @@ i18n:
       <p>Si vous avez vu une génération d'outils de design mourir en emportant vos fichiers avec eux, vous comprendrez pourquoi ce compromis en vaut la peine.</p>
       <h2>Lectures associées</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a> — le pari derrière les quatre primitives</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a> — le pari derrière les quatre primitives</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">Workflow de design BYOK : faites tourner Claude, Codex ou Qwen sur votre propre clé</a> — comment les adaptateurs se connectent à l'agent que vous payez déjà</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">La couche de mise en page que le canvas masquait</a> — pourquoi les règles de posture dans un DESIGN.md valent mieux que de faire glisser des boîtes sur un canvas</li>
       </ul>
@@ -849,7 +849,7 @@ i18n:
       <li><strong>Адаптеры (Adapters)</strong> — какой агент выполняет работу</li>
       <li><strong>Daemon</strong> — цикл, который связывает их воедино</li>
       </ol>
-      <p>Каждый примитив — это папка с файлами. Ни один из них не требует базы данных, среды выполнения плагинов или размещённого сервиса. Это вся библиотека целиком — за стеной входа не прячется никакой пятый концепт. Этот пост по очереди проходит по каждому из них и показывает, что происходит, когда вы направляете своего агента на реальный бриф. Если вам сначала нужны аргументы, <em>почему</em> мы придали этому именно такую форму, а уже потом — <em>как</em>, начните с <a href="/blog/why-we-built-open-design-as-a-skill-layer/">почему мы построили SankiWork как слой навыков, а не как продукт</a>.</p>
+      <p>Каждый примитив — это папка с файлами. Ни один из них не требует базы данных, среды выполнения плагинов или размещённого сервиса. Это вся библиотека целиком — за стеной входа не прячется никакой пятый концепт. Этот пост по очереди проходит по каждому из них и показывает, что происходит, когда вы направляете своего агента на реальный бриф. Если вам сначала нужны аргументы, <em>почему</em> мы придали этому именно такую форму, а уже потом — <em>как</em>, начните с <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">почему мы построили SankiWork как слой навыков, а не как продукт</a>.</p>
       <h2>Навыки: единица возможности</h2>
       <p>Навык — это папка, содержащая один файл <code>SKILL.md</code> и ноль или больше вспомогательных файлов. Файл Markdown — это контракт агента; всё остальное в папке существует, чтобы помочь агенту его выполнить.</p>
       <h3>Анатомия папки навыка</h3>
@@ -986,7 +986,7 @@ i18n:
       <p>Если вы наблюдали, как целое поколение инструментов для дизайна умирало, унося ваши файлы с собой, вы поймёте, почему этот компромисс того стоит.</p>
       <h2>Связанные материалы</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Почему мы построили SankiWork как слой навыков, а не как продукт</a> — ставка, стоящая за четырьмя примитивами</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Почему мы построили SankiWork как слой навыков, а не как продукт</a> — ставка, стоящая за четырьмя примитивами</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">Рабочий процесс дизайна BYOK: запускайте Claude, Codex или Qwen на собственном ключе</a> — как адаптеры подключаются к агенту, за которого вы уже платите</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">Слой вёрстки, который раньше прятал холст</a> — почему правила позиции в DESIGN.md лучше перетаскивания прямоугольников по холсту</li>
       </ul>
@@ -1001,7 +1001,7 @@ i18n:
       <li><strong>Adapters</strong> — qué agente realiza el trabajo</li>
       <li><strong>El daemon</strong> — el bucle que los conecta entre sí</li>
       </ol>
-      <p>Cada primitiva es una carpeta de archivos. Ninguna de ellas requiere una base de datos, un runtime de plugins ni un servicio alojado. Eso es toda la biblioteca — no hay un quinto concepto escondido detrás de un muro de inicio de sesión. Esta publicación recorre cada una por turnos y muestra qué ocurre cuando diriges tu agente hacia un brief real. Si quieres el argumento de <em>por qué</em> lo diseñamos de esta manera antes del <em>cómo</em>, empieza por <a href="/blog/why-we-built-open-design-as-a-skill-layer/">por qué construimos SankiWork como una capa de skills, no como un producto</a>.</p>
+      <p>Cada primitiva es una carpeta de archivos. Ninguna de ellas requiere una base de datos, un runtime de plugins ni un servicio alojado. Eso es toda la biblioteca — no hay un quinto concepto escondido detrás de un muro de inicio de sesión. Esta publicación recorre cada una por turnos y muestra qué ocurre cuando diriges tu agente hacia un brief real. Si quieres el argumento de <em>por qué</em> lo diseñamos de esta manera antes del <em>cómo</em>, empieza por <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">por qué construimos SankiWork como una capa de skills, no como un producto</a>.</p>
       <h2>Skills: la unidad de capacidad</h2>
       <p>Un skill es una carpeta que contiene un <code>SKILL.md</code> y cero o más archivos de apoyo. El archivo Markdown es el contrato del agente — todo lo demás en la carpeta está ahí para ayudar al agente a cumplirlo.</p>
       <h3>Anatomía de una carpeta de skill</h3>
@@ -1100,7 +1100,7 @@ i18n:
       <p>Si has visto morir a una generación de herramientas de diseño llevándose tus archivos con ellas, entenderás por qué este compromiso vale la pena.</p>
       <h2>Lecturas relacionadas</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Por qué construimos SankiWork como una capa de skills, no como un producto</a> — la apuesta detrás de las cuatro primitivas</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Por qué construimos SankiWork como una capa de skills, no como un producto</a> — la apuesta detrás de las cuatro primitivas</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">Flujo de trabajo de diseño BYOK: ejecuta Claude, Codex o Qwen con tu propia clave</a> — cómo se conectan los adapters al agente que ya pagas</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">La capa de layout que el canvas solía ocultar</a> — por qué las reglas de postura en un DESIGN.md superan a arrastrar cajas en un canvas</li>
       </ul>
@@ -1115,7 +1115,7 @@ i18n:
       <li><strong>Adaptadores</strong> — qual agente faz o trabalho</li>
       <li><strong>O daemon</strong> — o loop que conecta tudo</li>
       </ol>
-      <p>Cada primitiva é uma pasta de arquivos. Nenhuma delas exige um banco de dados, um runtime de plugin ou um serviço hospedado. Essa é a biblioteca inteira — não há um quinto conceito escondido atrás de um muro de login. Este post percorre cada uma por vez e mostra o que acontece quando você aponta seu agente para um briefing real. Se você quer o argumento de <em>por que</em> a moldamos assim antes do <em>como</em>, comece com <a href="/blog/why-we-built-open-design-as-a-skill-layer/">por que construímos o SankiWork como uma camada de skills, não um produto</a>.</p>
+      <p>Cada primitiva é uma pasta de arquivos. Nenhuma delas exige um banco de dados, um runtime de plugin ou um serviço hospedado. Essa é a biblioteca inteira — não há um quinto conceito escondido atrás de um muro de login. Este post percorre cada uma por vez e mostra o que acontece quando você aponta seu agente para um briefing real. Se você quer o argumento de <em>por que</em> a moldamos assim antes do <em>como</em>, comece com <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">por que construímos o SankiWork como uma camada de skills, não um produto</a>.</p>
       <h2>Skills: a unidade de capacidade</h2>
       <p>Uma skill é uma pasta contendo um <code>SKILL.md</code> e zero ou mais arquivos de apoio. O arquivo Markdown é o contrato do agente — todo o resto na pasta está ali para ajudar o agente a cumpri-lo.</p>
       <h3>Anatomia de uma pasta de skill</h3>
@@ -1239,7 +1239,7 @@ i18n:
       <p>Se você viu uma geração de ferramentas de design morrer levando seus arquivos junto, vai entender por que esse trade-off vale a pena.</p>
       <h2>Leitura relacionada</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Por que construímos o SankiWork como uma camada de skills, não um produto</a> — a aposta por trás das quatro primitivas</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Por que construímos o SankiWork como uma camada de skills, não um produto</a> — a aposta por trás das quatro primitivas</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">Fluxo de design BYOK: rode Claude, Codex ou Qwen com sua própria chave</a> — como os adaptadores se conectam ao agente que você já paga</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">A camada de layout que o canvas costumava esconder</a> — por que regras de postura num DESIGN.md ganham de arrastar caixas num canvas</li>
       </ul>
@@ -1254,7 +1254,7 @@ i18n:
       <li><strong>Adattatori</strong>: quale agente svolge il lavoro</li>
       <li><strong>Il daemon</strong>: il ciclo che li collega tra loro</li>
       </ol>
-      <p>Ogni primitiva è una cartella di file. Nessuna di esse richiede un database, un runtime di plugin o un servizio ospitato. Questa è l'intera libreria: non c'è un quinto concetto nascosto dietro un muro di login. Questo articolo passa in rassegna ognuna a turno e mostra cosa succede quando punti il tuo agente a un brief reale. Se vuoi l'argomentazione sul <em>perché</em> l'abbiamo plasmato così prima del <em>come</em>, inizia da <a href="/blog/why-we-built-open-design-as-a-skill-layer/">perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>.</p>
+      <p>Ogni primitiva è una cartella di file. Nessuna di esse richiede un database, un runtime di plugin o un servizio ospitato. Questa è l'intera libreria: non c'è un quinto concetto nascosto dietro un muro di login. Questo articolo passa in rassegna ognuna a turno e mostra cosa succede quando punti il tuo agente a un brief reale. Se vuoi l'argomentazione sul <em>perché</em> l'abbiamo plasmato così prima del <em>come</em>, inizia da <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>.</p>
       <h2>Skill: l'unità di capacità</h2>
       <p>Una skill è una cartella che contiene un <code>SKILL.md</code> e zero o più file di supporto. Il file Markdown è il contratto dell'agente: tutto il resto nella cartella serve ad aiutare l'agente a rispettarlo.</p>
       <h3>Anatomia di una cartella di skill</h3>
@@ -1353,7 +1353,7 @@ i18n:
       <p>Se hai visto una generazione di strumenti di design morire portandosi via i tuoi file, capirai perché questo compromesso ne vale la pena.</p>
       <h2>Letture correlate</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>: la scommessa dietro le quattro primitive</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>: la scommessa dietro le quattro primitive</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">Flusso di lavoro di design BYOK: usa Claude, Codex o Qwen con la tua chiave</a>: come gli adattatori si collegano all'agente che già paghi</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">Il livello di layout che il canvas nascondeva</a>: perché le regole di postura in un DESIGN.md battono il trascinare riquadri su un canvas</li>
       </ul>
@@ -1368,7 +1368,7 @@ i18n:
       <li><strong>Adapter</strong> — agent nào làm công việc</li>
       <li><strong>Daemon</strong> — vòng lặp nối tất cả lại với nhau</li>
       </ol>
-      <p>Mỗi nguyên tố là một thư mục chứa các tệp. Không cái nào cần cơ sở dữ liệu, runtime plugin, hay dịch vụ được host. Đó là toàn bộ thư viện — không có khái niệm thứ năm nào ẩn sau một bức tường đăng nhập. Bài viết này đi qua từng cái một và cho thấy điều gì xảy ra khi bạn trỏ agent của mình vào một brief thực. Nếu bạn muốn lập luận <em>vì sao</em> chúng tôi định hình nó theo cách này trước phần <em>như thế nào</em>, hãy bắt đầu với <a href="/blog/why-we-built-open-design-as-a-skill-layer/">vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a>.</p>
+      <p>Mỗi nguyên tố là một thư mục chứa các tệp. Không cái nào cần cơ sở dữ liệu, runtime plugin, hay dịch vụ được host. Đó là toàn bộ thư viện — không có khái niệm thứ năm nào ẩn sau một bức tường đăng nhập. Bài viết này đi qua từng cái một và cho thấy điều gì xảy ra khi bạn trỏ agent của mình vào một brief thực. Nếu bạn muốn lập luận <em>vì sao</em> chúng tôi định hình nó theo cách này trước phần <em>như thế nào</em>, hãy bắt đầu với <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a>.</p>
       <h2>Skill: đơn vị năng lực</h2>
       <p>Một skill là một thư mục chứa một <code>SKILL.md</code> và không hoặc nhiều tệp hỗ trợ. Tệp Markdown là hợp đồng của agent — mọi thứ khác trong thư mục là để giúp agent đạt được nó.</p>
       <h3>Giải phẫu một thư mục skill</h3>
@@ -1494,7 +1494,7 @@ i18n:
       <p>Nếu bạn từng chứng kiến một thế hệ công cụ thiết kế chết đi và mang theo cả các tệp của bạn, bạn sẽ hiểu vì sao sự đánh đổi này đáng giá.</p>
       <h2>Đọc thêm</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a> — canh bạc đằng sau bốn nguyên tố</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a> — canh bạc đằng sau bốn nguyên tố</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">Quy trình thiết kế BYOK: chạy Claude, Codex hay Qwen bằng key của riêng bạn</a> — cách các adapter kết nối với agent bạn đã trả tiền</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">Lớp bố cục mà canvas từng che giấu</a> — vì sao các quy tắc tư thế trong một DESIGN.md đánh bại việc kéo các hộp trên một canvas</li>
       </ul>
@@ -1509,7 +1509,7 @@ i18n:
       <li><strong>Adaptery</strong> — który agent wykonuje pracę</li>
       <li><strong>Daemon</strong> — pętla, która łączy je ze sobą</li>
       </ol>
-      <p>Każdy prymityw to folder z plikami. Żaden z nich nie wymaga bazy danych, środowiska uruchomieniowego wtyczek ani hostowanej usługi. To cała biblioteka — nie ma piątego pojęcia ukrytego za ścianą logowania. Ten wpis omawia kolejno każdy z nich i pokazuje, co się dzieje, gdy skierujesz swojego agenta na prawdziwy brief. Jeśli chcesz poznać argument za tym, <em>dlaczego</em> nadaliśmy temu taki kształt, zanim poznasz <em>jak</em>, zacznij sw <a href="/blog/why-we-built-open-design-as-a-skill-layer/">dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a>.</p>
+      <p>Każdy prymityw to folder z plikami. Żaden z nich nie wymaga bazy danych, środowiska uruchomieniowego wtyczek ani hostowanej usługi. To cała biblioteka — nie ma piątego pojęcia ukrytego za ścianą logowania. Ten wpis omawia kolejno każdy z nich i pokazuje, co się dzieje, gdy skierujesz swojego agenta na prawdziwy brief. Jeśli chcesz poznać argument za tym, <em>dlaczego</em> nadaliśmy temu taki kształt, zanim poznasz <em>jak</em>, zacznij sw <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a>.</p>
       <h2>Umiejętności: jednostka możliwości</h2>
       <p>Umiejętność to folder zawierający jeden plik <code>SKILL.md</code> i zero lub więcej plików pomocniczych. Plik Markdown jest kontraktem agenta — wszystko inne w folderze jest po to, by pomóc agentowi go spełnić.</p>
       <h3>Anatomia folderu umiejętności</h3>
@@ -1633,7 +1633,7 @@ i18n:
       <p>Jeśli oglądałeś, jak całe pokolenie narzędzi projektowych umiera, zabierając ze sobą Twoje pliki, zrozumiesz, dlaczego ten kompromis jest tego wart.</p>
       <h2>Powiązane lektury</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a> — zakład stojący za czterema prymitywami</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a> — zakład stojący za czterema prymitywami</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">Workflow projektowy BYOK: uruchom Claude, Codex lub Qwen na własnym kluczu</a> — jak adaptery łączą się z agentem, za którego już płacisz</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">Warstwa układu, którą płótno kiedyś ukrywało</a> — dlaczego reguły postawy w DESIGN.md biją przeciąganie pudełek po płótnie</li>
       </ul>
@@ -1648,7 +1648,7 @@ i18n:
       <li><strong>Adapter</strong> — agent mana yang melakukan pekerjaan</li>
       <li><strong>Daemon</strong> — loop yang merangkai semuanya</li>
       </ol>
-      <p>Setiap primitif adalah sebuah folder berisi file. Tidak satu pun dari mereka memerlukan basis data, runtime plugin, atau layanan berbasis hosting. Itulah keseluruhan pustakanya — tidak ada konsep kelima yang bersembunyi di balik dinding login. Tulisan ini menelusuri masing-masing secara bergiliran dan menunjukkan apa yang terjadi ketika Anda mengarahkan agent Anda ke sebuah brief nyata. Jika Anda ingin argumen tentang <em>mengapa</em> kami membentuknya seperti ini sebelum <em>bagaimana</em>-nya, mulailah dengan <a href="/blog/why-we-built-open-design-as-a-skill-layer/">mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a>.</p>
+      <p>Setiap primitif adalah sebuah folder berisi file. Tidak satu pun dari mereka memerlukan basis data, runtime plugin, atau layanan berbasis hosting. Itulah keseluruhan pustakanya — tidak ada konsep kelima yang bersembunyi di balik dinding login. Tulisan ini menelusuri masing-masing secara bergiliran dan menunjukkan apa yang terjadi ketika Anda mengarahkan agent Anda ke sebuah brief nyata. Jika Anda ingin argumen tentang <em>mengapa</em> kami membentuknya seperti ini sebelum <em>bagaimana</em>-nya, mulailah dengan <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a>.</p>
       <h2>Skill: unit kapabilitas</h2>
       <p>Sebuah skill adalah folder yang berisi satu <code>SKILL.md</code> dan nol atau lebih file pendukung. File Markdown adalah kontrak agent — segala hal lain di dalam folder ada untuk membantu agent memenuhinya.</p>
       <h3>Anatomi sebuah folder skill</h3>
@@ -1772,7 +1772,7 @@ i18n:
       <p>Jika Anda pernah menyaksikan satu generasi tool desain mati membawa serta file Anda, Anda akan mengerti mengapa pertukaran ini layak.</p>
       <h2>Bacaan terkait</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a> — taruhan di balik empat primitif</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a> — taruhan di balik empat primitif</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">Alur kerja desain BYOK: jalankan Claude, Codex, atau Qwen dengan key Anda sendiri</a> — cara adapter terhubung ke agent yang sudah Anda bayar</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">Lapisan tata letak yang dulu disembunyikan oleh kanvas</a> — mengapa aturan postur dalam sebuah DESIGN.md mengalahkan menyeret kotak di atas kanvas</li>
       </ul>
@@ -1787,7 +1787,7 @@ i18n:
       <li><strong>Adapters</strong> — welke agent het werk doet</li>
       <li><strong>De daemon</strong> — de lus die ze met elkaar verbindt</li>
       </ol>
-      <p>Elk primitief is een map met bestanden. Geen ervan vereist een database, een plugin-runtime of een gehoste service. Dat is de hele bibliotheek — er is geen vijfde concept dat zich achter een inlogmuur verbergt. Dit bericht loopt elk op zijn beurt door en laat zien wat er gebeurt als je je agent op een echte briefing richt. Als je het argument wilt voor <em>waarom</em> we het op deze manier hebben vormgegeven vóór het <em>hoe</em>, begin dan met <a href="/blog/why-we-built-open-design-as-a-skill-layer/">waarom we SankiWork als een skill-laag bouwden, niet als een product</a>.</p>
+      <p>Elk primitief is een map met bestanden. Geen ervan vereist een database, een plugin-runtime of een gehoste service. Dat is de hele bibliotheek — er is geen vijfde concept dat zich achter een inlogmuur verbergt. Dit bericht loopt elk op zijn beurt door en laat zien wat er gebeurt als je je agent op een echte briefing richt. Als je het argument wilt voor <em>waarom</em> we het op deze manier hebben vormgegeven vóór het <em>hoe</em>, begin dan met <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">waarom we SankiWork als een skill-laag bouwden, niet als een product</a>.</p>
       <h2>Skills: de eenheid van capaciteit</h2>
       <p>Een skill is een map die één <code>SKILL.md</code> bevat en nul of meer ondersteunende bestanden. Het Markdown-bestand is het contract van de agent — al het andere in de map is er om de agent te helpen het te halen.</p>
       <h3>Anatomie van een skill-map</h3>
@@ -1910,7 +1910,7 @@ i18n:
       <p>Als je een generatie ontwerptools hebt zien sterven en je bestanden hebt zien meenemen, dan begrijp je waarom deze afweging het waard is.</p>
       <h2>Gerelateerde lectuur</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Waarom we SankiWork als een skill-laag bouwden, niet als een product</a> — de gok achter de vier primitieven</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Waarom we SankiWork als een skill-laag bouwden, niet als een product</a> — de gok achter de vier primitieven</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">BYOK-ontwerpworkflow: draai Claude, Codex of Qwen op je eigen sleutel</a> — hoe adapters verbinden met de agent waar je al voor betaalt</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">De lay-outlaag die het canvas vroeger verborg</a> — waarom houdingsregels in een DESIGN.md beter zijn dan vakjes slepen op een canvas</li>
       </ul>
@@ -1925,7 +1925,7 @@ i18n:
       <li><strong>المُحوّلات</strong> — أي عميل يقوم بالعمل</li>
       <li><strong>الـ daemon</strong> — الحلقة التي تربطها معًا</li>
       </ol>
-      <p>كل عنصر أساسي هو مجلّد من الملفات. ولا يتطلّب أيٌّ منها قاعدة بيانات، أو بيئة تشغيل إضافات، أو خدمة مُستضافة. هذه هي المكتبة بأكملها — لا يوجد مفهوم خامس مختبئ خلف جدار تسجيل دخول. تتناول هذه المقالة كل عنصر بدوره وتُظهر ما يحدث عندما توجّه عميلك إلى ملخّص حقيقي. وإن أردت الحجة حول <em>لماذا</em> صمّمناه على هذا النحو قبل <em>الكيفية</em>، فابدأ بمقالة <a href="/blog/why-we-built-open-design-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a>.</p>
+      <p>كل عنصر أساسي هو مجلّد من الملفات. ولا يتطلّب أيٌّ منها قاعدة بيانات، أو بيئة تشغيل إضافات، أو خدمة مُستضافة. هذه هي المكتبة بأكملها — لا يوجد مفهوم خامس مختبئ خلف جدار تسجيل دخول. تتناول هذه المقالة كل عنصر بدوره وتُظهر ما يحدث عندما توجّه عميلك إلى ملخّص حقيقي. وإن أردت الحجة حول <em>لماذا</em> صمّمناه على هذا النحو قبل <em>الكيفية</em>، فابدأ بمقالة <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a>.</p>
       <h2>المهارات: وحدة القدرة</h2>
       <p>المهارة هي مجلّد يحتوي على ملف <code>SKILL.md</code> واحد وصفر أو أكثر من الملفات المساعدة. ملف Markdown هو عقد العميل — وكل ما عداه في المجلّد موجود لمساعدة العميل على الوفاء به.</p>
       <h3>تشريح مجلّد المهارة</h3>
@@ -2020,7 +2020,7 @@ i18n:
       <p>إذا كنت قد شاهدت جيلًا من أدوات التصميم يموت آخذًا ملفاتك معه، فستفهم لماذا تستحق هذه المقايضة العناء.</p>
       <h2>قراءات ذات صلة</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a> — الرهان وراء العناصر الأساسية الأربعة</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a> — الرهان وراء العناصر الأساسية الأربعة</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">سير عمل التصميم بنظام BYOK: شغّل Claude أو Codex أو Qwen على مفتاحك الخاص</a> — كيف تتّصل المُحوّلات بالعميل الذي تدفع مقابله بالفعل</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">طبقة التخطيط التي اعتاد الكانفاس إخفاءها</a> — لماذا تتفوّق قواعد الوضعية في DESIGN.md على سحب الصناديق على الكانفاس</li>
       </ul>
@@ -2035,7 +2035,7 @@ i18n:
       <li><strong>Adaptörler</strong> — işi hangi ajanın yaptığı</li>
       <li><strong>Daemon</strong> — bunları birbirine bağlayan döngü</li>
       </ol>
-      <p>Her ilkel öğe, bir dosya klasörüdür. Hiçbiri bir veritabanı, bir eklenti çalışma zamanı veya barındırılan bir hizmet gerektirmez. Tüm kütüphane budur — bir giriş duvarının ardında saklanan beşinci bir kavram yoktur. Bu yazı, her birini sırayla inceliyor ve ajanınızı gerçek bir brief'e yönelttiğinizde neler olduğunu gösteriyor. <em>Nasıl</em>'dan önce bunu <em>neden</em> bu şekilde biçimlendirdiğimizin argümanını isterseniz, <a href="/blog/why-we-built-open-design-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> yazısıyla başlayın.</p>
+      <p>Her ilkel öğe, bir dosya klasörüdür. Hiçbiri bir veritabanı, bir eklenti çalışma zamanı veya barındırılan bir hizmet gerektirmez. Tüm kütüphane budur — bir giriş duvarının ardında saklanan beşinci bir kavram yoktur. Bu yazı, her birini sırayla inceliyor ve ajanınızı gerçek bir brief'e yönelttiğinizde neler olduğunu gösteriyor. <em>Nasıl</em>'dan önce bunu <em>neden</em> bu şekilde biçimlendirdiğimizin argümanını isterseniz, <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> yazısıyla başlayın.</p>
       <h2>Beceriler: yetenek birimi</h2>
       <p>Bir beceri, bir adet <code>SKILL.md</code> ve sıfır veya daha fazla destekleyici dosya içeren bir klasördür. Markdown dosyası ajanın sözleşmesidir — klasördeki diğer her şey, ajanın bu sözleşmeye ulaşmasına yardımcı olmak içindir.</p>
       <h3>Bir beceri klasörünün anatomisi</h3>
@@ -2158,7 +2158,7 @@ i18n:
       <p>Bir nesil tasarım aracının dosyalarınızı da yanlarında götürerek öldüğünü izlediyseniz, bu ödünleşimin neden buna değer olduğunu anlarsınız.</p>
       <h2>İlgili okumalar</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> — dört ilkel öğenin arkasındaki bahis</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> — dört ilkel öğenin arkasındaki bahis</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">BYOK tasarım iş akışı: Claude, Codex veya Qwen'i kendi anahtarınızla çalıştırın</a> — adaptörlerin zaten ödeme yaptığınız ajana nasıl bağlandığı</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">Tuvalin gizlemeye alışık olduğu yerleşim katmanı</a> — bir DESIGN.md'deki duruş kurallarının bir tuvalde kutuları sürüklemeyi neden geride bıraktığı</li>
       </ul>
@@ -2173,7 +2173,7 @@ i18n:
       <li><strong>Адаптери</strong> — який агент виконує роботу</li>
       <li><strong>Daemon</strong> — цикл, що з’єднує їх разом</li>
       </ol>
-      <p>Кожен примітив — це тека з файлами. Жоден із них не потребує бази даних, середовища виконання плагінів чи хмарного сервісу. Це вся бібліотека — немає п’ятої концепції, що ховається за стіною входу. Цей допис послідовно розглядає кожен із них і показує, що відбувається, коли ви спрямовуєте свого агента на справжній бриф. Якщо вам потрібен аргумент щодо того, <em>чому</em> ми сформували це саме так, перш ніж дізнатися <em>як</em>, почніть із <a href="/blog/why-we-built-open-design-as-a-skill-layer/">чому ми побудували SankiWork як рівень навичок, а не продукт</a>.</p>
+      <p>Кожен примітив — це тека з файлами. Жоден із них не потребує бази даних, середовища виконання плагінів чи хмарного сервісу. Це вся бібліотека — немає п’ятої концепції, що ховається за стіною входу. Цей допис послідовно розглядає кожен із них і показує, що відбувається, коли ви спрямовуєте свого агента на справжній бриф. Якщо вам потрібен аргумент щодо того, <em>чому</em> ми сформували це саме так, перш ніж дізнатися <em>як</em>, почніть із <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">чому ми побудували SankiWork як рівень навичок, а не продукт</a>.</p>
       <h2>Навички: одиниця можливостей</h2>
       <p>Навичка — це тека, що містить один <code>SKILL.md</code> і нуль або більше допоміжних файлів. Файл Markdown — це контракт агента; усе інше в теці є там, щоб допомогти агенту його виконати.</p>
       <h3>Анатомія теки навички</h3>
@@ -2297,7 +2297,7 @@ i18n:
       <p>Якщо ви спостерігали, як ціле покоління дизайнерських інструментів вмирало, забираючи з собою ваші файли, ви зрозумієте, чому цей компроміс того вартий.</p>
       <h2>Пов’язане для читання</h2>
       <ul>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Чому ми побудували SankiWork як рівень навичок, а не продукт</a> — ставка за чотирма примітивами</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Чому ми побудували SankiWork як рівень навичок, а не продукт</a> — ставка за чотирма примітивами</li>
       <li><a href="/blog/byok-design-workflow-claude-codex-qwen/">BYOK-робочий процес дизайну: запускайте Claude, Codex чи Qwen на власному ключі</a> — як адаптери з’єднуються з агентом, за якого ви вже платите</li>
       <li><a href="/blog/layout-layer-canvas-used-to-hide/">Рівень макета, який полотно колись приховувало</a> — чому правила постави в DESIGN.md перевершують перетягування блоків на полотні</li>
       </ul>
@@ -2310,7 +2310,7 @@ SankiWork is, mechanically, four primitives stacked on top of each other:
 3. **Adapters** — which agent does the work
 4. **The daemon** — the loop that wires them together
 
-Each primitive is a folder of files. None of them require a database, a plugin runtime, or a hosted service. That's the whole library — there is no fifth concept hiding behind a login wall. This post walks through each in turn and shows what happens when you point your agent at a real brief. If you want the argument for *why* we shaped it this way before the *how*, start with [why we built SankiWork as a skill layer, not a product](/blog/why-we-built-open-design-as-a-skill-layer/).
+Each primitive is a folder of files. None of them require a database, a plugin runtime, or a hosted service. That's the whole library — there is no fifth concept hiding behind a login wall. This post walks through each in turn and shows what happens when you point your agent at a real brief. If you want the argument for *why* we shaped it this way before the *how*, start with [why we built SankiWork as a skill layer, not a product](/blog/why-we-built-sankiwork-as-a-skill-layer/).
 
 ## Skills: the unit of capability
 
@@ -2448,6 +2448,6 @@ If you've watched a generation of design tools die taking your files with them, 
 
 ## Related reading
 
-- [Why we built SankiWork as a skill layer, not a product](/blog/why-we-built-open-design-as-a-skill-layer/) — the bet behind the four primitives
+- [Why we built SankiWork as a skill layer, not a product](/blog/why-we-built-sankiwork-as-a-skill-layer/) — the bet behind the four primitives
 - [BYOK design workflow: run Claude, Codex, or Qwen on your own key](/blog/byok-design-workflow-claude-codex-qwen/) — how adapters connect to the agent you already pay for
 - [The layout layer the canvas used to hide](/blog/layout-layer-canvas-used-to-hide/) — why posture rules in a DESIGN.md beat dragging boxes on a canvas

@@ -770,7 +770,7 @@
     if (el.id) return `${el.tagName.toLowerCase()}#${el.id}`;
     let sel = el.tagName.toLowerCase();
     const cls = Array.from(el.classList)
-      .filter((c) => !c.startsWith('od-clipper'))
+      .filter((c) => !c.startsWith('sw-clipper'))
       .slice(0, 2);
     if (cls.length) sel += `.${cls.join('.')}`;
     const parent = el.parentElement;
@@ -784,7 +784,7 @@
   function describeElement(el, rect) {
     const meta = {
       tag: el.tagName.toLowerCase(),
-      classes: Array.from(el.classList).filter((c) => !c.startsWith('od-clipper')).slice(0, 10),
+      classes: Array.from(el.classList).filter((c) => !c.startsWith('sw-clipper')).slice(0, 10),
       selector: cssPath(el),
       width: Math.round(rect.width),
       height: Math.round(rect.height),

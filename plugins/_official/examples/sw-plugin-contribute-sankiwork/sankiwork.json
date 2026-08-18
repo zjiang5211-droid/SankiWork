@@ -1,0 +1,130 @@
+{
+  "$schema": "https://sanki-ai.cloud/schemas/plugin.v1.json",
+  "specVersion": "1.0.0",
+  "name": "sw-plugin-contribute-sankiwork",
+  "title": "Contribute Plugin to SankiWork",
+  "title_i18n": {
+    "zh-CN": "贡献插件到 SankiWork",
+    "zh-TW": "貢獻外掛至 SankiWork",
+    "ja": "SankiWork にプラグインを投稿",
+    "ko": "SankiWork에 플러그인 기여",
+    "de": "Plugin zu SankiWork beitragen",
+    "fr": "Contribuer un plugin à SankiWork",
+    "ru": "Добавить плагин в SankiWork",
+    "es": "Contribuir plugin a SankiWork",
+    "pt-BR": "Contribuir plugin para SankiWork",
+    "it": "Contribuisci plugin a SankiWork",
+    "vi": "Đóng góp plugin cho SankiWork",
+    "pl": "Dodaj wtyczkę do SankiWork",
+    "id": "Kontribusi Plugin ke SankiWork",
+    "nl": "Plugin bijdragen aan SankiWork",
+    "ar": "المساهمة بإضافة إلى SankiWork",
+    "tr": "SankiWork'a Eklenti Katkısı",
+    "uk": "Додати плагін до SankiWork",
+    "en": "Contribute Plugin to SankiWork"
+  },
+  "version": "0.1.0",
+  "publishedAt": "2026-05-12T23:01:12Z",
+  "description": "Opens a pull request that adds a local SankiWork plugin to the SankiWork community catalog using the GitHub CLI.",
+  "description_i18n": {
+    "zh-CN": "使用 GitHub CLI 打开拉取请求，将本地 SankiWork 插件添加到 SankiWork 社区目录。",
+    "zh-TW": "使用 GitHub CLI 開啟拉取請求，將本機 SankiWork 外掛新增至 SankiWork 社群目錄。",
+    "ja": "GitHub CLI を使用してプルリクエストを開き、ローカルの SankiWork プラグインを SankiWork コミュニティカタログに追加します。",
+    "ko": "GitHub CLI를 사용하여 로컬 SankiWork 플러그인을 SankiWork 커뮤니티 카탈로그에 추가하는 풀 리퀘스트를 엽니다.",
+    "de": "Öffnet einen Pull Request, der ein lokales SankiWork-Plugin mit der GitHub CLI zum SankiWork-Community-Katalog hinzufügt.",
+    "fr": "Ouvre une pull request pour ajouter un plugin SankiWork local au catalogue communautaire SankiWork via GitHub CLI.",
+    "ru": "Открывает pull request для добавления локального плагина SankiWork в каталог сообщества SankiWork через GitHub CLI.",
+    "es": "Abre una solicitud de extracción que agrega un plugin local de SankiWork al catálogo comunitario de SankiWork usando GitHub CLI.",
+    "pt-BR": "Abre um pull request que adiciona um plugin local do SankiWork ao catálogo da comunidade SankiWork usando o GitHub CLI.",
+    "it": "Apre una pull request che aggiunge un plugin locale SankiWork al catalogo della community SankiWork utilizzando GitHub CLI.",
+    "vi": "Mở pull request để thêm plugin SankiWork cục bộ vào danh mục cộng đồng SankiWork bằng GitHub CLI.",
+    "pl": "Otwiera pull request, który dodaje lokalną wtyczkę SankiWork do katalogu społeczności SankiWork przy użyciu GitHub CLI.",
+    "id": "Membuka pull request yang menambahkan plugin SankiWork lokal ke katalog komunitas SankiWork menggunakan GitHub CLI.",
+    "nl": "Opent een pull request die een lokale SankiWork-plugin toevoegt aan de SankiWork-communitycatalogus met behulp van GitHub CLI.",
+    "ar": "يفتح طلب سحب لإضافة إضافة SankiWork محلية إلى كتالوج مجتمع SankiWork باستخدام GitHub CLI.",
+    "tr": "GitHub CLI kullanarak yerel bir SankiWork eklentisini SankiWork topluluk kataloğuna ekleyen bir pull request açar.",
+    "uk": "Відкриває pull request для додавання локального плагіна SankiWork до каталогу спільноти SankiWork через GitHub CLI.",
+    "en": "Opens a pull request that adds a local SankiWork plugin to the SankiWork community catalog using the GitHub CLI."
+  },
+  "license": "MIT",
+  "author": {
+    "name": "SankiWork",
+    "url": "https://github.com/nexu-io"
+  },
+  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/od-plugin-contribute-open-design",
+  "tags": [
+    "share",
+    "github",
+    "github-pr",
+    "pull-request",
+    "sankiwork",
+    "plugin-authoring",
+    "community-plugin",
+    "first-party"
+  ],
+  "compat": {
+    "agentSkills": [
+      {
+        "path": "./SKILL.md"
+      }
+    ]
+  },
+  "od": {
+    "kind": "scenario",
+    "taskKind": "new-generation",
+    "mode": "utility",
+    "platform": "desktop",
+    "scenario": "plugin-sharing",
+    "surface": "github",
+    "useCase": {
+      "query": {
+        "en": "Open a pull request to add the staged SankiWork plugin to nexu-io/open-design using gh CLI.",
+        "zh-CN": "使用 gh CLI 给 nexu-io/open-design 提交一个 PR，加入已暂存的 SankiWork 插件。"
+      }
+    },
+    "inputs": [
+      {
+        "name": "source_plugin_id",
+        "label": "Source plugin id",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "source_plugin_title",
+        "label": "Source plugin title",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "source_plugin_version",
+        "label": "Source plugin version",
+        "type": "string"
+      },
+      {
+        "name": "plugin_context_path",
+        "label": "Copied plugin folder",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "source_plugin_path",
+        "label": "Original plugin folder",
+        "type": "string"
+      }
+    ],
+    "context": {
+      "skills": [
+        {
+          "path": "./SKILL.md"
+        }
+      ]
+    },
+    "capabilities": [
+      "fs:read",
+      "fs:write",
+      "bash",
+      "subprocess",
+      "network"
+    ]
+  }
+}

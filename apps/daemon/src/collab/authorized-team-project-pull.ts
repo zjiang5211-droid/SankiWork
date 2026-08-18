@@ -375,7 +375,7 @@ export async function stageAuthorizedTeamProjectPull(
   const liveDir = path.resolve(input.liveDir);
   const parentDir = path.dirname(liveDir);
   const stageDir = await mkdtemp(
-    path.join(parentDir, `.${path.basename(liveDir)}.od-pull-stage-`),
+    path.join(parentDir, `.${path.basename(liveDir)}.sw-pull-stage-`),
   );
   let identity = fileIdentity(await lstat(stageDir));
   let retained = false;

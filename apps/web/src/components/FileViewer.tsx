@@ -17033,7 +17033,7 @@ async function inlineRelativeAssets(
           : {
               from: tag,
               to:
-                `<style data-od-inline-asset="${escapeHtmlAttr(href)}">\n` +
+                `<style data-sw-inline-asset="${escapeHtmlAttr(href)}">\n` +
                 `${rewriteInlinedCssAssetRefs(asset.text, asset.filePath, projectFilePaths, toRawUrl)
                   .replace(/<\/style/gi, '<\\/style')}\n</style>`,
             },

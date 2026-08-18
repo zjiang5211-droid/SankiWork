@@ -20,7 +20,7 @@ i18n:
       <h3>即便工作单位错了，那份清晰仍值得留下</h3>
       <p>这是 #DeFigma 论点里需要小心的部分。对一个 agent 原生的系统来说，画布也许是错误的工作单位——它假定的是一个人在拖矩形，而不是一个 agent 在写文件——但人们从画布那里得到的清晰仍然是有价值的。错误会是把「丢掉画布」和「丢掉画布所提供的那份理解」当成同一个决定。它们不是。SankiWork 必须把那份清晰挪进产物模型里，而不是把它扔掉。版式层就是这次挪移的名字。</p>
       <h2>SankiWork 已经有了正确的原语</h2>
-      <p>这个提案契合 SankiWork 的原因，在于这个项目本就是围绕显式契约构建的。一个 skill 是一个 <code>SKILL.md</code> 文件。一个设计系统是一个 <code>DESIGN.md</code> 文件。一个插件添上一个 <code>open-design.json</code> 伴随文件。系统里没有任何东西是你必须逆向工程的二进制 blob；契约就是文本，而文本是 agent 和人类都能读的东西。机制在 <a href="/blog/31-skills-72-systems-how-the-library-works/">31 个 skill、72 个 system：SankiWork 库是怎么运作的</a> 里讲过，产品论点在 <a href="/blog/why-we-built-open-design-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a> 里。</p>
+      <p>这个提案契合 SankiWork 的原因，在于这个项目本就是围绕显式契约构建的。一个 skill 是一个 <code>SKILL.md</code> 文件。一个设计系统是一个 <code>DESIGN.md</code> 文件。一个插件添上一个 <code>sankiwork.json</code> 伴随文件。系统里没有任何东西是你必须逆向工程的二进制 blob；契约就是文本，而文本是 agent 和人类都能读的东西。机制在 <a href="/blog/31-skills-72-systems-how-the-library-works/">31 个 skill、72 个 system：SankiWork 库是怎么运作的</a> 里讲过，产品论点在 <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a> 里。</p>
       <p>版式层应当遵循同样的模式。它应当是 agent 能读的文本、UI 能渲染的状态、另一个 agent 能复用的元数据。如果它没法同时满足这三点，那它就是错误的形状。</p>
       <p>用仓库的话说，这指向三个面：</p>
 
@@ -95,8 +95,8 @@ i18n:
       <h2>延伸阅读</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 个 skill、72 个 system：SankiWork 库是怎么运作的</a>——这个提案底下当前那些文件驱动的原语</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a>——让公开产物契约成为可能的那种产品形态</li>
-      <li><a href="/blog/figma-alternative-open-design/">Figma 的开源替代品</a>——「丢掉画布」相对于那个把画布奉为核心的老牌玩家落在哪里</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我们为什么把 SankiWork 构建成一个 skill 层、而不是一款产品</a>——让公开产物契约成为可能的那种产品形态</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Figma 的开源替代品</a>——「丢掉画布」相对于那个把画布奉为核心的老牌玩家落在哪里</li>
       </ul>
   zh-tw:
     title: "畫布過去藏起來的那一層版面"
@@ -113,7 +113,7 @@ i18n:
       <h3>即使單位選錯了，那份清晰也值得留住</h3>
       <p>這是 #DeFigma 論述裡需要小心的部分。對一個 agent 原生系統而言，畫布或許是錯誤的工作單位——它假設一個人類在拖拉矩形，而不是一個 agent 在寫檔案——但人們從畫布裡得到的那份清晰仍然有價值。錯誤會是把「丟掉畫布」和「丟掉畫布所提供的那份理解」當成同一個決定。它們不是。SankiWork 必須把那份清晰搬進產物模型裡，而不是把它扔掉。版面層正是這次搬遷的名字。</p>
       <h2>SankiWork 已經擁有正確的基本元件</h2>
-      <p>這個提案之所以契合 SankiWork，是因為這個專案本來就圍繞著明確的契約而打造。一個技能是一個 <code>SKILL.md</code> 檔案。一個設計系統是一個 <code>DESIGN.md</code> 檔案。一個外掛加上一個 <code>open-design.json</code> 隨附檔。系統裡沒有任何東西是你必須逆向工程的二進位塊；那些契約是文字，而文字是 agent 和人類都能讀的東西。機制涵蓋在 <a href="/blog/31-skills-72-systems-how-the-library-works/">31 個技能、72 個系統：SankiWork 函式庫如何運作</a>裡，產品論述則在 <a href="/blog/why-we-built-open-design-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>裡。</p>
+      <p>這個提案之所以契合 SankiWork，是因為這個專案本來就圍繞著明確的契約而打造。一個技能是一個 <code>SKILL.md</code> 檔案。一個設計系統是一個 <code>DESIGN.md</code> 檔案。一個外掛加上一個 <code>sankiwork.json</code> 隨附檔。系統裡沒有任何東西是你必須逆向工程的二進位塊；那些契約是文字，而文字是 agent 和人類都能讀的東西。機制涵蓋在 <a href="/blog/31-skills-72-systems-how-the-library-works/">31 個技能、72 個系統：SankiWork 函式庫如何運作</a>裡，產品論述則在 <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>裡。</p>
       <p>版面層應該遵循同樣的模式。它應該是 agent 能讀的文字、UI 能渲染的狀態，以及另一個 agent 能重複使用的中介資料。如果它沒辦法同時滿足這三者，那它的形態就錯了。</p>
       <p>用 repo 的話來說，這指向三個載體：</p>
 
@@ -188,8 +188,8 @@ i18n:
       <h2>延伸閱讀</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 個技能、72 個系統：SankiWork 函式庫如何運作</a>——這個提案底下目前那些檔案驅動的基本元件</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>——讓公開產物契約成為可能的那個產品形態</li>
-      <li><a href="/blog/figma-alternative-open-design/">Figma 的開源替代方案</a>——「丟掉畫布」相對於那個把畫布奉為核心的既有者，會落在哪裡</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">我們為什麼把 SankiWork 打造成一層技能層，而不是一個產品</a>——讓公開產物契約成為可能的那個產品形態</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Figma 的開源替代方案</a>——「丟掉畫布」相對於那個把畫布奉為核心的既有者，會落在哪裡</li>
       </ul>
   ja:
     title: "キャンバスが隠していたレイアウトレイヤー"
@@ -206,7 +206,7 @@ i18n:
       <h3>単位が間違っていても、その明晰さは保つ価値がある</h3>
       <p>これは #DeFigma の議論のうち、注意を要する部分です。キャンバスはエージェントネイティブなシステムにとって間違った作業の単位かもしれません ── それはエージェントがファイルを書くのではなく、人間が長方形をドラッグすることを前提としています ── が、人々がキャンバスから得ていた明晰さは依然として価値があります。間違いは、「キャンバスを捨てる」と「キャンバスが提供していた理解を捨てる」を同じ決定として扱うことです。それらは同じではありません。SankiWork はその明晰さを成果物のモデルへと移さねばならず、捨ててはなりません。レイアウトレイヤーは、その移転の名前です。</p>
       <h2>SankiWork はすでに正しいプリミティブを持っている</h2>
-      <p>この提案が SankiWork に合う理由は、プロジェクトがすでに明示的な契約を中心に構築されているからです。スキルは <code>SKILL.md</code> ファイルです。デザインシステムは <code>DESIGN.md</code> ファイルです。プラグインは <code>open-design.json</code> のサイドカーを追加します。システム内のどれも、リバースエンジニアリングしなければならないバイナリの塊ではありません。契約はテキストであり、テキストはエージェントも人間も読めるものです。その仕組みは <a href="/blog/31-skills-72-systems-how-the-library-works/">31 のスキル、72 のシステム：SankiWork ライブラリの仕組み</a>でカバーされており、製品としての議論は <a href="/blog/why-we-built-open-design-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a>にあります。</p>
+      <p>この提案が SankiWork に合う理由は、プロジェクトがすでに明示的な契約を中心に構築されているからです。スキルは <code>SKILL.md</code> ファイルです。デザインシステムは <code>DESIGN.md</code> ファイルです。プラグインは <code>sankiwork.json</code> のサイドカーを追加します。システム内のどれも、リバースエンジニアリングしなければならないバイナリの塊ではありません。契約はテキストであり、テキストはエージェントも人間も読めるものです。その仕組みは <a href="/blog/31-skills-72-systems-how-the-library-works/">31 のスキル、72 のシステム：SankiWork ライブラリの仕組み</a>でカバーされており、製品としての議論は <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a>にあります。</p>
       <p>レイアウトレイヤーは同じパターンに従うべきです。それはエージェントが読めるテキストであり、UI がレンダリングできる状態であり、別のエージェントが再利用できるメタデータであるべきです。その 3 つを同時に満たせないなら、それは間違った形です。</p>
       <p>リポジトリの言葉で言えば、それは 3 つのサーフェスを指し示します：</p>
 
@@ -262,8 +262,8 @@ i18n:
       <h2>関連する読み物</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 のスキル、72 のシステム：SankiWork ライブラリの仕組み</a> — この提案の下にある、現在のファイル駆動のプリミティブ</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a> — 公開された成果物の契約を可能にする製品の形</li>
-      <li><a href="/blog/figma-alternative-open-design/">Figma のオープンソースの代替</a> — 「キャンバスを捨てる」が、キャンバスを中心に据えた既存勢力に対してどこに着地するか</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">なぜ SankiWork を製品ではなくスキルレイヤーとして作ったのか</a> — 公開された成果物の契約を可能にする製品の形</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Figma のオープンソースの代替</a> — 「キャンバスを捨てる」が、キャンバスを中心に据えた既存勢力に対してどこに着地するか</li>
       </ul>
   ko:
     title: "캔버스가 숨겨두었던 레이아웃 레이어"
@@ -280,7 +280,7 @@ i18n:
       <h3>단위가 틀렸더라도 그 명료함은 지킬 가치가 있다</h3>
       <p>이것이 #DeFigma 주장에서 신중해야 하는 부분이다. 캔버스는 에이전트 네이티브 시스템에는 잘못된 작업 단위일 수 있다 — 그것은 파일을 작성하는 에이전트가 아니라 사각형을 드래그하는 사람을 전제하기 때문이다 — 하지만 사람들이 캔버스에서 얻었던 명료함은 여전히 가치 있다. “캔버스를 버린다”와 “캔버스가 제공하던 이해를 버린다”를 같은 결정으로 취급하는 것이 실수일 것이다. 그 둘은 같지 않다. SankiWork은 그 명료함을 던져버릴 게 아니라 산출물 모델 안으로 옮겨야 한다. 레이아웃 레이어는 그 이전(relocation)을 가리키는 이름이다.</p>
       <h2>SankiWork은 이미 올바른 기본 요소를 갖추고 있다</h2>
-      <p>이 제안이 SankiWork에 들어맞는 이유는, 이 프로젝트가 이미 명시적인 계약(contract)을 중심으로 구축되어 있기 때문이다. 스킬은 <code>SKILL.md</code> 파일이다. 디자인 시스템은 <code>DESIGN.md</code> 파일이다. 플러그인은 <code>open-design.json</code> 사이드카를 추가한다. 시스템 안의 어떤 것도 리버스 엔지니어링해야 하는 바이너리 덩어리가 아니다. 계약은 텍스트이고, 텍스트는 에이전트와 사람 모두 읽을 수 있는 것이다. 그 메커니즘은 <a href="/blog/31-skills-72-systems-how-the-library-works/">스킬 31개, 시스템 72개: SankiWork 라이브러리는 어떻게 작동하는가</a>에서 다루며, 제품 차원의 주장은 <a href="/blog/why-we-built-open-design-as-a-skill-layer/">우리가 SankiWork을 제품이 아니라 스킬 레이어로 만든 이유</a>에 있다.</p>
+      <p>이 제안이 SankiWork에 들어맞는 이유는, 이 프로젝트가 이미 명시적인 계약(contract)을 중심으로 구축되어 있기 때문이다. 스킬은 <code>SKILL.md</code> 파일이다. 디자인 시스템은 <code>DESIGN.md</code> 파일이다. 플러그인은 <code>sankiwork.json</code> 사이드카를 추가한다. 시스템 안의 어떤 것도 리버스 엔지니어링해야 하는 바이너리 덩어리가 아니다. 계약은 텍스트이고, 텍스트는 에이전트와 사람 모두 읽을 수 있는 것이다. 그 메커니즘은 <a href="/blog/31-skills-72-systems-how-the-library-works/">스킬 31개, 시스템 72개: SankiWork 라이브러리는 어떻게 작동하는가</a>에서 다루며, 제품 차원의 주장은 <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">우리가 SankiWork을 제품이 아니라 스킬 레이어로 만든 이유</a>에 있다.</p>
       <p>레이아웃 레이어는 같은 패턴을 따라야 한다. 에이전트가 읽을 수 있는 텍스트, UI가 렌더링할 수 있는 상태, 그리고 다른 에이전트가 재사용할 수 있는 메타데이터여야 한다. 이 세 가지를 한꺼번에 만족시키지 못한다면, 그것은 잘못된 형태다.</p>
       <p>레포 관점에서 보면, 이는 세 가지 표면을 가리킨다:</p>
 
@@ -354,8 +354,8 @@ i18n:
       <h2>관련 읽을거리</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">스킬 31개, 시스템 72개: SankiWork 라이브러리는 어떻게 작동하는가</a> — 이 제안 밑에 깔린 현재의 파일 기반 기본 요소들</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">우리가 SankiWork을 제품이 아니라 스킬 레이어로 만든 이유</a> — 공개 산출물 계약을 가능하게 하는 제품 형태</li>
-      <li><a href="/blog/figma-alternative-open-design/">Figma의 오픈소스 대안</a> — “캔버스를 버린다”가 캔버스를 중심에 둔 기존 강자에 맞서 어디에 안착하는지</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">우리가 SankiWork을 제품이 아니라 스킬 레이어로 만든 이유</a> — 공개 산출물 계약을 가능하게 하는 제품 형태</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Figma의 오픈소스 대안</a> — “캔버스를 버린다”가 캔버스를 중심에 둔 기존 강자에 맞서 어디에 안착하는지</li>
       </ul>
   de:
     title: "Die Layout-Ebene, die der Canvas früher verbarg"
@@ -372,7 +372,7 @@ i18n:
       <h3>Die Klarheit lohnt sich, selbst wenn die Einheit falsch ist</h3>
       <p>Das ist der Teil des #DeFigma-Arguments, der Sorgfalt verlangt. Der Canvas mag die falsche Arbeitseinheit für ein Agent-natives System sein — er setzt einen Menschen voraus, der Rechtecke zieht, nicht einen Agenten, der Dateien schreibt —, aber die Klarheit, die Menschen aus dem Canvas zogen, ist weiterhin wertvoll. Der Fehler wäre, „den Canvas fallen lassen“ und „das vom Canvas gelieferte Verständnis fallen lassen“ als dieselbe Entscheidung zu behandeln. Das sind sie nicht. SankiWork muss diese Klarheit in das Artefaktmodell verlagern, nicht wegwerfen. Die Layout-Ebene ist der Name für diese Verlagerung.</p>
       <h2>SankiWork hat bereits die richtigen Primitive</h2>
-      <p>Der Grund, warum dieser Vorschlag zu SankiWork passt, ist, dass das Projekt bereits um explizite Verträge herum gebaut ist. Eine Skill ist eine <code>SKILL.md</code>-Datei. Ein Design-System ist eine <code>DESIGN.md</code>-Datei. Ein Plugin fügt ein <code>open-design.json</code>-Sidecar hinzu. Nichts im System ist ein binärer Blob, den man rückentwickeln muss; die Verträge sind Text, und Text ist etwas, das sowohl ein Agent als auch ein Mensch lesen kann. Die Mechanik wird in <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systems: how the SankiWork library works</a> behandelt, und das Produktargument steht in <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Why we built SankiWork as a skill layer, not a product</a>.</p>
+      <p>Der Grund, warum dieser Vorschlag zu SankiWork passt, ist, dass das Projekt bereits um explizite Verträge herum gebaut ist. Eine Skill ist eine <code>SKILL.md</code>-Datei. Ein Design-System ist eine <code>DESIGN.md</code>-Datei. Ein Plugin fügt ein <code>sankiwork.json</code>-Sidecar hinzu. Nichts im System ist ein binärer Blob, den man rückentwickeln muss; die Verträge sind Text, und Text ist etwas, das sowohl ein Agent als auch ein Mensch lesen kann. Die Mechanik wird in <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systems: how the SankiWork library works</a> behandelt, und das Produktargument steht in <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Why we built SankiWork as a skill layer, not a product</a>.</p>
       <p>Die Layout-Ebene sollte demselben Muster folgen. Sie sollte Text sein, den der Agent lesen kann, Zustand, den die UI rendern kann, und Metadaten, die ein anderer Agent wiederverwenden kann. Wenn sie nicht alle drei zugleich erfüllen kann, hat sie die falsche Form.</p>
       <p>In Repo-Begriffen verweist das auf drei Flächen:</p>
 
@@ -430,8 +430,8 @@ i18n:
       <h2>Weiterführende Lektüre</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systems: how the SankiWork library works</a> — die aktuellen dateigetriebenen Primitive, die dem Vorschlag zugrunde liegen</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Why we built SankiWork as a skill layer, not a product</a> — die Produktform, die öffentliche Artefaktverträge möglich macht</li>
-      <li><a href="/blog/figma-alternative-open-design/">The open-source alternative to Figma</a> — wo „den Canvas fallen lassen“ gegen den Platzhirsch landet, der den Canvas zentral machte</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Why we built SankiWork as a skill layer, not a product</a> — die Produktform, die öffentliche Artefaktverträge möglich macht</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">The open-source alternative to Figma</a> — wo „den Canvas fallen lassen“ gegen den Platzhirsch landet, der den Canvas zentral machte</li>
       </ul>
   fr:
     title: "La couche de mise en page que le canvas masquait"
@@ -448,7 +448,7 @@ i18n:
       <h3>La clarté vaut la peine d'être conservée même si l'unité est mauvaise</h3>
       <p>C'est la partie de l'argument #DeFigma qui demande de la prudence. Le canvas est peut-être la mauvaise unité de travail pour un système agent-native — il suppose un humain faisant glisser des rectangles, pas un agent écrivant des fichiers — mais la clarté que les gens obtenaient du canvas reste précieuse. L'erreur serait de traiter « abandonner le canvas » et « abandonner la compréhension que le canvas apportait » comme la même décision. Ce n'en est pas une. SankiWork doit déplacer cette clarté dans le modèle d'artefact, et non la jeter. La couche de mise en page est le nom de ce déplacement.</p>
       <h2>SankiWork a déjà les bonnes primitives</h2>
-      <p>La raison pour laquelle cette proposition convient à SankiWork est que le projet est déjà construit autour de contrats explicites. Un skill est un fichier <code>SKILL.md</code>. Un design system est un fichier <code>DESIGN.md</code>. Un plugin ajoute un fichier d'accompagnement <code>open-design.json</code>. Rien dans le système n'est un blob binaire que vous devez désosser ; les contrats sont du texte, et le texte est quelque chose qu'un agent comme un humain peuvent lire. La mécanique est couverte dans <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systems : comment fonctionne la bibliothèque SankiWork</a>, et l'argument produit se trouve dans <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a>.</p>
+      <p>La raison pour laquelle cette proposition convient à SankiWork est que le projet est déjà construit autour de contrats explicites. Un skill est un fichier <code>SKILL.md</code>. Un design system est un fichier <code>DESIGN.md</code>. Un plugin ajoute un fichier d'accompagnement <code>sankiwork.json</code>. Rien dans le système n'est un blob binaire que vous devez désosser ; les contrats sont du texte, et le texte est quelque chose qu'un agent comme un humain peuvent lire. La mécanique est couverte dans <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systems : comment fonctionne la bibliothèque SankiWork</a>, et l'argument produit se trouve dans <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a>.</p>
       <p>La couche de mise en page devrait suivre le même modèle. Elle devrait être du texte que l'agent peut lire, un état que l'UI peut rendre, et des métadonnées qu'un autre agent peut réutiliser. Si elle ne peut pas satisfaire les trois à la fois, c'est qu'elle a la mauvaise forme.</p>
       <p>En termes de dépôt, cela pointe vers trois surfaces :</p>
 
@@ -523,8 +523,8 @@ i18n:
       <h2>Lectures associées</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systems : comment fonctionne la bibliothèque SankiWork</a> — les primitives actuelles pilotées par fichiers sous la proposition</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a> — la forme de produit qui rend possibles les contrats d'artefact publics</li>
-      <li><a href="/blog/figma-alternative-open-design/">L'alternative open-source à Figma</a> — où « abandonner le canvas » atterrit face à l'acteur en place qui a rendu le canvas central</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Pourquoi nous avons conçu SankiWork comme une couche de skills, pas un produit</a> — la forme de produit qui rend possibles les contrats d'artefact publics</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">L'alternative open-source à Figma</a> — où « abandonner le canvas » atterrit face à l'acteur en place qui a rendu le canvas central</li>
       </ul>
   ru:
     title: "Слой макета, который холст прежде скрывал"
@@ -541,7 +541,7 @@ i18n:
       <h3>Ясность стоит сохранить, даже если единица выбрана неверно</h3>
       <p>Это та часть аргумента #DeFigma, которая требует осторожности. Холст, возможно, неверная единица работы для agent-native системы — он предполагает человека, перетаскивающего прямоугольники, а не агента, пишущего файлы — но ясность, которую люди получали от холста, по-прежнему ценна. Ошибкой было бы относиться к «отказаться от холста» и «отказаться от понимания, которое холст давал» как к одному и тому же решению. Это не так. SankiWork должен перенести эту ясность в модель артефакта, а не выбросить её. Слой макета — это название для такого переноса.</p>
       <h2>У SankiWork уже есть нужные примитивы</h2>
-      <p>Причина, по которой это предложение вписывается в SankiWork, в том, что проект уже построен вокруг явных контрактов. Навык — это файл <code>SKILL.md</code>. Дизайн-система — это файл <code>DESIGN.md</code>. Плагин добавляет сопроводительный файл <code>open-design.json</code>. Ничто в системе не является бинарным блобом, который приходится реверс-инжинирить; контракты — это текст, а текст может прочитать и агент, и человек. Механика описана в <a href="/blog/31-skills-72-systems-how-the-library-works/">31 навык, 72 системы: как работает библиотека SankiWork</a>, а продуктовый аргумент — в <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Почему мы построили SankiWork как слой навыков, а не как продукт</a>.</p>
+      <p>Причина, по которой это предложение вписывается в SankiWork, в том, что проект уже построен вокруг явных контрактов. Навык — это файл <code>SKILL.md</code>. Дизайн-система — это файл <code>DESIGN.md</code>. Плагин добавляет сопроводительный файл <code>sankiwork.json</code>. Ничто в системе не является бинарным блобом, который приходится реверс-инжинирить; контракты — это текст, а текст может прочитать и агент, и человек. Механика описана в <a href="/blog/31-skills-72-systems-how-the-library-works/">31 навык, 72 системы: как работает библиотека SankiWork</a>, а продуктовый аргумент — в <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Почему мы построили SankiWork как слой навыков, а не как продукт</a>.</p>
       <p>Слой макета должен следовать тому же паттерну. Это должен быть текст, который может прочитать агент, состояние, которое может отрендерить интерфейс, и метаданные, которые может переиспользовать другой агент. Если он не может удовлетворить все три условия одновременно, у него неправильная форма.</p>
       <p>В терминах репозитория это указывает на три поверхности:</p>
 
@@ -615,8 +615,8 @@ i18n:
       <h2>Связанное чтение</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 навык, 72 системы: как работает библиотека SankiWork</a> — текущие файл-ориентированные примитивы, лежащие в основе предложения</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Почему мы построили SankiWork как слой навыков, а не как продукт</a> — форма продукта, которая делает возможными публичные контракты артефактов</li>
-      <li><a href="/blog/figma-alternative-open-design/">Альтернатива Figma с открытым исходным кодом</a> — где оказывается «отказаться от холста» по отношению к действующему лидеру, сделавшему холст центральным</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Почему мы построили SankiWork как слой навыков, а не как продукт</a> — форма продукта, которая делает возможными публичные контракты артефактов</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Альтернатива Figma с открытым исходным кодом</a> — где оказывается «отказаться от холста» по отношению к действующему лидеру, сделавшему холст центральным</li>
       </ul>
   es:
     title: "La capa de layout que el lienzo solía ocultar"
@@ -633,7 +633,7 @@ i18n:
       <h3>La claridad vale la pena conservarla aunque la unidad sea equivocada</h3>
       <p>Esta es la parte del argumento #DeFigma que requiere cuidado. El lienzo puede ser la unidad de trabajo equivocada para un sistema agent-native —asume a una persona arrastrando rectángulos, no a un agente escribiendo archivos—, pero la claridad que la gente obtenía del lienzo sigue siendo valiosa. El error sería tratar «descartar el lienzo» y «descartar la comprensión que el lienzo proporcionaba» como la misma decisión. No lo son. SankiWork tiene que trasladar esa claridad al modelo del artefacto, no tirarla. La capa de layout es el nombre de ese traslado.</p>
       <h2>SankiWork ya tiene las primitivas correctas</h2>
-      <p>La razón por la que esta propuesta encaja en SankiWork es que el proyecto ya está construido en torno a contratos explícitos. Una skill es un archivo <code>SKILL.md</code>. Un sistema de diseño es un archivo <code>DESIGN.md</code>. Un plugin añade un sidecar <code>open-design.json</code>. Nada en el sistema es un blob binario que tengas que aplicar ingeniería inversa; los contratos son texto, y el texto es algo que tanto un agente como una persona pueden leer. La mecánica está cubierta en <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 sistemas: cómo funciona la biblioteca de SankiWork</a>, y el argumento de producto está en <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Por qué construimos SankiWork como una capa de skills, no como un producto</a>.</p>
+      <p>La razón por la que esta propuesta encaja en SankiWork es que el proyecto ya está construido en torno a contratos explícitos. Una skill es un archivo <code>SKILL.md</code>. Un sistema de diseño es un archivo <code>DESIGN.md</code>. Un plugin añade un sidecar <code>sankiwork.json</code>. Nada en el sistema es un blob binario que tengas que aplicar ingeniería inversa; los contratos son texto, y el texto es algo que tanto un agente como una persona pueden leer. La mecánica está cubierta en <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 sistemas: cómo funciona la biblioteca de SankiWork</a>, y el argumento de producto está en <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Por qué construimos SankiWork como una capa de skills, no como un producto</a>.</p>
       <p>La capa de layout debería seguir el mismo patrón. Debería ser texto que el agente pueda leer, estado que la UI pueda renderizar y metadatos que otro agente pueda reutilizar. Si no puede satisfacer las tres cosas a la vez, tiene la forma equivocada.</p>
       <p>En términos del repositorio, eso apunta a tres superficies:</p>
 
@@ -707,8 +707,8 @@ i18n:
       <h2>Lecturas relacionadas</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 sistemas: cómo funciona la biblioteca de SankiWork</a> — las primitivas actuales basadas en archivos que sustentan la propuesta</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Por qué construimos SankiWork como una capa de skills, no como un producto</a> — la forma de producto que hace posibles los contratos públicos de artefactos</li>
-      <li><a href="/blog/figma-alternative-open-design/">La alternativa de código abierto a Figma</a> — dónde aterriza «descartar el lienzo» frente al referente que hizo del lienzo el centro</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Por qué construimos SankiWork como una capa de skills, no como un producto</a> — la forma de producto que hace posibles los contratos públicos de artefactos</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">La alternativa de código abierto a Figma</a> — dónde aterriza «descartar el lienzo» frente al referente que hizo del lienzo el centro</li>
       </ul>
   pt-br:
     title: "A camada de layout que o canvas costumava esconder"
@@ -725,7 +725,7 @@ i18n:
       <h3>A clareza vale a pena manter mesmo que a unidade esteja errada</h3>
       <p>Esta é a parte do argumento do #DeFigma que precisa de cuidado. O canvas pode ser a unidade errada de trabalho para um sistema agent-native — ele pressupõe um humano arrastando retângulos, não um agente escrevendo arquivos — mas a clareza que as pessoas obtinham do canvas ainda é valiosa. O erro seria tratar “abandonar o canvas” e “abandonar a compreensão que o canvas fornecia” como a mesma decisão. Não são. O SankiWork precisa mover essa clareza para o modelo do artefato, não jogá-la fora. A camada de layout é o nome dessa realocação.</p>
       <h2>O SankiWork já tem as primitivas certas</h2>
-      <p>A razão pela qual esta proposta encaixa no SankiWork é que o projeto já é construído em torno de contratos explícitos. Uma skill é um arquivo <code>SKILL.md</code>. Um design system é um arquivo <code>DESIGN.md</code>. Um plugin adiciona um sidecar <code>open-design.json</code>. Nada no sistema é um blob binário que você precise fazer engenharia reversa; os contratos são texto, e texto é algo que tanto um agente quanto um humano podem ler. A mecânica está coberta em <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 sistemas: como funciona a biblioteca do SankiWork</a>, e o argumento de produto está em <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Por que construímos o SankiWork como uma camada de skills, não um produto</a>.</p>
+      <p>A razão pela qual esta proposta encaixa no SankiWork é que o projeto já é construído em torno de contratos explícitos. Uma skill é um arquivo <code>SKILL.md</code>. Um design system é um arquivo <code>DESIGN.md</code>. Um plugin adiciona um sidecar <code>sankiwork.json</code>. Nada no sistema é um blob binário que você precise fazer engenharia reversa; os contratos são texto, e texto é algo que tanto um agente quanto um humano podem ler. A mecânica está coberta em <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 sistemas: como funciona a biblioteca do SankiWork</a>, e o argumento de produto está em <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Por que construímos o SankiWork como uma camada de skills, não um produto</a>.</p>
       <p>A camada de layout deveria seguir o mesmo padrão. Deveria ser texto que o agente possa ler, estado que a UI possa renderizar e metadados que outro agente possa reutilizar. Se não conseguir satisfazer as três coisas ao mesmo tempo, está com o formato errado.</p>
       <p>Em termos de repositório, isso aponta para três superfícies:</p>
 
@@ -800,8 +800,8 @@ i18n:
       <h2>Leitura relacionada</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 sistemas: como funciona a biblioteca do SankiWork</a> — as primitivas atuais orientadas a arquivo por baixo da proposta</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Por que construímos o SankiWork como uma camada de skills, não um produto</a> — o formato de produto que torna possíveis os contratos públicos de artefato</li>
-      <li><a href="/blog/figma-alternative-open-design/">A alternativa open-source ao Figma</a> — onde “abandonar o canvas” aterrissa contra o incumbente que tornou o canvas central</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Por que construímos o SankiWork como uma camada de skills, não um produto</a> — o formato de produto que torna possíveis os contratos públicos de artefato</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">A alternativa open-source ao Figma</a> — onde “abandonar o canvas” aterrissa contra o incumbente que tornou o canvas central</li>
       </ul>
   it:
     title: "Il livello di layout che il canvas nascondeva"
@@ -818,7 +818,7 @@ i18n:
       <h3>La chiarezza vale la pena di essere conservata anche se l'unità è sbagliata</h3>
       <p>Questa è la parte dell'argomentazione #DeFigma che richiede attenzione. Il canvas può essere l'unità di lavoro sbagliata per un sistema agent-native — presuppone un umano che trascina rettangoli, non un agente che scrive file — ma la chiarezza che le persone ottenevano dal canvas è ancora preziosa. L'errore sarebbe trattare "abbandona il canvas" e "abbandona la comprensione che il canvas forniva" come la stessa decisione. Non lo sono. SankiWork deve spostare quella chiarezza nel modello dell'artefatto, non buttarla via. Il livello di layout è il nome per quel trasloco.</p>
       <h2>SankiWork ha già le primitive giuste</h2>
-      <p>Il motivo per cui questa proposta si adatta a SankiWork è che il progetto è già costruito attorno a contratti espliciti. Una skill è un file <code>SKILL.md</code>. Un design system è un file <code>DESIGN.md</code>. Un plugin aggiunge un file laterale <code>open-design.json</code>. Nulla nel sistema è un blob binario che devi decodificare; i contratti sono testo, e il testo è qualcosa che sia un agente sia un umano possono leggere. I meccanismi sono trattati in <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 sistemi: come funziona la libreria di SankiWork</a>, e l'argomentazione di prodotto è in <a href="/blog/why-we-built-open-design-as-a-skill-layer/">perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>.</p>
+      <p>Il motivo per cui questa proposta si adatta a SankiWork è che il progetto è già costruito attorno a contratti espliciti. Una skill è un file <code>SKILL.md</code>. Un design system è un file <code>DESIGN.md</code>. Un plugin aggiunge un file laterale <code>sankiwork.json</code>. Nulla nel sistema è un blob binario che devi decodificare; i contratti sono testo, e il testo è qualcosa che sia un agente sia un umano possono leggere. I meccanismi sono trattati in <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 sistemi: come funziona la libreria di SankiWork</a>, e l'argomentazione di prodotto è in <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>.</p>
       <p>Il livello di layout dovrebbe seguire lo stesso schema. Dovrebbe essere testo che l'agente può leggere, stato che la UI può renderizzare e metadati che un altro agente può riutilizzare. Se non può soddisfare tutti e tre contemporaneamente, ha la forma sbagliata.</p>
       <p>In termini di repository, questo punta a tre superfici:</p>
 
@@ -876,8 +876,8 @@ i18n:
       <h2>Letture correlate</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 sistemi: come funziona la libreria di SankiWork</a>: le attuali primitive basate su file sotto la proposta</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>: la forma di prodotto che rende possibili i contratti pubblici sugli artefatti</li>
-      <li><a href="/blog/figma-alternative-open-design/">L'alternativa open-source a Figma</a>: dove finisce "abbandona il canvas" rispetto al leader di mercato che ha reso il canvas centrale</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Perché abbiamo costruito SankiWork come un livello di skill, non come un prodotto</a>: la forma di prodotto che rende possibili i contratti pubblici sugli artefatti</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">L'alternativa open-source a Figma</a>: dove finisce "abbandona il canvas" rispetto al leader di mercato che ha reso il canvas centrale</li>
       </ul>
   vi:
     title: "Lớp bố cục mà canvas từng che giấu"
@@ -894,7 +894,7 @@ i18n:
       <h3>Sự rõ ràng đáng giữ ngay cả khi đơn vị là sai</h3>
       <p>Đây là phần của lập luận #DeFigma cần thận trọng. Canvas có thể là đơn vị công việc sai cho một hệ thống agent-native — nó giả định một con người kéo các hình chữ nhật, không phải một agent viết các tệp — nhưng sự rõ ràng mà người ta có được từ canvas vẫn quý giá. Sai lầm sẽ là coi “bỏ canvas” và “bỏ sự hiểu biết mà canvas cung cấp” là cùng một quyết định. Chúng không phải vậy. SankiWork phải dời sự rõ ràng đó vào mô hình artifact, không phải vứt nó đi. Lớp bố cục là cái tên cho sự dời chỗ đó.</p>
       <h2>SankiWork đã có sẵn các nguyên tố đúng</h2>
-      <p>Lý do đề xuất này hợp với SankiWork là vì dự án đã được xây quanh các hợp đồng tường minh. Một skill là một tệp <code>SKILL.md</code>. Một design system là một tệp <code>DESIGN.md</code>. Một plugin thêm một tệp đi kèm <code>open-design.json</code>. Không gì trong hệ thống là một khối nhị phân bạn phải dịch ngược; các hợp đồng là văn bản, và văn bản là thứ mà cả agent lẫn con người đều đọc được. Cơ chế được trình bày trong <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 system: thư viện SankiWork hoạt động ra sao</a>, và lập luận sản phẩm nằm trong <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a>.</p>
+      <p>Lý do đề xuất này hợp với SankiWork là vì dự án đã được xây quanh các hợp đồng tường minh. Một skill là một tệp <code>SKILL.md</code>. Một design system là một tệp <code>DESIGN.md</code>. Một plugin thêm một tệp đi kèm <code>sankiwork.json</code>. Không gì trong hệ thống là một khối nhị phân bạn phải dịch ngược; các hợp đồng là văn bản, và văn bản là thứ mà cả agent lẫn con người đều đọc được. Cơ chế được trình bày trong <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 system: thư viện SankiWork hoạt động ra sao</a>, và lập luận sản phẩm nằm trong <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a>.</p>
       <p>Lớp bố cục nên theo cùng mẫu hình. Nó nên là văn bản mà agent có thể đọc, trạng thái mà UI có thể render, và metadata mà một agent khác có thể tái sử dụng. Nếu nó không thể thỏa cả ba cùng lúc, nó là hình dạng sai.</p>
       <p>Nói theo ngôn ngữ repo, điều đó chỉ vào ba bề mặt:</p>
 
@@ -966,8 +966,8 @@ i18n:
       <h2>Đọc thêm</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 system: thư viện SankiWork hoạt động ra sao</a> — các nguyên tố hiện tại dựa trên tệp nằm dưới đề xuất</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a> — hình dạng sản phẩm khiến các hợp đồng artifact công khai trở nên khả thi</li>
-      <li><a href="/blog/figma-alternative-open-design/">Giải pháp thay thế mã nguồn mở cho Figma</a> — nơi “bỏ canvas” đáp xuống so với kẻ đương nhiệm đã đặt canvas làm trung tâm</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Vì sao chúng tôi xây SankiWork như một lớp skill, không phải một sản phẩm</a> — hình dạng sản phẩm khiến các hợp đồng artifact công khai trở nên khả thi</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Giải pháp thay thế mã nguồn mở cho Figma</a> — nơi “bỏ canvas” đáp xuống so với kẻ đương nhiệm đã đặt canvas làm trung tâm</li>
       </ul>
   pl:
     title: "Warstwa układu, którą płótno kiedyś ukrywało"
@@ -984,7 +984,7 @@ i18n:
       <h3>Klarowność warto zachować, nawet jeśli jednostka jest błędna</h3>
       <p>To część argumentu #DeFigma, która wymaga ostrożności. Płótno może być błędną jednostką pracy dla systemu agent-native — zakłada człowieka przeciągającego prostokąty, a nie agenta piszącego pliki — ale klarowność, którą ludzie czerpali z płótna, wciąż jest cenna. Błędem byłoby traktowanie „porzuć płótno” i „porzuć rozumienie, które dawało płótno” jako tej samej decyzji. To nie jest to samo. SankiWork musi przenieść tę klarowność do modelu artefaktu, a nie ją wyrzucić. Warstwa układu to nazwa tej relokacji.</p>
       <h2>SankiWork już ma właściwe prymitywy</h2>
-      <p>Powodem, dla którego ta propozycja pasuje do SankiWork, jest to, że projekt jest już zbudowany wokół jawnych kontraktów. Umiejętność to plik <code>SKILL.md</code>. System projektowy to plik <code>DESIGN.md</code>. Wtyczka dodaje plik towarzyszący <code>open-design.json</code>. Nic w systemie nie jest binarnym blobem, który trzeba odkodować wstecznie; kontrakty to tekst, a tekst to coś, co i agent, i człowiek mogą przeczytać. Mechanika jest omówiona w <a href="/blog/31-skills-72-systems-how-the-library-works/">31 umiejętności, 72 systemy: jak działa biblioteka SankiWork</a>, a argument produktowy w <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a>.</p>
+      <p>Powodem, dla którego ta propozycja pasuje do SankiWork, jest to, że projekt jest już zbudowany wokół jawnych kontraktów. Umiejętność to plik <code>SKILL.md</code>. System projektowy to plik <code>DESIGN.md</code>. Wtyczka dodaje plik towarzyszący <code>sankiwork.json</code>. Nic w systemie nie jest binarnym blobem, który trzeba odkodować wstecznie; kontrakty to tekst, a tekst to coś, co i agent, i człowiek mogą przeczytać. Mechanika jest omówiona w <a href="/blog/31-skills-72-systems-how-the-library-works/">31 umiejętności, 72 systemy: jak działa biblioteka SankiWork</a>, a argument produktowy w <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a>.</p>
       <p>Warstwa układu powinna podążać za tym samym wzorcem. Powinna być tekstem, który agent może przeczytać, stanem, który UI może wyrenderować, i metadanymi, które inny agent może reużyć. Jeśli nie może spełnić wszystkich trzech naraz, ma zły kształt.</p>
       <p>W kategoriach repozytorium wskazuje to na trzy powierzchnie:</p>
 
@@ -1059,8 +1059,8 @@ i18n:
       <h2>Powiązane lektury</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 umiejętności, 72 systemy: jak działa biblioteka SankiWork</a> — obecne prymitywy oparte na plikach pod tą propozycją</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a> — kształt produktu, który umożliwia publiczne kontrakty artefaktów</li>
-      <li><a href="/blog/figma-alternative-open-design/">Otwartoźródłowa alternatywa dla Figma</a> — gdzie ląduje „porzuć płótno” wobec zasiedziałego gracza, który uczynił płótno centralnym</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Dlaczego zbudowaliśmy SankiWork jako warstwę umiejętności, a nie produkt</a> — kształt produktu, który umożliwia publiczne kontrakty artefaktów</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Otwartoźródłowa alternatywa dla Figma</a> — gdzie ląduje „porzuć płótno” wobec zasiedziałego gracza, który uczynił płótno centralnym</li>
       </ul>
   id:
     title: "Lapisan tata letak yang dulu disembunyikan oleh kanvas"
@@ -1077,7 +1077,7 @@ i18n:
       <h3>Kejelasan itu layak dipertahankan bahkan jika unitnya keliru</h3>
       <p>Ini adalah bagian dari argumen #DeFigma yang membutuhkan kehati-hatian. Kanvas mungkin adalah unit kerja yang keliru untuk sistem agent-native — ia mengasumsikan manusia yang menyeret persegi panjang, bukan agent yang menulis file — tetapi kejelasan yang orang dapatkan dari kanvas tetap berharga. Kesalahannya adalah memperlakukan “buang kanvas” dan “buang pemahaman yang disediakan kanvas” sebagai keputusan yang sama. Keduanya tidak sama. SankiWork harus memindahkan kejelasan itu ke dalam model artefak, bukan membuangnya. Lapisan tata letak adalah nama untuk pemindahan itu.</p>
       <h2>SankiWork sudah memiliki primitif yang tepat</h2>
-      <p>Alasan usulan ini cocok dengan SankiWork adalah karena proyek ini sudah dibangun di sekitar kontrak yang eksplisit. Sebuah skill adalah file <code>SKILL.md</code>. Sebuah sistem desain adalah file <code>DESIGN.md</code>. Sebuah plugin menambahkan sidecar <code>open-design.json</code>. Tidak ada apa pun dalam sistem yang berupa blob biner yang harus Anda balik-rekayasa; kontraknya adalah teks, dan teks adalah sesuatu yang dapat dibaca oleh agent dan manusia. Mekanismenya dibahas dalam <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 sistem: cara kerja pustaka SankiWork</a>, dan argumen produknya ada di <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a>.</p>
+      <p>Alasan usulan ini cocok dengan SankiWork adalah karena proyek ini sudah dibangun di sekitar kontrak yang eksplisit. Sebuah skill adalah file <code>SKILL.md</code>. Sebuah sistem desain adalah file <code>DESIGN.md</code>. Sebuah plugin menambahkan sidecar <code>sankiwork.json</code>. Tidak ada apa pun dalam sistem yang berupa blob biner yang harus Anda balik-rekayasa; kontraknya adalah teks, dan teks adalah sesuatu yang dapat dibaca oleh agent dan manusia. Mekanismenya dibahas dalam <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 sistem: cara kerja pustaka SankiWork</a>, dan argumen produknya ada di <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a>.</p>
       <p>Lapisan tata letak seharusnya mengikuti pola yang sama. Ia seharusnya berupa teks yang dapat dibaca agent, state yang dapat di-render UI, dan metadata yang dapat digunakan ulang agent lain. Jika ia tidak dapat memenuhi ketiganya sekaligus, ia memiliki bentuk yang keliru.</p>
       <p>Dalam istilah repo, itu menunjuk pada tiga permukaan:</p>
 
@@ -1152,8 +1152,8 @@ i18n:
       <h2>Bacaan terkait</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skill, 72 sistem: cara kerja pustaka SankiWork</a> — primitif yang digerakkan-file saat ini di bawah usulan</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a> — bentuk produk yang membuat kontrak artefak publik menjadi mungkin</li>
-      <li><a href="/blog/figma-alternative-open-design/">Alternatif sumber terbuka untuk Figma</a> — ke mana “buang kanvas” mendarat melawan pemain lama yang menjadikan kanvas sentral</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Mengapa kami membangun SankiWork sebagai lapisan skill, bukan sebagai produk</a> — bentuk produk yang membuat kontrak artefak publik menjadi mungkin</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Alternatif sumber terbuka untuk Figma</a> — ke mana “buang kanvas” mendarat melawan pemain lama yang menjadikan kanvas sentral</li>
       </ul>
   nl:
     title: "De lay-outlaag die het canvas vroeger verborg"
@@ -1170,7 +1170,7 @@ i18n:
       <h3>De duidelijkheid is het behouden waard, zelfs als de eenheid verkeerd is</h3>
       <p>Dit is het deel van het #DeFigma-argument dat zorg vereist. Het canvas is misschien de verkeerde werkeenheid voor een agent-native systeem — het gaat uit van een mens die rechthoeken sleept, niet van een agent die bestanden schrijft — maar de duidelijkheid die mensen uit het canvas haalden, is nog steeds waardevol. De fout zou zijn om “laat het canvas vallen” en “laat het begrip vallen dat het canvas bood” als dezelfde beslissing te behandelen. Dat zijn ze niet. SankiWork moet die duidelijkheid in het artefactmodel verplaatsen, niet weggooien. De lay-outlaag is de naam voor die verplaatsing.</p>
       <h2>SankiWork heeft al de juiste primitieven</h2>
-      <p>De reden dat dit voorstel bij SankiWork past, is dat het project al is opgebouwd rond expliciete contracten. Een skill is een <code>SKILL.md</code>-bestand. Een designsysteem is een <code>DESIGN.md</code>-bestand. Een plugin voegt een <code>open-design.json</code>-sidecar toe. Niets in het systeem is een binaire blob die je moet reverse-engineeren; de contracten zijn tekst, en tekst is iets dat zowel een agent als een mens kan lezen. De mechaniek wordt behandeld in <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systemen: hoe de SankiWork-bibliotheek werkt</a>, en het productargument staat in <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Waarom we SankiWork als een skill-laag bouwden, niet als een product</a>.</p>
+      <p>De reden dat dit voorstel bij SankiWork past, is dat het project al is opgebouwd rond expliciete contracten. Een skill is een <code>SKILL.md</code>-bestand. Een designsysteem is een <code>DESIGN.md</code>-bestand. Een plugin voegt een <code>sankiwork.json</code>-sidecar toe. Niets in het systeem is een binaire blob die je moet reverse-engineeren; de contracten zijn tekst, en tekst is iets dat zowel een agent als een mens kan lezen. De mechaniek wordt behandeld in <a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systemen: hoe de SankiWork-bibliotheek werkt</a>, en het productargument staat in <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Waarom we SankiWork als een skill-laag bouwden, niet als een product</a>.</p>
       <p>De lay-outlaag zou hetzelfde patroon moeten volgen. Het zou tekst moeten zijn die de agent kan lezen, staat die de UI kan renderen, en metadata die een andere agent kan hergebruiken. Als het niet alle drie tegelijk kan bevredigen, heeft het de verkeerde vorm.</p>
       <p>In repo-termen wijst dat op drie oppervlakken:</p>
 
@@ -1242,8 +1242,8 @@ i18n:
       <h2>Gerelateerde lectuur</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 skills, 72 systemen: hoe de SankiWork-bibliotheek werkt</a> — de huidige bestandsgedreven primitieven onder het voorstel</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Waarom we SankiWork als een skill-laag bouwden, niet als een product</a> — de productvorm die publieke artefactcontracten mogelijk maakt</li>
-      <li><a href="/blog/figma-alternative-open-design/">Het open-source alternatief voor Figma</a> — waar “laat het canvas vallen” belandt tegenover de gevestigde speler die het canvas centraal maakte</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Waarom we SankiWork als een skill-laag bouwden, niet als een product</a> — de productvorm die publieke artefactcontracten mogelijk maakt</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Het open-source alternatief voor Figma</a> — waar “laat het canvas vallen” belandt tegenover de gevestigde speler die het canvas centraal maakte</li>
       </ul>
   ar:
     title: "طبقة التخطيط التي اعتاد الكانفاس إخفاءها"
@@ -1260,7 +1260,7 @@ i18n:
       <h3>الوضوح يستحقّ الحفاظ عليه حتى لو كانت الوحدة خاطئة</h3>
       <p>هذا هو الجزء من حجّة #DeFigma الذي يحتاج إلى عناية. قد يكون الكانفاس الوحدة الخاطئة للعمل في نظام متمحور حول العميل — فهو يفترض إنسانًا يسحب المستطيلات، لا عميلًا يكتب الملفات — لكن الوضوح الذي حصل عليه الناس من الكانفاس لا يزال قيّمًا. الخطأ سيكون في معاملة «إسقاط الكانفاس» و«إسقاط الفهم الذي وفّره الكانفاس» كقرار واحد. وهما ليسا كذلك. على SankiWork أن ينقل ذلك الوضوح إلى نموذج المُخرَج، لا أن يرميه. طبقة التخطيط هي الاسم لذلك النقل.</p>
       <h2>SankiWork لديه بالفعل العناصر الأساسية الصحيحة</h2>
-      <p>السبب في ملاءمة هذا الاقتراح لـ SankiWork هو أن المشروع مبنيّ أصلًا حول عقود صريحة. المهارة هي ملف <code>SKILL.md</code>. ونظام التصميم هو ملف <code>DESIGN.md</code>. والإضافة تُضيف ملفًا مُرافقًا <code>open-design.json</code>. لا شيء في النظام كتلة ثنائية عليك تفكيكها عكسيًّا؛ فالعقود نصّ، والنصّ شيء يستطيع كلٌّ من العميل والإنسان قراءته. الآليات مشروحة في <a href="/blog/31-skills-72-systems-how-the-library-works/">31 مهارة، 72 نظامًا: كيف تعمل مكتبة SankiWork</a>، وحجّة المنتج في <a href="/blog/why-we-built-open-design-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a>.</p>
+      <p>السبب في ملاءمة هذا الاقتراح لـ SankiWork هو أن المشروع مبنيّ أصلًا حول عقود صريحة. المهارة هي ملف <code>SKILL.md</code>. ونظام التصميم هو ملف <code>DESIGN.md</code>. والإضافة تُضيف ملفًا مُرافقًا <code>sankiwork.json</code>. لا شيء في النظام كتلة ثنائية عليك تفكيكها عكسيًّا؛ فالعقود نصّ، والنصّ شيء يستطيع كلٌّ من العميل والإنسان قراءته. الآليات مشروحة في <a href="/blog/31-skills-72-systems-how-the-library-works/">31 مهارة، 72 نظامًا: كيف تعمل مكتبة SankiWork</a>، وحجّة المنتج في <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a>.</p>
       <p>ينبغي لطبقة التخطيط أن تتبع النمط نفسه. ينبغي أن تكون نصًّا يستطيع العميل قراءته، وحالةً تستطيع الواجهة عرضها، وبياناتٍ وصفية يستطيع عميل آخر إعادة استخدامها. وإن لم تستطع تلبية الثلاثة دفعةً واحدة، فهي الشكل الخاطئ.</p>
       <p>بلغة المستودع، يشير ذلك إلى ثلاثة أسطح:</p>
       <table><thead><tr><th>السطح</th><th>ما ينبغي أن يحمله</th></tr></thead><tbody><tr><td>بيان المُخرَج (manifest)</td><td>مُعرّفات مستقرّة للأقسام، والمكوّنات، والأصول، والملفات المُولّدة</td></tr><tr><td>لقطة الإضافة</td><td>أي مهارة، ونظام تصميم، ومدخلات، ومراحل خطّ إنتاج أنتجت المُخرَج</td></tr><tr><td>واجهة المراجعة / المُخرَج بلا واجهة (headless)</td><td>خريطة تخطيط، وجوانب قابلة للتحرير، ونوايا تحرير مُقترحة</td></tr></tbody></table>
@@ -1314,8 +1314,8 @@ i18n:
       <h2>قراءات ذات صلة</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 مهارة، 72 نظامًا: كيف تعمل مكتبة SankiWork</a> — العناصر الأساسية الحالية المُحرَّكة بالملفات أسفل الاقتراح</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a> — شكل المنتج الذي يجعل عقود المُخرَجات العامة ممكنة</li>
-      <li><a href="/blog/figma-alternative-open-design/">البديل مفتوح المصدر لـ Figma</a> — أين يستقرّ «إسقاط الكانفاس» في مواجهة المُهيمن الذي جعل الكانفاس مركزيًّا</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">لماذا بنينا SankiWork كطبقة مهارات لا كمنتج</a> — شكل المنتج الذي يجعل عقود المُخرَجات العامة ممكنة</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">البديل مفتوح المصدر لـ Figma</a> — أين يستقرّ «إسقاط الكانفاس» في مواجهة المُهيمن الذي جعل الكانفاس مركزيًّا</li>
       </ul>
   tr:
     title: "Tuvalin gizlemeye alışık olduğu yerleşim katmanı"
@@ -1332,7 +1332,7 @@ i18n:
       <h3>Birim yanlış olsa bile bu netlik korumaya değer</h3>
       <p>Bu, #DeFigma argümanının dikkat gerektiren kısmı. Tuval, ajan-yerel bir sistem için yanlış iş birimi olabilir — dosya yazan bir ajanı değil, dikdörtgenleri sürükleyen bir insanı varsayar — ama insanların tuvalden aldığı netlik hâlâ değerlidir. Hata, "tuvali bırak" ile "tuvalin sağladığı anlayışı bırak"ı aynı karar olarak görmek olurdu. Değiller. SankiWork, o netliği atmak yerine esir modeline taşımak zorundadır. Yerleşim katmanı, o taşımanın adıdır.</p>
       <h2>SankiWork'da zaten doğru ilkel öğeler var</h2>
-      <p>Bu önerinin SankiWork'a uymasının nedeni, projenin zaten açık sözleşmeler etrafında kurulmuş olmasıdır. Bir beceri, bir <code>SKILL.md</code> dosyasıdır. Bir tasarım sistemi, bir <code>DESIGN.md</code> dosyasıdır. Bir eklenti, bir <code>open-design.json</code> yan dosyası ekler. Sistemde tersine mühendislik yapmanız gereken hiçbir ikili blob yoktur; sözleşmeler metindir ve metin, hem bir ajanın hem de bir insanın okuyabileceği bir şeydir. Mekanikler <a href="/blog/31-skills-72-systems-how-the-library-works/">31 beceri, 72 sistem: SankiWork kütüphanesi nasıl çalışır</a> yazısında ele alınır ve ürün argümanı <a href="/blog/why-we-built-open-design-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> yazısındadır.</p>
+      <p>Bu önerinin SankiWork'a uymasının nedeni, projenin zaten açık sözleşmeler etrafında kurulmuş olmasıdır. Bir beceri, bir <code>SKILL.md</code> dosyasıdır. Bir tasarım sistemi, bir <code>DESIGN.md</code> dosyasıdır. Bir eklenti, bir <code>sankiwork.json</code> yan dosyası ekler. Sistemde tersine mühendislik yapmanız gereken hiçbir ikili blob yoktur; sözleşmeler metindir ve metin, hem bir ajanın hem de bir insanın okuyabileceği bir şeydir. Mekanikler <a href="/blog/31-skills-72-systems-how-the-library-works/">31 beceri, 72 sistem: SankiWork kütüphanesi nasıl çalışır</a> yazısında ele alınır ve ürün argümanı <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> yazısındadır.</p>
       <p>Yerleşim katmanı aynı örüntüyü izlemelidir. Ajanın okuyabileceği metin, arayüzün işleyebileceği durum ve başka bir ajanın yeniden kullanabileceği meta veri olmalıdır. Üçünü birden aynı anda karşılayamıyorsa, yanlış biçimdir.</p>
       <p>Depo açısından bu, üç yüzeyi işaret eder:</p>
 
@@ -1403,8 +1403,8 @@ i18n:
       <h2>İlgili okumalar</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 beceri, 72 sistem: SankiWork kütüphanesi nasıl çalışır</a> — önerinin altındaki mevcut dosya odaklı ilkel öğeler</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> — herkese açık eser sözleşmelerini mümkün kılan ürün biçimi</li>
-      <li><a href="/blog/figma-alternative-open-design/">Figma'ya açık kaynaklı alternatif</a> — "tuvali bırak"ın, tuvali merkezi yapan mevcut lidere göre nereye düştüğü</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">SankiWork'ı neden bir ürün değil, bir beceri katmanı olarak inşa ettik</a> — herkese açık eser sözleşmelerini mümkün kılan ürün biçimi</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Figma'ya açık kaynaklı alternatif</a> — "tuvali bırak"ın, tuvali merkezi yapan mevcut lidere göre nereye düştüğü</li>
       </ul>
   uk:
     title: "Рівень макета, який полотно колись приховувало"
@@ -1421,7 +1421,7 @@ i18n:
       <h3>Цю ясність варто зберегти, навіть якщо одиниця неправильна</h3>
       <p>Це та частина аргументу #DeFigma, що потребує обережності. Полотно може бути неправильною одиницею роботи для агентно-орієнтованої системи — воно припускає людину, що перетягує прямокутники, а не агента, що пише файли — але ясність, яку люди отримували від полотна, усе ще цінна. Помилкою було б ставитися до «прибрати полотно» й «прибрати розуміння, що його давало полотно» як до одного й того самого рішення. Це не так. SankiWork має перемістити цю ясність у модель артефакту, а не викинути її. Рівень макета — це назва для такого переміщення.</p>
       <h2>В SankiWork уже є правильні примітиви</h2>
-      <p>Причина, чому ця пропозиція пасує SankiWork, у тому, що проєкт уже побудований навколо явних контрактів. Навичка — це файл <code>SKILL.md</code>. Дизайн-система — це файл <code>DESIGN.md</code>. Плагін додає супутній файл <code>open-design.json</code>. Ніщо в системі не є бінарним блобом, який треба реверс-інженерити; контракти — це текст, а текст — це те, що можуть прочитати і агент, і людина. Механіка розглянута в <a href="/blog/31-skills-72-systems-how-the-library-works/">31 навичка, 72 системи: як працює бібліотека SankiWork</a>, а продуктовий аргумент — у <a href="/blog/why-we-built-open-design-as-a-skill-layer/">Чому ми побудували SankiWork як рівень навичок, а не продукт</a>.</p>
+      <p>Причина, чому ця пропозиція пасує SankiWork, у тому, що проєкт уже побудований навколо явних контрактів. Навичка — це файл <code>SKILL.md</code>. Дизайн-система — це файл <code>DESIGN.md</code>. Плагін додає супутній файл <code>sankiwork.json</code>. Ніщо в системі не є бінарним блобом, який треба реверс-інженерити; контракти — це текст, а текст — це те, що можуть прочитати і агент, і людина. Механіка розглянута в <a href="/blog/31-skills-72-systems-how-the-library-works/">31 навичка, 72 системи: як працює бібліотека SankiWork</a>, а продуктовий аргумент — у <a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Чому ми побудували SankiWork як рівень навичок, а не продукт</a>.</p>
       <p>Рівень макета має йти за тим самим патерном. Це має бути текст, який агент може прочитати, стан, який UI може відрендерити, і метадані, які інший агент може повторно використати. Якщо він не може задовольнити всі три одразу, це неправильна форма.</p>
       <p>У термінах репозиторію це вказує на три поверхні:</p>
 
@@ -1496,8 +1496,8 @@ i18n:
       <h2>Пов’язане для читання</h2>
       <ul>
       <li><a href="/blog/31-skills-72-systems-how-the-library-works/">31 навичка, 72 системи: як працює бібліотека SankiWork</a> — поточні керовані файлами примітиви під цією пропозицією</li>
-      <li><a href="/blog/why-we-built-open-design-as-a-skill-layer/">Чому ми побудували SankiWork як рівень навичок, а не продукт</a> — форма продукту, що уможливлює публічні контракти артефактів</li>
-      <li><a href="/blog/figma-alternative-open-design/">Опенсорсна альтернатива Figma</a> — де опиняється «прибрати полотно» проти лідера ринку, що зробив полотно центральним</li>
+      <li><a href="/blog/why-we-built-sankiwork-as-a-skill-layer/">Чому ми побудували SankiWork як рівень навичок, а не продукт</a> — форма продукту, що уможливлює публічні контракти артефактів</li>
+      <li><a href="/blog/figma-alternative-sankiwork/">Опенсорсна альтернатива Figma</a> — де опиняється «прибрати полотно» проти лідера ринку, що зробив полотно центральним</li>
       </ul>
 ---
 
@@ -1523,7 +1523,7 @@ This is the part of the #DeFigma argument that needs care. The canvas may be the
 
 ## SankiWork already has the right primitives
 
-The reason this proposal fits SankiWork is that the project is already built around explicit contracts. A skill is a `SKILL.md` file. A design system is a `DESIGN.md` file. A plugin adds an `open-design.json` sidecar. Nothing in the system is a binary blob you have to reverse-engineer; the contracts are text, and text is something both an agent and a human can read. The mechanics are covered in [31 skills, 72 systems: how the SankiWork library works](/blog/31-skills-72-systems-how-the-library-works/), and the product argument is in [Why we built SankiWork as a skill layer, not a product](/blog/why-we-built-open-design-as-a-skill-layer/).
+The reason this proposal fits SankiWork is that the project is already built around explicit contracts. A skill is a `SKILL.md` file. A design system is a `DESIGN.md` file. A plugin adds an `sankiwork.json` sidecar. Nothing in the system is a binary blob you have to reverse-engineer; the contracts are text, and text is something both an agent and a human can read. The mechanics are covered in [31 skills, 72 systems: how the SankiWork library works](/blog/31-skills-72-systems-how-the-library-works/), and the product argument is in [Why we built SankiWork as a skill layer, not a product](/blog/why-we-built-sankiwork-as-a-skill-layer/).
 
 The layout layer should follow the same pattern. It should be text the agent can read, state the UI can render, and metadata another agent can reuse. If it cannot satisfy all three at once, it is the wrong shape.
 
@@ -1601,5 +1601,5 @@ This is still a direction, not a shipped feature — the value of naming it now 
 ## Related reading
 
 - [31 skills, 72 systems: how the SankiWork library works](/blog/31-skills-72-systems-how-the-library-works/) — the current file-driven primitives underneath the proposal
-- [Why we built SankiWork as a skill layer, not a product](/blog/why-we-built-open-design-as-a-skill-layer/) — the product shape that makes public artifact contracts possible
-- [The open-source alternative to Figma](/blog/figma-alternative-open-design/) — where "drop the canvas" lands against the incumbent that made the canvas central
+- [Why we built SankiWork as a skill layer, not a product](/blog/why-we-built-sankiwork-as-a-skill-layer/) — the product shape that makes public artifact contracts possible
+- [The open-source alternative to Figma](/blog/figma-alternative-sankiwork/) — where "drop the canvas" lands against the incumbent that made the canvas central

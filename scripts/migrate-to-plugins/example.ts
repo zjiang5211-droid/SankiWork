@@ -2,7 +2,7 @@
 // `plugins/_official/examples/<id>/`. We copy SKILL.md + side files
 // (example.html, assets/, references/) so the daemon's bundled walker
 // has everything it needs without reaching outside the plugin folder
-// (the registry only resolves SKILL.md / .claude-plugin / open-design.json
+// (the registry only resolves SKILL.md / .claude-plugin / sankiwork.json
 // inside the plugin root — see `apps/daemon/src/plugins/registry.ts`).
 
 import path from 'node:path';

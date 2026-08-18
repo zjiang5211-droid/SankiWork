@@ -368,7 +368,7 @@ sw skills list --json
 
 **为什么选择 MCP？** 每次迭代都导出并重新附加 zip 会打断流程。MCP 直接暴露设计源文件——Agent 始终看到实时文件。
 
-**对于从零开始的 Agent**，安装器会放置 `~/.config/<agent>/open-design.json`（或平台等效路径）以及可复制粘贴的 MCP 代码片段。Cursor 获得一键深层链接；Claude Code 获得 `claude mcp add-json` 一行命令；其他所有 Agent 获得其配置所需 schema 格式的 JSON。完整的逐 Agent 流程 → 桌面应用中的**设置 → MCP 服务器**，或 [`docs/agent-adapters.md`](../../docs/agent-adapters.md)。
+**对于从零开始的 Agent**，安装器会放置 `~/.config/<agent>/sankiwork.json`（或平台等效路径）以及可复制粘贴的 MCP 代码片段。Cursor 获得一键深层链接；Claude Code 获得 `claude mcp add-json` 一行命令；其他所有 Agent 获得其配置所需 schema 格式的 JSON。完整的逐 Agent 流程 → 桌面应用中的**设置 → MCP 服务器**，或 [`docs/agent-adapters.md`](../../docs/agent-adapters.md)。
 
 **安全模型。** 默认只读，守护进程绑定到 `127.0.0.1`，SSRF 在代理边缘拦截。局域网暴露需要 `SW_BIND_HOST` 显式启用加 `SW_ALLOWED_ORIGINS`。连接器凭证和实时工件预览路由无论如何都保持仅本地回环。
 
@@ -442,11 +442,11 @@ sw skills list --json
 
 ## 插件
 
-**277 个官方插件和 183 个可混搭参考示例**位于 [`plugins/_official/`](../../plugins/_official/)。每个条目都是以 `open-design.json` 为核心的可移植插件目录，并带有类型所需的载荷，例如 Agent 工作流的 `SKILL.md`、媒体模板的 `template.json`，或设计系统条目的 `DESIGN.md`。直接跳转到分类浏览：
+**277 个官方插件和 183 个可混搭参考示例**位于 [`plugins/_official/`](../../plugins/_official/)。每个条目都是以 `sankiwork.json` 为核心的可移植插件目录，并带有类型所需的载荷，例如 Agent 工作流的 `SKILL.md`、媒体模板的 `template.json`，或设计系统条目的 `DESIGN.md`。直接跳转到分类浏览：
 
 | 分类 | 数量 | 内容 |
 |---|---|---|
-| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | 完整设计方案——[`od-default`](../../plugins/_official/scenarios/od-default/)、[`od-design-refine`](../../plugins/_official/scenarios/od-design-refine/)、[`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/)、[`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/)、[`od-react-export`](../../plugins/_official/scenarios/od-react-export/)、[`od-nextjs-export`](../../plugins/_official/scenarios/od-nextjs-export/)、[`od-vue-export`](../../plugins/_official/scenarios/od-vue-export/)、[`od-media-generation`](../../plugins/_official/scenarios/od-media-generation/)、[`od-new-generation`](../../plugins/_official/scenarios/od-new-generation/)、[`od-tune-collab`](../../plugins/_official/scenarios/od-tune-collab/)、[`od-plugin-authoring`](../../plugins/_official/scenarios/od-plugin-authoring/), [`od-share-to-community`](../../plugins/_official/scenarios/od-share-to-community/), [`od-web-effect-extractor`](../../plugins/_official/scenarios/od-web-effect-extractor/) |
+| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | 完整设计方案——[`sw-default`](../../plugins/_official/scenarios/sw-default/)、[`sw-design-refine`](../../plugins/_official/scenarios/sw-design-refine/)、[`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/)、[`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/)、[`sw-react-export`](../../plugins/_official/scenarios/sw-react-export/)、[`sw-nextjs-export`](../../plugins/_official/scenarios/sw-nextjs-export/)、[`sw-vue-export`](../../plugins/_official/scenarios/sw-vue-export/)、[`sw-media-generation`](../../plugins/_official/scenarios/sw-media-generation/)、[`sw-new-generation`](../../plugins/_official/scenarios/sw-new-generation/)、[`sw-tune-collab`](../../plugins/_official/scenarios/sw-tune-collab/)、[`sw-plugin-authoring`](../../plugins/_official/scenarios/sw-plugin-authoring/), [`sw-share-to-community`](../../plugins/_official/scenarios/sw-share-to-community/), [`sw-web-effect-extractor`](../../plugins/_official/scenarios/sw-web-effect-extractor/) |
 | [`image-templates/`](../../plugins/_official/image-templates/) | 45 | 一次性图片提示词——编辑、电影、产品、人像 |
 | [`video-templates/`](../../plugins/_official/video-templates/) | 63 | HyperFrames / Seedance / Veo 动态模板 |
 | [`design-systems/`](../../plugins/_official/design-systems/) | 143 | 品牌 `DESIGN.md` 包装为插件 |
@@ -458,8 +458,8 @@ sw skills list --json
 ### 插件能做什么
 
 - 🤖 **在任何编码 Agent 中运行**——[Claude Code](../../docs/agent-adapters.md)、Codex、Cursor、Copilot、[OpenClaw](https://github.com/openclaw/openclaw)、[Antigravity](https://antigravity.google)、Hermes、Kimi……通过 Agent 已知的同一套技能协议。
-- 🔁 **迁移 Figma / Pencil 工作流** → React、Next.js 或 Vue 源码。参见 [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/)。
-- 🛠️ **将现有代码库刷新到品牌规范**——将插件指向 `git` 仓库 + `DESIGN.md`，获得一个 PR。参见 [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/)。
+- 🔁 **迁移 Figma / Pencil 工作流** → React、Next.js 或 Vue 源码。参见 [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/)。
+- 🛠️ **将现有代码库刷新到品牌规范**——将插件指向 `git` 仓库 + `DESIGN.md`，获得一个 PR。参见 [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/)。
 - 💾 **持久化自定义工作流**——你团队的可复用模板与发布的模板并列。
 
 ### 使用插件
@@ -473,29 +473,29 @@ sw skills list --json
 ```bash
 sw plugin list                       # 列出已安装插件（--task-kind / --mode / --tag 过滤）
 sw plugin search "landing page"      # 按关键词搜
-sw plugin info od-default            # 看某个插件的元数据、输入、权限
-sw plugin install od-figma-migration # 从注册中心装；也支持 ./本地文件夹 或 https://… 直链
-sw plugin apply od-default --input brief="给我们的种子轮做一页 pitch"
-sw plugin upgrade od-default         # 升级
-sw plugin uninstall od-default       # 卸载
+sw plugin info sw-default            # 看某个插件的元数据、输入、权限
+sw plugin install sw-figma-migration # 从注册中心装；也支持 ./本地文件夹 或 https://… 直链
+sw plugin apply sw-default --input brief="给我们的种子轮做一页 pitch"
+sw plugin upgrade sw-default         # 升级
+sw plugin uninstall sw-default       # 卸载
 ```
 
 所有命令都支持 `--json`，方便用 `jq` / `xargs` 串进自动化脚本。
 
 ### 构建插件
 
-SankiWork 插件必须包含 `open-design.json` 以及其类型所需的载荷。工作流技能或场景还包含 `SKILL.md`；仅 manifest 的模板与设计系统条目则使用各自的载荷：
+SankiWork 插件必须包含 `sankiwork.json` 以及其类型所需的载荷。工作流技能或场景还包含 `SKILL.md`；仅 manifest 的模板与设计系统条目则使用各自的载荷：
 
 ```
 my-plugin/
-├── open-design.json    ← 必需：marketplace 元数据 + 输入 + 流水线 + 权限
+├── sankiwork.json    ← 必需：marketplace 元数据 + 输入 + 流水线 + 权限
 ├── SKILL.md            ← Agent Skill/场景条目必需；其他插件类型可省略
 ├── README.md           ← 可选：用法、安装、注册中心链接
 ├── preview/            ← 可选：index.html / poster.png（视觉类强烈建议）
 └── examples/           ← 可选：具体用例
 ```
 
-`open-design.json` 的核心字段：`specVersion`（当前 `1.0.0`）、`name`（稳定 ID）、`version`（semver）、可选的 `compat.agentSkills[].path`（条目公开 Agent Skill 时指向 `./SKILL.md`）、`od.kind`（`skill` / `scenario` / `atom` / `bundle`）、`od.taskKind`（`new-generation` / `figma-migration` / `code-migration` / `tune-collab`）、`od.mode`（输出表面，如 `prototype` / `deck` / `live-artifact` / `image` / `video` / `hyperframes` / `audio` / `design-system` / `scenario`）、`od.capabilities[]`（**按最小权限声明**，默认受限安装只给 `prompt:inject`）、`od.inputs[]`（应用时的参数）。
+`sankiwork.json` 的核心字段：`specVersion`（当前 `1.0.0`）、`name`（稳定 ID）、`version`（semver）、可选的 `compat.agentSkills[].path`（条目公开 Agent Skill 时指向 `./SKILL.md`）、`od.kind`（`skill` / `scenario` / `atom` / `bundle`）、`od.taskKind`（`new-generation` / `figma-migration` / `code-migration` / `tune-collab`）、`od.mode`（输出表面，如 `prototype` / `deck` / `live-artifact` / `image` / `video` / `hyperframes` / `audio` / `design-system` / `scenario`）、`od.capabilities[]`（**按最小权限声明**，默认受限安装只给 `prompt:inject`）、`od.inputs[]`（应用时的参数）。
 
 脚手架 + 本地验证：
 
@@ -608,7 +608,7 @@ SankiWork 之所以持续前进，是因为贡献者——设计师、工程师�
 |---|---|---|
 | 一个新的**技能** | 放入包含 `SKILL.md` + `assets/` + `references/` 的文件夹 | [`skills/`](../../skills/) · 规范在 [`docs/skills-protocol.md`](../../docs/skills-protocol.md) |
 | 一个新的**设计系统** | 放入以 `DESIGN.md` 为核心的包；按需添加 `manifest.json`、`tokens.css`、组件、资产或来源信息 | [`design-systems/<brand>/`](../../design-systems/) |
-| 一个新的**插件** | 在分类文件夹下放入 `open-design.json` + 对应类型的载荷 | [`plugins/community/`](../../plugins/community/) · 规范在 [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · Agent 开发指南在 [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
+| 一个新的**插件** | 在分类文件夹下放入 `sankiwork.json` + 对应类型的载荷 | [`plugins/community/`](../../plugins/community/) · 规范在 [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · Agent 开发指南在 [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
 | 支持新的**编码 Agent CLI** | 一个运行时定义 + 注册项；仅新 wire format 需要 parser | [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runtimes/defs/) |
 | 修复 Bug 或打磨 UI | 浏览 [`good-first-issue`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) 标签 | [Issues →](https://github.com/nexu-io/open-design/issues) |
 | 翻译文档 | 更新 `README.<lang>.md` 文件 | [`TRANSLATIONS.md`](../../TRANSLATIONS.md) |

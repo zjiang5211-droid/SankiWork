@@ -432,7 +432,7 @@ async function inferNameFromSkillManifest(projectDir: string): Promise<string | 
     return null;
   }
   for (const entry of entries) {
-    const manifest = await readJsonObject(path.join(skillsDir, entry, 'open-design.json'));
+    const manifest = await readJsonObject(path.join(skillsDir, entry, 'sankiwork.json'));
     const title = cleanPulledProjectName(manifest?.title);
     if (title) return title;
     const name = cleanPulledProjectName(manifest?.name);
@@ -622,7 +622,7 @@ async function resolveSharedProjectForPublicFile(
       }) ?? null,
     };
   } catch (error) {
-    console.warn('[od] failed to resolve public file project ownership:', error);
+    console.warn('[sw] failed to resolve public file project ownership:', error);
     return { ok: false };
   }
 }
@@ -1257,7 +1257,7 @@ export function registerCollabSyncRoutes(
       publicFilePublications.set(publicFilePublicationKey(projectId, filePath, principal), publication);
       return res.json(publication);
     } catch (error) {
-      console.warn('[od] failed to publish public project file:', error);
+      console.warn('[sw] failed to publish public project file:', error);
       return res.status(502).json({ error: 'PUBLIC_FILE_PUBLISH_UNAVAILABLE' });
     } finally {
       await rm(tempDir, { recursive: true, force: true }).catch(() => {});
@@ -1310,7 +1310,7 @@ export function registerCollabSyncRoutes(
       publicFilePublications.delete(publicFilePublicationKey(projectId, filePath, principal));
       return res.json({ ok: true, slug, fileName: filePath });
     } catch (error) {
-      console.warn('[od] failed to unpublish public project file:', error);
+      console.warn('[sw] failed to unpublish public project file:', error);
       return res.status(502).json({ error: 'PUBLIC_FILE_UNPUBLISH_UNAVAILABLE' });
     }
   });
@@ -1388,7 +1388,7 @@ export function registerCollabSyncRoutes(
       try {
         ({ version: nextPublishedVersion } = await requestTeamShare(projectId, principal ?? sharerMemberId));
       } catch (error) {
-        console.warn('[od] failed to publish team-shared project bytes:', error);
+        console.warn('[sw] failed to publish team-shared project bytes:', error);
         return res.status(502).json({ error: 'TEAM_PROJECT_PUBLISH_UNAVAILABLE' });
       }
       if (nextPublishedVersion == null) {
@@ -1624,7 +1624,7 @@ export function registerCollabSyncRoutes(
             if (await shouldRetryStaleReceipt(error, authorizedAttempt)) {
               continue;
             }
-            console.warn('[od] authorized proactive team pull failed closed:', {
+            console.warn('[sw] authorized proactive team pull failed closed:', {
               projectId,
               version: expectedVersion,
               ...errorLogFields(error),
@@ -1698,7 +1698,7 @@ export function registerCollabSyncRoutes(
               },
               onPostCommitCleanupError: (error) => {
                 console.warn(
-                  '[od] authorized team project committed; deferred promotion cleanup:',
+                  '[sw] authorized team project committed; deferred promotion cleanup:',
                   {
                     projectId,
                     version: expectedVersion,
@@ -1723,7 +1723,7 @@ export function registerCollabSyncRoutes(
               authorizedAttempt,
             );
             if (!retryAuthorizedStage) {
-              console.warn('[od] failed to promote authorized team project', {
+              console.warn('[sw] failed to promote authorized team project', {
                 projectId,
                 version: expectedVersion,
                 reason,
@@ -1736,7 +1736,7 @@ export function registerCollabSyncRoutes(
               await staged.cleanup();
             } catch (error) {
               cleanupSucceeded = false;
-              console.warn('[od] failed to clean authorized team project stage:', {
+              console.warn('[sw] failed to clean authorized team project stage:', {
                 projectId,
                 version: expectedVersion,
                 ...errorLogFields(error),
@@ -1857,7 +1857,7 @@ export function registerCollabSyncRoutes(
       try {
         prepared = await preparePulledProjectRegistration(projectId, scope);
       } catch (error) {
-        console.warn('[od] failed to prepare pulled team project:', error);
+        console.warn('[sw] failed to prepare pulled team project:', error);
         return complete({ status: 'register_failed' });
       }
       reportPullTiming({
@@ -1918,7 +1918,7 @@ export function registerCollabSyncRoutes(
           authoritativeSharedProject,
         );
       } catch (error) {
-        console.warn('[od] failed to register pulled team project:', error);
+        console.warn('[sw] failed to register pulled team project:', error);
         return complete({ status: 'register_failed' });
       }
       reportPullTiming({
@@ -1960,7 +1960,7 @@ export function registerCollabSyncRoutes(
             // committed. Coordinator notification is recoverable from that
             // cursor on its next retry and must never turn success into 502.
             console.warn(
-              '[od] failed to notify proactive coordinator of legacy team pull:',
+              '[sw] failed to notify proactive coordinator of legacy team pull:',
               {
                 projectId,
                 version: materializedVersion,
@@ -1969,7 +1969,7 @@ export function registerCollabSyncRoutes(
             );
           }
         } catch (error) {
-          console.warn('[od] failed to persist pulled team project version:', error);
+          console.warn('[sw] failed to persist pulled team project version:', error);
           return complete({ status: 'register_failed' });
         }
       }

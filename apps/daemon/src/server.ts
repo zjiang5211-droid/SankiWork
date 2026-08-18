@@ -742,7 +742,7 @@ import { registerRunRoutes } from './routes/runs.js';
 import { registerTerminalRoutes } from './routes/terminal.js';
 import { createTerminalService } from './terminals.js';
 import { registerSocialShareRoutes } from './routes/social-share.js';
-import { registerSankiWorkPublicMetadataRoutes } from './routes/open-design-public-metadata.js';
+import { registerSankiWorkPublicMetadataRoutes } from './routes/sankiwork-public-metadata.js';
 import { registerWhatsNewRoutes } from './routes/whats-new.js';
 import { registerMemoryRoutes } from './routes/memory.js';
 import {
@@ -999,7 +999,7 @@ import {
   isApiAuthDisabled,
   isApiTokenMiddlewareEnabled,
 } from './api-token-auth.js';
-import { createSankiWorkPublicMetadataService } from './services/open-design-public-metadata.js';
+import { createSankiWorkPublicMetadataService } from './services/sankiwork-public-metadata.js';
 import { createWhatsNewService } from './services/whats-new.js';
 import { execCommandViaLoginShell } from './services/login-shell.js';
 import {
@@ -1164,7 +1164,7 @@ const RUNTIME_DATA_DIR = resolveDataDir(process.env.SW_DATA_DIR, PROJECT_ROOT, {
 });
 const SANDBOX_RUNTIME = resolveSandboxRuntimeConfig(SANDBOX_MODE_ENABLED, RUNTIME_DATA_DIR);
 ensureSandboxRuntimeDirs(SANDBOX_RUNTIME);
-const PLUGIN_LOCKFILE_PATH = path.join(RUNTIME_DATA_DIR, 'od-plugin-lock.json');
+const PLUGIN_LOCKFILE_PATH = path.join(RUNTIME_DATA_DIR, 'sw-plugin-lock.json');
 // Canonical (realpath-resolved) form of RUNTIME_DATA_DIR for the few callers
 // that compare it against a user-supplied realpath() result. On macOS, /var
 // is a symlink to /private/var, so an import realpath lands in /private/var
@@ -2958,7 +2958,7 @@ export async function startServer({
   }
 
   if (process.env.SW_CODEX_DISABLE_PLUGINS === '1') {
-    console.log('[od] Codex plugins disabled via SW_CODEX_DISABLE_PLUGINS=1');
+    console.log('[sw] Codex plugins disabled via SW_CODEX_DISABLE_PLUGINS=1');
   }
 
   let bundledMarketplaceEntries = [];
@@ -3077,7 +3077,7 @@ export async function startServer({
     .catch(() => detectAgents().catch(() => {}));
 
   await recoverStaleLiveArtifactRefreshes({ projectsRoot: PROJECTS_DIR }).catch((error) => {
-    console.warn('[od] Failed to recover stale live artifact refreshes:', error);
+    console.warn('[sw] Failed to recover stale live artifact refreshes:', error);
   });
 
   if (fs.existsSync(staticDir)) {
@@ -3127,7 +3127,7 @@ export async function startServer({
       return teamProjectMaterializationSupersedes(stored, entry.receipt);
     },
     onError: (error) => {
-      console.warn('[od] failed to recover authorized team mirror promotion:', error);
+      console.warn('[sw] failed to recover authorized team mirror promotion:', error);
     },
   });
   // What this daemon has learned about each workspace's type, memoized from
@@ -3627,7 +3627,7 @@ export async function startServer({
     },
     onMetadataRefreshError: ({ projectId, principal, error }) => {
       console.warn(
-        `[od] team project metadata refresh will retry (${principal.teamId}/${projectId}):`,
+        `[sw] team project metadata refresh will retry (${principal.teamId}/${projectId}):`,
         error,
       );
     },
@@ -3684,7 +3684,7 @@ export async function startServer({
     const broken = impossibleTeamShareRows(listTeamWorkspaceProjectShares(db), workspaceTypes);
     for (const row of broken) {
       console.warn(
-        `[od] healing project ${row.projectId}: its team share pointed at personal workspace ` +
+        `[sw] healing project ${row.projectId}: its team share pointed at personal workspace ` +
           `${row.workspaceId}, which has no team plane. Re-share it from a team workspace.`,
       );
       updateWorkspaceProject(db, row.workspaceId, row.projectId, {
@@ -3700,7 +3700,7 @@ export async function startServer({
     return broken.length;
   };
   void reconcileImpossibleTeamShares().catch((error) => {
-    console.warn('[od] team-share scope reconciliation failed:', error);
+    console.warn('[sw] team-share scope reconciliation failed:', error);
   });
   // Spec 9.2 one-time backfill: claim every pre-existing user design system
   // whose metadata.json already names a workspace into the generic
@@ -3709,7 +3709,7 @@ export async function startServer({
   // it unconditionally on every startup is deliberate, same as
   // `reconcileImpossibleTeamShares` just above.
   void backfillDesignSystemWorkspaceResources(db, USER_DESIGN_SYSTEMS_DIR).catch((error) => {
-    console.warn('[od] design-system workspace-resource backfill failed:', error);
+    console.warn('[sw] design-system workspace-resource backfill failed:', error);
   });
   const collabCloudClient = velaCliCollabClient ?? createCollabCloudClientFromEnv();
   const resolveBoundProjectWorkspaceContext = async (
@@ -3812,7 +3812,7 @@ export async function startServer({
           getProjectCommentAnchorConversationId(db, projectId),
         mergeComment: ({ projectId, conversationId, comment }) =>
           mergeSyncedPreviewComment(db, projectId, conversationId, comment),
-        onError: (error) => console.warn('[od] collab cloud sync error:', error),
+        onError: (error) => console.warn('[sw] collab cloud sync error:', error),
         onCommentPushed: ({ projectId, commentId, seq }) => {
           confirmPreviewCommentPinSeq(db, projectId, commentId, seq);
         },
@@ -3884,12 +3884,12 @@ export async function startServer({
           env: process.env,
           getWorkspaceId: () => capturedScope.workspaceId,
           onError: (error) =>
-            console.warn('[od] team projects digest error:', error),
+            console.warn('[sw] team projects digest error:', error),
         }),
         store: collabSyncSnapshots,
         parseSnapshot: parseTeamProjectSnapshot,
         onError: (error) =>
-          console.warn('[od] team projects snapshot cache error:', error),
+          console.warn('[sw] team projects snapshot cache error:', error),
       });
       teamProjectsCatalogSnapshots.set(key, snapshot);
     }
@@ -4194,7 +4194,7 @@ export async function startServer({
           setTeamProjectMirrorRevoked(projectId, true);
         })();
       },
-      onError: (error) => console.warn('[od] workspace-projects reconciliation error:', error),
+      onError: (error) => console.warn('[sw] workspace-projects reconciliation error:', error),
     };
   };
   const reconcileWorkspaceProjectsFromRemote = (
@@ -4355,7 +4355,7 @@ export async function startServer({
       }, { metadata: watchProject?.metadata });
       return { unsubscribe: () => sub.unsubscribe() };
     },
-    onError: (error) => console.warn('[od] collab publish watcher error:', error),
+    onError: (error) => console.warn('[sw] collab publish watcher error:', error),
   });
   collabPublishWatcher.start();
   const sharedProjectPullProfiling =
@@ -4699,7 +4699,7 @@ export async function startServer({
       }),
     onDeferred: (info) => {
       console.info(
-        '[od] background shared-project pull deferred (oversized): ' +
+        '[sw] background shared-project pull deferred (oversized): ' +
           `projectId=${info.projectId} workspaceId=${info.workspaceId} ` +
           `version=${info.version} entries=${info.entryCount} ` +
           `maxEntries=${info.maxEntries}; opening the project pulls it on demand`,
@@ -4707,7 +4707,7 @@ export async function startServer({
     },
     onError: (error) =>
       console.warn(
-        '[od] background pull size probe failed open (pulling as before):',
+        '[sw] background pull size probe failed open (pulling as before):',
         String(error),
       ),
   });
@@ -4830,14 +4830,14 @@ export async function startServer({
         }
       : {}),
     onError: (error) =>
-      console.warn('[od] proactive shared-project pull failed (web polling remains the fallback):', String(error)),
+      console.warn('[sw] proactive shared-project pull failed (web polling remains the fallback):', String(error)),
     onCatchUp: (event) => {
       if (
         event.phase === 'retry-scheduled' ||
         event.phase === 'retry-exhausted'
       ) {
         console.info(
-          `[od] shared-project content catch-up ${event.phase} mode=${event.mode} lane=${event.lane} ` +
+          `[sw] shared-project content catch-up ${event.phase} mode=${event.mode} lane=${event.lane} ` +
             `workspaceId=${event.workspaceId ?? 'unknown'} ` +
             `projectId=${event.projectId ?? 'all'} attempt=${event.attempt ?? event.failures ?? 0} ` +
             `delayMs=${event.delayMs ?? 0}`,
@@ -4846,18 +4846,18 @@ export async function startServer({
       }
       if (event.phase === 'skipped') {
         console.info(
-          `[od] shared-project content catch-up skipped mode=${event.mode} lane=${event.lane} reason=${event.reason ?? 'unknown'}`,
+          `[sw] shared-project content catch-up skipped mode=${event.mode} lane=${event.lane} reason=${event.reason ?? 'unknown'}`,
         );
         return;
       }
       if (event.phase === 'started') {
         console.info(
-          `[od] shared-project content catch-up started mode=${event.mode} lane=${event.lane} workspaceId=${event.workspaceId ?? 'unknown'}`,
+          `[sw] shared-project content catch-up started mode=${event.mode} lane=${event.lane} workspaceId=${event.workspaceId ?? 'unknown'}`,
         );
         return;
       }
       console.info(
-        `[od] shared-project content catch-up completed mode=${event.mode} lane=${event.lane} ` +
+        `[sw] shared-project content catch-up completed mode=${event.mode} lane=${event.lane} ` +
           `workspaceId=${event.workspaceId ?? 'unknown'} scanned=${event.scanned ?? 0} ` +
           `candidates=${event.candidates ?? 0} headChecks=${event.headChecks ?? 0} ` +
           `heads=${event.heads ?? 0} ` +
@@ -4906,12 +4906,12 @@ export async function startServer({
                 env: process.env,
                 getWorkspaceId: () => scope.workspaceId,
                 onError: (error) =>
-                  console.warn('[od] team members digest error:', error),
+                  console.warn('[sw] team members digest error:', error),
               }),
               store: collabSyncSnapshots,
               parseSnapshot: parseMemberDirectorySnapshot,
               onError: (error) =>
-                console.warn('[od] team members snapshot cache error:', error),
+                console.warn('[sw] team members snapshot cache error:', error),
             });
             snapshots.set(key, snapshot);
           }
@@ -5120,7 +5120,7 @@ export async function startServer({
         }),
         onError: (error) =>
           console.warn(
-            `[od] workspace ${workspaceId} invalidation recovery error:`,
+            `[sw] workspace ${workspaceId} invalidation recovery error:`,
             error,
           ),
       });
@@ -5180,7 +5180,7 @@ export async function startServer({
     }),
     onError: (error) => {
       console.warn(
-        '[od] workspace authority catch-up failed; retaining legacy polling:',
+        '[sw] workspace authority catch-up failed; retaining legacy polling:',
         String(error),
       );
     },
@@ -5196,7 +5196,7 @@ export async function startServer({
   // outside this coordinator: both have immediate, domain-specific handling.
   const hubEventRefreshes = createEventRefreshCoordinator({
     onError: (error, key) => {
-      console.warn(`[od] hub event refresh failed key=${key}:`, String(error));
+      console.warn(`[sw] hub event refresh failed key=${key}:`, String(error));
     },
   });
   const workspaceDirectoryRefreshes = createEventRefreshCoordinator({
@@ -5205,7 +5205,7 @@ export async function startServer({
     // state while bounding a sustained storm to one upstream read per second.
     minIntervalMs: 1_000,
     onError: (error) => {
-      console.warn('[od] workspace directory event refresh failed:', String(error));
+      console.warn('[sw] workspace directory event refresh failed:', String(error));
     },
   });
   const directoryConnectionIdentities = new Map<string, string>();
@@ -5304,7 +5304,7 @@ export async function startServer({
         }
         syncWorkspaceDirectoryRealtimeHealth();
       }
-      console.info(`[od] hub events channel ${state}`);
+      console.info(`[sw] hub events channel ${state}`);
     },
     onAuthorityHealthChange: ({
       workspaceId,
@@ -5391,7 +5391,7 @@ export async function startServer({
         }
       }
       console.info(
-        `[od] hub events workspace verified workspaceId=${workspaceId ?? 'unknown'} reconnect=${reconnect}`,
+        `[sw] hub events workspace verified workspaceId=${workspaceId ?? 'unknown'} reconnect=${reconnect}`,
       );
       handleHubVerifiedConnection(
         verifiedWorkspaceId,
@@ -5406,7 +5406,7 @@ export async function startServer({
     },
     onDrop: ({ reason, eventName, expectedWorkspaceId, actualWorkspaceId }) => {
       console.warn(
-        `[od] hub event dropped reason=${reason} event=${eventName} ` +
+        `[sw] hub event dropped reason=${reason} event=${eventName} ` +
           `expectedWorkspaceId=${expectedWorkspaceId ?? 'unknown'} ` +
           `actualWorkspaceId=${actualWorkspaceId ?? 'unknown'}`,
       );
@@ -5421,7 +5421,7 @@ export async function startServer({
       const revocationReceivedAt = performance.now();
       const exactWorkspaceId = workspaceId ?? subscribedWorkspaceId;
       console.info(
-        `[od] hub workspace access revoked workspaceId=${exactWorkspaceId} reason=${reason ?? 'unknown'}`,
+        `[sw] hub workspace access revoked workspaceId=${exactWorkspaceId} reason=${reason ?? 'unknown'}`,
       );
       handleHubWorkspaceAccessRevoked(
         exactWorkspaceId,
@@ -5474,7 +5474,7 @@ export async function startServer({
       const eventWorkspaceId =
         event.workspaceId ?? subscribedWorkspaceId;
       console.info(
-        `[od] hub workspace event received type=${event.type} ` +
+        `[sw] hub workspace event received type=${event.type} ` +
           `workspaceId=${eventWorkspaceId} ` +
           `projectId=${event.projectId ?? 'unknown'} version=${event.version ?? 'unknown'}`,
       );
@@ -5826,7 +5826,7 @@ export async function startServer({
         return;
       }
       console.warn(
-        `[od] hub source gap detected listenerEpoch=${listenerEpoch} ` +
+        `[sw] hub source gap detected listenerEpoch=${listenerEpoch} ` +
           `workspaceId=${workspaceId ?? 'unknown'}`,
       );
       const exactWorkspaceId = workspaceId ?? subscribedWorkspaceId;
@@ -5848,7 +5848,7 @@ export async function startServer({
         .catch(() => undefined);
     },
     onError: (error) => {
-      console.warn('[od] hub events channel error (will reconnect):', String(error));
+      console.warn('[sw] hub events channel error (will reconnect):', String(error));
     },
   });
   workspaceHubSubscriptions = createWorkspaceHubSubscriptionManager({
@@ -6829,7 +6829,7 @@ export async function startServer({
       },
       onError: (error) => {
         reconciliationError ??= error;
-        console.warn(`[od] workspace-resources (${resourceType}) reconciliation error:`, error);
+        console.warn(`[sw] workspace-resources (${resourceType}) reconciliation error:`, error);
       },
     });
     if (reconciliationError) throw reconciliationError;
@@ -6894,7 +6894,7 @@ export async function startServer({
       reconcileTeamResourceKind(resourceKind, scope, resources),
     emit: emitWorkspaceEvent,
     onError: (error, resourceKind) =>
-      console.warn(`[od] workspace-resources (${resourceKind}) refresh error:`, error),
+      console.warn(`[sw] workspace-resources (${resourceKind}) refresh error:`, error),
   });
   // `resourceKind` scopes the pass to just the kind the event was about;
   // omitted (hub reconnect catch-up, the poll fallback) reconciles every
@@ -7006,7 +7006,7 @@ export async function startServer({
         rememberedLease,
       ).catch((error) =>
         console.warn(
-          `[od] workspace ${workspaceId} resources poll error:`,
+          `[sw] workspace ${workspaceId} resources poll error:`,
           error,
         ),
        );
@@ -7859,7 +7859,7 @@ export async function startServer({
             if (!context) return;
             const enqueued = collabCloud.enqueueComment(comment, context);
             if (!enqueued) {
-              console.warn('[od] refused to enqueue comment without exact Team authority');
+              console.warn('[sw] refused to enqueue comment without exact Team authority');
             }
             return enqueued;
           },
@@ -7867,7 +7867,7 @@ export async function startServer({
             if (!context) return;
             const enqueued = collabCloud.enqueueComment(comment, context);
             if (!enqueued) {
-              console.warn('[od] refused to enqueue comment update without exact Team authority');
+              console.warn('[sw] refused to enqueue comment update without exact Team authority');
             }
             return enqueued;
           },
@@ -7875,7 +7875,7 @@ export async function startServer({
             if (!context) return;
             const enqueued = collabCloud.enqueueCommentDeletion(comment, context);
             if (!enqueued) {
-              console.warn('[od] refused to enqueue comment deletion without exact Team authority');
+              console.warn('[sw] refused to enqueue comment deletion without exact Team authority');
             }
             return enqueued;
           },
@@ -8497,7 +8497,7 @@ export async function startServer({
   // privilege to user-installed scenarios.
   //
   // Plan §3.O1 / §C-stage of plugin-driven-flow-plan: more than one
-  // bundled scenario may share a `taskKind` (e.g. `od-media-generation`
+  // bundled scenario may share a `taskKind` (e.g. `sw-media-generation`
   // also claims `new-generation` so the kind → scenario map can route
   // image / video / audio projects to it). The pipeline-fallback
   // resolver expects ONE scenario per taskKind, so this function
@@ -10227,7 +10227,7 @@ export async function startServer({
         );
         if (!result.staged) {
           console.warn(
-            `[od] skill-stage skipped: ${result.reason ?? 'unknown reason'}; falling back to absolute paths`,
+            `[sw] skill-stage skipped: ${result.reason ?? 'unknown reason'}; falling back to absolute paths`,
           );
         }
       }
@@ -10747,7 +10747,7 @@ export async function startServer({
     const executionProfile = executionProfileFromStreamFormat(def.streamFormat);
     // Accumulates the agent's visible text this run so the close handler can
     // tell whether the turn ended on a clarifying question form. The
-    // `od-plugin-authoring` plugin's turn-1 flow is to emit a
+    // `sw-plugin-authoring` plugin's turn-1 flow is to emit a
     // `<question-form>` collecting the plugin brief, then STOP and wait for
     // the user to answer (see the `discovery-question-form` atom in
     // `plugins/scaffold.ts`). That turn legitimately closes with `code === 0`
@@ -12293,7 +12293,7 @@ export async function startServer({
           // never member rows or credentials.
           onWorkspaceScopeOutcome: (outcome) => {
             console.log(
-              `[od] amr workspace scope ${outcome.kind}`
+              `[sw] amr workspace scope ${outcome.kind}`
                 + ` project=${outcome.projectId}`
                 + ` workspace=${outcome.workspaceId ?? 'none'}`
                 + ` run=${run.id}`,
@@ -14259,7 +14259,7 @@ export async function startServer({
       );
       if (!result.staged) {
         console.warn(
-          `[od] orbit template skill-stage skipped: ${result.reason ?? 'unknown reason'}; falling back to prompt-embedded instructions`,
+          `[sw] orbit template skill-stage skipped: ${result.reason ?? 'unknown reason'}; falling back to prompt-embedded instructions`,
         );
       }
     }
@@ -14970,7 +14970,7 @@ export async function startServer({
         if (!boundPort) {
           reject(
             new Error(
-              `[od] daemon failed to resolve listening port (address=${JSON.stringify(address)})`,
+              `[sw] daemon failed to resolve listening port (address=${JSON.stringify(address)})`,
             ),
           );
           return;
@@ -14982,7 +14982,7 @@ export async function startServer({
         const reportHost = host === '0.0.0.0' || host === '::' ? '127.0.0.1' : host;
         const url = `http://${reportHost}:${resolvedPort}`;
         if (!returnServer) {
-          console.log(`[od] daemon listening on ${url}`);
+          console.log(`[sw] daemon listening on ${url}`);
         }
         daemonUrl = url;
         resolve(returnServer ? {

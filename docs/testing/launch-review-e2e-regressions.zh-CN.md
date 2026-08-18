@@ -65,7 +65,7 @@
 
 当前 fake runtime 会真实写出：
 
-- `generated-plugin/open-design.json`
+- `generated-plugin/sankiwork.json`
 - `generated-plugin/SKILL.md`
 - `generated-plugin/examples/demo.md`
 
@@ -344,7 +344,7 @@ pnpm exec playwright test -c playwright.config.ts ui/design-systems-manager.test
 1. `does not report plugin authoring as succeeded when the agent only emits planning text without artifacts`
    - 覆盖 `Plugin authoring` 这类必须落地产物的任务不能只凭一条计划文本成功收尾
    - 当 agent 退出码为 `0`，但项目目录里缺少：
-     - `generated-plugin/open-design.json`
+     - `generated-plugin/sankiwork.json`
      - `generated-plugin/SKILL.md`
    - daemon 会把本轮转成 `failed`，而不是错误地保留 `succeeded`
 

@@ -22,7 +22,7 @@ afterEach(async () => {
 });
 
 async function writeManifest(body: Record<string, unknown>) {
-  await writeFile(path.join(folder, 'open-design.json'), JSON.stringify(body, null, 2));
+  await writeFile(path.join(folder, 'sankiwork.json'), JSON.stringify(body, null, 2));
 }
 
 async function writeSkill(body: string) {
@@ -50,11 +50,11 @@ describe('validatePluginFolder', () => {
     expect(result.resolveErrors.length).toBeGreaterThan(0);
   });
 
-  it('rejects malformed open-design.json with a parse error', async () => {
-    await writeFile(path.join(folder, 'open-design.json'), '{ this is not json');
+  it('rejects malformed sankiwork.json with a parse error', async () => {
+    await writeFile(path.join(folder, 'sankiwork.json'), '{ this is not json');
     const result = await validatePluginFolder({ folder });
     expect(result.ok).toBe(false);
-    expect(result.resolveErrors.some((e) => e.includes('open-design.json'))).toBe(true);
+    expect(result.resolveErrors.some((e) => e.includes('sankiwork.json'))).toBe(true);
   });
 
   it('flags an unknown atom id in od.pipeline', async () => {
@@ -126,7 +126,7 @@ describe('validatePluginFolder', () => {
   });
 
   it('flattenValidationDiagnostics merges resolve + doctor diagnostics in order', async () => {
-    await writeFile(path.join(folder, 'open-design.json'), '{ broken');
+    await writeFile(path.join(folder, 'sankiwork.json'), '{ broken');
     const result = await validatePluginFolder({ folder });
     const flat = flattenValidationDiagnostics(result);
     // Resolve errors come first.

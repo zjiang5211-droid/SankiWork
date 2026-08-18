@@ -365,7 +365,7 @@ sw skills list --json
 
 **なぜ MCP なのか？** イテレーションのたびに zip をエクスポートして再アタッチすると、フローが途切れます。MCP はデザインソースを直接公開します——エージェントは常にライブのファイルを見ます。
 
-**ゼロから始めるエージェントのために、**インストーラーは `~/.config/<agent>/open-design.json`（またはプラットフォーム相当のもの）と、コピー＆ペースト用の MCP スニペットを配置します。Cursor にはワンクリックのディープリンク、Claude Code には `claude mcp add-json` のワンライナー、その他すべてのエージェントには、その設定が期待するスキーマの JSON が提供されます。エージェントごとの完全なフロー → デスクトップアプリの **Settings → MCP server**、または [`docs/agent-adapters.md`](../../docs/agent-adapters.md)。
+**ゼロから始めるエージェントのために、**インストーラーは `~/.config/<agent>/sankiwork.json`（またはプラットフォーム相当のもの）と、コピー＆ペースト用の MCP スニペットを配置します。Cursor にはワンクリックのディープリンク、Claude Code には `claude mcp add-json` のワンライナー、その他すべてのエージェントには、その設定が期待するスキーマの JSON が提供されます。エージェントごとの完全なフロー → デスクトップアプリの **Settings → MCP server**、または [`docs/agent-adapters.md`](../../docs/agent-adapters.md)。
 
 **セキュリティモデル。** デフォルトで読み取り専用、デーモンは `127.0.0.1` にバインドし、SSRF はプロキシのエッジでブロックされます。LAN への公開には、明示的な `SW_BIND_HOST` と `SW_ALLOWED_ORIGINS` が必要です。コネクターの認証情報とライブアーティファクトのプレビュールートは、いずれにせよループバック専用のままです。
 
@@ -439,11 +439,11 @@ sw skills list --json
 
 ## プラグイン
 
-**277 の公式プラグインと 183 のリミックス可能な例**が [`plugins/_official/`](../../plugins/_official/) にあります。各エントリは `open-design.json` と型固有 payload を持つポータブルディレクトリです。workflow は `SKILL.md`、メディアテンプレートは `template.json`、デザインシステムは `DESIGN.md` を使います。
+**277 の公式プラグインと 183 のリミックス可能な例**が [`plugins/_official/`](../../plugins/_official/) にあります。各エントリは `sankiwork.json` と型固有 payload を持つポータブルディレクトリです。workflow は `SKILL.md`、メディアテンプレートは `template.json`、デザインシステムは `DESIGN.md` を使います。
 
 | カテゴリー | 数 | 内容 |
 |---|---|---|
-| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | 完全なデザインシナリオ — [`od-default`](../../plugins/_official/scenarios/od-default/), [`od-design-refine`](../../plugins/_official/scenarios/od-design-refine/), [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/), [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/), [`od-react-export`](../../plugins/_official/scenarios/od-react-export/), [`od-nextjs-export`](../../plugins/_official/scenarios/od-nextjs-export/), [`od-vue-export`](../../plugins/_official/scenarios/od-vue-export/), [`od-media-generation`](../../plugins/_official/scenarios/od-media-generation/), [`od-new-generation`](../../plugins/_official/scenarios/od-new-generation/), [`od-tune-collab`](../../plugins/_official/scenarios/od-tune-collab/), [`od-plugin-authoring`](../../plugins/_official/scenarios/od-plugin-authoring/), [`od-share-to-community`](../../plugins/_official/scenarios/od-share-to-community/), [`od-web-effect-extractor`](../../plugins/_official/scenarios/od-web-effect-extractor/) |
+| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | 完全なデザインシナリオ — [`sw-default`](../../plugins/_official/scenarios/sw-default/), [`sw-design-refine`](../../plugins/_official/scenarios/sw-design-refine/), [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/), [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/), [`sw-react-export`](../../plugins/_official/scenarios/sw-react-export/), [`sw-nextjs-export`](../../plugins/_official/scenarios/sw-nextjs-export/), [`sw-vue-export`](../../plugins/_official/scenarios/sw-vue-export/), [`sw-media-generation`](../../plugins/_official/scenarios/sw-media-generation/), [`sw-new-generation`](../../plugins/_official/scenarios/sw-new-generation/), [`sw-tune-collab`](../../plugins/_official/scenarios/sw-tune-collab/), [`sw-plugin-authoring`](../../plugins/_official/scenarios/sw-plugin-authoring/), [`sw-share-to-community`](../../plugins/_official/scenarios/sw-share-to-community/), [`sw-web-effect-extractor`](../../plugins/_official/scenarios/sw-web-effect-extractor/) |
 | [`image-templates/`](../../plugins/_official/image-templates/) | 45 | ワンショットの画像プロンプト — エディトリアル、シネマティック、プロダクト、ポートレート |
 | [`video-templates/`](../../plugins/_official/video-templates/) | 63 | HyperFrames / Seedance / Veo のモーションテンプレート |
 | [`design-systems/`](../../plugins/_official/design-systems/) | 143 | プラグインとしてラップされたブランド `DESIGN.md` |
@@ -455,8 +455,8 @@ sw skills list --json
 ### プラグインにできること
 
 - 🤖 **任意のコーディングエージェントで実行** — [Claude Code](../../docs/agent-adapters.md)、Codex、Cursor、Copilot、[OpenClaw](https://github.com/openclaw/openclaw)、[Antigravity](https://antigravity.google)、Hermes、Kimi… エージェントがすでに知っている同じスキルプロトコルを通じて。
-- 🔁 **Figma / Pencil のワークフローを移行** → React、Next.js、または Vue のソースへ。[`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/) を参照。
-- 🛠️ **既存のコードベースをブランド仕様にリフレッシュ** — プラグインを `git` リポジトリ + `DESIGN.md` に向ければ、PR が得られます。[`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/) を参照。
+- 🔁 **Figma / Pencil のワークフローを移行** → React、Next.js、または Vue のソースへ。[`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/) を参照。
+- 🛠️ **既存のコードベースをブランド仕様にリフレッシュ** — プラグインを `git` リポジトリ + `DESIGN.md` に向ければ、PR が得られます。[`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/) を参照。
 - 💾 **カスタムワークフローを永続化** — チームの再利用可能なテンプレートが、同梱されたものの隣に並びます。
 
 ### プラグインを使う
@@ -470,22 +470,22 @@ sw skills list --json
 ```bash
 sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
 sw plugin search "landing page"      # search by keyword
-sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-sw plugin apply od-default --input brief="a one-page pitch for our seed round"
-sw plugin upgrade od-default         # upgrade
-sw plugin uninstall od-default       # uninstall
+sw plugin info sw-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install sw-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply sw-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade sw-default         # upgrade
+sw plugin uninstall sw-default       # uninstall
 ```
 
 すべてのコマンドが `--json` をサポートしているため、`jq` / `xargs` を通じて自動化にパイプできます。
 
 ### プラグインを作る
 
-SankiWork プラグインには `open-design.json` と型固有 payload が必要です。スキルとシナリオは `SKILL.md` も含み、ほかの型は独自 payload を使います:
+SankiWork プラグインには `sankiwork.json` と型固有 payload が必要です。スキルとシナリオは `SKILL.md` も含み、ほかの型は独自 payload を使います:
 
 ```
 my-plugin/
-├── open-design.json    ← required: marketplace metadata + inputs + pipeline + capabilities
+├── sankiwork.json    ← required: marketplace metadata + inputs + pipeline + capabilities
 ├── SKILL.md            ← required for agent-skill/scenario entries; omit for other plugin types
 ├── README.md           ← optional: usage, install, registry links
 ├── preview/            ← optional: index.html / poster.png (strongly recommended for visual plugins)
@@ -605,7 +605,7 @@ SankiWork が動き続けるのは、貢献者——デザイナー、エンジ�
 |---|---|---|
 | 新しい**スキル** | `SKILL.md` + `assets/` + `references/` を備えたフォルダをドロップ | [`skills/`](../../skills/) · 仕様は [`docs/skills-protocol.md`](../../docs/skills-protocol.md) |
 | 新しい**デザインシステム** | `DESIGN.md` を中心とするパッケージをドロップし、必要に応じて `manifest.json`、`tokens.css`、コンポーネント、アセット、出典情報を追加 | [`design-systems/<brand>/`](../../design-systems/) |
-| 新しい**プラグイン** | カテゴリーフォルダの下に `open-design.json` + 種類固有のペイロードをドロップ | [`plugins/community/`](../../plugins/community/) · 仕様は [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · エージェント開発ガイドは [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
+| 新しい**プラグイン** | カテゴリーフォルダの下に `sankiwork.json` + 種類固有のペイロードをドロップ | [`plugins/community/`](../../plugins/community/) · 仕様は [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) · エージェント開発ガイドは [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) |
 | 新しい**コーディングエージェント CLI** をサポート | Runtime 定義 + registry entry。新しい wire format のみ parser を追加 | [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runtimes/defs/) |
 | バグ修正や UI の磨き上げ | [`good-first-issue`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) ラベルを閲覧 | [Issues →](https://github.com/nexu-io/open-design/issues) |
 | ドキュメントを翻訳 | `README.<lang>.md` ファイルを更新 | [`TRANSLATIONS.md`](../../TRANSLATIONS.md) |

@@ -33,7 +33,7 @@ import type { DesignSystemSummary, PromptTemplateSummary } from '../../src/types
 // Lexical-aware helper (real editor.update) and read it back via the serializer.
 import { homeHeroPromptText, setHomeHeroPrompt } from '../helpers/home-hero-lexical';
 
-const MEDIA_PLUGIN = pluginRecord('od-media-generation', 'Media generation');
+const MEDIA_PLUGIN = pluginRecord('sw-media-generation', 'Media generation');
 const PROTOTYPE_PLUGIN = pluginRecord('example-web-prototype', 'Web prototype');
 const HYPERFRAMES_PLUGIN = pluginRecord('example-hyperframes', 'HyperFrames');
 
@@ -409,13 +409,13 @@ describe('HomeView media composer options', () => {
 
     await waitFor(() => expect(onSubmit).toHaveBeenCalled());
     const [{ appliedPluginSnapshotId }] = onSubmit.mock.calls[0] as [{ appliedPluginSnapshotId?: string | null }];
-    expect(appliedPluginSnapshotId).toBe('snap-od-media-generation');
+    expect(appliedPluginSnapshotId).toBe('snap-sw-media-generation');
 
     // The apply call that produced the forwarded snapshot is the LAST media
     // apply: its inputs become `snapshot.inputs`, so they must already be free
     // of the deferred settings.
     const applyCalls = fetchMock.mock.calls.filter(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-media-generation/apply')
+      typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     ));
     expect(applyCalls.length).toBeGreaterThan(0);
     const snapshotInputs = JSON.parse(String(applyCalls.at(-1)?.[1]?.body)).inputs as Record<string, unknown>;
@@ -467,7 +467,7 @@ describe('HomeView media composer options', () => {
     await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
     const localApply = fetchMock.mock.calls.filter(([url]) => (
       typeof url === 'string'
-      && url.includes('/api/plugins/od-media-generation/apply')
+      && url.includes('/api/plugins/sw-media-generation/apply')
     )).at(-1);
     expect(localApply).toBeTruthy();
     expect(new Headers(localApply?.[1]?.headers).has('x-od-workspace-id')).toBe(false);
@@ -482,7 +482,7 @@ describe('HomeView media composer options', () => {
     await clickHomeRailChip('video');
     await setHomePrompt('Create a launch teaser after signing out.');
     const applyCountBeforeSubmit = fetchMock.mock.calls.filter(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-media-generation/apply')
+      typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     )).length;
     workspaceContextMock.state = {
       context: null,
@@ -496,11 +496,11 @@ describe('HomeView media composer options', () => {
 
     await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
     const applyCountAfterSubmit = fetchMock.mock.calls.filter(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-media-generation/apply')
+      typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     )).length;
     expect(applyCountAfterSubmit).toBe(applyCountBeforeSubmit + 1);
     const submittedApply = fetchMock.mock.calls.filter(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-media-generation/apply')
+      typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     )).at(-1);
     expect(new Headers(submittedApply?.[1]?.headers).has('x-od-workspace-id')).toBe(false);
   });
@@ -532,7 +532,7 @@ describe('HomeView media composer options', () => {
     )).length;
     expect(directoryReadsAfterSubmit).toBe(directoryReadsBeforeSubmit);
     const submittedApply = fetchMock.mock.calls.filter(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-media-generation/apply')
+      typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     )).at(-1);
     expect(new Headers(submittedApply?.[1]?.headers).has('x-od-workspace-id')).toBe(false);
   });
@@ -554,7 +554,7 @@ describe('HomeView media composer options', () => {
     await screen.findByTestId('home-hero-input');
     expect((screen.getByTestId('home-hero-template-trigger') as HTMLButtonElement).disabled).toBe(true);
     expect(fetchMock.mock.calls.some(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-media-generation/apply')
+      typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     ))).toBe(false);
   });
 
@@ -578,13 +578,13 @@ describe('HomeView media composer options', () => {
       expect(screen.getByTestId('home-hero-submit').getAttribute('aria-busy')).toBe('false');
     });
     const apply = fetchMock.mock.calls.find(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-media-generation/apply')
+      typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     ));
     expect(apply).toBeTruthy();
     expect(new Headers(apply?.[1]?.headers).has('x-od-workspace-id')).toBe(false);
   });
 
-  it('preserves od-media-generation required inputs when applying media chips', async () => {
+  it('preserves sw-media-generation required inputs when applying media chips', async () => {
     const fetchMock = stubFetch();
     renderHome();
 
@@ -593,12 +593,12 @@ describe('HomeView media composer options', () => {
     await waitFor(() => {
       expect(fetchMock.mock.calls.some(([url, init]) => (
         typeof url === 'string' &&
-        url.includes('/api/plugins/od-media-generation/apply') &&
+        url.includes('/api/plugins/sw-media-generation/apply') &&
         JSON.parse(String(init?.body)).inputs.subject === 'a polished product concept'
       ))).toBe(true);
     });
     const applyCall = fetchMock.mock.calls.find(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-media-generation/apply')
+      typeof url === 'string' && url.includes('/api/plugins/sw-media-generation/apply')
     ));
     expect(JSON.parse(String(applyCall?.[1]?.body)).inputs).toMatchObject({
       mediaKind: 'image',
@@ -637,7 +637,7 @@ function stubFetch(options: {
     return 0;
   });
   const mediaPlugin = options.teamMediaPlugin
-    ? { ...MEDIA_PLUGIN, source: 'team:plugin:workspace-a:od-media-generation' }
+    ? { ...MEDIA_PLUGIN, source: 'team:plugin:workspace-a:sw-media-generation' }
     : MEDIA_PLUGIN;
   const fetchMock = vi.fn<typeof fetch>(async (url, init) => {
     if (typeof url === 'string' && url === '/api/plugins') {
@@ -666,8 +666,8 @@ function stubFetch(options: {
       });
     }
     if (typeof url === 'string' && url.includes('/apply')) {
-      const pluginId = url.split('/api/plugins/')[1]?.split('/apply')[0] ?? 'od-media-generation';
-      if (pluginId === 'od-media-generation') {
+      const pluginId = url.split('/api/plugins/')[1]?.split('/apply')[0] ?? 'sw-media-generation';
+      if (pluginId === 'sw-media-generation') {
         const body = JSON.parse(String(init?.body ?? '{}')) as { inputs?: Record<string, unknown> };
         const inputs = body.inputs ?? {};
         if (!inputs.subject) {

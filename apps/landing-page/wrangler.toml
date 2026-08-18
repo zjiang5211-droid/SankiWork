@@ -1,12 +1,12 @@
 # Production Cloudflare Pages bindings. Keep this file in sync with the
 # production project before changing bindings: Pages deploy replaces the
 # project's binding set from this configuration.
-name = "open-design-landing"
+name = "sankiwork-landing"
 pages_build_output_dir = "out"
 compatibility_date = "2026-05-04"
 
 # Vela's CONTACT_SALES_SERVICE_SECRET is an encrypted Pages secret and must be
-# configured on the open-design-landing project before deployment. Its value
+# configured on the sankiwork-landing project before deployment. Its value
 # intentionally does not belong in this source-controlled Wrangler file.
 [[kv_namespaces]]
 binding = "CONTACT_LEADS"
@@ -22,6 +22,6 @@ id = "3f0fd725887548c4a5a3f2c229cce95b"
 
 [[d1_databases]]
 binding = "ATTRIBUTION_DB"
-database_name = "open-design-landing-attribution"
+database_name = "sankiwork-landing-attribution"
 database_id = "17db8b2c-81ae-4f2b-aa93-d77f32d3c0d0"
 migrations_dir = "migrations"

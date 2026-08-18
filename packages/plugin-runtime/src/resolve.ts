@@ -31,7 +31,7 @@ export interface RegistryView {
 }
 
 export interface ScenarioRegistryEntry {
-  // The scenario plugin's id (e.g. 'od-code-migration'). Used by tests
+  // The scenario plugin's id (e.g. 'sw-code-migration'). Used by tests
   // and audits to attribute the fallback choice.
   id: string;
   // The taskKind enum value this scenario claims to default for. Apply

@@ -38,7 +38,7 @@ import {
 } from '../helpers/home-hero-lexical';
 
 const AUTHORING_PLUGIN = {
-  id: 'od-plugin-authoring',
+  id: 'sw-plugin-authoring',
   title: 'Plugin authoring',
   version: '0.1.0',
   trust: 'bundled' as const,
@@ -49,7 +49,7 @@ const AUTHORING_PLUGIN = {
   installedAt: 0,
   updatedAt: 0,
   manifest: {
-    name: 'od-plugin-authoring',
+    name: 'sw-plugin-authoring',
     title: 'Plugin authoring',
     version: '0.1.0',
     description: 'Create plugins',
@@ -72,13 +72,13 @@ const AUTHORING_PLUGIN = {
 
 const DEFAULT_PLUGIN = {
   ...AUTHORING_PLUGIN,
-  id: 'od-new-generation',
+  id: 'sw-new-generation',
   title: 'New generation',
   source: '/tmp/new-generation',
   fsPath: '/tmp/new-generation',
   manifest: {
     ...AUTHORING_PLUGIN.manifest,
-    name: 'od-new-generation',
+    name: 'sw-new-generation',
     title: 'New generation',
     description: 'Create new design artifacts',
     od: {
@@ -124,13 +124,13 @@ const DOCUMENT_NEW_GENERATION_PLUGIN = {
 
 const HIDDEN_DEFAULT_PLUGIN = {
   ...DEFAULT_PLUGIN,
-  id: 'od-default',
+  id: 'sw-default',
   title: 'Default design router',
   source: '/tmp/default-router',
   fsPath: '/tmp/default-router',
   manifest: {
     ...DEFAULT_PLUGIN.manifest,
-    name: 'od-default',
+    name: 'sw-default',
     title: 'Default design router',
     od: {
       ...DEFAULT_PLUGIN.manifest.od,
@@ -141,7 +141,7 @@ const HIDDEN_DEFAULT_PLUGIN = {
 
 // The Prototype chip binds to the bundled `example-web-prototype`
 // plugin (which ships its own seed + layouts + checklist) instead of
-// the generic od-new-generation router. Mirror that here so the
+// the generic sw-new-generation router. Mirror that here so the
 // chip-applies test can find a matching plugin record and the apply
 // call resolves to the new id.
 const WEB_PROTOTYPE_PLUGIN = {
@@ -345,7 +345,7 @@ const AUTHORING_APPLY_RESULT = {
   capabilitiesRequired: ['prompt:inject'],
   appliedPlugin: {
     snapshotId: 'snap-authoring',
-    pluginId: 'od-plugin-authoring',
+    pluginId: 'sw-plugin-authoring',
     pluginVersion: '0.1.0',
     manifestSourceDigest: 'a'.repeat(64),
     inputs: { pluginGoal: PLUGIN_AUTHORING_DEFAULT_GOAL },
@@ -369,7 +369,7 @@ const DEFAULT_APPLY_RESULT = {
   appliedPlugin: {
     ...AUTHORING_APPLY_RESULT.appliedPlugin,
     snapshotId: 'snap-default',
-    pluginId: 'od-new-generation',
+    pluginId: 'sw-new-generation',
     inputs: AUTHORING_DEFAULT_SCENARIO_INPUTS,
   },
 };
@@ -381,7 +381,7 @@ const DOCUMENT_NEW_GENERATION_APPLY_RESULT = {
   appliedPlugin: {
     ...AUTHORING_APPLY_RESULT.appliedPlugin,
     snapshotId: 'snap-document-new-generation',
-    pluginId: 'od-new-generation',
+    pluginId: 'sw-new-generation',
     inputs: {
       artifactKind: 'document',
       audience: 'readers',
@@ -655,7 +655,7 @@ describe('HomeView prompt handoff', () => {
           headers: { 'content-type': 'application/json' },
         });
       }
-      if (typeof url === 'string' && url.includes('/api/plugins/od-plugin-authoring/apply-local')) {
+      if (typeof url === 'string' && url.includes('/api/plugins/sw-plugin-authoring/apply-local')) {
         return applyResponse;
       }
       throw new Error(`unexpected fetch ${url}`);
@@ -683,7 +683,7 @@ describe('HomeView prompt handoff', () => {
     expect(inputCard?.style.getPropertyValue('--home-hero-prompt-max-height')).toBe('132px');
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
-      '/api/plugins/od-plugin-authoring/apply-local',
+      '/api/plugins/sw-plugin-authoring/apply-local',
       expect.anything(),
     ));
     resolveApply(new Response(JSON.stringify(AUTHORING_APPLY_RESULT), {
@@ -717,7 +717,7 @@ describe('HomeView prompt handoff', () => {
           headers: { 'content-type': 'application/json' },
         });
       }
-      if (typeof url === 'string' && url.includes('/api/plugins/od-plugin-authoring/apply-local')) {
+      if (typeof url === 'string' && url.includes('/api/plugins/sw-plugin-authoring/apply-local')) {
         return new Response(JSON.stringify(AUTHORING_APPLY_RESULT), {
           status: 200,
           headers: { 'content-type': 'application/json' },
@@ -755,7 +755,7 @@ describe('HomeView prompt handoff', () => {
           headers: { 'content-type': 'application/json' },
         });
       }
-      if (typeof url === 'string' && url.includes('/api/plugins/od-plugin-authoring/apply-local')) {
+      if (typeof url === 'string' && url.includes('/api/plugins/sw-plugin-authoring/apply-local')) {
         return new Response(JSON.stringify(AUTHORING_APPLY_RESULT), {
           status: 200,
           headers: { 'content-type': 'application/json' },
@@ -782,12 +782,12 @@ describe('HomeView prompt handoff', () => {
     const dialog = await screen.findByRole('dialog', { name: /replace current prompt/i });
     expect(homeHeroPromptText()).toBe('Keep my custom plugin brief');
     expect(fetchMock.mock.calls.some(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-plugin-authoring/apply-local')
+      typeof url === 'string' && url.includes('/api/plugins/sw-plugin-authoring/apply-local')
     ))).toBe(false);
 
     fireEvent.click(within(dialog).getByRole('button', { name: 'Replace' }));
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
-      '/api/plugins/od-plugin-authoring/apply-local',
+      '/api/plugins/sw-plugin-authoring/apply-local',
       expect.anything(),
     ));
     await waitFor(() => expect(homeHeroPromptText()).toBe(PLUGIN_AUTHORING_PROMPT));
@@ -839,7 +839,7 @@ describe('HomeView prompt handoff', () => {
     expect(homeHeroPromptValue()).toBe('');
 
     // The user types their own brief over the empty draft, then submits — the
-    // routed plugin (not od-default) must drive the created run. Mirrors the
+    // routed plugin (not sw-default) must drive the created run. Mirrors the
     // P0 e2e "direct Use ... keeps the prompt freeform" flow.
     await setPromptAndSettle('Use the selected starter as the driver');
     await waitFor(() => {
@@ -926,14 +926,14 @@ describe('HomeView prompt handoff', () => {
     expect(screen.queryByTestId('home-hero-active-plugin')).toBeNull();
     expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({
       prompt: 'Make a launch page for a robotics studio',
-      pluginId: 'od-default',
+      pluginId: 'sw-default',
       appliedPluginSnapshotId: null,
       pluginInputs: { prompt: 'Make a launch page for a robotics studio' },
       projectKind: 'other',
     }));
   });
 
-  it('falls back to od-new-generation when od-plugin-authoring is not registered yet', async () => {
+  it('falls back to sw-new-generation when sw-plugin-authoring is not registered yet', async () => {
     const fetchMock = vi.fn<typeof fetch>(async (url) => {
       if (typeof url === 'string' && url === '/api/plugins') {
         return new Response(JSON.stringify({ plugins: [DEFAULT_PLUGIN] }), {
@@ -964,11 +964,11 @@ describe('HomeView prompt handoff', () => {
 
     await clickHomeShortcut('create-plugin');
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
-      '/api/plugins/od-new-generation/apply-local',
+      '/api/plugins/sw-new-generation/apply-local',
       expect.anything(),
     ));
     const applyCall = fetchMock.mock.calls.find(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-new-generation/apply-local')
+      typeof url === 'string' && url.includes('/api/plugins/sw-new-generation/apply-local')
     ));
     expect(JSON.parse(String((applyCall?.[1] as RequestInit).body))).toMatchObject({
       inputs: {
@@ -986,7 +986,7 @@ describe('HomeView prompt handoff', () => {
     expect(screen.queryByRole('alert')).toBeNull();
     expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({
       prompt: PLUGIN_AUTHORING_PROMPT,
-      pluginId: 'od-new-generation',
+      pluginId: 'sw-new-generation',
       appliedPluginSnapshotId: 'snap-default',
       pluginInputs: {
         artifactKind: 'SankiWork plugin',
@@ -1097,7 +1097,7 @@ describe('HomeView prompt handoff', () => {
     expect(screen.queryByRole('alert')).toBeNull();
   });
 
-  it('keeps Document prompt entry submittable even when od-new-generation has required inputs', async () => {
+  it('keeps Document prompt entry submittable even when sw-new-generation has required inputs', async () => {
     const fetchMock = vi.fn<typeof fetch>(async (url) => {
       if (typeof url === 'string' && url === '/api/plugins') {
         return new Response(JSON.stringify({ plugins: [DOCUMENT_NEW_GENERATION_PLUGIN] }), {
@@ -1105,7 +1105,7 @@ describe('HomeView prompt handoff', () => {
           headers: { 'content-type': 'application/json' },
         });
       }
-      if (typeof url === 'string' && url.includes('/api/plugins/od-new-generation/apply-local')) {
+      if (typeof url === 'string' && url.includes('/api/plugins/sw-new-generation/apply-local')) {
         return new Response(JSON.stringify(DOCUMENT_NEW_GENERATION_APPLY_RESULT), {
           status: 200,
           headers: { 'content-type': 'application/json' },
@@ -1139,11 +1139,11 @@ describe('HomeView prompt handoff', () => {
     fireEvent.click(submit);
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
-      '/api/plugins/od-new-generation/apply-local',
+      '/api/plugins/sw-new-generation/apply-local',
       expect.anything(),
     ));
     const applyCall = fetchMock.mock.calls.find(([url]) => (
-      typeof url === 'string' && url.includes('/api/plugins/od-new-generation/apply-local')
+      typeof url === 'string' && url.includes('/api/plugins/sw-new-generation/apply-local')
     ));
     expect(JSON.parse(String((applyCall?.[1] as RequestInit).body))).toMatchObject({
       inputs: {
@@ -1153,7 +1153,7 @@ describe('HomeView prompt handoff', () => {
       },
     });
     await waitFor(() => expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({
-      pluginId: 'od-new-generation',
+      pluginId: 'sw-new-generation',
       appliedPluginSnapshotId: 'snap-document-new-generation',
       projectKind: 'other',
       prompt: 'Write a crisp launch memo for the new analytics product.',
@@ -2044,7 +2044,7 @@ describe('HomeView prompt handoff', () => {
     ));
   });
 
-  it('binds od-plugin-authoring before submitting the rail create-plugin prompt', async () => {
+  it('binds sw-plugin-authoring before submitting the rail create-plugin prompt', async () => {
     const fetchMock = vi.fn<typeof fetch>(async (url) => {
       if (typeof url === 'string' && url === '/api/plugins') {
         return new Response(JSON.stringify({ plugins: [AUTHORING_PLUGIN, WEB_PROTOTYPE_PLUGIN] }), {
@@ -2076,7 +2076,7 @@ describe('HomeView prompt handoff', () => {
     await clearActiveTypeChip();
     await clickHomeShortcut('create-plugin');
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
-      '/api/plugins/od-plugin-authoring/apply-local',
+      '/api/plugins/sw-plugin-authoring/apply-local',
       expect.anything(),
     ));
     await waitFor(() => {
@@ -2093,7 +2093,7 @@ describe('HomeView prompt handoff', () => {
 
     expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({
       prompt: PLUGIN_AUTHORING_PROMPT,
-      pluginId: 'od-plugin-authoring',
+      pluginId: 'sw-plugin-authoring',
       appliedPluginSnapshotId: 'snap-authoring',
       pluginInputs: { pluginGoal: PLUGIN_AUTHORING_DEFAULT_GOAL },
       projectKind: 'other',
@@ -2132,7 +2132,7 @@ describe('HomeView prompt handoff', () => {
     await clearActiveTypeChip();
     await clickHomeShortcut('create-plugin');
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
-      '/api/plugins/od-plugin-authoring/apply-local',
+      '/api/plugins/sw-plugin-authoring/apply-local',
       expect.anything(),
     ));
 
@@ -2148,7 +2148,7 @@ describe('HomeView prompt handoff', () => {
 
     await waitFor(() => expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({
       prompt: expect.stringContaining(rewrittenGoal),
-      pluginId: 'od-plugin-authoring',
+      pluginId: 'sw-plugin-authoring',
       pluginInputs: {
         pluginGoal: rewrittenGoal,
       },
@@ -2205,7 +2205,7 @@ describe('HomeView prompt handoff', () => {
     fireEvent.click(screen.getByTestId('home-hero-submit'));
 
     expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({
-      pluginId: 'od-plugin-authoring',
+      pluginId: 'sw-plugin-authoring',
       appliedPluginSnapshotId: 'snap-authoring',
     }));
   });

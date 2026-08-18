@@ -227,7 +227,7 @@ const HOME_PLUGINS = [
     },
   },
   {
-    id: 'od-media-generation',
+    id: 'sw-media-generation',
     title: 'Media generation',
     version: '0.1.0',
     trust: 'bundled',
@@ -238,7 +238,7 @@ const HOME_PLUGINS = [
     installedAt: 0,
     updatedAt: 0,
     manifest: {
-      name: 'od-media-generation',
+      name: 'sw-media-generation',
       title: 'Media generation',
       version: '0.1.0',
       description: 'Create image, video, and audio assets.',
@@ -453,7 +453,7 @@ test.beforeEach(async ({ page }) => {
     }
   }, { key: STORAGE_KEY, value: HOME_CONFIG, campaigns: CAMPAIGN_DISMISSAL_STORAGE });
 
-  await page.route('**/api/github/open-design', async (route) => {
+  await page.route('**/api/github/sankiwork', async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',

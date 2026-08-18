@@ -48,7 +48,7 @@ test.beforeEach(async ({ page }) => {
     );
   }, STORAGE_KEY);
 
-  await page.route('**/api/github/open-design', async (route) => {
+  await page.route('**/api/github/sankiwork', async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',

@@ -83,8 +83,8 @@ test('DeepSeek Harness opens with localized tutorial-first copy in every active 
 
 test('DeepSeek Harness tutorial exposes the official resources and connection walkthrough', () => {
   const expectedImages = [
-    '/agents/deepseek-harness-design/deepseek-harness-design-open-design-settings.webp',
-    '/agents/deepseek-harness-design/deepseek-harness-design-open-design-workspace.webp',
+    '/agents/deepseek-harness-design/deepseek-harness-design-sankiwork-settings.webp',
+    '/agents/deepseek-harness-design/deepseek-harness-design-sankiwork-workspace.webp',
   ];
 
   for (const { code } of LANDING_LOCALES) {

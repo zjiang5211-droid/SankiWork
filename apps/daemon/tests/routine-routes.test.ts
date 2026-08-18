@@ -416,7 +416,7 @@ describe('routine routes', () => {
           target: { mode: 'reuse', projectId: 'proj-1' },
           context: {
             skillIds: ['live-artifact'],
-            pluginIds: ['od-new-generation'],
+            pluginIds: ['sw-new-generation'],
             mcpServerIds: ['figma-mcp'],
             connectorIds: ['github'],
           },
@@ -443,7 +443,7 @@ describe('routine routes', () => {
       expect(json.routine.target).toEqual({ mode: 'reuse', projectId: 'proj-1' });
       expect(json.routine.context).toEqual({
         skillIds: ['live-artifact'],
-        pluginIds: ['od-new-generation'],
+        pluginIds: ['sw-new-generation'],
         mcpServerIds: ['figma-mcp'],
         connectorIds: ['github'],
       });

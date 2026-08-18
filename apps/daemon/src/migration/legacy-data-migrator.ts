@@ -303,8 +303,8 @@ export function migrateLegacyDataDirSync(
   options: MigrateLegacyDataDirOptions,
 ): MigrateLegacyDataDirResult {
   const log = options.logger ?? {
-    info: (m) => console.log(`[od-migrate] ${m}`),
-    warn: (m) => console.warn(`[od-migrate] ${m}`),
+    info: (m) => console.log(`[sw-migrate] ${m}`),
+    warn: (m) => console.warn(`[sw-migrate] ${m}`),
   };
 
   const raw = options.legacyDir;
@@ -360,7 +360,7 @@ export function migrateLegacyDataDirSync(
   fs.mkdirSync(path.dirname(dataDir), { recursive: true });
   const stagingDir = path.join(
     path.dirname(dataDir),
-    `${path.basename(dataDir)}.od-migrate-${process.pid}-${Date.now()}`,
+    `${path.basename(dataDir)}.sw-migrate-${process.pid}-${Date.now()}`,
   );
 
   let copied: string[];

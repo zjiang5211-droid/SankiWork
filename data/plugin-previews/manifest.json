@@ -22,9 +22,9 @@
       "holdMs": 2500,
       "hash": "17085e6996f70e5f"
     },
-    "od-code-migration": {
-      "video": "od-code-migration/7f4a54e0a41df87f/preview.mp4",
-      "poster": "od-code-migration/7f4a54e0a41df87f/poster.jpg",
+    "sw-code-migration": {
+      "video": "sw-code-migration/7f4a54e0a41df87f/preview.mp4",
+      "poster": "sw-code-migration/7f4a54e0a41df87f/poster.jpg",
       "durationMs": 3867,
       "holdMs": 2500,
       "hash": "7f4a54e0a41df87f"
@@ -330,16 +330,16 @@
       "holdMs": 2500,
       "hash": "7c356a52e19aecf2"
     },
-    "od-new-generation": {
-      "video": "od-new-generation/83423975315d0f6e/preview.mp4",
-      "poster": "od-new-generation/83423975315d0f6e/poster.jpg",
+    "sw-new-generation": {
+      "video": "sw-new-generation/83423975315d0f6e/preview.mp4",
+      "poster": "sw-new-generation/83423975315d0f6e/poster.jpg",
       "durationMs": 1267,
       "holdMs": 1267,
       "hash": "83423975315d0f6e"
     },
-    "example-open-design-landing": {
-      "video": "example-open-design-landing/79d27def5ae419b0/preview.mp4",
-      "poster": "example-open-design-landing/79d27def5ae419b0/poster.jpg",
+    "example-sankiwork-landing": {
+      "video": "example-sankiwork-landing/79d27def5ae419b0/preview.mp4",
+      "poster": "example-sankiwork-landing/79d27def5ae419b0/poster.jpg",
       "durationMs": 10033,
       "holdMs": 2500,
       "hash": "79d27def5ae419b0"
@@ -729,9 +729,9 @@
       "holdMs": 2500,
       "hash": "bae3e4697860d2f5"
     },
-    "example-open-design-landing-deck": {
-      "video": "example-open-design-landing-deck/ed28e4be88989d30/preview.mp4",
-      "poster": "example-open-design-landing-deck/ed28e4be88989d30/poster.jpg",
+    "example-sankiwork-landing-deck": {
+      "video": "example-sankiwork-landing-deck/ed28e4be88989d30/preview.mp4",
+      "poster": "example-sankiwork-landing-deck/ed28e4be88989d30/poster.jpg",
       "durationMs": 9433,
       "holdMs": 2500,
       "hash": "ed28e4be88989d30"
@@ -960,9 +960,9 @@
       "holdMs": 2500,
       "hash": "92f1904661622fd2"
     },
-    "od-figma-migration": {
-      "video": "od-figma-migration/74d3ee1cb9d9bf2d/preview.mp4",
-      "poster": "od-figma-migration/74d3ee1cb9d9bf2d/poster.jpg",
+    "sw-figma-migration": {
+      "video": "sw-figma-migration/74d3ee1cb9d9bf2d/preview.mp4",
+      "poster": "sw-figma-migration/74d3ee1cb9d9bf2d/poster.jpg",
       "durationMs": 1267,
       "holdMs": 1267,
       "hash": "74d3ee1cb9d9bf2d"
@@ -1149,9 +1149,9 @@
       "holdMs": 1267,
       "hash": "3ce9cb480c840fda"
     },
-    "od-tune-collab": {
-      "video": "od-tune-collab/7943d5e1c0a6ea0f/preview.mp4",
-      "poster": "od-tune-collab/7943d5e1c0a6ea0f/poster.jpg",
+    "sw-tune-collab": {
+      "video": "sw-tune-collab/7943d5e1c0a6ea0f/preview.mp4",
+      "poster": "sw-tune-collab/7943d5e1c0a6ea0f/poster.jpg",
       "durationMs": 1267,
       "holdMs": 1267,
       "hash": "7943d5e1c0a6ea0f"
@@ -1212,9 +1212,9 @@
       "holdMs": 1267,
       "hash": "afa209deb2981f12"
     },
-    "example-open-design-homepage": {
-      "video": "example-open-design-homepage/0b1d009959b51f70/preview.mp4",
-      "poster": "example-open-design-homepage/0b1d009959b51f70/poster.jpg",
+    "example-sankiwork-homepage": {
+      "video": "example-sankiwork-homepage/0b1d009959b51f70/preview.mp4",
+      "poster": "example-sankiwork-homepage/0b1d009959b51f70/poster.jpg",
       "durationMs": 1267,
       "holdMs": 1267,
       "hash": "0b1d009959b51f70"

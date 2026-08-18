@@ -21,9 +21,9 @@ description: DeepSeek V4 Flash is unlimited for every paid plan from August 6 to
 >
 > | Platform | Architecture | Asset |
 > |---|---|---|
-> | macOS | Apple Silicon (arm64) | [open-design-0.18.1-mac-arm64.dmg](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-mac-arm64.dmg) |
-> | macOS | Intel (x64) | [open-design-0.18.1-mac-x64.dmg](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-mac-x64.dmg) |
-> | Windows | x64 | [open-design-0.18.1-win-x64-setup.exe](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-win-x64-setup.exe) |
+> | macOS | Apple Silicon (arm64) | [sankiwork-0.18.1-mac-arm64.dmg](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-mac-arm64.dmg) |
+> | macOS | Intel (x64) | [sankiwork-0.18.1-mac-x64.dmg](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-mac-x64.dmg) |
+> | Windows | x64 | [sankiwork-0.18.1-win-x64-setup.exe](https://github.com/nexu-io/open-design/releases/download/open-design-v0.18.1/open-design-0.18.1-win-x64-setup.exe) |
 
 ## ✨ Added
 

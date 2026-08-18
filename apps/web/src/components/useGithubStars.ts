@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react';
 import type { SankiWorkGithubRepoResponse } from '@sankiwork/contracts';
 
-const API = '/api/github/open-design';
+const API = '/api/github/sankiwork';
 const REPO = 'https://github.com/nexu-io/open-design';
 const LS_KEY = 'sankiwork:gh-stars';
 const FAILURE_LS_KEY = 'sankiwork:gh-stars:last-failure';

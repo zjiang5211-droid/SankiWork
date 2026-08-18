@@ -377,7 +377,7 @@ export interface InfoPageCopy {
 const QUICKSTART_CODE = {
   install: 'git clone https://github.com/nexu-io/open-design\ncd sankiwork\npnpm install',
   start: 'pnpm tools-dev',
-  first: 'od skill run open-design-landing --output ./artifact.html',
+  first: 'od skill run sankiwork-landing --output ./artifact.html',
 };
 
 const INFO_PAGE_COPY: Partial<Record<LandingLocaleCode, InfoPageCopy>> = {

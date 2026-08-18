@@ -115,7 +115,7 @@ const CORE_TEAM = new Set(
   ].map((s) => s.toLowerCase()),
 );
 const BOT_LOGINS = new Set([
-  'open-design-bot', 'opendesign-bot', 'nexu-bot', 'open-design-bot[bot]',
+  'sankiwork-bot', 'sankiwork-bot', 'nexu-bot', 'sankiwork-bot[bot]',
 ]);
 const BOT_TOKEN_RE = /(?:^|[-_])(?:bot|cursor|agent)(?:$|[-_])/;
 

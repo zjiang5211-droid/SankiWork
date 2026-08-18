@@ -133,7 +133,7 @@ describe('derivePluginSourceLinks · url + local + bundled sources', () => {
     const out = derivePluginSourceLinks(
       makeRecord({
         sourceKind: 'bundled',
-        source:     'plugins/_official/scenarios/od-code-migration',
+        source:     'plugins/_official/scenarios/sw-code-migration',
       }),
     );
     expect(out.sourceUrl).toBe('https://github.com/nexu-io/open-design');
@@ -191,7 +191,7 @@ describe('derivePluginSourceLinks · author + contribute', () => {
     const out = derivePluginSourceLinks(
       makeRecord({
         sourceKind: 'bundled',
-        source:     'plugins/_official/scenarios/od-code-migration',
+        source:     'plugins/_official/scenarios/sw-code-migration',
         manifest: {
           name:    'p',
           version: '1.0.0',

@@ -356,7 +356,7 @@ async function buildFallbackCardJobsFor(args: {
 }
 
 /**
- * Bundled plugins (`plugins/_official/<bucket>/<slug>/open-design.json`)
+ * Bundled plugins (`plugins/_official/<bucket>/<slug>/sankiwork.json`)
  * are the daemon's canonical plugin registry, and the in-app Plugins
  * home reads from here. The marketing site's `/plugins/...` routes
  * mirror the same data, so every bundled entry that doesn't ship a
@@ -395,7 +395,7 @@ async function buildBundledPluginJobs(): Promise<Job[]> {
       if (entry.name.startsWith('_') || entry.name.startsWith('.')) continue;
 
       const slugDir = path.join(bucketDir, entry.name);
-      const manifestPath = path.join(slugDir, 'open-design.json');
+      const manifestPath = path.join(slugDir, 'sankiwork.json');
       if (!existsSync(manifestPath)) continue;
 
       let raw: Record<string, unknown>;

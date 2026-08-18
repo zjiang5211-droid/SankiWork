@@ -25,7 +25,7 @@ describe('fetchLatestGithubReleaseInfo', () => {
 
     const result = await fetchLatestGithubReleaseInfo();
 
-    expect(globalThis.fetch).toHaveBeenCalledWith('/api/github/open-design/releases/latest');
+    expect(globalThis.fetch).toHaveBeenCalledWith('/api/github/sankiwork/releases/latest');
     expect(result).toEqual({
       tagName: 'v0.8.0-prerelease.3',
       htmlUrl: 'https://github.com/nexu-io/open-design/releases/tag/v0.8.0-prerelease.3',

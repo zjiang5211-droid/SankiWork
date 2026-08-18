@@ -578,7 +578,7 @@ carry the hierarchy and color is used sparingly for intent.
     {
       question: 'How do I contribute a template?',
       answer:
-        'Open a PR against <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> with a new folder containing <code>open-design.json</code>, <code>SKILL.md</code>, and a runnable <code>example.html</code>. The contributor guide in the repo&rsquo;s <code>CONTRIBUTING.md</code> walks through the manifest fields. Approved contributions land in the public catalogue and surface here automatically on the next deploy.',
+        'Open a PR against <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> with a new folder containing <code>sankiwork.json</code>, <code>SKILL.md</code>, and a runnable <code>example.html</code>. The contributor guide in the repo&rsquo;s <code>CONTRIBUTING.md</code> walks through the manifest fields. Approved contributions land in the public catalogue and surface here automatically on the next deploy.',
     },
     {
       question: 'How is this different from Claude Design Studio?',
@@ -745,7 +745,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: '我如何贡献一个模板？',
         answer:
-          '向 <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> 提交 PR，新文件夹包含 <code>open-design.json</code>、<code>SKILL.md</code> 和可运行的 <code>example.html</code>。仓库中的 <code>CONTRIBUTING.md</code> 贡献指南会逐步说明清单字段。被批准的贡献会进入公开目录，在下次部署时自动显示在此处。',
+          '向 <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> 提交 PR，新文件夹包含 <code>sankiwork.json</code>、<code>SKILL.md</code> 和可运行的 <code>example.html</code>。仓库中的 <code>CONTRIBUTING.md</code> 贡献指南会逐步说明清单字段。被批准的贡献会进入公开目录，在下次部署时自动显示在此处。',
       },
       {
         question: '这与 Claude Design Studio 有什么区别？',
@@ -863,7 +863,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: '我如何貢獻範本？',
         answer:
-          '針對 <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> 開立 PR，其中包含新資料夾，內含 <code>open-design.json</code>、<code>SKILL.md</code> 和可執行的 <code>example.html</code>。回購中 <code>CONTRIBUTING.md</code> 內的貢獻者指南會詳細說明清單欄位。已核准的貢獻將登陸公開目錄，並在下一次部署時自動出現在此處。',
+          '針對 <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> 開立 PR，其中包含新資料夾，內含 <code>sankiwork.json</code>、<code>SKILL.md</code> 和可執行的 <code>example.html</code>。回購中 <code>CONTRIBUTING.md</code> 內的貢獻者指南會詳細說明清單欄位。已核准的貢獻將登陸公開目錄，並在下一次部署時自動出現在此處。',
       },
       {
         question: '這與 Claude Design Studio 有什麼不同？',
@@ -1037,7 +1037,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'テンプレートはどうやって投稿しますか？',
         answer:
-          '<a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a>に対してPRを開き、<code>open-design.json</code>、<code>SKILL.md</code>、実行可能な<code>example.html</code>を含む新しいフォルダを追加してください。リポジトリの<code>CONTRIBUTING.md</code>に投稿ガイドがあり、マニフェストフィールドについて説明しています。承認された投稿は公開カタログに載り、次のデプロイで自動的にここに表示されます。',
+          '<a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a>に対してPRを開き、<code>sankiwork.json</code>、<code>SKILL.md</code>、実行可能な<code>example.html</code>を含む新しいフォルダを追加してください。リポジトリの<code>CONTRIBUTING.md</code>に投稿ガイドがあり、マニフェストフィールドについて説明しています。承認された投稿は公開カタログに載り、次のデプロイで自動的にここに表示されます。',
       },
       {
         question: 'Claude Design Studioとの違いは？',
@@ -1211,7 +1211,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: '템플릿을 기여하려면 어떻게 하나요?',
         answer:
-          '<a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a>에 PR을 열고 <code>open-design.json</code>, <code>SKILL.md</code>, 실행 가능한 <code>example.html</code>을 포함한 새 폴더를 추가하면 됩니다. 리포지토리의 <code>CONTRIBUTING.md</code>에 있는 기여자 가이드에서 매니페스트 필드를 안내합니다. 승인된 기여는 공개 카탈로그에 등록되고 다음 배포에서 자동으로 여기에 표시됩니다.',
+          '<a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a>에 PR을 열고 <code>sankiwork.json</code>, <code>SKILL.md</code>, 실행 가능한 <code>example.html</code>을 포함한 새 폴더를 추가하면 됩니다. 리포지토리의 <code>CONTRIBUTING.md</code>에 있는 기여자 가이드에서 매니페스트 필드를 안내합니다. 승인된 기여는 공개 카탈로그에 등록되고 다음 배포에서 자동으로 여기에 표시됩니다.',
       },
       {
         question: 'Claude Design Studio와 다른 점이 뭐죠?',
@@ -1385,7 +1385,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Wie trage ich ein Template bei?',
         answer:
-          'Öffne einen PR gegen <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> mit einem neuen Ordner, der <code>open-design.json</code>, <code>SKILL.md</code> und ein ausführbares <code>example.html</code> enthält. Der Contributor-Leitfaden in der <code>CONTRIBUTING.md</code> des Repos führt dich durch die Manifest-Felder. Genehmigte Beiträge landen im öffentlichen Katalog und werden hier beim nächsten Deploy automatisch angezeigt.',
+          'Öffne einen PR gegen <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> mit einem neuen Ordner, der <code>sankiwork.json</code>, <code>SKILL.md</code> und ein ausführbares <code>example.html</code> enthält. Der Contributor-Leitfaden in der <code>CONTRIBUTING.md</code> des Repos führt dich durch die Manifest-Felder. Genehmigte Beiträge landen im öffentlichen Katalog und werden hier beim nächsten Deploy automatisch angezeigt.',
       },
       {
         question: 'Wie unterscheidet sich das von Claude Design Studio?',
@@ -1560,7 +1560,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Comment puis-je contribuer un modèle ?',
         answer:
-          'Ouvrez une PR contre <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> avec un nouveau dossier contenant <code>open-design.json</code>, <code>SKILL.md</code>, et un <code>example.html</code> exécutable. Le guide des contributeurs dans le fichier <code>CONTRIBUTING.md</code> du repo décrit les champs du manifeste. Les contributions approuvées arrivent dans le catalogue public et s\'affichent ici automatiquement au prochain déploiement.',
+          'Ouvrez une PR contre <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> avec un nouveau dossier contenant <code>sankiwork.json</code>, <code>SKILL.md</code>, et un <code>example.html</code> exécutable. Le guide des contributeurs dans le fichier <code>CONTRIBUTING.md</code> du repo décrit les champs du manifeste. Les contributions approuvées arrivent dans le catalogue public et s\'affichent ici automatiquement au prochain déploiement.',
       },
       {
         question: 'En quoi cela diffère-t-il de Claude Design Studio ?',
@@ -1734,7 +1734,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Как мне внести свой шаблон?',
         answer:
-          'Откройте PR в <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> с новой папкой, содержащей <code>open-design.json</code>, <code>SKILL.md</code> и исполняемый <code>example.html</code>. Руководство контрибьютора в <code>CONTRIBUTING.md</code> репо описывает поля манифеста. Одобренные вклады попадают в публичный каталог и автоматически появляются здесь при следующем деплое.',
+          'Откройте PR в <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> с новой папкой, содержащей <code>sankiwork.json</code>, <code>SKILL.md</code> и исполняемый <code>example.html</code>. Руководство контрибьютора в <code>CONTRIBUTING.md</code> репо описывает поля манифеста. Одобренные вклады попадают в публичный каталог и автоматически появляются здесь при следующем деплое.',
       },
       {
         question: 'Чем это отличается от Claude Design Studio?',
@@ -1909,7 +1909,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: '¿Cómo contribuyo con una plantilla?',
         answer:
-          'Abre un PR contra <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> con una nueva carpeta que contenga <code>open-design.json</code>, <code>SKILL.md</code> y un <code>example.html</code> ejecutable. La guía de contribuyentes en el <code>CONTRIBUTING.md</code> del repositorio te explica los campos del manifiesto. Las contribuciones aprobadas aparecen en el catálogo público y se muestran aquí automáticamente en el siguiente despliegue.',
+          'Abre un PR contra <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> con una nueva carpeta que contenga <code>sankiwork.json</code>, <code>SKILL.md</code> y un <code>example.html</code> ejecutable. La guía de contribuyentes en el <code>CONTRIBUTING.md</code> del repositorio te explica los campos del manifiesto. Las contribuciones aprobadas aparecen en el catálogo público y se muestran aquí automáticamente en el siguiente despliegue.',
       },
       {
         question: '¿En qué se diferencia de Claude Design Studio?',
@@ -2083,7 +2083,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Como contribuo com um template?',
         answer:
-          'Abra um PR contra <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> com uma nova pasta contendo <code>open-design.json</code>, <code>SKILL.md</code> e um <code>example.html</code> executável. O guia de contribuidor no <code>CONTRIBUTING.md</code> do repositório detalha os campos do manifesto. Contribuições aprovadas aparecem no catálogo público e são exibidas aqui automaticamente no próximo deploy.',
+          'Abra um PR contra <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> com uma nova pasta contendo <code>sankiwork.json</code>, <code>SKILL.md</code> e um <code>example.html</code> executável. O guia de contribuidor no <code>CONTRIBUTING.md</code> do repositório detalha os campos do manifesto. Contribuições aprovadas aparecem no catálogo público e são exibidas aqui automaticamente no próximo deploy.',
       },
       {
         question: 'Como isso difere do Claude Design Studio?',
@@ -2257,7 +2257,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Come contribuisco con un template?',
         answer:
-          'Apri una PR contro <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> con una nuova cartella contenente <code>open-design.json</code>, <code>SKILL.md</code> e un <code>example.html</code> eseguibile. La guida per i contributori nel <code>CONTRIBUTING.md</code> del repository illustra i campi del manifest. I contributi approvati finiscono nel catalogo pubblico e appaiono automaticamente qui al prossimo deploy.',
+          'Apri una PR contro <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> con una nuova cartella contenente <code>sankiwork.json</code>, <code>SKILL.md</code> e un <code>example.html</code> eseguibile. La guida per i contributori nel <code>CONTRIBUTING.md</code> del repository illustra i campi del manifest. I contributi approvati finiscono nel catalogo pubblico e appaiono automaticamente qui al prossimo deploy.',
       },
       {
         question: 'Come si differenzia da Claude Design Studio?',
@@ -2410,7 +2410,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Bagaimana cara saya berkontribusi template?',
         answer:
-          'Buka PR terhadap <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> dengan folder baru berisi <code>open-design.json</code>, <code>SKILL.md</code>, dan <code>example.html</code> yang dapat dijalankan. Panduan kontributor di <code>CONTRIBUTING.md</code> repo berjalan melalui field manifest. Kontribusi yang disetujui mendarat di katalog publik dan muncul di sini secara otomatis pada deploy berikutnya.',
+          'Buka PR terhadap <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> dengan folder baru berisi <code>sankiwork.json</code>, <code>SKILL.md</code>, dan <code>example.html</code> yang dapat dijalankan. Panduan kontributor di <code>CONTRIBUTING.md</code> repo berjalan melalui field manifest. Kontribusi yang disetujui mendarat di katalog publik dan muncul di sini secara otomatis pada deploy berikutnya.',
       },
       {
         question: 'Bagaimana perbedaannya dengan Claude Design Studio?',
@@ -2563,7 +2563,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Jak wnieść swój szablon?',
         answer:
-          'Otwórz PR przeciwko <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> z nowym folderem zawierającym <code>open-design.json</code>, <code>SKILL.md</code> i runnable <code>example.html</code>. Przewodnik dla współpracowników w pliku <code>CONTRIBUTING.md</code> repozytorium wyjaśnia pola manifestu. Zatwierdzone wkłady trafiają do publicznego katalogu i pojawiają się tu automatycznie przy następnym wdrożeniu.',
+          'Otwórz PR przeciwko <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> z nowym folderem zawierającym <code>sankiwork.json</code>, <code>SKILL.md</code> i runnable <code>example.html</code>. Przewodnik dla współpracowników w pliku <code>CONTRIBUTING.md</code> repozytorium wyjaśnia pola manifestu. Zatwierdzone wkłady trafiają do publicznego katalogu i pojawiają się tu automatycznie przy następnym wdrożeniu.',
       },
       {
         question: 'Czym różni się to od Claude Design Studio?',
@@ -2716,7 +2716,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'كيف أساهم بقالب؟',
         answer:
-          'افتح PR ضد <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> بمجلد جديد يحتوي على <code>open-design.json</code> و <code>SKILL.md</code> و <code>example.html</code> قابل للتشغيل. يرشدك دليل المساهم في <code>CONTRIBUTING.md</code> الخاص بالمستودع عبر حقول البيان. تظهر المساهمات المعتمدة في الكتالوج العام وتظهر هنا تلقائياً عند النشر التالي.',
+          'افتح PR ضد <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> بمجلد جديد يحتوي على <code>sankiwork.json</code> و <code>SKILL.md</code> و <code>example.html</code> قابل للتشغيل. يرشدك دليل المساهم في <code>CONTRIBUTING.md</code> الخاص بالمستودع عبر حقول البيان. تظهر المساهمات المعتمدة في الكتالوج العام وتظهر هنا تلقائياً عند النشر التالي.',
       },
       {
         question: 'كيف يختلف هذا عن Claude Design Studio؟',
@@ -2890,7 +2890,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Nasıl şablon katkısında bulunurum?',
         answer:
-          '<a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> deposuna, <code>open-design.json</code>, <code>SKILL.md</code> ve çalıştırılabilir <code>example.html</code> içeren yeni bir klasörle bir PR açın. Depo içindeki katkıcı kılavuzu manifest alanlarında adım adım rehberlik eder. Onaylanan katkılar genel kataloga girer ve bir sonraki deployment\'ta burada otomatik olarak gösterilir.',
+          '<a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> deposuna, <code>sankiwork.json</code>, <code>SKILL.md</code> ve çalıştırılabilir <code>example.html</code> içeren yeni bir klasörle bir PR açın. Depo içindeki katkıcı kılavuzu manifest alanlarında adım adım rehberlik eder. Onaylanan katkılar genel kataloga girer ve bir sonraki deployment\'ta burada otomatik olarak gösterilir.',
       },
       {
         question: "Bu, Claude Design Studio'dan nasıl farklı?",
@@ -3043,7 +3043,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Як я можу внести шаблон?',
         answer:
-          'Відкрийте PR проти <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> з новою папкою, що містить <code>open-design.json</code>, <code>SKILL.md</code> та запускаємий <code>example.html</code>. Посібник для внесків у <code>CONTRIBUTING.md</code> репозиторію описує поля маніфесту. Затверджені внески потрапляють у публічний каталог і автоматично з\'являються тут при наступному розгортанні.',
+          'Відкрийте PR проти <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> з новою папкою, що містить <code>sankiwork.json</code>, <code>SKILL.md</code> та запускаємий <code>example.html</code>. Посібник для внесків у <code>CONTRIBUTING.md</code> репозиторію описує поля маніфесту. Затверджені внески потрапляють у публічний каталог і автоматично з\'являються тут при наступному розгортанні.',
       },
       {
         question: 'Чим це відрізняється від Claude Design Studio?',
@@ -3196,7 +3196,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Làm cách nào để đóng góp một mẫu?',
         answer:
-          'Mở một PR với <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> với một thư mục mới chứa <code>open-design.json</code>, <code>SKILL.md</code>, và một <code>example.html</code> có thể chạy được. Hướng dẫn đóng góp trong <code>CONTRIBUTING.md</code> của repo sẽ hướng dẫn bạn qua các trường manifest. Các đóng góp được phê duyệt sẽ xuất hiện trong danh mục công khai và được hiển thị ở đây tự động khi deploy tiếp theo.',
+          'Mở một PR với <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> với một thư mục mới chứa <code>sankiwork.json</code>, <code>SKILL.md</code>, và một <code>example.html</code> có thể chạy được. Hướng dẫn đóng góp trong <code>CONTRIBUTING.md</code> của repo sẽ hướng dẫn bạn qua các trường manifest. Các đóng góp được phê duyệt sẽ xuất hiện trong danh mục công khai và được hiển thị ở đây tự động khi deploy tiếp theo.',
       },
       {
         question: 'Cái này khác biệt như thế nào so với Claude Design Studio?',
@@ -3349,7 +3349,7 @@ const overrides: Partial<Record<LandingLocaleCode, Partial<PluginsCopy>>> = {
       {
         question: 'Hoe draag ik een sjabloon bij?',
         answer:
-          'Open een PR tegen <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> met een nieuwe map met daarin <code>open-design.json</code>, <code>SKILL.md</code> en een runnable <code>example.html</code>. De bijdragersrichtlijn in de <code>CONTRIBUTING.md</code> van de repo doorloopt de manifestvelden. Goedgekeurde bijdragen verschijnen in de publieke catalogus en komen hier automatisch naar voren bij de volgende deploy.',
+          'Open een PR tegen <a href="https://github.com/nexu-io/open-design/tree/main/plugins/_official" target="_blank" rel="noopener">nexu-io/open-design/plugins/_official</a> met een nieuwe map met daarin <code>sankiwork.json</code>, <code>SKILL.md</code> en een runnable <code>example.html</code>. De bijdragersrichtlijn in de <code>CONTRIBUTING.md</code> van de repo doorloopt de manifestvelden. Goedgekeurde bijdragen verschijnen in de publieke catalogus en komen hier automatisch naar voren bij de volgende deploy.',
       },
       {
         question: 'Wat is het verschil met Claude Design Studio?',

@@ -83,7 +83,7 @@ const preUpdateScreenshotPath = join(toolsPackDir, 'screenshots', `${namespace}-
 const readinessExpression = `
   (() => ({
     href: location.href,
-    mounted: document.documentElement.getAttribute('data-od-app-mounted'),
+    mounted: document.documentElement.getAttribute('data-sw-app-mounted'),
     readyState: document.readyState,
     title: document.title,
   }))()

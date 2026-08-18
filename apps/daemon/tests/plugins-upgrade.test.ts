@@ -22,7 +22,7 @@ let db: Database.Database;
 
 async function writeSource(version: string, opts?: { description?: string }) {
   await writeFile(
-    path.join(sourceFolder, 'open-design.json'),
+    path.join(sourceFolder, 'sankiwork.json'),
     JSON.stringify({
       name: 'upgrade-fixture',
       version,
@@ -92,7 +92,7 @@ describe('sw plugin upgrade — installer round-trip', () => {
     // The on-disk manifest the installer just wrote should match the
     // one in the SQLite row.
     const recorded = getInstalledPlugin(db, 'upgrade-fixture');
-    const onDisk = JSON.parse(await readFile(path.join(recorded!.fsPath, 'open-design.json'), 'utf8'));
+    const onDisk = JSON.parse(await readFile(path.join(recorded!.fsPath, 'sankiwork.json'), 'utf8'));
     expect(onDisk.version).toBe('1.0.2');
     expect(recorded?.version).toBe('1.0.2');
   });

@@ -71,7 +71,7 @@ describe('CLI startup boundaries', () => {
     );
 
     try {
-      const line = await waitForStdoutLine(child, /\[od\] listening on (http:\/\/[^\s]+) \(headless\)/u);
+      const line = await waitForStdoutLine(child, /\[sw\] listening on (http:\/\/[^\s]+) \(headless\)/u);
       const match = line.match(/(http:\/\/[^\s]+)/u);
       const daemonUrl = match?.[1];
       expect(daemonUrl).toBeTruthy();
@@ -122,7 +122,7 @@ describe('CLI startup boundaries', () => {
     const statePath = join(runDir, 'state.json');
 
     try {
-      await waitForStdoutLine(first, /\[od\] listening on (http:\/\/[^\s]+)/u);
+      await waitForStdoutLine(first, /\[sw\] listening on (http:\/\/[^\s]+)/u);
       const db = new Database(join(dataDir, 'app.sqlite'));
       try {
         const now = Date.now();
@@ -168,7 +168,7 @@ describe('CLI startup boundaries', () => {
 
       const second = spawn(process.execPath, args, { cwd: daemonRoot, env });
       try {
-        const line = await waitForStdoutLine(second, /\[od\] listening on (http:\/\/[^\s]+)/u);
+        const line = await waitForStdoutLine(second, /\[sw\] listening on (http:\/\/[^\s]+)/u);
         expect(line).toContain(`127.0.0.1:${port}`);
         await waitFor(() => {
           const state = JSON.parse(readFileSync(statePath, 'utf8')) as {
@@ -219,7 +219,7 @@ describe('CLI startup boundaries', () => {
         const third = spawn(process.execPath, args, { cwd: daemonRoot, env });
         try {
           await Promise.all([
-            waitForStdoutLine(third, /\[od\] listening on (http:\/\/[^\s]+)/u),
+            waitForStdoutLine(third, /\[sw\] listening on (http:\/\/[^\s]+)/u),
             waitForStdoutLine(third, /\[runs\] reconciled interrupted run terminals/u),
           ]);
           const replayedState = JSON.parse(await readFile(statePath, 'utf8')) as {

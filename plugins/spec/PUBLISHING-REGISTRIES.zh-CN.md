@@ -6,7 +6,7 @@ SankiWork 插件刻意设计成一个文件夹可以跨多个 agent 生态流转
 
 1. 把公开 GitHub 仓库或 SankiWork PR 作为 source of truth。
 2. 保持 `SKILL.md` 可移植、适合 registry 读取。
-3. 添加 `open-design.json` 作为 SankiWork sidecar。
+3. 添加 `sankiwork.json` 作为 SankiWork sidecar。
 4. 本地验证通过后，再发布或登记到外部 registry。
 
 各 registry 的规则可能变化，运行 publish 命令前一定要查看目标 registry 的当前文档。
@@ -24,7 +24,7 @@ SankiWork 插件刻意设计成一个文件夹可以跨多个 agent 生态流转
 
 | 目标 | 适合场景 | 源形态 | 发布策略 |
 | --- | --- | --- | --- |
-| SankiWork | OD marketplace、composer chips、pipelines、GenUI、artifact provenance | `SKILL.md` + `open-design.json` | 向 SankiWork 提 PR，或发布指向插件仓库的 marketplace index entry。 |
+| SankiWork | OD marketplace、composer chips、pipelines、GenUI、artifact provenance | `SKILL.md` + `sankiwork.json` | 向 SankiWork 提 PR，或发布指向插件仓库的 marketplace index entry。 |
 | skills.sh | 面向多种编码 agent 的 Agent Skills 发现 | 包含 `SKILL.md` 的公开 Git repo 或 subpath | 确保 `npx skills add owner/repo` 可用，添加 skills.sh badge，并写清 README。 |
 | ClawHub | 让 OpenClaw 用户从 registry 安装 skills 或 OpenClaw plugins | skill 使用 `SKILL.md` 文件夹；plugin 使用 OpenClaw package metadata | `SKILL.md` 文件夹使用 `clawhub skill publish ./my-skill`。只有同时提供 OpenClaw plugin metadata 时，才使用 `clawhub package publish ... --family code-plugin`。 |
 | 独立 GitHub | source of truth 和广泛 agent 兼容 | 可移植文件夹或 mono-repo subpath | 打 tag、写安装命令、维护 changelog。 |
@@ -42,7 +42,7 @@ npx skills add ./my-local-skills
 对 SankiWork 插件作者：
 
 - 确保 repo 或 subpath 包含合法 `SKILL.md`。
-- 保持 `open-design.json` 为纯增量；通用 skill 客户端应能忽略它。
+- 保持 `sankiwork.json` 为纯增量；通用 skill 客户端应能忽略它。
 - 在 README 中放一个短安装块：
 
 ```bash
@@ -91,7 +91,7 @@ clawhub package publish <source> --family code-plugin
 - 公开 listing 前先跑 dry run 或 inspect。
 - 链回 canonical GitHub repo 和 SankiWork PR。
 - changelog 诚实且版本化。
-- `open-design.json` 的 `specVersion` 保持为规范包版本；每次可发布的行为变化都 bump 插件 `version`。
+- `sankiwork.json` 的 `specVersion` 保持为规范包版本；每次可发布的行为变化都 bump 插件 `version`。
 
 ## 安全 Checklist
 

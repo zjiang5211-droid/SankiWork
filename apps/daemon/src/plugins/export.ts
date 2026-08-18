@@ -7,13 +7,13 @@
 // can re-publish to anthropics/skills, awesome-agent-skills, clawhub,
 // or skills.sh. Three targets:
 //
-//   - `sw`            → SKILL.md + open-design.json (canonical OD shape).
+//   - `sw`            → SKILL.md + sankiwork.json (canonical OD shape).
 //   - `claude-plugin` → SKILL.md + .claude-plugin/plugin.json (Claude
 //                       Code listing format).
 //   - `agent-skill`   → SKILL.md only (every catalog accepts this).
 //
 // The export is best-effort: it pulls SKILL.md straight off the
-// installed plugin's fs_path, and reconstructs open-design.json from
+// installed plugin's fs_path, and reconstructs sankiwork.json from
 // the cached `manifest_json` so a publishable snapshot is reproducible
 // even after an `sw plugin update` rotates the live source.
 
@@ -87,7 +87,7 @@ export async function exportPlugin(input: ExportInput): Promise<ExportResult> {
 
   if (input.target === 'od') {
     const manifest = buildPortableManifest(snapshot);
-    const manifestPath = path.join(folder, 'open-design.json');
+    const manifestPath = path.join(folder, 'sankiwork.json');
     await fsp.writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
     written.push(manifestPath);
   }

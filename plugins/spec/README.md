@@ -4,7 +4,7 @@ Language: English | [简体中文](README.zh-CN.md)
 
 This folder is the shareable specification kit for SankiWork plugin authors. It is meant to work for a human reading the repo and for an external coding agent such as Claude Code, Codex, Cursor, OpenClaw, Hermes Agent, or another Agent Skills compatible tool.
 
-SankiWork plugins follow the same portable shape as Agent Skills: a folder with `SKILL.md` plus optional assets, references, scripts, and examples. SankiWork adds `open-design.json` as a sidecar so the same folder can appear in the OD plugin gallery, hydrate the home composer, declare inputs and GenUI surfaces, run an OD atom pipeline, and participate in publish or PR flows.
+SankiWork plugins follow the same portable shape as Agent Skills: a folder with `SKILL.md` plus optional assets, references, scripts, and examples. SankiWork adds `sankiwork.json` as a sidecar so the same folder can appear in the OD plugin gallery, hydrate the home composer, declare inputs and GenUI surfaces, run an OD atom pipeline, and participate in publish or PR flows.
 
 ## Folder Map
 
@@ -40,7 +40,7 @@ Workflow lanes:
 1. Copy `templates/` to a new plugin folder.
 2. Rename the folder and frontmatter `name` to a lowercase id such as `launch-deck`.
 3. Write a pushy `description` in `SKILL.md`: "Use this plugin when..."
-4. Fill `open-design.json`: `specVersion`, title, plugin `version`, tags, `od.taskKind`, `od.mode`, `od.useCase.query`, `od.pipeline`, inputs, and capabilities.
+4. Fill `sankiwork.json`: `specVersion`, title, plugin `version`, tags, `od.taskKind`, `od.mode`, `od.useCase.query`, `od.pipeline`, inputs, and capabilities.
 5. Add a small `examples/` or `preview/` artifact if the plugin is visual.
 6. Validate locally:
 
@@ -59,7 +59,7 @@ sw plugin apply <plugin-id> --input key=value
 
 ## Compatibility Promise
 
-A folder with `SKILL.md` can be used as a plain skill in Agent Skills compatible clients. Adding `open-design.json` should never make the skill less portable; it only adds SankiWork product behavior.
+A folder with `SKILL.md` can be used as a plain skill in Agent Skills compatible clients. Adding `sankiwork.json` should never make the skill less portable; it only adds SankiWork product behavior.
 
 References:
 

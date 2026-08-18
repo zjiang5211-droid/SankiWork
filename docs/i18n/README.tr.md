@@ -365,7 +365,7 @@ sw skills list --json
 
 **Neden MCP?** Her yinelemede bir zip dosyasını dışa aktarıp yeniden eklemek akışı bozar. MCP, tasarım kaynağını doğrudan ortaya çıkarır — ajan her zaman canlı dosyayı görür.
 
-**Sıfırdan başlayan bir ajan için,** yükleyici `~/.config/<agent>/open-design.json` dosyasını (veya platform eşdeğerini) artı kopyala-yapıştır bir MCP parçacığını yerleştirir. Cursor tek tıklık bir deeplink alır; Claude Code bir `claude mcp add-json` tek satırlık komut alır; diğer her ajan, yapılandırmasının beklediği şemada JSON alır. Ajan başına tam akış → masaüstü uygulamasında **Settings → MCP server** veya [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
+**Sıfırdan başlayan bir ajan için,** yükleyici `~/.config/<agent>/sankiwork.json` dosyasını (veya platform eşdeğerini) artı kopyala-yapıştır bir MCP parçacığını yerleştirir. Cursor tek tıklık bir deeplink alır; Claude Code bir `claude mcp add-json` tek satırlık komut alır; diğer her ajan, yapılandırmasının beklediği şemada JSON alır. Ajan başına tam akış → masaüstü uygulamasında **Settings → MCP server** veya [`docs/agent-adapters.md`](../../docs/agent-adapters.md).
 
 **Güvenlik modeli.** Varsayılan olarak salt okunur, daemon `127.0.0.1` adresine bağlanır ve SSRF, proxy kenarında engellenir. LAN erişimi açık bir `SW_BIND_HOST` artı `SW_ALLOWED_ORIGINS` gerektirir. Bağlayıcı kimlik bilgileri ve canlı artifact önizleme rotaları ne olursa olsun yalnızca loopback'te kalır.
 
@@ -439,11 +439,11 @@ Kütüphaneyi [`scripts/sync-design-systems.ts`](../../scripts/sync-design-syste
 
 ## Eklentiler
 
-**277 resmî eklenti ve 183 remixlenebilir örnek** [`plugins/_official/`](../../plugins/_official/) içindedir. Her giriş `open-design.json` ve türüne özgü payload ile tanımlanır: workflow için `SKILL.md`, medya şablonu için `template.json`, tasarım sistemi için `DESIGN.md`.
+**277 resmî eklenti ve 183 remixlenebilir örnek** [`plugins/_official/`](../../plugins/_official/) içindedir. Her giriş `sankiwork.json` ve türüne özgü payload ile tanımlanır: workflow için `SKILL.md`, medya şablonu için `template.json`, tasarım sistemi için `DESIGN.md`.
 
 | Kategori | Sayı | İçerik |
 |---|---|---|
-| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | Eksiksiz tasarım senaryoları — [`od-default`](../../plugins/_official/scenarios/od-default/), [`od-design-refine`](../../plugins/_official/scenarios/od-design-refine/), [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/), [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/), [`od-react-export`](../../plugins/_official/scenarios/od-react-export/), [`od-nextjs-export`](../../plugins/_official/scenarios/od-nextjs-export/), [`od-vue-export`](../../plugins/_official/scenarios/od-vue-export/), [`od-media-generation`](../../plugins/_official/scenarios/od-media-generation/), [`od-new-generation`](../../plugins/_official/scenarios/od-new-generation/), [`od-tune-collab`](../../plugins/_official/scenarios/od-tune-collab/), [`od-plugin-authoring`](../../plugins/_official/scenarios/od-plugin-authoring/), [`od-share-to-community`](../../plugins/_official/scenarios/od-share-to-community/), [`od-web-effect-extractor`](../../plugins/_official/scenarios/od-web-effect-extractor/) |
+| [`scenarios/`](../../plugins/_official/scenarios/) | 13 | Eksiksiz tasarım senaryoları — [`sw-default`](../../plugins/_official/scenarios/sw-default/), [`sw-design-refine`](../../plugins/_official/scenarios/sw-design-refine/), [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/), [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/), [`sw-react-export`](../../plugins/_official/scenarios/sw-react-export/), [`sw-nextjs-export`](../../plugins/_official/scenarios/sw-nextjs-export/), [`sw-vue-export`](../../plugins/_official/scenarios/sw-vue-export/), [`sw-media-generation`](../../plugins/_official/scenarios/sw-media-generation/), [`sw-new-generation`](../../plugins/_official/scenarios/sw-new-generation/), [`sw-tune-collab`](../../plugins/_official/scenarios/sw-tune-collab/), [`sw-plugin-authoring`](../../plugins/_official/scenarios/sw-plugin-authoring/), [`sw-share-to-community`](../../plugins/_official/scenarios/sw-share-to-community/), [`sw-web-effect-extractor`](../../plugins/_official/scenarios/sw-web-effect-extractor/) |
 | [`image-templates/`](../../plugins/_official/image-templates/) | 45 | Tek seferlik görsel komutları — editöryel, sinematik, ürün, portre |
 | [`video-templates/`](../../plugins/_official/video-templates/) | 63 | HyperFrames / Seedance / Veo hareket şablonları |
 | [`design-systems/`](../../plugins/_official/design-systems/) | 143 | Eklenti olarak sarmalanmış marka `DESIGN.md` dosyaları |
@@ -455,8 +455,8 @@ Ayrıca topluluk eklentileri için [`plugins/community/`](../../plugins/communit
 ### Eklentiler ne yapabilir
 
 - 🤖 **Herhangi bir kodlama ajanında çalışın** — [Claude Code](../../docs/agent-adapters.md), Codex, Cursor, Copilot, [OpenClaw](https://github.com/openclaw/openclaw), [Antigravity](https://antigravity.google), Hermes, Kimi… ajanın zaten bildiği aynı beceri protokolü aracılığıyla.
-- 🔁 **Figma / Pencil iş akışlarını taşıyın** → React, Next.js veya Vue kaynağı. Bkz. [`od-figma-migration`](../../plugins/_official/scenarios/od-figma-migration/).
-- 🛠️ **Mevcut bir kod tabanını bir marka spesifikasyonuna yenileyin** — bir eklentiyi bir `git` deposu + `DESIGN.md` dosyasına yönlendirin, bir PR alın. Bkz. [`od-code-migration`](../../plugins/_official/scenarios/od-code-migration/).
+- 🔁 **Figma / Pencil iş akışlarını taşıyın** → React, Next.js veya Vue kaynağı. Bkz. [`sw-figma-migration`](../../plugins/_official/scenarios/sw-figma-migration/).
+- 🛠️ **Mevcut bir kod tabanını bir marka spesifikasyonuna yenileyin** — bir eklentiyi bir `git` deposu + `DESIGN.md` dosyasına yönlendirin, bir PR alın. Bkz. [`sw-code-migration`](../../plugins/_official/scenarios/sw-code-migration/).
 - 💾 **Özel iş akışlarını kalıcı kılın** — ekibinizin yeniden kullanılabilir şablonları, sunulanların yanında durur.
 
 ### Eklentileri kullanma
@@ -470,22 +470,22 @@ Eklentiler **web UI** ve **`sw` CLI** arasında tam eşitliktedir — aynı `/ap
 ```bash
 sw plugin list                       # list installed plugins (--task-kind / --mode / --tag filters)
 sw plugin search "landing page"      # search by keyword
-sw plugin info od-default            # inspect a plugin's metadata, inputs, capabilities
-sw plugin install od-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
-sw plugin apply od-default --input brief="a one-page pitch for our seed round"
-sw plugin upgrade od-default         # upgrade
-sw plugin uninstall od-default       # uninstall
+sw plugin info sw-default            # inspect a plugin's metadata, inputs, capabilities
+sw plugin install sw-figma-migration # install from a registry; also accepts ./local-folder or an https://… link
+sw plugin apply sw-default --input brief="a one-page pitch for our seed round"
+sw plugin upgrade sw-default         # upgrade
+sw plugin uninstall sw-default       # uninstall
 ```
 
 Her komut `--json` destekler, böylece onu `jq` / `xargs` aracılığıyla otomasyona aktarabilirsiniz.
 
 ### Bir eklenti oluşturma
 
-Bir SankiWork eklentisi `open-design.json` ve türünün payload'unu gerektirir. Beceriler ve senaryolar ayrıca `SKILL.md` içerir; diğer türler kendi payload'unu kullanır:
+Bir SankiWork eklentisi `sankiwork.json` ve türünün payload'unu gerektirir. Beceriler ve senaryolar ayrıca `SKILL.md` içerir; diğer türler kendi payload'unu kullanır:
 
 ```
 my-plugin/
-├── open-design.json    ← required: marketplace metadata + inputs + pipeline + capabilities
+├── sankiwork.json    ← required: marketplace metadata + inputs + pipeline + capabilities
 ├── SKILL.md            ← required for agent-skill/scenario entries; omit for other plugin types
 ├── README.md           ← optional: usage, install, registry links
 ├── preview/            ← optional: index.html / poster.png (strongly recommended for visual plugins)
@@ -605,7 +605,7 @@ SankiWork, katkıda bulunanlar — tasarımcılar, mühendisler, komut yazarlar�
 |---|---|---|
 | Yeni bir **beceri** | `SKILL.md` + `assets/` + `references/` içeren bir klasör bırakın | [`skills/`](../../skills/) · spesifikasyon [`docs/skills-protocol.md`](../../docs/skills-protocol.md) içinde |
 | Yeni bir **tasarım sistemi** | Merkezinde `DESIGN.md` bulunan bir paket bırakın; gerektiğinde `manifest.json`, `tokens.css`, bileşenler, varlıklar veya provenance ekleyin | [`design-systems/<brand>/`](../../design-systems/) |
-| Yeni bir **eklenti** | Bir kategori klasörü altına `open-design.json` + türe özgü payload bırakın | [`plugins/community/`](../../plugins/community/) · spesifikasyon [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) içinde · ajan geliştirme kılavuzu [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) içinde |
+| Yeni bir **eklenti** | Bir kategori klasörü altına `sankiwork.json` + türe özgü payload bırakın | [`plugins/community/`](../../plugins/community/) · spesifikasyon [`plugins/spec/SPEC.md`](../../plugins/spec/SPEC.md) içinde · ajan geliştirme kılavuzu [`plugins/spec/AGENT-DEVELOPMENT.md`](../../plugins/spec/AGENT-DEVELOPMENT.md) içinde |
 | Yeni bir **kodlama ajanı CLI'si** destekleyin | Runtime tanımı + registry girdisi; parser yalnızca yeni format için | [`apps/daemon/src/runtimes/defs/`](../../apps/daemon/src/runtimes/defs/) |
 | Bir hatayı düzeltin veya UI'yi cilalayın | [`good-first-issue`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) etiketine göz atın | [Issues →](https://github.com/nexu-io/open-design/issues) |
 | Belgeleri çevirin | `README.<lang>.md` dosyalarını güncelleyin | [`TRANSLATIONS.md`](../../TRANSLATIONS.md) |

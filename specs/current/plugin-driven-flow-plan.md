@@ -46,13 +46,13 @@ plugin manifest (od.pipeline.stages[])
 |---|---|
 | `prototype` | `example-web-prototype` |
 | `deck` | `example-simple-deck` |
-| `template`, `brand`, `other` | `od-new-generation` |
-| `image`, `video`, `audio` | `od-media-generation` |
+| `template`, `brand`, `other` | `sw-new-generation` |
+| `image`, `video`, `audio` | `sw-media-generation` |
 | `metadata.intent: live-artifact` | `example-live-artifact` |
 | `metadata.intent: web-clone` | `example-web-clone` |
-| `figma-migration` taskKind | `od-figma-migration` |
-| `code-migration` taskKind | `od-code-migration` |
-| `tune-collab` taskKind | `od-tune-collab` |
+| `figma-migration` taskKind | `sw-figma-migration` |
+| `code-migration` taskKind | `sw-code-migration` |
+| `tune-collab` taskKind | `sw-tune-collab` |
 
 ## Stages
 
@@ -60,7 +60,7 @@ plugin manifest (od.pipeline.stages[])
 |---|---|---|
 | A | shipped | Plugin-local SKILL.md reaches `## Active skill`; Home query auto-binds default scenario per kind. |
 | B | shipped (MVP) | Chip rail mirrors the creation taxonomy and adds Figma / template / plugin-authoring shortcuts. Folder linking subsequently moved to composer Tools → Import. Dedicated secondary rail rows and an inline `figmaUrl` input remain deferred. |
-| C | shipped (MVP) | Bundled `od-media-generation` scenario for image/video/audio; uses existing `media-image` / `media-video` / `media-audio` atoms rather than a new wrapper atom. |
+| C | shipped (MVP) | Bundled `sw-media-generation` scenario for image/video/audio; uses existing `media-image` / `media-video` / `media-audio` atoms rather than a new wrapper atom. |
 | D | shipped (MVP) | `apps/daemon/src/plugins/atoms/registry.ts` + `built-ins.ts` introduce an atom worker registry; `firePipelineForRun` now drives stages through `runStageWithRegistry`. Set `SW_PIPELINE_RUNNER=stub` to fall back to the v1 canned-signal runner. Real workers only ship for `critique-theater` today (reads `run_devloop_iterations.critique_summary` for the latest parseable score); every other FIRST_PARTY_ATOM registers a permissive worker so happy-path convergence matches v1. |
 | E | shipped (MVP) | The original package gates landed. The repository now has tools-dev-backed Playwright coverage for the Home rail and a real-daemon authoring run; focused event-level assertions for every fallback/chip path remain a follow-up rather than a limitation of the harness. |
 
@@ -91,10 +91,10 @@ Exit criteria
 
 ### Stage C — Media + migration scenario fill-in
 
-- Add bundled scenario `od-media-generation`. The pipeline reuses the already-shipped `media-image` / `media-video` / `media-audio` atoms; no dedicated `media-generate` wrapper is needed and the original plan's mention of a separate atom is superseded by this note.
-- The scenario shares `taskKind: 'new-generation'` with `od-new-generation`. The daemon's `collectBundledScenarios` dedupes by `taskKind`, preferring the canonical `od-<taskKind>` id so the pipeline-fallback stays deterministic.
+- Add bundled scenario `sw-media-generation`. The pipeline reuses the already-shipped `media-image` / `media-video` / `media-audio` atoms; no dedicated `media-generate` wrapper is needed and the original plan's mention of a separate atom is superseded by this note.
+- The scenario shares `taskKind: 'new-generation'` with `sw-new-generation`. The daemon's `collectBundledScenarios` dedupes by `taskKind`, preferring the canonical `od-<taskKind>` id so the pipeline-fallback stays deterministic.
 - Surface "From Figma" on the Home rail and keep folder linking in the composer import tools.
-  - "From Figma" applies the `od-figma-migration` plugin (which carries the `figmaUrl` input). A dedicated inline `figmaUrl` field is deferred to a follow-up; the chip's prompt-template substitution still surfaces `{{figmaUrl}}` so the user can edit before submit.
+  - "From Figma" applies the `sw-figma-migration` plugin (which carries the `figmaUrl` input). A dedicated inline `figmaUrl` field is deferred to a follow-up; the chip's prompt-template substitution still surfaces `{{figmaUrl}}` so the user can edit before submit.
   - "Link code folder" opens the existing folder picker from composer Tools → Import and persists the selected path in project `linkedDirs`; it is no longer represented as a Home rail scenario.
 
 ### Stage D — Real stage / atom workers (replaces the stub)
@@ -120,7 +120,7 @@ Deferred to a follow-up:
 ## File map
 
 **Added by the shipped stages**
-- `plugins/_official/scenarios/od-media-generation/{open-design.json,SKILL.md}`
+- `plugins/_official/scenarios/sw-media-generation/{sankiwork.json,SKILL.md}`
 - `apps/daemon/src/plugins/atoms/registry.ts`
 - `apps/web/src/components/home-hero/chips.ts`
 - `packages/contracts/src/plugins/scenario-defaults.ts`
@@ -144,7 +144,7 @@ Deferred to a follow-up:
 ## Risks
 
 - R1 — Plugin SKILL.md may conflict with a project-pinned skill. Resolution order: plugin > project skill > kind default.
-- R2 — Media surface already drives prompts through the `media generate` CLI; `od-media-generation` must not double-inject.
+- R2 — Media surface already drives prompts through the `media generate` CLI; `sw-media-generation` must not double-inject.
 - R3 — Stage D changes runtime behaviour. Retain `SW_BUNDLED_ATOM_PROMPTS=0` and `SW_PIPELINE_RUNNER=stub` as explicit diagnostic escape hatches while the remaining workers gain observable contracts.
 
 ## Open questions

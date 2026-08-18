@@ -8810,7 +8810,7 @@ export function ProjectView({
     ],
   );
 
-  // "Share to SankiWork" — kicks off the bundled `od-share-to-community`
+  // "Share to SankiWork" — kicks off the bundled `sw-share-to-community`
   // scenario in the active conversation. We just inject the trigger prompt
   // through the standard chat-send path; the agent then loads SKILL.md and
   // drives the rest. Keep this preparing state alive for the resulting chat

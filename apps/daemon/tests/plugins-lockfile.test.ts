@@ -49,10 +49,10 @@ describe('plugin lockfile', () => {
     });
   });
 
-  it('writes stable .sankiwork/od-plugin-lock.json content', async () => {
+  it('writes stable .sankiwork/sw-plugin-lock.json content', async () => {
     const dir = await mkdtemp(path.join(os.tmpdir(), 'od-lock-'));
     try {
-      const filePath = path.join(dir, '.sankiwork', 'od-plugin-lock.json');
+      const filePath = path.join(dir, '.sankiwork', 'sw-plugin-lock.json');
       await upsertPluginLockfileEntry(filePath, plugin, 123);
       expect(await readPluginLockfile(filePath)).toMatchObject({
         schemaVersion: 1,
@@ -72,7 +72,7 @@ describe('plugin lockfile', () => {
   it('drops no entry when concurrent installs race the same lockfile (#109)', async () => {
     const dir = await mkdtemp(path.join(os.tmpdir(), 'od-lock-race-'));
     try {
-      const filePath = path.join(dir, '.sankiwork', 'od-plugin-lock.json');
+      const filePath = path.join(dir, '.sankiwork', 'sw-plugin-lock.json');
       const names = Array.from({ length: 12 }, (_, i) => `community/plugin-${i}`);
       // All twelve read-modify-write cycles start from the same on-disk state
       // and race to write back — the exact shape a burst of concurrent

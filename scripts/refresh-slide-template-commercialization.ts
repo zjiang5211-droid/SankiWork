@@ -7,7 +7,7 @@
  * unique title (EN/ZH), a concrete subject, and buyer-facing descriptions.
  *
  * This script ONLY rewrites metadata (`SKILL.md` frontmatter +
- * `open-design.json`) and, for `example.html`, it STRIPS any stale
+ * `sankiwork.json`) and, for `example.html`, it STRIPS any stale
  * `od-commercial-slide-refresh` overlay and fixes the `<title>`. It never
  * injects slide overlays — the native deck bodies are authored per template
  * so the card preview shows real, on-theme content, not a floating pane.
@@ -329,7 +329,7 @@ function refreshTemplate(root: string, dir: string, copy: RefreshCopy, isOfficia
   const skillPath = path.join(root, dir, 'SKILL.md');
   if (existsSync(skillPath)) {
     const rawSkill = readFileSync(skillPath, 'utf8');
-    const manifestPath = path.join(root, dir, 'open-design.json');
+    const manifestPath = path.join(root, dir, 'sankiwork.json');
     const rawManifest = existsSync(manifestPath) ? readFileSync(manifestPath, 'utf8') : null;
     if (isDeckSource(rawSkill, rawManifest)) {
       const nextSkill = updateSkillMarkdown(rawSkill, copy);
@@ -357,7 +357,7 @@ function main(): void {
     refreshTemplate(officialExamplesRoot, a.id, copy, true, counts, touched);
     refreshTemplate(designTemplatesRoot, a.id, copy, false, counts, touched);
   }
-  console.log(`Refreshed ${counts.skill} SKILL.md, ${counts.manifest} open-design.json, and stripped/retitled ${counts.html} example.html files across ${assignments.size} templates.`);
+  console.log(`Refreshed ${counts.skill} SKILL.md, ${counts.manifest} sankiwork.json, and stripped/retitled ${counts.html} example.html files across ${assignments.size} templates.`);
   if (touched.length > 0) console.log(touched.join('\n'));
 }
 

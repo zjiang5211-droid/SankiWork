@@ -54,8 +54,8 @@ const thumbnailUrl =
   entry.data.thumbnail ??
   (entry.data.youtubeId
     ? `https://i.ytimg.com/vi/${entry.data.youtubeId}/maxresdefault.jpg`
-    : '/tutorials/open-design-ai-ppt-tutorial-cover.webp');
-const isPptArticle = entry.id === 'open-design-ai-ppt-tutorial';
+    : '/tutorials/sankiwork-ai-ppt-tutorial-cover.webp');
+const isPptArticle = entry.id === 'sankiwork-ai-ppt-tutorial';
 
 const counts = await getCatalogCounts();
 const github = await getGithubRepoMeta();
@@ -102,7 +102,7 @@ const localizedCategory = (category: string) => {
 // localized placeholder so the short catalogue entries keep current behavior.
 const localizedLongform =
   locale === DEFAULT_LOCALE ? undefined : getLocalizedTutorial(entry.id, locale);
-const pptCoverVideoUrl = isPptArticle ? '/tutorials/open-design-ai-ppt-motion-demo.mp4' : undefined;
+const pptCoverVideoUrl = isPptArticle ? '/tutorials/sankiwork-ai-ppt-motion-demo.mp4' : undefined;
 const tutorialCopy =
   locale === DEFAULT_LOCALE || isPptArticle
     ? {

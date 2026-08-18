@@ -47,19 +47,38 @@ export class GithubRegistryBackend extends StaticRegistryBackend {
     this.owner = options.owner;
     this.repo = options.repo;
     this.ref = options.ref ?? 'main';
-    this.marketplacePath = options.marketplacePath ?? 'plugins/registry/official/open-design-marketplace.json';
+    this.marketplacePath = options.marketplacePath ?? 'plugins/registry/official/sankiwork-marketplace.json';
     this.client = options.client;
   }
 
   static async create(options: GithubRegistryBackendOptions): Promise<GithubRegistryBackend> {
     const ref = options.ref ?? 'main';
-    const marketplacePath = options.marketplacePath ?? 'plugins/registry/official/open-design-marketplace.json';
-    const manifest = await options.client.readMarketplace(
-      options.owner,
-      options.repo,
-      ref,
-      marketplacePath,
-    );
+    const defaultPath = 'plugins/registry/official/sankiwork-marketplace.json';
+    const marketplacePath = options.marketplacePath ?? defaultPath;
+    let manifest: MarketplaceManifest;
+    try {
+      manifest = await options.client.readMarketplace(
+        options.owner,
+        options.repo,
+        ref,
+        marketplacePath,
+      );
+    } catch (err) {
+      // Legacy compatibility: repos that have not published the rebranded
+      // index name yet (e.g. the upstream repo until the org migration) still
+      // serve `open-design-marketplace.json`. Only fall back for the default
+      // path — an explicit marketplacePath is authoritative.
+      if (marketplacePath === defaultPath && options.marketplacePath === undefined) {
+        manifest = await options.client.readMarketplace(
+          options.owner,
+          options.repo,
+          ref,
+          'plugins/registry/official/open-design-marketplace.json',
+        );
+      } else {
+        throw err;
+      }
+    }
     return new GithubRegistryBackend({ ...options, ref, marketplacePath, manifest });
   }
 

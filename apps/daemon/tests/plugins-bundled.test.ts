@@ -44,19 +44,19 @@ afterEach(async () => {
 describe('registerBundledPlugins', () => {
   it('registers every <bundledRoot>/<tier>/<id>/ folder under source_kind=bundled', async () => {
     // Build a layout with one atom + one scenario:
-    //   <bundledRoot>/atoms/discovery-question-form/{open-design.json,SKILL.md}
-    //   <bundledRoot>/scenarios/od-new-generation/{open-design.json,SKILL.md}
+    //   <bundledRoot>/atoms/discovery-question-form/{sankiwork.json,SKILL.md}
+    //   <bundledRoot>/scenarios/sw-new-generation/{sankiwork.json,SKILL.md}
     const atomDir = path.join(tmpRoot, 'atoms', 'discovery-question-form');
-    const sceneDir = path.join(tmpRoot, 'scenarios', 'od-new-generation');
+    const sceneDir = path.join(tmpRoot, 'scenarios', 'sw-new-generation');
     await mkdir(atomDir, { recursive: true });
     await mkdir(sceneDir, { recursive: true });
-    await writeFile(path.join(atomDir, 'open-design.json'), SAMPLE_MANIFEST('discovery-question-form'));
+    await writeFile(path.join(atomDir, 'sankiwork.json'), SAMPLE_MANIFEST('discovery-question-form'));
     await writeFile(path.join(atomDir, 'SKILL.md'), SAMPLE_SKILL('discovery-question-form'));
-    await writeFile(path.join(sceneDir, 'open-design.json'), SAMPLE_MANIFEST('od-new-generation'));
-    await writeFile(path.join(sceneDir, 'SKILL.md'), SAMPLE_SKILL('od-new-generation'));
+    await writeFile(path.join(sceneDir, 'sankiwork.json'), SAMPLE_MANIFEST('sw-new-generation'));
+    await writeFile(path.join(sceneDir, 'SKILL.md'), SAMPLE_SKILL('sw-new-generation'));
 
     const result = await registerBundledPlugins({ db, bundledRoot: tmpRoot });
-    expect(result.registered.map((r) => r.id).sort()).toEqual(['discovery-question-form', 'od-new-generation']);
+    expect(result.registered.map((r) => r.id).sort()).toEqual(['discovery-question-form', 'sw-new-generation']);
     const installed = listInstalledPlugins(db);
     expect(installed.length).toBe(2);
     for (const row of installed) {
@@ -68,7 +68,7 @@ describe('registerBundledPlugins', () => {
   it('can stamp official registry provenance on bundled preinstalls', async () => {
     const folder = path.join(tmpRoot, 'scenarios', 'starter');
     await mkdir(folder, { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('starter'));
+    await writeFile(path.join(folder, 'sankiwork.json'), SAMPLE_MANIFEST('starter'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('starter'));
 
     const result = await registerBundledPlugins({
@@ -97,7 +97,7 @@ describe('registerBundledPlugins', () => {
     // Direct layout (no tier): <bundledRoot>/sample-plugin/...
     const folder = path.join(tmpRoot, 'sample-plugin');
     await mkdir(folder, { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('sample-plugin'));
+    await writeFile(path.join(folder, 'sankiwork.json'), SAMPLE_MANIFEST('sample-plugin'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('sample-plugin'));
 
     const result = await registerBundledPlugins({ db, bundledRoot: tmpRoot });
@@ -107,7 +107,7 @@ describe('registerBundledPlugins', () => {
   it('is idempotent — re-running upserts the same row', async () => {
     const folder = path.join(tmpRoot, 'atoms', 'sample');
     await mkdir(folder, { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('sample'));
+    await writeFile(path.join(folder, 'sankiwork.json'), SAMPLE_MANIFEST('sample'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('sample'));
 
     await registerBundledPlugins({ db, bundledRoot: tmpRoot });
@@ -124,7 +124,7 @@ describe('registerBundledPlugins', () => {
   it('preserves installedAt/updatedAt across a no-op re-registration', async () => {
     const folder = path.join(tmpRoot, 'atoms', 'sample');
     await mkdir(folder, { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('sample'));
+    await writeFile(path.join(folder, 'sankiwork.json'), SAMPLE_MANIFEST('sample'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('sample'));
 
     const nowSpy = vi.spyOn(Date, 'now');
@@ -144,7 +144,7 @@ describe('registerBundledPlugins', () => {
     // A genuine content change (version bump) at a later boot DOES refresh
     // updatedAt — the guard only skips no-op re-registrations.
     await writeFile(
-      path.join(folder, 'open-design.json'),
+      path.join(folder, 'sankiwork.json'),
       SAMPLE_MANIFEST('sample').replace('"0.1.0"', '"0.2.0"'),
     );
     nowSpy.mockReturnValue(3_000);
@@ -165,7 +165,7 @@ describe('registerBundledPlugins', () => {
   it('advances updatedAt when only SKILL.md changes, with no version bump', async () => {
     const folder = path.join(tmpRoot, 'atoms', 'sample');
     await mkdir(folder, { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('sample'));
+    await writeFile(path.join(folder, 'sankiwork.json'), SAMPLE_MANIFEST('sample'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('sample'));
 
     const nowSpy = vi.spyOn(Date, 'now');
@@ -175,7 +175,7 @@ describe('registerBundledPlugins', () => {
     expect(first?.updatedAt).toBe(1_000);
 
     // Edit only SKILL.md's body — same frontmatter, same version, same
-    // open-design.json — and confirm the parsed manifest is unaffected before
+    // sankiwork.json — and confirm the parsed manifest is unaffected before
     // asserting on updatedAt (otherwise this test wouldn't actually probe the
     // gap: a manifest-derived field changing would trivially pass too).
     const editedSkill = `${SAMPLE_SKILL('sample')}\nRewritten instructions body.\n`;
@@ -194,7 +194,7 @@ describe('registerBundledPlugins', () => {
   });
 
   // Regression for further review feedback on #5362: a bundled plugin's
-  // runtime behavior is served from far more than open-design.json/SKILL.md
+  // runtime behavior is served from far more than sankiwork.json/SKILL.md
   // (see discoverPluginHtmlAssets in routes/plugins/assets.ts, and manifest
   // preview-media paths like od.preview.poster/video/gif). Editing a preview
   // asset with no manifest/SKILL.md change at all must still advance
@@ -202,7 +202,7 @@ describe('registerBundledPlugins', () => {
   it('advances updatedAt when only a preview asset changes, with no manifest or SKILL.md edit', async () => {
     const folder = path.join(tmpRoot, 'atoms', 'sample');
     await mkdir(path.join(folder, 'preview'), { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('sample'));
+    await writeFile(path.join(folder, 'sankiwork.json'), SAMPLE_MANIFEST('sample'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('sample'));
     await writeFile(path.join(folder, 'preview', 'index.html'), '<p>v1 preview</p>');
 
@@ -212,7 +212,7 @@ describe('registerBundledPlugins', () => {
     const [first] = listInstalledPlugins(db);
     expect(first?.updatedAt).toBe(1_000);
 
-    // Edit only the preview asset — open-design.json and SKILL.md untouched.
+    // Edit only the preview asset — sankiwork.json and SKILL.md untouched.
     await writeFile(path.join(folder, 'preview', 'index.html'), '<p>v2 preview, redesigned</p>');
     nowSpy.mockReturnValue(2_000);
     const result = await registerBundledPlugins({ db, bundledRoot: tmpRoot });
@@ -236,7 +236,7 @@ describe('registerBundledPlugins', () => {
     expect(result.warnings).toEqual([]);
   });
 
-  it('skips folders without open-design.json without warning', async () => {
+  it('skips folders without sankiwork.json without warning', async () => {
     const folder = path.join(tmpRoot, 'atoms', 'no-manifest');
     await mkdir(folder, { recursive: true });
     await writeFile(path.join(folder, 'README.md'), '# nothing\n');
@@ -253,7 +253,7 @@ describe('registerBundledPlugins', () => {
     const staleDir = path.join(tmpRoot, 'atoms', 'stale');
     for (const [dir, id] of [[keepDir, 'keep'], [staleDir, 'stale']] as const) {
       await mkdir(dir, { recursive: true });
-      await writeFile(path.join(dir, 'open-design.json'), SAMPLE_MANIFEST(id));
+      await writeFile(path.join(dir, 'sankiwork.json'), SAMPLE_MANIFEST(id));
       await writeFile(path.join(dir, 'SKILL.md'), SAMPLE_SKILL(id));
     }
     await registerBundledPlugins({ db, bundledRoot: tmpRoot });
@@ -290,7 +290,7 @@ describe('registerBundledPlugins', () => {
     // packaging bug into data loss.
     const folder = path.join(tmpRoot, 'atoms', 'sample');
     await mkdir(folder, { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('sample'));
+    await writeFile(path.join(folder, 'sankiwork.json'), SAMPLE_MANIFEST('sample'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('sample'));
     await registerBundledPlugins({ db, bundledRoot: tmpRoot });
 

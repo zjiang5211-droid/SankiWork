@@ -524,7 +524,7 @@ export class RoutineService {
         })
         .catch((error) => {
           console.error(
-            `[od] routine ${routine.id} scheduled run failed:`,
+            `[sw] routine ${routine.id} scheduled run failed:`,
             error instanceof ScheduledRunPersistenceError
               ? error.originalError instanceof Error
                 ? error.originalError.message
@@ -657,7 +657,7 @@ export class RoutineService {
         }
         if (discardError != null) {
           console.error(
-            `[od] routine ${routine.id} prepare cleanup failed:`,
+            `[sw] routine ${routine.id} prepare cleanup failed:`,
             discardError instanceof Error ? discardError.message : discardError,
           );
         }

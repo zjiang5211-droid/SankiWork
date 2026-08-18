@@ -3131,7 +3131,7 @@ describe('DesignFilesPanel plugin folders', () => {
       <DesignFilesPanel
         projectId="project-1"
         files={[
-          workspaceFile('generated-plugin/open-design.json'),
+          workspaceFile('generated-plugin/sankiwork.json'),
           workspaceFile('generated-plugin/SKILL.md'),
           workspaceFile('generated-plugin/examples/demo.md'),
         ]}

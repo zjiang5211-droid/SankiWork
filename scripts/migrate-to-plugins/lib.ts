@@ -285,7 +285,7 @@ export function buildManifest(seed: PluginManifestSeed): Record<string, unknown>
 
 export async function writeManifest(folder: string, manifest: unknown): Promise<void> {
   await ensureDir(folder);
-  const target = path.join(folder, 'open-design.json');
+  const target = path.join(folder, 'sankiwork.json');
   await writeFile(target, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 }
 

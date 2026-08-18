@@ -7,7 +7,7 @@
 import type { InstalledPluginRecord } from '@sankiwork/contracts';
 
 const CURATED_PROTOTYPE_PLUGIN_IDS = [
-  'example-open-design-landing',
+  'example-sankiwork-landing',
   'example-kanban-board',
   'example-social-carousel',
   'example-blog-post',

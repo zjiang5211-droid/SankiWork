@@ -1,7 +1,7 @@
 # Plugin Registry 评测集用例
 
 这份用例集把 registry 产品心智转成可回归的断言：`Sources` 只接收
-`open-design-marketplace.json`，`Available` 是供应池，`Installed` 才是 agent
+`sankiwork-marketplace.json`，`Available` 是供应池，`Installed` 才是 agent
 可消费集合，official/community/self-hosted 都通过同一套 registry source 模型进入系统。
 
 插件系统整体进度、运行顺序和发布验收总表见
@@ -12,15 +12,15 @@ registry / distribution / website / multi-source 的细分用例。
 
 | ID | 场景 | 核心断言 | 覆盖文件 |
 | --- | --- | --- | --- |
-| REG-001 | Sources 添加的是 raw `open-design-marketplace.json`，不是 GitHub tree 页面 | GitHub tree HTML 会被 marketplace parser 拒绝并返回 422 | `apps/daemon/tests/plugins-marketplaces.test.ts` |
-| REG-002 | 默认 official registry seed 是真实 catalog，不是空数组 | `plugins/registry/official/open-design-marketplace.json` 包含 bundled official entries，trust 为 `official`，且 `sankiwork/build-test` 可 resolve | `apps/daemon/tests/plugins-marketplaces.test.ts` |
-| REG-003 | 默认 community registry seed 可被 daemon 当作 restricted source 加载 | `plugins/registry/community/open-design-marketplace.json` 可 seed，`community/registry-starter` 可 resolve，trust 为 `restricted` | `apps/daemon/tests/plugins-marketplaces.test.ts` |
-| REG-004 | checked-in registry entry 指向真实可打包插件源码 | `community/registry-starter` 的 source 指向 `plugins/community/registry-starter`，源码 `open-design.json` 带 `plugin.repo` | `apps/daemon/tests/plugins-marketplaces.test.ts` |
+| REG-001 | Sources 添加的是 raw `sankiwork-marketplace.json`，不是 GitHub tree 页面 | GitHub tree HTML 会被 marketplace parser 拒绝并返回 422 | `apps/daemon/tests/plugins-marketplaces.test.ts` |
+| REG-002 | 默认 official registry seed 是真实 catalog，不是空数组 | `plugins/registry/official/sankiwork-marketplace.json` 包含 bundled official entries，trust 为 `official`，且 `sankiwork/build-test` 可 resolve | `apps/daemon/tests/plugins-marketplaces.test.ts` |
+| REG-003 | 默认 community registry seed 可被 daemon 当作 restricted source 加载 | `plugins/registry/community/sankiwork-marketplace.json` 可 seed，`community/registry-starter` 可 resolve，trust 为 `restricted` | `apps/daemon/tests/plugins-marketplaces.test.ts` |
+| REG-004 | checked-in registry entry 指向真实可打包插件源码 | `community/registry-starter` 的 source 指向 `plugins/community/registry-starter`，源码 `sankiwork.json` 带 `plugin.repo` | `apps/daemon/tests/plugins-marketplaces.test.ts` |
 | REG-005 | marketplace install 会保留 provenance 并继承 trust | installed record 写入 `sourceMarketplaceId`、entry name/version、resolved source/ref、digest/integrity；official/trusted source 默认 trusted | `apps/daemon/tests/plugins-installer.test.ts` |
 | REG-006 | restricted marketplace install 不会被自动提权 | restricted source 安装出的 plugin 仍是 `restricted` | `apps/daemon/tests/plugins-installer.test.ts` |
 | REG-007 | 直接 GitHub source import 与 registry source 是两条入口 | Import dialog 会把 `github:nexu-io/open-design@.../plugins/community/registry-starter` 原样交给 install API | `apps/web/tests/components/PluginsView.test.tsx` |
 | REG-008 | Available 里的 bundled official entry 已安装时显示 `Use`，不是 `Install` | registry entry `sankiwork/official-plugin` 能匹配 installed bundled record，并调用 `applyPlugin` | `apps/web/tests/components/PluginsView.test.tsx` |
-| REG-009 | Sources tab 支持填入 raw GitHub `open-design-marketplace.json` URL | UI 调用 `addPluginMarketplace({ url, trust: "restricted" })` | `apps/web/tests/components/PluginsView.test.tsx` |
+| REG-009 | Sources tab 支持填入 raw GitHub `sankiwork-marketplace.json` URL | UI 调用 `addPluginMarketplace({ url, trust: "restricted" })` | `apps/web/tests/components/PluginsView.test.tsx` |
 | REG-010 | Create plugin 是 agent-assisted authoring 入口 | `Create plugin` 不打开旧 import modal，而是触发 `onCreatePlugin` agent 流程 | `apps/web/tests/components/PluginsView.test.tsx` |
 | REG-011 | 用户插件可通过 publish/share action 进入 GitHub registry 工作流 | Publish/Contribute action 会确认后创建对应 agent task，携带 source plugin id 和 action id | `apps/web/tests/components/PluginsView.test.tsx` |
 | REG-012 | version range / dist-tag / yank resolution | `vendor/plugin@1.0.0`、`@latest`、`@^1.0.0` 可解析；yanked beta 不参与新解析 | `apps/daemon/tests/plugins-marketplaces.test.ts` |
@@ -39,7 +39,7 @@ registry / distribution / website / multi-source 的细分用例。
 | REG-C01 | `sw marketplace add/search/refresh/remove/trust` CLI 全链路 | CLI harness + fake fetcher，断言 JSON 输出、exit code、SQLite source row |
 | REG-C02 | `sw plugin login/whoami` 只复用 `gh`，不保存 GitHub token | fake `GhClient` 或 fake `gh` bin，断言 stdout 和无 token 持久化 |
 | REG-C03 | 完整 `gh repo fork` / `gh pr create` 外部流程 | fake `gh` bin + temp registry repo，断言真实 branch/commit/PR 命令序列 |
-| REG-C04 | `open-design-marketplace.json` 生成器 | 输入多个 `plugins/community/**/open-design.json`，输出排序稳定、schema 通过、source/digest 完整 |
+| REG-C04 | `sankiwork-marketplace.json` 生成器 | 输入多个 `plugins/community/**/sankiwork.json`，输出排序稳定、schema 通过、source/digest 完整 |
 | REG-C05 | lockfile replay route-level behavior | 启动 daemon，先安装 `vendor/plugin@1.0.0` 写 lock，再默认安装 `vendor/plugin`，断言仍解析 lock 里的 exact version |
 | REG-C06 | enterprise database backend HTTP/API parity | 同一组 CLI/UI 行为同时跑 static/GitHub 和 DB backend，而不只是 backend unit parity |
 

@@ -91,7 +91,7 @@ describe('Vela resource pull batcher', () => {
     ['omitted item', '{"results":[]}', 'omitted result'],
     [
       'duplicate item',
-      '{"results":[{"key":"od-pull-1","ok":true},{"key":"od-pull-1","ok":false}]}',
+      '{"results":[{"key":"sw-pull-1","ok":true},{"key":"sw-pull-1","ok":false}]}',
       'duplicated result',
     ],
   ])('fails closed for %s', async (_case, stdout, message) => {
