@@ -56,139 +56,139 @@ describe('workspace tabs chrome styles', () => {
   it('keeps the fixed composer visually stable while quick search is open', () => {
     const fixedLayer = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer',
     );
     const fixedComposer = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer',
     );
     const fixedShell = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell',
     );
     const fixedShellHover = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell:hover',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell:hover',
     );
     const fixedShellFocus = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell:focus-within',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell:focus-within',
     );
     const fixedShellDragActive = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer.drag-active .composer-shell',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer.drag-active .composer-shell',
     );
     const fixedInput = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap',
     );
     const fixedInputFocus = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap:focus-within',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap:focus-within',
     );
     const fixedEditable = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-editor .composer-editable',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-editor .composer-editable',
     );
     const fixedTextarea = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer textarea',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer textarea',
     );
     const fixedInputControl = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer input',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer input',
     );
     const fixedPlaceholder = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-placeholder',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-placeholder',
     );
     const fixedToolbarIcon = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .icon-btn',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .icon-btn',
     );
     const fixedStagedRow = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-row',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-row',
     );
     const fixedDesignSystemTrigger = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger',
     );
     const fixedStagedChip = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip',
     );
     const fixedStagedChipHover = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip:hover',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip:hover',
     );
     const fixedStagedContext = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context',
     );
     const fixedStagedOrder = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-order',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-order',
     );
     const fixedStagedPreviewTrigger = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-preview-trigger',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-preview-trigger',
     );
     const fixedStagedContextOpen = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-open',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-open',
     );
     const fixedStagedCommentButton = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-comment button',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-comment button',
     );
     const fixedStagedName = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-name',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-name',
     );
     const fixedStagedContextKind = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-kind',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-kind',
     );
     const fixedStagedIcon = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context .staged-icon',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context .staged-icon',
     );
     const fixedGenericStagedIcon = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-icon',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-icon',
     );
     const fixedGenericStagedRemove = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-remove',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-remove',
     );
     const fixedActiveFile = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-active-file',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-active-file',
     );
     const fixedToolbarMode = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger',
     );
     const fixedToolbarAvatar = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-agent-trigger',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-agent-trigger',
     );
     const fixedToolbarAvatarButton = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-btn',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-btn',
     );
     const fixedToolbarSend = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-send',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-send',
     );
     const fixedToolbarSendDisabled = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .composer-send:disabled',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-send:disabled',
     );
     const fixedWorkingDirPill = cssDeclarations(
       routinesCss,
-      'body.od-quick-switcher-open .chat-composer-fixed-layer .working-dir-pill-trigger',
+      'body.sw-quick-switcher-open .chat-composer-fixed-layer .working-dir-pill-trigger',
     );
     expect(ruleValue(fixedLayer, 'pointer-events')).toBe('none');
     expect(ruleValue(fixedLayer, 'opacity')).toBe('0.58');

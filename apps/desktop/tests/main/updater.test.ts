@@ -232,7 +232,7 @@ function serverAddress(server: Server): string {
 }
 
 function makeRoot(): string {
-  return mkdtempSync(join(tmpdir(), "od-updater-test-"));
+  return mkdtempSync(join(tmpdir(), "sw-updater-test-"));
 }
 
 function updaterEnv(metadataUrl: string, platform = "darwin"): NodeJS.ProcessEnv {

@@ -13,7 +13,7 @@ import {
 let cwd: string;
 
 beforeEach(async () => {
-  cwd = await mkdtemp(path.join(os.tmpdir(), 'od-diff-review-bridge-'));
+  cwd = await mkdtemp(path.join(os.tmpdir(), 'sw-diff-review-bridge-'));
   await mkdir(path.join(cwd, 'plan', 'receipts'), { recursive: true });
 });
 

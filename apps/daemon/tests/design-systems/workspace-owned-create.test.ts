@@ -29,7 +29,7 @@ describe('createWorkspaceOwnedDesignSystem', () => {
   };
 
   it('reserves orphan and Team logical ids before allocating Personal filesystem bytes', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-workspace-owned-ds-reserved-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-workspace-owned-ds-reserved-'));
     roots.push(root);
     const ensureWorkspaceResource = vi.fn((
       _type: string,
@@ -53,7 +53,7 @@ describe('createWorkspaceOwnedDesignSystem', () => {
   });
 
   it('rolls back a newly allocated directory when a binding race returns another owner', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-workspace-owned-ds-race-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-workspace-owned-ds-race-'));
     roots.push(root);
     const remove = vi.fn(async () => true);
     const create = vi.fn(async () => ({ id: 'user:race' } as never));
@@ -79,7 +79,7 @@ describe('createWorkspaceOwnedDesignSystem', () => {
   });
 
   it('removes the just-created directory when the Workspace envelope write fails', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-workspace-owned-ds-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-workspace-owned-ds-'));
     roots.push(root);
     const ensureWorkspaceResource = vi.fn(() => {
       throw new Error('injected workspace_resources failure');
@@ -109,7 +109,7 @@ describe('createWorkspaceOwnedDesignSystem', () => {
   });
 
   it('preserves headerless local creation without a Workspace envelope', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-local-owned-ds-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-local-owned-ds-'));
     roots.push(root);
     const ensureWorkspaceResource = vi.fn();
 

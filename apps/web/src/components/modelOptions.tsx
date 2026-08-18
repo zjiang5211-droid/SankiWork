@@ -479,7 +479,7 @@ export const SearchableModelSelect = forwardRef<
             {showUpgradeLock ? (
               <button
                 type="button"
-                className="model-select-searchable__option-lock-inline od-tooltip"
+                className="model-select-searchable__option-lock-inline sw-tooltip"
                 data-testid="model-option-upgrade-lock"
                 id={optionDisabledId}
                 data-tooltip={disabledHint ?? undefined}

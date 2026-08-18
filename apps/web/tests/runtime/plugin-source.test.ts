@@ -30,7 +30,7 @@ describe('derivePluginSourceLinks · github sources', () => {
       }),
     );
     expect(out.sourceUrl).toBe('https://github.com/open-design/plugins/tree/v1.2.0/make-a-deck');
-    expect(out.sourceLabel).toBe('sankiwork/plugins @v1.2.0/make-a-deck');
+    expect(out.sourceLabel).toBe('open-design/plugins @v1.2.0/make-a-deck');
     expect(out.sourceKindLabel).toBe('GitHub');
     expect(out.contributeUrl).toBe('https://github.com/open-design/plugins/issues/new');
     expect(out.contributeOnGithub).toBe(true);
@@ -44,7 +44,7 @@ describe('derivePluginSourceLinks · github sources', () => {
       }),
     );
     expect(out.sourceUrl).toBe('https://github.com/open-design/plugins');
-    expect(out.sourceLabel).toBe('sankiwork/plugins');
+    expect(out.sourceLabel).toBe('open-design/plugins');
   });
 
   it('uses pinnedRef when source has no inline ref', () => {
@@ -56,7 +56,7 @@ describe('derivePluginSourceLinks · github sources', () => {
       }),
     );
     expect(out.sourceUrl).toBe('https://github.com/open-design/plugins/tree/a1b2c3d4');
-    expect(out.sourceLabel).toBe('sankiwork/plugins @a1b2c3d4');
+    expect(out.sourceLabel).toBe('open-design/plugins @a1b2c3d4');
   });
 
   it('preserves slash-separated branch refs (release/1.0)', () => {
@@ -229,7 +229,7 @@ describe('derivePluginSourceLinks · author + contribute', () => {
 
 describe('authorInitials', () => {
   it('builds two-letter monograms', () => {
-    expect(authorInitials('SankiWork')).toBe('OD');
+    expect(authorInitials('SankiWork')).toBe('S');
     expect(authorInitials('jane')).toBe('J');
     expect(authorInitials('Long Multi Word Name')).toBe('LM');
   });

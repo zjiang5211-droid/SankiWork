@@ -470,7 +470,7 @@ export async function ensureReferencedProjectDir(
   await ensureProject(projectsRoot, project.id, project.metadata);
 }
 
-const URL_PREVIEW_SCROLL_BRIDGE = `<script data-od-url-scroll-bridge>
+const URL_PREVIEW_SCROLL_BRIDGE = `<script data-sw-url-scroll-bridge>
 (function(){
   if (window.__odUrlScrollBridge) return;
   window.__odUrlScrollBridge = true;
@@ -642,7 +642,7 @@ function sameOrchestratorWorkspace(a: unknown, b: unknown): boolean {
   return JSON.stringify(parsedA.value) === JSON.stringify(parsedB.value);
 }
 
-const URL_PREVIEW_SELECTION_BRIDGE = `<script data-od-url-selection-bridge>
+const URL_PREVIEW_SELECTION_BRIDGE = `<script data-sw-url-selection-bridge>
 (function(){
   if (window.__odUrlSelectionBridge) return;
   window.__odUrlSelectionBridge = true;
@@ -665,13 +665,13 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-od-url-selection-bridge>
     catch (_) { return String(value); }
   }
   function ensureStyle(){
-    if (document.querySelector('style[data-od-url-selection-style]')) return;
+    if (document.querySelector('style[data-sw-url-selection-style]')) return;
     var style = document.createElement('style');
-    style.setAttribute('data-od-url-selection-style', '');
+    style.setAttribute('data-sw-url-selection-style', '');
     style.textContent =
-      'html[data-od-comment-mode] body * { cursor: crosshair !important; }' +
-      'html[data-od-comment-mode][data-od-comment-mode-kind="pod"] body * { cursor: cell !important; }' +
-      'html[data-od-comment-mode] body iframe,html[data-od-comment-mode] body object,html[data-od-comment-mode] body embed { pointer-events: none !important; }';
+      'html[data-sw-comment-mode] body * { cursor: crosshair !important; }' +
+      'html[data-sw-comment-mode][data-sw-comment-mode-kind="pod"] body * { cursor: cell !important; }' +
+      'html[data-sw-comment-mode] body iframe,html[data-sw-comment-mode] body object,html[data-sw-comment-mode] body embed { pointer-events: none !important; }';
     (document.head || document.documentElement).appendChild(style);
   }
   function active(){ return commentEnabled; }
@@ -916,7 +916,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-od-url-selection-bridge>
       name === 'hidden' ||
       name === 'open' ||
       name.indexOf('aria-') === 0 ||
-      (name.indexOf('data-') === 0 && name.indexOf('data-od-') !== 0);
+      (name.indexOf('data-') === 0 && name.indexOf('data-sw-') !== 0);
   }
   function runtimeStateAttributes(el){
     var attrs = Object.create(null);
@@ -1019,8 +1019,8 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-od-url-selection-bridge>
     if (data.type === 'od:comment-mode') {
       commentEnabled = !!data.enabled;
       mode = data.mode === 'pod' ? 'pod' : 'picker';
-      document.documentElement.toggleAttribute('data-od-comment-mode', commentEnabled);
-      document.documentElement.setAttribute('data-od-comment-mode-kind', mode);
+      document.documentElement.toggleAttribute('data-sw-comment-mode', commentEnabled);
+      document.documentElement.setAttribute('data-sw-comment-mode-kind', mode);
       if (commentEnabled) setTimeout(postTargets, 0);
       else {
         hoveredId = null;
@@ -1091,7 +1091,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-od-url-selection-bridge>
     window.parent.postMessage({
       type: 'od:comment-target',
       elementId: pinId,
-      selector: '[data-od-pin="' + pinId + '"]',
+      selector: '[data-sw-pin="' + pinId + '"]',
       label: 'pin',
       text: '',
       position: { x: pinX - 12, y: pinY - 12, width: 24, height: 24 },
@@ -1143,7 +1143,7 @@ const URL_PREVIEW_SELECTION_BRIDGE = `<script data-od-url-selection-bridge>
 })();
 </script>`;
 
-const URL_PREVIEW_SNAPSHOT_BRIDGE = `<script data-od-url-snapshot-bridge>
+const URL_PREVIEW_SNAPSHOT_BRIDGE = `<script data-sw-url-snapshot-bridge>
 (function(){
   if (window.__odUrlSnapshotBridge) return;
   window.__odUrlSnapshotBridge = true;
@@ -1372,12 +1372,12 @@ function injectUrlPreviewBridge(html: string, bridge: 'scroll' | 'selection' | '
     );
   }
   if (bridge === 'scroll') {
-    return injectBeforeBodyClose(html, 'data-od-url-scroll-bridge', URL_PREVIEW_SCROLL_BRIDGE);
+    return injectBeforeBodyClose(html, 'data-sw-url-scroll-bridge', URL_PREVIEW_SCROLL_BRIDGE);
   }
   if (bridge === 'selection') {
-    return injectBeforeBodyClose(html, 'data-od-url-selection-bridge', URL_PREVIEW_SELECTION_BRIDGE);
+    return injectBeforeBodyClose(html, 'data-sw-url-selection-bridge', URL_PREVIEW_SELECTION_BRIDGE);
   }
-  return injectBeforeBodyClose(html, 'data-od-url-snapshot-bridge', URL_PREVIEW_SNAPSHOT_BRIDGE);
+  return injectBeforeBodyClose(html, 'data-sw-url-snapshot-bridge', URL_PREVIEW_SNAPSHOT_BRIDGE);
 }
 
 function applyUrlPreviewBridgesToHtml(
@@ -2681,7 +2681,7 @@ export function registerProjectRoutes(app: Express, ctx: RegisterProjectRoutesDe
         }
         const entry: ScenarioEntry = { id: row.id, taskKind, pipeline: od.pipeline };
         const existing = byTaskKind.get(taskKind);
-        if (!existing || entry.id === `od-${taskKind}`) {
+        if (!existing || entry.id === `sw-${taskKind}`) {
           byTaskKind.set(taskKind, entry);
         }
       }

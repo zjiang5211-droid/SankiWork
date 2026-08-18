@@ -30,7 +30,7 @@ describe('OpenAI-compatible media providers', () => {
   );
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-openai-compatible-media-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-openai-compatible-media-'));
     projectRoot = path.join(root, 'project-root');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });

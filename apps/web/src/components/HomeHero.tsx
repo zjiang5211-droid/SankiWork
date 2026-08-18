@@ -1354,7 +1354,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
                       )}
                       <button
                         type="button"
-                        className="home-hero__active-clear od-tooltip"
+                        className="home-hero__active-clear sw-tooltip"
                         onClick={() => removeFileChip(index, file)}
                         aria-label={t('chat.removeAria', { name: file.name })}
                         title={t('homeHero.removeFile')}
@@ -1392,7 +1392,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
                 {activeCreateChip && !activePluginIsExplicit ? null : (
                   <button
                     type="button"
-                    className="home-hero__active-clear od-tooltip"
+                    className="home-hero__active-clear sw-tooltip"
                     onClick={() => {
                       trackHomeChatComposerClick(analytics.track, {
                         page_name: 'home',
@@ -1438,7 +1438,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
                 </button>
                 <button
                   type="button"
-                  className="home-hero__active-clear od-tooltip"
+                  className="home-hero__active-clear sw-tooltip"
                   onClick={onClearActiveSkill}
                   aria-label={t('homeHero.clearActiveSkill')}
                   title={t('homeHero.clearActiveSkill')}
@@ -1462,7 +1462,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
                 <span className="home-hero__active-label">{plugin.title}</span>
                 <button
                   type="button"
-                  className="home-hero__active-clear od-tooltip"
+                  className="home-hero__active-clear sw-tooltip"
                   onClick={() => {
                     trackHomeChatComposerClick(analytics.track, {
                       page_name: 'home',
@@ -1498,7 +1498,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
                   <span className="home-hero__active-label">{label}</span>
                   <button
                     type="button"
-                    className="home-hero__active-clear od-tooltip"
+                    className="home-hero__active-clear sw-tooltip"
                     onClick={() => {
                       trackHomeChatComposerClick(analytics.track, {
                         page_name: 'home',
@@ -1533,7 +1533,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
                 <span className="home-hero__active-label">{connector.name}</span>
                 <button
                   type="button"
-                  className="home-hero__active-clear od-tooltip"
+                  className="home-hero__active-clear sw-tooltip"
                   onClick={() => {
                     trackHomeChatComposerClick(analytics.track, {
                       page_name: 'home',
@@ -1567,7 +1567,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
                 <span className="home-hero__active-label">{item.label}</span>
                 <button
                   type="button"
-                  className="home-hero__active-clear od-tooltip"
+                  className="home-hero__active-clear sw-tooltip"
                   onClick={() => {
                     trackHomeChatComposerClick(analytics.track, {
                       page_name: 'home',
@@ -2015,7 +2015,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
             ) : null}
             <button
               type="button"
-              className={`home-hero__submit od-tooltip${sendAttention ? ' home-hero__attention-sheen' : ''}${submitting ? ' is-sending' : ''}`}
+              className={`home-hero__submit sw-tooltip${sendAttention ? ' home-hero__attention-sheen' : ''}${submitting ? ' is-sending' : ''}`}
               data-testid="home-hero-submit"
               onClick={handleSend}
               onAnimationEnd={() => setSendAttention(false)}
@@ -2176,7 +2176,7 @@ export const HomeHero = forwardRef<HomeHeroHandle, Props>(function HomeHero(
               <span title={previewHomeFile.name}>{previewHomeFile.name}</span>
               <button
                 type="button"
-                className="icon-only od-tooltip"
+                className="icon-only sw-tooltip"
                 onClick={() => setPreviewHomeFileKey(null)}
                 aria-label={t('common.close')}
                 title={t('common.close')}
@@ -2383,7 +2383,7 @@ function PluginPromptPresetCard({
         className={`home-hero__plugin-preset${active ? ' is-active' : ''}${pending ? ' is-pending' : ''}${pulse ? ' home-hero__attention-sheen' : ''}`}
         data-testid="home-hero-plugin-preset"
         data-plugin-id={record.id}
-        {...(typeof odMode === 'string' ? { 'data-od-mode': odMode } : {})}
+        {...(typeof odMode === 'string' ? { 'data-sw-mode': odMode } : {})}
         disabled={disabled}
         onClick={() => onPick(record, chipId, seedPrompt)}
       >

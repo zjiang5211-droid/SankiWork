@@ -24,7 +24,7 @@ import {
 
 describe("legacy payload desktop handoff", () => {
   it("captures the real previous pointer before old outer confirm, then arms and launches payload desktop", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-daemon-payload-handoff-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-daemon-payload-handoff-"));
     try {
       const namespace = "release-beta";
       const runtimeRoot = join(root, "namespaces", namespace, "runtime");
@@ -269,7 +269,7 @@ describe("legacy payload desktop handoff", () => {
     >;
     root: string;
   }> {
-    const root = await mkdtemp(join(tmpdir(), "od-daemon-payload-handoff-fail-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-daemon-payload-handoff-fail-"));
     const namespace = "release-beta";
     const runtimeRoot = join(root, "namespaces", namespace, "runtime");
     const launcherPaths = resolveLauncherPaths({ channel: "beta", namespace, root });
@@ -473,7 +473,7 @@ describe("legacy payload desktop handoff", () => {
   });
 
   it("resolves the installed outer and payload executable for the real Windows beta namespace", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-daemon-win-payload-handoff-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-daemon-win-payload-handoff-"));
     try {
       const namespace = "release-beta-win";
       const version = "1.2.3-beta.5";
@@ -555,7 +555,7 @@ describe("legacy payload desktop handoff", () => {
   });
 
   it("uses the stable channel for an unlabelled version and custom namespace", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-daemon-stable-handoff-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-daemon-stable-handoff-"));
     try {
       await expect(prepareLegacyPayloadDesktopHandoff({
         env: {

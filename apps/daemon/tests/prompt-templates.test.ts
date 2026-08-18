@@ -23,7 +23,7 @@ describe('listPromptTemplates', () => {
   let root: string;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-prompt-templates-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-prompt-templates-'));
     await mkdir(path.join(root, 'image'), { recursive: true });
     await mkdir(path.join(root, 'video'), { recursive: true });
     vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -140,7 +140,7 @@ describe('readPromptTemplate', () => {
   let root: string;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-prompt-templates-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-prompt-templates-'));
     await mkdir(path.join(root, 'image'), { recursive: true });
     vi.spyOn(console, 'warn').mockImplementation(() => {});
   });

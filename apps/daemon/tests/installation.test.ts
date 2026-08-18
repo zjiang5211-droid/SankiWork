@@ -31,7 +31,7 @@ let installDir: string;
 const SAVED_INSTALL_ENV = process.env.SW_INSTALLATION_DIR;
 
 beforeEach(async () => {
-  rootDir = await mkdtemp(join(tmpdir(), 'od-install-test-'));
+  rootDir = await mkdtemp(join(tmpdir(), 'sw-install-test-'));
   dataDir = join(rootDir, 'namespace', 'data');
   installDir = join(rootDir, 'channel-root');
   await mkdir(dataDir, { recursive: true });

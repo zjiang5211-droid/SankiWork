@@ -40,7 +40,7 @@ async function drain(events: AsyncGenerator<unknown>) {
 }
 
 beforeEach(async () => {
-  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'od-upgrade-'));
+  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-upgrade-'));
   pluginsRoot = path.join(tmpRoot, 'plugins');
   sourceFolder = path.join(tmpRoot, 'source-plugin');
   await mkdir(sourceFolder, { recursive: true });

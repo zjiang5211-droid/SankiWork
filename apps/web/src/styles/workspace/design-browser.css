@@ -73,7 +73,7 @@
   position: relative;
   display: inline-flex;
 }
-.db-tooltip-anchor:not(.od-tooltip)::after {
+.db-tooltip-anchor:not(.sw-tooltip)::after {
   content: attr(data-tooltip);
   position: absolute;
   top: calc(100% + 8px);
@@ -95,8 +95,8 @@
   transform: translate(-50%, -3px);
   transition: opacity 130ms cubic-bezier(0.23, 1, 0.32, 1), transform 130ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.db-tooltip-anchor:not(.od-tooltip):hover::after,
-.db-tooltip-anchor:not(.od-tooltip):focus-within::after {
+.db-tooltip-anchor:not(.sw-tooltip):hover::after,
+.db-tooltip-anchor:not(.sw-tooltip):focus-within::after {
   opacity: 1;
   transform: translate(-50%, 0);
 }

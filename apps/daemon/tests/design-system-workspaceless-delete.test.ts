@@ -42,7 +42,7 @@ afterEach(async () => {
 
 it('allows headerless deletion but rejects malformed workspace metadata in workspace-less local mode', async () => {
   // Given a workspace-less local daemon with a user-created design system
-  dataDir = await mkdtemp(join(tmpdir(), 'od-design-system-workspaceless-delete-'));
+  dataDir = await mkdtemp(join(tmpdir(), 'sw-design-system-workspaceless-delete-'));
   process.env.SW_DATA_DIR = dataDir;
   delete process.env.SW_WORKSPACE_CONTEXT_SOURCE;
   vi.resetModules();

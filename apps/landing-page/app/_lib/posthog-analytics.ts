@@ -58,7 +58,7 @@ function buildTrackerScript(pageName: string, downloadAttributionUrl: string): s
           : Math.random().toString(36).slice(2) + Date.now().toString(36);
       } catch (e) { random = Math.random().toString(36).slice(2) + Date.now().toString(36); }
       return {
-        entry_id: inboundEntryId || ('od-campaign-' + random),
+        entry_id: inboundEntryId || ('sw-campaign-' + random),
         source_product: 'sankiwork',
         source_detail: inboundEntrySource || String(sourceDetail || 'unknown'),
         entry_occurred_at: inboundEntryAt || new Date().toISOString(),

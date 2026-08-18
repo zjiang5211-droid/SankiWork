@@ -18,7 +18,7 @@ import {
 let tmp: string;
 
 beforeEach(async () => {
-  tmp = await mkdtemp(path.join(os.tmpdir(), 'od-storage-'));
+  tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-storage-'));
 });
 
 afterEach(async () => {
@@ -75,7 +75,7 @@ describe('S3ProjectStorage', () => {
 
   it('builds a canonical key with the configured prefix', () => {
     const storage = new S3ProjectStorage({
-      bucket: 'od-bucket',
+      bucket: 'sw-bucket',
       region: 'us-east-1',
       prefix: 'tenant-a/',
       credentials,
@@ -102,7 +102,7 @@ describe('S3ProjectStorage', () => {
       return new Response('', { status: 200 });
     }) as unknown as typeof fetch;
     const storage = new S3ProjectStorage({
-      bucket: 'od-bucket', region: 'us-east-1', credentials,
+      bucket: 'sw-bucket', region: 'us-east-1', credentials,
       fetchFn, now: fixedNow,
     });
     const meta = await storage.writeFile('p1', 'hello.txt', Buffer.from('hi'));
@@ -110,7 +110,7 @@ describe('S3ProjectStorage', () => {
     expect(meta.size).toBe(2);
     expect(seen).toHaveLength(1);
     expect(seen[0]?.method).toBe('PUT');
-    expect(seen[0]?.url).toBe('https://od-bucket.s3.us-east-1.amazonaws.com/p1/hello.txt');
+    expect(seen[0]?.url).toBe('https://sw-bucket.s3.us-east-1.amazonaws.com/p1/hello.txt');
     expect(seen[0]?.headers.authorization).toMatch(/^AWS4-HMAC-SHA256 Credential=AKIA-FIXTURE\/20260509\/us-east-1\/s3\/aws4_request/);
     expect(seen[0]?.headers['x-amz-date']).toBe('20260509T120000Z');
     // The body sha256 lands on the header so an upstream proxy /
@@ -124,7 +124,7 @@ describe('S3ProjectStorage', () => {
       headers: { 'content-type': 'text/plain' },
     })) as unknown as typeof fetch;
     const storage = new S3ProjectStorage({
-      bucket: 'od-bucket', region: 'us-east-1', credentials, fetchFn, now: fixedNow,
+      bucket: 'sw-bucket', region: 'us-east-1', credentials, fetchFn, now: fixedNow,
     });
     const buf = await storage.readFile('p1', 'hello.txt');
     expect(buf.toString('utf8')).toBe('hello world');
@@ -133,7 +133,7 @@ describe('S3ProjectStorage', () => {
   it('GET 404 surfaces StorageError with code=NOT_FOUND', async () => {
     const fetchFn = (async () => new Response('', { status: 404 })) as unknown as typeof fetch;
     const storage = new S3ProjectStorage({
-      bucket: 'od-bucket', region: 'us-east-1', credentials, fetchFn,
+      bucket: 'sw-bucket', region: 'us-east-1', credentials, fetchFn,
     });
     await expect(storage.readFile('p1', 'no.txt')).rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
@@ -142,7 +142,7 @@ describe('S3ProjectStorage', () => {
     let respond: (() => Response) = () => new Response('', { status: 404 });
     const fetchFn = (async () => respond()) as unknown as typeof fetch;
     const storage = new S3ProjectStorage({
-      bucket: 'od-bucket', region: 'us-east-1', credentials, fetchFn,
+      bucket: 'sw-bucket', region: 'us-east-1', credentials, fetchFn,
     });
     expect(await storage.statFile('p1', 'x')).toBeNull();
     respond = () => new Response('', {
@@ -164,7 +164,7 @@ describe('S3ProjectStorage', () => {
       return status === 204 ? new Response(null, { status }) : new Response('', { status });
     }) as unknown as typeof fetch;
     const storage = new S3ProjectStorage({
-      bucket: 'od-bucket', region: 'us-east-1', credentials, fetchFn,
+      bucket: 'sw-bucket', region: 'us-east-1', credentials, fetchFn,
     });
     await storage.deleteFile('p1', 'x');
     status = 404;
@@ -195,7 +195,7 @@ describe('S3ProjectStorage', () => {
       return new Response(body, { status: 200 });
     }) as unknown as typeof fetch;
     const storage = new S3ProjectStorage({
-      bucket: 'od-bucket', region: 'us-east-1', credentials, fetchFn,
+      bucket: 'sw-bucket', region: 'us-east-1', credentials, fetchFn,
     });
     const list = await storage.listFiles('p1');
     expect(list.map((f) => f.path).sort()).toEqual(['a.txt', 'sub/b.txt', 'sub/c.txt']);
@@ -211,12 +211,12 @@ describe('S3ProjectStorage', () => {
       return new Response('', { status: 200 });
     }) as unknown as typeof fetch;
     const storage = new S3ProjectStorage({
-      bucket: 'od-bucket', region: 'us-east-1',
+      bucket: 'sw-bucket', region: 'us-east-1',
       endpoint: 'https://oss.aliyuncs.com',
       credentials, fetchFn, now: fixedNow,
     });
     await storage.writeFile('p1', 'a.txt', Buffer.from('x'));
-    expect(seen[0]).toBe('https://oss.aliyuncs.com/od-bucket/p1/a.txt');
+    expect(seen[0]).toBe('https://oss.aliyuncs.com/sw-bucket/p1/a.txt');
   });
 });
 

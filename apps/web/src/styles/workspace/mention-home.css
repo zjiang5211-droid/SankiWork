@@ -1480,7 +1480,7 @@
   color: color-mix(in srgb, var(--text) 52%, transparent);
 }
 .settings-page-shell .settings-nav-item svg,
-.settings-page-shell .settings-nav-item .od-icon {
+.settings-page-shell .settings-nav-item .sw-icon {
   color: color-mix(in srgb, var(--text) 52%, transparent);
   opacity: 1;
 }
@@ -1497,7 +1497,7 @@
   color: var(--selected);
 }
 .settings-page-shell .settings-nav-item.active svg,
-.settings-page-shell .settings-nav-item.active .od-icon {
+.settings-page-shell .settings-nav-item.active .sw-icon {
   color: var(--selected);
   opacity: 1;
 }
@@ -1512,15 +1512,15 @@
   justify-self: center;
   opacity: 0.75;
 }
-/* Custom inline-SVG nav glyphs carry .od-icon so they track the font icons:
+/* Custom inline-SVG nav glyphs carry .sw-icon so they track the font icons:
    full opacity by default (not the 0.75 above), text-strong when active. */
-.settings-nav-item svg.od-icon {
+.settings-nav-item svg.sw-icon {
   opacity: 1;
 }
 /* Selected item: the filled Remix glyph uses the spec's strongest
    text/icon tone (#202020 light / #fafafa dark via --text-strong) at full
    opacity. */
-.settings-nav-item.active .od-icon {
+.settings-nav-item.active .sw-icon {
   opacity: 1;
   color: var(--text-strong);
 }

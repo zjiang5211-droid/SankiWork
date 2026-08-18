@@ -19,10 +19,10 @@ describe('deck-stage fallback runtime injection', () => {
     const out = injectDeckStageFallback(html);
 
     expect(htmlUsesDeckStageElement(html)).toBe(true);
-    expect(out).toContain('data-od-deck-stage-fallback');
+    expect(out).toContain('data-sw-deck-stage-fallback');
     expect(out).toContain("window.customElements.define('deck-stage'");
     expect(out).toContain("type: 'od:slide-state'");
-    expect(out.indexOf('data-od-deck-stage-fallback')).toBeLessThan(out.indexOf('</body>'));
+    expect(out.indexOf('data-sw-deck-stage-fallback')).toBeLessThan(out.indexOf('</body>'));
   });
 
   it('is idempotent', () => {
@@ -47,7 +47,7 @@ describe('deck-stage fallback runtime injection', () => {
   it('keeps the injected script body free of a literal script close tag', () => {
     const html = '<deck-stage><section class="slide">One</section></deck-stage>';
     const out = injectDeckStageFallback(html);
-    const marker = out.indexOf('data-od-deck-stage-fallback');
+    const marker = out.indexOf('data-sw-deck-stage-fallback');
     const scriptOpenEnd = out.indexOf('>', marker);
     const scriptClose = out.indexOf('</script>', scriptOpenEnd);
     const scriptBody = out.slice(scriptOpenEnd + 1, scriptClose);

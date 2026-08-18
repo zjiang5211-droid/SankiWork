@@ -26,7 +26,7 @@ let sourceFolder: string;
 let db: Database.Database;
 
 beforeEach(async () => {
-  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'od-installer-'));
+  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-installer-'));
   pluginsRoot = path.join(tmpRoot, 'plugins');
   sourceFolder = path.join(tmpRoot, 'source-plugin');
   await mkdir(sourceFolder, { recursive: true });

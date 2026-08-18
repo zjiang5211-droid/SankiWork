@@ -329,7 +329,7 @@ async function readManifest(
     const parsed = JSON.parse(raw) as unknown;
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return null;
     const record = parsed as Record<string, unknown>;
-    if (record.schemaVersion !== 'od-design-system-project/v1' || record.id !== expectedId) return null;
+    if (record.schemaVersion !== 'sw-design-system-project/v1' || record.id !== expectedId) return null;
     const sourceFiles = record.sourceFiles;
     if (!sourceFiles || typeof sourceFiles !== 'object' || Array.isArray(sourceFiles)) return {};
     const sourceRecord = sourceFiles as Record<string, unknown>;

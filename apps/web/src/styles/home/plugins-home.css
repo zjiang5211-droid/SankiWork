@@ -575,15 +575,15 @@
    template then overflowed the small iframe into an overlapping mess. Rendering
    at the design width and scaling to fit — the PreviewModal approach — previews
    every template proportionally, and skips the scroll-pan (nothing to reveal). */
-.plugins-home__card--gallery[data-od-mode="deck"] .plugins-home__gallery-frame {
+.plugins-home__card--gallery[data-sw-mode="deck"] .plugins-home__gallery-frame {
   /* Replace the fixed 300px scroll-preview frame with a 16:9 box so the scaled
      deck slide fills it exactly — no dark letterbox band, no leftover strip. */
   height: auto;
   aspect-ratio: 16 / 9;
   --deck-preview-scale: 0.208;
 }
-.plugins-home__card--gallery[data-od-mode="deck"] .plugins-home__html-iframe,
-.plugins-home__card--gallery[data-od-mode="deck"]:hover .plugins-home__html-iframe {
+.plugins-home__card--gallery[data-sw-mode="deck"] .plugins-home__html-iframe,
+.plugins-home__card--gallery[data-sw-mode="deck"]:hover .plugins-home__html-iframe {
   top: 0;
   left: 0;
   width: 1280px;

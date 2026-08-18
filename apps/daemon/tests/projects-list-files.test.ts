@@ -9,7 +9,7 @@ import { listFiles } from '../src/projects.js';
 const tempRoots: string[] = [];
 
 async function makeProjectsRoot() {
-  const root = await mkdtemp(path.join(tmpdir(), 'od-project-files-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'sw-project-files-'));
   tempRoots.push(root);
   return path.join(root, 'projects');
 }

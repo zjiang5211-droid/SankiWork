@@ -72,7 +72,7 @@ afterEach(async () => {
 
 describe('server workspace billing runtime wiring', () => {
   it('loads an exact active Personal workspace projection without Team-only filtering', async () => {
-    scratch = await mkdtemp(join(tmpdir(), 'od-personal-billing-wiring-'));
+    scratch = await mkdtemp(join(tmpdir(), 'sw-personal-billing-wiring-'));
     const authorityUrl = await startAuthority();
     const velaBin = await writeVelaStub(scratch);
     setEnv({

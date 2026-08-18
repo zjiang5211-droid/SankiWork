@@ -24,7 +24,7 @@ let libraryDir: string;
 beforeEach(async () => {
   db = new Database(':memory:');
   migrateLibrary(db);
-  libraryDir = await mkdtemp(path.join(os.tmpdir(), 'od-library-figma-'));
+  libraryDir = await mkdtemp(path.join(os.tmpdir(), 'sw-library-figma-'));
 });
 
 afterEach(async () => {
@@ -65,7 +65,7 @@ describe('library figma capture sidecar', () => {
     expect(wrote).toBe(true);
     const sidecar = resolveAssetFigmaSidecarPath(asset, libraryDir);
     expect(sidecar).toBeTruthy();
-    expect(sidecar!.endsWith('.od-figma.json')).toBe(true);
+    expect(sidecar!.endsWith('.sw-figma.json')).toBe(true);
     await expect(readFile(sidecar!, 'utf8')).resolves.toBe(IR);
   });
 

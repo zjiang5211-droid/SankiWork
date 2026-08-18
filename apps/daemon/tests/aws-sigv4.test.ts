@@ -37,7 +37,7 @@ describe('signSigV4', () => {
   });
 
   it('signs an empty-key listing request with sorted canonical query', () => {
-    const headers: Record<string, string> = { 'host': 'od-bucket.s3.us-east-1.amazonaws.com' };
+    const headers: Record<string, string> = { 'host': 'sw-bucket.s3.us-east-1.amazonaws.com' };
     const result = signSigV4({
       method:  'GET',
       path:    '/',

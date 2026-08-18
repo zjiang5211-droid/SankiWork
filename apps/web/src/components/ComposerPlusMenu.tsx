@@ -573,7 +573,7 @@ export function ComposerPlusMenu({
       <button
         ref={triggerRef}
         type="button"
-        className={`icon-btn plus-menu__trigger od-tooltip${open ? ' is-active' : ''}`}
+        className={`icon-btn plus-menu__trigger sw-tooltip${open ? ' is-active' : ''}`}
         data-testid={triggerTestId}
         onClick={() => {
           if (open) {
@@ -589,10 +589,10 @@ export function ComposerPlusMenu({
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        {/* `od-icon` is what `.plus-menu__trigger.is-active .od-icon` keys the
+        {/* `sw-icon` is what `.plus-menu__trigger.is-active .sw-icon` keys the
             45° pivot off — the glyph reads as a close × while the menu is
             open. */}
-        <Icon name="plus" size={16} className="od-icon" />
+        <Icon name="plus" size={16} className="sw-icon" />
       </button>
       {open && typeof document !== 'undefined' ? createPortal(
         <div

@@ -57,7 +57,7 @@ function createProfileHome(dir: string): string {
 
 describe('DeepSeek Harness Windows carrier', () => {
   it('resolves DSH_BIN and probes the profile through the platform command wrapper', async () => {
-    const dir = mkdtempSync(path.join(tmpdir(), 'od-dsh-carrier-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'sw-dsh-carrier-'));
     try {
       const carrier = writeFakeDshCarrier(dir);
       const def = minimalAgentDef({ id: 'deepseek-harness', bin: 'dsh' });
@@ -79,7 +79,7 @@ describe('DeepSeek Harness Windows carrier', () => {
   });
 
   it('marks an incompatible profile unavailable without exposing runtime output', async () => {
-    const dir = mkdtempSync(path.join(tmpdir(), 'od-dsh-carrier-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'sw-dsh-carrier-'));
     try {
       const carrier = writeFakeDshCarrier(dir);
       const detected = await detectAgent(deepseekHarnessAgentDef, {
@@ -153,7 +153,7 @@ describe('DeepSeek Harness Windows carrier', () => {
   });
 
   it('returns configuration guidance from the full connection-test path', async () => {
-    const dir = mkdtempSync(path.join(tmpdir(), 'od-dsh-auth-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'sw-dsh-auth-'));
     const previous = {
       PATH: process.env.PATH,
       DSH_HOME: process.env.DSH_HOME,
@@ -188,7 +188,7 @@ describe('DeepSeek Harness Windows carrier', () => {
   it.runIf(process.platform === 'win32')(
     'reaps the cmd shim and its carrier child as one bounded process tree',
     async () => {
-      const dir = mkdtempSync(path.join(tmpdir(), 'od-dsh-tree-'));
+      const dir = mkdtempSync(path.join(tmpdir(), 'sw-dsh-tree-'));
       let child: ReturnType<typeof spawn> | undefined;
       try {
         const carrier = writeFakeDshCarrier(dir);

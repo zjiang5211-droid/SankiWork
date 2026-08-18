@@ -47,7 +47,7 @@ describe('Toast', () => {
     act(() => {
       vi.advanceTimersByTime(1999);
     });
-    expect(container.querySelector('.od-toast.leaving')).not.toBeNull();
+    expect(container.querySelector('.sw-toast.leaving')).not.toBeNull();
     expect(onDismiss).not.toHaveBeenCalled();
     // onDismiss (which unmounts the toast) fires at exactly ttlMs, so the exit
     // animation does not extend the toast's lifetime beyond ttlMs.
@@ -68,7 +68,7 @@ describe('Toast', () => {
 
   it('shows a leading status glyph for the success tone', () => {
     const { container } = render(<Toast message="Screenshot copied to clipboard" tone="success" />);
-    expect(container.querySelector('.od-toast.tone-success .od-toast-icon')).not.toBeNull();
+    expect(container.querySelector('.sw-toast.tone-success .sw-toast-icon')).not.toBeNull();
   });
 
   it('distinguishes the error status glyph from the dismiss icon', () => {
@@ -76,7 +76,7 @@ describe('Toast', () => {
     expect(
       // The error glyph is the Remix `error-warning-line` circle (inline SVG
       // icon language from #5517) — distinct from the close-line dismiss glyph.
-      container.querySelector('.od-toast.tone-error .od-toast-icon path[d^="M12 22C6.47715"]'),
+      container.querySelector('.sw-toast.tone-error .sw-toast-icon path[d^="M12 22C6.47715"]'),
     ).not.toBeNull();
   });
 

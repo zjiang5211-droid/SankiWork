@@ -27,7 +27,7 @@ const SAMPLE_MANIFEST = (id: string) =>
 const SAMPLE_SKILL = (id: string) => `---\nname: ${id}\ndescription: bundled fixture\n---\n# ${id}\n`;
 
 beforeEach(async () => {
-  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'od-bundled-'));
+  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-bundled-'));
   db = new Database(':memory:');
   db.exec(`
     CREATE TABLE projects (id TEXT PRIMARY KEY, name TEXT);

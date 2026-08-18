@@ -73,7 +73,7 @@ describe('project move refused by the hub with team_project_owner_conflict', () 
   let db: ReturnType<typeof openDatabase>;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(path.join(tmpdir(), 'od-move-owner-conflict-'));
+    tempDir = await mkdtemp(path.join(tmpdir(), 'sw-move-owner-conflict-'));
     projectsRoot = path.join(tempDir, 'projects');
     db = openDatabase(projectsRoot, { dataDir: tempDir });
   });
@@ -277,7 +277,7 @@ describe('owner_conflict unreachability through the normal UI path', () => {
   let db: ReturnType<typeof openDatabase>;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(path.join(tmpdir(), 'od-move-owner-unreachable-'));
+    tempDir = await mkdtemp(path.join(tmpdir(), 'sw-move-owner-unreachable-'));
     projectsRoot = path.join(tempDir, 'projects');
     db = openDatabase(projectsRoot, { dataDir: tempDir });
   });

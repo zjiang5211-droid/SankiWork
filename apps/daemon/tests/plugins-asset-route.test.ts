@@ -26,7 +26,7 @@ let shutdown: (() => Promise<void> | void) | undefined;
 let pluginRoot: string;
 
 beforeAll(async () => {
-  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'od-asset-'));
+  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-asset-'));
   const surfacesDir = path.join(pluginRoot, 'surfaces');
   await mkdir(surfacesDir, { recursive: true });
   await writeFile(

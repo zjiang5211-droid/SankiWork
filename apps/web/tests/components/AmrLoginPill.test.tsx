@@ -337,7 +337,7 @@ describe('AmrLoginPill', () => {
           skipInitialRefresh
           showConsoleAction
           metricsConsent
-          installationId="od-install-abc"
+          installationId="sw-install-abc"
         />
       </I18nProvider>,
     );
@@ -349,8 +349,8 @@ describe('AmrLoginPill', () => {
     expect(url.searchParams.get('source')).toBe('sankiwork');
     expect(url.searchParams.get('od_origin')).toBe('sankiwork');
     expect(url.searchParams.get('od_entry_source')).toBe('settings_amr_console');
-    expect(url.searchParams.get('od_device_id')).toBe('od-install-abc');
-    expect(url.searchParams.get('od_entry_id')).toMatch(/^od-amr-/u);
+    expect(url.searchParams.get('od_device_id')).toBe('sw-install-abc');
+    expect(url.searchParams.get('od_entry_id')).toMatch(/^sw-amr-/u);
     expect(fetchMock).toHaveBeenCalledWith(
       '/api/integrations/vela/analytics-entry',
       expect.objectContaining({ method: 'POST' }),
@@ -359,7 +359,7 @@ describe('AmrLoginPill', () => {
       '/api/attribution/bridge-url',
       expect.objectContaining({
         method: 'POST',
-        body: expect.stringContaining('od_device_id=od-install-abc'),
+        body: expect.stringContaining('od_device_id=sw-install-abc'),
       }),
     ));
     expect(fetchMock).toHaveBeenCalledWith(
@@ -472,7 +472,7 @@ describe('AmrLoginPill', () => {
           skipInitialRefresh
           amrEntrySourceDetail="settings_amr_authorize"
           metricsConsent
-          installationId="od-install-abc"
+          installationId="sw-install-abc"
         />
       </I18nProvider>,
     );
@@ -494,7 +494,7 @@ describe('AmrLoginPill', () => {
     );
     const body = JSON.parse(String((loginCall?.[1] as RequestInit).body));
     expect(body.attribution.sourceDetail).toBe('settings_amr_authorize');
-    expect(body.attribution.odDeviceId).toBe('od-install-abc');
+    expect(body.attribution.odDeviceId).toBe('sw-install-abc');
   });
 
   it('shows an AMR error instead of staying in signing-in state when login fails immediately', async () => {

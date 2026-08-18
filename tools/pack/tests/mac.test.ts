@@ -99,10 +99,10 @@ describe("resolveSeededAppConfigPaths", () => {
   });
 
   it("resolves relative SW_DATA_DIR against the workspace root", () => {
-    process.env.SW_DATA_DIR = "e2e/ui/.od-data";
+    process.env.SW_DATA_DIR = "e2e/ui/.sw-data";
     const config = makeConfig("/work");
     expect(resolveSeededAppConfigPaths(config)).toEqual({
-      sourcePath: resolve("/work", "e2e", "ui", ".od-data", "app-config.json"),
+      sourcePath: resolve("/work", "e2e", "ui", ".sw-data", "app-config.json"),
       targetPath: join("/work", ".tmp", "tools-pack", "runtime", "mac", "namespaces", "local-test", "data", "app-config.json"),
     });
   });

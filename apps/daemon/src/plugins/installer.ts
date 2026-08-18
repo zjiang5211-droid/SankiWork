@@ -359,7 +359,7 @@ async function* installFromGithubContents(
   if (!candidate.subpath) return;
   const fetcher = opts.fetcher ?? defaultFetcher;
   const maxBytes = opts.maxBytes ?? DEFAULT_MAX_BYTES;
-  const tmpRoot = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-plugin-github-contents-'));
+  const tmpRoot = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-plugin-github-contents-'));
   const stagingFolder = path.join(tmpRoot, 'plugin');
   try {
     yield {
@@ -527,7 +527,7 @@ async function* installFromArchiveUrl(
 ): AsyncGenerator<InstallEvent, void, void> {
   const fetcher = opts.fetcher ?? defaultFetcher;
   const maxBytes = opts.maxBytes ?? DEFAULT_MAX_BYTES;
-  const tmpRoot = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-plugin-archive-'));
+  const tmpRoot = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-plugin-archive-'));
   try {
     const resp = await fetcher(url);
     if (!resp.ok || !resp.body) {

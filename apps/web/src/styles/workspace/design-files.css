@@ -742,7 +742,7 @@
     transform 280ms cubic-bezier(0.23, 1, 0.32, 1),
     box-shadow 280ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.df-empty-stack-card .od-icon {
+.df-empty-stack-card .sw-icon {
   transition: color 280ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .df-empty-stack-card--left {
@@ -795,13 +795,13 @@
   z-index: 3;
   box-shadow: 0 16px 30px -12px rgba(15, 15, 15, 0.34);
 }
-.df-empty-pill:has(.df-empty-cta-primary:hover:not(:disabled)) .df-empty-stack-card--left .od-icon {
+.df-empty-pill:has(.df-empty-cta-primary:hover:not(:disabled)) .df-empty-stack-card--left .sw-icon {
   color: var(--red);
 }
-.df-empty-pill:has(.df-empty-cta-secondary:hover:not(:disabled)) .df-empty-stack-card--front .od-icon {
+.df-empty-pill:has(.df-empty-cta-secondary:hover:not(:disabled)) .df-empty-stack-card--front .sw-icon {
   color: var(--green);
 }
-.df-empty-pill:has(.df-empty-cta-tertiary:hover:not(:disabled)) .df-empty-stack-card--right .od-icon {
+.df-empty-pill:has(.df-empty-cta-tertiary:hover:not(:disabled)) .df-empty-stack-card--right .sw-icon {
   color: var(--blue);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -876,24 +876,24 @@
 }
 /* Icon accents — the spec's semantic red / green / blue tokens (tokens.css),
    one per action, in button order. Selector targets the Remix Icon <i>
-   (.od-icon) the Icon component actually renders — not svg. Text stays
+   (.sw-icon) the Icon component actually renders — not svg. Text stays
    neutral per the spec's neutral-button rule; tokens flip with the theme. */
-.df-empty-cta-primary .od-icon {
+.df-empty-cta-primary .sw-icon {
   color: var(--red);
 }
-.df-empty-cta-secondary .od-icon {
+.df-empty-cta-secondary .sw-icon {
   color: var(--green);
 }
-.df-empty-cta-tertiary .od-icon {
+.df-empty-cta-tertiary .sw-icon {
   color: var(--blue);
 }
 /* Moved-in doc / upload pills (from the top toolbar). No purple design token
    exists (--purple resolves to ink gray), so the violet is a literal — the
    same #8b5cf6 the community accents already use. */
-.df-empty-cta-doc .od-icon {
+.df-empty-cta-doc .sw-icon {
   color: var(--green);
 }
-.df-empty-cta-upload .od-icon {
+.df-empty-cta-upload .sw-icon {
   color: #8b5cf6;
 }
 /* Hover: only the pill's stroke takes the icon's color — the surface stays

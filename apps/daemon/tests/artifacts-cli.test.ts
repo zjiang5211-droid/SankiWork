@@ -45,7 +45,7 @@ describe('sw artifacts CLI', () => {
   });
 
   async function makeFile(name: string, contents: string): Promise<string> {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-artifacts-cli-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-artifacts-cli-'));
     tempRoots.push(root);
     const filePath = path.join(root, name);
     await writeFile(filePath, contents, 'utf8');

@@ -141,7 +141,7 @@ export function PluginCard({
           .join(' ')}
         data-plugin-id={record.id}
         data-preview-kind={preview.kind}
-        {...(typeof odMode === 'string' ? { 'data-od-mode': odMode } : {})}
+        {...(typeof odMode === 'string' ? { 'data-sw-mode': odMode } : {})}
         {...(isFeatured ? { 'data-featured': 'true' } : {})}
         // Mouse convenience: clicking anywhere on the tile opens details.
         // Keyboard/AT users get a real, announced control via the title

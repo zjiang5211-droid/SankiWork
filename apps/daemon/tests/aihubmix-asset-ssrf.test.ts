@@ -65,7 +65,7 @@ describe('AIHubMix asset downloads pin redirect:"error"', () => {
   const realFetch = globalThis.fetch;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-aihubmix-ssrf-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-aihubmix-ssrf-'));
     projectsRoot = path.join(root, 'projects');
   });
 

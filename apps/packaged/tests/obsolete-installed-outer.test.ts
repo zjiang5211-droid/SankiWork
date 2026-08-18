@@ -58,7 +58,7 @@ async function createMacInstalledOuter(): Promise<{
       launchPath,
     };
   }
-  const root = await mkdtemp(join(tmpdir(), "od-obsolete-outer-"));
+  const root = await mkdtemp(join(tmpdir(), "sw-obsolete-outer-"));
   roots.push(root);
   const launchPath = join(root, "SankiWork.app");
   const executablePath = join(launchPath, "Contents", "MacOS", "SankiWork");
@@ -82,7 +82,7 @@ async function createWindowsInstalledOuter(
     const executablePath = `C:\\Program Files\\SankiWork\\${executableName}`;
     return { executablePath, inspectInstalledOuterPath: fileInspectMock(), launchPath: executablePath };
   }
-  const root = await mkdtemp(join(tmpdir(), "od-obsolete-outer-win-"));
+  const root = await mkdtemp(join(tmpdir(), "sw-obsolete-outer-win-"));
   roots.push(root);
   const executablePath = join(root, executableName);
   await writeFile(executablePath, "legacy outer", "utf8");
@@ -178,7 +178,7 @@ describe("createObsoleteInstalledOuterRetirement", () => {
       const executablePath = `${launchPath}/Contents/MacOS/SankiWork`;
       inspectInstalledOuterPath = macInspectMock(launchPath, executablePath, true);
     } else {
-      const root = await mkdtemp(join(tmpdir(), "od-obsolete-outer-symlink-"));
+      const root = await mkdtemp(join(tmpdir(), "sw-obsolete-outer-symlink-"));
       roots.push(root);
       launchPath = join(root, "SankiWork.app");
       const executableDirectory = join(launchPath, "Contents", "MacOS");

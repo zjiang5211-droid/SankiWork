@@ -330,7 +330,7 @@ describe('agent-driven brand extraction engine', () => {
   });
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-brand-engine-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-brand-engine-'));
     brandsRoot = path.join(tempDir, 'brands');
     projectsRoot = path.join(tempDir, 'projects');
     userDesignSystemsRoot = path.join(tempDir, 'user-design-systems');

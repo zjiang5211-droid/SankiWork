@@ -34,7 +34,7 @@ import { ConnectorLogo, useResolvedTheme } from './ConnectorLogo';
 import { Icon } from './Icon';
 import { CenteredLoader } from './Loading';
 
-const CONNECTOR_AUTH_PENDING_STORAGE_KEY = 'od-connectors-authorization-pending';
+const CONNECTOR_AUTH_PENDING_STORAGE_KEY = 'sw-connectors-authorization-pending';
 const CONNECTOR_AUTH_PENDING_POLL_MS = 2_000;
 const CONNECTOR_TOOL_PREVIEW_LIMIT = 50;
 const AUTHORIZATION_CANCEL_FAILED_MESSAGE = "Couldn't cancel authorization. Try again.";

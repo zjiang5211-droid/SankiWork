@@ -3381,7 +3381,7 @@ export const ChatComposer = forwardRef<ChatComposerHandle, Props>(
             {showSendButton ? (
               <button
                 type="button"
-                className="composer-send od-tooltip"
+                className="composer-send sw-tooltip"
                 data-testid="chat-send"
                 onClick={() => {
                   trackChatPanelClick(analytics.track, {
@@ -3870,7 +3870,7 @@ function StagedRunContexts({
           </button>
           <button
             type="button"
-            className="staged-remove od-tooltip"
+            className="staged-remove sw-tooltip"
             onClick={() => onRemovePlugin?.()}
             title={t('common.delete')}
             data-tooltip={t('common.delete')}
@@ -3899,7 +3899,7 @@ function StagedRunContexts({
             </span>
             <button
               type="button"
-              className="staged-remove od-tooltip"
+              className="staged-remove sw-tooltip"
               onClick={() => onRemoveWorkspace(workspaceItem.id)}
               title={t('common.delete')}
               data-tooltip={t('common.delete')}
@@ -3926,7 +3926,7 @@ function StagedRunContexts({
           </button>
           <button
             type="button"
-            className="staged-remove od-tooltip"
+            className="staged-remove sw-tooltip"
             onClick={() => onRemoveSkill(s.id)}
             title={t('common.delete')}
             data-tooltip={t('common.delete')}
@@ -3951,7 +3951,7 @@ function StagedRunContexts({
             </span>
             <button
               type="button"
-              className="staged-remove od-tooltip"
+              className="staged-remove sw-tooltip"
               onClick={() => onRemoveMcp(server.id)}
               title={t('common.delete')}
               data-tooltip={t('common.delete')}
@@ -3975,7 +3975,7 @@ function StagedRunContexts({
           </span>
           <button
             type="button"
-            className="staged-remove od-tooltip"
+            className="staged-remove sw-tooltip"
             onClick={() => onRemoveConnector(connector.id)}
             title={t('common.delete')}
             data-tooltip={t('common.delete')}
@@ -4022,7 +4022,7 @@ function StagedRunContexts({
             )}
             <button
               type="button"
-              className="staged-remove od-tooltip"
+              className="staged-remove sw-tooltip"
               onClick={() => onRemoveAttachment(a.path)}
               title={t('common.delete')}
               data-tooltip={t('common.delete')}
@@ -4049,7 +4049,7 @@ function StagedRunContexts({
             <span title={preview.path}>{preview.name}</span>
             <button
               type="button"
-              className="icon-only od-tooltip"
+              className="icon-only sw-tooltip"
               onClick={() => setPreview(null)}
               aria-label={t('common.close')}
               title={t('common.close')}
@@ -4091,7 +4091,7 @@ function StagedCommentAttachments({
           </span>
           <button
             type="button"
-            className="staged-remove od-tooltip"
+            className="staged-remove sw-tooltip"
             onClick={() => onRemove(a.id)}
             title={t('chat.comments.removeAttachment')}
             data-tooltip={t('chat.comments.removeAttachment')}

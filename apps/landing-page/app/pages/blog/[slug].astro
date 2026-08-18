@@ -123,7 +123,7 @@ if (localizedBodyHtml) {
 const tocLabel = getInfoPageCopy(locale).common.onThisPage;
 
 // Each post ships a unified cover at `/blog/<slug>-cover.webp` (see the
-// `od-site-illustration` skill). Surfaced as a hero banner on the post itself,
+// `sw-site-illustration` skill). Surfaced as a hero banner on the post itself,
 // not just on the index card.
 const defaultCoverSrc = `/blog/${post.id}-cover.webp`;
 const coverSrc = ((post.data as { socialImage?: string }).socialImage ?? defaultCoverSrc).trim();

@@ -1549,7 +1549,7 @@ export function handleHubVerifiedConnection(
 // Windows ENAMETOOLONG mitigation constants
 const CMD_BAT_RE = /\.(cmd|bat)$/i;
 const PROMPT_TEMP_FILE = () =>
-  '.od-prompt-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.md';
+  '.sw-prompt-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.md';
 const promptFileBootstrap = (fp) =>
   `Your full instructions are stored in the file: ${fp.replace(/\\/g, '/')}. ` +
   'Open that file first and follow every instruction in it exactly — ' +
@@ -8501,7 +8501,7 @@ export async function startServer({
   // also claims `new-generation` so the kind → scenario map can route
   // image / video / audio projects to it). The pipeline-fallback
   // resolver expects ONE scenario per taskKind, so this function
-  // dedupes and prefers the canonical id `od-<taskKind>` as the
+  // dedupes and prefers the canonical id `sw-<taskKind>` as the
   // pipeline-fallback winner. Non-canonical scenarios still install
   // and run through their explicit pluginId path; they just don't get
   // to hijack a consumer plugin that omitted `od.pipeline`.
@@ -8524,7 +8524,7 @@ export async function startServer({
             taskKind !== 'code-migration' && taskKind !== 'tune-collab') continue;
         const entry: ScenarioEntry = { id: row.id, taskKind, pipeline: od.pipeline };
         const existing = byTaskKind.get(taskKind);
-        if (!existing || entry.id === `od-${taskKind}`) {
+        if (!existing || entry.id === `sw-${taskKind}`) {
           byTaskKind.set(taskKind, entry);
         }
       }
@@ -10628,7 +10628,7 @@ export async function startServer({
       ? [
           'Internal title task:',
           'Before answering the user request, emit exactly one short title marker:',
-          '<od-title>Title Here</od-title>',
+          '<sw-title>Title Here</sw-title>',
           'Rules: 2-6 words, preserve the user request language, no quotes, no markdown, no punctuation unless necessary.',
           'Do not mention this title task to the user. Continue with the normal answer after the title marker.',
         ].join('\n')
@@ -11616,7 +11616,7 @@ export async function startServer({
     // this field.
     const agentLogFilePath =
       def.id === 'antigravity'
-        ? path.join(os.tmpdir(), `od-agy-${run.id}.log`)
+        ? path.join(os.tmpdir(), `sw-agy-${run.id}.log`)
         : undefined;
     const promptFile = await preparePromptFileForAgent(def, composed, run.id);
     const cleanupPromptFile = () => {

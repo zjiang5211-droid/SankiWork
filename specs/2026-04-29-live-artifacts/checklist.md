@@ -3,7 +3,7 @@
 ## Phase 0 — Contracts and fixtures
 
 - [ ] Define `html_template_v1` rendering contract.
-  - [ ] Decide MVP binding syntax: Mustache-style `{{data.path}}`, `data-od-*` attributes, or both.
+  - [ ] Decide MVP binding syntax: Mustache-style `{{data.path}}`, `data-sw-*` attributes, or both.
   - [ ] Specify that interpolation HTML-escapes by default.
   - [ ] Explicitly disallow raw / unescaped interpolation in MVP.
   - [ ] Specify allowed structural directives, if any.

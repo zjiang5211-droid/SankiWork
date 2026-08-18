@@ -703,13 +703,13 @@ export function WorkspaceTabsBar({
     if (!radialMenu) return;
     // Uniform page blur: filter on the shell blurs every descendant equally
     // (backdrop-filter on the scrim sampled composited layers unevenly).
-    document.documentElement.classList.add('od-radial-open');
+    document.documentElement.classList.add('sw-radial-open');
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setRadialMenu(null);
     };
     window.addEventListener('keydown', onKey);
     return () => {
-      document.documentElement.classList.remove('od-radial-open');
+      document.documentElement.classList.remove('sw-radial-open');
       window.removeEventListener('keydown', onKey);
     };
   }, [radialMenu]);
@@ -1694,7 +1694,7 @@ export function WorkspaceTabsBar({
       {tabsDockEl && state.tabs[0] ? (
         <button
           type="button"
-          className="workspace-tabs-home-chrome od-tooltip"
+          className="workspace-tabs-home-chrome sw-tooltip"
           aria-label={t('entry.navHome')}
           title={t('entry.navHome')}
           data-tooltip={t('entry.navHome')}
@@ -1731,7 +1731,7 @@ export function WorkspaceTabsBar({
             [data-workspace-tab-id] queries stay untouched. */}
         <div className="workspace-tabs-glide" ref={glideRef} aria-hidden="true">
           <div
-            className="workspace-tabs-glide__pill od-glass-refract"
+            className="workspace-tabs-glide__pill sw-glass-refract"
             ref={setGlidePillRef}
           />
         </div>
@@ -1770,7 +1770,7 @@ export function WorkspaceTabsBar({
                    open it is inert (you are already home, nothing to expand). */
                 <button
                   type="button"
-                  className={`workspace-tab__rail-toggle od-tooltip${entryRailOpen ? ' is-inert' : ''}`}
+                  className={`workspace-tab__rail-toggle sw-tooltip${entryRailOpen ? ' is-inert' : ''}`}
                   aria-label={entryRailOpen ? t('entry.navHome') : t('entry.navExpand')}
                   aria-expanded={entryRailOpen}
                   title={entryRailOpen ? undefined : t('entry.navExpand')}
@@ -1803,7 +1803,7 @@ export function WorkspaceTabsBar({
                    home. */
                 <button
                   type="button"
-                  className="workspace-tab__rail-toggle od-tooltip"
+                  className="workspace-tab__rail-toggle sw-tooltip"
                   aria-label={t('entry.navHome')}
                   title={t('entry.navHome')}
                   data-tooltip={t('entry.navHome')}
@@ -1840,7 +1840,7 @@ export function WorkspaceTabsBar({
                   {isPinned ? null : (
                     <button
                       type="button"
-                      className="workspace-tab__close od-tooltip"
+                      className="workspace-tab__close sw-tooltip"
                       aria-label={t('common.close')}
                       title={t('common.close')}
                       data-tooltip={t('common.close')}

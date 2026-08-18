@@ -14,7 +14,7 @@ import type { DesignExtractReport } from '../src/plugins/atoms/design-extract.js
 let cwd: string;
 
 beforeEach(async () => {
-  cwd = await mkdtemp(path.join(os.tmpdir(), 'od-token-map-'));
+  cwd = await mkdtemp(path.join(os.tmpdir(), 'sw-token-map-'));
 });
 
 afterEach(async () => {

@@ -994,7 +994,7 @@ test('[P0] @critical HTML file list and previews stay stable across repeated swi
   });
   type WarmFrame = HTMLIFrameElement & { __odWarmLoadCount?: number };
   const captureWarmFrame = async (fileName: string) => {
-    const activeFrame = page.locator(`iframe[title="${fileName}"][data-od-active="true"]`);
+    const activeFrame = page.locator(`iframe[title="${fileName}"][data-sw-active="true"]`);
     await expect(activeFrame).toHaveCount(1);
     const handle = await activeFrame.elementHandle();
     if (!handle) throw new Error(`Missing active preview frame for ${fileName}`);
@@ -1014,7 +1014,7 @@ test('[P0] @critical HTML file list and previews stay stable across repeated swi
   ) => {
     expect(await handle.evaluate((node) => node.isConnected), `${fileName} iframe was detached`).toBe(true);
     if (active) {
-      const activeFrame = page.locator(`iframe[title="${fileName}"][data-od-active="true"]`);
+      const activeFrame = page.locator(`iframe[title="${fileName}"][data-sw-active="true"]`);
       expect(
         await activeFrame.evaluate((node, original) => node === original, handle),
         `${fileName} iframe was remounted`,

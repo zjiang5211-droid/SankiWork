@@ -44,7 +44,7 @@ import { closeDatabase, getDeployment, insertProject, openDatabase, upsertDeploy
 import { ensureProject } from '../src/projects.js';
 
 async function setupProject() {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-test-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-test-'));
   const projectId = 'p1';
   const dir = await ensureProject(path.join(root, 'projects'), projectId);
   return { projectsRoot: path.join(root, 'projects'), projectId, dir };
@@ -58,7 +58,7 @@ afterEach(() => {
 
 describe('deploy config', () => {
   it('stores Vercel credentials in vercel.json and returns only the public mask', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-config-test-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-config-test-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {
@@ -117,7 +117,7 @@ describe('deploy config', () => {
   });
 
   it('stores Cloudflare Pages credentials separately from vercel.json', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-config-test-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-config-test-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {
@@ -201,7 +201,7 @@ describe('deploy config', () => {
   });
 
   it('requires Cloudflare Pages token and account id while deriving project names automatically', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-config-required-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-config-required-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {
@@ -212,10 +212,10 @@ describe('deploy config', () => {
         accountId: 'account_123',
       })).rejects.toThrow(/API token is required/i);
       expect(cloudflarePagesProjectNameForProject('project-123', 'AI 生图网站')).toBe(
-        'od-ai-project-123',
+        'sw-ai-project-123',
       );
       expect(cloudflarePagesProjectNameForProject('12345678', '中文项目')).toBe(
-        'od-project-12345678',
+        'sw-project-12345678',
       );
     } finally {
       if (priorStateRoot === undefined) delete process.env.SW_USER_STATE_DIR;
@@ -258,7 +258,7 @@ describe('deploy file set', () => {
   });
 
   it('does not publish unreferenced files from linked-folder projects', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-linked-test-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-linked-test-'));
     const projectsRoot = path.join(root, 'projects');
     const linkedDir = path.join(root, 'linked');
     const projectId = 'linked-p1';
@@ -672,7 +672,7 @@ describe('deploy file set', () => {
 
 describe('deploy plan and analyzer', () => {
   async function setupProject() {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-plan-test-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-plan-test-'));
     const projectId = 'p1';
     const dir = await ensureProject(path.join(root, 'projects'), projectId);
     return { projectsRoot: path.join(root, 'projects'), projectId, dir };
@@ -1580,7 +1580,7 @@ describe('cloudflare pages deploys', () => {
   });
 
   it('round-trips typed Cloudflare info while keeping provider metadata internal', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-deployment-db-test-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-deployment-db-test-'));
     try {
       const db = openDatabase(root, { dataDir: path.join(root, '.sankiwork') });
       insertProject(db, {

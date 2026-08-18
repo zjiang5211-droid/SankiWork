@@ -755,8 +755,8 @@ describe('POST /api/runs headless fallbacks', () => {
 
   it('falls back past a stale saved agent to the first detected available runtime', async () => {
     started = await startTestServer();
-    const binDir = await mkdtemp(path.join(os.tmpdir(), 'od-headless-run-bin-'));
-    const emptyAgentHome = await mkdtemp(path.join(os.tmpdir(), 'od-headless-run-home-'));
+    const binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-headless-run-bin-'));
+    const emptyAgentHome = await mkdtemp(path.join(os.tmpdir(), 'sw-headless-run-home-'));
     const priorConfig = await readAppConfigFromServer(started.url);
     try {
       const opencodeBin = await writeFakeOpencode(binDir);

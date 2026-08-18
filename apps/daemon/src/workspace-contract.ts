@@ -120,7 +120,7 @@ export function projectWorkspaceProvenance(metadata: unknown): RunWorkspace {
   }
   return {
     storage: {
-      kind: 'od-owned',
+      kind: 'sw-owned',
       baseDir: null,
     },
     provenance: null,

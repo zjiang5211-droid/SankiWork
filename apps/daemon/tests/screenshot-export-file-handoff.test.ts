@@ -354,7 +354,7 @@ describe('screenshot export desktop renderer file handoff', () => {
       input: DesktopExportArtifactInput,
     ): Promise<DesktopExportArtifactResult> => {
       seenLegacyInputs.push(input);
-      const dir = path.join(os.tmpdir(), `od-legacy-image-export-${Date.now()}`);
+      const dir = path.join(os.tmpdir(), `sw-legacy-image-export-${Date.now()}`);
       await mkdir(dir, { recursive: true });
       const file = path.join(dir, 'artifact.png');
       await writeFile(file, PNG);
@@ -392,7 +392,7 @@ describe('screenshot export desktop renderer file handoff', () => {
       input: DesktopExportArtifactInput,
     ): Promise<DesktopExportArtifactResult> => {
       seenLegacyInputs.push(input);
-      const dir = path.join(os.tmpdir(), `od-legacy-pdf-export-${Date.now()}`);
+      const dir = path.join(os.tmpdir(), `sw-legacy-pdf-export-${Date.now()}`);
       await mkdir(dir, { recursive: true });
       const file = path.join(dir, 'artifact.pdf');
       await writeFile(file, Buffer.from('%PDF-legacy'));
@@ -470,7 +470,7 @@ describe('screenshot export desktop renderer file handoff', () => {
     // Imported-folder projects keep their workspace OUTSIDE <data>/projects/:id
     // (at metadata.baseDir). The screenshot export must thread that metadata into
     // readProjectFile, or it 404s on the default dir even though the file exists.
-    const folder = path.join(realpathSync(os.tmpdir()), `od-import-export-${Date.now()}`);
+    const folder = path.join(realpathSync(os.tmpdir()), `sw-import-export-${Date.now()}`);
     await mkdir(folder, { recursive: true });
     await writeFile(
       path.join(folder, 'index.html'),

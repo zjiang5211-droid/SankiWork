@@ -3486,7 +3486,7 @@ body.entry-resizing { cursor: col-resize; user-select: none; }
   gap: 6px;
   padding: 6px 12px;
   border-radius: var(--radius-pill);
-  /* Surface comes from .od-glass-refract (frosted base, SDF refraction on
+  /* Surface comes from .sw-glass-refract (frosted base, SDF refraction on
      Chromium via useLiquidGlass in ChatPane); the white→transparent wash is
      layered on top via the higher-specificity rule below. */
   border: 1px solid var(--material-separator);
@@ -3521,8 +3521,8 @@ body.entry-resizing { cursor: col-resize; user-select: none; }
    Keep the top-to-bottom fade — it is what makes the pill feel like it belongs
    to the composer below — but floor it at an opacity that still occludes, and
    source the colour from the theme surface. */
-.chat-jump-btn.od-glass-refract,
-.chat-jump-btn.od-glass-refract[data-od-glass-sdf] {
+.chat-jump-btn.sw-glass-refract,
+.chat-jump-btn.sw-glass-refract[data-sw-glass-sdf] {
   background: linear-gradient(
     180deg,
     var(--bg-panel) 0%,

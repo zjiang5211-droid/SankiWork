@@ -45,7 +45,7 @@ const designSystem: DesignSystemTokenBag = {
 };
 
 beforeEach(async () => {
-  const tmp = await mkdtemp(path.join(os.tmpdir(), 'od-pipeline-e2e-'));
+  const tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-pipeline-e2e-'));
   repo = path.join(tmp, 'repo');
   cwd  = path.join(tmp, 'cwd');
   await mkdir(repo, { recursive: true });
@@ -158,7 +158,7 @@ describe('code-migration pipeline — full atom chain', () => {
     const handoff = await runHandoffAtom({
       cwd,
       manifest: initialManifest,
-      exportTarget: { surface: 'cli', target: '/tmp/od-export', exportedAt: Date.now() },
+      exportTarget: { surface: 'cli', target: '/tmp/sw-export', exportedAt: Date.now() },
     });
     expect(handoff.signals.decision).toBe('accept');
     expect(handoff.signals.buildPassing).toBe(true);

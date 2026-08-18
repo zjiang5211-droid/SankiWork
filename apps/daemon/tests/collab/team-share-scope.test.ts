@@ -31,7 +31,7 @@ const TEAM_WS = 'vp44mftzknedrrqgy05oqpv9';
 let tmp: string;
 
 beforeEach(async () => {
-  tmp = await mkdtemp(path.join(os.tmpdir(), 'od-team-share-scope-'));
+  tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-team-share-scope-'));
 });
 
 afterEach(async () => {

@@ -1128,7 +1128,7 @@ describe('EntryShell onboarding SankiWork AMR runtime', () => {
     )?.[1] as RequestInit;
     expect(JSON.parse(String(loginInit.body))).toMatchObject({
       attribution: {
-        entryId: expect.stringMatching(/^od-amr-/u),
+        entryId: expect.stringMatching(/^sw-amr-/u),
         sourceProduct: 'sankiwork',
         sourceDetail: 'onboarding_amr_card',
       },

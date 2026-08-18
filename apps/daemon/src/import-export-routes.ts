@@ -1095,7 +1095,7 @@ export function registerProjectExportRoutes(app: Express, ctx: RegisterProjectEx
         }
         const pptxBuffer = await fs.promises.readFile(realPptx);
         // eslint-disable-next-line no-console
-        console.info('[od-export] assemble', {
+        console.info('[sw-export] assemble', {
           format: 'pptx-editable',
           via: 'file',
           bytes: pptxBuffer.length,
@@ -1207,9 +1207,9 @@ export function registerProjectExportRoutes(app: Express, ctx: RegisterProjectEx
       }
       // One-line export timing: renderer (desktop capture+encode+IPC) vs read
       // (file handoff / base64 decode) vs assemble (pptx/pdf build). Pair with
-      // the desktop `[od-export] render` line for the full picture.
+      // the desktop `[sw-export] render` line for the full picture.
       // eslint-disable-next-line no-console
-      console.info('[od-export] assemble', {
+      console.info('[sw-export] assemble', {
         format,
         via: hasFiles ? 'file' : 'dataurl',
         slides: images.length,

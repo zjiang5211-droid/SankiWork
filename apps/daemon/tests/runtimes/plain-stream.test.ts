@@ -12,7 +12,7 @@ import { listFiles, writeProjectFile } from '../../src/projects.js';
 
 describe('plain stream artifact extraction', () => {
   it('extracts and writes artifact tags from plain stdout into project files', async () => {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-plain-stream-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-plain-stream-'));
     try {
       const stdout = [
         'Here is the result:\n',
@@ -60,7 +60,7 @@ describe('plain stream artifact extraction', () => {
   });
 
   it('does not write files when plain stdout contains no artifact tags', async () => {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-plain-stream-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-plain-stream-'));
     try {
       const written = await persistPlainStreamArtifacts({
         projectsRoot,
@@ -77,7 +77,7 @@ describe('plain stream artifact extraction', () => {
   });
 
   it('infers html artifacts without a type and avoids filename collisions', async () => {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-plain-stream-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-plain-stream-'));
     try {
       await mkdir(path.join(projectsRoot, 'project-1'), { recursive: true });
       await writeFile(path.join(projectsRoot, 'project-1', 'landing.html'), 'existing');

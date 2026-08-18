@@ -10862,7 +10862,7 @@ export function ProjectView({
                   after this button, so flex order stays button → dropdown). */}
               <button
                 type="button"
-                className="split-chat-collapse od-tooltip"
+                className="split-chat-collapse sw-tooltip"
                 onClick={() => setWorkspaceFocused(true)}
                 title={t('chat.collapsePane')}
                 aria-label={t('chat.collapsePane')}

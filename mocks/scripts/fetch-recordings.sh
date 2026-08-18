@@ -123,19 +123,19 @@ export -f fetch_one
 
 printf '%s\n' "$ENTRIES_TSV" \
   | xargs -P "$CONCURRENCY" -L 1 bash -c 'fetch_one "$1" "$2" "$3"' _ \
-  > /tmp/od-mocks-fetch-progress.txt 2>&1
+  > /tmp/sw-mocks-fetch-progress.txt 2>&1
 
-new=$(grep -c "^✓"  /tmp/od-mocks-fetch-progress.txt || true)
-skip=$(grep -c "^•" /tmp/od-mocks-fetch-progress.txt || true)
-fail=$(grep -c "^✗" /tmp/od-mocks-fetch-progress.txt || true)
+new=$(grep -c "^✓"  /tmp/sw-mocks-fetch-progress.txt || true)
+skip=$(grep -c "^•" /tmp/sw-mocks-fetch-progress.txt || true)
+fail=$(grep -c "^✗" /tmp/sw-mocks-fetch-progress.txt || true)
 
 echo "  ✓ fetched: $new"
 echo "  • cached:  $skip"
 if [ "$fail" -gt 0 ]; then
   echo "  ✗ failed:  $fail"
   echo
-  grep "^✗" /tmp/od-mocks-fetch-progress.txt | head -5
-  echo "  …(full log /tmp/od-mocks-fetch-progress.txt)"
+  grep "^✗" /tmp/sw-mocks-fetch-progress.txt | head -5
+  echo "  …(full log /tmp/sw-mocks-fetch-progress.txt)"
   exit 1
 fi
 

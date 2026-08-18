@@ -12,7 +12,7 @@ describe('static SPA fallback', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-static-spa-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-static-spa-'));
     writeFileSync(path.join(tempDir, 'index.html'), '<!doctype html><div id="root"></div>');
     writeFileSync(path.join(tempDir, 'app-icon.svg'), '<svg />');
   });
@@ -49,7 +49,7 @@ describe('static SPA fallback', () => {
     expect(resolveStaticSpaFallbackPath(request('/automations', 'application/json'), tempDir)).toBeNull();
     expect(resolveStaticSpaFallbackPath(request('/automations', 'text/html', 'POST'), tempDir)).toBeNull();
 
-    const emptyDir = mkdtempSync(path.join(os.tmpdir(), 'od-static-spa-empty-'));
+    const emptyDir = mkdtempSync(path.join(os.tmpdir(), 'sw-static-spa-empty-'));
     try {
       expect(resolveStaticSpaFallbackPath(request('/automations'), emptyDir)).toBeNull();
     } finally {

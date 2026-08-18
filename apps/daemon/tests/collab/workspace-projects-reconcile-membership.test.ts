@@ -118,7 +118,7 @@ describe('reconciler remote membership vs the display-filtered catalog (recvqzjn
   let db: ReturnType<typeof openDatabase>;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(path.join(tmpdir(), 'od-reconcile-membership-'));
+    tempDir = await mkdtemp(path.join(tmpdir(), 'sw-reconcile-membership-'));
     projectsRoot = path.join(tempDir, 'projects');
     db = openDatabase(projectsRoot, { dataDir: tempDir });
   });
@@ -376,7 +376,7 @@ describe('reconciler remote membership vs the display-filtered catalog (recvqzjn
     const projectId = 'wsclone-visual-verify';
     seedProject(projectId, 'Website Clone Visual Verify');
     // The exact corrupted row from the live incident (owner client,
-    // od-owner-data app.sqlite): the earlier display-filtered pass demoted
+    // sw-owner-data app.sqlite): the earlier display-filtered pass demoted
     // the mirror into the viewer's own personal draft.
     ensureWorkspaceProject(db, {
       projectId,

@@ -32,7 +32,7 @@ afterEach(() => {
 });
 
 function seededDb() {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-comment-relay-outbox-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-comment-relay-outbox-'));
   const db = openDatabase(tempDir);
   insertProject(db, { id: 'p1', name: 'Project', createdAt: 1, updatedAt: 1 });
   insertConversation(db, {

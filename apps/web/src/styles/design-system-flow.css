@@ -851,7 +851,7 @@ a.ds-source-link-open:focus-visible {
 .ds-github-access-method + .ds-github-access-method {
   border-left: 1px solid var(--border-soft);
 }
-.ds-github-access-method .od-icon {
+.ds-github-access-method .sw-icon {
   flex: 0 0 auto;
   margin-top: 2px;
   color: var(--text-muted);
@@ -923,7 +923,7 @@ a.ds-source-link-open:focus-visible {
   gap: 8px;
   margin-top: 2px;
 }
-.ds-github-access-panel.has-connected-connector .ds-github-access-method:last-child .od-icon {
+.ds-github-access-panel.has-connected-connector .ds-github-access-method:last-child .sw-icon {
   color: var(--green);
 }
 .ds-drop-zone-wrap {
@@ -3184,7 +3184,7 @@ a.ds-source-link-open:focus-visible {
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--accent) 7%, var(--bg-panel));
 }
-.ds-project-warning-card > .od-icon {
+.ds-project-warning-card > .sw-icon {
   color: var(--accent);
 }
 .ds-project-warning-card span {

@@ -34,7 +34,7 @@ SankiWork's `html_template_v1` renderer is intentionally narrow:
 - only `{{data.path.to.value}}` interpolation, paths must start with `data`;
 - bindings must resolve to scalars (no array or object values);
 - there is no repeat / loop / conditional directive — the template is **fully unrolled** for KPI 0..3, bar 0..13, and lowest-row 0..7;
-- the renderer rejects `<script>`, `<iframe>`, `srcdoc=`, event-handler attributes, `javascript:` URLs, and `data-od-html|raw|bind-html` directives.
+- the renderer rejects `<script>`, `<iframe>`, `srcdoc=`, event-handler attributes, `javascript:` URLs, and `data-sw-html|raw|bind-html` directives.
 
 Refresh callers writing into `data.json` should preserve the same shape and cardinality (`kpis[4]`, `byKeyAccount.rows[14]`, `lowestAccounts.rows[8]`) so the unrolled template keeps rendering cleanly. Pre-compute every value the template binds — bar widths, prior-year ticks, formatted strings, and CSS class names — because the renderer cannot evaluate expressions.
 

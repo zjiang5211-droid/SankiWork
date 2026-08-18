@@ -92,7 +92,7 @@ test('qwen settings file honours the env override and falls back to ~/.qwen', ()
 });
 
 test('qwen agent def surfaces configured models and degrades to fallbacks', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-qwen-settings-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-qwen-settings-'));
   try {
     const settingsFile = join(dir, 'settings.json');
     writeFileSync(

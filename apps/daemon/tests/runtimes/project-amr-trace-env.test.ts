@@ -28,7 +28,7 @@ function projectDb(input: {
   workspaceId?: string;
   memberId?: string;
 }) {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-amr-project-scope-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-amr-project-scope-'));
   const db = openDatabase(tempDir);
   const now = Date.now();
   insertProject(db, {

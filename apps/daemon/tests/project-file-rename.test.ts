@@ -117,7 +117,7 @@ describe('project file rename route', () => {
   });
 
   it('does not overwrite a target file created during rename', async () => {
-    const folder = mkdtempSync(path.join(tmpdir(), 'od-rename-race-'));
+    const folder = mkdtempSync(path.join(tmpdir(), 'sw-rename-race-'));
     tempDirs.push(folder);
     await writeFile(path.join(folder, 'source.txt'), 'source');
     const projectId = await importFolder(folder);
@@ -175,7 +175,7 @@ describe('project file rename route', () => {
   });
 
   it('renames files in imported folders on disk', async () => {
-    const folder = mkdtempSync(path.join(tmpdir(), 'od-rename-import-'));
+    const folder = mkdtempSync(path.join(tmpdir(), 'sw-rename-import-'));
     tempDirs.push(folder);
     await writeFile(path.join(folder, 'note.txt'), 'imported');
 
@@ -188,7 +188,7 @@ describe('project file rename route', () => {
   });
 
   it('renames imported folder files whose existing names contain spaces', async () => {
-    const folder = mkdtempSync(path.join(tmpdir(), 'od-rename-import-spaces-'));
+    const folder = mkdtempSync(path.join(tmpdir(), 'sw-rename-import-spaces-'));
     tempDirs.push(folder);
     await writeFile(path.join(folder, 'my note.txt'), 'imported');
 
@@ -201,8 +201,8 @@ describe('project file rename route', () => {
   });
 
   it('rejects source paths that escape through a symlinked directory', async () => {
-    const folder = mkdtempSync(path.join(tmpdir(), 'od-rename-symlink-source-'));
-    const outside = mkdtempSync(path.join(tmpdir(), 'od-rename-outside-source-'));
+    const folder = mkdtempSync(path.join(tmpdir(), 'sw-rename-symlink-source-'));
+    const outside = mkdtempSync(path.join(tmpdir(), 'sw-rename-outside-source-'));
     tempDirs.push(folder, outside);
     await writeFile(path.join(outside, 'secret.txt'), 'outside');
     await symlink(outside, path.join(folder, 'linked'), 'dir');
@@ -215,8 +215,8 @@ describe('project file rename route', () => {
   });
 
   it('rejects target paths that escape through a symlinked directory', async () => {
-    const folder = mkdtempSync(path.join(tmpdir(), 'od-rename-symlink-target-'));
-    const outside = mkdtempSync(path.join(tmpdir(), 'od-rename-outside-target-'));
+    const folder = mkdtempSync(path.join(tmpdir(), 'sw-rename-symlink-target-'));
+    const outside = mkdtempSync(path.join(tmpdir(), 'sw-rename-outside-target-'));
     tempDirs.push(folder, outside);
     await writeFile(path.join(folder, 'note.txt'), 'inside');
     await mkdir(path.join(outside, 'sink'));

@@ -28,7 +28,7 @@ import {
 } from '../../src/design-systems/index.js';
 
 function fresh(): string {
-  return mkdtempSync(path.join(tmpdir(), 'od-design-system-assets-'));
+  return mkdtempSync(path.join(tmpdir(), 'sw-design-system-assets-'));
 }
 
 function brandDir(root: string, id: string): string {
@@ -201,7 +201,7 @@ describe('Design System Project manifest runtime consumption', () => {
     const root = fresh();
     writeDesignSystemProject(root, 'project-system', {
       manifest: {
-        schemaVersion: 'od-design-system-project/v1',
+        schemaVersion: 'sw-design-system-project/v1',
         id: 'project-system',
         name: 'Project System',
         category: 'Imported',
@@ -233,7 +233,7 @@ describe('Design System Project manifest runtime consumption', () => {
     const root = fresh();
     writeDesignSystemProject(root, 'project-system', {
       manifest: {
-        schemaVersion: 'od-design-system-project/v1',
+        schemaVersion: 'sw-design-system-project/v1',
         id: 'project-system',
         name: 'Project System',
         category: 'Imported',
@@ -269,7 +269,7 @@ describe('Design System Project manifest runtime consumption', () => {
     const root = fresh();
     writeDesignSystemProject(root, 'tokens-only-project', {
       manifest: {
-        schemaVersion: 'od-design-system-project/v1',
+        schemaVersion: 'sw-design-system-project/v1',
         id: 'tokens-only-project',
         name: 'Tokens Only Project',
         category: 'Imported',
@@ -292,7 +292,7 @@ describe('Design System Project manifest runtime consumption', () => {
     const root = fresh();
     const dir = writeDesignSystemProject(root, 'hybrid-project', {
       manifest: {
-        schemaVersion: 'od-design-system-project/v1',
+        schemaVersion: 'sw-design-system-project/v1',
         id: 'hybrid-project',
         name: 'Hybrid Project',
         category: 'Imported',
@@ -332,7 +332,7 @@ describe('Design System Project manifest runtime consumption', () => {
       components: '<button class="btn">Derived should lose to cache</button>',
     });
     writeFileSync(path.join(dir, 'USAGE.md'), '## Read Order\n\nUse cache first.');
-    writeFileSync(path.join(dir, 'design-tokens.json'), '{"format":"od-design-tokens/v1","tokens":[]}\n');
+    writeFileSync(path.join(dir, 'design-tokens.json'), '{"format":"sw-design-tokens/v1","tokens":[]}\n');
     writeFileSync(path.join(dir, 'tailwind-v4.css'), '@import "tailwindcss";\n');
     writeFileSync(
       path.join(dir, 'components.manifest.json'),
@@ -392,7 +392,7 @@ describe('Design System Project manifest runtime consumption', () => {
     const root = fresh();
     const dir = writeDesignSystemProject(root, 'pull-project', {
       manifest: {
-        schemaVersion: 'od-design-system-project/v1',
+        schemaVersion: 'sw-design-system-project/v1',
         id: 'pull-project',
         name: 'Pull Project',
         category: 'Imported',
@@ -423,7 +423,7 @@ describe('Design System Project manifest runtime consumption', () => {
       schemaVersion: 1,
       snippets: [{ path: 'source/snippets/Button.tsx', role: 'button' }],
     })}\n`);
-    writeFileSync(path.join(dir, 'design-tokens.json'), '{"format":"od-design-tokens/v1","tokens":[]}\n');
+    writeFileSync(path.join(dir, 'design-tokens.json'), '{"format":"sw-design-tokens/v1","tokens":[]}\n');
     writeFileSync(path.join(dir, 'tailwind-v4.css'), '@import "tailwindcss";\n');
     writeFileSync(path.join(dir, 'source', 'snippets', 'Button.tsx'), 'export function Button() {}');
     writeFileSync(path.join(dir, 'assets', 'icons', 'mark.svg'), '<svg />');
@@ -443,7 +443,7 @@ describe('Design System Project manifest runtime consumption', () => {
     });
     await expect(readDesignSystemPullFile(root, 'pull-project', 'design-tokens.json')).resolves.toMatchObject({
       path: 'design-tokens.json',
-      content: expect.stringContaining('od-design-tokens/v1'),
+      content: expect.stringContaining('sw-design-tokens/v1'),
     });
     await expect(readDesignSystemPullFile(root, 'pull-project', 'tailwind-v4.css')).resolves.toMatchObject({
       path: 'tailwind-v4.css',
@@ -457,7 +457,7 @@ describe('Design System Project manifest runtime consumption', () => {
     const root = fresh();
     const dir = writeDesignSystemProject(root, 'detail-project', {
       manifest: {
-        schemaVersion: 'od-design-system-project/v1',
+        schemaVersion: 'sw-design-system-project/v1',
         id: 'detail-project',
         name: 'Detail Project',
         category: 'Imported',

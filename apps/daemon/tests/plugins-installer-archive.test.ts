@@ -36,7 +36,7 @@ async function buildFixtureTarball(args: {
 }): Promise<Buffer> {
   // Write the fixture into a temp folder that mirrors the tar layout
   // codeload uses: `<repo>-<sha>/<files>`.
-  const tmp = await mkdtemp(path.join(os.tmpdir(), 'od-fixture-'));
+  const tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-fixture-'));
   const wrapper = path.join(tmp, args.rootPrefix);
   const pluginRoot = args.pluginSubpath
     ? path.join(wrapper, args.pluginSubpath)
@@ -83,7 +83,7 @@ function makeResponse(body: Buffer | string, status = 200, statusText = 'OK'): A
 }
 
 beforeEach(async () => {
-  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'od-installer-archive-'));
+  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-installer-archive-'));
   pluginsRoot = path.join(tmpRoot, 'plugins');
   db = new Database(':memory:');
   db.exec(`

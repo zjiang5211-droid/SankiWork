@@ -25,7 +25,7 @@ describe('listLatestProjectRunStatuses incomplete derivation (#1247)', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-project-status-incomplete-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-project-status-incomplete-'));
   });
 
   afterEach(() => {

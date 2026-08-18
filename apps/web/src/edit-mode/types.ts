@@ -128,36 +128,36 @@ export interface ManualEditHistoryEntry {
 }
 
 export interface ManualEditTargetMessage {
-  type: 'od-edit-targets';
+  type: 'sw-edit-targets';
   targets: ManualEditTarget[];
 }
 
 export interface ManualEditSelectMessage {
-  type: 'od-edit-select';
+  type: 'sw-edit-select';
   target: ManualEditTarget;
 }
 
 export interface ManualEditHoverMessage {
-  type: 'od-edit-hover';
+  type: 'sw-edit-hover';
   target: ManualEditTarget;
 }
 
 export interface ManualEditInspectHoverMessage {
-  type: 'od-edit-inspect-hover';
+  type: 'sw-edit-inspect-hover';
   target: ManualEditTarget;
 }
 
 export interface ManualEditInspectSelectMessage {
-  type: 'od-edit-inspect-select';
+  type: 'sw-edit-inspect-select';
   target: ManualEditTarget;
 }
 
 export interface ManualEditBackgroundMessage {
-  type: 'od-edit-background';
+  type: 'sw-edit-background';
 }
 
 export interface ManualEditPreviewAppliedMessage {
-  type: 'od-edit-preview-style-applied';
+  type: 'sw-edit-preview-style-applied';
   id: string;
   version: number;
   ok: boolean;
@@ -165,13 +165,13 @@ export interface ManualEditPreviewAppliedMessage {
 }
 
 export interface ManualEditTextCommitMessage {
-  type: 'od-edit-text-commit';
+  type: 'sw-edit-text-commit';
   id: string;
   value: string;
 }
 
 export interface ManualEditTextSessionMessage {
-  type: 'od-edit-text-session';
+  type: 'sw-edit-text-session';
   id: string;
   active: boolean;
   changed?: boolean;
@@ -181,7 +181,7 @@ export interface ManualEditTextSessionMessage {
 /** Free drag-to-reposition finished: the element's new translate() value, to
  *  be committed as a pending style so the panel's Save persists it. */
 export interface ManualEditDragCommitMessage {
-  type: 'od-edit-drag-commit';
+  type: 'sw-edit-drag-commit';
   id: string;
   transform: string;
   /** Set when an inline element was bumped to inline-block so the translate

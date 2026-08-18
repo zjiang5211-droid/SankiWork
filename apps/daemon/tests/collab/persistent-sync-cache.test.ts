@@ -53,7 +53,7 @@ describe('createPersistentSyncCache', () => {
   let store: CollabSyncSnapshotStore;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-sync-snapshot-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-sync-snapshot-'));
     // Real schema through the daemon's own migration path, so the account id is
     // genuinely part of the primary key rather than a fake in-memory map.
     store = createCollabSyncSnapshotStore(openDatabase(tempDir, { dataDir: tempDir }));

@@ -13,7 +13,7 @@ test('AGENT_DEFS ids are unique', () => {
 });
 
 test('local agent profiles inherit a base adapter and can pin the default model', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-local-agent-profiles-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-local-agent-profiles-'));
   try {
     await withEnvSnapshot(['SW_AGENT_PROFILES_CONFIG'], async () => {
       const config = join(dir, 'agents.local.json');
@@ -77,7 +77,7 @@ test('local agent profiles inherit a base adapter and can pin the default model'
 });
 
 test('local agent profiles skip explicit unknown baseAgent without falling back', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-local-agent-profiles-invalid-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-local-agent-profiles-invalid-'));
   try {
     await withEnvSnapshot(['SW_AGENT_PROFILES_CONFIG'], async () => {
       const config = join(dir, 'agents.local.json');
@@ -105,7 +105,7 @@ test('local agent profiles skip explicit unknown baseAgent without falling back'
 });
 
 test('sandbox mode ignores implicit and host explicit local agent profiles', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-local-agent-profiles-sandbox-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-local-agent-profiles-sandbox-'));
   try {
     await withEnvSnapshot(['SW_AGENT_PROFILES_CONFIG', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'], async () => {
       const config = join(dir, 'agents.local.json');
@@ -135,7 +135,7 @@ test('codex args disable plugins when SW_CODEX_DISABLE_PLUGINS is 1', () => {
     delete process.env.SW_CODEX_SANDBOX;
 
     withPlatform('darwin', () => {
-      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
 
       assert.deepEqual(args.slice(0, 9), [
         'exec',
@@ -159,7 +159,7 @@ test('codex args disable plugins for an externally attributed Local Codex run', 
 
     withPlatform('darwin', () => {
       const args = codex.buildArgs('', [], [], {}, {
-        cwd: '/tmp/od-project',
+        cwd: '/tmp/sw-project',
         disablePlugins: true,
       });
 
@@ -186,7 +186,7 @@ test('codex args use workspace-write sandbox on macOS and Linux', () => {
     for (const platform of ['darwin', 'linux'] as const) {
       withPlatform(platform, () => {
         delete process.env.WSL_DISTRO_NAME;
-        const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+        const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
         assert.equal(args.includes('--full-auto'), false);
         assert.deepEqual(args.slice(0, 5), [
           'exec',
@@ -212,7 +212,7 @@ test('codex args use danger-full-access sandbox on WSL because workspace-write s
       delete process.env.SW_CODEX_SANDBOX;
       process.env.WSL_DISTRO_NAME = 'Ubuntu';
       assert.equal(codexNeedsDangerFullAccessSandbox('linux', process.env), true);
-      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
       assert.deepEqual(args.slice(0, 5), [
         'exec',
         '--json',
@@ -233,7 +233,7 @@ test('codex args allow SW_CODEX_SANDBOX danger-full-access override on Linux', (
       delete process.env.WSL_DISTRO_NAME;
 
       assert.equal(codexNeedsDangerFullAccessSandbox('linux', process.env), true);
-      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
       assert.deepEqual(args.slice(0, 5), [
         'exec',
         '--json',
@@ -257,7 +257,7 @@ test('codex args ignore unknown SW_CODEX_SANDBOX values', () => {
       delete process.env.WSL_DISTRO_NAME;
 
       assert.equal(codexNeedsDangerFullAccessSandbox('linux', process.env), false);
-      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
       assert.deepEqual(args.slice(0, 5), [
         'exec',
         '--json',
@@ -281,7 +281,7 @@ test('codex args use danger-full-access sandbox on Windows because workspace-wri
     delete process.env.SW_CODEX_SANDBOX;
 
     withPlatform('win32', () => {
-      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
 
       assert.deepEqual(args.slice(0, 5), [
         'exec',
@@ -308,7 +308,7 @@ test('codex args keep plugins enabled when SW_CODEX_DISABLE_PLUGINS is unset', (
     delete process.env.SW_CODEX_SANDBOX;
 
     withPlatform('darwin', () => {
-      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
 
       assert.equal(args.includes('--disable'), false);
       assert.equal(args.includes('plugins'), false);
@@ -322,7 +322,7 @@ test('codex args keep plugins enabled when SW_CODEX_DISABLE_PLUGINS is not 1', (
     delete process.env.SW_CODEX_SANDBOX;
 
     withPlatform('darwin', () => {
-      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+      const args = codex.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
 
       assert.equal(args.includes('--disable'), false);
       assert.equal(args.includes('plugins'), false);
@@ -366,7 +366,7 @@ test('codex model picker includes current OpenAI choices in priority order', asy
     [],
     [],
     { model: 'gpt-5.5', reasoning: 'xhigh' },
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
   assert.ok(args.includes('--model'));
   assert.ok(args.includes('gpt-5.5'));
@@ -377,11 +377,11 @@ test('codex model picker includes current OpenAI choices in priority order', asy
     [],
     [],
     { model: 'gpt-5.5', serviceTier: 'priority' },
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
   assert.ok(fastArgs.includes('service_tier="priority"'));
 
-  const dir = mkdtempSync(join(tmpdir(), 'od-agents-codex-models-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agents-codex-models-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'CODEX_BIN'], async () => {
       const codexBin = join(dir, 'codex');
@@ -461,7 +461,7 @@ test('codex preserves explicit live service tiers from debug models JSON', () =>
 });
 
 test('codex live model metadata falls back to static service tiers', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agents-codex-live-tier-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agents-codex-live-tier-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'CODEX_BIN'], async () => {
       const codexBin = join(dir, 'codex');
@@ -500,7 +500,7 @@ test('claude probes auth status so rescans reflect CLI auth changes', async () =
     timeoutMs: 5000,
   });
 
-  const dir = mkdtempSync(join(tmpdir(), 'od-agents-claude-auth-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agents-claude-auth-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'CLAUDE_BIN'], async () => {
       const claudeBin = join(dir, 'claude');
@@ -531,7 +531,7 @@ exit 0
 });
 
 test('claude API key env satisfies auth probe without requiring local login', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agents-claude-api-key-auth-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agents-claude-api-key-auth-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'CLAUDE_BIN', 'ANTHROPIC_API_KEY'], async () => {
       const claudeBin = join(dir, 'claude');
@@ -568,7 +568,7 @@ test('codex probes login status so rescans reflect CLI auth changes', async () =
     timeoutMs: 5000,
   });
 
-  const dir = mkdtempSync(join(tmpdir(), 'od-agents-codex-auth-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agents-codex-auth-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'CODEX_BIN'], async () => {
       const codexBin = join(dir, 'codex');
@@ -598,7 +598,7 @@ exit 0
 });
 
 test('codex API key env satisfies auth probe without requiring local login', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agents-codex-api-key-auth-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agents-codex-api-key-auth-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'CODEX_BIN', 'CODEX_API_KEY'], async () => {
       const codexBin = join(dir, 'codex');
@@ -733,7 +733,7 @@ test('codex preserves service tier labels from bare-array debug models JSON', ()
 });
 
 test('codex detection surfaces live debug models separately from fallback models', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agents-codex-live-models-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agents-codex-live-models-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'CODEX_BIN'], async () => {
       const codexBin = join(dir, 'codex');
@@ -771,7 +771,7 @@ exit 2
 });
 
 test('codex detection enriches sparse live GPT-5.5 metadata from fallback tiers', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agents-codex-sparse-live-models-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agents-codex-sparse-live-models-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'CODEX_BIN'], async () => {
       const codexBin = join(dir, 'codex');
@@ -862,7 +862,7 @@ test('grok-build filters login headers from live model discovery output', () => 
 test('codex args do not include the literal `-` stdin sentinel (regression of #237)', () => {
   delete process.env.SW_CODEX_DISABLE_PLUGINS;
 
-  const baseArgs = codex.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+  const baseArgs = codex.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
   assert.equal(baseArgs.includes('-'), false);
 
   const withModel = codex.buildArgs(
@@ -870,7 +870,7 @@ test('codex args do not include the literal `-` stdin sentinel (regression of #2
     [],
     [],
     { model: 'gpt-5-codex' },
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
   assert.equal(withModel.includes('-'), false);
 
@@ -879,7 +879,7 @@ test('codex args do not include the literal `-` stdin sentinel (regression of #2
     [],
     [],
     { reasoning: 'high' },
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
   assert.equal(withReasoning.includes('-'), false);
 
@@ -889,7 +889,7 @@ test('codex args do not include the literal `-` stdin sentinel (regression of #2
     [],
     [],
     {},
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
   assert.equal(withDisablePlugins.includes('-'), false);
 });
@@ -902,7 +902,7 @@ test('codex args pass valid extraAllowedDirs with repeatable --add-dir flags', (
     [],
     ['/repo/skills', '', null, '/tmp/codex/generated_images', undefined] as unknown as string[],
     {},
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
 
   assert.deepEqual(

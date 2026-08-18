@@ -26,8 +26,8 @@ describe('run-scoped media policy routes', () => {
   let shutdown: (() => Promise<void> | void) | undefined;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(path.join(os.tmpdir(), 'od-media-policy-route-'));
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-media-policy-bin-'));
+    tempDir = await mkdtemp(path.join(os.tmpdir(), 'sw-media-policy-route-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-media-policy-bin-'));
     oldPath = process.env.PATH;
     oldCapture = process.env.SW_CAPTURE_MEDIA_RESPONSE;
     process.env.PATH = `${binDir}${path.delimiter}${oldPath ?? ''}`;

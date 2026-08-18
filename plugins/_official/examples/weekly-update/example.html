@@ -203,7 +203,7 @@
       <div class="item-list">
         <div class="item"><span class="item-num">01</span><span class="item-title">Default agent timeout raised p95 render latency 8.1s → 14.4s</span><div class="av-row"><span class="av">OD</span></div></div>
         <div class="item"><span class="item-num">02</span><span class="item-title">61% of the drop concentrates in Safari desktop, React-based templates</span><div class="av-row"><span class="av av-2">MR</span><span class="av">SL</span></div></div>
-        <div class="item"><span class="item-num">03</span><span class="item-title">New od-reframe flow added one extra confirm step before render</span><div class="av-row"><span class="av av-2">CA</span></div></div>
+        <div class="item"><span class="item-num">03</span><span class="item-title">New sw-reframe flow added one extra confirm step before render</span><div class="av-row"><span class="av av-2">CA</span></div></div>
         <div class="item"><span class="item-num">04</span><span class="item-title">Everything else — agent choice, BYOK setup, plugin discovery — flat WoW</span><div class="av-row"><span class="av av-3">PB</span></div></div>
       </div>
     </div>
@@ -217,7 +217,7 @@
       <h2 class="section-title">One thing broke the <em>pattern</em>.</h2>
       <div class="blocked-block">
         <h3>Safari desktop first-render latency nearly doubled.</h3>
-        <p>Every other channel held steady or improved this week. Safari desktop alone jumped from 8.1s to 14.4s p95, and it's driving almost two-thirds of the conversion drop. That forces a call: roll back the od-reframe confirm step, or ship a Safari-specific render path before Friday's release cut.</p>
+        <p>Every other channel held steady or improved this week. Safari desktop alone jumped from 8.1s to 14.4s p95, and it's driving almost two-thirds of the conversion drop. That forces a call: roll back the sw-reframe confirm step, or ship a Safari-specific render path before Friday's release cut.</p>
         <span class="blocked-ask">Decision needed: roll back or patch by Thu 18:00</span>
       </div>
     </div>
@@ -270,7 +270,7 @@
         </div>
         <div class="ask">
           <div class="who"><span class="av av-3">PM</span>Product</div>
-          <h3>Pull the extra confirm step from od-reframe pending re-test.</h3>
+          <h3>Pull the extra confirm step from sw-reframe pending re-test.</h3>
           <p>It was added for clarity, not speed — re-run the A/B once the Safari fix lands.</p>
         </div>
         <div class="ask">

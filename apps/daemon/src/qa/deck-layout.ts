@@ -87,12 +87,12 @@ export function analyseDeckLayout(html: string): DeckLayoutReport {
 
   // 2. The shrink-to-fit runtime must be shipped (marker emitted by the deck
   //    script). Without it nothing keeps oversized content inside the frame.
-  if (!scriptText.includes('od-deck-fit')) {
+  if (!scriptText.includes('sw-deck-fit')) {
     issues.push({
       code: 'fit-runtime-missing',
       severity: 'error',
       message:
-        'Shrink-to-fit runtime (`od-deck-fit`) is missing; slides taller than the frame would be clipped instead of scaled.',
+        'Shrink-to-fit runtime (`sw-deck-fit`) is missing; slides taller than the frame would be clipped instead of scaled.',
     });
   }
 

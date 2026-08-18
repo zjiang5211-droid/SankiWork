@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
-export const DESIGN_SYSTEM_COMPONENTS_SCHEMA_VERSION = 'od-design-system-components/v1' as const;
-export const DESIGN_SYSTEM_COMPONENT_SCHEMA_VERSION = 'od-design-system-component/v1' as const;
-export const DESIGN_SYSTEM_INTENT_MAP_SCHEMA_VERSION = 'od-design-system-intents/v1' as const;
-export const DESIGN_SYSTEM_LINT_SCHEMA_VERSION = 'od-design-system-lint/v1' as const;
-export const DESIGN_SYSTEM_FALLBACK_SCHEMA_VERSION = 'od-design-system-fallback/v1' as const;
-export const DESIGN_SYSTEM_ADHERENCE_SCHEMA_VERSION = 'od-design-system-adherence/v1' as const;
+export const DESIGN_SYSTEM_COMPONENTS_SCHEMA_VERSION = 'sw-design-system-components/v1' as const;
+export const DESIGN_SYSTEM_COMPONENT_SCHEMA_VERSION = 'sw-design-system-component/v1' as const;
+export const DESIGN_SYSTEM_INTENT_MAP_SCHEMA_VERSION = 'sw-design-system-intents/v1' as const;
+export const DESIGN_SYSTEM_LINT_SCHEMA_VERSION = 'sw-design-system-lint/v1' as const;
+export const DESIGN_SYSTEM_FALLBACK_SCHEMA_VERSION = 'sw-design-system-fallback/v1' as const;
+export const DESIGN_SYSTEM_ADHERENCE_SCHEMA_VERSION = 'sw-design-system-adherence/v1' as const;
 
 const NonEmptyStringSchema = z.string().trim().min(1);
 const ComponentIdSchema = NonEmptyStringSchema.regex(/^[A-Za-z][A-Za-z0-9_-]*$/);

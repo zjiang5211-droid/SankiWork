@@ -55,7 +55,7 @@ beforeEach(async () => {
   await new Promise<void>((resolve) => server!.listen(0, '127.0.0.1', () => resolve()));
   const addr = server.address() as { port: number };
   baseUrl = `http://127.0.0.1:${addr.port}`;
-  tmp = await mkdtemp(path.join(os.tmpdir(), 'od-media-pf-'));
+  tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-media-pf-'));
 });
 
 afterEach(async () => {

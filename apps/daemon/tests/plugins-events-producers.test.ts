@@ -31,7 +31,7 @@ async function drain<T>(gen: AsyncGenerator<T>): Promise<void> {
 
 beforeEach(async () => {
   __resetPluginEventBufferForTests();
-  tmp = await mkdtemp(path.join(os.tmpdir(), 'od-events-prod-'));
+  tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-events-prod-'));
   pluginsRoot = path.join(tmp, 'plugins');
   sourceFolder = path.join(tmp, 'source-plugin');
   await mkdir(sourceFolder, { recursive: true });

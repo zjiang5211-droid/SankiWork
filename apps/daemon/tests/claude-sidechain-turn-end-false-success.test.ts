@@ -82,7 +82,7 @@ describe('claude sub-agent turn_end false success (#5487)', () => {
   });
 
   it('a sub-agent end_turn must not classify a crashed main turn as succeeded', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-sidechain-claude-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-sidechain-claude-bin-'));
     const controlBin = await writeCrashClaude(binDir, 'claude-control', { withSubagent: false });
     const sidechainBin = await writeCrashClaude(binDir, 'claude-sidechain', { withSubagent: true });
 

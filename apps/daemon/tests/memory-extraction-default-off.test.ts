@@ -13,7 +13,7 @@ import {
 let dataDir = '';
 
 beforeEach(async () => {
-  dataDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-memory-default-'));
+  dataDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-memory-default-'));
 });
 
 afterEach(async () => {

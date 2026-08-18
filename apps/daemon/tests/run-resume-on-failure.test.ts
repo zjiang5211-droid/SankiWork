@@ -64,7 +64,7 @@ describe('resume-on-failure runtime', () => {
   });
 
   it('marks a resumable failure with output as resumable and resumes the session next turn', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-resume-on-failure-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-resume-on-failure-bin-'));
     const { bin: fakeClaude, argsLogPath } = await writeResumableClaude(
       binDir,
       'claude-resumable',
@@ -124,7 +124,7 @@ describe('resume-on-failure runtime', () => {
   });
 
   it('treats a no-output upstream drop as a from-scratch restart, not resumable', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-resume-noout-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-resume-noout-bin-'));
     const { bin: fakeClaude, argsLogPath } = await writeNoOutputUpstreamClaude(
       binDir,
       'claude-noout',
@@ -168,7 +168,7 @@ describe('resume-on-failure runtime', () => {
   });
 
   it('does not flag a text-only drop with no committed block as resumable', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-resume-textonly-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-resume-textonly-bin-'));
     const { bin: fakeClaude } = await writeTextOnlyUpstreamClaude(binDir, 'claude-textonly');
 
     delete process.env.POSTHOG_KEY;
@@ -198,7 +198,7 @@ describe('resume-on-failure runtime', () => {
   });
 
   it('does not resume a provider 404 after a committed tool block', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-resume-client-error-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-resume-client-error-bin-'));
     const { bin: fakeOpenCode, argsLogPath } = await writeClientErrorOpenCode(
       binDir,
       'opencode-client-error',

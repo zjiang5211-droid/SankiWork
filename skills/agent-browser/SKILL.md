@@ -128,7 +128,7 @@ Use this sequence:
 if ! curl -fsS http://127.0.0.1:9223/json/version | rg -q webSocketDebuggerUrl; then
   open -na "Google Chrome" --args \
     --remote-debugging-port=9223 \
-    --user-data-dir=/tmp/od-agent-browser-chrome \
+    --user-data-dir=/tmp/sw-agent-browser-chrome \
     --no-first-run \
     --no-default-browser-check
 
@@ -150,7 +150,7 @@ Chrome manually from Terminal:
 ```bash
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
   --remote-debugging-port=9223 \
-  --user-data-dir=/tmp/od-agent-browser-chrome \
+  --user-data-dir=/tmp/sw-agent-browser-chrome \
   --no-first-run \
   --no-default-browser-check
 ```
@@ -168,14 +168,14 @@ Use a temp home and stable session:
 
 ```bash
 export HOME=/tmp/agent-browser-home
-export AGENT_BROWSER_SESSION=od-local-preview
+export AGENT_BROWSER_SESSION=sw-local-preview
 ```
 
 When you start a temporary Chrome profile for this smoke path, close it before
 finishing the task. Prefer a shell trap around the whole smoke script:
 
 ```bash
-CHROME_USER_DATA_DIR=/tmp/od-agent-browser-chrome
+CHROME_USER_DATA_DIR=/tmp/sw-agent-browser-chrome
 cleanup_agent_browser() {
   pkill -f -- "--user-data-dir=${CHROME_USER_DATA_DIR}" 2>/dev/null || true
 }
@@ -206,12 +206,12 @@ agent-browser open http://127.0.0.1:17573/
 agent-browser get title
 agent-browser get url
 agent-browser snapshot
-agent-browser screenshot /tmp/od-agent-browser.png
+agent-browser screenshot /tmp/sw-agent-browser.png
 ```
 
 Expected success: title `SankiWork`, current URL under `127.0.0.1:17573`,
 visible SankiWork UI text in the snapshot, and a screenshot at
-`/tmp/od-agent-browser.png`.
+`/tmp/sw-agent-browser.png`.
 
 ## Workflow
 

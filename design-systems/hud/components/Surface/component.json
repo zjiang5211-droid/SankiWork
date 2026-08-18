@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "od-design-system-component/v1",
+  "schemaVersion": "sw-design-system-component/v1",
   "id": "Surface",
   "name": "Surface",
   "description": "Dark translucent HUD panel.",

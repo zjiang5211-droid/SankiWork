@@ -943,7 +943,7 @@ describe('connector memory extraction', () => {
 
   it('runs Codex Local CLI through JSON event stream with stdin prompt', async () => {
     await writeMemoryConfig(dataDir, { extraction: null });
-    const tempDir = await fsp.mkdtemp(path.join(tmpdir(), 'od-codex-memory-'));
+    const tempDir = await fsp.mkdtemp(path.join(tmpdir(), 'sw-codex-memory-'));
     const binPath = path.join(tempDir, 'codex');
     const capturePath = path.join(tempDir, 'capture.json');
     const previousPath = process.env.PATH;
@@ -1025,7 +1025,7 @@ process.stdout.write(JSON.stringify({
 
   it('runs OpenCode Local CLI memory extraction with the prompt on stdin', async () => {
     await writeMemoryConfig(dataDir, { extraction: null });
-    const tempDir = await fsp.mkdtemp(path.join(tmpdir(), 'od-opencode-memory-'));
+    const tempDir = await fsp.mkdtemp(path.join(tmpdir(), 'sw-opencode-memory-'));
     const binPath = path.join(tempDir, 'opencode-cli');
     const capturePath = path.join(tempDir, 'capture.json');
     const previousPath = process.env.PATH;

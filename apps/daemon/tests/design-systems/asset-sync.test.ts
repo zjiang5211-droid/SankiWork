@@ -8,7 +8,7 @@
 //
 //   1. `syncUserDesignSystemAssetsFromFiles` (design-systems/index.ts) — the
 //      pure write: copies real bytes into canonical, drops the
-//      `.od-generated.json` fingerprint for the overwritten path so the
+//      `.sw-generated.json` fingerprint for the overwritten path so the
 //      generator never reclaims it, and flips `artifactMode` to
 //      'agent-managed' the first time anything real syncs.
 //   2. `createDesignSystemServerServices().syncUserDesignSystemAssetsFromWorkspace`
@@ -58,7 +58,7 @@ describe('syncUserDesignSystemAssetsFromFiles', () => {
   let root = '';
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-ds-asset-sync-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-ds-asset-sync-'));
   });
 
   afterEach(async () => {
@@ -77,7 +77,7 @@ describe('syncUserDesignSystemAssetsFromFiles', () => {
     expect(placeholderLogo).toContain('<svg');
 
     const manifestBefore = JSON.parse(
-      await readFile(path.join(dir, '.od-generated.json'), 'utf8'),
+      await readFile(path.join(dir, '.sw-generated.json'), 'utf8'),
     ) as Record<string, string>;
     expect(manifestBefore['assets/logo.svg']).toBeTruthy();
 
@@ -96,7 +96,7 @@ describe('syncUserDesignSystemAssetsFromFiles', () => {
     expect(syncedContent.equals(realLogo)).toBe(true);
 
     const manifestAfter = JSON.parse(
-      await readFile(path.join(dir, '.od-generated.json'), 'utf8'),
+      await readFile(path.join(dir, '.sw-generated.json'), 'utf8'),
     ) as Record<string, string>;
     expect(manifestAfter['assets/logo.svg']).toBeUndefined();
 
@@ -163,7 +163,7 @@ describe('createDesignSystemServerServices().syncUserDesignSystemAssetsFromWorks
   let services: ReturnType<typeof createDesignSystemServerServices>;
 
   beforeEach(async () => {
-    workRoot = await mkdtemp(path.join(tmpdir(), 'od-ds-workspace-sync-'));
+    workRoot = await mkdtemp(path.join(tmpdir(), 'sw-ds-workspace-sync-'));
     userDesignSystemsDir = path.join(workRoot, 'design-systems');
     projectsDir = path.join(workRoot, 'projects');
     await mkdir(userDesignSystemsDir, { recursive: true });

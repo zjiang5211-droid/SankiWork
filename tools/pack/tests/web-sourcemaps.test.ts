@@ -36,7 +36,7 @@ function restoreEnv(name: string, value: string | undefined): void {
 }
 
 beforeEach(async () => {
-  tempRoot = await mkdtemp(join(tmpdir(), "od-web-sourcemaps-"));
+  tempRoot = await mkdtemp(join(tmpdir(), "sw-web-sourcemaps-"));
   // Force the "no credentials" path so we test the strip-always invariant
   // without needing to mock @posthog/cli or hit the network.
   delete process.env.POSTHOG_CLI_API_KEY;

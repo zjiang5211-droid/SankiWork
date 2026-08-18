@@ -15,7 +15,7 @@ import { composioConnectorProvider, getStaticComposioCatalogDefinitions } from '
 import type { ConnectorCatalogDefinition } from '../src/connectors/catalog.js';
 
 async function useTempComposioStore(): Promise<string> {
-  const dir = await mkdtemp(path.join(tmpdir(), 'od-composio-config-'));
+  const dir = await mkdtemp(path.join(tmpdir(), 'sw-composio-config-'));
   configureComposioConfigStore(dir);
   composioConnectorProvider.clearDiscoveryCache();
   return dir;

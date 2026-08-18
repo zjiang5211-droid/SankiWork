@@ -22,7 +22,7 @@ describe('buildTraceObjectManifests', () => {
   let dataDir: string;
 
   beforeEach(async () => {
-    dataDir = await mkdtemp(path.join(tmpdir(), 'od-trace-objects-'));
+    dataDir = await mkdtemp(path.join(tmpdir(), 'sw-trace-objects-'));
     projectFileReadTracker.calls = 0;
   });
 

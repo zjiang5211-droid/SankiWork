@@ -136,7 +136,7 @@ describe('intent signals × stable prompt cache', () => {
   async function bootServer({ memoryEnabled = false }: { memoryEnabled?: boolean } = {}): Promise<{
     url: string;
   }> {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-intent-cache-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-intent-cache-bin-'));
     const bin = await writeResumingOpencode(binDir);
     clearTelemetryEnv();
     // Memory auto-extraction folds prior form answers into the stable-region

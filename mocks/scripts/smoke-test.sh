@@ -99,7 +99,7 @@ fi
 # ~/.amr config (which holds the production vela login state for anyone
 # using the real CLI). vela's login subcommand resolves ~/.amr from $HOME,
 # so override just for this one invocation.
-amr_sandbox="$(mktemp -d -t od-mocks-amr.XXXXXX)"
+amr_sandbox="$(mktemp -d -t sw-mocks-amr.XXXXXX)"
 trap 'rm -rf "$amr_sandbox"' EXIT
 if HOME="$amr_sandbox" FAKE_VELA_LOGIN_USER_EMAIL=smoke@od.local vela login >/dev/null 2>&1 \
    && [ -f "$amr_sandbox/.amr/config.json" ]; then

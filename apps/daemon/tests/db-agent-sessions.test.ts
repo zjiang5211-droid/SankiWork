@@ -21,7 +21,7 @@ describe('agent_sessions persistence', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-agent-sessions-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-agent-sessions-'));
   });
 
   afterEach(() => {
@@ -77,7 +77,7 @@ describe('latestCompletedAssistantMessageId (resume-identity cursor)', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-resume-cursor-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-resume-cursor-'));
   });
 
   afterEach(() => {
@@ -140,7 +140,7 @@ describe('latestCompletedAssistantMessageId (resume-identity cursor)', () => {
 describe('agent_sessions stable_prompt_hash', () => {
   let tempDir: string;
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-agent-sessions-hash-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-agent-sessions-hash-'));
   });
   afterEach(() => {
     closeDatabase();

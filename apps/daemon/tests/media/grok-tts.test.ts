@@ -26,7 +26,7 @@ describe('xAI Grok TTS media generation', () => {
   const originalXaiKey = process.env.XAI_API_KEY;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-xai-tts-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-xai-tts-'));
     projectRoot = path.join(root, 'project-root');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });

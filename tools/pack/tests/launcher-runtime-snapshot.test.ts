@@ -13,7 +13,7 @@ import { readToolPackLauncherRuntimeSnapshot } from "../src/launcher-runtime-sna
 
 describe("launcher runtime snapshot", () => {
   it("reports the validated desktop handoff journal with the launcher pointers", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-tools-pack-launcher-snapshot-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-tools-pack-launcher-snapshot-"));
     try {
       const namespace = "release-beta-win";
       const namespaceBaseRoot = join(root, "runtime", "win", "namespaces");

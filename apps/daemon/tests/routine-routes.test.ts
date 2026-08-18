@@ -36,7 +36,7 @@ describe('routine routes', () => {
   }
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-routine-routes-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-routine-routes-'));
   });
 
   afterEach(() => {

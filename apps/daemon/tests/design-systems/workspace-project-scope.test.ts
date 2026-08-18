@@ -33,7 +33,7 @@ describe('design-system workspace projects preserve exact Workspace scope', () =
   let services: ReturnType<typeof createDesignSystemServerServices>;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(os.tmpdir(), 'od-ds-workspace-scope-'));
+    root = await mkdtemp(path.join(os.tmpdir(), 'sw-ds-workspace-scope-'));
     userDesignSystemsDir = path.join(root, 'design-systems');
     projectsDir = path.join(root, 'projects');
     await Promise.all([
@@ -159,7 +159,7 @@ describe('design-system workspace projects preserve exact Workspace scope', () =
           writeFile(
             path.join(dir, 'manifest.json'),
             JSON.stringify({
-              schemaVersion: 'od-design-system-project/v1',
+              schemaVersion: 'sw-design-system-project/v1',
               id: 'personal-shopify',
               name: 'Team Shopify',
               category: 'Commerce',

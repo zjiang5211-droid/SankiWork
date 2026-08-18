@@ -40,7 +40,7 @@ test('[P1] diagnostics export zip includes the primary daemon, web, and desktop 
   expect(response.ok(), await response.text()).toBeTruthy();
   expect(response.headers()['content-type']).toContain('application/zip');
 
-  const tmpRoot = await mkdtemp(path.join(tmpdir(), 'od-diagnostics-e2e-'));
+  const tmpRoot = await mkdtemp(path.join(tmpdir(), 'sw-diagnostics-e2e-'));
   try {
     const zipPath = path.join(tmpRoot, 'diagnostics.zip');
     await writeFile(zipPath, Buffer.from(await response.body()));

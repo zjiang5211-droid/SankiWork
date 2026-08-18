@@ -34,7 +34,7 @@ const WORKSPACE_A = 'vp44mftzknedrrqgy05oqpv9';
 const WORKSPACE_B = 'jg63to8cbic0kzbczbu95a4g';
 
 function freshRoot(): string {
-  return mkdtempSync(path.join(tmpdir(), 'od-ds-workspace-scope-'));
+  return mkdtempSync(path.join(tmpdir(), 'sw-ds-workspace-scope-'));
 }
 
 /** Write a design system directly on disk with the given metadata. */

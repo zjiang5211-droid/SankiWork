@@ -16,7 +16,7 @@ import { discoverReleaseNotePlan } from "../src/release-note/source.js";
 const roots: string[] = [];
 
 async function temporaryRoot(): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), "od-release-note-"));
+  const root = await mkdtemp(join(tmpdir(), "sw-release-note-"));
   roots.push(root);
   return root;
 }

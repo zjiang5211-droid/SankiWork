@@ -86,7 +86,7 @@ describe('FileViewer screenshot tooltip guard', () => {
 
     const button = screen.getByTestId('edit-screenshot-to-chat-button');
     fireEvent.pointerOver(button);
-    expect(document.body.querySelector('.od-tooltip-layer')).not.toBeNull();
+    expect(document.body.querySelector('.sw-tooltip-layer')).not.toBeNull();
 
     fireEvent.click(button);
     await Promise.resolve();
@@ -102,6 +102,6 @@ describe('FileViewer screenshot tooltip guard', () => {
       expect(captureHostIframeSnapshotMock).toHaveBeenCalled();
     });
     // By the time the frame is captured, the tooltip is gone from the DOM.
-    expect(document.body.querySelector('.od-tooltip-layer')).toBeNull();
+    expect(document.body.querySelector('.sw-tooltip-layer')).toBeNull();
   });
 });

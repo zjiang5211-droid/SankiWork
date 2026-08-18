@@ -2113,7 +2113,7 @@ function stableVelaEventId(event: VelaSourceEvent): string {
     typeof event.body.id === 'string' && event.body.id.trim()
       ? event.body.id.trim()
       : JSON.stringify(event.body);
-  return `od-${createHash('sha256')
+  return `sw-${createHash('sha256')
     .update(`${event.type}\n${bodyId}`, 'utf8')
     .digest('hex')}`;
 }

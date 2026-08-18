@@ -74,7 +74,7 @@ const tr: DeepPartial<CommunityCopy> = {
           },
           {
             h4: "Skill'i uyandırın",
-            body: "<code>/od-contribute</code> yazın ya da az önce kurduğunuz şeyi çalıştırmasını ajana söyleyin. İki ifade de kapıyı açar.",
+            body: "<code>/sw-contribute</code> yazın ya da az önce kurduğunuz şeyi çalıştırmasını ajana söyleyin. İki ifade de kapıyı açar.",
           },
           {
             h4: "Galeriye yarım dakika",

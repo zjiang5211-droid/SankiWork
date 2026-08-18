@@ -37,7 +37,7 @@ const ARTIFACT_DATE = '2021-04-08';
 const ARTIFACT_TS = new Date(`${ARTIFACT_DATE}T12:00:00`).getTime();
 
 beforeEach(async () => {
-  dataDir = await mkdtemp(path.join(os.tmpdir(), 'od-library-sync-'));
+  dataDir = await mkdtemp(path.join(os.tmpdir(), 'sw-library-sync-'));
   projectsDir = path.join(dataDir, 'projects');
   designSystemsDir = path.join(dataDir, 'design-systems');
   libraryDir = path.join(dataDir, 'library');
@@ -98,7 +98,7 @@ async function seedDesignSystem(): Promise<void> {
   await writeFile(
     path.join(root, 'manifest.json'),
     JSON.stringify({
-      schemaVersion: 'od-design-system-project/v1',
+      schemaVersion: 'sw-design-system-project/v1',
       id: DS_DIR,
       name: 'Acme',
       category: 'Brand',
@@ -191,7 +191,7 @@ describe('reconcileLibrary', () => {
     await writeFile(
       path.join(root, 'manifest.json'),
       JSON.stringify({
-        schemaVersion: 'od-design-system-project/v1',
+        schemaVersion: 'sw-design-system-project/v1',
         id: DS_DIR,
         name: 'Acme',
         preview: { pages: [{ path: '../outside.html', role: 'overview' }] },
@@ -220,7 +220,7 @@ describe('reconcileLibrary', () => {
     await writeFile(
       path.join(root, 'manifest.json'),
       JSON.stringify({
-        schemaVersion: 'od-design-system-project/v1',
+        schemaVersion: 'sw-design-system-project/v1',
         id: DS_DIR,
         name: 'Acme',
         preview: { pages: [{ path: 'components.html', role: 'overview' }] },

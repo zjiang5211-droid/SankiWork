@@ -23,7 +23,7 @@ describe('sw export --format html', () => {
   const projectId = `html_cli_${randomUUID()}`;
 
   beforeAll(async () => {
-    outputDir = await mkdtemp(path.join(os.tmpdir(), 'od-export-html-cli-'));
+    outputDir = await mkdtemp(path.join(os.tmpdir(), 'sw-export-html-cli-'));
     const started = (await startServer({ port: 0, returnServer: true })) as {
       server: http.Server;
       url: string;

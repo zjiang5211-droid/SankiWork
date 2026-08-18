@@ -30,7 +30,7 @@ import {
 import { cancelVelaLogin, startVelaLogin } from '../src/providers/daemon';
 
 const attribution: AmrEntryAttribution = {
-  entryId: 'od-amr-test-entry',
+  entryId: 'sw-amr-test-entry',
   sourceProduct: 'sankiwork',
   sourceDetail: 'inline_model_switcher_amr_row',
   occurredAt: new Date().toISOString(),
@@ -127,7 +127,7 @@ describe('amr-auth single-flight tracking', () => {
       page_name: 'chat_panel',
       area: 'amr_auth',
       result: 'success',
-      entry_id: 'od-amr-test-entry',
+      entry_id: 'sw-amr-test-entry',
       source_detail: 'inline_model_switcher_amr_row',
     });
     expect(props.duration_ms).toBeGreaterThanOrEqual(1500);
@@ -216,7 +216,7 @@ describe('amr-auth single-flight tracking', () => {
     const firstId = beginAmrAuthTracking(attribution, Date.now() - 500);
     const joiningAttribution: AmrEntryAttribution = {
       ...attribution,
-      entryId: 'od-amr-joining-entry',
+      entryId: 'sw-amr-joining-entry',
       sourceDetail: 'settings_amr_authorize',
     };
     const provisionalJoiningId = beginAmrAuthTracking(joiningAttribution);
@@ -265,7 +265,7 @@ describe('amr-auth single-flight tracking', () => {
     const ownerProvisionalId = beginAmrAuthTracking(attribution, Date.now() - 500);
     const joiningAttribution: AmrEntryAttribution = {
       ...attribution,
-      entryId: 'od-amr-pending-joiner',
+      entryId: 'sw-amr-pending-joiner',
       sourceDetail: 'settings_amr_authorize',
     };
     const joiningProvisionalId = beginAmrAuthTracking(joiningAttribution);

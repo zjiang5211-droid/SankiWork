@@ -55,7 +55,7 @@ function headers(role: 'owner' | 'member' = 'owner'): Record<string, string> {
 
 describe('Design System Team/Personal same-id route isolation', () => {
   it('routes Team file reads, archive, PATCH, and DELETE only to the exact Team root', async () => {
-    root = mkdtempSync(path.join(os.tmpdir(), 'od-ds-same-id-routes-'));
+    root = mkdtempSync(path.join(os.tmpdir(), 'sw-ds-same-id-routes-'));
     const userRoot = path.join(root, 'design-systems');
     const teamRoot = teamResourceWorkspaceRoot(userRoot, workspaceId);
     const db = openDatabase(root, { dataDir: path.join(root, 'data') });

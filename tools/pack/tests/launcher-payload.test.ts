@@ -245,7 +245,7 @@ describe("tools-pack launcher payload archives", () => {
   });
 
   it.skipIf(process.platform !== "darwin")("creates a mac payload zip with bootstrap-readable contents", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-tools-pack-mac-payload-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-tools-pack-mac-payload-"));
     try {
       const config = makeConfig(root, "mac", "release-beta", "0.9.0-beta.2");
       const paths = await writeFakeMacApp(config);
@@ -277,7 +277,7 @@ describe("tools-pack launcher payload archives", () => {
   });
 
   it.skipIf(process.platform !== "win32")("creates a Windows payload 7z with bootstrap-readable contents", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-tools-pack-win-payload-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-tools-pack-win-payload-"));
     try {
       const namespace = "release-beta-win";
       const version = "0.9.0-beta.2";
@@ -307,7 +307,7 @@ describe("tools-pack launcher payload archives", () => {
   });
 
   it.skipIf(process.platform !== "win32")("validates Windows launcher payload archives", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-tools-pack-win-payload-validate-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-tools-pack-win-payload-validate-"));
     try {
       const namespace = "release-beta-win";
       const version = "0.9.0-beta.2";
@@ -339,7 +339,7 @@ describe("tools-pack launcher payload archives", () => {
   });
 
   it.skipIf(process.platform !== "win32")("reuses the Windows payload archive when base and overlay metadata are unchanged", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-tools-pack-win-payload-cache-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-tools-pack-win-payload-cache-"));
     try {
       const namespace = "release-beta-win";
       const initialVersion = "0.9.0-beta.0";
@@ -391,7 +391,7 @@ describe("tools-pack launcher payload archives", () => {
   });
 
   it.skipIf(process.platform !== "win32")("can seed the Windows launcher payload from the NSIS base archive", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-tools-pack-win-payload-nsis-seed-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-tools-pack-win-payload-nsis-seed-"));
     try {
       const namespace = "release-beta-win";
       const version = "0.9.0-beta.3";

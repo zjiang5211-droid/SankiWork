@@ -12,7 +12,7 @@ async function projectFixture(
   files: Record<string, string>,
 ): Promise<{ projectsRoot: string; projectId: string }> {
   const projectsRoot = await fs.mkdtemp(
-    path.join(os.tmpdir(), 'od-deliverable-validation-'),
+    path.join(os.tmpdir(), 'sw-deliverable-validation-'),
   );
   temporaryRoots.push(projectsRoot);
   const projectId = 'project-1';

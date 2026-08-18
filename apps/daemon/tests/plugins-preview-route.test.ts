@@ -35,7 +35,7 @@ let server: http.Server | undefined;
 let baseUrl: string;
 
 beforeEach(async () => {
-  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'od-preview-'));
+  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-preview-'));
   const folder = path.join(pluginRoot, PLUGIN_ID);
   await mkdir(path.join(folder, 'preview'), { recursive: true });
   await mkdir(path.join(folder, 'examples', 'desk-warm'), { recursive: true });

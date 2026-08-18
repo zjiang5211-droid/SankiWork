@@ -282,7 +282,7 @@ test("design-system project manifest schema rejects partial and unsafe runtime p
 });
 
 test("design-system runtime guard validates cross-file component references", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-design-system-runtime-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-design-system-runtime-"));
   try {
     mkdirSync(path.join(root, "manifests"), { recursive: true });
     mkdirSync(path.join(root, "components", "Button"), { recursive: true });
@@ -420,7 +420,7 @@ test("bundled DS 3.0 regression packages cover the three-task intent set and no-
 });
 
 test("design-system design tokens guard rejects stale derived JSON", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-design-tokens-guard-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-design-tokens-guard-"));
   try {
     writeDerivedTokenFixture(root);
     const okViolations: string[] = [];
@@ -443,7 +443,7 @@ test("design-system design tokens guard rejects stale derived JSON", async () =>
 });
 
 test("design-system design tokens guard rejects stale token source line references", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-design-token-source-guard-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-design-token-source-guard-"));
   try {
     writeDerivedTokenFixture(root);
     const report = JSON.parse(readFileSync(path.join(root, REPORT_PATH), "utf8")) as {
@@ -472,7 +472,7 @@ test("design-system design tokens guard rejects stale token source line referenc
 });
 
 test("design-system design tokens guard rejects prefix token source line references", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-design-tokens-prefix-guard-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-design-tokens-prefix-guard-"));
   try {
     writeDerivedTokenFixture(root);
     const report = JSON.parse(readFileSync(path.join(root, REPORT_PATH), "utf8")) as {
@@ -500,7 +500,7 @@ test("design-system design tokens guard rejects prefix token source line referen
 });
 
 test("design-system design tokens guard does not flag CRLF-normalized design-tokens.json as stale", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-design-tokens-crlf-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-design-tokens-crlf-"));
   try {
     writeDerivedTokenFixture(root);
     const filePath = path.join(root, "design-tokens.json");
@@ -515,7 +515,7 @@ test("design-system design tokens guard does not flag CRLF-normalized design-tok
 });
 
 test("design-system design tokens guard still rejects genuinely stale content when the file is CRLF", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-design-tokens-crlf-stale-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-design-tokens-crlf-stale-"));
   try {
     writeDerivedTokenFixture(root);
     const filePath = path.join(root, "design-tokens.json");
@@ -537,7 +537,7 @@ test("design-system design tokens guard still rejects genuinely stale content wh
 });
 
 test("design-system tailwind v4 guard rejects swapped canonical mappings", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-tailwind-guard-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-tailwind-guard-"));
   try {
     writeDerivedTokenFixture(root);
     const okViolations: string[] = [];
@@ -560,7 +560,7 @@ test("design-system tailwind v4 guard rejects swapped canonical mappings", async
 });
 
 test("design-system tailwind v4 guard does not flag CRLF-normalized tailwind-v4.css as stale", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-tailwind-crlf-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-tailwind-crlf-"));
   try {
     writeDerivedTokenFixture(root);
     const filePath = path.join(root, "tailwind-v4.css");
@@ -575,7 +575,7 @@ test("design-system tailwind v4 guard does not flag CRLF-normalized tailwind-v4.
 });
 
 test("design-system tailwind v4 guard still rejects genuinely stale content when the file is CRLF", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-tailwind-crlf-stale-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-tailwind-crlf-stale-"));
   try {
     writeDerivedTokenFixture(root);
     const filePath = path.join(root, "tailwind-v4.css");
@@ -596,7 +596,7 @@ test("design-system tailwind v4 guard still rejects genuinely stale content when
 });
 
 test("design-system components manifest guard rejects undeclared token references", async () => {
-  const root = mkdtempSync(path.join(os.tmpdir(), "od-components-manifest-guard-"));
+  const root = mkdtempSync(path.join(os.tmpdir(), "sw-components-manifest-guard-"));
   try {
     const fixtureHtml = [
       "<!doctype html>",

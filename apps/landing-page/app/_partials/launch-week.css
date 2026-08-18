@@ -244,7 +244,7 @@ html:has(main.lw) {
 .lw .hero-q .plus { font-size: .78em;
 }
 /* OD's own lockup is already mono — no filter, it stays as designed */
-.lw .hero-q .od-lockup { height: 1em; width: auto;
+.lw .hero-q .sw-lockup { height: 1em; width: auto;
 }
 .lw .hero-q .kill {
   display: inline-block;

@@ -36,7 +36,7 @@ function runPublisher(repoRoot: string, env: NodeJS.ProcessEnv): Promise<string>
 describe("DeepSeek Harness bootstrap publisher", () => {
   it("publishes immutable cross-platform installers and their checksum manifest", async () => {
     const repoRoot = resolve(import.meta.dirname, "../../..");
-    const sourceDir = await mkdtemp(join(tmpdir(), "od-dsh-bootstrap-publish-"));
+    const sourceDir = await mkdtemp(join(tmpdir(), "sw-dsh-bootstrap-publish-"));
     const server = await startReleaseStorageFixtureServer();
     const files = {
       "install-dsh.cmd": "@echo off\r\necho cmd\r\n",

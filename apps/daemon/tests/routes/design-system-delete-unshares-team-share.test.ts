@@ -130,7 +130,7 @@ function registerRoutes(
     unshareTeamDesignSystemIfShared?: (id: string, req: any) => Promise<boolean>;
   },
 ) {
-  tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-ds-delete-unshare-'));
+  tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-ds-delete-unshare-'));
   const db = openDatabase(tempDir, { dataDir: tempDir });
   const deleteUserDesignSystem = vi.fn(async () => true);
   const scope: TeamResourceRequestScope = {

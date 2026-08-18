@@ -5,7 +5,7 @@
  * Was a hand-written static page under `public/community/index.html`; now a
  * localized Astro route rendered through `sub-page-layout.astro` (real site
  * header/footer, language switcher, canonical + hreflang). Body styles live
- * in `../../community.css`, scoped under `.od-community`. Per-locale routes
+ * in `../../community.css`, scoped under `.sw-community`. Per-locale routes
  * come from `[locale]/community/`.
  */
 import Layout from '../../_components/sub-page-layout.astro';
@@ -43,7 +43,7 @@ const jsonLd = {
 ---
 
 <Layout title={t.title} description={t.desc} active="community" jsonLd={jsonLd} mainClassName="sub-main">
-  <div class="od-community">
+  <div class="sw-community">
     <section class="hero">
       <div class="hero-decor"></div>
       <div class="wrap hero-grid">

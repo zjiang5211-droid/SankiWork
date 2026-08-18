@@ -35,7 +35,7 @@ describe('project export manifest route', () => {
   });
 
   function makeFolder(): string {
-    const dir = mkdtempSync(path.join(tmpdir(), 'od-export-manifest-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'sw-export-manifest-'));
     tempDirs.push(dir);
     return dir;
   }

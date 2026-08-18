@@ -13,7 +13,7 @@ import { installWhiteScreenDetector } from '../../src/observability/white-screen
  * (don't fire when the app actually rendered something) but must fire
  * when the user is really stuck on a non-app screen. The critical case —
  * called out by codex review on PR #2527 — is the dynamic-import loading
- * shell: `<div class="od-loading-shell">Loading SankiWork…</div>`. That
+ * shell: `<div class="sw-loading-shell">Loading SankiWork…</div>`. That
  * string is well above the visible-text floor, so an earlier
  * implementation that only checked `body.innerText.length` would silently
  * treat the loading sentinel as a successful mount and cancel the timer.
@@ -57,7 +57,7 @@ describe('observability/white-screen', () => {
     // Reproduces the codex-review reported bug: the loading shell text
     // "Loading SankiWork…" is longer than the legacy 10-char floor.
     const shell = document.createElement('div');
-    shell.className = 'od-loading-shell';
+    shell.className = 'sw-loading-shell';
     shell.textContent = 'Loading SankiWork…';
     document.body.appendChild(shell);
 
@@ -88,7 +88,7 @@ describe('observability/white-screen', () => {
   it('cancels the timer the moment a non-loading-shell child appears with real content', () => {
     // Start with only the loading shell.
     const shell = document.createElement('div');
-    shell.className = 'od-loading-shell';
+    shell.className = 'sw-loading-shell';
     shell.textContent = 'Loading SankiWork…';
     document.body.appendChild(shell);
 

@@ -1,5 +1,5 @@
 const DECK_STAGE_OPEN_TAG_RE = /<deck-stage\b/i;
-const DECK_STAGE_FALLBACK_MARKER = 'data-od-deck-stage-fallback';
+const DECK_STAGE_FALLBACK_MARKER = 'data-sw-deck-stage-fallback';
 
 /**
  * The selector family that identifies a deck's slide elements. Single source of
@@ -9,12 +9,12 @@ const DECK_STAGE_FALLBACK_MARKER = 'data-od-deck-stage-fallback';
  */
 export const DECK_SLIDE_SELECTOR = '.slide, [data-screen-label], .deck-slide, .ppt-slide';
 
-const DECK_STAGE_FALLBACK_SCRIPT = `<script data-od-deck-stage-fallback>(function(){
+const DECK_STAGE_FALLBACK_SCRIPT = `<script data-sw-deck-stage-fallback>(function(){
   if (window.__odDeckStageFallbackInstalled) return;
   window.__odDeckStageFallbackInstalled = true;
   if (!window.customElements || window.customElements.get('deck-stage')) return;
 
-  var ACTIVE_ATTR = 'data-od-deck-active';
+  var ACTIVE_ATTR = 'data-sw-deck-active';
   var SLIDE_SELECTOR = ${JSON.stringify(DECK_SLIDE_SELECTOR)};
 
   function numeric(value, fallback) {

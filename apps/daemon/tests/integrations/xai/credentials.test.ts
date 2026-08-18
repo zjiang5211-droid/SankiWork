@@ -31,7 +31,7 @@ describe('resolveXAIBearer', () => {
   let dataDir: string;
 
   beforeEach(async () => {
-    dataDir = await mkdtemp(path.join(tmpdir(), 'od-xai-creds-'));
+    dataDir = await mkdtemp(path.join(tmpdir(), 'sw-xai-creds-'));
   });
 
   afterEach(async () => {

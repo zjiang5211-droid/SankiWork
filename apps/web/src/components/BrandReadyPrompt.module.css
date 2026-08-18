@@ -1,5 +1,5 @@
 /* "Design system is ready" prompt shown in a brand-extraction project once the
-   extraction finalizes. A light success surface (mirrors .od-toast.tone-success
+   extraction finalizes. A light success surface (mirrors .sw-toast.tone-success
    tokens) so it reads as a confirmation, not an alert. Center inside the
    workspace panel, not the full viewport, so it never covers the chat composer. */
 .prompt {

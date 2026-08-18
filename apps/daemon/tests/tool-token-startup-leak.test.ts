@@ -57,7 +57,7 @@ setTimeout(() => process.exit(0), 200);
 }
 
 it('revokes the run tool token when startup fails before spawn', async () => {
-  binDir = await mkdtemp(path.join(os.tmpdir(), 'od-token-leak-bin-'));
+  binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-token-leak-bin-'));
   const fakeClaude = await writeFakeClaude(binDir);
 
   started = (await startServer({ port: 0, returnServer: true })) as StartedServer;

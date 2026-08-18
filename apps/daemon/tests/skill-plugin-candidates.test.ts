@@ -26,7 +26,7 @@ let tmpDir: string;
 let projectRoot: string;
 
 beforeEach(async () => {
-  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-skill-plugin-candidates-'));
+  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-skill-plugin-candidates-'));
   projectRoot = path.join(tmpDir, 'project');
   await mkdir(projectRoot, { recursive: true });
 });

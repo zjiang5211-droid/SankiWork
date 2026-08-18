@@ -380,7 +380,7 @@ describe('deck capture DOM prep', () => {
   // Regression for issue #990 ("导出PPT多页时后续页面内容丢失"): the injected
   // <deck-stage> fallback (packages/contracts/src/runtime/deck-stage-fallback.ts)
   // hides every slotted slide with `::slotted(*){visibility:hidden!important}` and
-  // reveals only the one carrying the `data-od-deck-active` attribute. showSlide
+  // reveals only the one carrying the `data-sw-deck-active` attribute. showSlide
   // picks the page to capture, so it must set that attribute on the selected slide;
   // the pre-fix code toggled classes and set non-important inline styles only, so
   // every slide but the first captured blank (one populated page followed by blanks).
@@ -440,16 +440,16 @@ describe('deck capture DOM prep', () => {
 
     // The fallback (packages/contracts/src/runtime/deck-stage-fallback.ts) hides
     // slotted slides with `::slotted(*){visibility:hidden!important}` in its shadow
-    // root and reveals ONLY `::slotted([data-od-deck-active])`. Because a shadow
+    // root and reveals ONLY `::slotted([data-sw-deck-active])`. Because a shadow
     // `!important` declaration beats an outer inline `!important` one (for
     // `!important`, the inner tree wins BEFORE inline precedence is considered —
     // verified in a real browser), inline `visibility:visible !important` on a
     // slotted slide does NOT reveal it. Under the fallback a slide renders iff it
-    // carries `data-od-deck-active` — that attribute toggle is the mechanism this
+    // carries `data-sw-deck-active` — that attribute toggle is the mechanism this
     // unit test guards. (The inline `!important` override handles the OTHER runtimes
     // — real deck-stage.js with non-`!important` `::slotted`, and class-based decks
     // — where importance wins outright; that path is covered separately below.)
-    const revealedByFallback = (slide: Slide): boolean => slide.hasAttribute('data-od-deck-active');
+    const revealedByFallback = (slide: Slide): boolean => slide.hasAttribute('data-sw-deck-active');
 
     const slides = [new Slide(), new Slide(), new Slide()];
     const previousDocument = globalThis.document;
@@ -469,7 +469,7 @@ describe('deck capture DOM prep', () => {
       expect(revealedByFallback(slides[0])).toBe(false);
       expect(revealedByFallback(slides[2])).toBe(false);
       // NB: we intentionally do NOT assert `data-deck-active` is absent — the
-      // fallback contract only requires `data-od-deck-active` on the selected
+      // fallback contract only requires `data-sw-deck-active` on the selected
       // slide, and the real export freezes descendant animations in
       // prepareDeckStage() before selection, so an implementation that also set
       // `data-deck-active` would still be correct. Constraining it here would fail

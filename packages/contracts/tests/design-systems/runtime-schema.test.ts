@@ -51,14 +51,14 @@ function runtimeBundle(mappings: DesignSystemIntentMap['mappings']): DesignSyste
       mappings,
     },
     lint: {
-      schemaVersion: 'od-design-system-lint/v1',
+      schemaVersion: 'sw-design-system-lint/v1',
       requireMappedComponentReuse: true,
       requireTokenReferences: true,
       forbidUnauthorizedColorLiteralsOutsideTokenDefinitions: true,
       requireDeclaredStates: true,
     },
     fallback: {
-      schemaVersion: 'od-design-system-fallback/v1',
+      schemaVersion: 'sw-design-system-fallback/v1',
       noMatch: {
         action: 'request-human-confirmation',
         allowInventComponent: false,

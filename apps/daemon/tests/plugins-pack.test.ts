@@ -11,7 +11,7 @@ let folder: string;
 let parent: string;
 
 beforeEach(async () => {
-  parent = await mkdtemp(path.join(os.tmpdir(), 'od-pack-'));
+  parent = await mkdtemp(path.join(os.tmpdir(), 'sw-pack-'));
   folder = path.join(parent, 'my-plugin');
   await mkdir(folder, { recursive: true });
 });

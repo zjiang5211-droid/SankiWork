@@ -1129,10 +1129,10 @@
 .settings-general-select select:focus-visible {
   border-color: var(--selected);
 }
-/* The chevron renders as an <i class="od-icon"> font glyph, not an <svg>, so
+/* The chevron renders as an <i class="sw-icon"> font glyph, not an <svg>, so
    anchor it to the pill's right edge (inside the 42px right padding). */
 .settings-general-select svg,
-.settings-general-select .od-icon {
+.settings-general-select .sw-icon {
   position: absolute;
   right: var(--spacing-12);
   top: 50%;

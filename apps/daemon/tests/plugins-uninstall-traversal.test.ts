@@ -42,7 +42,7 @@ let orphanFolder: string;
 beforeAll(async () => {
   // A directory entirely outside SW_DATA_DIR, standing in for any victim
   // folder on the daemon host (a user workspace, PROJECTS_DIR, $HOME, …).
-  scratchRoot = await mkdtemp(path.join(os.tmpdir(), 'od-uninstall-traversal-'));
+  scratchRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-uninstall-traversal-'));
   outsideDir = path.join(scratchRoot, 'outside-root');
   await mkdir(outsideDir, { recursive: true });
   markerPath = path.join(outsideDir, 'keep.txt');

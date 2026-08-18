@@ -102,7 +102,7 @@ describe('plugin preview bake manifest', () => {
 
 describe('bakedPreviewBlock', () => {
   it('uses the public preview origin when the manifest points to remote-only nested assets', async () => {
-    tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-baked-preview-'));
+    tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-baked-preview-'));
     await writeManifest(tmpDir, {
       'html-plugin': {
         video: 'html-plugin/abc123abc123abcd/preview.mp4',
@@ -121,7 +121,7 @@ describe('bakedPreviewBlock', () => {
   });
 
   it('uses the daemon static route when nested preview assets exist on disk', async () => {
-    tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-baked-preview-'));
+    tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-baked-preview-'));
     const nested = path.join(tmpDir, 'html-plugin', 'def456def456abcd');
     await mkdir(nested, { recursive: true });
     await writeFile(path.join(nested, 'preview.mp4'), 'clip');
@@ -144,7 +144,7 @@ describe('bakedPreviewBlock', () => {
   });
 
   it('lets an explicit preview base override both local and public origins', async () => {
-    tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-baked-preview-'));
+    tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-baked-preview-'));
     previousBaseUrl = process.env.SW_PLUGIN_PREVIEWS_BASE_URL;
     process.env.SW_PLUGIN_PREVIEWS_BASE_URL = 'https://cdn.example.test/previews/';
     await writeManifest(tmpDir, {
@@ -165,7 +165,7 @@ describe('bakedPreviewBlock', () => {
 
 describe('applyBakedPreviews', () => {
   it('attaches baked previews without overwriting authored preview blocks', async () => {
-    tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-baked-preview-'));
+    tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-baked-preview-'));
     await writeManifest(tmpDir, {
       'html-plugin': {
         video: 'html-plugin/aaaabbbbccccdddd/preview.mp4',

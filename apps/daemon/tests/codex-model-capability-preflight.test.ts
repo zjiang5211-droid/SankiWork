@@ -64,7 +64,7 @@ describe('Codex configured-model capability preflight', () => {
   });
 
   it('blocks an unsupported configured default model before spawning Codex exec', async () => {
-    tempDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-model-preflight-'));
+    tempDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-model-preflight-'));
     const codexHome = path.join(tempDir, 'codex-home');
     const spawnMarker = path.join(tempDir, 'codex-exec-spawned');
     const fakeCodex = await writeFakeCodex(tempDir, spawnMarker);
@@ -101,7 +101,7 @@ describe('Codex configured-model capability preflight', () => {
   });
 
   it('continues to Codex exec at the known-compatible version without consulting a model catalog', async () => {
-    tempDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-model-compatible-'));
+    tempDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-model-compatible-'));
     const codexHome = path.join(tempDir, 'codex-home');
     const spawnMarker = path.join(tempDir, 'codex-exec-spawned');
     const fakeCodex = await writeFakeCodex(tempDir, spawnMarker, {
@@ -134,7 +134,7 @@ describe('Codex configured-model capability preflight', () => {
   });
 
   it('does not overwrite cancellation while the version probe is in flight', async () => {
-    tempDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-model-cancel-'));
+    tempDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-model-cancel-'));
     const codexHome = path.join(tempDir, 'codex-home');
     const spawnMarker = path.join(tempDir, 'codex-exec-spawned');
     const probeMarker = path.join(tempDir, 'codex-version-probed');

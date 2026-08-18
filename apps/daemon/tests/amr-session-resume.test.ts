@@ -66,7 +66,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('captures the durable handle on turn 1 and resumes it via session/load on turn 2', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-resume-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-resume-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     const bin = await writeVelaWrapper(binDir, 'vela-resume', { logPath });
 
@@ -92,7 +92,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('transparently auto-reseeds within the same turn when the resumed session is gone', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-deadresume-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-deadresume-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     // The resumed session is gone: any session/load turn fails with the
     // structured resume_failed; a fresh session/new turn still succeeds.
@@ -129,7 +129,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('does not flash a client-visible error event during the transparent reseed', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-reseed-noerror-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-reseed-noerror-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     const bin = await writeVelaWrapper(binDir, 'vela-deadresume-noerror', { logPath, resumeFailed: true });
 
@@ -174,7 +174,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('opens a fresh session next turn when turn 1 yields no durable handle', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-nohandle-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-nohandle-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     // vela never reports openCodeSessionId → the daemon captures null and must
     // clear the row, so the next turn cannot attempt a session/load.
@@ -202,7 +202,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('clears a resumed AMR session after request_too_large so the next turn starts fresh', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-largecontext-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-largecontext-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     const bin = await writeVelaWrapper(binDir, 'vela-largecontext', {
       logPath,
@@ -246,7 +246,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('persists the concrete resolved model for a default turn (equivalent explicit follow-up resumes)', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-defaultmodel-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-defaultmodel-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     const bin = await writeVelaWrapper(binDir, 'vela-defaultmodel', { logPath });
 
@@ -278,7 +278,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('resolves an explicit default model to the live catalog default before spawning AMR', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-explicit-default-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-explicit-default-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     const bin = await writeVelaWrapper(binDir, 'vela-explicit-default', {
       logPath,
@@ -311,7 +311,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('uses the catalog default model for omitted AMR model selections, skipping disabled catalog heads', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-catalog-default-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-catalog-default-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     const presetCatalog = JSON.stringify({
       source: 'preset',
@@ -354,7 +354,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('rejects explicit AMR default when every catalog model is disabled', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-locked-default-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-locked-default-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     const lockedCatalog = JSON.stringify({
       source: 'preset',
@@ -396,7 +396,7 @@ describe('AMR (vela) ACP session resume — full server cycle', () => {
   });
 
   it('reseeds a fresh session (no resume) when the model changes between turns', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-modelchange-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-modelchange-bin-'));
     const logPath = path.join(binDir, 'invocations.jsonl');
     const bin = await writeVelaWrapper(binDir, 'vela-modelchange', { logPath });
 

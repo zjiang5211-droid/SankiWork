@@ -40,7 +40,7 @@ function withEnvSnapshot<T>(
 }
 
 test('sandbox runtime registry ignores host-local agent profiles at module load', async () => {
-  const root = mkdtempSync(path.join(tmpdir(), 'od-sandbox-registry-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'sw-sandbox-registry-'));
   const dataDir = path.join(root, 'data');
   const hostHome = path.join(root, 'host-home');
   const hostConfigDir = path.join(hostHome, '.sankiwork');
@@ -102,7 +102,7 @@ test('sandbox runtime registry ignores host-local agent profiles at module load'
 });
 
 test('sandbox runtime registry ignores implicit profiles without SW_DATA_DIR', async () => {
-  const root = mkdtempSync(path.join(tmpdir(), 'od-sandbox-registry-missing-data-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'sw-sandbox-registry-missing-data-'));
   const hostHome = path.join(root, 'host-home');
   const hostConfigDir = path.join(hostHome, '.sankiwork');
   const hostConfig = path.join(hostConfigDir, 'agents.local.json');

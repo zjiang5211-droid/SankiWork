@@ -567,7 +567,7 @@
 }
 .entry-rail-account-skeleton__avatar {
   /* Mirrors `.entry-nav-rail__account-avatar`'s 24×25 box. That box's own
-     `clip-path: url(#od-avatar-squircle)` currently has no matching SVG
+     `clip-path: url(#sw-avatar-squircle)` currently has no matching SVG
      `<clipPath>` in the tree, so the real avatar renders as a plain square —
      this placeholder stays a plain rounded square too rather than chasing a
      squircle the live row does not actually show. */
@@ -607,7 +607,7 @@
 .entry-nav-rail [data-tooltip] {
   position: relative;
 }
-.entry-nav-rail [data-tooltip]:not(.od-tooltip)::after {
+.entry-nav-rail [data-tooltip]:not(.sw-tooltip)::after {
   content: attr(data-tooltip);
   position: absolute;
   left: calc(100% + 10px);
@@ -626,25 +626,25 @@
   transition: opacity 120ms var(--ease-out), transform 120ms var(--ease-out);
   z-index: 60;
 }
-.entry-nav-rail [data-tooltip]:not(.od-tooltip):hover::after,
-.entry-nav-rail [data-tooltip]:not(.od-tooltip):focus-visible::after {
+.entry-nav-rail [data-tooltip]:not(.sw-tooltip):hover::after,
+.entry-nav-rail [data-tooltip]:not(.sw-tooltip):focus-visible::after {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
-.entry-nav-rail [data-tooltip]:not(.od-tooltip)[aria-expanded='true']::after {
+.entry-nav-rail [data-tooltip]:not(.sw-tooltip)[aria-expanded='true']::after {
   display: none;
 }
 /* RTL: the rail still lives on the left so the tooltip remains on
    the right of the button — but using `left: calc(100% + 10px)` in
    RTL would flip incorrectly via the parent's `dir="rtl"`. Pin the
    anchor explicitly so the bubble stays where the user expects. */
-[dir='rtl'] .entry-nav-rail [data-tooltip]:not(.od-tooltip)::after {
+[dir='rtl'] .entry-nav-rail [data-tooltip]:not(.sw-tooltip)::after {
   left: auto;
   right: calc(100% + 10px);
   transform: translateY(-50%) translateX(4px);
 }
-[dir='rtl'] .entry-nav-rail [data-tooltip]:not(.od-tooltip):hover::after,
-[dir='rtl'] .entry-nav-rail [data-tooltip]:not(.od-tooltip):focus-visible::after {
+[dir='rtl'] .entry-nav-rail [data-tooltip]:not(.sw-tooltip):hover::after,
+[dir='rtl'] .entry-nav-rail [data-tooltip]:not(.sw-tooltip):focus-visible::after {
   transform: translateY(-50%) translateX(0);
 }
 
@@ -838,7 +838,7 @@
 /* Every glyph in remixicon.ttf has a zero left side bearing (ink hugs x=0), so
    each icon renders ~0.8px left of its box centre — most obvious on asymmetric
    marks (share / kanban / settings). Nudge the rail icons right to centre them. */
-.entry-nav-rail__btn-icon .od-icon {
+.entry-nav-rail__btn-icon .sw-icon {
   transform: translateX(0.8px);
 }
 .entry-nav-rail__btn-label {
@@ -1413,10 +1413,10 @@
 }
 
 /* Downward hover tooltip for the collapsed chips. */
-.entry-main__topbar-chips--icon-only [data-tooltip]:not(.od-tooltip) {
+.entry-main__topbar-chips--icon-only [data-tooltip]:not(.sw-tooltip) {
   position: relative;
 }
-.entry-main__topbar-chips--icon-only [data-tooltip]:not(.od-tooltip)::after {
+.entry-main__topbar-chips--icon-only [data-tooltip]:not(.sw-tooltip)::after {
   content: attr(data-tooltip);
   position: absolute;
   top: calc(100% + 8px);
@@ -1435,14 +1435,14 @@
   transition: opacity 120ms var(--ease-out), transform 120ms var(--ease-out);
   z-index: 60;
 }
-.entry-main__topbar-chips--icon-only [data-tooltip]:not(.od-tooltip):hover::after,
-.entry-main__topbar-chips--icon-only [data-tooltip]:not(.od-tooltip):focus-visible::after {
+.entry-main__topbar-chips--icon-only [data-tooltip]:not(.sw-tooltip):hover::after,
+.entry-main__topbar-chips--icon-only [data-tooltip]:not(.sw-tooltip):focus-visible::after {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
 /* While the model-switcher popover is open, suppress its tooltip so the
    bubble doesn't collide with the menu. */
-.entry-main__topbar-chips--icon-only [data-tooltip]:not(.od-tooltip)[aria-expanded='true']::after {
+.entry-main__topbar-chips--icon-only [data-tooltip]:not(.sw-tooltip)[aria-expanded='true']::after {
   display: none;
 }
 
@@ -5803,7 +5803,7 @@
   outline: none;
   box-shadow: 0 0 0 var(--stroke-thick) var(--border);
 }
-.entry-nav-rail__credits-chip .od-icon { color: var(--brand-text); }
+.entry-nav-rail__credits-chip .sw-icon { color: var(--brand-text); }
 .entry-nav-rail__credits-tier { font-weight: 600; }
 .entry-nav-rail__credits-sep { color: var(--text-faint); }
 
@@ -5880,7 +5880,7 @@
   font-weight: 500;
   color: var(--text-strong);
 }
-.credits-panel__row-label > .od-icon {
+.credits-panel__row-label > .sw-icon {
   color: var(--brand-text);
 }
 .credits-panel__row-value {
@@ -6329,7 +6329,7 @@
   color: var(--text);
 }
 .entry-nav-rail__menu-social-btn svg,
-.entry-nav-rail__menu-social-btn .od-icon { color: inherit; }
+.entry-nav-rail__menu-social-btn .sw-icon { color: inherit; }
 /* GitHub 按钮附带实时 star 数时放开固定宽度，图标 + 数字并排 */
 .entry-nav-rail__menu-social-btn:has(.entry-nav-rail__menu-social-count) {
   width: auto;
@@ -6430,14 +6430,14 @@ button.entry-nav-rail__menu-credits-row:active:not(:disabled) {
   align-items: center;
   gap: 8px;
 }
-.entry-nav-rail__menu-credits-label .od-icon { color: rgba(250, 250, 250, 0.72); }
+.entry-nav-rail__menu-credits-label .sw-icon { color: rgba(250, 250, 250, 0.72); }
 .entry-nav-rail__menu-credits-value {
   display: inline-flex;
   align-items: center;
   gap: 2px;
   font-variant-numeric: tabular-nums;
 }
-.entry-nav-rail__menu-credits-value .od-icon { color: rgba(250, 250, 250, 0.72); }
+.entry-nav-rail__menu-credits-value .sw-icon { color: rgba(250, 250, 250, 0.72); }
 .entry-nav-rail__menu-item {
   appearance: none;
   border: 0;
@@ -6461,9 +6461,9 @@ button.entry-nav-rail__menu-credits-row:active:not(:disabled) {
 }
 .entry-nav-rail__menu-item:hover { background: var(--vibrancy-fill-secondary); }
 .entry-nav-rail__menu-item svg,
-.entry-nav-rail__menu-item .od-icon { color: var(--text-soft); flex: 0 0 auto; }
+.entry-nav-rail__menu-item .sw-icon { color: var(--text-soft); flex: 0 0 auto; }
 .entry-nav-rail__menu-item > svg:first-child,
-.entry-nav-rail__menu-item > .od-icon:first-child { flex-basis: 19px; }
+.entry-nav-rail__menu-item > .sw-icon:first-child { flex-basis: 19px; }
 .entry-nav-rail__menu-section {
   padding: 8px 9px 2px;
   font-size: 12px;
@@ -6493,7 +6493,7 @@ button.entry-nav-rail__menu-credits-row:active:not(:disabled) {
 }
 .entry-nav-rail__menu-item.is-current { font-weight: 600; }
 .entry-nav-rail__menu-item.is-current svg,
-.entry-nav-rail__menu-item.is-current .od-icon { color: var(--accent); margin-left: auto; }
+.entry-nav-rail__menu-item.is-current .sw-icon { color: var(--accent); margin-left: auto; }
 
 /* Design-systems scope tabs lifted into the title area (你的 / 团队 / 官方). */
 .ds-top-scopes {

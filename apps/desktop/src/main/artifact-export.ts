@@ -120,7 +120,7 @@ function injectTitle(doc: string, title: string): string {
 }
 
 function injectStyle(doc: string, css: string): string {
-  const tag = `<style data-od-artifact-export>${css}</style>`;
+  const tag = `<style data-sw-artifact-export>${css}</style>`;
   if (/<\/head>/i.test(doc)) return doc.replace(/<\/head>/i, `${tag}</head>`);
   if (/<head[^>]*>/i.test(doc)) return doc.replace(/<head[^>]*>/i, (m) => `${m}${tag}`);
   return `${tag}${doc}`;
@@ -135,7 +135,7 @@ function escapeText(value: string): string {
 }
 
 async function writeTemp(extension: string, data: Buffer): Promise<string> {
-  const dir = await mkdtemp(path.join(tmpdir(), "od-export-"));
+  const dir = await mkdtemp(path.join(tmpdir(), "sw-export-"));
   const filePath = path.join(dir, `artifact.${extension}`);
   await writeFile(filePath, data);
   return filePath;

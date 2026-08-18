@@ -61,7 +61,7 @@ describe('opencode native session resume', () => {
   });
 
   it('captures the session id on turn 1 and resumes it (without resending history) on turn 2', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-opencode-resume-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-opencode-resume-bin-'));
     const { bin, logPath } = await writeCapturingOpencode(binDir, 'opencode-capture');
 
     clearTelemetryEnv();
@@ -101,7 +101,7 @@ describe('opencode native session resume', () => {
   });
 
   it('transparently auto-reseeds within the same turn on `Session not found`', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-opencode-fallback-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-opencode-fallback-bin-'));
     const { bin, logPath } = await writeMissingSessionOpencode(binDir, 'opencode-fallback');
 
     clearTelemetryEnv();
@@ -148,7 +148,7 @@ describe('opencode native session resume', () => {
   });
 
   it('starts fresh on turn 2 when turn 1 succeeds without a captured session id', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-opencode-nohandle-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-opencode-nohandle-bin-'));
     const { bin, logPath } = await writeNoHandleOpencode(binDir, 'opencode-nohandle');
 
     clearTelemetryEnv();

@@ -68,7 +68,7 @@ const designSystemSummary: DesignSystemSummary = {
 };
 
 function registerRoutes(app: express.Express, canMutate: (root: string, id: string, req: any) => Promise<boolean>) {
-  tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-ds-mutation-guard-'));
+  tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-ds-mutation-guard-'));
   const db = openDatabase(tempDir, { dataDir: tempDir });
   ensureWorkspaceResource(db, 'design_system', 'ws-locked', 'user:mine', {
     visibility: 'personal',

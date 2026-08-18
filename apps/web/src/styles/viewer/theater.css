@@ -391,8 +391,8 @@
 .assistant-feedback-button[data-selected="true"] svg {
   fill: currentColor;
 }
-.assistant-copy-button:not(.od-tooltip)[data-tooltip]::after,
-.assistant-feedback-button:not(.od-tooltip)[data-tooltip]::after {
+.assistant-copy-button:not(.sw-tooltip)[data-tooltip]::after,
+.assistant-feedback-button:not(.sw-tooltip)[data-tooltip]::after {
   position: absolute;
   z-index: 20;
   left: 50%;
@@ -416,10 +416,10 @@
     transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
   white-space: nowrap;
 }
-.assistant-copy-button:not(.od-tooltip)[data-tooltip]:hover::after,
-.assistant-copy-button:not(.od-tooltip)[data-tooltip]:focus-visible::after,
-.assistant-feedback-button:not(.od-tooltip)[data-tooltip]:hover::after,
-.assistant-feedback-button:not(.od-tooltip)[data-tooltip]:focus-visible::after {
+.assistant-copy-button:not(.sw-tooltip)[data-tooltip]:hover::after,
+.assistant-copy-button:not(.sw-tooltip)[data-tooltip]:focus-visible::after,
+.assistant-feedback-button:not(.sw-tooltip)[data-tooltip]:hover::after,
+.assistant-feedback-button:not(.sw-tooltip)[data-tooltip]:focus-visible::after {
   opacity: 1;
   transform: translate(-50%, 0);
 }
@@ -972,7 +972,7 @@
   background: #000;
 }
 /* Shadow-root thumbnail host (the default path): the single cloned slide lives
-   in a shadow root whose `.od-thumb-canvas` is scaled + centered inline by
+   in a shadow root whose `.sw-thumb-canvas` is scaled + centered inline by
    DeckSlideThumbnail. `contain: strict` isolates each thumbnail's layout/paint
    so the rail stays cheap even with many mounted. */
 .deck-thumbnail-frame .deck-thumbnail-shadow-host {
@@ -1129,7 +1129,7 @@
   padding: 0;
   /* Mounted only while a deck is in preview, so this fires exactly when the
      panel appears; reuses the shared entrance keyframe (entrance.css). */
-  animation: od-fade-slide-up 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation: sw-fade-slide-up 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 @media (prefers-reduced-motion: reduce) {
   .speaker-notes-panel {

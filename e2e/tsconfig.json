@@ -32,5 +32,5 @@
     "tests/**/*.ts",
     "ui/**/*.ts"
   ],
-  "exclude": ["node_modules", "reports", ".od-data"]
+  "exclude": ["node_modules", "reports", ".sw-data"]
 }

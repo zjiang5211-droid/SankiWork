@@ -44,7 +44,7 @@ afterEach(async () => {
 });
 
 async function makeProjectsRoot() {
-  const root = await mkdtemp(path.join(tmpdir(), 'od-watchers-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'sw-watchers-'));
   const projectId = 'proj-' + Math.random().toString(36).slice(2, 10);
   await mkdir(path.join(root, projectId), { recursive: true });
   return { root, projectId };
@@ -202,7 +202,7 @@ describe('project-watchers (real chokidar)', () => {
   });
 
   it('never ignores the watch root when it is a directory symlink', async () => {
-    const dataRoot = await mkdtemp(path.join(tmpdir(), 'od-symlink-root-'));
+    const dataRoot = await mkdtemp(path.join(tmpdir(), 'sw-symlink-root-'));
     const targetRoot = path.join(dataRoot, 'target');
     const symlinkRoot = path.join(dataRoot, 'root');
     await mkdir(targetRoot);
@@ -250,7 +250,7 @@ describe('project-watchers (real chokidar)', () => {
     //   <RUNTIME_DATA_DIR>/.sankiwork/projects/<id>/...
     // The ignore predicate must not match the watch root's ancestor directories,
     // only segments inside the watched tree.
-    const dataRoot = await mkdtemp(path.join(tmpdir(), 'od-data-'));
+    const dataRoot = await mkdtemp(path.join(tmpdir(), 'sw-data-'));
     const projectsRoot = path.join(dataRoot, '.sankiwork', 'projects');
     const projectId = 'proj-' + Math.random().toString(36).slice(2, 10);
     await mkdir(path.join(projectsRoot, projectId, 'prototype'), { recursive: true });
@@ -369,7 +369,7 @@ describe('project-watchers (chokidar options)', () => {
     // sibling directory outside the project. Writing to the external sibling
     // must NOT produce an event scoped to the symlink path, because
     // followSymlinks is false.
-    const dataRoot = await mkdtemp(path.join(tmpdir(), 'od-symlink-'));
+    const dataRoot = await mkdtemp(path.join(tmpdir(), 'sw-symlink-'));
     const { symlink } = await import('node:fs/promises');
     const projectId = 'proj-' + Math.random().toString(36).slice(2, 10);
     const projectRoot = path.join(dataRoot, projectId);

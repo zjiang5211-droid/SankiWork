@@ -326,7 +326,7 @@ describe("buildDockerArgs", () => {
 
 describe("stopPackedLinuxHeadless", () => {
   it("ignores the desktop AppImage identity marker and reads only the headless marker", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-linux-headless-marker-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-linux-headless-marker-"));
     const namespace = "marker-split";
     const namespaceRoot = join(root, "runtime", "linux", "namespaces", namespace);
     const config: ToolPackConfig = {
@@ -383,7 +383,7 @@ describe("stopPackedLinuxHeadless", () => {
   });
 
   it("removes stale desktop AppImage markers during headless cleanup", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-linux-headless-cleanup-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-linux-headless-cleanup-"));
     const namespace = "cleanup-split";
     const namespaceRoot = join(root, "runtime", "linux", "namespaces", namespace);
     const config: ToolPackConfig = {
@@ -448,7 +448,7 @@ describe("stopPackedLinuxHeadless", () => {
   });
 
   it("skips headless cleanup while the desktop marker PID is live in the snapshot table", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-linux-headless-cleanup-live-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-linux-headless-cleanup-live-"));
     const namespace = "cleanup-split-live";
     const namespaceRoot = join(root, "runtime", "linux", "namespaces", namespace);
     const config: ToolPackConfig = {
@@ -519,7 +519,7 @@ describe("stopPackedLinuxHeadless", () => {
 
 describe("stopPackedLinuxApp", () => {
   linuxOnlyIt("treats a direct AppRun-launched Electron process as owned", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-linux-direct-apprun-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-linux-direct-apprun-"));
     const namespace = "direct-apprun";
     const outputNamespaceRoot = join(root, "out", "linux", "namespaces", namespace);
     const runtimeNamespaceBaseRoot = join(root, "runtime", "linux", "namespaces");
@@ -774,7 +774,7 @@ describe("renderLinuxAppImageAppRun", () => {
   });
 
   linuxOnlyIt("exports APPIMAGE fallback to the execed Electron process", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-linux-apprun-export-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-linux-apprun-export-"));
     const appDir = join(root, "AppDir");
     const appRunPath = join(appDir, "AppRun");
     const observedEnvPath = join(root, "observed-env.txt");

@@ -45,7 +45,7 @@ const activeIdentity = {
 } as WorkspaceCollabContext;
 
 async function fixture(live = true) {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-team-promote-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-team-promote-'));
   roots.push(root);
   const liveDir = path.join(root, 'project-1');
   const stageDir = await mkdtemp(path.join(root, '.project-1.sw-pull-stage-'));
@@ -835,7 +835,7 @@ describe('authorized team mirror promotion', () => {
 
   it('rejects a corrupt journal that points outside the allowed projects root', async () => {
     const fx = await fixture();
-    const outside = await mkdtemp(path.join(os.tmpdir(), 'od-outside-promotion-'));
+    const outside = await mkdtemp(path.join(os.tmpdir(), 'sw-outside-promotion-'));
     roots.push(outside);
     await writeFile(path.join(outside, 'caller.txt'), 'preserve');
     await mkdir(fx.journalDir, { recursive: true });

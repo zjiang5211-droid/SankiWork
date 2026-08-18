@@ -64,7 +64,7 @@ describe('FileViewer srcDoc file-watch refresh recovery', () => {
     );
 
     const initialFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(initialFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+    expect(initialFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
 
     rerender(
       <FileViewer

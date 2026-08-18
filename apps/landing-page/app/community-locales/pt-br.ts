@@ -74,7 +74,7 @@ const ptBr: DeepPartial<CommunityCopy> = {
           },
           {
             h4: 'Desperte a skill',
-            body: 'Digite <code>/od-contribute</code>, ou simplesmente peça ao agente para executar o que você acabou de instalar. Qualquer uma das frases abre a porta.',
+            body: 'Digite <code>/sw-contribute</code>, ou simplesmente peça ao agente para executar o que você acabou de instalar. Qualquer uma das frases abre a porta.',
           },
           {
             h4: 'Meio minuto até a galeria',

@@ -29,7 +29,7 @@ async function writeSkill(directory: string, skillId: string, body: string) {
 async function createFixture(options: {
   listSkills?: typeof skills.listSkills;
 } = {}) {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-team-skill-list-gate-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-team-skill-list-gate-'));
   roots.push(root);
   const userSkills = path.join(root, 'skills');
   const builtInSkills = path.join(root, 'built-in-skills');

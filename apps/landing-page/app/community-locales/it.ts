@@ -74,7 +74,7 @@ const it: DeepPartial<CommunityCopy> = {
           },
           {
             h4: "Risveglia la skill",
-            body: "Digita <code>/od-contribute</code>, o semplicemente di' all'agent di eseguire ciò che hai appena installato. Entrambe le frasi aprono la porta.",
+            body: "Digita <code>/sw-contribute</code>, o semplicemente di' all'agent di eseguire ciò che hai appena installato. Entrambe le frasi aprono la porta.",
           },
           {
             h4: "Mezzo minuto alla galleria",

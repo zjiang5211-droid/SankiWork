@@ -14,7 +14,7 @@ import { JSDOM } from 'jsdom';
 import { buildSrcdoc } from '../../src/runtime/srcdoc';
 
 function extractDeckBridgeScript(srcdoc: string): string {
-  const match = srcdoc.match(/<script data-od-deck-bridge>([\s\S]*?)<\/script>/);
+  const match = srcdoc.match(/<script data-sw-deck-bridge>([\s\S]*?)<\/script>/);
   if (!match || !match[1]) {
     throw new Error('deck bridge script not found in srcdoc');
   }

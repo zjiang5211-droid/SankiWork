@@ -39,7 +39,7 @@ export interface ToastProps {
 }
 
 const DEFAULT_TTL = 4000;
-// Exit fade duration — kept in sync with the .od-toast.leaving CSS animation.
+// Exit fade duration — kept in sync with the .sw-toast.leaving CSS animation.
 // The fade plays inside the TTL window (it begins at ttlMs - EXIT_MS) so the
 // toast unmounts at exactly ttlMs. Auto-dismiss timing therefore matches the
 // pre-fade contract: callers that rely on the toast being gone by ttlMs keep
@@ -115,8 +115,8 @@ export function Toast({
 
   const iconName = TONE_ICON[tone];
 
-  // Animation is owned entirely by CSS (`.od-toast` `od-toast-in` on mount,
-  // `.leaving` `od-toast-out` on exit). A previous motion/react `<motion.div>`
+  // Animation is owned entirely by CSS (`.sw-toast` `sw-toast-in` on mount,
+  // `.leaving` `sw-toast-out` on exit). A previous motion/react `<motion.div>`
   // ran a SECOND entrance (opacity + scale 0.95→1) on top of the CSS keyframe,
   // which read as a "flash then grow" pop-in; worse, motion writes an inline
   // `transform`, clobbering the `translateX(-50%)` centering and leaving the
@@ -124,26 +124,26 @@ export function Toast({
   // source of truth for both motion and centering.
   return (
     <div
-      className={`od-toast tone-${tone} placement-${placement}${className ? ` ${className}` : ''}${leaving ? ' leaving' : ''}`}
+      className={`sw-toast tone-${tone} placement-${placement}${className ? ` ${className}` : ''}${leaving ? ' leaving' : ''}`}
       role={role}
       aria-live={role === 'alert' ? 'assertive' : 'polite'}
     >
-      <div className="od-toast-body">
+      <div className="sw-toast-body">
         {iconName ? (
-          <span className="od-toast-icon" aria-hidden>
+          <span className="sw-toast-icon" aria-hidden>
             <Icon name={iconName} size={14} />
           </span>
         ) : null}
-        <div className="od-toast-message">{message}</div>
+        <div className="sw-toast-message">{message}</div>
       </div>
-      {details ? <div className="od-toast-details">{details}</div> : null}
+      {details ? <div className="sw-toast-details">{details}</div> : null}
       {code ? (
-        <pre className="od-toast-code">{code}</pre>
+        <pre className="sw-toast-code">{code}</pre>
       ) : null}
       {actionLabel && onAction ? (
         <button
           type="button"
-          className="od-toast-action"
+          className="sw-toast-action"
           onClick={onAction}
           aria-label={actionAriaLabel ?? actionLabel}
         >
@@ -153,7 +153,7 @@ export function Toast({
       {!code && onDismiss ? (
         <button
           type="button"
-          className="od-toast-close"
+          className="sw-toast-close"
           onClick={onDismiss}
           aria-label={t('common.dismiss')}
         >
@@ -163,7 +163,7 @@ export function Toast({
       {code && onDismiss ? (
         <button
           type="button"
-          className="od-toast-dismiss"
+          className="sw-toast-dismiss"
           onClick={onDismiss}
           aria-label={t('common.dismiss')}
         >

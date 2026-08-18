@@ -26,7 +26,7 @@ let db: Database.Database;
 let tmpDir: string;
 
 beforeEach(async () => {
-  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-snapshot-'));
+  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-snapshot-'));
   db = new Database(path.join(tmpDir, 'test.sqlite'));
   // Minimal projects/conversations tables so the FK ON DELETE clauses
   // don't blow up the migration.

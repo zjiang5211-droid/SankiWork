@@ -17,7 +17,7 @@ import { listSkills } from '../src/skills.js';
 let dataDir = '';
 
 beforeEach(async () => {
-  dataDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-automation-proposals-'));
+  dataDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-automation-proposals-'));
 });
 
 afterEach(async () => {

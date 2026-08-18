@@ -48,7 +48,7 @@ vi.mock('node:fs/promises', async (importOriginal) => {
 
 // Absolute baseDir short-circuits projectHostOpenDir, so resolveProjectDir is
 // never consulted and no real project layout is needed.
-const PROJECT_DIR = path.join(tmpdir(), 'od-3871-project');
+const PROJECT_DIR = path.join(tmpdir(), 'sw-3871-project');
 
 let server: http.Server;
 let baseUrl: string;

@@ -57,7 +57,7 @@ function context(
 }
 
 async function fixture() {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-asset-scope-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-asset-scope-'));
   roots.push(root);
   const plugins = new Map<string, {
     fsPath: string;

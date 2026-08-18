@@ -16,7 +16,7 @@ import { buildSrcdoc } from '../../src/runtime/srcdoc';
 
 function extractPaletteScript(srcdoc: string): string {
   const match = srcdoc.match(
-    /<script data-od-palette-bridge>([\s\S]*?)<\/script>/,
+    /<script data-sw-palette-bridge>([\s\S]*?)<\/script>/,
   );
   if (!match || !match[1]) {
     throw new Error('palette bridge script not found in srcdoc');

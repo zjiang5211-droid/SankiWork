@@ -31,7 +31,7 @@ afterEach(async () => {
 });
 
 async function fixture(options: { existingProfile?: boolean; validHash?: boolean } = {}) {
-  const root = await mkdtemp(path.join(tmpdir(), 'od-dsh-companion-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'sw-dsh-companion-'));
   roots.push(root);
   const resourceRoot = path.join(root, 'resources');
   const runtimeDataDir = path.join(root, 'data');

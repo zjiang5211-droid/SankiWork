@@ -526,10 +526,10 @@ function manualEditHtml(): string {
   <head><meta charset="utf-8"><title>Manual Edit</title></head>
   <body>
     <main>
-      <section data-od-id="hero" data-od-label="Hero section">
-        <h1 data-od-id="hero-title" data-od-label="Hero title">Original Hero</h1>
-        <a data-od-id="cta" data-od-label="Primary CTA" href="/start">Start now</a>
-        <img data-od-id="hero-image" data-od-label="Hero image" src="/hero.png" alt="Hero" style="width:64px;height:64px;">
+      <section data-od-id="hero" data-sw-label="Hero section">
+        <h1 data-od-id="hero-title" data-sw-label="Hero title">Original Hero</h1>
+        <a data-od-id="cta" data-sw-label="Primary CTA" href="/start">Start now</a>
+        <img data-od-id="hero-image" data-sw-label="Hero image" src="/hero.png" alt="Hero" style="width:64px;height:64px;">
       </section>
     </main>
   </body>

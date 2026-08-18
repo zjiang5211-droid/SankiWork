@@ -223,7 +223,7 @@ export function SketchEditor({
     observer.observe(document.body, { childList: true, subtree: true, characterData: true });
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
-      if (!document.querySelector('.od-sketch-modal .Modal')) return;
+      if (!document.querySelector('.sw-sketch-modal .Modal')) return;
       event.preventDefault();
       event.stopPropagation();
       closeActiveSketchDialog();
@@ -724,14 +724,14 @@ export function applySketchEditorTooltips(root: HTMLElement, labels: SketchToolt
       const label = normalizeTooltipLabel(labels[entry.label]);
       if (!label) continue;
 
-      // Drive ONLY the shared TooltipLayer (`.od-tooltip[data-tooltip]`): it
+      // Drive ONLY the shared TooltipLayer (`.sw-tooltip[data-tooltip]`): it
       // renders a single styled, viewport-aware bubble and suppresses the
       // native browser `title` on hover. Painting our own
-      // `data-od-sketch-tooltip` ::after or a redundant `title` on top of it is
+      // `data-sw-sketch-tooltip` ::after or a redundant `title` on top of it is
       // what produced the duplicate white + black tooltips.
       setTooltipAttribute(target, 'data-tooltip', label);
       setTooltipAttribute(target, 'data-tooltip-placement', entry.placement ?? 'bottom');
-      if (!target.classList.contains('od-tooltip')) target.classList.add('od-tooltip');
+      if (!target.classList.contains('sw-tooltip')) target.classList.add('sw-tooltip');
       setTooltipAttribute(trigger, 'aria-label', label);
       decorated.add(target);
     }
@@ -778,8 +778,8 @@ export function applySketchContextMenuSimplification(root: HTMLElement, viewport
     ));
     if (!hasSketchAction) continue;
 
-    menu.classList.add('od-sketch-context-menu');
-    popover.classList.add('od-sketch-context-popover');
+    menu.classList.add('sw-sketch-context-menu');
+    popover.classList.add('sw-sketch-context-popover');
 
     const allowedByAction = new Map<string, HTMLLIElement>();
     for (const child of Array.from(menu.children)) {
@@ -986,7 +986,7 @@ function rewriteExcalidrawUnableToEmbedToasts(root: HTMLElement, replacement: st
     const current = normalizeTooltipLabel(messageNode.textContent);
     if (!current || current === normalizedReplacement || !isExcalidrawUnableToEmbedToast(current)) continue;
     messageNode.textContent = normalizedReplacement;
-    messageNode.closest<HTMLElement>('.Toast')?.setAttribute('data-od-embed-toast-rewritten', 'true');
+    messageNode.closest<HTMLElement>('.Toast')?.setAttribute('data-sw-embed-toast-rewritten', 'true');
   }
 }
 
@@ -1000,16 +1000,16 @@ function isExcalidrawUnableToEmbedToast(message: string): boolean {
 
 function enhanceSketchExcalidrawPortals(locale: Locale, onClose: () => void): void {
   for (const portal of Array.from(document.querySelectorAll<HTMLElement>('.excalidraw-modal-container'))) {
-    portal.classList.add('od-sketch-modal');
-    portal.classList.toggle('od-sketch-help-modal', Boolean(portal.querySelector('.HelpDialog__header')));
+    portal.classList.add('sw-sketch-modal');
+    portal.classList.toggle('sw-sketch-help-modal', Boolean(portal.querySelector('.HelpDialog__header')));
     applySketchDomI18nOverrides(portal, locale);
     for (const content of Array.from(portal.querySelectorAll<HTMLElement>('.Modal__content'))) {
       removeSketchMermaidShortcutHints(content);
-      let close = content.querySelector<HTMLButtonElement>(':scope > .od-sketch-dialog-close');
+      let close = content.querySelector<HTMLButtonElement>(':scope > .sw-sketch-dialog-close');
       if (!close) {
         close = document.createElement('button');
         close.type = 'button';
-        close.className = 'od-sketch-dialog-close';
+        close.className = 'sw-sketch-dialog-close';
         close.addEventListener('click', (event) => {
           event.preventDefault();
           event.stopPropagation();
@@ -1039,7 +1039,7 @@ function handleSketchPortalCommandEnter(event: KeyboardEvent): void {
   if (event.key !== 'Enter' || (!event.metaKey && !event.ctrlKey) || event.altKey) return;
   const target = event.target;
   if (!(target instanceof Element)) return;
-  const portal = target.closest<HTMLElement>('.od-sketch-modal');
+  const portal = target.closest<HTMLElement>('.sw-sketch-modal');
   const content = target.closest<HTMLElement>('.Modal__content');
   if (!portal || !content || !portal.contains(content)) return;
   if (!content.querySelector('textarea')) return;

@@ -578,7 +578,7 @@ exit 128
   });
 
   it('writes GitHub design evidence through connected connector tools', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-connectors-cli-'));
     process.chdir(tmpDir);
     process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
     process.env.SW_TOOL_TOKEN = 'agent-run-token';
@@ -684,7 +684,7 @@ exit 128
   });
 
   it('writes bounded local design evidence snapshots from a linked folder', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-local-context-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-local-context-'));
     process.chdir(tmpDir);
     const sourceDir = path.join(tmpDir, 'cherry-studio');
     await mkdir(path.join(sourceDir, 'src/components'), { recursive: true });
@@ -766,7 +766,7 @@ exit 128
   });
 
   it('prioritizes core app surfaces over nested tool buttons during local intake', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-local-core-context-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-local-core-context-'));
     process.chdir(tmpDir);
     const sourceDir = path.join(tmpDir, 'cherry-core');
     const writeSource = async (relativePath: string, content = `export const marker = ${JSON.stringify(relativePath)};\n`) => {
@@ -821,7 +821,7 @@ exit 128
   });
 
   it('passes a Claude Design-style design-system package audit', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-pass-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-pass-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app'), { recursive: true });
@@ -904,7 +904,7 @@ exit 128
   });
 
   it('accepts tokens.css as a companion for spacing and radius token validation', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-split-tokens-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-split-tokens-'));
     await writeFile(path.join(tmpDir, 'colors_and_type.css'), SPLIT_AUDIT_COLORS_AND_TYPE_CSS);
     await writeFile(path.join(tmpDir, 'tokens.css'), SPLIT_AUDIT_LAYOUT_TOKENS_CSS);
 
@@ -918,7 +918,7 @@ exit 128
   });
 
   it('fails a design-system package audit when manifest docs point at old scaffold paths', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-stale-docs-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-stale-docs-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -974,7 +974,7 @@ exit 128
   });
 
   it('fails a design-system package audit when package titles come from URL protocol text', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-protocol-title-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-protocol-title-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app'), { recursive: true });
@@ -1009,7 +1009,7 @@ exit 128
   });
 
   it('warns when SKILL.md is missing agent-discoverable frontmatter', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-skill-frontmatter-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-skill-frontmatter-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1051,7 +1051,7 @@ exit 128
   });
 
   it('warns when SKILL.md lacks Claude-style reusable skill sections', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-skill-sections-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-skill-sections-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1093,7 +1093,7 @@ exit 128
   });
 
   it('accepts SKILL.md reuse sections worded exactly as the audit warning instructs (#4435)', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-skill-wording-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-skill-wording-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1133,7 +1133,7 @@ exit 128
   });
 
   it('warns when README.md lacks a source-backed product overview', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-readme-overview-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-readme-overview-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1175,7 +1175,7 @@ exit 128
   });
 
   it('warns when README.md lacks a Claude-style package reuse guide', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-readme-package-guide-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-readme-package-guide-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1217,7 +1217,7 @@ exit 128
   });
 
   it('warns when README.md lacks a concrete preview manifest', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-readme-preview-manifest-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-readme-preview-manifest-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1259,7 +1259,7 @@ exit 128
   });
 
   it('warns when the applied UI-kit README lacks a reuse guide', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-uikit-readme-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-uikit-readme-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1304,7 +1304,7 @@ exit 128
   });
 
   it('warns when build runtime icon evidence is not preserved in the package', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-build-assets-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-build-assets-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1361,7 +1361,7 @@ exit 128
   });
 
   it('warns when preserved build runtime assets do not match captured evidence bytes', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-fake-build-assets-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-fake-build-assets-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1421,7 +1421,7 @@ exit 128
   });
 
   it('accepts preserved build runtime assets that match captured evidence bytes', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-source-build-assets-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-source-build-assets-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1481,7 +1481,7 @@ exit 128
   });
 
   it('warns when the brand-assets preview redraws instead of referencing preserved assets', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-brand-preview-assets-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-brand-preview-assets-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1527,7 +1527,7 @@ exit 128
   });
 
   it('fails a design-system package audit when modular UI-kit components are placeholders', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-thin-components-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-thin-components-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1576,7 +1576,7 @@ exit 128
   });
 
   it('fails a design-system package audit when the UI-kit entry does not load its modules or token CSS', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-disconnected-uikit-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-disconnected-uikit-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1626,7 +1626,7 @@ exit 128
   });
 
   it('fails a design-system package audit when the UI-kit entry lists modules without rendering them', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-unmounted-uikit-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-unmounted-uikit-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1684,7 +1684,7 @@ exit 128
   });
 
   it('fails a design-system package audit when JSX components are loaded without browser runtime scripts', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-missing-jsx-runtime-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-missing-jsx-runtime-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1748,7 +1748,7 @@ exit 128
   });
 
   it('fails a design-system package audit when script-loaded JSX components do not expose browser globals', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-missing-browser-global-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-missing-browser-global-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1803,7 +1803,7 @@ exit 128
   });
 
   it('fails a design-system package audit when chat evidence lacks UI-kit role coverage', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-missing-roles-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-missing-roles-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1860,7 +1860,7 @@ exit 128
   });
 
   it('fails a design-system package audit when the app shell does not compose role components', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-uncomposed-app-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-uncomposed-app-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1913,7 +1913,7 @@ exit 128
   });
 
   it('fails a design-system package audit when rich binary evidence is collapsed to one asset and font', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-thin-binaries-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-thin-binaries-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -1980,7 +1980,7 @@ exit 128
   });
 
   it('fails a design-system package audit when preserved fonts are not bound in token CSS', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-font-binding-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-font-binding-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -2035,7 +2035,7 @@ exit 128
   });
 
   it('warns when visual artifacts do not reference source-backed component names', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-generic-visuals-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-generic-visuals-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -2107,7 +2107,7 @@ exit 128
   });
 
   it('warns when focused preview cards do not apply tokens to source components', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-preview-source-context-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-preview-source-context-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -2168,7 +2168,7 @@ exit 128
   });
 
   it('warns when rich component evidence is not preserved as source examples outside context', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-source-examples-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-source-examples-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -2229,7 +2229,7 @@ exit 128
   });
 
   it('warns when source-backed examples are only tiny stubs', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-thin-source-examples-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-thin-source-examples-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app/components'), { recursive: true });
@@ -2294,7 +2294,7 @@ exit 128
   });
 
   it('fails a design-system package audit when evidence-backed artifacts are missing', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-fail-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-fail-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/generated_interface'), { recursive: true });
@@ -2331,7 +2331,7 @@ exit 128
   });
 
   it('can audit an external Claude Design reference package without DESIGN.md', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-package-audit-reference-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-package-audit-reference-'));
     process.chdir(tmpDir);
     await mkdir(path.join(tmpDir, 'preview'), { recursive: true });
     await mkdir(path.join(tmpDir, 'ui_kits/app'), { recursive: true });
@@ -2386,7 +2386,7 @@ exit 128
   });
 
   it('falls back to bounded connector directory browsing when the repository tree is too large', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-connectors-cli-'));
     process.chdir(tmpDir);
     process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
     process.env.SW_TOOL_TOKEN = 'agent-run-token';
@@ -2472,7 +2472,7 @@ exit 128
   });
 
   it('continues bounded GitHub intake when repository metadata is too large', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-connectors-cli-'));
     process.chdir(tmpDir);
     process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
     process.env.SW_TOOL_TOKEN = 'agent-run-token';
@@ -2541,7 +2541,7 @@ exit 128
   });
 
   it('uses shallow local git clone before connector-backed intake', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-connectors-cli-'));
     process.chdir(tmpDir);
     process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
     process.env.SW_TOOL_TOKEN = 'agent-run-token';
@@ -2664,7 +2664,7 @@ printf 'font-data' > "$last/fonts/ubuntu/Ubuntu-Regular.ttf"
   });
 
   it('uses GitHub CLI authenticated clone before connector fallback', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-connectors-cli-'));
     process.chdir(tmpDir);
     process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
     process.env.SW_TOOL_TOKEN = 'agent-run-token';
@@ -2760,7 +2760,7 @@ exit 1
   });
 
   it('reports GitHub CLI login when connector and local clone cannot read a repository', async () => {
-    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-connectors-cli-'));
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-connectors-cli-'));
     process.chdir(tmpDir);
     process.env.SW_DAEMON_URL = 'http://127.0.0.1:7456';
     process.env.SW_TOOL_TOKEN = 'agent-run-token';

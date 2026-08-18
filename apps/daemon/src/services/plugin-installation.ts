@@ -199,7 +199,7 @@ export function createPluginInstallationHelpers(deps: PluginInstallationHelpersD
   }
 
   async function stageUploadedPluginZip(buffer: Buffer, source: string) {
-    const stagedFolder = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'od-plugin-zip-'));
+    const stagedFolder = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'sw-plugin-zip-'));
     try {
       await extractPluginZipToFolder(buffer, stagedFolder, deps.PLUGIN_UPLOAD_MAX_BYTES);
       return await finishUploadedPluginInstall(stagedFolder, source);
@@ -210,7 +210,7 @@ export function createPluginInstallationHelpers(deps: PluginInstallationHelpersD
   }
 
   async function stageUploadedPluginFolder(files: Array<{ buffer: Buffer; originalname: string }>, rawPaths: unknown) {
-    const stagedFolder = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'od-plugin-folder-'));
+    const stagedFolder = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'sw-plugin-folder-'));
     try {
       if (files.length === 0) throw new Error('files are required');
       const paths = Array.isArray(rawPaths) ? rawPaths : rawPaths ? [rawPaths] : [];

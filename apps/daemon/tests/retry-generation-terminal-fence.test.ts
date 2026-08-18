@@ -94,7 +94,7 @@ describe('same-run retry generation terminal fence', () => {
   });
 
   it('ignores a previous attempt close after the retry child owns the run', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-retry-generation-fence-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-retry-generation-fence-'));
     spawnState.target = await writeDelayedSuccessfulClaude(binDir, 'claude-generation-fence');
 
     delete process.env.POSTHOG_KEY;

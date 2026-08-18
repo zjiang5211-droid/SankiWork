@@ -79,7 +79,7 @@ function json(
 }
 
 beforeAll(async () => {
-  outputDir = await mkdtemp(path.join(os.tmpdir(), 'od-cli-project-scope-'));
+  outputDir = await mkdtemp(path.join(os.tmpdir(), 'sw-cli-project-scope-'));
   server = http.createServer((req, res) => {
     let body = '';
     req.setEncoding('utf8');

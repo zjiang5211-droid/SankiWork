@@ -85,7 +85,7 @@ describe('FileViewer srcDoc-path Reload regression (#4650)', () => {
     // Wait for the initial fetch to resolve and the srcDoc to populate.
     await waitFor(() => {
       const frame = srcDocFrame();
-      expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(frame.getAttribute('srcDoc')).toContain('version-one');
     });
 

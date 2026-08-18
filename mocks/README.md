@@ -84,7 +84,7 @@ bash mocks/scripts/fetch-recordings.sh --outcome failed     # 35 failed-path tra
 bash mocks/scripts/fetch-recordings.sh --skill agent-browser
 
 # Override cache location (e.g. share across multiple OD checkouts):
-SW_MOCKS_CACHE_DIR=~/.cache/od-mocks bash mocks/scripts/fetch-recordings.sh
+SW_MOCKS_CACHE_DIR=~/.cache/sw-mocks bash mocks/scripts/fetch-recordings.sh
 ```
 
 Manifest at `mocks/manifest.json` is the committed source of truth —

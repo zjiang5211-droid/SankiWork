@@ -98,11 +98,11 @@ function applyExtensionCors(req: Request, res: Response): void {
   }
 }
 
-/** A filesystem-safe `<title>.od-figma.json` download name for a capture. */
+/** A filesystem-safe `<title>.sw-figma.json` download name for a capture. */
 function figmaDownloadName(asset: LibraryAssetRecord): string {
   const raw = (asset.sourceTitle || asset.sourceDomain || 'capture').slice(0, 60);
   const slug = raw.replace(/[^a-z0-9._-]+/gi, '-').replace(/^-+|-+$/g, '') || 'capture';
-  return `${slug}.od-figma.json`;
+  return `${slug}.sw-figma.json`;
 }
 
 function parseDataUrl(dataUrl: string): { bytes: Buffer; mime: string | undefined } | null {

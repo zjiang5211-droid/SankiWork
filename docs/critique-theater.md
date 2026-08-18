@@ -131,7 +131,7 @@ od:
     policy: required  # or 'opt-in', 'opt-out'
 ```
 
-Skills that publish a deterministic artifact (e.g. `od-export-pdf`) usually
+Skills that publish a deterministic artifact (e.g. `sw-export-pdf`) usually
 set `opt-out`; skills that generate net-new design output (`magazine-poster`,
 `saas-landing`) set `required`.
 

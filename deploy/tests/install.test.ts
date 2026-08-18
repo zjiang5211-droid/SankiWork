@@ -22,7 +22,7 @@ function isDockerAvailable(): Promise<boolean> {
 const dockerAvailable = await isDockerAvailable();
 
 // Unique test identifier to isolate from real deployments
-const TEST_ID = `od-test-${process.pid}`;
+const TEST_ID = `sw-test-${process.pid}`;
 
 async function waitForHealth(port: number, timeoutMs = 30000): Promise<boolean> {
   const deadline = Date.now() + timeoutMs;

@@ -25,11 +25,11 @@ installWebObservability();
 // shell HTML the daemon can serve as the SPA fallback.
 const App = dynamic(() => import('../../src/App').then((m) => m.App), {
   ssr: false,
-  // Keeps the `od-loading-shell` class on the outer node: the white-screen
+  // Keeps the `sw-loading-shell` class on the outer node: the white-screen
   // detector filters this whole subtree out by that class when deciding
   // whether the app really mounted (`src/observability/white-screen.ts`).
   loading: () => (
-    <div className="od-loading-shell">
+    <div className="sw-loading-shell">
       <MatrixLoader />
       <span>Loading SankiWork…</span>
     </div>

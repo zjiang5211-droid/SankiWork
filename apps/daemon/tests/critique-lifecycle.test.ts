@@ -55,7 +55,7 @@ let tmpDir: string;
 let db: Database.Database;
 
 beforeEach(() => {
-  tmpDir = mkdtempSync(join(tmpdir(), 'od-lifecycle-test-'));
+  tmpDir = mkdtempSync(join(tmpdir(), 'sw-lifecycle-test-'));
   db = freshDb();
 });
 

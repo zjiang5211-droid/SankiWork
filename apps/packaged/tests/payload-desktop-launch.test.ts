@@ -118,7 +118,7 @@ describe("payload desktop delegation", () => {
     // leave rollback evidence — the parent arms attempt.json BEFORE spawn so
     // the next cold start rolls back instead of retrying the broken payload
     // forever.
-    const root = await mkdtemp(join(tmpdir(), "od-delegated-arm-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-delegated-arm-"));
     try {
       const attemptsPath = join(root, "state", "attempt.json");
       const runtime: PackagedLauncherRuntime = {
@@ -159,7 +159,7 @@ describe("payload desktop delegation", () => {
   });
 
   it("does not pre-arm a rollback delegation", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-delegated-rollback-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-delegated-rollback-"));
     try {
       const attemptsPath = join(root, "state", "attempt.json");
       const runtime: PackagedLauncherRuntime = {
@@ -199,7 +199,7 @@ describe("payload desktop delegation", () => {
   });
 
   it("waits for spawn acceptance and detaches the payload child", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-delegated-spawn-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-delegated-spawn-"));
     try {
       const once = vi.fn((event: string, callback: (...args: unknown[]) => void) => {
         if (event === "spawn") queueMicrotask(callback);
@@ -234,7 +234,7 @@ describe("payload desktop delegation", () => {
   });
 
   it("records a failed attempt when the payload executable cannot spawn", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-payload-desktop-spawn-failure-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-payload-desktop-spawn-failure-"));
     const runtime = fakeRuntime(false);
     runtime.launcherPaths = {
       attemptsPath: join(root, "state", "attempt.json"),

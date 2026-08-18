@@ -25,7 +25,7 @@ afterEach(async () => {
 });
 
 async function createFixture() {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-team-resource-consumer-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-team-resource-consumer-'));
   roots.push(root);
   const userSkills = path.join(root, 'skills');
   const userDesignSystems = path.join(root, 'design-systems');

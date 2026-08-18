@@ -218,7 +218,7 @@ describe('deck preview blank after leaving and returning to the project', () => 
 
     // Deck source arrives and the deck chrome renders (thumbnail rail up)…
     await waitFor(() => {
-      expect(srcDocFrame().getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(srcDocFrame().getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(document.querySelector('.deck-thumbnail-rail')).toBeTruthy();
     });
     expect(filesRequests.length).toBe(1);
@@ -262,7 +262,7 @@ describe('deck preview blank after leaving and returning to the project', () => 
 
     // Deck data is on screen, the main stage is still held empty…
     await waitFor(() => {
-      expect(srcDocFrame().getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(srcDocFrame().getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(document.querySelector('.deck-thumbnail-rail')).toBeTruthy();
     });
     expect(srcDocFrame().getAttribute('srcdoc') ?? '').toBe('');
@@ -292,7 +292,7 @@ describe('deck preview blank after leaving and returning to the project', () => 
 
     // The zero-byte source load resolves on the srcDoc path…
     await waitFor(() => {
-      expect(srcDocFrame().getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(srcDocFrame().getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(rawRequests.length).toBeGreaterThanOrEqual(1);
     });
 

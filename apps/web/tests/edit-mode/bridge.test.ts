@@ -17,7 +17,7 @@ describe('manual edit bridge target normalization', () => {
     const target = dom.window.document.querySelector('h1')!;
 
     expect(manualEditStableIdForElement(target)).toBe('hero');
-    expect(target.getAttribute('data-od-runtime-id')).toBeNull();
+    expect(target.getAttribute('data-sw-runtime-id')).toBeNull();
   });
 
   it('generates stable DOM path ids for unannotated elements', () => {
@@ -27,21 +27,21 @@ describe('manual edit bridge target normalization', () => {
     expect(manualEditDomPathForElement(target)).toBe('path-0-0-1');
     expect(manualEditStableIdForElement(target)).toBe('path-0-0-1');
     expect(manualEditStableIdForElement(target)).toBe('path-0-0-1');
-    expect(target.getAttribute('data-od-runtime-id')).toBe('path-0-0-1');
+    expect(target.getAttribute('data-sw-runtime-id')).toBe('path-0-0-1');
   });
 
   it('generates DOM path ids against source-shaped children, ignoring host shim nodes', () => {
     const dom = new JSDOM(
-      '<script data-od-sandbox-shim></script><main><section><p>First</p><p>Second</p></section></main><script data-od-edit-bridge></script>',
+      '<script data-sw-sandbox-shim></script><main><section><p>First</p><p>Second</p></section></main><script data-sw-edit-bridge></script>',
     );
     const target = dom.window.document.querySelectorAll('p')[1]!;
 
-    expect(isManualEditHostNode(dom.window.document.querySelector('[data-od-sandbox-shim]')!)).toBe(true);
+    expect(isManualEditHostNode(dom.window.document.querySelector('[data-sw-sandbox-shim]')!)).toBe(true);
     expect(manualEditDomPathForElement(target)).toBe('path-0-0-1');
   });
 
   it('discovers meaningful elements and ignores tiny or irrelevant elements', () => {
-    const dom = new JSDOM('<main><h1 data-od-source-path="path-0-0">Title</h1><script>1</script></main>');
+    const dom = new JSDOM('<main><h1 data-sw-source-path="path-0-0">Title</h1><script>1</script></main>');
     const title = dom.window.document.querySelector('h1')!;
     const script = dom.window.document.querySelector('script')!;
 
@@ -54,9 +54,9 @@ describe('manual edit bridge target normalization', () => {
     const posts: Array<{ type?: string; targets?: Array<{ id: string; isHidden?: boolean }> }> = [];
     const dom = new JSDOM(
       `<main>
-        <h1 data-od-source-path="path-0-0">Visible title</h1>
-        <section data-od-source-path="path-0-1" style="display:none">
-          <p data-od-source-path="path-0-1-0">Hidden author notes</p>
+        <h1 data-sw-source-path="path-0-0">Visible title</h1>
+        <section data-sw-source-path="path-0-1" style="display:none">
+          <p data-sw-source-path="path-0-1-0">Hidden author notes</p>
         </section>
       </main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
@@ -80,11 +80,11 @@ describe('manual edit bridge target normalization', () => {
     }) as typeof dom.window.parent.postMessage;
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: true },
+      data: { type: 'sw-edit-mode', enabled: true },
     }));
     await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
 
-    const targetsMessage = posts.find((message) => message.type === 'od-edit-targets');
+    const targetsMessage = posts.find((message) => message.type === 'sw-edit-targets');
     expect(targetsMessage?.targets?.map((target) => target.id)).toEqual([
       'path-0-0',
       'path-0-1',
@@ -100,8 +100,8 @@ describe('manual edit bridge target normalization', () => {
     const posts: Array<{ type?: string; targets?: Array<{ id: string; isHidden?: boolean; isLayoutContainer?: boolean }> }> = [];
     const dom = new JSDOM(
       `<main>
-        <section data-od-source-path="path-0-0" style="display:none">
-          <p data-od-source-path="path-0-0-0">Hidden layout copy</p>
+        <section data-sw-source-path="path-0-0" style="display:none">
+          <p data-sw-source-path="path-0-0-0">Hidden layout copy</p>
         </section>
       </main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
@@ -119,11 +119,11 @@ describe('manual edit bridge target normalization', () => {
     }) as typeof dom.window.parent.postMessage;
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: true },
+      data: { type: 'sw-edit-mode', enabled: true },
     }));
     await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
 
-    const targetsMessage = posts.find((message) => message.type === 'od-edit-targets');
+    const targetsMessage = posts.find((message) => message.type === 'sw-edit-targets');
     const hiddenSection = targetsMessage?.targets?.find((target) => target.id === 'path-0-0');
     const hiddenParagraph = targetsMessage?.targets?.find((target) => target.id === 'path-0-0-0');
     expect(hiddenSection?.isHidden).toBe(true);
@@ -137,8 +137,8 @@ describe('manual edit bridge target normalization', () => {
     const posts: Array<{ type?: string; targets?: Array<{ id: string; isHidden?: boolean; isLayoutContainer?: boolean }> }> = [];
     const dom = new JSDOM(
       `<main>
-        <section data-od-source-path="path-0-0" style="visibility:hidden">
-          <p data-od-source-path="path-0-0-0">Hidden block copy</p>
+        <section data-sw-source-path="path-0-0" style="visibility:hidden">
+          <p data-sw-source-path="path-0-0-0">Hidden block copy</p>
         </section>
       </main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
@@ -160,11 +160,11 @@ describe('manual edit bridge target normalization', () => {
     }) as typeof dom.window.parent.postMessage;
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: true },
+      data: { type: 'sw-edit-mode', enabled: true },
     }));
     await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
 
-    const targetsMessage = posts.find((message) => message.type === 'od-edit-targets');
+    const targetsMessage = posts.find((message) => message.type === 'sw-edit-targets');
     const hiddenSection = targetsMessage?.targets?.find((target) => target.id === 'path-0-0');
     expect(hiddenSection?.isHidden).toBe(true);
     expect(hiddenSection?.isLayoutContainer).toBe(false);
@@ -176,8 +176,8 @@ describe('manual edit bridge target normalization', () => {
     const posts: Array<{ type?: string; targets?: Array<{ id: string; isHidden?: boolean; isLayoutContainer?: boolean }> }> = [];
     const dom = new JSDOM(
       `<main>
-        <div data-od-source-path="path-0-0" style="display:none">
-          <section data-od-source-path="path-0-0-0">Nested hidden section</section>
+        <div data-sw-source-path="path-0-0" style="display:none">
+          <section data-sw-source-path="path-0-0-0">Nested hidden section</section>
         </div>
       </main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
@@ -195,11 +195,11 @@ describe('manual edit bridge target normalization', () => {
     }) as typeof dom.window.parent.postMessage;
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: true },
+      data: { type: 'sw-edit-mode', enabled: true },
     }));
     await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
 
-    const targetsMessage = posts.find((message) => message.type === 'od-edit-targets');
+    const targetsMessage = posts.find((message) => message.type === 'sw-edit-targets');
     const hiddenSection = targetsMessage?.targets?.find((target) => target.id === 'path-0-0-0');
     expect(hiddenSection?.isHidden).toBe(true);
     expect(hiddenSection?.isLayoutContainer).toBe(false);
@@ -211,8 +211,8 @@ describe('manual edit bridge target normalization', () => {
     const posts: Array<{ type?: string; targets?: Array<{ id: string; isHidden?: boolean }> }> = [];
     const dom = new JSDOM(
       `<main>
-        <section data-od-source-path="path-0-0" style="visibility:hidden">
-          <p data-od-source-path="path-0-0-0" style="visibility:visible">Visible child copy</p>
+        <section data-sw-source-path="path-0-0" style="visibility:hidden">
+          <p data-sw-source-path="path-0-0-0" style="visibility:visible">Visible child copy</p>
         </section>
       </main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
@@ -234,11 +234,11 @@ describe('manual edit bridge target normalization', () => {
     }) as typeof dom.window.parent.postMessage;
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: true },
+      data: { type: 'sw-edit-mode', enabled: true },
     }));
     await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
 
-    const targetsMessage = posts.find((message) => message.type === 'od-edit-targets');
+    const targetsMessage = posts.find((message) => message.type === 'sw-edit-targets');
     expect(targetsMessage?.targets?.find((target) => target.id === 'path-0-0')?.isHidden).toBe(true);
     expect(targetsMessage?.targets?.find((target) => target.id === 'path-0-0-0')?.isHidden).toBe(false);
 
@@ -246,7 +246,7 @@ describe('manual edit bridge target normalization', () => {
   });
 
   it('does not expose runtime-only path targets unless they carry a source marker', () => {
-    const dom = new JSDOM('<main><h1>Runtime title</h1><p data-od-source-path="path-0-1">Source text</p></main>');
+    const dom = new JSDOM('<main><h1>Runtime title</h1><p data-sw-source-path="path-0-1">Source text</p></main>');
     const runtimeTitle = dom.window.document.querySelector('h1')!;
     const sourceText = dom.window.document.querySelector('p')!;
 
@@ -267,7 +267,7 @@ describe('manual edit bridge target normalization', () => {
 
   it('selects and announces ordinary HTML elements after srcdoc source-path annotation', () => {
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><section data-od-source-path="path-0-0"><h1 data-od-source-path="path-0-0-0">Plain title</h1><p data-od-source-path="path-0-0-1">Plain body</p></section></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><section data-sw-source-path="path-0-0"><h1 data-sw-source-path="path-0-0-0">Plain title</h1><p data-sw-source-path="path-0-0-1">Plain body</p></section></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -281,13 +281,13 @@ describe('manual edit bridge target normalization', () => {
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
     title.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true, cancelable: true }));
 
-    expect(title.getAttribute('data-od-runtime-id')).toBe('path-0-0-0');
+    expect(title.getAttribute('data-sw-runtime-id')).toBe('path-0-0-0');
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-hover',
+      type: 'sw-edit-hover',
       target: expect.objectContaining({ id: 'path-0-0-0', label: 'Plain title' }),
     }, '*');
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-select',
+      type: 'sw-edit-select',
       target: expect.objectContaining({ id: 'path-0-0-0', kind: 'text' }),
     }, '*');
 
@@ -296,7 +296,7 @@ describe('manual edit bridge target normalization', () => {
 
   it('ignores runtime-inserted elements that are not present in source', () => {
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Source title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Source title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const runtimePill = dom.window.document.createElement('span');
@@ -308,23 +308,23 @@ describe('manual edit bridge target normalization', () => {
     runtimePill.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
     runtimePill.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true, cancelable: true }));
 
-    expect(runtimePill.hasAttribute('data-od-runtime-id')).toBe(false);
+    expect(runtimePill.hasAttribute('data-sw-runtime-id')).toBe(false);
     expect(postMessage).not.toHaveBeenCalledWith(expect.objectContaining({
-      type: 'od-edit-hover',
+      type: 'sw-edit-hover',
     }), '*');
-    expect(postMessage).toHaveBeenCalledWith({ type: 'od-edit-background' }, '*');
+    expect(postMessage).toHaveBeenCalledWith({ type: 'sw-edit-background' }, '*');
 
     dom.window.close();
   });
 
   it('selects runtime-inserted brand kit elements that carry stable data-od-id markers', () => {
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><div id="root"></div></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><div id="root"></div></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.createElement('h1');
     title.setAttribute('data-od-id', 'brand-name');
-    title.setAttribute('data-od-edit', 'text');
+    title.setAttribute('data-sw-edit', 'text');
     title.textContent = 'Runtime brand';
     title.getBoundingClientRect = () => ({
       x: 0, y: 0, width: 180, height: 42,
@@ -338,11 +338,11 @@ describe('manual edit bridge target normalization', () => {
     title.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true, cancelable: true }));
 
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-hover',
+      type: 'sw-edit-hover',
       target: expect.objectContaining({ id: 'brand-name', label: 'Runtime brand' }),
     }, '*');
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-select',
+      type: 'sw-edit-select',
       target: expect.objectContaining({ id: 'brand-name', kind: 'text' }),
     }, '*');
 
@@ -351,7 +351,7 @@ describe('manual edit bridge target normalization', () => {
 
   it('adds stable ids to legacy runtime brand kit elements before selection', () => {
     const dom = new JSDOM(
-      `<script id="od-brand-payload" type="application/json">{"brand":{"name":"Runtime brand"}}</script><main data-od-source-path="path-0"><div id="root"></div></main>${buildManualEditBridge(true)}`,
+      `<script id="sw-brand-payload" type="application/json">{"brand":{"name":"Runtime brand"}}</script><main data-sw-source-path="path-0"><div id="root"></div></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.createElement('h1');
@@ -369,13 +369,13 @@ describe('manual edit bridge target normalization', () => {
     title.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true, cancelable: true }));
 
     expect(title.getAttribute('data-od-id')).toBe('brand-name');
-    expect(title.getAttribute('data-od-edit')).toBe('text');
+    expect(title.getAttribute('data-sw-edit')).toBe('text');
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-hover',
+      type: 'sw-edit-hover',
       target: expect.objectContaining({ id: 'brand-name', label: 'Runtime brand' }),
     }, '*');
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-select',
+      type: 'sw-edit-select',
       target: expect.objectContaining({ id: 'brand-name', kind: 'text' }),
     }, '*');
 
@@ -384,7 +384,7 @@ describe('manual edit bridge target normalization', () => {
 
   it('draws hover reference guides through the hovered element edges without a selection', () => {
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -396,20 +396,20 @@ describe('manual edit bridge target normalization', () => {
 
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
 
-    const layer = dom.window.document.querySelector('[data-od-edit-guides-layer]')!;
+    const layer = dom.window.document.querySelector('[data-sw-edit-guides-layer]')!;
     expect(layer).not.toBeNull();
-    const box = layer.querySelector('.od-edit-guide-box-hover') as HTMLElement;
+    const box = layer.querySelector('.sw-edit-guide-box-hover') as HTMLElement;
     expect(box).not.toBeNull();
     expect(box.style.left).toBe('10px');
     expect(box.style.top).toBe('20px');
     expect(box.style.width).toBe('160px');
     expect(box.style.height).toBe('36px');
     const verticals = Array.from(
-      layer.querySelectorAll('.od-edit-guide-line-v.od-edit-guide-line-reference'),
+      layer.querySelectorAll('.sw-edit-guide-line-v.sw-edit-guide-line-reference'),
     ) as HTMLElement[];
     expect(verticals.map((line) => line.style.left)).toEqual(['10px', '170px']);
     const horizontals = Array.from(
-      layer.querySelectorAll('.od-edit-guide-line-h.od-edit-guide-line-reference'),
+      layer.querySelectorAll('.sw-edit-guide-line-h.sw-edit-guide-line-reference'),
     ) as HTMLElement[];
     expect(horizontals.map((line) => line.style.top)).toEqual(['20px', '56px']);
 
@@ -418,7 +418,7 @@ describe('manual edit bridge target normalization', () => {
 
   it('draws the same element hover guides again after edit mode exits and re-enters', () => {
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -429,26 +429,26 @@ describe('manual edit bridge target normalization', () => {
     } as DOMRect);
 
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
-    const layer = dom.window.document.querySelector('[data-od-edit-guides-layer]')!;
+    const layer = dom.window.document.querySelector('[data-sw-edit-guides-layer]')!;
     expect(layer.children.length).toBeGreaterThan(0);
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: false },
+      data: { type: 'sw-edit-mode', enabled: false },
     }));
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: true },
+      data: { type: 'sw-edit-mode', enabled: true },
     }));
     expect(layer.children.length).toBe(0);
 
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
-    expect(layer.querySelector('.od-edit-guide-box-hover')).not.toBeNull();
+    expect(layer.querySelector('.sw-edit-guide-box-hover')).not.toBeNull();
 
     dom.window.close();
   });
 
   it('recovers hover guides from pointer movement inside an element after edit mode re-enters', () => {
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -459,13 +459,13 @@ describe('manual edit bridge target normalization', () => {
     } as DOMRect);
 
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
-    const layer = dom.window.document.querySelector('[data-od-edit-guides-layer]')!;
+    const layer = dom.window.document.querySelector('[data-sw-edit-guides-layer]')!;
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: false },
+      data: { type: 'sw-edit-mode', enabled: false },
     }));
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: true },
+      data: { type: 'sw-edit-mode', enabled: true },
     }));
     expect(layer.children.length).toBe(0);
 
@@ -473,7 +473,7 @@ describe('manual edit bridge target normalization', () => {
     // toggles edit mode. In that case movement within the same element emits
     // pointermove but no fresh pointerover.
     title.dispatchEvent(new dom.window.Event('pointermove', { bubbles: true }));
-    expect(layer.querySelector('.od-edit-guide-box-hover')).not.toBeNull();
+    expect(layer.querySelector('.sw-edit-guide-box-hover')).not.toBeNull();
 
     dom.window.close();
   });
@@ -481,7 +481,7 @@ describe('manual edit bridge target normalization', () => {
   it('hands same-project HTML links to the host instead of losing the srcDoc edit bridge', () => {
     const posts: Array<{ type?: string; fileName?: string }> = [];
     const dom = new JSDOM(
-      `<base href="http://localhost/api/projects/project-1/raw/today.html"><main data-od-source-path="path-0"><a href="discover.html?variant=a">Discover</a></main>${buildManualEditBridge(false)}`,
+      `<base href="http://localhost/api/projects/project-1/raw/today.html"><main data-sw-source-path="path-0"><a href="discover.html?variant=a">Discover</a></main>${buildManualEditBridge(false)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     dom.window.parent.postMessage = ((message: unknown) => {
@@ -507,10 +507,10 @@ describe('manual edit bridge target normalization', () => {
     dom.window.close();
   });
 
-  it('drag-repositions an element via pointer drag and posts od-edit-drag-commit', () => {
+  it('drag-repositions an element via pointer drag and posts sw-edit-drag-commit', () => {
     const posts: Array<{ type?: string; id?: string; transform?: string }> = [];
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Drag me</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Drag me</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -530,7 +530,7 @@ describe('manual edit bridge target normalization', () => {
     // The element carries a live inline translate reflecting the drag delta…
     expect(title.style.transform).toContain('translate(30px, 20px)');
     // …and the host is told to persist that translate.
-    const commit = posts.find((message) => message.type === 'od-edit-drag-commit');
+    const commit = posts.find((message) => message.type === 'sw-edit-drag-commit');
     expect(commit).toMatchObject({ id: 'path-0-0' });
     expect(commit?.transform).toContain('translate(30px, 20px)');
 
@@ -540,7 +540,7 @@ describe('manual edit bridge target normalization', () => {
   it('treats a sub-threshold press as a click, not a drag (no transform, no commit)', () => {
     const posts: Array<{ type?: string }> = [];
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Tap me</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Tap me</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -558,14 +558,14 @@ describe('manual edit bridge target normalization', () => {
     pointer('pointerup', 102, 101);
 
     expect(title.style.transform).toBe('');
-    expect(posts.some((message) => message.type === 'od-edit-drag-commit')).toBe(false);
+    expect(posts.some((message) => message.type === 'sw-edit-drag-commit')).toBe(false);
 
     dom.window.close();
   });
 
   it('clears hover reference guides when the pointer leaves all targets', () => {
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -576,7 +576,7 @@ describe('manual edit bridge target normalization', () => {
     } as DOMRect);
 
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
-    const layer = dom.window.document.querySelector('[data-od-edit-guides-layer]')!;
+    const layer = dom.window.document.querySelector('[data-sw-edit-guides-layer]')!;
     expect(layer.children.length).toBeGreaterThan(0);
 
     dom.window.document.body.dispatchEvent(new dom.window.Event('pointermove', { bubbles: true }));
@@ -587,7 +587,7 @@ describe('manual edit bridge target normalization', () => {
 
   it('clears hover reference guides on the host hover-reset signal', () => {
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -598,21 +598,21 @@ describe('manual edit bridge target normalization', () => {
     } as DOMRect);
 
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
-    const layer = dom.window.document.querySelector('[data-od-edit-guides-layer]')!;
+    const layer = dom.window.document.querySelector('[data-sw-edit-guides-layer]')!;
     expect(layer.children.length).toBeGreaterThan(0);
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-hover-reset' },
+      data: { type: 'sw-edit-hover-reset' },
     }));
     expect(layer.children.length).toBe(0);
 
     dom.window.close();
   });
 
-  it('restores the last hover reference guides for capture via od-edit-guides-restore', () => {
+  it('restores the last hover reference guides for capture via sw-edit-guides-restore', () => {
     const posts: Array<{ type?: string; id?: string | null; restored?: boolean }> = [];
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -626,23 +626,23 @@ describe('manual edit bridge target normalization', () => {
     }) as typeof dom.window.parent.postMessage;
 
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
-    dom.window.dispatchEvent(new dom.window.MessageEvent('message', { data: { type: 'od-edit-hover-reset' } }));
-    const layer = dom.window.document.querySelector('[data-od-edit-guides-layer]')!;
+    dom.window.dispatchEvent(new dom.window.MessageEvent('message', { data: { type: 'sw-edit-hover-reset' } }));
+    const layer = dom.window.document.querySelector('[data-sw-edit-guides-layer]')!;
     expect(layer.children.length).toBe(0);
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-guides-restore', id: 'cap-1', maxAgeMs: 60000 },
+      data: { type: 'sw-edit-guides-restore', id: 'cap-1', maxAgeMs: 60000 },
     }));
 
-    expect(layer.querySelectorAll('.od-edit-guide-line-reference').length).toBe(4);
-    expect(layer.querySelector('.od-edit-guide-box-hover')).not.toBeNull();
-    const result = posts.find((message) => message.type === 'od-edit-guides-restore:result');
+    expect(layer.querySelectorAll('.sw-edit-guide-line-reference').length).toBe(4);
+    expect(layer.querySelector('.sw-edit-guide-box-hover')).not.toBeNull();
+    const result = posts.find((message) => message.type === 'sw-edit-guides-restore:result');
     // Restored from memory (hover already cleared) → not live: the host owes
     // a post-capture hover-reset.
     expect(result).toMatchObject({ id: 'cap-1', restored: true, live: false });
 
     // The host's post-capture hover-reset must clear the restored guides again.
-    dom.window.dispatchEvent(new dom.window.MessageEvent('message', { data: { type: 'od-edit-hover-reset' } }));
+    dom.window.dispatchEvent(new dom.window.MessageEvent('message', { data: { type: 'sw-edit-hover-reset' } }));
     expect(layer.children.length).toBe(0);
 
     dom.window.close();
@@ -651,7 +651,7 @@ describe('manual edit bridge target normalization', () => {
   it('does not restore guides when the hover memory is older than maxAgeMs', async () => {
     const posts: Array<{ type?: string; restored?: boolean }> = [];
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -665,16 +665,16 @@ describe('manual edit bridge target normalization', () => {
     }) as typeof dom.window.parent.postMessage;
 
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
-    dom.window.dispatchEvent(new dom.window.MessageEvent('message', { data: { type: 'od-edit-hover-reset' } }));
+    dom.window.dispatchEvent(new dom.window.MessageEvent('message', { data: { type: 'sw-edit-hover-reset' } }));
     await new Promise((resolve) => setTimeout(resolve, 25));
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-guides-restore', maxAgeMs: 5 },
+      data: { type: 'sw-edit-guides-restore', maxAgeMs: 5 },
     }));
 
-    const layer = dom.window.document.querySelector('[data-od-edit-guides-layer]')!;
+    const layer = dom.window.document.querySelector('[data-sw-edit-guides-layer]')!;
     expect(layer.children.length).toBe(0);
-    const result = posts.find((message) => message.type === 'od-edit-guides-restore:result');
+    const result = posts.find((message) => message.type === 'sw-edit-guides-restore:result');
     expect(result).toMatchObject({ restored: false });
 
     dom.window.close();
@@ -683,7 +683,7 @@ describe('manual edit bridge target normalization', () => {
   it('reports restored:false when no hover ever happened', () => {
     const posts: Array<{ type?: string; restored?: boolean }> = [];
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     dom.window.parent.postMessage = ((message: unknown) => {
@@ -691,12 +691,12 @@ describe('manual edit bridge target normalization', () => {
     }) as typeof dom.window.parent.postMessage;
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-guides-restore', maxAgeMs: 60000 },
+      data: { type: 'sw-edit-guides-restore', maxAgeMs: 60000 },
     }));
 
-    const layer = dom.window.document.querySelector('[data-od-edit-guides-layer]');
+    const layer = dom.window.document.querySelector('[data-sw-edit-guides-layer]');
     expect(layer?.children.length ?? 0).toBe(0);
-    const result = posts.find((message) => message.type === 'od-edit-guides-restore:result');
+    const result = posts.find((message) => message.type === 'sw-edit-guides-restore:result');
     expect(result).toMatchObject({ restored: false });
 
     dom.window.close();
@@ -705,7 +705,7 @@ describe('manual edit bridge target normalization', () => {
   it('re-renders guides on restore while a hover is still live', () => {
     const posts: Array<{ type?: string; restored?: boolean }> = [];
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const title = dom.window.document.querySelector('h1') as HTMLElement;
@@ -721,12 +721,12 @@ describe('manual edit bridge target normalization', () => {
     title.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-guides-restore', maxAgeMs: 60000 },
+      data: { type: 'sw-edit-guides-restore', maxAgeMs: 60000 },
     }));
 
-    const layer = dom.window.document.querySelector('[data-od-edit-guides-layer]')!;
-    expect(layer.querySelectorAll('.od-edit-guide-line-reference').length).toBe(4);
-    const result = posts.find((message) => message.type === 'od-edit-guides-restore:result');
+    const layer = dom.window.document.querySelector('[data-sw-edit-guides-layer]')!;
+    expect(layer.querySelectorAll('.sw-edit-guide-line-reference').length).toBe(4);
+    const result = posts.find((message) => message.type === 'sw-edit-guides-restore:result');
     // Hover is still active → live: the host must NOT clear the guides after
     // the capture or they'd vanish under the stationary cursor.
     expect(result).toMatchObject({ restored: true, live: true });
@@ -737,7 +737,7 @@ describe('manual edit bridge target normalization', () => {
   it('posts the screenshot hotkey on a double Command tap but not on the both-Metas chord', () => {
     const posts: Array<{ type?: string }> = [];
     const dom = new JSDOM(
-      `<main data-od-source-path="path-0"><h1 data-od-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
+      `<main data-sw-source-path="path-0"><h1 data-sw-source-path="path-0-0">Plain title</h1></main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     dom.window.parent.postMessage = ((message: unknown) => {
@@ -760,7 +760,7 @@ describe('manual edit bridge target normalization', () => {
     keydown('Meta', 'MetaRight');
     keyup('MetaLeft');
     keyup('MetaRight');
-    expect(posts.some((message) => message.type === 'od-edit-screenshot-hotkey')).toBe(false);
+    expect(posts.some((message) => message.type === 'sw-edit-screenshot-hotkey')).toBe(false);
 
     // A Meta chord like ⌘C cancels the pending tap.
     keydown('Meta', 'MetaLeft');
@@ -768,7 +768,7 @@ describe('manual edit bridge target normalization', () => {
     keyup('MetaLeft');
     keydown('Meta', 'MetaLeft');
     keyup('MetaLeft');
-    expect(posts.some((message) => message.type === 'od-edit-screenshot-hotkey')).toBe(false);
+    expect(posts.some((message) => message.type === 'sw-edit-screenshot-hotkey')).toBe(false);
 
     // Clear the pending tap left by the block above before the real gesture.
     keydown('Escape', 'Escape');
@@ -778,7 +778,7 @@ describe('manual edit bridge target normalization', () => {
     keyup('MetaLeft');
     keydown('Meta', 'MetaLeft');
     keyup('MetaLeft');
-    expect(posts.filter((message) => message.type === 'od-edit-screenshot-hotkey').length).toBe(1);
+    expect(posts.filter((message) => message.type === 'sw-edit-screenshot-hotkey').length).toBe(1);
 
     dom.window.close();
   });
@@ -788,7 +788,7 @@ describe('manual edit bridge target normalization', () => {
     const dom = new JSDOM(
       `<main>
         <section data-od-id="hero-group">
-          <span data-od-source-path="path-0-0-0">Small label</span>
+          <span data-sw-source-path="path-0-0-0">Small label</span>
         </section>
       </main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
@@ -800,7 +800,7 @@ describe('manual edit bridge target normalization', () => {
 
     span.dispatchEvent(new dom.window.Event('pointerover', { bubbles: true }));
 
-    const hover = posts.find((message) => message.type === 'od-edit-hover');
+    const hover = posts.find((message) => message.type === 'sw-edit-hover');
     expect(hover?.target?.id).toBe('path-0-0-0');
     expect(hover?.target?.label).toBe('Small label');
 
@@ -810,7 +810,7 @@ describe('manual edit bridge target normalization', () => {
   it('acks live preview style patches by id and version', () => {
     const bridge = buildManualEditBridge(true);
 
-    expect(bridge).toContain("type: 'od-edit-preview-style-applied'");
+    expect(bridge).toContain("type: 'sw-edit-preview-style-applied'");
     expect(bridge).toContain('version: Number(version) || 0, ok: true');
     expect(bridge).toContain("ok: false, error: 'Target not found'");
   });
@@ -820,14 +820,14 @@ describe('manual edit bridge target normalization', () => {
 
     // Hover/selection feedback moved off per-element outlines (which artifact
     // CSS resets could override) and onto a fixed, top-of-stack guides layer.
-    expect(style).toContain('html[data-od-edit-mode] [data-od-edit-selected] {\n  outline: none !important;');
-    expect(style).toContain('[data-od-edit-guides-layer] {');
+    expect(style).toContain('html[data-sw-edit-mode] [data-sw-edit-selected] {\n  outline: none !important;');
+    expect(style).toContain('[data-sw-edit-guides-layer] {');
     expect(style).toContain('z-index: 2147483646');
     expect(style).toContain('pointer-events: none');
-    expect(style).toContain('[data-od-edit-guides-layer] .od-edit-guide-box-hover');
-    expect(style).toContain('[data-od-edit-guides-layer] .od-edit-guide-box-selected');
-    expect(style).toContain('[data-od-edit-guides-layer] .od-edit-guide-handle');
-    expect(style).toContain('[data-od-edit-guides-layer] .od-edit-guide-measure');
+    expect(style).toContain('[data-sw-edit-guides-layer] .sw-edit-guide-box-hover');
+    expect(style).toContain('[data-sw-edit-guides-layer] .sw-edit-guide-box-selected');
+    expect(style).toContain('[data-sw-edit-guides-layer] .sw-edit-guide-handle');
+    expect(style).toContain('[data-sw-edit-guides-layer] .sw-edit-guide-measure');
   });
 
   it('moves the runtime selected marker between selected targets', () => {
@@ -842,16 +842,16 @@ describe('manual edit bridge target normalization', () => {
     const body = dom.window.document.querySelector('[data-od-id="body"]')!;
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-selected-target', id: 'title' },
+      data: { type: 'sw-edit-selected-target', id: 'title' },
     }));
-    expect(title.getAttribute('data-od-edit-selected')).toBe('true');
-    expect(body.hasAttribute('data-od-edit-selected')).toBe(false);
+    expect(title.getAttribute('data-sw-edit-selected')).toBe('true');
+    expect(body.hasAttribute('data-sw-edit-selected')).toBe(false);
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-selected-target', id: 'body' },
+      data: { type: 'sw-edit-selected-target', id: 'body' },
     }));
-    expect(title.hasAttribute('data-od-edit-selected')).toBe(false);
-    expect(body.getAttribute('data-od-edit-selected')).toBe('true');
+    expect(title.hasAttribute('data-sw-edit-selected')).toBe(false);
+    expect(body.getAttribute('data-sw-edit-selected')).toBe('true');
 
     dom.window.close();
   });
@@ -860,26 +860,26 @@ describe('manual edit bridge target normalization', () => {
     const dom = new JSDOM(
       `<main>
         <h1 data-od-id="title">Title</h1>
-        <p data-od-id="body" data-od-edit-selected="true">Body</p>
+        <p data-od-id="body" data-sw-edit-selected="true">Body</p>
       </main>${buildManualEditBridge(true)}`,
       { runScripts: 'dangerously', url: 'http://localhost' },
     );
     const body = dom.window.document.querySelector('[data-od-id="body"]')!;
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-selected-target', id: null },
+      data: { type: 'sw-edit-selected-target', id: null },
     }));
-    expect(body.hasAttribute('data-od-edit-selected')).toBe(false);
+    expect(body.hasAttribute('data-sw-edit-selected')).toBe(false);
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-selected-target', id: 'body' },
+      data: { type: 'sw-edit-selected-target', id: 'body' },
     }));
-    expect(body.getAttribute('data-od-edit-selected')).toBe('true');
+    expect(body.getAttribute('data-sw-edit-selected')).toBe('true');
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-mode', enabled: false },
+      data: { type: 'sw-edit-mode', enabled: false },
     }));
-    expect(body.hasAttribute('data-od-edit-selected')).toBe(false);
+    expect(body.hasAttribute('data-sw-edit-selected')).toBe(false);
 
     dom.window.close();
   });
@@ -887,9 +887,9 @@ describe('manual edit bridge target normalization', () => {
   it('keeps runtime selection marker out of source-shaped target data', () => {
     const bridge = buildManualEditBridge(true);
 
-    expect(bridge).toContain("attr.name === 'data-od-edit-selected'");
-    expect(bridge).toContain('replace(/\\sdata-od-edit-selected="[^"]*"/g, \'\')');
-    expect(bridge).toContain('[data-od-edit-selected]');
+    expect(bridge).toContain("attr.name === 'data-sw-edit-selected'");
+    expect(bridge).toContain('replace(/\\sdata-sw-edit-selected="[^"]*"/g, \'\')');
+    expect(bridge).toContain('[data-sw-edit-selected]');
   });
 
   it('marks flex/grid targets as layout containers', () => {
@@ -914,9 +914,9 @@ describe('manual edit bridge target normalization', () => {
       clientY: 8,
     }));
     expect(title.getAttribute('contenteditable')).toBe('plaintext-only');
-    expect(title.getAttribute('data-od-editing')).toBe('true');
+    expect(title.getAttribute('data-sw-editing')).toBe('true');
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-select',
+      type: 'sw-edit-select',
       target: expect.objectContaining({
         id: 'title',
         kind: 'text',
@@ -926,18 +926,18 @@ describe('manual edit bridge target normalization', () => {
     title.textContent = 'Edited title';
 
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-text-finish', commit: true },
+      data: { type: 'sw-edit-text-finish', commit: true },
     }));
 
     expect(title.hasAttribute('contenteditable')).toBe(false);
-    expect(title.hasAttribute('data-od-editing')).toBe(false);
+    expect(title.hasAttribute('data-sw-editing')).toBe(false);
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-text-commit',
+      type: 'sw-edit-text-commit',
       id: 'title',
       value: 'Edited title',
     }, '*');
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-text-session',
+      type: 'sw-edit-text-session',
       id: 'title',
       active: false,
       committed: true,
@@ -949,7 +949,7 @@ describe('manual edit bridge target normalization', () => {
 
   // #3646 focus-loss half: once editing, blurring the iframe (e.g. moving the
   // pointer to the host's floating inspector) must NOT end the session or
-  // commit. Only an explicit finish (Enter/Escape/od-edit-text-finish) commits.
+  // commit. Only an explicit finish (Enter/Escape/sw-edit-text-finish) commits.
   it('keeps the inline edit active on blur and commits only on explicit finish', () => {
     const dom = new JSDOM(
       `<main><h1 data-od-id="title">Original title</h1></main>${buildManualEditBridge(true)}`,
@@ -969,19 +969,19 @@ describe('manual edit bridge target normalization', () => {
 
     // Blur is no longer a commit trigger — the session stays live.
     expect(title.getAttribute('contenteditable')).toBe('plaintext-only');
-    expect(title.getAttribute('data-od-editing')).toBe('true');
+    expect(title.getAttribute('data-sw-editing')).toBe('true');
     expect(postMessage).not.toHaveBeenCalledWith(expect.objectContaining({
-      type: 'od-edit-text-commit',
+      type: 'sw-edit-text-commit',
     }), '*');
 
     // The host drives the commit explicitly.
     dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-      data: { type: 'od-edit-text-finish', commit: true },
+      data: { type: 'sw-edit-text-finish', commit: true },
     }));
 
     expect(title.hasAttribute('contenteditable')).toBe(false);
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-text-commit',
+      type: 'sw-edit-text-commit',
       id: 'title',
       value: 'Edited title',
     }, '*');
@@ -1004,16 +1004,16 @@ describe('manual edit bridge target normalization', () => {
     dom.window.document.body.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true, cancelable: true }));
 
     expect(postMessage).toHaveBeenCalledWith({
-      type: 'od-edit-text-commit',
+      type: 'sw-edit-text-commit',
       id: 'title',
       value: 'Edited',
     }, '*');
     expect(postMessage).toHaveBeenCalledWith(expect.objectContaining({
-      type: 'od-edit-text-session',
+      type: 'sw-edit-text-session',
       id: 'title',
       active: false,
     }), '*');
-    expect(postMessage).toHaveBeenCalledWith({ type: 'od-edit-background' }, '*');
+    expect(postMessage).toHaveBeenCalledWith({ type: 'sw-edit-background' }, '*');
     expect(title.hasAttribute('contenteditable')).toBe(false);
 
     dom.window.close();
@@ -1037,7 +1037,7 @@ describe('manual edit bridge target normalization', () => {
 
     expect(body.textContent).toBe('Original body');
     expect(postMessage).not.toHaveBeenCalledWith(expect.objectContaining({
-      type: 'od-edit-text-commit',
+      type: 'sw-edit-text-commit',
     }), '*');
 
     dom.window.close();
@@ -1175,7 +1175,7 @@ describe('manual edit bridge target normalization', () => {
 
     // Set editingEl so shouldBlock() returns true for events inside it
     const editable = dom.window.document.createElement('div');
-    editable.setAttribute('data-od-editing', 'true');
+    editable.setAttribute('data-sw-editing', 'true');
     dom.window.document.body.appendChild(editable);
     (dom.window as any).__odEditGuard.editingEl = editable;
 

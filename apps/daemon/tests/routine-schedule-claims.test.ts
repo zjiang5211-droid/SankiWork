@@ -27,7 +27,7 @@ let tmp: string;
 let dbFile: string;
 
 beforeEach(async () => {
-  tmp = await mkdtemp(path.join(os.tmpdir(), 'od-routine-claims-'));
+  tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-routine-claims-'));
   dbFile = path.join(tmp, 'app.sqlite');
 });
 

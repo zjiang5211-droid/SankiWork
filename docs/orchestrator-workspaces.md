@@ -11,7 +11,7 @@ The boundary is intentionally narrow: OD may read and write the workspace it is 
 Workspace metadata separates storage from provenance:
 
 - **Storage** answers where OD reads and writes files.
-  - `od-owned`: OD-owned project files under the normal data/project directory.
+  - `sw-owned`: OD-owned project files under the normal data/project directory.
   - `folder-backed`: files live at an external filesystem root.
 - **Folder provenance** answers who prepared a folder-backed workspace and who owns follow-up actions.
   - `user-local`: a user-selected folder that OD edits in place.
@@ -25,7 +25,7 @@ Callers should mark scratch workspaces declaratively on project metadata:
 
 ```json
 {
-  "baseDir": "/tmp/od-run-123/workspace",
+  "baseDir": "/tmp/sw-run-123/workspace",
   "importedFrom": "folder",
   "orchestratorWorkspace": {
     "kind": "scratch",

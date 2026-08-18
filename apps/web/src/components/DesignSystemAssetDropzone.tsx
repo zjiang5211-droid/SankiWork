@@ -152,7 +152,7 @@ function fileKey(file: File): string {
 /** CSS-safe, collision-resistant @font-face family name for a staged font. */
 function fontFamilyName(file: File, index: number): string {
   const slug = file.name.replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '').slice(0, 24);
-  return `od-asset-font-${index}-${slug || 'font'}`;
+  return `sw-asset-font-${index}-${slug || 'font'}`;
 }
 
 function isEditableTarget(node: EventTarget | null): boolean {

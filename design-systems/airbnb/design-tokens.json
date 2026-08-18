@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "format": "od-design-tokens/v1",
+  "format": "sw-design-tokens/v1",
   "contract": "TOKEN_SCHEMA",
   "generatedAt": "2026-06-06T00:00:00.000Z",
   "source": {

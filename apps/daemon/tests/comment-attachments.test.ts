@@ -42,7 +42,7 @@ afterEach(() => {
 
 describe('preview comment persistence', () => {
   it('keeps critique migration wired while adding pod columns on a fresh database', () => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-comments-'));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-comments-'));
     const db = openDatabase(tempDir);
 
     const previewColumns = db
@@ -59,7 +59,7 @@ describe('preview comment persistence', () => {
   });
 
   it('adds the team-collab anchor columns on a fresh database', () => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-comments-'));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-comments-'));
     const db = openDatabase(tempDir);
     expect(tableColumnNames(db.prepare(`PRAGMA table_info(preview_comments)`).all())).toEqual(
       expect.arrayContaining([
@@ -263,7 +263,7 @@ describe('preview comment persistence', () => {
   });
 
   it('migrates legacy preview comments into a slide-aware conflict key', () => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-comments-'));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-comments-'));
     const odDir = path.join(tempDir, '.sankiwork');
     fs.mkdirSync(odDir, { recursive: true });
     const legacyDb = new Database(path.join(odDir, 'app.sqlite'));
@@ -759,7 +759,7 @@ describe('preview comment agent payload', () => {
 });
 
 function seededDb() {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-comments-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-comments-'));
   const db = openDatabase(tempDir);
   insertProject(db, {
     id: 'project-1',

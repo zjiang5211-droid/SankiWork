@@ -21,7 +21,7 @@ import { ensureProject } from '../src/projects.js';
 const tempDirs: string[] = [];
 
 function makeProjectsRoot(): string {
-  const dir = mkdtempSync(path.join(tmpdir(), 'od-ref-ensure-'));
+  const dir = mkdtempSync(path.join(tmpdir(), 'sw-ref-ensure-'));
   tempDirs.push(dir);
   return dir;
 }

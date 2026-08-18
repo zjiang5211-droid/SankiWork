@@ -86,7 +86,7 @@ describe('ManualEditPanel', () => {
         label: 'div.container.hero-split',
         className: 'container hero-split',
         text: 'Turn a brand brief into an editorial collage system.',
-        attributes: { 'data-od-source-path': 'path-0-0' },
+        attributes: { 'data-sw-source-path': 'path-0-0' },
       },
     });
 

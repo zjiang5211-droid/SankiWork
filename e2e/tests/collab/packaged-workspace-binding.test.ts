@@ -44,7 +44,7 @@ describe('packaged Workspace Team transaction', () => {
     '[P0] feature-test transport keeps Personal and Team project homes across a daemon restart',
     { timeout: 360_000 },
     async () => {
-      externalRoot = await mkdtemp(join(tmpdir(), 'od-packaged-workspace-e2e-'));
+      externalRoot = await mkdtemp(join(tmpdir(), 'sw-packaged-workspace-e2e-'));
       const sharedDataDir = join(externalRoot, 'persisted-daemon-data');
       hub = await startFakeCollabHub({
         root: join(externalRoot, 'hub'),

@@ -257,7 +257,7 @@ afterEach(() => {
     act(() => root?.unmount());
     root = null;
   }
-  document.body.classList.remove('od-quick-switcher-open');
+  document.body.classList.remove('sw-quick-switcher-open');
   document.querySelectorAll('.chat-composer-fixed-layer').forEach((node) => node.remove());
   composerCssStyle?.remove();
   composerCssStyle = null;
@@ -363,33 +363,33 @@ function installComposerIsolationCss() {
     ['.chat-composer-fixed-layer .composer-shell', routinesCss],
     ['.chat-composer-fixed-layer .composer.drag-active .composer-shell', routinesCss],
     ['.chat-composer-fixed-layer .composer-input-wrap', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer.drag-active .composer-shell', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap:focus-within', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-editor .composer-editable', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-placeholder', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-row', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-order', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-comment button', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-name', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-comment .staged-name strong', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-comment .staged-name span', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context .staged-icon', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-icon', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-remove', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-active-file', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .icon-btn', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-agent-trigger', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-btn', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-send', routinesCss],
-    ['body.od-quick-switcher-open .chat-composer-fixed-layer .composer-send:disabled', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer.drag-active .composer-shell', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap:focus-within', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-editor .composer-editable', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-placeholder', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-row', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-order', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-comment button', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-name', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-comment .staged-name strong', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-comment .staged-name span', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context .staged-icon', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-icon', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-remove', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-active-file', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .icon-btn', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-agent-trigger', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-btn', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-send', routinesCss],
+    ['body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-send:disabled', routinesCss],
   ] as const;
   composerCssStyle = document.createElement('style');
   composerCssStyle.textContent = rules
@@ -616,7 +616,7 @@ describe('FileWorkspace quick switcher visual isolation', () => {
     fireEvent.keyDown(window, { key: 'p', ctrlKey: true });
 
     await waitFor(() => {
-      expect(document.body.classList.contains('od-quick-switcher-open')).toBe(true);
+      expect(document.body.classList.contains('sw-quick-switcher-open')).toBe(true);
     });
     const quickSearchInput = screen.getByRole('textbox');
     await waitFor(() => {
@@ -666,7 +666,7 @@ describe('FileWorkspace quick switcher visual isolation', () => {
     fireEvent.keyDown(window, { key: 'Escape' });
 
     await waitFor(() => {
-      expect(document.body.classList.contains('od-quick-switcher-open')).toBe(false);
+      expect(document.body.classList.contains('sw-quick-switcher-open')).toBe(false);
     });
     await waitFor(() => {
       expect(getComputedStyle(composer).pointerEvents).toBe('auto');
@@ -1514,7 +1514,7 @@ describe('FileWorkspace launcher tab creation', () => {
     fireEvent.click(screen.getByRole('tab', { name: /gamma\.html/i }));
     await waitFor(() => expect(mockedFetchProjectFileText).toHaveBeenCalledTimes(3));
     const survivingFrames = ['beta.html', 'gamma.html'].map((name) => (
-      document.querySelector(`iframe[title="${name}"][data-od-render-mode="url-load"]`)
+      document.querySelector(`iframe[title="${name}"][data-sw-render-mode="url-load"]`)
     ));
     expect(survivingFrames.every(Boolean)).toBe(true);
     const appendSpy = vi.spyOn(Node.prototype, 'appendChild');
@@ -1526,7 +1526,7 @@ describe('FileWorkspace launcher tab creation', () => {
     for (const [index, name] of ['beta.html', 'gamma.html'].entries()) {
       const frame = survivingFrames[index];
       expect(document.querySelector(
-        `iframe[title="${name}"][data-od-render-mode="url-load"]`,
+        `iframe[title="${name}"][data-sw-render-mode="url-load"]`,
       )).toBe(frame);
       expect(appendSpy.mock.calls.filter(([node]) => node === frame)).toHaveLength(0);
     }
@@ -1565,14 +1565,14 @@ describe('FileWorkspace launcher tab creation', () => {
 
     const { rerender } = render(<Harness files={[alpha, beta]} generation={1} />);
     await waitFor(() => expect(document.querySelector(
-      'iframe[title="alpha.html"][data-od-render-mode="url-load"]',
+      'iframe[title="alpha.html"][data-sw-render-mode="url-load"]',
     )).not.toBeNull());
     fireEvent.click(screen.getByRole('tab', { name: /beta\.html/i }));
     await waitFor(() => expect(document.querySelector(
-      'iframe[title="alpha.html"][data-od-render-mode="url-load"]',
+      'iframe[title="alpha.html"][data-sw-render-mode="url-load"]',
     )).not.toBeNull());
     const alphaFrame = document.querySelector(
-      'iframe[title="alpha.html"][data-od-render-mode="url-load"]',
+      'iframe[title="alpha.html"][data-sw-render-mode="url-load"]',
     );
     expect(alphaFrame).not.toBeNull();
     const readsBeforeDelete = mockedFetchProjectFileText.mock.calls.length;
@@ -1582,7 +1582,7 @@ describe('FileWorkspace launcher tab creation', () => {
 
     await waitFor(() => expect(document.querySelector('iframe[title="beta.html"]')).toBeNull());
     expect(document.querySelector(
-      'iframe[title="alpha.html"][data-od-render-mode="url-load"]',
+      'iframe[title="alpha.html"][data-sw-render-mode="url-load"]',
     )).toBe(alphaFrame);
     expect(appendSpy.mock.calls.filter(([node]) => node === alphaFrame)).toHaveLength(0);
     expect(mockedFetchProjectFileText).toHaveBeenCalledTimes(readsBeforeDelete);
@@ -1806,7 +1806,7 @@ describe('FileWorkspace launcher tab creation', () => {
       fireEvent.click(toggle);
       await waitFor(() => expect(toggle.getAttribute('aria-pressed')).toBe('true'));
       await waitFor(() => {
-        expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+        expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
       });
       return toggle;
     }
@@ -1855,7 +1855,7 @@ describe('FileWorkspace launcher tab creation', () => {
         window.dispatchEvent(new MessageEvent('message', {
           source: frame.contentWindow,
           data: {
-            type: 'od-edit-drag-commit',
+            type: 'sw-edit-drag-commit',
             id: 'copy',
             transform: 'translate(12px, 8px)',
             display: 'block',
@@ -1942,7 +1942,7 @@ describe('FileWorkspace launcher tab creation', () => {
         window.dispatchEvent(new MessageEvent('message', {
           source: frame.contentWindow,
           data: {
-            type: 'od-edit-drag-commit',
+            type: 'sw-edit-drag-commit',
             id: 'copy',
             transform: 'translate(12px, 8px)',
             display: 'block',
@@ -2057,7 +2057,7 @@ describe('FileWorkspace launcher tab creation', () => {
         window.dispatchEvent(new MessageEvent('message', {
           source: frame.contentWindow,
           data: {
-            type: 'od-edit-drag-commit',
+            type: 'sw-edit-drag-commit',
             id: 'copy',
             transform: 'translate(12px, 8px)',
             display: 'block',
@@ -2206,7 +2206,7 @@ describe('FileWorkspace launcher tab creation', () => {
         window.dispatchEvent(new MessageEvent('message', {
           source: frame.contentWindow,
           data: {
-            type: 'od-edit-drag-commit',
+            type: 'sw-edit-drag-commit',
             id: 'copy',
             transform: 'translate(12px, 8px)',
             display: 'block',
@@ -2315,7 +2315,7 @@ describe('FileWorkspace launcher tab creation', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: true },
       }));
     });
     await act(async () => {
@@ -2333,7 +2333,7 @@ describe('FileWorkspace launcher tab creation', () => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
         data: {
-          type: 'od-edit-text-session',
+          type: 'sw-edit-text-session',
           id: 'copy',
           active: false,
           committed: true,
@@ -2624,8 +2624,8 @@ describe('FileWorkspace launcher tab creation', () => {
     await screen.findByRole('button', { name: 'View Design Files' });
     const toastAnchor = document.querySelector('.workspace-toast-anchor');
     expect(toastAnchor).toBeTruthy();
-    expect(toastAnchor?.querySelector('.od-toast-browser-snapshot')).toBeTruthy();
-    const toastAction = document.querySelector<HTMLButtonElement>('.od-toast-action');
+    expect(toastAnchor?.querySelector('.sw-toast-browser-snapshot')).toBeTruthy();
+    const toastAction = document.querySelector<HTMLButtonElement>('.sw-toast-action');
     if (!toastAction) throw new Error('Could not find browser snapshot toast action');
     await act(async () => {
       fireEvent.click(toastAction);
@@ -2645,7 +2645,7 @@ describe('FileWorkspace launcher tab creation', () => {
 
   it('anchors the browser snapshot toast inside the workspace pane', async () => {
     // The Download Page progress/result toast is workspace-owned UI. Rendered
-    // as a bare fixed .od-toast it centers on the whole viewport, drifting
+    // as a bare fixed .sw-toast it centers on the whole viewport, drifting
     // over the chat pane and covering the composer send area in split view;
     // the anchor scopes it to the workspace pane instead.
     const browserTab = {
@@ -2676,7 +2676,7 @@ describe('FileWorkspace launcher tab creation', () => {
     fireEvent.click(screen.getByTestId('emit-browser-snapshot-success'));
 
     const toast = await waitFor(() => {
-      const node = document.querySelector<HTMLElement>('.od-toast');
+      const node = document.querySelector<HTMLElement>('.sw-toast');
       expect(node?.textContent).toContain('Saved page snapshot');
       return node as HTMLElement;
     });

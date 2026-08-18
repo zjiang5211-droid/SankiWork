@@ -68,7 +68,7 @@
   font-size: 13px;
 }
 /* The brand glyph is a self-shaped superellipse tile (rendered through
-   .od-brand-glyph), so it needs no panel disc behind it. */
+   .sw-brand-glyph), so it needs no panel disc behind it. */
 .home-hero__brand-mark {
   position: absolute;
   top: 50%;
@@ -2654,12 +2654,12 @@
    Instead render the stage at a native 16:9 and center it in the standard
    cell, so the slide has no dark band and deck cards keep an identical card
    height + title-row height to prototype/HyperFrames/image tiles. */
-.home-hero__plugin-preset[data-od-mode="deck"] .home-hero__plugin-preset-preview {
+.home-hero__plugin-preset[data-sw-mode="deck"] .home-hero__plugin-preset-preview {
   aspect-ratio: auto;
   background: var(--bg-panel);
   --deck-preview-scale: 0.166;
 }
-.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__html-frame {
+.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__html-frame {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2671,7 +2671,7 @@
    deck overflowed into an overlapping mess; scaling a fixed viewport instead
    previews every template proportionally. Cell ratio is taller than 16:9, so a
    width-fit scale letterboxes top/bottom with the card bg and never clips. */
-.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__html-iframe {
+.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__html-iframe {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -2687,21 +2687,21 @@
    survives as a black strip above the slide. Keep the deck out of the generic
    poster zoom below as well: once the 16:9 crop removes the baked letterbox,
    another scale would cut real slide content off all four edges. */
-.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__preview--media {
+.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__preview--media {
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-panel);
 }
-.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__media {
+.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__media {
   position: relative;
   inset: auto;
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
 }
-.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__media-img,
-.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__media-video {
+.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__media-img,
+.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__media-video {
   object-position: center;
   transform: none;
 }

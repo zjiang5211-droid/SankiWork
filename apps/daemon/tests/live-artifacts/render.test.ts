@@ -44,10 +44,10 @@ describe('validateHtmlTemplateV1Security', () => {
   });
 
   it('rejects raw HTML insertion directives', () => {
-    // data-od-html / data-od-raw / data-od-bind-html are application-level
+    // data-sw-html / data-sw-raw / data-sw-bind-html are application-level
     // opt-outs of escaping; banning them keeps the renderer to a single
     // escape path.
-    expect(() => validateHtmlTemplateV1Security('<div data-od-html="x"></div>'))
+    expect(() => validateHtmlTemplateV1Security('<div data-sw-html="x"></div>'))
       .toThrow(/raw HTML insertion directives/i);
   });
 
@@ -131,12 +131,12 @@ describe('renderHtmlTemplateV1', () => {
     })).toThrow(/raw template interpolation/i);
   });
 
-  it('expands a data-od-repeat element once per array item with loop-scoped bindings', () => {
+  it('expands a data-sw-repeat element once per array item with loop-scoped bindings', () => {
     // The documented one-level repeat: the element carries the whole subtree,
     // and `{{item.*}}` inside it resolves against each array entry.
     const result = renderHtmlTemplateV1({
       templateHtml:
-        '<ul><li data-od-repeat="row in data.kpis"><b>{{ row.label }}</b>: {{ row.value }}</li></ul>',
+        '<ul><li data-sw-repeat="row in data.kpis"><b>{{ row.label }}</b>: {{ row.value }}</li></ul>',
       dataJson: { kpis: [{ label: 'GMV', value: '¥128' }, { label: 'Orders', value: '8,742' }] },
     });
     expect(result.html).toBe(
@@ -144,64 +144,64 @@ describe('renderHtmlTemplateV1', () => {
     );
   });
 
-  it('treats literal data-od-repeat text in content and comments as inert copy', () => {
+  it('treats literal data-sw-repeat text in content and comments as inert copy', () => {
     // Reviewer-reported bug (#5603): the directive scan matched anywhere in
-    // the fragment, so authored prose like `Example: data-od-repeat="row in
+    // the fragment, so authored prose like `Example: data-sw-repeat="row in
     // data.rows"` repeated the paragraph, and the same string inside an HTML
     // comment threw "outside of an element". Both are content per the
     // html_template_v1 contract: the directive is an ATTRIBUTE on the
     // repeated element, nothing else.
     const prose = renderHtmlTemplateV1({
-      templateHtml: '<p>Example: data-od-repeat="row in data.rows" repeats a row. {{ data.note }}</p>',
+      templateHtml: '<p>Example: data-sw-repeat="row in data.rows" repeats a row. {{ data.note }}</p>',
       dataJson: { note: 'ok' },
     });
     expect(prose.html).toBe(
-      '<p>Example: data-od-repeat="row in data.rows" repeats a row. ok</p>',
+      '<p>Example: data-sw-repeat="row in data.rows" repeats a row. ok</p>',
     );
 
     const comment = renderHtmlTemplateV1({
-      templateHtml: '<div><!-- use data-od-repeat="item in data.list" here --><span>{{ data.note }}</span></div>',
+      templateHtml: '<div><!-- use data-sw-repeat="item in data.list" here --><span>{{ data.note }}</span></div>',
       dataJson: { note: 'ok' },
     });
     expect(comment.html).toBe(
-      '<div><!-- use data-od-repeat="item in data.list" here --><span>ok</span></div>',
+      '<div><!-- use data-sw-repeat="item in data.list" here --><span>ok</span></div>',
     );
 
     // A real directive after a literal mention still expands.
     const mixed = renderHtmlTemplateV1({
-      templateHtml: '<p>docs: data-od-repeat="x in data.y"</p><ul><li data-od-repeat="t in data.tags">{{ t }}</li></ul>',
+      templateHtml: '<p>docs: data-sw-repeat="x in data.y"</p><ul><li data-sw-repeat="t in data.tags">{{ t }}</li></ul>',
       dataJson: { tags: ['a', 'b'] },
     });
     expect(mixed.html).toBe(
-      '<p>docs: data-od-repeat="x in data.y"</p><ul><li>a</li><li>b</li></ul>',
+      '<p>docs: data-sw-repeat="x in data.y"</p><ul><li>a</li><li>b</li></ul>',
     );
   });
 
-  it('keeps literal data-od-repeat text inside a repeated element inert', () => {
+  it('keeps literal data-sw-repeat text inside a repeated element inert', () => {
     // Second-round reviewer repro (#5603): the nested-repeat guard scanned
     // the whole item template, so a literal mention INSIDE the repeated body
-    // threw "nested data-od-repeat is not supported".
+    // threw "nested data-sw-repeat is not supported".
     const result = renderHtmlTemplateV1({
       templateHtml:
-        '<ul><li data-od-repeat="row in data.rows"><span>docs: data-od-repeat="x in data.y"</span>{{ row }}</li></ul>',
+        '<ul><li data-sw-repeat="row in data.rows"><span>docs: data-sw-repeat="x in data.y"</span>{{ row }}</li></ul>',
       dataJson: { rows: ['a', 'b'] },
     });
     expect(result.html).toBe(
-      '<ul><li><span>docs: data-od-repeat="x in data.y"</span>a</li><li><span>docs: data-od-repeat="x in data.y"</span>b</li></ul>',
+      '<ul><li><span>docs: data-sw-repeat="x in data.y"</span>a</li><li><span>docs: data-sw-repeat="x in data.y"</span>b</li></ul>',
     );
   });
 
   it('ignores directive-looking text inside a quoted attribute value', () => {
     // Third-round reviewer repro (#5603): the inside-open-tag check alone
-    // still treated `title='docs data-od-repeat="x in data.y"'` as a real
+    // still treated `title='docs data-sw-repeat="x in data.y"'` as a real
     // loop, duplicating the element and truncating the title.
     const result = renderHtmlTemplateV1({
       templateHtml:
-        `<div title='docs data-od-repeat="x in data.y"'>{{ data.note }}</div>`,
+        `<div title='docs data-sw-repeat="x in data.y"'>{{ data.note }}</div>`,
       dataJson: { note: 'ok', y: ['a', 'b'] },
     });
     expect(result.html).toBe(
-      `<div title='docs data-od-repeat="x in data.y"'>ok</div>`,
+      `<div title='docs data-sw-repeat="x in data.y"'>ok</div>`,
     );
   });
 
@@ -211,7 +211,7 @@ describe('renderHtmlTemplateV1', () => {
     // "unbalanced"; `<!-- </div> -->` closed the repeat early.
     const open = renderHtmlTemplateV1({
       templateHtml:
-        '<ul><div data-od-repeat="row in data.rows"><!-- <div> --><span>{{ row }}</span></div></ul>',
+        '<ul><div data-sw-repeat="row in data.rows"><!-- <div> --><span>{{ row }}</span></div></ul>',
       dataJson: { rows: ['a', 'b'] },
     });
     expect(open.html).toBe(
@@ -220,7 +220,7 @@ describe('renderHtmlTemplateV1', () => {
 
     const close = renderHtmlTemplateV1({
       templateHtml:
-        '<ul><div data-od-repeat="row in data.rows"><!-- </div> --><span>{{ row }}</span></div></ul>',
+        '<ul><div data-sw-repeat="row in data.rows"><!-- </div> --><span>{{ row }}</span></div></ul>',
       dataJson: { rows: ['a'] },
     });
     expect(close.html).toBe('<ul><div><!-- </div> --><span>a</span></div></ul>');
@@ -229,25 +229,25 @@ describe('renderHtmlTemplateV1', () => {
   it('ignores a full tag-like directive inside an HTML comment', () => {
     const result = renderHtmlTemplateV1({
       templateHtml:
-        '<section><!-- <div data-od-repeat="row in data.rows">example</div> --><p>{{ data.note }}</p></section>',
+        '<section><!-- <div data-sw-repeat="row in data.rows">example</div> --><p>{{ data.note }}</p></section>',
       dataJson: { note: 'ok', rows: ['a', 'b'] },
     });
     expect(result.html).toBe(
-      '<section><!-- <div data-od-repeat="row in data.rows">example</div> --><p>ok</p></section>',
+      '<section><!-- <div data-sw-repeat="row in data.rows">example</div> --><p>ok</p></section>',
     );
   });
 
-  it('still rejects a REAL nested data-od-repeat element', () => {
+  it('still rejects a REAL nested data-sw-repeat element', () => {
     expect(() => renderHtmlTemplateV1({
       templateHtml:
-        '<ul><li data-od-repeat="row in data.rows"><span data-od-repeat="x in data.y">{{ x }}</span></li></ul>',
+        '<ul><li data-sw-repeat="row in data.rows"><span data-sw-repeat="x in data.y">{{ x }}</span></li></ul>',
       dataJson: { rows: ['a'], y: ['b'] },
-    })).toThrow(/nested data-od-repeat/);
+    })).toThrow(/nested data-sw-repeat/);
   });
 
   it('lets a bare {{item}} binding render each scalar array entry', () => {
     const result = renderHtmlTemplateV1({
-      templateHtml: '<ul><li data-od-repeat="tag in data.tags">{{ tag }}</li></ul>',
+      templateHtml: '<ul><li data-sw-repeat="tag in data.tags">{{ tag }}</li></ul>',
       dataJson: { tags: ['a', 'b', 'c'] },
     });
     expect(result.html).toBe('<ul><li>a</li><li>b</li><li>c</li></ul>');
@@ -256,7 +256,7 @@ describe('renderHtmlTemplateV1', () => {
   it('resolves global data.* bindings alongside the loop variable inside a repeat', () => {
     const result = renderHtmlTemplateV1({
       templateHtml:
-        '<div data-od-repeat="s in data.stages">{{ s.name }} of {{ data.total }}</div>',
+        '<div data-sw-repeat="s in data.stages">{{ s.name }} of {{ data.total }}</div>',
       dataJson: { total: 'Q3', stages: [{ name: 'visit' }, { name: 'pay' }] },
     });
     expect(result.html).toBe('<div>visit of Q3</div><div>pay of Q3</div>');
@@ -264,7 +264,7 @@ describe('renderHtmlTemplateV1', () => {
 
   it('escapes loop-scoped values so array data cannot inject markup', () => {
     const result = renderHtmlTemplateV1({
-      templateHtml: '<span data-od-repeat="r in data.rows">{{ r.note }}</span>',
+      templateHtml: '<span data-sw-repeat="r in data.rows">{{ r.note }}</span>',
       dataJson: { rows: [{ note: '<script>x</script>' }] },
     });
     expect(result.html).toBe('<span>&lt;script&gt;x&lt;/script&gt;</span>');
@@ -274,7 +274,7 @@ describe('renderHtmlTemplateV1', () => {
     // Single-pass invariant: a value that itself looks like a binding must be
     // rendered as literal text, never interpolated a second time.
     const result = renderHtmlTemplateV1({
-      templateHtml: '<span data-od-repeat="r in data.rows">{{ r.note }}</span>',
+      templateHtml: '<span data-sw-repeat="r in data.rows">{{ r.note }}</span>',
       dataJson: { rows: [{ note: '{{ data.secret }}' }], secret: 'LEAKED' },
     });
     expect(result.html).toBe('<span>{{ data.secret }}</span>');
@@ -282,7 +282,7 @@ describe('renderHtmlTemplateV1', () => {
 
   it('renders nothing for an empty repeat array', () => {
     const result = renderHtmlTemplateV1({
-      templateHtml: '<ul><li data-od-repeat="r in data.rows">{{ r.v }}</li></ul>',
+      templateHtml: '<ul><li data-sw-repeat="r in data.rows">{{ r.v }}</li></ul>',
       dataJson: { rows: [] },
     });
     expect(result.html).toBe('<ul></ul>');
@@ -293,7 +293,7 @@ describe('renderHtmlTemplateV1', () => {
     // tracking must pair the correct closing tag.
     const result = renderHtmlTemplateV1({
       templateHtml:
-        '<div data-od-repeat="c in data.cards"><div class="inner">{{ c.t }}</div></div>',
+        '<div data-sw-repeat="c in data.cards"><div class="inner">{{ c.t }}</div></div>',
       dataJson: { cards: [{ t: 'one' }, { t: 'two' }] },
     });
     expect(result.html).toBe(
@@ -301,25 +301,25 @@ describe('renderHtmlTemplateV1', () => {
     );
   });
 
-  it('rejects a nested data-od-repeat as unsupported', () => {
+  it('rejects a nested data-sw-repeat as unsupported', () => {
     expect(() => renderHtmlTemplateV1({
       templateHtml:
-        '<div data-od-repeat="a in data.groups"><span data-od-repeat="b in a.items">{{ b }}</span></div>',
+        '<div data-sw-repeat="a in data.groups"><span data-sw-repeat="b in a.items">{{ b }}</span></div>',
       dataJson: { groups: [{ items: [1] }] },
-    })).toThrow(/nested data-od-repeat/i);
+    })).toThrow(/nested data-sw-repeat/i);
   });
 
   it('rejects a repeat whose source path is not an array', () => {
     expect(() => renderHtmlTemplateV1({
-      templateHtml: '<li data-od-repeat="r in data.rows">{{ r }}</li>',
+      templateHtml: '<li data-sw-repeat="r in data.rows">{{ r }}</li>',
       dataJson: { rows: 'oops' },
     })).toThrow(/not an array/i);
   });
 
   it('rejects a malformed repeat directive', () => {
     expect(() => renderHtmlTemplateV1({
-      templateHtml: '<li data-od-repeat="just-a-name">{{ x }}</li>',
+      templateHtml: '<li data-sw-repeat="just-a-name">{{ x }}</li>',
       dataJson: {},
-    })).toThrow(/invalid data-od-repeat directive/i);
+    })).toThrow(/invalid data-sw-repeat directive/i);
   });
 });

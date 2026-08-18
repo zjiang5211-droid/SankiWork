@@ -59,7 +59,7 @@ describe('sw export run-scoped project authority', () => {
   const boundProjectHtml = `<!doctype html><html><head><base href="${legacyBaseHref}"><link rel="stylesheet" href="${rendererStylesheetPath}"></head><body><main data-renderer-asset-authority>${projectId}</main><img src="${rendererImagePath}" alt=""></body></html>`;
 
   beforeAll(async () => {
-    outputDir = await mkdtemp(path.join(os.tmpdir(), 'od-export-tool-token-'));
+    outputDir = await mkdtemp(path.join(os.tmpdir(), 'sw-export-tool-token-'));
     const dataDir = process.env.SW_DATA_DIR;
     if (!dataDir) throw new Error('SW_DATA_DIR is required by the daemon test harness');
     const db = openDatabase(process.cwd(), { dataDir });

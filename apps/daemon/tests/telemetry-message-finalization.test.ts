@@ -328,7 +328,7 @@ describe('Langfuse message finalization gate', () => {
     const reporter = createFinalizedMessageTelemetryReporter({
       design: { runs: { get: vi.fn(() => run) } },
       db: 'db',
-      dataDir: '/tmp/od-data',
+      dataDir: '/tmp/sw-data',
       reportedRuns: new Set<string>(),
       getAppVersion: () => ({ version: '0.7.0', channel: 'beta', packaged: true }),
       report,
@@ -346,7 +346,7 @@ describe('Langfuse message finalization gate', () => {
     expect(report).toHaveBeenCalledTimes(1);
     expect(report).toHaveBeenCalledWith({
       db: 'db',
-      dataDir: '/tmp/od-data',
+      dataDir: '/tmp/sw-data',
       run,
       persistedRunStatus: 'succeeded',
       persistedEndedAt: 1234,
@@ -377,7 +377,7 @@ describe('Langfuse message finalization gate', () => {
         runs: { get: vi.fn(() => run) },
       },
       db: 'db',
-      dataDir: '/tmp/od-data',
+      dataDir: '/tmp/sw-data',
       reportedRuns: new Set<string>(),
       report,
     });
@@ -465,7 +465,7 @@ describe('Langfuse message finalization gate', () => {
         runs: { get: vi.fn(() => run), markLangfuseCompleted },
       },
       db: 'db',
-      dataDir: '/tmp/od-data',
+      dataDir: '/tmp/sw-data',
       reportedRuns: new Set<string>(),
       getAppVersion: () => ({ version: '0.7.0', channel: 'beta', packaged: true }),
       report,
@@ -538,7 +538,7 @@ describe('Langfuse message finalization gate', () => {
         runs: { get: vi.fn(() => run) },
       },
       db: 'db',
-      dataDir: '/tmp/od-data',
+      dataDir: '/tmp/sw-data',
       reportedRuns: new Set<string>(),
       getAppVersion: () => ({ version: '0.7.0', channel: 'beta', packaged: true }),
       report,
@@ -578,7 +578,7 @@ describe('Langfuse message finalization gate', () => {
         runs: { get: vi.fn(() => undefined) },
       },
       db: 'db',
-      dataDir: '/tmp/od-data',
+      dataDir: '/tmp/sw-data',
       reportedRuns: new Set<string>(),
       getAppVersion: () => ({ version: '0.7.0', channel: 'beta', packaged: true }),
       report: vi.fn(),

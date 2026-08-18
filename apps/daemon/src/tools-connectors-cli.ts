@@ -881,7 +881,7 @@ async function collectGithubEvidenceWithGitClone(
   repo: ParsedGitHubRepo,
   options: { ref?: string; maxFiles: number; reason?: string; warnings?: string[] },
 ): Promise<GithubDesignEvidence> {
-  const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-github-context-'));
+  const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-github-context-'));
   const cloneDir = path.join(tmpDir, 'repo');
   try {
     const clone = await cloneGithubRepository(repo, cloneDir, options.ref);

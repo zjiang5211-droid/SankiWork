@@ -110,7 +110,7 @@ vi.mock('../../src/components/AssistantMessage', () => ({
       {onShareToSankiWork ? (
         <button
           type="button"
-          data-testid={`share-to-od-${message.id}`}
+          data-testid={`share-to-sw-${message.id}`}
           disabled={shareToSankiWorkBusy}
           onClick={onShareToSankiWork}
         >
@@ -1078,7 +1078,7 @@ Expected output:
       />,
     );
 
-    fireEvent.click(screen.getByTestId('share-to-od-assistant-1'));
+    fireEvent.click(screen.getByTestId('share-to-sw-assistant-1'));
     expect(onShareToSankiWork).toHaveBeenCalledWith('assistant-1');
 
     rerender(
@@ -1092,7 +1092,7 @@ Expected output:
             role: 'assistant',
             content: '',
             createdAt: 5,
-            runId: 'run-share-to-od',
+            runId: 'run-share-to-sw',
             runStatus: 'running',
           },
         ]}
@@ -1100,7 +1100,7 @@ Expected output:
       />,
     );
 
-    const sourceAction = screen.getByTestId<HTMLButtonElement>('share-to-od-assistant-1');
+    const sourceAction = screen.getByTestId<HTMLButtonElement>('share-to-sw-assistant-1');
     expect(screen.getByTestId('assistant-last-assistant-1').textContent).toBe('not-last');
     expect(sourceAction.disabled).toBe(true);
     expect(sourceAction.textContent).toBe('Preparing package…');

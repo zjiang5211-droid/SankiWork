@@ -121,7 +121,7 @@
   color: var(--text-strong);
   transform: translateY(-1px);
 }
-.libraryBtn .od-icon {
+.libraryBtn .sw-icon {
   color: var(--accent);
 }
 

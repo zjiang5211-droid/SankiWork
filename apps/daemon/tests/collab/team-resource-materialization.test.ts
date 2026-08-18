@@ -19,7 +19,7 @@ afterEach(async () => {
 });
 
 async function tempRoot(): Promise<string> {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-team-resource-scope-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-team-resource-scope-'));
   roots.push(root);
   return root;
 }

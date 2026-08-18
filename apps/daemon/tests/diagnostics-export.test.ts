@@ -93,7 +93,7 @@ describe('diagnostics export handler — non-sidecar launch', () => {
   });
 
   it('reports the AMR session from the Settings-backed agent environment', async () => {
-    const dataDir = join(tmpdir(), `od-diag-amr-settings-${randomUUID()}`);
+    const dataDir = join(tmpdir(), `sw-diag-amr-settings-${randomUUID()}`);
     const runtimeKey = 'settings-only-runtime-key';
     try {
       await mkdir(dataDir, { recursive: true });
@@ -152,7 +152,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
   // resolved the daemon log to `<namespaceRoot>/runtime/<namespace>/logs/...`
   // → ENOENT, so the bundle silently captured nothing.
   it('captures the daemon log from the real <namespaceRoot>/logs tree', async () => {
-    const root = join(tmpdir(), `od-diag-${randomUUID()}`);
+    const root = join(tmpdir(), `sw-diag-${randomUUID()}`);
     const namespaceRoot = join(root, 'namespaces', 'release-stable');
     const daemonLogPath = join(namespaceRoot, 'logs', APP_KEYS.DAEMON, 'latest.log');
     const marker = 'DAEMON-LOG-MARKER critique runId=rc100-poster';
@@ -164,7 +164,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
         app: APP_KEYS.DAEMON,
         // packaged launches children with base == <namespaceRoot>/runtime
         base: join(namespaceRoot, 'runtime'),
-        ipc: '/tmp/od-diag-test-daemon.sock',
+        ipc: '/tmp/sw-diag-test-daemon.sock',
         mode: SIDECAR_MODES.RUNTIME,
         namespace: 'release-stable',
         source: SIDECAR_SOURCES.PACKAGED,
@@ -201,7 +201,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
   // export must pick it up so support bundles cover the window BEFORE the
   // restart.
   it('bundles the rotated previous daemon log so pre-restart forensics survive a relaunch', async () => {
-    const root = join(tmpdir(), `od-diag-prev-${randomUUID()}`);
+    const root = join(tmpdir(), `sw-diag-prev-${randomUUID()}`);
     const namespaceRoot = join(root, 'namespaces', 'release-stable');
     const daemonLogDir = join(namespaceRoot, 'logs', APP_KEYS.DAEMON);
     const previousMarker = 'PREVIOUS-SESSION-MARKER incident-window collab poller storm';
@@ -213,7 +213,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
       const runtime: SidecarRuntimeContext<SidecarStamp> = {
         app: APP_KEYS.DAEMON,
         base: join(namespaceRoot, 'runtime'),
-        ipc: '/tmp/od-diag-prev.sock',
+        ipc: '/tmp/sw-diag-prev.sock',
         mode: SIDECAR_MODES.RUNTIME,
         namespace: 'release-stable',
         source: SIDECAR_SOURCES.PACKAGED,
@@ -247,7 +247,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
   // every dev bundle — the same noise the renderer.log desktop-only rule
   // exists to avoid. When the file is absent there must be NO manifest entry.
   it('omits previous.log from the manifest entirely when no rotated log exists', async () => {
-    const root = join(tmpdir(), `od-diag-noprev-${randomUUID()}`);
+    const root = join(tmpdir(), `sw-diag-noprev-${randomUUID()}`);
     const namespaceRoot = join(root, 'namespaces', 'release-stable');
     const daemonLogDir = join(namespaceRoot, 'logs', APP_KEYS.DAEMON);
     try {
@@ -257,7 +257,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
       const runtime: SidecarRuntimeContext<SidecarStamp> = {
         app: APP_KEYS.DAEMON,
         base: join(namespaceRoot, 'runtime'),
-        ipc: '/tmp/od-diag-noprev.sock',
+        ipc: '/tmp/sw-diag-noprev.sock',
         mode: SIDECAR_MODES.RUNTIME,
         namespace: 'release-stable',
         source: SIDECAR_SOURCES.PACKAGED,
@@ -291,7 +291,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
   it.skipIf(skipPermissionTest)(
     'records an unreadable rotated log as an error instead of silently dropping it',
     async () => {
-      const root = join(tmpdir(), `od-diag-prevdenied-${randomUUID()}`);
+      const root = join(tmpdir(), `sw-diag-prevdenied-${randomUUID()}`);
       const namespaceRoot = join(root, 'namespaces', 'release-stable');
       const daemonLogDir = join(namespaceRoot, 'logs', APP_KEYS.DAEMON);
       try {
@@ -305,7 +305,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
         const runtime: SidecarRuntimeContext<SidecarStamp> = {
           app: APP_KEYS.DAEMON,
           base: join(namespaceRoot, 'runtime'),
-          ipc: '/tmp/od-diag-prevdenied.sock',
+          ipc: '/tmp/sw-diag-prevdenied.sock',
           mode: SIDECAR_MODES.RUNTIME,
           namespace: 'release-stable',
           source: SIDECAR_SOURCES.PACKAGED,
@@ -335,7 +335,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
   );
 
   it('reports missing packaged log files under logical log paths without duplicating runtime segments', async () => {
-    const root = join(tmpdir(), `od-diag-missing-${randomUUID()}`);
+    const root = join(tmpdir(), `sw-diag-missing-${randomUUID()}`);
     const namespaceRoot = join(root, 'namespaces', 'release-beta');
     const daemonLogPath = join(namespaceRoot, 'logs', APP_KEYS.DAEMON, 'latest.log');
     try {
@@ -345,7 +345,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
       const runtime: SidecarRuntimeContext<SidecarStamp> = {
         app: APP_KEYS.DAEMON,
         base: join(namespaceRoot, 'runtime'),
-        ipc: '/tmp/od-diag-missing.sock',
+        ipc: '/tmp/sw-diag-missing.sock',
         mode: SIDECAR_MODES.RUNTIME,
         namespace: 'release-beta',
         source: SIDECAR_SOURCES.PACKAGED,
@@ -379,7 +379,7 @@ describe('diagnostics export handler — packaged (runtime) layout', () => {
 
 describe('diagnostics export handler — run event logs', () => {
   it('bundles recent per-run events.jsonl logs for agent stream forensics', async () => {
-    const root = join(tmpdir(), `od-diag-runs-${randomUUID()}`);
+    const root = join(tmpdir(), `sw-diag-runs-${randomUUID()}`);
     const runsDir = join(root, 'runs');
     const runLogPath = join(runsDir, 'run-3165', 'events.jsonl');
     const marker = 'Agent stalled without emitting any new output for 600s';
@@ -426,7 +426,7 @@ describe('diagnostics export handler — run event logs', () => {
   });
 
   it('keeps failed run forensics useful while redacting credentials and user paths', async () => {
-    const root = join(tmpdir(), `od-diag-runs-sensitive-${randomUUID()}`);
+    const root = join(tmpdir(), `sw-diag-runs-sensitive-${randomUUID()}`);
     const runsDir = join(root, 'runs');
     const runLogPath = join(runsDir, 'run-sensitive', 'events.jsonl');
     const username = userInfo().username;
@@ -524,7 +524,7 @@ describe('diagnostics export handler — run event logs', () => {
   // Truncation must advance to the next line boundary so every kept line is
   // complete JSON.
   it('keeps the truncated events.jsonl tail line-aligned so the first line is valid JSON', async () => {
-    const root = join(tmpdir(), `od-diag-trunc-${randomUUID()}`);
+    const root = join(tmpdir(), `sw-diag-trunc-${randomUUID()}`);
     const runsDir = join(root, 'runs');
     const runLogPath = join(runsDir, 'run-trunc', 'events.jsonl');
     // Every line is exactly 100 bytes (99 JSON chars + newline). 21000 lines =
@@ -576,7 +576,7 @@ describe('diagnostics export handler — run event logs', () => {
   // prevent. The bundle must say the file was omitted instead of quietly
   // exporting half an object.
   it('omits an event record larger than the tail cap instead of exporting a fragment', async () => {
-    const root = join(tmpdir(), `od-diag-giant-${randomUUID()}`);
+    const root = join(tmpdir(), `sw-diag-giant-${randomUUID()}`);
     const runsDir = join(root, 'runs');
     const runLogPath = join(runsDir, 'run-giant', 'events.jsonl');
     try {
@@ -620,7 +620,7 @@ describe('diagnostics export handler — run event logs', () => {
     // An empty/absent runs dir adds no manifest file entries, so without an
     // explicit warning an empty bundle is indistinguishable from a healthy run
     // — exactly the gap that made an AMR loop look like "nothing happened."
-    const runsDir = join(tmpdir(), `od-diag-empty-runs-${randomUUID()}`);
+    const runsDir = join(tmpdir(), `sw-diag-empty-runs-${randomUUID()}`);
     const handler = createDiagnosticsExportHandler({
       runtime: null,
       projectRoot: '/tmp/test-project',

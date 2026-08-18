@@ -70,7 +70,7 @@ afterEach(async () => {
 });
 
 async function database() {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-team-materialize-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-team-materialize-'));
   roots.push(root);
   return openDatabase(root, { dataDir: root });
 }

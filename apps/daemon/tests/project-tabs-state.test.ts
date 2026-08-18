@@ -15,7 +15,7 @@ describe('project tabs state persistence', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-project-tabs-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-project-tabs-'));
   });
 
   afterEach(() => {

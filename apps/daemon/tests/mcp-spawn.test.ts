@@ -21,7 +21,7 @@ import { insertConversation } from '../src/db.js';
 import { startServer } from '../src/server.js';
 
 async function withFakeClaude<T>(run: () => Promise<T>): Promise<T> {
-  const dir = await fsp.mkdtemp(join(tmpdir(), 'od-mcp-spawn-bin-'));
+  const dir = await fsp.mkdtemp(join(tmpdir(), 'sw-mcp-spawn-bin-'));
   const oldPath = process.env.PATH;
   const oldClaudeBin = process.env.CLAUDE_BIN;
   const oldAgentHome = process.env.SW_AGENT_HOME;
@@ -143,7 +143,7 @@ describe('spawn writes external MCP config for Claude Code', () => {
     externalDir: string;
     conversationId: string;
   }> {
-    const externalDir = await fsp.mkdtemp(join(tmpdir(), 'od-mcp-import-'));
+    const externalDir = await fsp.mkdtemp(join(tmpdir(), 'sw-mcp-import-'));
     tempDirs.push(externalDir);
     await fsp.writeFile(join(externalDir, 'index.html'), '<!doctype html>');
     const r = await fetch(`${baseUrl}/api/import/folder`, {

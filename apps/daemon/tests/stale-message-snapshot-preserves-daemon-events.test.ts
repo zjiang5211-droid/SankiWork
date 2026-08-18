@@ -71,7 +71,7 @@ describe('stale web message snapshot does not wipe daemon-owned run events', () 
   });
 
   it('retains an early daemon-persisted event after a stale web snapshot PUT', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-stale-put-msg-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-stale-put-msg-bin-'));
     const fakeClaude = await writeCleanClaude(binDir, 'claude-stale-put');
 
     delete process.env.POSTHOG_KEY;
@@ -177,7 +177,7 @@ describe('stale web message snapshot does not wipe daemon-owned run events', () 
     // so a web snapshot captured after the final event but before that write has
     // the SAME event count while still carrying a non-terminal status. It must
     // not be able to regress the stored terminal status (#6396 / looper review).
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-terminal-latch-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-terminal-latch-bin-'));
     const fakeClaude = await writeCleanClaude(binDir, 'claude-terminal-latch');
 
     delete process.env.POSTHOG_KEY;
@@ -469,7 +469,7 @@ describe('stale web message snapshot does not wipe daemon-owned run events', () 
     // #6418 review: event growth is not a freshness proof for content. A delayed
     // whole-message snapshot can carry one additional client/status event while
     // still holding older partial text.
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-event-growth-content-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-event-growth-content-bin-'));
     const fakeClaude = await writeCleanClaude(binDir, 'claude-event-growth-content');
 
     delete process.env.POSTHOG_KEY;
@@ -541,7 +541,7 @@ describe('stale web message snapshot does not wipe daemon-owned run events', () 
     // whose events array is empty (the web never carries the daemon's detailed
     // events). It must not be treated as a stale full snapshot: the fresh
     // endedAt should land while the daemon-owned events/status survive.
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-meta-update-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-meta-update-bin-'));
     const fakeClaude = await writeCleanClaude(binDir, 'claude-meta-update');
 
     delete process.env.POSTHOG_KEY;

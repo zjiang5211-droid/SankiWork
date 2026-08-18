@@ -16,7 +16,7 @@ describe('message delimiter safety', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-message-delimiter-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-message-delimiter-'));
   });
 
   afterEach(() => {

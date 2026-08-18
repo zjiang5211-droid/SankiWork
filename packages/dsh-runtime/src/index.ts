@@ -265,7 +265,7 @@ async function execute(
   const selection = request.reasoning_effort
     ? { ...baseSelection, reasoningEffort: ReasoningEffortId(request.reasoning_effort) }
     : baseSelection;
-  const sessionId = SessionId(request.resume_session_id ?? `od-${randomUUID()}`);
+  const sessionId = SessionId(request.resume_session_id ?? `sw-${randomUUID()}`);
   let handle: AgentHandle | undefined;
   let firstSeq = Number.POSITIVE_INFINITY;
   let turnEnd: SessionEvent<'turn/end'> | undefined;

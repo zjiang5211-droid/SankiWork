@@ -27,7 +27,7 @@ import type { AppliedPluginSnapshot } from './apply.js';
 export type TaskKind = AppliedPluginSnapshot['taskKind'];
 
 // Plugin ids the kind/task-kind defaults can resolve to. Two tiers:
-//   1. `od-*` scenarios (under `plugins/_official/scenarios/`) — generic
+//   1. `sw-*` scenarios (under `plugins/_official/scenarios/`) — generic
 //      routers / pipelines without per-surface templates.
 //   2. `example-*` scenarios (under `plugins/_official/examples/`) —
 //      specialised bundled skills that ship a seed template + layout

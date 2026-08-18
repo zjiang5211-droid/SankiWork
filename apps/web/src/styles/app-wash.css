@@ -29,7 +29,7 @@
   /* Veils: translucent stand-ins for the solid backgrounds of the page
      containers between body and the content surfaces. One token per
      original solid value so the fallback blocks can restore each exactly. */
-  --veil-shell: transparent; /* was var(--bg-app): .app, .workspace-shell, .od-loading-shell */
+  --veil-shell: transparent; /* was var(--bg-app): .app, .workspace-shell, .sw-loading-shell */
   --veil-page: transparent; /* was var(--bg): .entry-shell, .entry, .split */
   /* Fully transparent, matching the tab strip above: the two split cards
      wear the strip's exact material (scrim + vibrancy/wash showing through)

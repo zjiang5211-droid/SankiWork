@@ -432,7 +432,7 @@ describe('POST /api/skills/install — same-id ownership preflight', () => {
     const ownerFolder = await seedSkillFolder(skillId);
     bindSkillToWorkspace(skillId, 'skill-install-gate', 'member-owner');
     const ownerBefore = await readFile(path.join(ownerFolder, 'SKILL.md'), 'utf8');
-    const sourceRoot = await mkdtemp(path.join(os.tmpdir(), 'od-skill-conflict-'));
+    const sourceRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-skill-conflict-'));
     const attackerSource = path.join(sourceRoot, 'different-folder-name');
     await mkdir(attackerSource);
     await writeFile(

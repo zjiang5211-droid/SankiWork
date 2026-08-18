@@ -18,7 +18,7 @@ import { resolveAppliedPipeline, type ScenarioRegistryEntry } from '@sankiwork/p
 let tmpRoot: string;
 
 beforeEach(async () => {
-  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'od-scenario-fallback-'));
+  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-scenario-fallback-'));
 });
 
 afterEach(async () => {

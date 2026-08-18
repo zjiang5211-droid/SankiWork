@@ -9,7 +9,7 @@ import { runFigmaExtract } from '../src/plugins/atoms/figma-extract.js';
 let cwd: string;
 
 beforeEach(async () => {
-  cwd = await mkdtemp(path.join(os.tmpdir(), 'od-figma-extract-'));
+  cwd = await mkdtemp(path.join(os.tmpdir(), 'sw-figma-extract-'));
 });
 
 afterEach(async () => {

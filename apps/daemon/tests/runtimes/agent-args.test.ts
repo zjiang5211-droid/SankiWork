@@ -26,7 +26,7 @@ test('cursor-agent omits --trust by default until the --help probe confirms supp
     [],
     [],
     {},
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
 
   assert.deepEqual(args, [
@@ -36,7 +36,7 @@ test('cursor-agent omits --trust by default until the --help probe confirms supp
     '--stream-partial-output',
     '--force',
     '--workspace',
-    '/tmp/od-project',
+    '/tmp/sw-project',
   ]);
   assert.equal(args.includes('--trust'), false);
 });
@@ -49,7 +49,7 @@ test('cursor-agent passes --trust once the --help probe detects it', () => {
       [],
       [],
       {},
-      { cwd: '/tmp/od-project' },
+      { cwd: '/tmp/sw-project' },
     );
 
     assert.deepEqual(args, [
@@ -60,7 +60,7 @@ test('cursor-agent passes --trust once the --help probe detects it', () => {
       '--force',
       '--trust',
       '--workspace',
-      '/tmp/od-project',
+      '/tmp/sw-project',
     ]);
   } finally {
     agentCapabilities.delete('cursor-agent');
@@ -165,7 +165,7 @@ test('copilot args append model and extra dirs after the base flags without rein
   const args = copilot.buildArgs(
     prompt,
     [],
-    ['/tmp/od-skills', '/tmp/od-design-systems'],
+    ['/tmp/sw-skills', '/tmp/sw-design-systems'],
     { model: 'claude-sonnet-4.6' },
   );
   assert.ok(!args.includes('-p'));
@@ -177,9 +177,9 @@ test('copilot args append model and extra dirs after the base flags without rein
     '--model',
     'claude-sonnet-4.6',
     '--add-dir',
-    '/tmp/od-skills',
+    '/tmp/sw-skills',
     '--add-dir',
-    '/tmp/od-design-systems',
+    '/tmp/sw-design-systems',
   ]);
 });
 
@@ -188,13 +188,13 @@ test('copilot drops empty / non-string entries from extraAllowedDirs without rei
   const args = copilot.buildArgs(
     prompt,
     [],
-    ['', null, '/tmp/od-skills', undefined] as unknown as string[],
+    ['', null, '/tmp/sw-skills', undefined] as unknown as string[],
     {},
   );
   assert.ok(!args.includes('-p'));
   // Only the one valid path survives.
   const addDirIndex = args.indexOf('--add-dir');
-  assert.equal(args[addDirIndex + 1], '/tmp/od-skills');
+  assert.equal(args[addDirIndex + 1], '/tmp/sw-skills');
   assert.equal(args.filter((a) => a === '--add-dir').length, 1);
 });
 
@@ -270,7 +270,7 @@ test('pi args use rpc mode without --no-session and append model/thinking option
 });
 
 test('pi fetchModels reads the model table from stdout', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-pi-models-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-pi-models-'));
   try {
     const bin = join(dir, process.platform === 'win32' ? 'pi.cmd' : 'pi');
     if (process.platform === 'win32') {
@@ -390,7 +390,7 @@ test('qoder args use non-interactive print mode with cwd, model, and add-dir', (
       '/repo/design-systems',
     ],
     { model: 'performance' },
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
 
   assert.deepEqual(args, [
@@ -399,7 +399,7 @@ test('qoder args use non-interactive print mode with cwd, model, and add-dir', (
     'stream-json',
     '--yolo',
     '-w',
-    '/tmp/od-project',
+    '/tmp/sw-project',
     '--model',
     'performance',
     '--add-dir',
@@ -482,7 +482,7 @@ test('qoder adapter does not define static secret env', () => {
 });
 
 test('detectAgents keeps qoder unavailable with fallback metadata when qodercli is missing', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agents-empty-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agents-empty-'));
   try {
     process.env.SW_AGENT_HOME = dir;
     process.env.PATH = dir;
@@ -509,7 +509,7 @@ test('detectAgents keeps qoder unavailable with fallback metadata when qodercli 
 test('qwen args check promptViaStdin, base args, model args and exclude `-` sentinel', () => {
   assert.equal(qwen.promptViaStdin, true);
 
-  const baseArgs = qwen.buildArgs('', [], [], {}, { cwd: '/tmp/od-project' });
+  const baseArgs = qwen.buildArgs('', [], [], {}, { cwd: '/tmp/sw-project' });
   assert.deepEqual(baseArgs, ['--yolo']);
   assert.equal(baseArgs.includes('-'), false);
 
@@ -518,7 +518,7 @@ test('qwen args check promptViaStdin, base args, model args and exclude `-` sent
     [],
     [],
     { model: 'qwen3-coder-plus' },
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
 
   assert.deepEqual(withModel, ['--yolo', '--model', 'qwen3-coder-plus']);
@@ -543,24 +543,24 @@ test('antigravity pipes prompt via stdin via -p flag (print mode)', () => {
   assert.deepEqual(args, ['-p', '-']);
 
   const argsWithLog = antigravity.buildArgs('write hello world', [], [], {}, {
-    agentLogFilePath: '/tmp/od-agy-test.log',
+    agentLogFilePath: '/tmp/sw-agy-test.log',
   });
-  assert.deepEqual(argsWithLog, ['--log-file', '/tmp/od-agy-test.log', '-p', '-']);
+  assert.deepEqual(argsWithLog, ['--log-file', '/tmp/sw-agy-test.log', '-p', '-']);
 
   // No `--model` flag exists upstream, so buildArgs argv must stay the
   // same regardless of which label the user picks.
   // Pass a temp antigravitySettingsPath so buildArgs does not touch the
   // real ~/.gemini/antigravity-cli/settings.json during a unit test run.
-  const settingsDir = mkdtempSync(join(tmpdir(), 'od-agy-argv-'));
+  const settingsDir = mkdtempSync(join(tmpdir(), 'sw-agy-argv-'));
   try {
     const withModel = antigravity.buildArgs('hi', [], [], {
       model: 'Gemini 3.1 Pro (High)',
     }, {
-      agentLogFilePath: '/tmp/od-agy-test.log',
+      agentLogFilePath: '/tmp/sw-agy-test.log',
       antigravitySettingsPath: join(settingsDir, 'settings.json'),
     });
     assert.equal(withModel.includes('--model'), false);
-    assert.deepEqual(withModel, ['--log-file', '/tmp/od-agy-test.log', '-p', '-']);
+    assert.deepEqual(withModel, ['--log-file', '/tmp/sw-agy-test.log', '-p', '-']);
   } finally {
     rmSync(settingsDir, { recursive: true, force: true });
   }
@@ -628,7 +628,7 @@ test('antigravity pipes prompt via stdin via -p flag (print mode)', () => {
 //      `model` field while preserving every other key (e.g.
 //      `trustedWorkspaces` that agy populates on first-run consent).
 test('antigravity persists model selection to agy settings.json', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-antigravity-settings-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-antigravity-settings-'));
   try {
     const settingsPath = join(dir, 'settings.json');
 
@@ -639,7 +639,7 @@ test('antigravity persists model selection to agy settings.json', () => {
       JSON.stringify(
         {
           model: 'GPT-OSS 120B (Medium)',
-          trustedWorkspaces: ['/tmp/od-project'],
+          trustedWorkspaces: ['/tmp/sw-project'],
         },
         null,
         2,
@@ -650,7 +650,7 @@ test('antigravity persists model selection to agy settings.json', () => {
     writeAntigravityModelSelection('Gemini 3.1 Pro (High)', settingsPath);
     const after = JSON.parse(readFileSync(settingsPath, 'utf8'));
     assert.equal(after.model, 'Gemini 3.1 Pro (High)');
-    assert.deepEqual(after.trustedWorkspaces, ['/tmp/od-project']);
+    assert.deepEqual(after.trustedWorkspaces, ['/tmp/sw-project']);
 
     // 3. When the file doesn't exist (fresh install before onboarding),
     //    we must create it rather than crash the spawn pipeline.
@@ -709,7 +709,7 @@ test('aider args carry the non-TTY suppression flags, deliver the prompt via --m
   assert.equal(aider.maxPromptArgBytes, 30_000);
   assert.equal(aider.streamFormat, 'plain');
 
-  const baseArgs = aider.buildArgs('hello world', [], [], {}, { cwd: '/tmp/od-project' });
+  const baseArgs = aider.buildArgs('hello world', [], [], {}, { cwd: '/tmp/sw-project' });
   assert.deepEqual(baseArgs, [
     '--yes-always',
     '--no-pretty',
@@ -728,7 +728,7 @@ test('aider args carry the non-TTY suppression flags, deliver the prompt via --m
     [],
     [],
     { model: 'default' },
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
   assert.equal(defaultModelArgs.includes('--model'), false);
 
@@ -737,7 +737,7 @@ test('aider args carry the non-TTY suppression flags, deliver the prompt via --m
     [],
     [],
     { model: 'deepseek/deepseek-chat' },
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
   assert.deepEqual(withModel, [
     '--yes-always',
@@ -829,7 +829,7 @@ test('codex buildArgs clamps reasoning effort per model', () => {
       [],
       [],
       { ...(model === undefined ? {} : { model }), reasoning },
-      { cwd: '/tmp/od-project' },
+      { cwd: '/tmp/sw-project' },
     );
     assert.ok(
       args.includes(`model_reasoning_effort="${expected}"`),
@@ -844,7 +844,7 @@ test('codex buildArgs omits model_reasoning_effort when reasoning is "default"',
     [],
     [],
     { reasoning: 'default' },
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
 
   assert.equal(
@@ -857,13 +857,13 @@ test('codex buildArgs omits model_reasoning_effort when reasoning is "default"',
 
 test('grok-build uses --prompt-file and never embeds the prompt in argv or stdin', () => {
   const prompt = 'summarize the current page layout';
-  const promptFilePath = '/tmp/od-grok-prompt/prompt.md';
+  const promptFilePath = '/tmp/sw-grok-prompt/prompt.md';
   const args = grokBuild.buildArgs(
     prompt,
     [],
     [],
     { model: 'grok-4.3', reasoning: 'high' },
-    { cwd: '/tmp/od-project', promptFilePath },
+    { cwd: '/tmp/sw-project', promptFilePath },
   );
 
   assert.equal(grokBuild.promptViaFile, true);
@@ -884,14 +884,14 @@ test('grok-build uses --prompt-file and never embeds the prompt in argv or stdin
 });
 
 test('grok-build disables plan mode and auto-approves headless tool calls (issue #5507)', () => {
-  const promptFilePath = '/tmp/od-grok-prompt/prompt.md';
+  const promptFilePath = '/tmp/sw-grok-prompt/prompt.md';
   const args = grokBuild.buildArgs('', [], [], { model: 'grok-build' }, { promptFilePath });
 
   assert.deepEqual(args.slice(2, 4), ['--no-plan', '--always-approve']);
 });
 
 test('grok-build omits effort for default/build models but keeps it for reasoning models', () => {
-  const promptFilePath = '/tmp/od-grok-prompt/prompt.md';
+  const promptFilePath = '/tmp/sw-grok-prompt/prompt.md';
   const defaultArgs = grokBuild.buildArgs('', [], [], { model: 'default', reasoning: 'high' }, { promptFilePath });
   assert.equal(defaultArgs.includes('--effort'), false);
 
@@ -913,7 +913,7 @@ test('grok-build omits effort for default/build models but keeps it for reasonin
 
 test('grok-build requires a daemon-provided prompt file path', () => {
   assert.throws(
-    () => grokBuild.buildArgs('hi', [], [], {}, { cwd: '/tmp/od-project' }),
+    () => grokBuild.buildArgs('hi', [], [], {}, { cwd: '/tmp/sw-project' }),
     /promptFilePath/,
   );
 });
@@ -932,7 +932,7 @@ test('claude flags promptViaStdin and never embeds the prompt in argv', () => {
     [],
     [],
     {},
-    { cwd: '/tmp/od-project' },
+    { cwd: '/tmp/sw-project' },
   );
 
   assert.ok(Array.isArray(args), 'claude.buildArgs must return argv');

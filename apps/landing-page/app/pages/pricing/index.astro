@@ -357,27 +357,27 @@ const jsonLd = [
             <div class="pr-price">
               <div class="pr-when" data-when="monthly">
                 <div class="pr-price-row">
-                  <span class="pr-amount" data-od-amount>{v.monthly.amount}</span>
-                  <s class="pr-strike" data-od-strike>{v.monthly.strike}</s>
+                  <span class="pr-amount" data-sw-amount>{v.monthly.amount}</span>
+                  <s class="pr-strike" data-sw-strike>{v.monthly.strike}</s>
                   <span class="pr-per">{L.perMonth}</span>
-                  <span class="pr-tag" data-od-tag>{v.monthly.tag}</span>
+                  <span class="pr-tag" data-sw-tag>{v.monthly.tag}</span>
                 </div>
                 <p class="pr-subline">
-                  <span data-od-subline>{v.monthly.subline}</span>
+                  <span data-sw-subline>{v.monthly.subline}</span>
                   <button type="button" class="pr-yearly-nudge" data-goto-yearly>
-                    <span data-od-yearly-cta>{v.monthly.saveCta}</span>
+                    <span data-sw-yearly-cta>{v.monthly.saveCta}</span>
                     <span class="pr-yearly-nudge-arrow" aria-hidden="true">→</span>
                   </button>
                 </p>
               </div>
               <div class="pr-when" data-when="yearly">
                 <div class="pr-price-row">
-                  <span class="pr-amount" data-od-amount>{v.yearly.amount}</span>
-                  <s class="pr-strike" data-od-strike>{v.yearly.strike}</s>
+                  <span class="pr-amount" data-sw-amount>{v.yearly.amount}</span>
+                  <s class="pr-strike" data-sw-strike>{v.yearly.strike}</s>
                   <span class="pr-per">{L.perMonth}</span>
-                  <span class="pr-tag" data-od-tag>{v.yearly.tag}</span>
+                  <span class="pr-tag" data-sw-tag>{v.yearly.tag}</span>
                 </div>
-                <p class="pr-subline" data-od-subline>{v.yearly.subline}</p>
+                <p class="pr-subline" data-sw-subline>{v.yearly.subline}</p>
               </div>
             </div>
 
@@ -405,7 +405,7 @@ const jsonLd = [
                 </li>
               ))}
               <li class="pr-feat pr-feat-lead pr-feat-strong">
-                <span data-od-credit>{v.credits}</span>
+                <span data-sw-credit>{v.credits}</span>
                 {v.bonusPct != null && (
                   <span class="pr-bonus">
                     <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1057,18 +1057,18 @@ const jsonLd = [
             const yearlyEquiv = Math.round(t.yearly.priceUsd / 12);
             const yearlySave = t.monthly.priceUsd * 12 - t.yearly.priceUsd;
 
-            set(card, '[data-when="monthly"] [data-od-amount]', usd(t.monthly.introPriceUsd));
-            set(card, '[data-when="monthly"] [data-od-strike]', usd(t.monthly.priceUsd));
-            set(card, '[data-when="monthly"] [data-od-tag]', fill(labels.firstMonthTag, { pct: String(introPct) }));
-            set(card, '[data-when="monthly"] [data-od-subline]', fill(labels.monthlyRenewal, { amountUsd: usd(t.monthly.priceUsd) }));
-            set(card, '[data-when="monthly"] [data-od-yearly-cta]', fill(labels.yearlySaveCta, { savingsUsd: usd(yearlySave) }));
+            set(card, '[data-when="monthly"] [data-sw-amount]', usd(t.monthly.introPriceUsd));
+            set(card, '[data-when="monthly"] [data-sw-strike]', usd(t.monthly.priceUsd));
+            set(card, '[data-when="monthly"] [data-sw-tag]', fill(labels.firstMonthTag, { pct: String(introPct) }));
+            set(card, '[data-when="monthly"] [data-sw-subline]', fill(labels.monthlyRenewal, { amountUsd: usd(t.monthly.priceUsd) }));
+            set(card, '[data-when="monthly"] [data-sw-yearly-cta]', fill(labels.yearlySaveCta, { savingsUsd: usd(yearlySave) }));
 
-            set(card, '[data-when="yearly"] [data-od-amount]', usd(yearlyEquiv));
-            set(card, '[data-when="yearly"] [data-od-strike]', usd(t.monthly.priceUsd));
-            set(card, '[data-when="yearly"] [data-od-tag]', fill(labels.yearlyDiscountTag, { pct: String(t.yearly.discountPct) }));
-            set(card, '[data-when="yearly"] [data-od-subline]', fill(labels.yearlySubline, { totalUsd: usd(t.yearly.priceUsd), savingsUsd: usd(yearlySave) }));
+            set(card, '[data-when="yearly"] [data-sw-amount]', usd(yearlyEquiv));
+            set(card, '[data-when="yearly"] [data-sw-strike]', usd(t.monthly.priceUsd));
+            set(card, '[data-when="yearly"] [data-sw-tag]', fill(labels.yearlyDiscountTag, { pct: String(t.yearly.discountPct) }));
+            set(card, '[data-when="yearly"] [data-sw-subline]', fill(labels.yearlySubline, { totalUsd: usd(t.yearly.priceUsd), savingsUsd: usd(yearlySave) }));
 
-            set(card, '[data-od-credit]', fill(labels.creditBenefit, { amount: usd(t.monthly.grantUsd) }));
+            set(card, '[data-sw-credit]', fill(labels.creditBenefit, { amount: usd(t.monthly.grantUsd) }));
           }
         })
         .catch(() => {});
@@ -1451,7 +1451,7 @@ const jsonLd = [
     cursor: pointer;
     transition: color 0.2s cubic-bezier(0.23, 1, 0.32, 1);
   }
-  .pr-yearly-nudge [data-od-yearly-cta] { text-decoration: underline; text-underline-offset: 2px; }
+  .pr-yearly-nudge [data-sw-yearly-cta] { text-decoration: underline; text-underline-offset: 2px; }
   .pr-yearly-nudge:hover { color: var(--ink, #1a1a1a); }
   .pr-yearly-nudge:focus-visible { outline: 2px solid var(--brand, #2bd200); outline-offset: 2px; border-radius: 4px; }
   .pr-yearly-nudge-arrow { transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1); }

@@ -17,7 +17,7 @@
 //      without the marker), we accept "any non-loading-shell child of
 //      <body> with > MIN_VISIBLE_TEXT visible text". This guards
 //      against the loading sentinel
-//      `<div class="od-loading-shell">Loading SankiWork…</div>`
+//      `<div class="sw-loading-shell">Loading SankiWork…</div>`
 //      being mistaken for a mount (codex review on PR #2527).
 //
 // We do not try to discriminate between "still loading" and "white screen
@@ -31,9 +31,9 @@ const APP_MOUNT_TIMEOUT_MS = 5000;
 // Below this floor we treat the root as still showing the skeleton shell.
 const MIN_VISIBLE_TEXT = 10;
 // Class names that signal "still loading" — we ignore them when computing
-// whether the app rendered something meaningful. `od-loading-shell` is
+// whether the app rendered something meaningful. `sw-loading-shell` is
 // the dynamic-import fallback rendered by `client-app.tsx`.
-const LOADING_SHELL_CLASSES = new Set(['od-loading-shell']);
+const LOADING_SHELL_CLASSES = new Set(['sw-loading-shell']);
 const APP_MOUNTED_ATTR = 'data-sw-app-mounted';
 
 export function installWhiteScreenDetector(): () => void {

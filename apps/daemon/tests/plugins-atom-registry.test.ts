@@ -45,7 +45,7 @@ let db: Database.Database;
 let tmpDir: string;
 
 beforeEach(async () => {
-  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-atom-reg-'));
+  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-atom-reg-'));
   db = new Database(path.join(tmpDir, 'test.sqlite'));
   db.exec(`
     CREATE TABLE projects (id TEXT PRIMARY KEY, name TEXT);

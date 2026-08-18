@@ -25,7 +25,7 @@ import {
 let dir: string;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'od-artifact-writer-'));
+  dir = mkdtempSync(join(tmpdir(), 'sw-artifact-writer-'));
 });
 
 afterEach(async () => {

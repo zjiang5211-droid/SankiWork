@@ -49,7 +49,7 @@ created: '2026-05-09'
 ### Existing System
 
 - The global CSS entry for `apps/web` is the `../src/index.css` import in the Next root layout. Source: `apps/web/app/layout.tsx:1-4`
-- The product shell runs as a client SPA through `dynamic(() => import('../../src/App'), { ssr: false })`; the loading shell still depends on the global class `od-loading-shell`. Source: `apps/web/app/[[...slug]]/client-app.tsx:5-13`
+- The product shell runs as a client SPA through `dynamic(() => import('../../src/App'), { ssr: false })`; the loading shell still depends on the global class `sw-loading-shell`. Source: `apps/web/app/[[...slug]]/client-app.tsx:5-13`
 - Current `apps/web` dependencies include Next, React, React DOM, and testing tools, with no Tailwind, PostCSS, or Autoprefixer declared in `dependencies` / `devDependencies`. Source: `apps/web/package.json:30-50`
 - The root package only keeps repository-level tool scripts and TypeScript/tsx dev dependencies, with no Tailwind/PostCSS packages declared in root devDependencies. Source: `package.json:12-29`
 - The current visual source is concentrated in CSS variables in `apps/web/src/index.css`: surface, border, text, accent, semantic colors, shadow, radius, and font tokens are all defined in `:root`. Source: `apps/web/src/index.css:6-63`

@@ -15,7 +15,7 @@ function createStripper() {
 test('title marker stripper parses prefix marker and answer from one delta', () => {
   const { stripper, titles } = createStripper();
 
-  const visible = stripper.strip('\n<od-title>Foo</od-title>\nAnswer');
+  const visible = stripper.strip('\n<sw-title>Foo</sw-title>\nAnswer');
 
   assert.equal(visible, '\n\nAnswer');
   assert.deepEqual(titles, ['Foo']);
@@ -25,8 +25,8 @@ test('title marker stripper parses prefix marker and answer from one delta', () 
 test('title marker stripper parses markers split across deltas', () => {
   const { stripper, titles } = createStripper();
 
-  assert.equal(stripper.strip('Before <od-'), 'Before ');
-  assert.equal(stripper.strip('title>Split Title</od-title> After'), ' After');
+  assert.equal(stripper.strip('Before <sw-'), 'Before ');
+  assert.equal(stripper.strip('title>Split Title</sw-title> After'), ' After');
 
   assert.deepEqual(titles, ['Split Title']);
   assert.equal(stripper.flush(), '');
@@ -39,7 +39,7 @@ test('title marker stripper passes text through when disabled', () => {
     emitTitle: (title) => titles.push(title),
   });
 
-  assert.equal(stripper.strip('<od-title>Foo</od-title>Answer'), '<od-title>Foo</od-title>Answer');
+  assert.equal(stripper.strip('<sw-title>Foo</sw-title>Answer'), '<sw-title>Foo</sw-title>Answer');
   assert.equal(stripper.flush(), '');
   assert.deepEqual(titles, []);
 });
@@ -47,7 +47,7 @@ test('title marker stripper passes text through when disabled', () => {
 test('title marker stripper drops malformed marker content without throwing', () => {
   const { stripper, titles } = createStripper();
 
-  assert.equal(stripper.strip('Lead <od-title>unfinished'), 'Lead ');
+  assert.equal(stripper.strip('Lead <sw-title>unfinished'), 'Lead ');
   assert.equal(stripper.flush(), '');
   assert.deepEqual(titles, []);
 });

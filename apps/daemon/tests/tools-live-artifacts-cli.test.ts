@@ -45,7 +45,7 @@ describe('live artifact tool CLI environment', () => {
   });
 
   async function makeArtifactInputFiles() {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-live-artifact-cli-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-live-artifact-cli-'));
     tempRoots.push(root);
     const artifactPath = path.join(root, 'artifact.json');
     await writeFile(artifactPath, JSON.stringify({

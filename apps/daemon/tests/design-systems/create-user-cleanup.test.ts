@@ -50,7 +50,7 @@ describe('createUserDesignSystem cleanup', () => {
   beforeEach(async () => {
     fsState.concurrentWinnerDir = null;
     fsState.failMetadataWrite = false;
-    root = await mkdtemp(path.join(tmpdir(), 'od-design-system-cleanup-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-design-system-cleanup-'));
   });
 
   afterEach(async () => {

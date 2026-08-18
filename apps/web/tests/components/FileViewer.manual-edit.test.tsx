@@ -63,8 +63,8 @@ describe('FileViewer manual edit regressions', () => {
     await waitFor(() => {
       expect(screen.getByTestId('manual-edit-mode-toggle').getAttribute('aria-pressed')).toBe('true');
       const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(activeFrame.getAttribute('data-od-active')).toBe('true');
-      expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(activeFrame.getAttribute('data-sw-active')).toBe('true');
+      expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
   }
 
@@ -72,7 +72,7 @@ describe('FileViewer manual edit regressions', () => {
     const frame = await previewFrame();
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'od-edit-hover', target },
+        data: { type: 'sw-edit-hover', target },
         source: frame.contentWindow,
       }));
     });
@@ -87,7 +87,7 @@ describe('FileViewer manual edit regressions', () => {
     const frame = await previewFrame();
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'od-edit-background' },
+        data: { type: 'sw-edit-background' },
         source: frame.contentWindow,
       }));
     });
@@ -103,7 +103,7 @@ describe('FileViewer manual edit regressions', () => {
     const frame = await previewFrame();
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'od-edit-select', target },
+        data: { type: 'sw-edit-select', target },
         source: frame.contentWindow,
       }));
     });
@@ -134,7 +134,7 @@ describe('FileViewer manual edit regressions', () => {
     const frame = await previewFrame();
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'od-edit-drag-commit', id, transform },
+        data: { type: 'sw-edit-drag-commit', id, transform },
         source: frame.contentWindow,
       }));
     });
@@ -626,7 +626,7 @@ describe('FileViewer manual edit regressions', () => {
     const frame = await previewFrame();
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
-        data: { type: 'od-edit-text-session', id: 'hero', active: true },
+        data: { type: 'sw-edit-text-session', id: 'hero', active: true },
         source: frame.contentWindow,
       }));
     });
@@ -636,7 +636,7 @@ describe('FileViewer manual edit regressions', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         data: {
-          type: 'od-edit-text-session',
+          type: 'sw-edit-text-session',
           id: 'hero',
           active: false,
           changed: false,

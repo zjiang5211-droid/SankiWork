@@ -30,7 +30,7 @@ describe('memory extraction media-provider fallback', () => {
   const originalEnv = new Map<string, string | undefined>();
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-memory-media-provider-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-memory-media-provider-'));
     dataDir = path.join(root, 'data');
     projectRoot = path.join(root, 'project');
     await mkdir(projectRoot, { recursive: true });

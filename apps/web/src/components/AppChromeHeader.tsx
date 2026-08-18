@@ -31,7 +31,7 @@ export function AppChromeHeader({
       {onBack ? (
         <button
           type="button"
-          className="app-chrome-back od-tooltip"
+          className="app-chrome-back sw-tooltip"
           onClick={onBack}
           title={resolvedBackLabel}
           data-tooltip={resolvedBackLabel}
@@ -66,7 +66,7 @@ export function SettingsIconButton({
   return (
     <button
       type="button"
-      className="settings-icon-btn od-tooltip"
+      className="settings-icon-btn sw-tooltip"
       onClick={onClick}
       title={title}
       data-tooltip={title}

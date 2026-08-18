@@ -70,7 +70,7 @@ describe('same-run retry stale turnCompletedCleanly (review red spec)', () => {
   });
 
   it('a crashed retry attempt is not classified succeeded by the previous attempt’s clean turn', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-stale-turn-flag-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-stale-turn-flag-bin-'));
     const fakeClaude = await writeEmptyTurnThenCrashClaude(binDir, 'claude-staleflag');
 
     delete process.env.POSTHOG_KEY;

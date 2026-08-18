@@ -355,7 +355,7 @@ function manualEditTarget(id: string, label: string, x: number) {
     text: '',
     rect: { x, y: 20, width: 180, height: 80 },
     fields: {},
-    attributes: { 'data-od-label': label },
+    attributes: { 'data-sw-label': label },
     styles: emptyManualEditStyles(),
     isLayoutContainer: true,
     outerHtml: `<div data-od-id="${id}">${label}</div>`,
@@ -664,7 +664,7 @@ describe('FileViewer preview scale', () => {
     expect(css).toContain('.viewer-loading-card-back-one');
     expect(css).toContain('.viewer-loading-card-main::before');
     expect(css).toContain('.viewer-loading-chart');
-    expect(css).toContain('@keyframes od-viewer-loading-sweep');
+    expect(css).toContain('@keyframes sw-viewer-loading-sweep');
     expect(css).toMatch(
       /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*\.viewer-loading-stage,[\s\S]*animation: none;/,
     );
@@ -1616,7 +1616,7 @@ describe('FileViewer SVG artifacts', () => {
 
     await waitFor(() => {
       const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(frame.getAttribute('srcDoc')).toContain('Imported filesystem app');
     });
     expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/api/projects/project-1/text-preview/index.html'), { cache: 'no-store' });
@@ -1636,7 +1636,7 @@ describe('FileViewer SVG artifacts', () => {
 
     await waitFor(() => {
       const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(frame.getAttribute('srcDoc')).toContain('Updated filesystem app');
     });
   });
@@ -1652,8 +1652,8 @@ describe('FileViewer SVG artifacts', () => {
               title={`${activeKey}.html`}
               sandbox="allow-scripts allow-downloads"
               data-testid="pooled-frame"
-              data-od-render-mode="url-load"
-              data-od-active="true"
+              data-sw-render-mode="url-load"
+              data-sw-active="true"
             />
           ) : null}
         </IframeKeepAliveProvider>
@@ -1724,8 +1724,8 @@ describe('FileViewer SVG artifacts', () => {
               title="page.html"
               sandbox="allow-scripts allow-downloads"
               data-testid="pooled-frame"
-              data-od-render-mode="url-load"
-              data-od-active="true"
+              data-sw-render-mode="url-load"
+              data-sw-active="true"
             />
           ) : null}
         </>
@@ -1768,8 +1768,8 @@ describe('FileViewer SVG artifacts', () => {
             title="page.html"
             sandbox="allow-scripts allow-downloads"
             data-testid="pooled-frame"
-            data-od-render-mode="url-load"
-            data-od-active="true"
+            data-sw-render-mode="url-load"
+            data-sw-active="true"
           />
         </>
       );
@@ -1810,9 +1810,9 @@ describe('FileViewer SVG artifacts', () => {
     );
 
     expect(markup).toContain('data-testid="artifact-preview-frame"');
-    expect(markup).toContain('data-od-render-mode="url-load"');
-    expect(markup).toContain('data-od-render-mode="url-load" data-od-active="true"');
-    expect(markup).toContain('data-od-render-mode="srcdoc" data-od-active="false"');
+    expect(markup).toContain('data-sw-render-mode="url-load"');
+    expect(markup).toContain('data-sw-render-mode="url-load" data-sw-active="true"');
+    expect(markup).toContain('data-sw-render-mode="srcdoc" data-sw-active="false"');
     expect(markup).toContain('src="/api/projects/project-1/raw/page.html?v=1710000000&amp;r=0&amp;odPreviewBridge=scroll&amp;odPreviewBridge=selection&amp;odPreviewBridge=snapshot&amp;odPreviewBridge=observability&amp;odPreviewEpoch=preview-document-');
     expect(markup).toContain('sandbox="allow-scripts allow-downloads"');
   });
@@ -1849,7 +1849,7 @@ describe('FileViewer SVG artifacts', () => {
 
     expect(
       (screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement)
-        .getAttribute('data-od-render-mode'),
+        .getAttribute('data-sw-render-mode'),
     ).toBe('url-load');
     expect(fetchMock.mock.calls.some(([input]) => (
       String(input).includes('/api/projects/project-1/preview-url')
@@ -1883,7 +1883,7 @@ describe('FileViewer SVG artifacts', () => {
       </CollabProvider>,
     );
 
-    expect(markup).toContain('data-od-render-mode="url-load" data-od-active="true"');
+    expect(markup).toContain('data-sw-render-mode="url-load" data-sw-active="true"');
     expect(markup).toContain(
       'src="/api/projects/project-1/raw/team-page.html?workspaceId=ws-1&amp;workspaceMemberId=wm-1&amp;v=1710000000',
     );
@@ -1951,7 +1951,7 @@ describe('FileViewer SVG artifacts', () => {
     );
 
     expect(markup).toContain('data-testid="artifact-preview-frame"');
-    expect(markup).toContain('data-od-render-mode="url-load" data-od-active="true"');
+    expect(markup).toContain('data-sw-render-mode="url-load" data-sw-active="true"');
     expect(markup).not.toContain('class="deck-nav"');
   });
 
@@ -2323,7 +2323,7 @@ describe('FileViewer SVG artifacts', () => {
     expect(document.body.querySelector('.viewer-modal-backdrop')).toBeNull();
 
     const retainedFrame = document.querySelector<HTMLIFrameElement>(
-      'iframe[title="retained-deck.html"][data-od-render-mode="srcdoc"], iframe[title="retained-deck.html"][data-od-render-mode="url-load"]',
+      'iframe[title="retained-deck.html"][data-sw-render-mode="srcdoc"], iframe[title="retained-deck.html"][data-sw-render-mode="url-load"]',
     );
     expect(retainedFrame?.contentWindow).toBeTruthy();
     const postMessage = vi.spyOn(retainedFrame!.contentWindow!, 'postMessage').mockImplementation(() => {});
@@ -2406,7 +2406,7 @@ describe('FileViewer SVG artifacts', () => {
 
     await waitFor(() => {
       const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(frame.getAttribute('data-od-powered')).toBe('true');
+      expect(frame.getAttribute('data-sw-powered')).toBe('true');
       expect(frame.getAttribute('src')).toContain(`${poweredSrc}&odPreviewEpoch=`);
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
@@ -2454,7 +2454,7 @@ describe('FileViewer SVG artifacts', () => {
     await waitFor(() => {
       const nextRevisionFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
       const nextRevisionUrl = new URL(nextRevisionFrame.src);
-      expect(nextRevisionFrame.getAttribute('data-od-powered')).toBe('true');
+      expect(nextRevisionFrame.getAttribute('data-sw-powered')).toBe('true');
       expect(nextRevisionUrl.origin).toBe('http://localhost:43111');
       expect(nextRevisionUrl.searchParams.get('v')).toBe('2000');
       expect(nextRevisionUrl.searchParams.get('fr')).toBeNull();
@@ -2476,7 +2476,7 @@ describe('FileViewer SVG artifacts', () => {
     await waitFor(() => {
       const resizedRevisionFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
       const resizedRevisionUrl = new URL(resizedRevisionFrame.src);
-      expect(resizedRevisionFrame.getAttribute('data-od-powered')).toBe('true');
+      expect(resizedRevisionFrame.getAttribute('data-sw-powered')).toBe('true');
       expect(resizedRevisionUrl.origin).toBe('http://localhost:43111');
       expect(resizedRevisionUrl.searchParams.get('odPreviewEpoch')).not.toBe(nextRevisionEpoch);
     });
@@ -2509,13 +2509,13 @@ describe('FileViewer SVG artifacts', () => {
     );
 
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+    expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
 
     fireEvent.click(screen.getByRole('button', { name: /reload preview/i }));
 
     const reloadedFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     expect(reloadedFrame).not.toBe(frame);
-    expect(reloadedFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+    expect(reloadedFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
   });
 
   it('offers image export for URL-loaded HTML previews', async () => {
@@ -2543,7 +2543,7 @@ describe('FileViewer SVG artifacts', () => {
       />,
     );
 
-    expect((screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement).getAttribute('data-od-render-mode')).toBe('url-load');
+    expect((screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement).getAttribute('data-sw-render-mode')).toBe('url-load');
 
     await openUnifiedExportTab();
 
@@ -2575,13 +2575,13 @@ describe('FileViewer SVG artifacts', () => {
       />,
     );
 
-    const initialUrlFrame = container.querySelector('iframe[data-od-render-mode="url-load"]') as HTMLIFrameElement | null;
-    const initialSrcDocFrame = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement | null;
+    const initialUrlFrame = container.querySelector('iframe[data-sw-render-mode="url-load"]') as HTMLIFrameElement | null;
+    const initialSrcDocFrame = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement | null;
 
     expect(initialUrlFrame).toBeTruthy();
     expect(initialSrcDocFrame).toBeTruthy();
-    expect(initialUrlFrame?.getAttribute('data-od-active')).toBe('true');
-    expect(initialSrcDocFrame?.getAttribute('data-od-active')).toBe('false');
+    expect(initialUrlFrame?.getAttribute('data-sw-active')).toBe('true');
+    expect(initialSrcDocFrame?.getAttribute('data-sw-active')).toBe('false');
     expect(initialSrcDocFrame?.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
     expect(initialSrcDocFrame?.srcdoc).not.toContain('__odArtifactBootCount');
 
@@ -2590,12 +2590,12 @@ describe('FileViewer SVG artifacts', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'Preview' }));
 
     const urlFrame = await waitFor(() => {
-      const frame = container.querySelector('iframe[data-od-render-mode="url-load"]') as HTMLIFrameElement | null;
-      expect(frame?.getAttribute('data-od-active')).toBe('true');
+      const frame = container.querySelector('iframe[data-sw-render-mode="url-load"]') as HTMLIFrameElement | null;
+      expect(frame?.getAttribute('data-sw-active')).toBe('true');
       return frame!;
     });
-    const srcDocFrame = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement | null;
-    expect(srcDocFrame?.getAttribute('data-od-active')).toBe('false');
+    const srcDocFrame = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement | null;
+    expect(srcDocFrame?.getAttribute('data-sw-active')).toBe('false');
     expect(srcDocFrame?.srcdoc).toContain('__odArtifactBootCount');
     const srcDocPostSpy = vi.spyOn(srcDocFrame!.contentWindow!, 'postMessage');
     fireEvent.load(srcDocFrame!);
@@ -2688,19 +2688,19 @@ describe('FileViewer SVG artifacts', () => {
       }));
     });
 
-    const urlFrameAfter = container.querySelector('iframe[data-od-render-mode="url-load"]') as HTMLIFrameElement | null;
+    const urlFrameAfter = container.querySelector('iframe[data-sw-render-mode="url-load"]') as HTMLIFrameElement | null;
     const srcDocFrameAfter = await waitFor(() => {
-      const frame = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement | null;
-      expect(frame?.getAttribute('data-od-active')).toBe('true');
+      const frame = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement | null;
+      expect(frame?.getAttribute('data-sw-active')).toBe('true');
       return frame;
     });
 
     expect(urlFrameAfter).toBe(urlFrame);
-    expect(urlFrameAfter?.getAttribute('data-od-active')).toBe('false');
+    expect(urlFrameAfter?.getAttribute('data-sw-active')).toBe('false');
     expect(urlFrameAfter?.getAttribute('src')).toBe('about:blank');
     expect(srcDocFrameAfter).toBe(srcDocFrame);
     expect(srcDocFrameAfter?.srcdoc).toContain('__odArtifactBootCount');
-    expect(srcDocFrameAfter?.srcdoc).toContain('data-od-edit-bridge');
+    expect(srcDocFrameAfter?.srcdoc).toContain('data-sw-edit-bridge');
 
     const restoreCalls = () => srcDocPostSpy.mock.calls.filter(([message]) => (
       typeof message === 'object'
@@ -2739,7 +2739,7 @@ describe('FileViewer SVG artifacts', () => {
       }));
     });
     expect(srcDocPostSpy).toHaveBeenCalledWith(
-      { type: 'od-edit-mode', enabled: true },
+      { type: 'sw-edit-mode', enabled: true },
       '*',
     );
     fireEvent.load(srcDocFrameAfter!);
@@ -2772,13 +2772,13 @@ describe('FileViewer SVG artifacts', () => {
       />,
     );
 
-    expect((screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement).getAttribute('data-od-render-mode')).toBe('url-load');
+    expect((screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement).getAttribute('data-sw-render-mode')).toBe('url-load');
 
     fireEvent.click(screen.getByTestId('manual-edit-mode-toggle'));
     const editFrame = await waitFor(() => {
       const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
-      expect(frame.srcdoc).toContain('data-od-edit-bridge');
+      expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
+      expect(frame.srcdoc).toContain('data-sw-edit-bridge');
       return frame;
     });
 
@@ -2786,12 +2786,12 @@ describe('FileViewer SVG artifacts', () => {
 
     await waitFor(() => expect(screen.getByTestId('manual-edit-mode-toggle').getAttribute('aria-pressed')).toBe('false'));
     const previewFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    const urlFrame = container.querySelector('iframe[data-od-render-mode="url-load"]') as HTMLIFrameElement | null;
+    const urlFrame = container.querySelector('iframe[data-sw-render-mode="url-load"]') as HTMLIFrameElement | null;
 
     expect(previewFrame).toBe(editFrame);
-    expect(previewFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
-    expect(previewFrame.srcdoc).toContain('data-od-edit-bridge');
-    expect(urlFrame?.getAttribute('data-od-active')).toBe('false');
+    expect(previewFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
+    expect(previewFrame.srcdoc).toContain('data-sw-edit-bridge');
+    expect(urlFrame?.getAttribute('data-sw-active')).toBe('false');
   });
 
   it('keeps the manual edit inspector pinned after clicking a target', async () => {
@@ -2821,7 +2821,7 @@ describe('FileViewer SVG artifacts', () => {
 
     fireEvent.click(screen.getByTestId('manual-edit-mode-toggle'));
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
 
@@ -2829,7 +2829,7 @@ describe('FileViewer SVG artifacts', () => {
     // must not open the inspector. Pinning requires an explicit select.
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-hover', target: heroTarget },
+      data: { type: 'sw-edit-hover', target: heroTarget },
     }));
     expect(await screen.findByTestId('manual-edit-hover-open')).toBeTruthy();
     expect(screen.queryByText('Hero card')).toBeNull();
@@ -2837,14 +2837,14 @@ describe('FileViewer SVG artifacts', () => {
     // Selecting pins the inspector to the hero card.
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-select', target: heroTarget },
+      data: { type: 'sw-edit-select', target: heroTarget },
     }));
     expect(await screen.findByText('Hero card')).toBeTruthy();
 
     // Hovering a different element must not switch the pinned inspector.
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-hover', target: trendTarget },
+      data: { type: 'sw-edit-hover', target: trendTarget },
     }));
 
     expect(screen.getByText('Hero card')).toBeTruthy();
@@ -2889,7 +2889,7 @@ describe('FileViewer SVG artifacts', () => {
     const toggle = screen.getByTestId('manual-edit-mode-toggle');
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     const postMessage = vi.spyOn(frame.contentWindow!, 'postMessage');
@@ -2897,25 +2897,25 @@ describe('FileViewer SVG artifacts', () => {
     // An inline text edit is in progress inside the iframe.
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-select', target: textTarget },
+      data: { type: 'sw-edit-select', target: textTarget },
     }));
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-text-session', id: 'copy', active: true },
+      data: { type: 'sw-edit-text-session', id: 'copy', active: true },
     }));
 
     // Exiting asks the iframe to commit, then must stay in edit mode until the
     // session is acknowledged (the prior fix tore down here and lost the edit).
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(postMessage).toHaveBeenCalledWith({ type: 'od-edit-text-finish', commit: true }, '*');
+      expect(postMessage).toHaveBeenCalledWith({ type: 'sw-edit-text-finish', commit: true }, '*');
     });
     expect(toggle.getAttribute('aria-pressed')).toBe('true');
 
     // The iframe acks the finished session; only now does exit complete.
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
+      data: { type: 'sw-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
     }));
 
     await waitFor(() => {
@@ -2999,7 +2999,7 @@ describe('FileViewer SVG artifacts', () => {
 
     fireEvent.click(screen.getByTestId('manual-edit-mode-toggle'));
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     const postMessage = vi.spyOn(frame.contentWindow!, 'postMessage');
@@ -3016,16 +3016,16 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-select', target: textTarget },
+        data: { type: 'sw-edit-select', target: textTarget },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: true },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
         data: {
-          type: 'od-edit-drag-commit',
+          type: 'sw-edit-drag-commit',
           id: 'copy',
           transform: 'translate(12px, 8px)',
           display: 'block',
@@ -3044,16 +3044,16 @@ describe('FileViewer SVG artifacts', () => {
 
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(postMessage).toHaveBeenCalledWith({ type: 'od-edit-text-finish', commit: true }, '*');
+      expect(postMessage).toHaveBeenCalledWith({ type: 'sw-edit-text-finish', commit: true }, '*');
     });
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-commit', id: 'copy', value: 'Edited after return' },
+        data: { type: 'sw-edit-text-commit', id: 'copy', value: 'Edited after return' },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
       }));
     });
 
@@ -3113,17 +3113,17 @@ describe('FileViewer SVG artifacts', () => {
     const toggle = screen.getByTestId('manual-edit-mode-toggle');
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
 
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-select', target: textTarget },
+      data: { type: 'sw-edit-select', target: textTarget },
     }));
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-text-session', id: 'card-title', active: true },
+      data: { type: 'sw-edit-text-session', id: 'card-title', active: true },
     }));
     expect(await screen.findByTitle('Pricing that scales')).toBeTruthy();
 
@@ -3131,11 +3131,11 @@ describe('FileViewer SVG artifacts', () => {
     fireEvent.click(toggle);
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-text-commit', id: 'card-title', value: 'New title' },
+      data: { type: 'sw-edit-text-commit', id: 'card-title', value: 'New title' },
     }));
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-text-session', id: 'card-title', active: false, committed: true, changed: true },
+      data: { type: 'sw-edit-text-session', id: 'card-title', active: false, committed: true, changed: true },
     }));
 
     // The save error is surfaced and edit mode stays open instead of tearing down.
@@ -3155,7 +3155,7 @@ describe('FileViewer SVG artifacts', () => {
     const toggle = screen.getByTestId('manual-edit-mode-toggle');
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     const textTarget = {
@@ -3170,11 +3170,11 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-select', target: textTarget },
+        data: { type: 'sw-edit-select', target: textTarget },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: true },
       }));
     });
     vi.useFakeTimers();
@@ -3233,7 +3233,7 @@ describe('FileViewer SVG artifacts', () => {
     const toggle = screen.getByTestId('manual-edit-mode-toggle');
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     const textTarget = {
@@ -3248,11 +3248,11 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-select', target: textTarget },
+        data: { type: 'sw-edit-select', target: textTarget },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-commit', id: 'old-copy', value: 'Saved old copy' },
+        data: { type: 'sw-edit-text-commit', id: 'old-copy', value: 'Saved old copy' },
       }));
     });
     await waitFor(() => {
@@ -3261,7 +3261,7 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'new-copy', active: true },
+        data: { type: 'sw-edit-text-session', id: 'new-copy', active: true },
       }));
     });
 
@@ -3312,22 +3312,22 @@ describe('FileViewer SVG artifacts', () => {
     const toggle = screen.getByTestId('manual-edit-mode-toggle');
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
 
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: true },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-commit', id: 'copy', value: 'First edit' },
+        data: { type: 'sw-edit-text-commit', id: 'copy', value: 'First edit' },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
       }));
     });
     await waitFor(() => expect(postCount).toBe(1));
@@ -3337,7 +3337,7 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: true },
       }));
     });
     vi.useFakeTimers();
@@ -3381,13 +3381,13 @@ describe('FileViewer SVG artifacts', () => {
     const toggle = screen.getByTestId('manual-edit-mode-toggle');
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: true },
       }));
     });
 
@@ -3396,7 +3396,7 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-commit', id: 'copy', value: 'Edited copy' },
+        data: { type: 'sw-edit-text-commit', id: 'copy', value: 'Edited copy' },
       }));
     });
     await act(async () => {
@@ -3452,7 +3452,7 @@ describe('FileViewer SVG artifacts', () => {
     const toggle = screen.getByTestId('manual-edit-mode-toggle');
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     const textTarget = {
@@ -3467,19 +3467,19 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-select', target: textTarget },
+        data: { type: 'sw-edit-select', target: textTarget },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: true },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-commit', id: 'copy', value: 'Unsaved copy' },
+        data: { type: 'sw-edit-text-commit', id: 'copy', value: 'Unsaved copy' },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
       }));
     });
     expect(await screen.findByTitle('Copy')).toBeTruthy();
@@ -3507,15 +3507,15 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: retryId, active: true },
+        data: { type: 'sw-edit-text-session', id: retryId, active: true },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-commit', id: retryId, value: 'Saved retry' },
+        data: { type: 'sw-edit-text-commit', id: retryId, value: 'Saved retry' },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: retryId, active: false, committed: true, changed: true },
+        data: { type: 'sw-edit-text-session', id: retryId, active: false, committed: true, changed: true },
       }));
     });
     await waitFor(() => expect(postCount).toBe(2));
@@ -3535,15 +3535,15 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: true },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-commit', id: 'copy', value: 'Saved original retry' },
+        data: { type: 'sw-edit-text-commit', id: 'copy', value: 'Saved original retry' },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
+        data: { type: 'sw-edit-text-session', id: 'copy', active: false, committed: true, changed: true },
       }));
     });
     await waitFor(() => expect(postCount).toBe(3));
@@ -3592,7 +3592,7 @@ describe('FileViewer SVG artifacts', () => {
     const toggle = screen.getByTestId('manual-edit-mode-toggle');
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     const textTarget = {
@@ -3607,12 +3607,12 @@ describe('FileViewer SVG artifacts', () => {
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
-        data: { type: 'od-edit-select', target: textTarget },
+        data: { type: 'sw-edit-select', target: textTarget },
       }));
       window.dispatchEvent(new MessageEvent('message', {
         source: frame.contentWindow,
         data: {
-          type: 'od-edit-drag-commit',
+          type: 'sw-edit-drag-commit',
           id: 'copy',
           transform: 'translate(12px, 8px)',
           display: 'block',
@@ -3682,28 +3682,28 @@ describe('FileViewer SVG artifacts', () => {
     const toggle = screen.getByTestId('manual-edit-mode-toggle');
     fireEvent.click(toggle);
     await waitFor(() => {
-      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(screen.getByTestId('artifact-preview-frame').getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
     const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
 
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-select', target: textTarget },
+      data: { type: 'sw-edit-select', target: textTarget },
     }));
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-text-session', id: 'card-title', active: true },
+      data: { type: 'sw-edit-text-session', id: 'card-title', active: true },
     }));
     expect(await screen.findByTitle('Pricing that scales')).toBeTruthy();
 
     // Iframe-driven finish (Enter): commit + session-inactive with NO host finish.
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-text-commit', id: 'card-title', value: 'New title' },
+      data: { type: 'sw-edit-text-commit', id: 'card-title', value: 'New title' },
     }));
     window.dispatchEvent(new MessageEvent('message', {
       source: frame.contentWindow,
-      data: { type: 'od-edit-text-session', id: 'card-title', active: false, committed: true, changed: true },
+      data: { type: 'sw-edit-text-session', id: 'card-title', active: false, committed: true, changed: true },
     }));
 
     // Exit while that commit is still in flight, then let the save fail.
@@ -3740,11 +3740,11 @@ describe('FileViewer SVG artifacts', () => {
       />,
     );
 
-    const srcDocFrame = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement | null;
-    expect(srcDocFrame?.getAttribute('data-od-active')).toBe('true');
+    const srcDocFrame = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement | null;
+    expect(srcDocFrame?.getAttribute('data-sw-active')).toBe('true');
     expect(srcDocFrame?.srcdoc).toContain('data-od-id="results"');
     expect(srcDocFrame?.srcdoc).not.toContain('data-sw-lazy-srcdoc-transport');
-    expect(srcDocFrame?.srcdoc).toContain('data-od-sandbox-shim');
+    expect(srcDocFrame?.srcdoc).toContain('data-sw-sandbox-shim');
   });
 
   it('keeps srcDoc HTML previews available with a compact Code action', async () => {
@@ -3783,8 +3783,8 @@ describe('FileViewer SVG artifacts', () => {
 
     await waitFor(() => {
       const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
-      expect(activeFrame.srcdoc).toContain('data-od-edit-bridge');
+      expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
+      expect(activeFrame.srcdoc).toContain('data-sw-edit-bridge');
       expect(activeFrame.srcdoc).toContain('Hero');
     });
   });
@@ -3892,7 +3892,7 @@ describe('FileViewer SVG artifacts', () => {
     await waitFor(() => {
       const frame = document.body.querySelector('.present-overlay iframe');
       expect(frame?.getAttribute('sandbox')).toBe('allow-scripts allow-downloads');
-      expect(frame?.getAttribute('data-od-render-mode')).toBe('url-load');
+      expect(frame?.getAttribute('data-sw-render-mode')).toBe('url-load');
     });
     expect(container.querySelector('.html-viewer.is-tab-present')).toBeTruthy();
     const overlay = document.body.querySelector<HTMLElement>('.present-overlay');
@@ -4110,9 +4110,9 @@ describe('FileViewer SVG artifacts', () => {
     );
 
     expect(markup).toContain('data-testid="artifact-preview-frame"');
-    expect(markup).toContain('data-od-render-mode="srcdoc"');
-    expect(markup).toContain('data-od-render-mode="srcdoc" data-od-active="true"');
-    expect(markup).toContain('data-od-render-mode="url-load" data-od-active="false"');
+    expect(markup).toContain('data-sw-render-mode="srcdoc"');
+    expect(markup).toContain('data-sw-render-mode="srcdoc" data-sw-active="true"');
+    expect(markup).toContain('data-sw-render-mode="url-load" data-sw-active="false"');
     expect(markup).not.toContain('data-sw-lazy-srcdoc-transport');
     expect(markup).toContain('sandbox="allow-scripts allow-downloads"');
   });
@@ -4139,9 +4139,9 @@ describe('FileViewer SVG artifacts', () => {
       />,
     );
 
-    expect(markup).toContain('data-od-render-mode="srcdoc"');
-    expect(markup).toContain('data-od-render-mode="srcdoc" data-od-active="true"');
-    expect(markup).toContain('data-od-render-mode="url-load" data-od-active="false"');
+    expect(markup).toContain('data-sw-render-mode="srcdoc"');
+    expect(markup).toContain('data-sw-render-mode="srcdoc" data-sw-active="true"');
+    expect(markup).toContain('data-sw-render-mode="url-load" data-sw-active="false"');
   });
 
   it('keeps HTML deck preview chrome with a reachable Code action', async () => {
@@ -4184,7 +4184,7 @@ describe('FileViewer SVG artifacts', () => {
     ) as HTMLIFrameElement[];
     expect(thumbnailFrames.length).toBeGreaterThan(0);
     for (const frame of thumbnailFrames) {
-      expect(frame.srcdoc).toContain('data-od-deck-chrome-hidden');
+      expect(frame.srcdoc).toContain('data-sw-deck-chrome-hidden');
       expect(frame.srcdoc).toContain('.deck-floating-nav');
       expect(frame.srcdoc).toContain('[role="navigation"][aria-label*="Deck"]');
     }
@@ -5025,7 +5025,7 @@ describe('FileViewer SVG artifacts', () => {
     // result block and in the social-share header; scope to the result block.
     const resultBlock = customDomainLabel.closest('.deploy-result-block') as HTMLElement;
     expect(within(resultBlock).getByText('https://demo.example.com')).toBeTruthy();
-    const deployToast = document.querySelector('.od-toast');
+    const deployToast = document.querySelector('.sw-toast');
     expect(deployToast?.className).toContain('tone-success');
     expect(deployToast?.className).toContain('placement-top');
     expect(deployToast?.textContent).toContain('Deployment uploaded successfully');
@@ -6330,7 +6330,7 @@ describe('FileViewer SVG artifacts', () => {
     // which is a `role="status"` of its own, so a bare `findByRole('status')`
     // now resolves ambiguously against the preview's loading state.
     await waitFor(() => {
-      expect(document.querySelector('.od-toast')?.textContent).toContain('Switched to this version.');
+      expect(document.querySelector('.sw-toast')?.textContent).toContain('Switched to this version.');
     });
     expect(onFileSaved).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledWith(
@@ -7222,13 +7222,13 @@ describe('FileViewer tweaks toolbar', () => {
       />,
     );
 
-    expect((screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement).getAttribute('data-od-render-mode')).toBe('url-load');
+    expect((screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement).getAttribute('data-sw-render-mode')).toBe('url-load');
     clickAgentTool('draw-overlay-toggle');
 
     const frame = await waitFor(() => {
       const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
-      expect(activeFrame.srcdoc).toContain('data-od-selection-bridge');
+      expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
+      expect(activeFrame.srcdoc).toContain('data-sw-selection-bridge');
       expect(activeFrame.srcdoc).toContain('data-sw-snapshot-bridge');
       expect(activeFrame.srcdoc).not.toContain('data-sw-lazy-srcdoc-transport');
       return activeFrame;
@@ -7276,7 +7276,7 @@ describe('FileViewer tweaks toolbar', () => {
 
     const frame = await waitFor(() => {
       const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(activeFrame.srcdoc).toContain(
         '<base href="/api/projects/project-1/preview/scope-1/">',
       );
@@ -7300,7 +7300,7 @@ describe('FileViewer tweaks toolbar', () => {
     await waitFor(() => {
       expect(
         (screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement)
-          .getAttribute('data-od-render-mode'),
+          .getAttribute('data-sw-render-mode'),
       ).toBe('url-load');
     });
     await act(async () => {
@@ -7309,7 +7309,7 @@ describe('FileViewer tweaks toolbar', () => {
     });
     await waitFor(() => {
       const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(activeFrame.srcdoc).toContain(
         '<base href="/api/projects/project-1/preview/scope-1/">',
       );
@@ -7425,7 +7425,7 @@ describe('FileViewer tweaks toolbar', () => {
 
     await waitFor(() => {
       const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(activeFrame.srcdoc).toContain(authoredBase);
       expect(fetchMock.mock.calls.some(([input]) => (
         String(input).includes('/api/projects/project-1/files')
@@ -7493,9 +7493,9 @@ describe('FileViewer tweaks toolbar', () => {
 
     const urlFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     const srcDocFrame = screen.getByTestId('artifact-preview-frame-srcdoc') as HTMLIFrameElement;
-    expect(urlFrame.getAttribute('data-od-render-mode')).toBe('url-load');
+    expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
     expect(urlFrame.getAttribute('src')).toContain('odPreviewBridge=snapshot');
-    expect(srcDocFrame.getAttribute('data-od-active')).toBe('false');
+    expect(srcDocFrame.getAttribute('data-sw-active')).toBe('false');
 
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
@@ -7512,9 +7512,9 @@ describe('FileViewer tweaks toolbar', () => {
     await waitFor(() => {
       const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
       expect(activeFrame).toBe(urlFrame);
-      expect(activeFrame.getAttribute('data-od-render-mode')).toBe('url-load');
-      expect(activeFrame.getAttribute('data-od-active')).toBe('true');
-      expect(srcDocFrame.getAttribute('data-od-active')).toBe('false');
+      expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
+      expect(activeFrame.getAttribute('data-sw-active')).toBe('true');
+      expect(srcDocFrame.getAttribute('data-sw-active')).toBe('false');
       expect(container.querySelector('canvas')).toBeTruthy();
     });
   });
@@ -7526,9 +7526,9 @@ describe('FileViewer tweaks toolbar', () => {
       />,
     );
 
-    const urlFrame = container.querySelector('iframe[data-od-render-mode="url-load"]') as HTMLIFrameElement | null;
+    const urlFrame = container.querySelector('iframe[data-sw-render-mode="url-load"]') as HTMLIFrameElement | null;
     expect(urlFrame).toBeTruthy();
-    expect(urlFrame?.getAttribute('data-od-active')).toBe('true');
+    expect(urlFrame?.getAttribute('data-sw-active')).toBe('true');
     const warmSrc = urlFrame?.getAttribute('src') ?? '';
     expect(warmSrc).not.toBe('about:blank');
     expect(warmSrc).toContain('/raw/');
@@ -7541,13 +7541,13 @@ describe('FileViewer tweaks toolbar', () => {
     clickAgentTool('draw-overlay-toggle');
 
     await waitFor(() => {
-      const active = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement | null;
-      expect(active?.getAttribute('data-od-active')).toBe('true');
+      const active = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement | null;
+      expect(active?.getAttribute('data-sw-active')).toBe('true');
     });
 
-    const urlFrameDuringDraw = container.querySelector('iframe[data-od-render-mode="url-load"]') as HTMLIFrameElement | null;
+    const urlFrameDuringDraw = container.querySelector('iframe[data-sw-render-mode="url-load"]') as HTMLIFrameElement | null;
     expect(urlFrameDuringDraw).toBe(urlFrame);
-    expect(urlFrameDuringDraw?.getAttribute('data-od-active')).toBe('false');
+    expect(urlFrameDuringDraw?.getAttribute('data-sw-active')).toBe('false');
     expect(urlFrameDuringDraw?.getAttribute('src')).not.toBe('about:blank');
     expect(urlFrameDuringDraw?.getAttribute('src')).toBe(warmSrc);
   });
@@ -7562,7 +7562,7 @@ describe('FileViewer tweaks toolbar', () => {
     clickAgentTool('draw-overlay-toggle');
     await waitFor(() => {
       const active = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(active.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(active.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(active.srcdoc).toContain('Hero V1');
     });
 
@@ -7589,7 +7589,7 @@ describe('FileViewer tweaks toolbar', () => {
     clickAgentTool('draw-overlay-toggle');
     await waitFor(() => {
       const active = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(active.getAttribute('data-od-render-mode')).toBe('url-load');
+      expect(active.getAttribute('data-sw-render-mode')).toBe('url-load');
       expect(active.getAttribute('src') ?? '').toContain('v=999999');
     });
   });
@@ -7604,7 +7604,7 @@ describe('FileViewer tweaks toolbar', () => {
 
     clickAgentTool('draw-overlay-toggle');
     await waitFor(() => {
-      expect((screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement).getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect((screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement).getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(screen.getByPlaceholderText('Add a note for this mark')).toBeTruthy();
     });
 
@@ -7621,8 +7621,8 @@ describe('FileViewer tweaks toolbar', () => {
 
     await waitFor(() => {
       expect(screen.queryByPlaceholderText('Add a note for this mark')).toBeNull();
-      const urlFrame = container.querySelector('iframe[data-od-render-mode="url-load"]') as HTMLIFrameElement | null;
-      expect(urlFrame?.getAttribute('data-od-active')).toBe('true');
+      const urlFrame = container.querySelector('iframe[data-sw-render-mode="url-load"]') as HTMLIFrameElement | null;
+      expect(urlFrame?.getAttribute('data-sw-active')).toBe('true');
       expect(urlFrame?.getAttribute('src') ?? '').toContain('b.html');
     });
   });
@@ -7669,11 +7669,11 @@ describe('FileViewer tweaks toolbar', () => {
     // artifact must NOT be rendered a second time while hidden — that ran a
     // duplicate live mount and rendered scroll/reveal-animated content while
     // invisible (the white-on-enter bug). Give any stray async a beat.
-    const before = container.querySelector('iframe[data-od-render-mode="srcdoc"]');
-    expect((before as HTMLIFrameElement).getAttribute('data-od-active')).toBe('false');
+    const before = container.querySelector('iframe[data-sw-render-mode="srcdoc"]');
+    expect((before as HTMLIFrameElement).getAttribute('data-sw-active')).toBe('false');
     await new Promise((r) => setTimeout(r, 50));
     {
-      const f = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
+      const f = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement;
       expect(f.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
       expect(f.srcdoc).not.toContain('Materialize me');
     }
@@ -7682,8 +7682,8 @@ describe('FileViewer tweaks toolbar', () => {
     // fire correctly there).
     clickAgentTool('draw-overlay-toggle');
     await waitFor(() => {
-      const f = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
-      expect(f.getAttribute('data-od-active')).toBe('true');
+      const f = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement;
+      expect(f.getAttribute('data-sw-active')).toBe('true');
       expect(f.srcdoc).toContain('Materialize me');
     });
 
@@ -7692,9 +7692,9 @@ describe('FileViewer tweaks toolbar', () => {
     // swap, no re-load.
     clickAgentTool('draw-overlay-toggle');
     await waitFor(() => {
-      expect((container.querySelector('iframe[data-od-render-mode="url-load"]') as HTMLIFrameElement).getAttribute('data-od-active')).toBe('true');
+      expect((container.querySelector('iframe[data-sw-render-mode="url-load"]') as HTMLIFrameElement).getAttribute('data-sw-active')).toBe('true');
     });
-    const hiddenAfterExit = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
+    const hiddenAfterExit = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement;
     expect(hiddenAfterExit).toBe(before);
     expect(hiddenAfterExit.srcdoc).toContain('Materialize me');
   });
@@ -7759,22 +7759,22 @@ describe('FileViewer tweaks toolbar', () => {
 
     // Passive preview still uses the lazy shell; the first real materialization
     // happens only after the user enters an interactive mode.
-    const initialSrcDocFrame = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
+    const initialSrcDocFrame = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement;
     expect(initialSrcDocFrame.srcdoc).toContain('data-sw-lazy-srcdoc-transport');
     const postMessage = vi.spyOn(initialSrcDocFrame.contentWindow!, 'postMessage');
 
     // Materialize once via Draw. The manual-edit bridge must already be present
     // even though Edit is NOT active — it boots dormant and only acts on the
-    // host's od-edit-mode message.
+    // host's sw-edit-mode message.
     clickAgentTool('draw-overlay-toggle');
     const materializedSrcDoc = await waitFor(() => {
-      const f = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
-      expect(f.getAttribute('data-od-active')).toBe('true');
+      const f = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement;
+      expect(f.getAttribute('data-sw-active')).toBe('true');
       expect(f.srcdoc).toContain('Stable doc');
-      expect(f.srcdoc).toContain('data-od-edit-bridge');
+      expect(f.srcdoc).toContain('data-sw-edit-bridge');
       return f.srcdoc;
     });
-    const materializedFrame = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
+    const materializedFrame = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement;
     const materializedGeneration = materializedFrame.srcdoc.match(
       /data-sw-srcdoc-transport-activation>[\s\S]*?var generation = "([^"]+)";/,
     )?.[1];
@@ -7808,15 +7808,15 @@ describe('FileViewer tweaks toolbar', () => {
     // activates via postMessage.
     clickAgentTool('draw-overlay-toggle');
     await waitFor(() => {
-      const urlFrame = container.querySelector('iframe[data-od-render-mode="url-load"]') as HTMLIFrameElement;
-      expect(urlFrame.getAttribute('data-od-active')).toBe('true');
+      const urlFrame = container.querySelector('iframe[data-sw-render-mode="url-load"]') as HTMLIFrameElement;
+      expect(urlFrame.getAttribute('data-sw-active')).toBe('true');
     });
     clickAgentTool('manual-edit-mode-toggle');
     await waitFor(() => {
-      const active = container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement;
-      expect(active.getAttribute('data-od-active')).toBe('true');
+      const active = container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement;
+      expect(active.getAttribute('data-sw-active')).toBe('true');
     });
-    const srcDocAfter = (container.querySelector('iframe[data-od-render-mode="srcdoc"]') as HTMLIFrameElement).srcdoc;
+    const srcDocAfter = (container.querySelector('iframe[data-sw-render-mode="srcdoc"]') as HTMLIFrameElement).srcdoc;
     expect(srcDocAfter).toBe(materializedSrcDoc);
   });
 
@@ -7835,7 +7835,7 @@ describe('FileViewer tweaks toolbar', () => {
     fireEvent.click(screen.getByTestId('board-mode-toggle'));
     await waitFor(() => {
       const active = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(active.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(active.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(active.srcdoc).toContain('Comment V1');
     });
 
@@ -7861,7 +7861,7 @@ describe('FileViewer tweaks toolbar', () => {
     fireEvent.click(screen.getByTestId('manual-edit-mode-toggle'));
     await waitFor(() => {
       const active = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(active.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(active.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(active.srcdoc).toContain('Edit V1');
     });
 
@@ -7892,7 +7892,7 @@ describe('FileViewer tweaks toolbar', () => {
     );
 
     const urlFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(urlFrame.getAttribute('data-od-render-mode')).toBe('url-load');
+    expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
     expect(urlFrame.getAttribute('src')).toContain('odPreviewBridge=scroll');
 
     const srcDocFrame = screen.getByTestId('artifact-preview-frame-srcdoc') as HTMLIFrameElement;
@@ -7933,9 +7933,9 @@ describe('FileViewer tweaks toolbar', () => {
     const urlFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
     const srcDocFrame = screen.getByTestId('artifact-preview-frame-srcdoc') as HTMLIFrameElement;
     const postSpy = vi.spyOn(urlFrame.contentWindow!, 'postMessage');
-    expect(urlFrame.getAttribute('data-od-render-mode')).toBe('url-load');
+    expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
     expect(urlFrame.getAttribute('src')).toContain('odPreviewBridge=selection');
-    expect(srcDocFrame.getAttribute('data-od-active')).toBe('false');
+    expect(srcDocFrame.getAttribute('data-sw-active')).toBe('false');
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
         source: urlFrame.contentWindow,
@@ -7950,9 +7950,9 @@ describe('FileViewer tweaks toolbar', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('artifact-preview-frame')).toBe(urlFrame);
-      expect(urlFrame.getAttribute('data-od-render-mode')).toBe('url-load');
-      expect(urlFrame.getAttribute('data-od-active')).toBe('true');
-      expect(srcDocFrame.getAttribute('data-od-active')).toBe('false');
+      expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
+      expect(urlFrame.getAttribute('data-sw-active')).toBe('true');
+      expect(srcDocFrame.getAttribute('data-sw-active')).toBe('false');
       expect(postSpy).toHaveBeenCalledWith(
         { type: 'od:comment-mode', enabled: true, mode: 'inspect' },
         '*',
@@ -7968,16 +7968,16 @@ describe('FileViewer tweaks toolbar', () => {
     );
 
     const urlFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(urlFrame.getAttribute('data-od-render-mode')).toBe('url-load');
+    expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
 
     fireEvent.click(screen.getByTestId('comment-panel-toggle'));
 
     const srcDocFrame = await waitFor(() => {
       const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       return frame;
     });
-    expect(srcDocFrame.srcdoc).toContain('data-od-selection-bridge');
+    expect(srcDocFrame.srcdoc).toContain('data-sw-selection-bridge');
   });
 
   it('ignores stale URL selection bridge readiness after the preview URL changes and falls back to srcDoc comments', async () => {
@@ -7988,7 +7988,7 @@ describe('FileViewer tweaks toolbar', () => {
     );
 
     const urlFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(urlFrame.getAttribute('data-od-render-mode')).toBe('url-load');
+    expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
     const srcA = urlFrame.getAttribute('src') ?? '';
     expect(srcA).toContain('odPreviewBridge=selection');
 
@@ -8033,10 +8033,10 @@ describe('FileViewer tweaks toolbar', () => {
 
     const srcDocFrame = await waitFor(() => {
       const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       return frame;
     });
-    expect(srcDocFrame.srcdoc).toContain('data-od-selection-bridge');
+    expect(srcDocFrame.srcdoc).toContain('data-sw-selection-bridge');
   });
 
   it('accepts a URL selection bridge ready matching the current preview URL', async () => {
@@ -8076,7 +8076,7 @@ describe('FileViewer tweaks toolbar', () => {
     // comments" test.
     await waitFor(() => {
       expect(screen.getByTestId('artifact-preview-frame')).toBe(urlFrame);
-      expect(urlFrame.getAttribute('data-od-render-mode')).toBe('url-load');
+      expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
     });
   });
 
@@ -8088,7 +8088,7 @@ describe('FileViewer tweaks toolbar', () => {
     );
 
     const urlFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(urlFrame.getAttribute('data-od-render-mode')).toBe('url-load');
+    expect(urlFrame.getAttribute('data-sw-render-mode')).toBe('url-load');
 
     act(() => {
       window.dispatchEvent(new MessageEvent('message', {
@@ -8101,10 +8101,10 @@ describe('FileViewer tweaks toolbar', () => {
 
     const srcDocFrame = await waitFor(() => {
       const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       return frame;
     });
-    expect(srcDocFrame.srcdoc).toContain('data-od-selection-bridge');
+    expect(srcDocFrame.srcdoc).toContain('data-sw-selection-bridge');
   });
 
   it('does not expose unscoped relative assets while a team srcDoc preview is materializing', async () => {
@@ -8140,7 +8140,7 @@ describe('FileViewer tweaks toolbar', () => {
 
       const pendingFrame = await waitFor(() => {
         const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-        expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+        expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
         return frame;
       });
       expect(pendingFrame.srcdoc).not.toContain('../../fonts/inter-variable-400.woff2');
@@ -8211,7 +8211,7 @@ describe('FileViewer tweaks toolbar', () => {
       );
 
       const pendingFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(pendingFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(pendingFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(pendingFrame.srcdoc).not.toContain('../images/hero.png');
 
       filesResponse.resolve(new Response(JSON.stringify({
@@ -8250,7 +8250,7 @@ describe('FileViewer tweaks toolbar', () => {
     clickAgentTool('draw-overlay-toggle');
     const srcDocFrame = await waitFor(() => {
       const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       return activeFrame;
     });
     installPreviewSnapshotBridge(srcDocFrame);
@@ -8290,7 +8290,7 @@ describe('FileViewer tweaks toolbar', () => {
       conversationId: 'conversation-1',
       filePath: 'preview.html',
       elementId: 'pin-applying',
-      selector: '[data-od-pin="pin-applying"]',
+      selector: '[data-sw-pin="pin-applying"]',
       label: 'pin-applying',
       text: '',
       htmlHint: '',
@@ -8432,7 +8432,7 @@ describe('FileViewer tweaks toolbar', () => {
       conversationId: 'conversation-1',
       filePath: 'preview.html',
       elementId: 'pin-open',
-      selector: '[data-od-pin="pin-open"]',
+      selector: '[data-sw-pin="pin-open"]',
       label: 'pin-open',
       text: '',
       htmlHint: '',
@@ -8741,7 +8741,7 @@ describe('FileViewer tweaks toolbar', () => {
     await screen.findByTestId('artifact-preview-frame');
     await waitFor(() => {
       const frame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-      expect(frame.getAttribute('data-od-powered')).toBe('true');
+      expect(frame.getAttribute('data-sw-powered')).toBe('true');
       const src = new URL(frame.getAttribute('src') ?? '');
       expect(`${src.origin}${src.pathname}`).toBe(
         'http://localhost:48123/api/projects/project-1/powered/powered-wide.html',
@@ -9111,7 +9111,7 @@ describe('FileViewer tweaks toolbar', () => {
       conversationId: 'conversation-1',
       filePath: 'preview.html',
       elementId: 'pin-older',
-      selector: '[data-od-pin="pin-older"]',
+      selector: '[data-sw-pin="pin-older"]',
       label: 'pin-older',
       text: '',
       htmlHint: '',
@@ -9125,7 +9125,7 @@ describe('FileViewer tweaks toolbar', () => {
       ...olderComment,
       id: 'comment-newer',
       elementId: 'pin-newer',
-      selector: '[data-od-pin="pin-newer"]',
+      selector: '[data-sw-pin="pin-newer"]',
       label: 'pin-newer',
       position: { x: 72, y: 32, width: 18, height: 18 },
       note: 'Newer comment',
@@ -9640,7 +9640,7 @@ describe('FileViewer tweaks toolbar', () => {
       conversationId: 'conversation-1',
       filePath: 'preview.html',
       elementId: 'pin-with-image',
-      selector: '[data-od-pin="pin-with-image"]',
+      selector: '[data-sw-pin="pin-with-image"]',
       label: 'pin-with-image',
       text: '',
       htmlHint: '',
@@ -9788,7 +9788,7 @@ describe('FileViewer tweaks toolbar', () => {
       conversationId: 'conversation-1',
       filePath: 'preview.html',
       elementId: 'pin-older',
-      selector: '[data-od-pin="pin-older"]',
+      selector: '[data-sw-pin="pin-older"]',
       label: 'pin-older',
       text: '',
       htmlHint: '',
@@ -9803,7 +9803,7 @@ describe('FileViewer tweaks toolbar', () => {
       ...olderComment,
       id: 'comment-newer',
       elementId: 'pin-newer',
-      selector: '[data-od-pin="pin-newer"]',
+      selector: '[data-sw-pin="pin-newer"]',
       label: 'pin-newer',
       position: { x: 72, y: 32, width: 18, height: 18 },
       note: 'Newer comment',
@@ -10202,7 +10202,7 @@ describe('FileViewer tweaks toolbar', () => {
       conversationId: 'conversation-1',
       filePath: 'preview.html',
       elementId: 'pin-transition',
-      selector: '[data-od-pin="pin-transition"]',
+      selector: '[data-sw-pin="pin-transition"]',
       label: 'pin-transition',
       text: '',
       htmlHint: '',
@@ -10253,7 +10253,7 @@ describe('FileViewer tweaks toolbar', () => {
       conversationId: 'conversation-1',
       filePath: 'preview.html',
       elementId: 'pin-delete-rejected',
-      selector: '[data-od-pin="pin-delete-rejected"]',
+      selector: '[data-sw-pin="pin-delete-rejected"]',
       label: 'pin-delete-rejected',
       text: '',
       htmlHint: '',
@@ -10294,7 +10294,7 @@ describe('FileViewer tweaks toolbar', () => {
       conversationId: 'conversation-1',
       filePath: 'preview.html',
       elementId: 'pin-send-result',
-      selector: '[data-od-pin="pin-send-result"]',
+      selector: '[data-sw-pin="pin-send-result"]',
       label: 'pin-send-result',
       text: '',
       htmlHint: '',
@@ -10347,7 +10347,7 @@ describe('FileViewer tweaks toolbar', () => {
       conversationId: 'conversation-1',
       filePath: 'preview.html',
       elementId: 'pin-send-without-removal',
-      selector: '[data-od-pin="pin-send-without-removal"]',
+      selector: '[data-sw-pin="pin-send-without-removal"]',
       label: 'pin-send-without-removal',
       text: '',
       htmlHint: '',
@@ -10392,7 +10392,7 @@ describe('FileViewer tweaks toolbar', () => {
         conversationId: 'conversation-1',
         filePath: 'preview.html',
         elementId: 'pin-partial-first',
-        selector: '[data-od-pin="pin-partial-first"]',
+        selector: '[data-sw-pin="pin-partial-first"]',
         label: 'pin-partial-first',
         text: '',
         htmlHint: '',
@@ -10408,7 +10408,7 @@ describe('FileViewer tweaks toolbar', () => {
         conversationId: 'conversation-1',
         filePath: 'preview.html',
         elementId: 'pin-partial-second',
-        selector: '[data-od-pin="pin-partial-second"]',
+        selector: '[data-sw-pin="pin-partial-second"]',
         label: 'pin-partial-second',
         text: '',
         htmlHint: '',
@@ -10971,7 +10971,7 @@ describe('FileViewer tweaks toolbar', () => {
           conversationId: 'conversation-1',
           filePath: 'preview.html',
           elementId: 'pin-1',
-          selector: '[data-od-pin="pin-1"]',
+          selector: '[data-sw-pin="pin-1"]',
           label: 'pin-1',
           text: '',
           htmlHint: '',
@@ -10987,7 +10987,7 @@ describe('FileViewer tweaks toolbar', () => {
           conversationId: 'conversation-1',
           filePath: 'preview.html',
           elementId: 'pin-2',
-          selector: '[data-od-pin="pin-2"]',
+          selector: '[data-sw-pin="pin-2"]',
           label: 'pin-2',
           text: '',
           htmlHint: '',
@@ -11037,15 +11037,15 @@ describe('applyInspectOverridesToSource', () => {
 
   it('inserts the overrides block before </head>', () => {
     const next = applyInspectOverridesToSource(base, css);
-    expect(next).toContain('<style data-od-inspect-overrides>');
+    expect(next).toContain('<style data-sw-inspect-overrides>');
     expect(next).toContain('color: #ff0000');
-    expect(next.indexOf('<style data-od-inspect-overrides>')).toBeLessThan(next.indexOf('</head>'));
+    expect(next.indexOf('<style data-sw-inspect-overrides>')).toBeLessThan(next.indexOf('</head>'));
   });
 
   it('replaces an existing overrides block instead of duplicating', () => {
     const once = applyInspectOverridesToSource(base, css);
     const twice = applyInspectOverridesToSource(once, `[data-od-id="hero"] { color: #00ff00 !important }`);
-    const matches = twice.match(/<style data-od-inspect-overrides>/g) ?? [];
+    const matches = twice.match(/<style data-sw-inspect-overrides>/g) ?? [];
     expect(matches).toHaveLength(1);
     expect(twice).toContain('color: #00ff00');
     expect(twice).not.toContain('color: #ff0000');
@@ -11054,13 +11054,13 @@ describe('applyInspectOverridesToSource', () => {
   it('strips the overrides block when called with empty css', () => {
     const once = applyInspectOverridesToSource(base, css);
     const stripped = applyInspectOverridesToSource(once, '');
-    expect(stripped).not.toContain('data-od-inspect-overrides');
+    expect(stripped).not.toContain('data-sw-inspect-overrides');
   });
 
   it('handles fragments without an explicit <head>', () => {
     const next = applyInspectOverridesToSource('<main data-od-id="x">x</main>', css);
-    expect(next).toContain('<style data-od-inspect-overrides>');
-    expect(next.indexOf('<style data-od-inspect-overrides>')).toBeLessThan(next.indexOf('<main'));
+    expect(next).toContain('<style data-sw-inspect-overrides>');
+    expect(next.indexOf('<style data-sw-inspect-overrides>')).toBeLessThan(next.indexOf('<main'));
   });
 
   // Regression for nexu-io/open-design#362: if a source file has more than
@@ -11070,24 +11070,24 @@ describe('applyInspectOverridesToSource', () => {
   // override the user just cleared.
   it('removes every existing overrides block, not just the first', () => {
     const dup = `<!doctype html><html><head>` +
-      `<style data-od-inspect-overrides>[data-od-id="hero"] { color: #ff0000 !important }</style>` +
-      `<style data-od-inspect-overrides>[data-od-id="hero"] { color: #00ff00 !important }</style>` +
+      `<style data-sw-inspect-overrides>[data-od-id="hero"] { color: #ff0000 !important }</style>` +
+      `<style data-sw-inspect-overrides>[data-od-id="hero"] { color: #00ff00 !important }</style>` +
       `<title>X</title></head><body><main data-od-id="hero">Hi</main></body></html>`;
     const replaced = applyInspectOverridesToSource(dup, `[data-od-id="hero"] { color: #0000ff !important }`);
-    const matches = replaced.match(/<style data-od-inspect-overrides>/g) ?? [];
+    const matches = replaced.match(/<style data-sw-inspect-overrides>/g) ?? [];
     expect(matches).toHaveLength(1);
     expect(replaced).toContain('color: #0000ff');
     expect(replaced).not.toContain('color: #ff0000');
     expect(replaced).not.toContain('color: #00ff00');
 
     const cleared = applyInspectOverridesToSource(dup, '');
-    expect(cleared).not.toContain('data-od-inspect-overrides');
+    expect(cleared).not.toContain('data-sw-inspect-overrides');
   });
 
   // Regression for nexu-io/open-design#362: the splicer must be HTML-aware
   // when locating its own override block and the head insertion point.
   // Generated artifacts commonly carry inline scripts/styles that mention
-  // `</head>` or `<style data-od-inspect-overrides>` as text, e.g. a
+  // `</head>` or `<style data-sw-inspect-overrides>` as text, e.g. a
   // template literal that builds HTML at runtime or a CSS rule that
   // documents the override block. A regex-only splicer would happily
   // splice into the middle of the script body or strip the literal string,
@@ -11105,7 +11105,7 @@ describe('applyInspectOverridesToSource', () => {
     // and after the inline <script> and <style> that contain `</head>`
     // text. Without HTML-aware scanning the regex would splice before the
     // first textual `</head>`, which sits inside the script body.
-    const blockIdx = next.indexOf('<style data-od-inspect-overrides>');
+    const blockIdx = next.indexOf('<style data-sw-inspect-overrides>');
     const realHeadEndIdx = next.indexOf('</head>', next.indexOf('<title>'));
     const scriptOpenIdx = next.indexOf('<script>');
     const scriptCloseIdx = next.indexOf('</script>');
@@ -11122,37 +11122,37 @@ describe('applyInspectOverridesToSource', () => {
     // The CSS comment's `</head>` token also survives untouched.
     expect(next).toContain('/* sentinel: </head> appears in this CSS comment */');
     // Only one override block in total.
-    const blockMatches = next.match(/<style data-od-inspect-overrides>/g) ?? [];
+    const blockMatches = next.match(/<style data-sw-inspect-overrides>/g) ?? [];
     expect(blockMatches).toHaveLength(1);
   });
 
-  it('ignores `<style data-od-inspect-overrides>` literals inside <script>', () => {
+  it('ignores `<style data-sw-inspect-overrides>` literals inside <script>', () => {
     // A sentinel string literal in an inline script that mentions the
     // override block by name. A regex-only splicer would strip the
     // literal as if it were a real block, mangling the script.
     const sourceWithLiteral =
       `<!doctype html><html><head>` +
-      `<script>const banner = "<style data-od-inspect-overrides>color: red</style>";</script>` +
+      `<script>const banner = "<style data-sw-inspect-overrides>color: red</style>";</script>` +
       `<title>X</title></head><body><main data-od-id="hero">Hi</main></body></html>`;
     const next = applyInspectOverridesToSource(sourceWithLiteral, css);
     // The literal must survive verbatim inside the script body.
-    expect(next).toContain('const banner = "<style data-od-inspect-overrides>color: red</style>";');
+    expect(next).toContain('const banner = "<style data-sw-inspect-overrides>color: red</style>";');
     // The output still gains exactly one real override block.
-    const blockMatches = next.match(/<style data-od-inspect-overrides>\n\[data-od-id="hero"\]/g) ?? [];
+    const blockMatches = next.match(/<style data-sw-inspect-overrides>\n\[data-od-id="hero"\]/g) ?? [];
     expect(blockMatches).toHaveLength(1);
     // Stripping with empty css must NOT touch the script literal.
     const stripped = applyInspectOverridesToSource(sourceWithLiteral, '');
-    expect(stripped).toContain('const banner = "<style data-od-inspect-overrides>color: red</style>";');
+    expect(stripped).toContain('const banner = "<style data-sw-inspect-overrides>color: red</style>";');
     // The script-internal literal is the only mention of the marker after
     // stripping — the splicer must not have inserted or kept any real
     // override block.
-    const allMatches = stripped.match(/data-od-inspect-overrides/g) ?? [];
+    const allMatches = stripped.match(/data-sw-inspect-overrides/g) ?? [];
     expect(allMatches).toHaveLength(1);
   });
 
   // Regression for nexu-io/open-design#362: the splicer must look at real
   // attribute names, not just substring-match the marker text against the
-  // whole opening tag. A `\bdata-od-inspect-overrides\b` regex over the
+  // whole opening tag. A `\bdata-sw-inspect-overrides\b` regex over the
   // full tag matches both a longer attribute name (`-note` suffix) and the
   // marker spelled inside another attribute's value, so a plain `<style>`
   // documenting the override block in a `title` tooltip or a sibling note
@@ -11163,24 +11163,24 @@ describe('applyInspectOverridesToSource', () => {
     const userBlock = `body { background: red !important }`;
     const sourceWithLongerName =
       `<!doctype html><html><head>` +
-      // attribute is named data-od-inspect-overrides-note, NOT the marker.
+      // attribute is named data-sw-inspect-overrides-note, NOT the marker.
       // The note shouldn't be treated as an Inspect-owned style block.
-      `<style data-od-inspect-overrides-note="docs">${userBlock}</style>` +
+      `<style data-sw-inspect-overrides-note="docs">${userBlock}</style>` +
       `<title>X</title></head><body><main data-od-id="hero">Hi</main></body></html>`;
     const next = applyInspectOverridesToSource(sourceWithLongerName, css2);
     // The user's style with the longer attribute name must survive in the
     // output verbatim (with both the attribute and the body intact).
-    expect(next).toContain('<style data-od-inspect-overrides-note="docs">');
+    expect(next).toContain('<style data-sw-inspect-overrides-note="docs">');
     expect(next).toContain(userBlock);
     // Exactly one real override block lands before </head>.
-    const blockMatches = next.match(/<style data-od-inspect-overrides>/g) ?? [];
+    const blockMatches = next.match(/<style data-sw-inspect-overrides>/g) ?? [];
     expect(blockMatches).toHaveLength(1);
     // Stripping with empty CSS still leaves the user's longer-name block
     // alone — there was no real override block to remove.
     const stripped = applyInspectOverridesToSource(sourceWithLongerName, '');
-    expect(stripped).toContain('<style data-od-inspect-overrides-note="docs">');
+    expect(stripped).toContain('<style data-sw-inspect-overrides-note="docs">');
     expect(stripped).toContain(userBlock);
-    expect(stripped).not.toContain('<style data-od-inspect-overrides>');
+    expect(stripped).not.toContain('<style data-sw-inspect-overrides>');
   });
 
   it('does not strip <style> blocks that only mention the marker inside an attribute value', () => {
@@ -11188,34 +11188,34 @@ describe('applyInspectOverridesToSource', () => {
     const userBlock = `body { background: red !important }`;
     const sourceWithMarkerInValue =
       `<!doctype html><html><head>` +
-      // The literal text data-od-inspect-overrides appears as an attribute
+      // The literal text data-sw-inspect-overrides appears as an attribute
       // VALUE on a normal <style title="..."> — there is no real override
       // marker here, so the splicer must keep the block.
-      `<style title="data-od-inspect-overrides">${userBlock}</style>` +
+      `<style title="data-sw-inspect-overrides">${userBlock}</style>` +
       `<title>X</title></head><body><main data-od-id="hero">Hi</main></body></html>`;
     const next = applyInspectOverridesToSource(sourceWithMarkerInValue, css2);
-    expect(next).toContain('<style title="data-od-inspect-overrides">');
+    expect(next).toContain('<style title="data-sw-inspect-overrides">');
     expect(next).toContain(userBlock);
-    const blockMatches = next.match(/<style data-od-inspect-overrides>/g) ?? [];
+    const blockMatches = next.match(/<style data-sw-inspect-overrides>/g) ?? [];
     expect(blockMatches).toHaveLength(1);
     const stripped = applyInspectOverridesToSource(sourceWithMarkerInValue, '');
-    expect(stripped).toContain('<style title="data-od-inspect-overrides">');
+    expect(stripped).toContain('<style title="data-sw-inspect-overrides">');
     expect(stripped).toContain(userBlock);
-    expect(stripped).not.toContain('<style data-od-inspect-overrides>');
+    expect(stripped).not.toContain('<style data-sw-inspect-overrides>');
   });
 
-  it('still strips a real <style data-od-inspect-overrides> block with assigned value', () => {
+  it('still strips a real <style data-sw-inspect-overrides> block with assigned value', () => {
     // The marker is allowed both as a boolean attribute and with an
-    // assigned value (`<style data-od-inspect-overrides="">`). The splicer
+    // assigned value (`<style data-sw-inspect-overrides="">`). The splicer
     // must treat both as the override block, not just the boolean shape.
     const sourceWithValuedMarker =
       `<!doctype html><html><head>` +
-      `<style data-od-inspect-overrides="">` +
+      `<style data-sw-inspect-overrides="">` +
       `[data-od-id="hero"] { color: #ff0000 !important }` +
       `</style>` +
       `<title>X</title></head><body></body></html>`;
     const stripped = applyInspectOverridesToSource(sourceWithValuedMarker, '');
-    expect(stripped).not.toContain('data-od-inspect-overrides');
+    expect(stripped).not.toContain('data-sw-inspect-overrides');
     expect(stripped).not.toContain('color: #ff0000');
   });
 
@@ -11231,7 +11231,7 @@ describe('applyInspectOverridesToSource', () => {
     // Override block lands before the REAL </head>, which is after the
     // </title>'s close. The title-internal `</head>` must not be the
     // chosen insertion point.
-    const blockIdx = next.indexOf('<style data-od-inspect-overrides>');
+    const blockIdx = next.indexOf('<style data-sw-inspect-overrides>');
     const titleCloseIdx = next.indexOf('</title>');
     const realHeadCloseIdx = next.indexOf('</head>', titleCloseIdx);
     expect(blockIdx).toBeGreaterThan(titleCloseIdx);
@@ -11371,7 +11371,7 @@ describe('parseInspectOverridesFromSource', () => {
   it('parses an existing override block into the host map', () => {
     const source =
       `<!doctype html><html><head>` +
-      `<style data-od-inspect-overrides>` +
+      `<style data-sw-inspect-overrides>` +
       `[data-od-id="hero"] { color: #ff0000 !important; font-size: 18px !important }` +
       `\n[data-screen-label="01 Cover"] { background-color: #000 !important }` +
       `</style></head><body></body></html>`;
@@ -11384,15 +11384,15 @@ describe('parseInspectOverridesFromSource', () => {
 
   it('aggregates rules across multiple persisted blocks', () => {
     const source =
-      `<style data-od-inspect-overrides>[data-od-id="a"] { color: #111 !important }</style>` +
-      `<style data-od-inspect-overrides>[data-od-id="b"] { color: #222 !important }</style>`;
+      `<style data-sw-inspect-overrides>[data-od-id="a"] { color: #111 !important }</style>` +
+      `<style data-sw-inspect-overrides>[data-od-id="b"] { color: #222 !important }</style>`;
     const map = parseInspectOverridesFromSource(source);
     expect(Object.keys(map).sort()).toEqual(['a', 'b']);
   });
 
   it('drops disallowed properties and rules whose only declarations are unsafe', () => {
     const source =
-      `<style data-od-inspect-overrides>` +
+      `<style data-sw-inspect-overrides>` +
       `[data-od-id="hero"] { position: absolute !important; color: #fff !important }` +
       `[data-od-id="bad"] { background: red } ` +
       `</style>`;
@@ -11403,7 +11403,7 @@ describe('parseInspectOverridesFromSource', () => {
 
   it('refuses elementIds whose characters could break out of the attr value', () => {
     const hostile =
-      `<style data-od-inspect-overrides>` +
+      `<style data-sw-inspect-overrides>` +
       `[data-od-id="\"><script>alert(1)</script>"] { color: #fff !important }` +
       `</style>`;
     expect(parseInspectOverridesFromSource(hostile)).toEqual({});
@@ -11417,7 +11417,7 @@ describe('parseInspectOverridesFromSource', () => {
     // seed phantom rules and a later Save-to-source would write CSS the user
     // never created.
     const phantomBlock =
-      `<style data-od-inspect-overrides>` +
+      `<style data-sw-inspect-overrides>` +
       `[data-od-id="hero"] { color: #ff0000 !important }` +
       `</style>`;
     const source =
@@ -11431,7 +11431,7 @@ describe('parseInspectOverridesFromSource', () => {
   });
 
   // Regression for nexu-io/open-design#362: hydration must require an
-  // actual `data-od-inspect-overrides` attribute name, not a boundary-only
+  // actual `data-sw-inspect-overrides` attribute name, not a boundary-only
   // substring match against the whole opening tag. Otherwise a sibling
   // attribute name with `-note` suffix or a tooltip whose value contains
   // the marker text would seed phantom overrides into the host map and
@@ -11439,7 +11439,7 @@ describe('parseInspectOverridesFromSource', () => {
   it('does not seed phantom overrides from a longer attribute name', () => {
     const source =
       `<!doctype html><html><head>` +
-      `<style data-od-inspect-overrides-note="docs">` +
+      `<style data-sw-inspect-overrides-note="docs">` +
       `[data-od-id="hero"] { color: #ff0000 !important }` +
       `</style></head><body></body></html>`;
     expect(parseInspectOverridesFromSource(source)).toEqual({});
@@ -11448,7 +11448,7 @@ describe('parseInspectOverridesFromSource', () => {
   it('does not seed phantom overrides when the marker text only appears in an attribute value', () => {
     const source =
       `<!doctype html><html><head>` +
-      `<style title="data-od-inspect-overrides">` +
+      `<style title="data-sw-inspect-overrides">` +
       `[data-od-id="hero"] { color: #ff0000 !important }` +
       `</style></head><body></body></html>`;
     expect(parseInspectOverridesFromSource(source)).toEqual({});
@@ -11456,13 +11456,13 @@ describe('parseInspectOverridesFromSource', () => {
 
   it('still parses a real override block when raw-text literals also mention one', () => {
     const phantomBlock =
-      `<style data-od-inspect-overrides>` +
+      `<style data-sw-inspect-overrides>` +
       `[data-od-id="phantom"] { color: #ff0000 !important }` +
       `</style>`;
     const source =
       `<!doctype html><html><head>` +
       `<script>const tmpl = \`${phantomBlock}\`;</script>` +
-      `<style data-od-inspect-overrides>` +
+      `<style data-sw-inspect-overrides>` +
       `[data-od-id="hero"] { color: #00ff00 !important }` +
       `</style>` +
       `</head><body></body></html>`;

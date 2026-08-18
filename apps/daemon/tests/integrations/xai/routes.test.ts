@@ -138,7 +138,7 @@ describe('xai-routes', () => {
   const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeEach(async () => {
-    projectRoot = await mkdtemp(path.join(tmpdir(), 'od-xai-routes-'));
+    projectRoot = await mkdtemp(path.join(tmpdir(), 'sw-xai-routes-'));
     delete process.env.SW_MEDIA_CONFIG_DIR;
     delete process.env.SW_DATA_DIR;
     onCallbackHolder.current = null;
@@ -641,7 +641,7 @@ describe('xai-routes — cross-origin guard', () => {
   let app: TestApp;
 
   beforeEach(async () => {
-    projectRoot = await mkdtemp(path.join(tmpdir(), 'od-xai-routes-co-'));
+    projectRoot = await mkdtemp(path.join(tmpdir(), 'sw-xai-routes-co-'));
     onCallbackHolder.current = null;
     startMock.mockClear();
     stopMock.mockClear();

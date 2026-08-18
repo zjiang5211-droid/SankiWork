@@ -85,7 +85,7 @@ describe('update apply observations', () => {
   it.each(['installer', 'payload'] as const)(
     'submits one sanitized %s analytics event and marks delivery metadata',
     async (artifactType) => {
-    const dataRoot = await mkdtemp(path.join(tmpdir(), 'od-update-observe-'));
+    const dataRoot = await mkdtemp(path.join(tmpdir(), 'sw-update-observe-'));
     const capture = vi.fn();
     try {
       const summaryPath = await writeSummary(dataRoot, pendingSummary({ artifactType }));
@@ -150,7 +150,7 @@ describe('update apply observations', () => {
   });
 
   it('marks no-consent observations without submitting analytics', async () => {
-    const dataRoot = await mkdtemp(path.join(tmpdir(), 'od-update-observe-'));
+    const dataRoot = await mkdtemp(path.join(tmpdir(), 'sw-update-observe-'));
     const capture = vi.fn();
     try {
       const summaryPath = await writeSummary(dataRoot, pendingSummary());

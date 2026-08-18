@@ -41,7 +41,7 @@ test('deepseek entry declares codewhale as a fallback bin (issue #2983)', () => 
 });
 
 test('resolveAgentExecutable finds Grok Build in SW_AGENT_HOME on Windows', () => {
-  const home = mkdtempSync(join(tmpdir(), 'od-grok-build-home-'));
+  const home = mkdtempSync(join(tmpdir(), 'sw-grok-build-home-'));
   try {
     return withEnvSnapshot(['PATH', 'PATHEXT', 'SW_AGENT_HOME'], () =>
       withPlatform('win32', () => {
@@ -71,7 +71,7 @@ test('resolveAgentExecutable finds Grok Build in SW_AGENT_HOME on Windows', () =
 fsTest(
   'resolveAgentExecutable uses packaged built-in Vela for AMR with the bundled OpenCode companion tree',
   () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-amr-built-in-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-amr-built-in-'));
     try {
       return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], () => {
         const resourceRoot = join(root, 'resources', 'sankiwork');
@@ -106,7 +106,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable does not select packaged built-in Vela when OpenCode is missing',
   () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-amr-built-in-no-opencode-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-amr-built-in-no-opencode-'));
     try {
       return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], () => {
         const resourceRoot = join(root, 'resources', 'sankiwork');
@@ -132,7 +132,7 @@ fsTest(
 fsTest(
   'resolveAmrOpenCodeExecutable prefers the selected Vela companion over a PATH wrapper',
   () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-amr-selected-vela-companion-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-amr-selected-vela-companion-'));
     try {
       return withEnvSnapshot(
         ['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_BIN', 'VELA_OPENCODE_BIN'],
@@ -178,7 +178,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable prefers configured VELA_BIN over packaged built-in Vela',
   () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-amr-built-in-precedence-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-amr-built-in-precedence-'));
     try {
       return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT'], () => {
         const resourceRoot = join(root, 'resources', 'sankiwork');
@@ -210,7 +210,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable honors inherited VELA_BIN before PATH fallback',
   () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-amr-env-bin-precedence-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-amr-env-bin-precedence-'));
     try {
       return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_BIN'], () => {
         const pathBin = join(root, 'path-bin');
@@ -240,7 +240,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable falls back to PATH Vela when packaged built-in Vela is absent',
   () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-amr-path-fallback-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-amr-path-fallback-'));
     try {
       return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT'], () => {
         const pathBin = join(root, 'path-bin');
@@ -265,7 +265,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable prefers def.bin over fallbackBins when bin is on PATH',
   () => {
-    const dir = mkdtempSync(join(tmpdir(), 'od-agents-resolve-'));
+    const dir = mkdtempSync(join(tmpdir(), 'sw-agents-resolve-'));
     try {
       writeFileSync(join(dir, 'claude'), '');
       writeFileSync(join(dir, 'openclaude'), '');
@@ -288,7 +288,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable falls back through fallbackBins when def.bin is missing',
   () => {
-    const dir = mkdtempSync(join(tmpdir(), 'od-agents-resolve-'));
+    const dir = mkdtempSync(join(tmpdir(), 'sw-agents-resolve-'));
     try {
       // Only `openclaude` is installed (Claude Code fork-only setup).
       writeFileSync(join(dir, 'openclaude'), '');
@@ -310,7 +310,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable returns null when neither def.bin nor any fallback is on PATH',
   () => {
-    const dir = mkdtempSync(join(tmpdir(), 'od-agents-resolve-'));
+    const dir = mkdtempSync(join(tmpdir(), 'sw-agents-resolve-'));
     try {
       process.env.SW_AGENT_HOME = dir;
       process.env.PATH = dir;
@@ -329,7 +329,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable searches mise node bins when PATH is minimal',
   () => {
-    const home = mkdtempSync(join(tmpdir(), 'od-agents-home-'));
+    const home = mkdtempSync(join(tmpdir(), 'sw-agents-home-'));
     try {
       const dir = join(
         home,
@@ -365,7 +365,7 @@ fsTest(
     // Guard against a regression that would require every AGENT_DEF to
     // declare fallbackBins. Most agents (codex / gemini / opencode / ...)
     // only have a single binary name and must keep working unchanged.
-    const dir = mkdtempSync(join(tmpdir(), 'od-agents-resolve-'));
+    const dir = mkdtempSync(join(tmpdir(), 'sw-agents-resolve-'));
     try {
       writeFileSync(join(dir, 'codex'), '');
       chmodSync(join(dir, 'codex'), 0o755);
@@ -388,7 +388,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable searches ~/.npm-global/bin under a minimal GUI-launched PATH (issue #442)',
   () => {
-    const home = mkdtempSync(join(tmpdir(), 'od-agents-npm-global-'));
+    const home = mkdtempSync(join(tmpdir(), 'sw-agents-npm-global-'));
     try {
       const dir = join(home, '.npm-global', 'bin');
       mkdirSync(dir, { recursive: true });
@@ -412,7 +412,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable also searches ~/.npm-packages/bin (alt npm prefix)',
   () => {
-    const home = mkdtempSync(join(tmpdir(), 'od-agents-npm-packages-'));
+    const home = mkdtempSync(join(tmpdir(), 'sw-agents-npm-packages-'));
     try {
       const dir = join(home, '.npm-packages', 'bin');
       mkdirSync(dir, { recursive: true });
@@ -432,7 +432,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable searches ~/.vite-plus/bin under a minimal GUI-launched PATH (vp global install)',
   () => {
-    const home = mkdtempSync(join(tmpdir(), 'od-agents-vp-home-'));
+    const home = mkdtempSync(join(tmpdir(), 'sw-agents-vp-home-'));
     try {
       const dir = join(home, '.vite-plus', 'bin');
       mkdirSync(dir, { recursive: true });
@@ -452,7 +452,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable honors $VP_HOME/bin when the custom Vite+ home is outside PATH',
   () => {
-    const vpHome = mkdtempSync(join(tmpdir(), 'od-agents-vp-custom-'));
+    const vpHome = mkdtempSync(join(tmpdir(), 'sw-agents-vp-custom-'));
     try {
       const dir = join(vpHome, 'bin');
       mkdirSync(dir, { recursive: true });
@@ -479,8 +479,8 @@ fsTest(
 fsTest(
   'SW_AGENT_HOME isolates resolution from $NPM_CONFIG_PREFIX leakage',
   () => {
-    const sandbox = mkdtempSync(join(tmpdir(), 'od-agents-sandbox-'));
-    const realPrefix = mkdtempSync(join(tmpdir(), 'od-agents-real-prefix-'));
+    const sandbox = mkdtempSync(join(tmpdir(), 'sw-agents-sandbox-'));
+    const realPrefix = mkdtempSync(join(tmpdir(), 'sw-agents-real-prefix-'));
     const realPrefixBin = join(realPrefix, 'bin');
     try {
       // Sandbox is empty — gemini does not exist under SW_AGENT_HOME.
@@ -516,9 +516,9 @@ fsTest(
 fsTest(
   'SW_SANDBOX_MODE scopes fallback toolchain discovery to SW_DATA_DIR',
   () => {
-    const dataDir = mkdtempSync(join(tmpdir(), 'od-agents-sandbox-data-'));
-    const emptyPath = mkdtempSync(join(tmpdir(), 'od-agents-empty-path-'));
-    const realPrefix = mkdtempSync(join(tmpdir(), 'od-agents-real-prefix-'));
+    const dataDir = mkdtempSync(join(tmpdir(), 'sw-agents-sandbox-data-'));
+    const emptyPath = mkdtempSync(join(tmpdir(), 'sw-agents-empty-path-'));
+    const realPrefix = mkdtempSync(join(tmpdir(), 'sw-agents-real-prefix-'));
     const realPrefixBin = join(realPrefix, 'bin');
     try {
       return withEnvSnapshot(
@@ -554,10 +554,10 @@ fsTest(
   'SW_SANDBOX_MODE resolves relative SW_DATA_DIR before fallback toolchain discovery',
   () => {
     const projectRoot = resolve(process.cwd(), '../..');
-    const parent = mkdtempSync(join(tmpdir(), 'od-agents-relative-data-parent-'));
+    const parent = mkdtempSync(join(tmpdir(), 'sw-agents-relative-data-parent-'));
     const dataDir = join(parent, 'data');
     const sandboxBin = join(dataDir, 'sandbox', 'agent-home', '.local', 'bin');
-    const emptyPath = mkdtempSync(join(tmpdir(), 'od-agents-empty-path-'));
+    const emptyPath = mkdtempSync(join(tmpdir(), 'sw-agents-empty-path-'));
     try {
       return withEnvSnapshot(
         ['PATH', 'SW_AGENT_HOME', 'SW_DATA_DIR', 'SW_SANDBOX_MODE', 'NPM_CONFIG_PREFIX'],
@@ -587,8 +587,8 @@ fsTest(
 fsTest(
   'SW_AGENT_HOME isolates resolution from $VP_HOME leakage',
   () => {
-    const sandbox = mkdtempSync(join(tmpdir(), 'od-agents-vp-sandbox-'));
-    const realVpHome = mkdtempSync(join(tmpdir(), 'od-agents-vp-real-home-'));
+    const sandbox = mkdtempSync(join(tmpdir(), 'sw-agents-vp-sandbox-'));
+    const realVpHome = mkdtempSync(join(tmpdir(), 'sw-agents-vp-real-home-'));
     const realVpBin = join(realVpHome, 'bin');
     try {
       mkdirSync(realVpBin, { recursive: true });
@@ -621,7 +621,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable finds codex inside ~/Applications/Codex.app when PATH is empty',
   () => {
-    const home = mkdtempSync(join(tmpdir(), 'od-codex-app-bundle-'));
+    const home = mkdtempSync(join(tmpdir(), 'sw-codex-app-bundle-'));
     try {
       return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'], () =>
         withPlatform('darwin', () => {
@@ -659,7 +659,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable prefers a PATH codex over the Codex.app bundle',
   () => {
-    const home = mkdtempSync(join(tmpdir(), 'od-codex-app-bundle-precedence-'));
+    const home = mkdtempSync(join(tmpdir(), 'sw-codex-app-bundle-precedence-'));
     try {
       return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'], () =>
         withPlatform('darwin', () => {
@@ -703,7 +703,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable ignores Codex.app bundle on non-darwin platforms',
   () => {
-    const home = mkdtempSync(join(tmpdir(), 'od-codex-app-bundle-linux-'));
+    const home = mkdtempSync(join(tmpdir(), 'sw-codex-app-bundle-linux-'));
     try {
       return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'], () =>
         withPlatform('linux', () => {
@@ -741,7 +741,7 @@ fsTest(
 fsTest(
   'resolveAgentExecutable does not apply the Codex.app fallback to non-codex agents',
   () => {
-    const home = mkdtempSync(join(tmpdir(), 'od-codex-app-bundle-id-'));
+    const home = mkdtempSync(join(tmpdir(), 'sw-codex-app-bundle-id-'));
     try {
       return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_SANDBOX_MODE', 'SW_DATA_DIR'], () =>
         withPlatform('darwin', () => {

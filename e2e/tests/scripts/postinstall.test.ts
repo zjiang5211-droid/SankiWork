@@ -123,7 +123,7 @@ function distDelegatingBinTargets(directory: string, manifest: unknown): string[
 }
 
 function createSandbox(): string {
-  const sandbox = mkdtempSync(join(tmpdir(), "od-postinstall-"));
+  const sandbox = mkdtempSync(join(tmpdir(), "sw-postinstall-"));
   mkdirSync(join(sandbox, "scripts"), { recursive: true });
   writeFileSync(join(sandbox, "scripts", "postinstall.mjs"), readFileSync(postinstallPath));
   return sandbox;

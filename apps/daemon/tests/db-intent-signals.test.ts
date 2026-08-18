@@ -27,7 +27,7 @@ describe('conversation intent-signal latch', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-intent-signals-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-intent-signals-'));
   });
 
   afterEach(() => {

@@ -1038,7 +1038,7 @@ function PreviewViewportControls({
     <div className="viewer-viewport-switcher" ref={menuRef}>
       <button
         type="button"
-        className={`viewer-action viewer-viewport-trigger${open ? '' : ' od-tooltip'}`}
+        className={`viewer-action viewer-viewport-trigger${open ? '' : ' sw-tooltip'}`}
         aria-label={t('fileViewer.viewportAria')}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -2274,7 +2274,7 @@ export function LiveArtifactViewer({
       ))(
         <div className="present-wrap chrome-present-wrap" ref={presentWrapRef}>
           <button
-            className="chrome-action chrome-action-secondary chrome-action-icon present-trigger od-tooltip"
+            className="chrome-action chrome-action-secondary chrome-action-icon present-trigger sw-tooltip"
             aria-haspopup="menu"
             aria-expanded={presentMenuOpen}
             aria-label={t('fileViewer.present')}
@@ -2318,7 +2318,7 @@ export function LiveArtifactViewer({
         <div className="viewer-toolbar-left">
             <button
               type="button"
-              className="icon-only od-tooltip"
+              className="icon-only sw-tooltip"
               onClick={() => setReloadKey((n) => n + 1)}
               title={`${t('fileViewer.reload')} ${t('fileViewer.preview')}`}
               data-tooltip={`${t('fileViewer.reload')} ${t('fileViewer.preview')}`}
@@ -2356,7 +2356,7 @@ export function LiveArtifactViewer({
             <div className="zoom-menu viewer-toolbar-zoom" ref={zoomMenuRef}>
               <button
                 type="button"
-                className="viewer-action zoom-trigger od-tooltip"
+                className="viewer-action zoom-trigger sw-tooltip"
                 aria-haspopup="menu"
                 aria-expanded={zoomMenuOpen}
                 title={t('fileViewer.resetZoom')}
@@ -3569,7 +3569,7 @@ function FileVersionManagerModal({
       if (!(target instanceof Element)) return;
       if (
         target.closest(
-          '.artifact-version-panel, .file-version-download-menu, .file-version-restore-confirm, [data-od-version-entry]',
+          '.artifact-version-panel, .file-version-download-menu, .file-version-restore-confirm, [data-sw-version-entry]',
         )
       ) {
         return;
@@ -5272,7 +5272,7 @@ function InspectPanel({
 // Inspect-mode override entry as held in the host's authoritative map and as
 // it travels in od:inspect-overrides messages. The host's persisted map is
 // owned and mutated only by host-driven onApply / reset actions plus the
-// initial parse of the source's <style data-od-inspect-overrides> block;
+// initial parse of the source's <style data-sw-inspect-overrides> block;
 // inbound iframe messages are treated as preview acknowledgements, never as
 // save input. Artifact code rendered with scripts enabled can call
 // window.parent.postMessage with a forged payload — ev.source still points
@@ -5409,7 +5409,7 @@ export function updateInspectOverride(
   return nextMap;
 }
 
-// Parse any persisted <style data-od-inspect-overrides> blocks in the
+// Parse any persisted <style data-sw-inspect-overrides> blocks in the
 // artifact source into the host's authoritative override map. The host owns
 // this map and only mutates it from onApply / reset actions plus this
 // initial hydration step — inbound iframe od:inspect-overrides messages are
@@ -5422,8 +5422,8 @@ export function updateInspectOverride(
 // same value sanitizer, same selector kinds, so what the iframe applies and
 // what the host persists stay in lock-step. Pure string transform; no DOM.
 //
-// HTML-aware: enumerates `<style data-od-inspect-overrides>` elements via
-// the same walker used by the splicer, so a `<style data-od-inspect-overrides>`
+// HTML-aware: enumerates `<style data-sw-inspect-overrides>` elements via
+// the same walker used by the splicer, so a `<style data-sw-inspect-overrides>`
 // literal living inside a `<script>`, `<style>` (e.g. CSS comment), `<textarea>`,
 // `<title>`, or HTML comment is not mistaken for a real override block. Without
 // that exclusion, useEffect would seed the host map from forged/quoted text and
@@ -5460,7 +5460,7 @@ export function parseInspectOverridesFromSource(source: string): InspectOverride
 
 // HTML5 raw-text and escapable-raw-text elements: the parser does not
 // interpret markup inside their contents, so a literal `</head>` or
-// `<style data-od-inspect-overrides>` written as text inside one of them
+// `<style data-sw-inspect-overrides>` written as text inside one of them
 // must NOT be treated as a real tag. Without this exclusion, a regex-only
 // splicer can match `</head>` inside an inline <script> string literal or
 // a CSS comment and inject the override block into the middle of
@@ -5469,17 +5469,17 @@ export function parseInspectOverridesFromSource(source: string): InspectOverride
 const RAW_TEXT_INSPECT_ELEMENTS = new Set(['script', 'style', 'textarea', 'title']);
 
 // Decide whether a `<style ...>` opening tag actually carries a real
-// `data-od-inspect-overrides` attribute, as opposed to merely mentioning
+// `data-sw-inspect-overrides` attribute, as opposed to merely mentioning
 // the marker text inside another attribute name or value. The naive
-// `\bdata-od-inspect-overrides\b` test against the whole tag text is
+// `\bdata-sw-inspect-overrides\b` test against the whole tag text is
 // over-broad in two cases:
 //
 //   1. A longer attribute name that has the marker as a prefix, e.g.
-//      `<style data-od-inspect-overrides-note="docs">`. The `-` after
+//      `<style data-sw-inspect-overrides-note="docs">`. The `-` after
 //      `overrides` is a non-word character, so `\b` matches and the tag
 //      gets mis-stripped on save / mis-parsed on hydration.
 //   2. The marker spelled inside an attribute value, e.g.
-//      `<style title="data-od-inspect-overrides">`. The whole tag text
+//      `<style title="data-sw-inspect-overrides">`. The whole tag text
 //      contains the literal, so the regex matches even though the actual
 //      attribute names are `title` only.
 //
@@ -5488,7 +5488,7 @@ const RAW_TEXT_INSPECT_ELEMENTS = new Set(['script', 'style', 'textarea', 'title
 // overrides into the host map even though the artifact has no real
 // override block. So we walk attributes proper, lower-casing each name
 // and skipping any quoted value, and report a hit only when one of those
-// names is exactly `data-od-inspect-overrides` (boolean attribute or
+// names is exactly `data-sw-inspect-overrides` (boolean attribute or
 // assigned value, both legal HTML for our marker).
 function styleTagIsInspectOverrideBlock(tagText: string): boolean {
   const start = /^<style/i.exec(tagText);
@@ -5526,7 +5526,7 @@ function styleTagIsInspectOverrideBlock(tagText: string): boolean {
         }
       }
     }
-    if (name === 'data-od-inspect-overrides') return true;
+    if (name === 'data-sw-inspect-overrides') return true;
   }
   return false;
 }
@@ -5556,7 +5556,7 @@ type InspectSpliceScan = {
   headOpenEnd: number;
   // Position in `out` at the first top-level `</head>` close tag, or -1.
   headCloseStart: number;
-  // Raw inner-text of every real `<style data-od-inspect-overrides>` element
+  // Raw inner-text of every real `<style data-sw-inspect-overrides>` element
   // discovered during the walk, in source order. Excludes occurrences inside
   // raw-text element contents and HTML comments. Hydration parses these
   // bodies for the host map; the splicer ignores them.
@@ -5564,7 +5564,7 @@ type InspectSpliceScan = {
 };
 
 // Walk `source` and produce a copy with every existing
-// `<style data-od-inspect-overrides>...</style>` block removed, while
+// `<style data-sw-inspect-overrides>...</style>` block removed, while
 // remembering where the real (non-raw-text) `<head>` boundaries land in
 // the output. The walker honours HTML comment, doctype/processing
 // instruction, and raw-text element boundaries so the splicer can ignore
@@ -5676,7 +5676,7 @@ function stripInspectOverridesAndIndex(source: string): InspectSpliceScan {
 //
 // HTML-aware: the underlying scan ignores comments and raw-text element
 // contents (script / style / textarea / title), so a literal `</head>` or
-// `<style data-od-inspect-overrides>` written inside an inline script or
+// `<style data-sw-inspect-overrides>` written inside an inline script or
 // style block does not trick the splicer into stripping user code or
 // inserting the override block in the middle of JavaScript/CSS.
 //
@@ -5686,7 +5686,7 @@ export function applyInspectOverridesToSource(source: string, css: string): stri
   const trimmed = css.trim();
   const { out, headOpenEnd, headCloseStart } = stripInspectOverridesAndIndex(source);
   if (!trimmed) return out;
-  const block = `<style data-od-inspect-overrides>\n${trimmed}\n</style>\n`;
+  const block = `<style data-sw-inspect-overrides>\n${trimmed}\n</style>\n`;
   if (headCloseStart >= 0) {
     return out.slice(0, headCloseStart) + block + out.slice(headCloseStart);
   }
@@ -6770,7 +6770,7 @@ function ReactComponentViewer({
         <div className="viewer-toolbar-left">
           <button
             type="button"
-            className="icon-only od-tooltip"
+            className="icon-only sw-tooltip"
             onClick={() => setReloadKey((n) => n + 1)}
             title={`${t('fileViewer.reload')} ${t('fileViewer.preview')}`}
             data-tooltip={`${t('fileViewer.reload')} ${t('fileViewer.preview')}`}
@@ -6819,8 +6819,8 @@ function ReactComponentViewer({
                     // the accent fill and flatten that distinction.
                     className={
                       tab === 'export'
-                        ? 'viewer-action primary viewer-action-export od-tooltip'
-                        : 'viewer-action od-tooltip'
+                        ? 'viewer-action primary viewer-action-export sw-tooltip'
+                        : 'viewer-action sw-tooltip'
                     }
                     aria-haspopup="menu"
                     aria-expanded={shareMenuOpen && unifiedActionTab === tab}
@@ -6870,7 +6870,7 @@ function ReactComponentViewer({
                           <span>{t('fileViewer.workspaceShareTitle')}</span>
                           <button
                             type="button"
-                            className="share-menu-help od-tooltip"
+                            className="share-menu-help sw-tooltip"
                             data-testid="workspace-access-help"
                             aria-label={shareAccess === 'private'
                               ? t('fileViewer.workspaceSharePrivateDescription')
@@ -6951,7 +6951,7 @@ function ReactComponentViewer({
                           <span>{t('fileViewer.shareMenuPublishViaOd')}</span>
                           <button
                             type="button"
-                            className="share-menu-help od-tooltip"
+                            className="share-menu-help sw-tooltip"
                             data-testid="publish-help"
                             aria-label={t('fileViewer.publishSingleFileDescription')}
                             data-tooltip={t('fileViewer.publishSingleFileDescription')}
@@ -8437,7 +8437,7 @@ function HtmlViewer({
     const canvas = commentPreviewCanvasNode;
     if (!previewMeasurementFrameIsUsable({
       connected: target.isConnected,
-      active: target.dataset.odActive === 'true',
+      active: target.dataset.swActive === 'true',
       frameRect: target.getBoundingClientRect(),
       canvasRect: canvas?.getBoundingClientRect() ?? target.getBoundingClientRect(),
     })) {
@@ -8468,7 +8468,7 @@ function HtmlViewer({
     target: HTMLIFrameElement | null,
   ) => {
     if (!workspaceActive) return;
-    if (!target || target !== iframeRef.current || target.dataset.odActive !== 'true') return;
+    if (!target || target !== iframeRef.current || target.dataset.swActive !== 'true') return;
     previewContentMeasurementGenerationSequenceRef.current += 1;
     previewContentMeasurementGenerationRef.current =
       `${previewContentMeasurementHostInstanceRef.current}:generation-${previewContentMeasurementGenerationSequenceRef.current}`;
@@ -9575,7 +9575,7 @@ function HtmlViewer({
   const annotationFreezeActive = drawOverlayOpen || boardMode || inspectMode;
   // Freeze the iframe input on the snapshot taken at Edit-mode entry. Any
   // source rewrite during edit (1.5s debounced set-style patches) stays
-  // invisible to the iframe — live updates flow through od-edit-preview-style
+  // invisible to the iframe — live updates flow through sw-edit-preview-style
   // postMessage instead, so the canvas never has to reload.
   useEffect(() => {
     if (manualEditMode && manualEditFrozenSource === null && livePreviewSource != null) {
@@ -9958,7 +9958,7 @@ function HtmlViewer({
       : srcDocPreviewIframeRef.current;
     iframeRef.current = activeFrame;
     if (
-      activeFrame?.dataset.odLoadedPreviewEpoch === transportPreviewMeasurementDocumentEpoch
+      activeFrame?.dataset.swLoadedPreviewEpoch === transportPreviewMeasurementDocumentEpoch
     ) {
       beginDesktopPreviewContentMeasurementGeneration(activeFrame);
       scheduleDesktopPreviewContentMeasure(activeFrame);
@@ -10162,9 +10162,9 @@ function HtmlViewer({
       // Always inject the manual-edit bridge into the PREVIEW srcDoc (not the
       // export path), so the document is byte-identical across preview /
       // comment / draw / edit. The bridge boots dormant (`enabled=false`) and
-      // only acts on the host's `od-edit-mode {enabled:true}` postMessage
+      // only acts on the host's `sw-edit-mode {enabled:true}` postMessage
       // (sent by syncBridgeModes), with all its handlers gated on `enabled`
-      // and its styles scoped to `html[data-od-edit-mode]`. Gating injection on
+      // and its styles scoped to `html[data-sw-edit-mode]`. Gating injection on
       // edit mode instead changed the srcdoc string on entering Edit, which
       // re-parses the whole document — the "reload from scratch on switch" the
       // user hit. Mirrors the always-on tweaks bridge rationale above.
@@ -10227,9 +10227,9 @@ function HtmlViewer({
       enabled: boardMode,
       mode: boardTool,
     }, '*');
-    win.postMessage({ type: 'od-edit-mode', enabled: manualEditMode }, '*');
+    win.postMessage({ type: 'sw-edit-mode', enabled: manualEditMode }, '*');
     win.postMessage({
-      type: 'od-edit-selected-target',
+      type: 'sw-edit-selected-target',
       id: manualEditMode ? selectedManualEditTarget?.id ?? null : null,
     }, '*');
     win.postMessage({ type: 'od:inspect-mode', enabled: inspectMode }, '*');
@@ -10843,7 +10843,7 @@ function HtmlViewer({
         !frame ||
         !previewMeasurementFrameIsUsable({
           connected: frame.isConnected,
-          active: frame.dataset.odActive === 'true',
+          active: frame.dataset.swActive === 'true',
           frameRect: frame.getBoundingClientRect(),
           canvasRect: commentPreviewCanvasNode?.getBoundingClientRect() ?? frame.getBoundingClientRect(),
         })
@@ -10962,7 +10962,7 @@ function HtmlViewer({
     ) {
       postAndConsumePreviewRuntimeState(target);
     }
-    win.postMessage({ type: 'od-edit-mode', enabled: manualEditMode }, '*');
+    win.postMessage({ type: 'sw-edit-mode', enabled: manualEditMode }, '*');
     postSelectedManualEditTargetToIframe(manualEditMode ? selectedManualEditTarget?.id ?? null : null);
   }, [
     manualEditMode,
@@ -10977,7 +10977,7 @@ function HtmlViewer({
     if (!workspaceActive) return false;
     const win = iframeRef.current?.contentWindow;
     if (!win) return false;
-    win.postMessage({ type: 'od-edit-preview-style', id, styles, version }, '*');
+    win.postMessage({ type: 'sw-edit-preview-style', id, styles, version }, '*');
     return true;
   }, [workspaceActive]);
 
@@ -10985,7 +10985,7 @@ function HtmlViewer({
     if (!workspaceActive) return;
     const win = target?.contentWindow;
     if (!win) return;
-    win.postMessage({ type: 'od-edit-selected-target', id }, '*');
+    win.postMessage({ type: 'sw-edit-selected-target', id }, '*');
   }
 
   function syncBridgeModes(target: HTMLIFrameElement | null = iframeRef.current) {
@@ -11354,10 +11354,10 @@ function HtmlViewer({
       // commit/settlement messages live offscreen; ignore fresh interactions.
       if (
         !workspaceActive
-        && data.type !== 'od-edit-text-commit'
-        && data.type !== 'od-edit-text-session'
+        && data.type !== 'sw-edit-text-commit'
+        && data.type !== 'sw-edit-text-session'
       ) return;
-      if (data.type === 'od-edit-targets' && Array.isArray(data.targets)) {
+      if (data.type === 'sw-edit-targets' && Array.isArray(data.targets)) {
         setManualEditTargets(data.targets);
         // Target broadcasts can be briefly empty while the iframe/save path is
         // settling; keep the user's inspector selection unless a fresh copy is
@@ -11369,12 +11369,12 @@ function HtmlViewer({
         if (selectedId) setTimeout(() => postSelectedManualEditTargetToIframe(selectedId), 0);
         return;
       }
-      if (data.type === 'od-edit-select') {
+      if (data.type === 'sw-edit-select') {
         setManualEditHoverTarget(null);
         void selectManualEditTarget(data.target);
         return;
       }
-      if (data.type === 'od-edit-hover') {
+      if (data.type === 'sw-edit-hover') {
         // While an inline text edit is live, hovering must not surface or switch
         // any affordance — that instability is the other half of #3646.
         if (manualEditTextSessionIdRef.current) return;
@@ -11387,7 +11387,7 @@ function HtmlViewer({
         );
         return;
       }
-      if (data.type === 'od-edit-background') {
+      if (data.type === 'sw-edit-background') {
         // Clicking empty canvas deselects and opens the compact page-styles
         // card — only meaningful for full HTML documents.
         setManualEditHoverTarget(null);
@@ -11397,7 +11397,7 @@ function HtmlViewer({
         }
         return;
       }
-      if (data.type === 'od-edit-text-commit') {
+      if (data.type === 'sw-edit-text-commit') {
         // Keep the apply promise reachable so any teardown (host- or
         // iframe-initiated) can await it and honor a failed save before tearing
         // down. It self-clears once resolved, keyed to identity so a newer
@@ -11435,7 +11435,7 @@ function HtmlViewer({
         })();
         return;
       }
-      if (data.type === 'od-edit-text-session') {
+      if (data.type === 'sw-edit-text-session') {
         const sessionId = String(data.id || '');
         if (data.active) {
           manualEditTextSessionIdRef.current = sessionId;
@@ -11458,7 +11458,7 @@ function HtmlViewer({
         // save is never silently torn down.
         return;
       }
-      if (data.type === 'od-edit-drag-commit') {
+      if (data.type === 'sw-edit-drag-commit') {
         // Free drag-to-reposition dropped: route the new translate() through
         // the same pending-style pipeline the inspector uses, so the panel's
         // Save persists it alongside every other edit in this session.
@@ -11669,7 +11669,7 @@ function HtmlViewer({
         })();
       };
       manualEditTextFinishRef.current = settle;
-      win.postMessage({ type: 'od-edit-text-finish', commit }, '*');
+      win.postMessage({ type: 'sw-edit-text-finish', commit }, '*');
       // Backstop a detached iframe so teardown can never hang; the ack path
       // clears this timer when it wins.
       timer = setTimeout(() => settle(false), 1500);
@@ -11754,7 +11754,7 @@ function HtmlViewer({
   function clearManualEditHover() {
     setManualEditHoverTarget(null);
     const win = iframeRef.current?.contentWindow;
-    if (win) win.postMessage({ type: 'od-edit-hover-reset' }, '*');
+    if (win) win.postMessage({ type: 'sw-edit-hover-reset' }, '*');
   }
 
   async function selectManualEditTarget(target: ManualEditTarget) {
@@ -12308,7 +12308,7 @@ function HtmlViewer({
       `minWidth=${PRESENTER_WINDOW_MIN_WIDTH}`,
       `minHeight=${PRESENTER_WINDOW_MIN_HEIGHT}`,
     ].join(',');
-    const popup = window.open('', `od-presenter-${projectId}-${file.name}`, popupFeatures);
+    const popup = window.open('', `sw-presenter-${projectId}-${file.name}`, popupFeatures);
     if (!popup) return;
     presenterWindowRef.current = popup;
     const html = buildSpeakerNotesPresenterHtml({
@@ -12384,7 +12384,7 @@ function HtmlViewer({
   }
 
   // Persist accumulated inspect overrides into the artifact source: replace
-  // (or insert) a single <style data-od-inspect-overrides> block in <head>.
+  // (or insert) a single <style data-sw-inspect-overrides> block in <head>.
   // The CSS body is serialized from the host's own override map, hydrated
   // from source on load and updated only by host-driven onApply / reset
   // callbacks. We deliberately do NOT round-trip through the iframe at save
@@ -14592,7 +14592,7 @@ function HtmlViewer({
               <span title={boardPreviewImage.file.name}>{boardPreviewImage.file.name}</span>
               <button
                 type="button"
-                className="icon-only od-tooltip"
+                className="icon-only sw-tooltip"
                 onClick={() => setBoardPreviewIndex(null)}
                 aria-label={t('common.close')}
                 title={t('common.close')}
@@ -14800,7 +14800,7 @@ function HtmlViewer({
           {showDeckThumbnailRail ? (
             <button
               type="button"
-              className="icon-only deck-thumbnail-toolbar-toggle od-tooltip"
+              className="icon-only deck-thumbnail-toolbar-toggle sw-tooltip"
               aria-expanded={!deckThumbnailsCollapsed}
               aria-label={deckThumbnailsCollapsed ? t('designFiles.expandGroup') : t('designFiles.collapseGroup')}
               title={deckThumbnailsCollapsed ? t('designFiles.expandGroup') : t('designFiles.collapseGroup')}
@@ -14820,7 +14820,7 @@ function HtmlViewer({
           ) : null}
           <button
             type="button"
-            className="icon-only od-tooltip"
+            className="icon-only sw-tooltip"
             onClick={reloadHtmlPreview}
             title={`${t('fileViewer.reload')} ${t('fileViewer.preview')}`}
             data-tooltip={`${t('fileViewer.reload')} ${t('fileViewer.preview')}`}
@@ -14873,7 +14873,7 @@ function HtmlViewer({
             >
               <button
                 type="button"
-                className="icon-only od-tooltip"
+                className="icon-only sw-tooltip"
                 onClick={() => postSlide('prev')}
                 title={t('fileViewer.previousSlide')}
                 data-tooltip={t('fileViewer.previousSlide')}
@@ -14890,7 +14890,7 @@ function HtmlViewer({
               </span>
               <button
                 type="button"
-                className="icon-only od-tooltip"
+                className="icon-only sw-tooltip"
                 onClick={() => postSlide('next')}
                 title={t('fileViewer.nextSlide')}
                 data-tooltip={t('fileViewer.nextSlide')}
@@ -14912,7 +14912,7 @@ function HtmlViewer({
               {mode === 'preview' ? (
                 <button
                   type="button"
-                  className="viewer-action viewer-action-icon od-tooltip"
+                  className="viewer-action viewer-action-icon sw-tooltip"
                   data-testid="edit-screenshot-to-chat-button"
                   data-tooltip={viewerOnly ? viewerOnlyDisabledTitle : t('fileViewer.editScreenshotToChat')}
                   data-tooltip-placement="bottom"
@@ -14927,7 +14927,7 @@ function HtmlViewer({
               <div className="artifact-tool-menu-anchor">
                 <button
                   type="button"
-                  className={`viewer-action viewer-action-icon viewer-comment-toggle od-tooltip${boardMode && !commentCreateMode && boardTool === 'inspect' ? ' active' : ''}`}
+                  className={`viewer-action viewer-action-icon viewer-comment-toggle sw-tooltip${boardMode && !commentCreateMode && boardTool === 'inspect' ? ' active' : ''}`}
                   data-testid="board-mode-toggle"
                   data-tooltip={t('fileViewer.comment')}
                   data-tooltip-placement="bottom"
@@ -14940,7 +14940,7 @@ function HtmlViewer({
                 </button>
               </div>
               <button
-                className={`viewer-action viewer-action-icon od-tooltip${drawOverlayOpen ? ' active' : ''}`}
+                className={`viewer-action viewer-action-icon sw-tooltip${drawOverlayOpen ? ' active' : ''}`}
                 type="button"
                 data-testid="draw-overlay-toggle"
                 data-tooltip={viewerOnly ? viewerOnlyDisabledTitle : t('fileViewer.mark')}
@@ -14955,7 +14955,7 @@ function HtmlViewer({
               </button>
               <span className="viewer-toolbar-tool-divider" aria-hidden />
               <button
-                className={`viewer-action viewer-action-icon od-tooltip${manualEditMode ? ' active' : ''}`}
+                className={`viewer-action viewer-action-icon sw-tooltip${manualEditMode ? ' active' : ''}`}
                 type="button"
                 data-testid="manual-edit-mode-toggle"
                 data-tooltip={viewerOnly ? viewerOnlyDisabledTitle : t('fileViewer.edit')}
@@ -14972,7 +14972,7 @@ function HtmlViewer({
               <button
                 ref={commentPanelToggleRef}
                 type="button"
-                className={`viewer-action viewer-comment-count-trigger viewer-comment-toggle od-tooltip${boardMode && commentCreateMode ? ' active' : ''}`}
+                className={`viewer-action viewer-comment-count-trigger viewer-comment-toggle sw-tooltip${boardMode && commentCreateMode ? ' active' : ''}`}
                 data-testid="comment-panel-toggle"
                 data-tooltip={t('chat.tabComments')}
                 data-tooltip-placement="bottom"
@@ -14988,7 +14988,7 @@ function HtmlViewer({
                 <div className="zoom-menu viewer-toolbar-zoom" ref={zoomMenuRef}>
                   <button
                     type="button"
-                    className="viewer-action zoom-trigger od-tooltip"
+                    className="viewer-action zoom-trigger sw-tooltip"
                     aria-haspopup="menu"
                     aria-expanded={zoomMenuOpen}
                     title={t('fileViewer.resetZoom')}
@@ -15032,7 +15032,7 @@ function HtmlViewer({
             <button
               ref={toolbarMoreTriggerRef}
               type="button"
-              className="viewer-action viewer-action-icon od-tooltip"
+              className="viewer-action viewer-action-icon sw-tooltip"
               aria-label={t('nextStep.more')}
               aria-haspopup="menu"
               aria-expanded={toolbarMoreOpen}
@@ -15048,7 +15048,7 @@ function HtmlViewer({
                 {versioningAvailable ? (
                   <button
                     type="button"
-                    data-od-version-entry="true"
+                    data-sw-version-entry="true"
                     className="viewer-toolbar-more-item"
                     role="menuitem"
                     disabled={source === null}
@@ -15201,7 +15201,7 @@ function HtmlViewer({
           {showPresent ? (
             <div className="present-wrap chrome-present-wrap">
               <button
-                className="chrome-action chrome-action-secondary chrome-action-icon present-trigger od-tooltip"
+                className="chrome-action chrome-action-secondary chrome-action-icon present-trigger sw-tooltip"
                 aria-haspopup="menu"
                 aria-expanded={presentMenuOpen}
                 aria-label={t('fileViewer.present')}
@@ -15239,8 +15239,8 @@ function HtmlViewer({
           {versioningAvailable && (rawCanShare || rawCanDownload) ? (
             <button
               type="button"
-              data-od-version-entry="true"
-              className={`chrome-action chrome-action-secondary chrome-action-icon od-tooltip${versionModalOpen ? ' is-active' : ''}`}
+              data-sw-version-entry="true"
+              className={`chrome-action chrome-action-secondary chrome-action-icon sw-tooltip${versionModalOpen ? ' is-active' : ''}`}
               // Same disabled contract as the Share button directly below:
               // `viewerOnly` + `viewerOnlyDisabledTitle`. A readonly shared
               // project has no history to show a member in the first place —
@@ -15331,7 +15331,7 @@ function HtmlViewer({
                         <span>{t('fileViewer.workspaceShareTitle')}</span>
                         <button
                           type="button"
-                          className="share-menu-help od-tooltip"
+                          className="share-menu-help sw-tooltip"
                           data-testid="workspace-access-help"
                           aria-label={shareAccess === 'private'
                             ? t('fileViewer.workspaceSharePrivateDescription')
@@ -15418,7 +15418,7 @@ function HtmlViewer({
                         <span>{t('fileViewer.shareMenuPublishViaOd')}</span>
                         <button
                           type="button"
-                          className="share-menu-help od-tooltip"
+                          className="share-menu-help sw-tooltip"
                           data-testid="publish-help"
                           aria-label={t('fileViewer.publishSingleFileDescription')}
                           data-tooltip={t('fileViewer.publishSingleFileDescription')}
@@ -15837,21 +15837,21 @@ function HtmlViewer({
                           data-testid={workspaceActive
                             ? (useUrlLoadPreview ? 'artifact-preview-frame' : 'artifact-preview-frame-url-load')
                             : `artifact-preview-frame-retained-${file.name}`}
-                          data-od-render-mode="url-load"
-                          data-od-active={workspaceActive && useUrlLoadPreview ? 'true' : 'false'}
+                          data-sw-render-mode="url-load"
+                          data-sw-active={workspaceActive && useUrlLoadPreview ? 'true' : 'false'}
                           aria-hidden={workspaceActive && useUrlLoadPreview ? undefined : true}
                           tabIndex={workspaceActive && useUrlLoadPreview ? 0 : -1}
                           title={file.name}
-                          data-od-powered={usePoweredPreview ? 'true' : undefined}
+                          data-sw-powered={usePoweredPreview ? 'true' : undefined}
                           sandbox={urlFrameSandbox}
                           allow={urlFrameAllow}
                           src={urlFrameSrc}
                           onLoad={() => {
                             const frame = urlPreviewIframeRef.current;
                             if (useUrlLoadPreview) iframeRef.current = frame;
-                            if (frame) frame.dataset.odLoadedSrc = frame.getAttribute('src') ?? '';
+                            if (frame) frame.dataset.swLoadedSrc = frame.getAttribute('src') ?? '';
                             if (frame) {
-                              frame.dataset.odLoadedPreviewEpoch =
+                              frame.dataset.swLoadedPreviewEpoch =
                                 new URL(frame.getAttribute('src') ?? '', window.location.href)
                                   .searchParams.get('odPreviewEpoch') ?? '';
                             }
@@ -15880,21 +15880,21 @@ function HtmlViewer({
                           data-testid={workspaceActive
                             ? (useUrlLoadPreview ? 'artifact-preview-frame' : 'artifact-preview-frame-url-load')
                             : `artifact-preview-frame-retained-${file.name}`}
-                          data-od-render-mode="url-load"
-                          data-od-active={workspaceActive && useUrlLoadPreview ? 'true' : 'false'}
+                          data-sw-render-mode="url-load"
+                          data-sw-active={workspaceActive && useUrlLoadPreview ? 'true' : 'false'}
                           aria-hidden={workspaceActive && useUrlLoadPreview ? undefined : true}
                           tabIndex={workspaceActive && useUrlLoadPreview ? 0 : -1}
                           title={file.name}
-                          data-od-powered={usePoweredPreview ? 'true' : undefined}
+                          data-sw-powered={usePoweredPreview ? 'true' : undefined}
                           sandbox={urlFrameSandbox}
                           allow={urlFrameAllow}
                           src={urlFrameSrc}
                           onLoad={() => {
                             const frame = urlPreviewIframeRef.current;
                             if (useUrlLoadPreview) iframeRef.current = frame;
-                            if (frame) frame.dataset.odLoadedSrc = frame.getAttribute('src') ?? '';
+                            if (frame) frame.dataset.swLoadedSrc = frame.getAttribute('src') ?? '';
                             if (frame) {
-                              frame.dataset.odLoadedPreviewEpoch =
+                              frame.dataset.swLoadedPreviewEpoch =
                                 new URL(frame.getAttribute('src') ?? '', window.location.href)
                                   .searchParams.get('odPreviewEpoch') ?? '';
                             }
@@ -15924,8 +15924,8 @@ function HtmlViewer({
                         data-testid={workspaceActive
                           ? (useUrlLoadPreview ? 'artifact-preview-frame-srcdoc' : 'artifact-preview-frame')
                           : `artifact-preview-frame-srcdoc-retained-${file.name}`}
-                        data-od-render-mode="srcdoc"
-                        data-od-active={workspaceActive && !useUrlLoadPreview ? 'true' : 'false'}
+                        data-sw-render-mode="srcdoc"
+                        data-sw-active={workspaceActive && !useUrlLoadPreview ? 'true' : 'false'}
                         aria-hidden={workspaceActive && !useUrlLoadPreview ? undefined : true}
                         tabIndex={workspaceActive && !useUrlLoadPreview ? 0 : -1}
                         title={file.name}
@@ -15942,7 +15942,7 @@ function HtmlViewer({
                             document.visibilityState === 'hidden';
                           if (!useUrlLoadPreview) iframeRef.current = frame;
                           if (frame) {
-                            frame.dataset.odLoadedPreviewEpoch =
+                            frame.dataset.swLoadedPreviewEpoch =
                               transportPreviewMeasurementDocumentEpoch;
                           }
                           if (!useUrlLoadPreview) beginDesktopPreviewContentMeasurementGeneration(frame);
@@ -16115,7 +16115,7 @@ function HtmlViewer({
                 <div className="deck-floating-nav" aria-label="Deck navigation">
                   <button
                     type="button"
-                    className="deck-floating-button od-tooltip"
+                    className="deck-floating-button sw-tooltip"
                     aria-label={t('fileViewer.previousSlide')}
                     title={t('fileViewer.previousSlide')}
                     data-tooltip={t('fileViewer.previousSlide')}
@@ -16132,7 +16132,7 @@ function HtmlViewer({
                   </span>
                   <button
                     type="button"
-                    className="deck-floating-button od-tooltip"
+                    className="deck-floating-button sw-tooltip"
                     aria-label={t('fileViewer.nextSlide')}
                     title={t('fileViewer.nextSlide')}
                     data-tooltip={t('fileViewer.nextSlide')}
@@ -16294,14 +16294,14 @@ function HtmlViewer({
             <iframe
               title="present"
               sandbox="allow-scripts allow-downloads"
-              data-od-render-mode="srcdoc"
+              data-sw-render-mode="srcdoc"
               srcDoc={effectiveDeck ? presentationSrcDoc : srcDoc}
             />
           ) : (
             <iframe
               title="present"
               sandbox="allow-scripts allow-downloads"
-              data-od-render-mode="url-load"
+              data-sw-render-mode="url-load"
               src={activePreviewSrcUrl}
             />
           )}

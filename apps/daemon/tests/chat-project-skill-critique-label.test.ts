@@ -14,7 +14,7 @@ describe('project skill critique label', () => {
 
   beforeAll(async () => {
     process.env.SW_CRITIQUE_ENABLED = '1';
-    fakeBinDir = await mkdtemp(join(tmpdir(), 'od-project-skill-critique-'));
+    fakeBinDir = await mkdtemp(join(tmpdir(), 'sw-project-skill-critique-'));
     const fakeQwenPath = join(fakeBinDir, 'qwen');
     await writeFile(
       fakeQwenPath,

@@ -23,7 +23,7 @@ import {
   type LauncherRuntimeDescriptor,
 } from "../src/index.js";
 
-const root = process.platform === "win32" ? "C:\\od-data" : "/tmp/od-data";
+const root = process.platform === "win32" ? "C:\\sw-data" : "/tmp/sw-data";
 
 describe("launcher protocol paths", () => {
   it("resolves channel and namespace scoped launcher paths under the provided root", () => {
@@ -253,7 +253,7 @@ describe("launcher desktop handoff descriptors", () => {
       executablePath: process.platform === "win32" ? "C:\\Program Files\\SankiWork Beta\\SankiWork Beta.exe" : "/Applications/SankiWork Beta.app/Contents/MacOS/SankiWork Beta",
       pid: 4321,
     },
-    payloadExecutablePath: process.platform === "win32" ? "C:\\od-data\\payload\\SankiWork Beta.exe" : "/tmp/od-data/payload/SankiWork Beta.app/Contents/MacOS/SankiWork Beta",
+    payloadExecutablePath: process.platform === "win32" ? "C:\\sw-data\\payload\\SankiWork Beta.exe" : "/tmp/sw-data/payload/SankiWork Beta.app/Contents/MacOS/SankiWork Beta",
     previous: { generation: 0, version: "0.8.1-beta.1" },
     schemaVersion: LAUNCHER_SCHEMA_VERSION,
     source: { generation: 1, version: "0.8.1-beta.2" },

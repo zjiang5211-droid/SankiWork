@@ -14,7 +14,7 @@ afterEach(async () => {
 });
 
 async function tempRoot(): Promise<string> {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-upload-test-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-upload-test-'));
   tempRoots.push(root);
   return root;
 }

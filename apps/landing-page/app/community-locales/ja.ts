@@ -74,7 +74,7 @@ const ja: DeepPartial<CommunityCopy> = {
           },
           {
             h4: 'skill を呼び起こす',
-            body: '<code>/od-contribute</code> と入力するか、今インストールしたものを実行してとエージェントに伝えるだけ。どちらの言葉でも扉が開きます。',
+            body: '<code>/sw-contribute</code> と入力するか、今インストールしたものを実行してとエージェントに伝えるだけ。どちらの言葉でも扉が開きます。',
           },
           {
             h4: '30 秒でギャラリーへ',

@@ -20,7 +20,7 @@ afterEach(async () => {
 });
 
 function tempDataDir(): string {
-  const dir = mkdtempSync(path.join(os.tmpdir(), 'od-sandbox-mode-'));
+  const dir = mkdtempSync(path.join(os.tmpdir(), 'sw-sandbox-mode-'));
   tempDirs.push(dir);
   return dir;
 }

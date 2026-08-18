@@ -212,7 +212,7 @@ export function AmrAccountControl({
           className={classNames(
             'amr-account-control__action',
             iconOnlySignOut && 'amr-account-control__action--icon',
-            iconOnlySignOut && 'od-tooltip',
+            iconOnlySignOut && 'sw-tooltip',
           )}
           disabled={signOutDisabled}
           onClick={onSignOut}

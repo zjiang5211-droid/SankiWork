@@ -53,7 +53,7 @@ let tmpDir: string;
 let db: Database.Database;
 
 beforeEach(() => {
-  tmpDir = mkdtempSync(join(tmpdir(), 'od-spawn-wiring-test-'));
+  tmpDir = mkdtempSync(join(tmpdir(), 'sw-spawn-wiring-test-'));
   db = freshDb();
 });
 afterEach(async () => {

@@ -13,7 +13,7 @@ let shutdown: (() => Promise<void> | void) | undefined;
 let exportRoot: string;
 
 beforeAll(async () => {
-  exportRoot = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-export-scope-'));
+  exportRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-export-scope-'));
   const started = await startServer({ port: 0, returnServer: true }) as {
     url: string;
     server: http.Server;

@@ -9,7 +9,7 @@ import { runDiffReview } from '../src/plugins/atoms/diff-review.js';
 let cwd: string;
 
 beforeEach(async () => {
-  cwd = await mkdtemp(path.join(os.tmpdir(), 'od-diff-review-'));
+  cwd = await mkdtemp(path.join(os.tmpdir(), 'sw-diff-review-'));
   await mkdir(path.join(cwd, 'plan', 'receipts'), { recursive: true });
 });
 

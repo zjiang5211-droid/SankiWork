@@ -57,7 +57,7 @@ async function bootInstall(folder: string): Promise<void> {
 }
 
 beforeEach(async () => {
-  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'od-preview-fallback-'));
+  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-preview-fallback-'));
   const folder = path.join(pluginRoot, PLUGIN_ID);
   await mkdir(path.join(folder, 'assets'), { recursive: true });
   // Deliberately omit ./index.html so the declared entry is stale.

@@ -40,7 +40,7 @@ describe('POST /api/import/folder', () => {
   });
 
   function makeFolder(): string {
-    const d = mkdtempSync(path.join(tmpdir(), 'od-import-'));
+    const d = mkdtempSync(path.join(tmpdir(), 'sw-import-'));
     tempDirs.push(d);
     return d;
   }
@@ -617,7 +617,7 @@ describe('POST /api/import/folder', () => {
     expect(body.error?.message).toMatch(/ENOENT|no such file/i);
   });
 
-  it('returns an empty result-package for an od-owned run before files exist', async () => {
+  it('returns an empty result-package for an sw-owned run before files exist', async () => {
     const projectResp = await fetch(`${baseUrl}/api/projects`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -652,7 +652,7 @@ describe('POST /api/import/folder', () => {
       artifacts?: unknown[];
     };
     expect(resultPackage.workspace?.storage).toEqual({
-      kind: 'od-owned',
+      kind: 'sw-owned',
       baseDir: null,
     });
     expect(resultPackage.project?.fileCount).toBe(0);
@@ -881,7 +881,7 @@ describe('POST /api/import/folder', () => {
   });
 
   it('rejects a non-existent path', async () => {
-    const resp = await importFolder({ baseDir: '/this/path/should/not/exist/od-test' });
+    const resp = await importFolder({ baseDir: '/this/path/should/not/exist/sw-test' });
     expect(resp.status).toBe(400);
     const body = (await resp.json()) as { error?: { message?: string } };
     expect(body.error?.message).toMatch(/not found/i);

@@ -8,7 +8,7 @@
  *
  * This script ONLY rewrites metadata (`SKILL.md` frontmatter +
  * `sankiwork.json`) and, for `example.html`, it STRIPS any stale
- * `od-commercial-slide-refresh` overlay and fixes the `<title>`. It never
+ * `sw-commercial-slide-refresh` overlay and fixes the `<title>`. It never
  * injects slide overlays — the native deck bodies are authored per template
  * so the card preview shows real, on-theme content, not a floating pane.
  *
@@ -49,7 +49,7 @@ interface CommercialCategory {
 interface Assignment {
   id: string;
   categoryId: CommercialCategoryId;
-  mode: 'od-reframe' | 'diverse';
+  mode: 'sw-reframe' | 'diverse';
   titleEn: string;
   titleZh: string;
   subject: string;
@@ -290,8 +290,8 @@ function updateSankiWorkJson(raw: string, copy: RefreshCopy): string {
   return `${JSON.stringify(manifest, null, 2)}\n`;
 }
 
-const injectionStart = '<!-- od-commercial-slide-refresh:start -->';
-const injectionEnd = '<!-- od-commercial-slide-refresh:end -->';
+const injectionStart = '<!-- sw-commercial-slide-refresh:start -->';
+const injectionEnd = '<!-- sw-commercial-slide-refresh:end -->';
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');

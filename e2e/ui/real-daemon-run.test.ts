@@ -216,7 +216,7 @@ test('[P1] real daemon run treats an in-place artifact edit as produced work', a
   const editedHeading = artifactPreviewFrame(page).locator('[data-od-id="smoke-title"]');
   await expect(editedHeading).toBeVisible();
   await editedHeading.click();
-  await expect(editedHeading).toHaveAttribute('data-od-edit-selected', 'true');
+  await expect(editedHeading).toHaveAttribute('data-sw-edit-selected', 'true');
   const fontSizeInput = page
     .locator('.manual-edit-modal .cc-section')
     .filter({ hasText: 'Parameters' })

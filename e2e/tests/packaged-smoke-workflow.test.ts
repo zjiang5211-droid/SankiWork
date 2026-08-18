@@ -256,7 +256,7 @@ async function readPackagedVersion(): Promise<string> {
 }
 
 async function runScopesPrint(eventName: string, eventPayload: unknown, changedFiles: string[] = []): Promise<Record<string, unknown>> {
-  const tempDir = await mkdtemp(join(tmpdir(), "od-scopes-"));
+  const tempDir = await mkdtemp(join(tmpdir(), "sw-scopes-"));
   const eventPath = join(tempDir, "event.json");
   const ghPath = join(tempDir, "gh");
   const ghCmdPath = join(tempDir, "gh.cmd");
@@ -726,7 +726,7 @@ describe("packaged smoke workflow", () => {
       state?: string;
       ghExit?: boolean;
     }): Promise<{ output: Record<string, string>; ghArgs: string[] }> {
-      const dir = await mkdtemp(join(tmpdir(), "od-finalize-resolve-"));
+      const dir = await mkdtemp(join(tmpdir(), "sw-finalize-resolve-"));
       const ghPath = join(dir, "gh");
       const jqPath = join(dir, "jq");
       const outputPath = join(dir, "github-output");
@@ -826,7 +826,7 @@ process.stdin.on("end", () => {
   it("[P2] bumps only synchronized workspace manifests in finalize-release", async () => {
     const workflow = await readFile(finalizeReleaseWorkflowPath, "utf8");
     const script = extractWorkflowRunScript(workflow, "Bump main's synchronized workspace versions");
-    const dir = await mkdtemp(join(tmpdir(), "od-finalize-bump-"));
+    const dir = await mkdtemp(join(tmpdir(), "sw-finalize-bump-"));
     const outputPath = join(dir, "github-output");
     const writeJson = (relativePath: string, value: unknown) =>
       writeFile(join(dir, relativePath), `${JSON.stringify(value, null, 2)}\n`);
@@ -881,7 +881,7 @@ process.stdin.on("end", () => {
   it("[P2] keeps finalize-release version bumps forward-only", async () => {
     const workflow = await readFile(finalizeReleaseWorkflowPath, "utf8");
     const script = extractWorkflowRunScript(workflow, "Bump main's synchronized workspace versions");
-    const dir = await mkdtemp(join(tmpdir(), "od-finalize-bump-noop-"));
+    const dir = await mkdtemp(join(tmpdir(), "sw-finalize-bump-noop-"));
     const outputPath = join(dir, "github-output");
 
     try {
@@ -1329,7 +1329,7 @@ process.stdin.on("end", () => {
     expect(daemonUnitTests).toContain("toJSON(fromJSON(needs.runners.outputs.runs_on).workspace_unit)");
     expect(webWorkspaceTests).toContain("fromJSON(needs.runners.outputs.runs_on).js_hot");
     expect(webWorkspaceTests).toContain("toJSON(fromJSON(needs.runners.outputs.runs_on).js_hot)");
-    expect(webWorkspaceTests).not.toContain('"od-persistent-ci"');
+    expect(webWorkspaceTests).not.toContain('"sw-persistent-ci"');
     // Pin two-way vitest sharding so a later YAML edit cannot collapse the split or restore the
     // monolithic `pnpm --filter @sankiwork/web test` command while this suite still passes.
     expect(webWorkspaceTests).toContain("fail-fast: false");
@@ -1339,7 +1339,7 @@ process.stdin.on("end", () => {
     );
     expect(e2eVitest).toContain("fromJSON(needs.runners.outputs.runs_on).js_hot");
     expect(e2eVitest).toContain("toJSON(fromJSON(needs.runners.outputs.runs_on).js_hot)");
-    expect(e2eVitest).not.toContain('"od-persistent-ci"');
+    expect(e2eVitest).not.toContain('"sw-persistent-ci"');
     expect(preflight).toContain("fromJSON(needs.runners.outputs.runs_on).general_medium");
     expect(preflight).toContain("toJSON(fromJSON(needs.runners.outputs.runs_on).general_medium)");
     expect(uiP0).toContain("fromJSON(needs.runners.outputs.runs_on).ui_p0");
@@ -2051,7 +2051,7 @@ process.stdin.on("end", () => {
       },
     };
     const fixture = await startStablePrereleaseMetadataServer(objects);
-    const runnerTemp = await mkdtemp(join(tmpdir(), "od-release-beta-reader-"));
+    const runnerTemp = await mkdtemp(join(tmpdir(), "sw-release-beta-reader-"));
     const outputPath = join(runnerTemp, "outputs.txt");
 
     try {
@@ -2091,7 +2091,7 @@ process.stdin.on("end", () => {
       },
     };
     const fixture = await startStablePrereleaseMetadataServer(objects);
-    const runnerTemp = await mkdtemp(join(tmpdir(), "od-release-beta-foreign-recovery-"));
+    const runnerTemp = await mkdtemp(join(tmpdir(), "sw-release-beta-foreign-recovery-"));
     const outputPath = join(runnerTemp, "outputs.txt");
     const baseEnv = {
       ...process.env,
@@ -2659,7 +2659,7 @@ process.stdin.on("end", () => {
       ["RELEASE_PUBLIC_ORIGIN", "https://releases.sanki-ai.cloud/current/"],
       ["CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN", "https://releases.sanki-ai.cloud/legacy/"],
     ] as const) {
-      const runnerTemp = await mkdtemp(join(tmpdir(), "od-stable-notes-"));
+      const runnerTemp = await mkdtemp(join(tmpdir(), "sw-stable-notes-"));
       const outputPath = join(runnerTemp, "github-output.txt");
 
       try {
@@ -2700,7 +2700,7 @@ process.stdin.on("end", () => {
       prereleaseVersion,
       fixture.origin,
     );
-    const runnerTemp = await mkdtemp(join(tmpdir(), "od-release-stable-dry-run-"));
+    const runnerTemp = await mkdtemp(join(tmpdir(), "sw-release-stable-dry-run-"));
 
     try {
       await mkdir(join(runnerTemp, "bin"), { recursive: true });
@@ -2790,7 +2790,7 @@ process.stdin.on("end", () => {
     expect(workflow).toMatch(/enable_win_x64:[\s\S]*?default: true/);
     expect(workflow).toMatch(/enable_mac_arm64:[\s\S]*?default: true/);
     expect(workflow).toMatch(/publish:[\s\S]*?default: true/);
-    expect(workflow).toMatch(/release_public_origin:[\s\S]*?default: "https:\/\/s3\.nexu\.space\/od-releases"/);
+    expect(workflow).toMatch(/release_public_origin:[\s\S]*?default: "https:\/\/s3\.nexu\.space\/sw-releases"/);
     expect(workflow).toContain("win_x64_smoke_mode:");
     expect(workflow).toContain("win_x64_target:");
     expect(workflow).toContain("win_x64_update_metadata_url:");
@@ -2850,14 +2850,14 @@ process.stdin.on("end", () => {
     expect(workflow).toContain("Publish win_x64 platform");
     expect(workflow).toContain("tools-release publish-platform");
     expect(workflow).toContain("Write win_x64 release report");
-    expect(workflow).toContain("RELEASE_REPORT_DIR: C:\\.tmp\\runner\\od-beta\\win_x64\\release-report\\win_x64");
+    expect(workflow).toContain("RELEASE_REPORT_DIR: C:\\.tmp\\runner\\sw-beta\\win_x64\\release-report\\win_x64");
     expect(posixBuildScript).toContain('SW_PACKAGED_E2E_MAC_SMOKE_PROFILE="$RELEASE_SMOKE_MODE"');
     expect(workflow).toContain("runs-on: [self-hosted, macOS, ARM64, nexu-mac, release-beta]");
     expect(workflow).toContain("path: _release-build");
     expect(workflow).toContain("working-directory: _release-build");
     expect(workflow).toContain("fnm exec --using=24 -- bash tools/release/scripts/build-platform.sh");
-    expect(workflow).toContain("MAC_TOOLS_PACK_CACHE_DIR: /Users/runner/.tmp/runner/od-beta/mac_arm64/tools-pack-cache");
-    expect(workflow).toContain("MAC_TOOLS_PACK_DIR: /Users/runner/.tmp/runner/od-beta/mac_arm64/tools-pack");
+    expect(workflow).toContain("MAC_TOOLS_PACK_CACHE_DIR: /Users/runner/.tmp/runner/sw-beta/mac_arm64/tools-pack-cache");
+    expect(workflow).toContain("MAC_TOOLS_PACK_DIR: /Users/runner/.tmp/runner/sw-beta/mac_arm64/tools-pack");
     expect(workflow).toContain("TOOLS_PACK_CACHE_DIR: ${{ env.MAC_TOOLS_PACK_CACHE_DIR }}");
     expect(workflow).toContain("TOOLS_PACK_DIR: ${{ env.MAC_TOOLS_PACK_DIR }}");
     expect(workflow).toContain("Write mac_arm64 release report");
@@ -2920,7 +2920,7 @@ process.stdin.on("end", () => {
 
   it("rejects stale latest platform manifests from a previous beta version", async () => {
     const fixture = await startReleaseMetadataObjectStore({});
-    const runnerTemp = await mkdtemp(join(tmpdir(), "od-release-betas-metadata-"));
+    const runnerTemp = await mkdtemp(join(tmpdir(), "sw-release-betas-metadata-"));
     const platformManifestRoot = join(runnerTemp, "release-platform-manifests");
 
     try {
@@ -3004,7 +3004,7 @@ process.stdin.on("end", () => {
 
   it("rejects stale latest platform manifests from a previous same-version beta workflow run", async () => {
     const fixture = await startReleaseMetadataObjectStore({});
-    const runnerTemp = await mkdtemp(join(tmpdir(), "od-release-betas-metadata-"));
+    const runnerTemp = await mkdtemp(join(tmpdir(), "sw-release-betas-metadata-"));
     const platformManifestRoot = join(runnerTemp, "release-platform-manifests");
 
     try {
@@ -3088,7 +3088,7 @@ process.stdin.on("end", () => {
 
   it("accepts same-run latest platform manifests from an older workflow attempt", async () => {
     const fixture = await startReleaseMetadataObjectStore({});
-    const runnerTemp = await mkdtemp(join(tmpdir(), "od-release-betas-metadata-"));
+    const runnerTemp = await mkdtemp(join(tmpdir(), "sw-release-betas-metadata-"));
     const platformManifestRoot = join(runnerTemp, "release-platform-manifests");
 
     try {
@@ -3167,7 +3167,7 @@ process.stdin.on("end", () => {
     const fixture = await startReleaseMetadataObjectStore({
       "beta/versions/1.2.3-beta.4.unsigned/latest.yml": "versioned updater feed",
     });
-    const runnerTemp = await mkdtemp(join(tmpdir(), "od-release-betas-win-metadata-"));
+    const runnerTemp = await mkdtemp(join(tmpdir(), "sw-release-betas-win-metadata-"));
     const platformManifestRoot = join(runnerTemp, "release-platform-manifests");
 
     try {
@@ -3259,7 +3259,7 @@ process.stdin.on("end", () => {
     const fixture = await startReleaseMetadataObjectStore({
       "beta/versions/1.2.3-beta.4.unsigned/latest.yml": "versioned updater feed",
     });
-    const runnerTemp = await mkdtemp(join(tmpdir(), "od-release-betas-payload-metadata-"));
+    const runnerTemp = await mkdtemp(join(tmpdir(), "sw-release-betas-payload-metadata-"));
     const platformManifestRoot = join(runnerTemp, "release-platform-manifests");
 
     try {

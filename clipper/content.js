@@ -45,7 +45,7 @@
 
   // --- shared toast --------------------------------------------------------
   const toastHost = document.createElement('div');
-  toastHost.id = 'od-clipper-toast';
+  toastHost.id = 'sw-clipper-toast';
   toastHost.style.cssText = 'position:fixed;z-index:2147483647;right:16px;bottom:64px;display:none;background:transparent;margin:0;padding:0;border:0;';
   const toastShadow = toastHost.attachShadow({ mode: 'open' });
   setHTML(toastShadow, `
@@ -93,7 +93,7 @@
 
   // --- launcher toolbar ----------------------------------------------------
   const host = document.createElement('div');
-  host.id = 'od-clipper-root';
+  host.id = 'sw-clipper-root';
   // Ships anchored TOP-CENTER with a gap from the edge (Figma-style) so the bar
   // reads as a deliberate, prominent surface rather than a corner afterthought.
   // `left:50%` + `translateX(-50%)` keeps it centered through window resizes; the
@@ -600,7 +600,7 @@
   function buildPicker() {
     if (pickHost) return;
     pickHost = document.createElement('div');
-    pickHost.id = 'od-clipper-picker';
+    pickHost.id = 'sw-clipper-picker';
     // `background:transparent` defends the full-viewport host against page CSS
     // (e.g. `div { background: … }`) bleeding a tint across the whole screen.
     // The host itself stays hit-testable (no pointer-events:none) so the inner
@@ -696,11 +696,11 @@
   // Our blocking surface is the topmost element at the cursor, so a plain
   // elementFromPoint would always return our own UI. Walk the full hit stack and
   // return the first element that isn't ours (our shadow hosts surface as the
-  // light-DOM host id `od-clipper-*`).
+  // light-DOM host id `sw-clipper-*`).
   function isOwnClipperNode(el) {
     if (el === pickHost) return true;
-    if (typeof el.id === 'string' && el.id.startsWith('od-clipper-')) return true;
-    return Boolean(el.closest && el.closest('[id^="od-clipper-"]'));
+    if (typeof el.id === 'string' && el.id.startsWith('sw-clipper-')) return true;
+    return Boolean(el.closest && el.closest('[id^="sw-clipper-"]'));
   }
 
   function targetAt(x, y) {
@@ -803,7 +803,7 @@
   // and ALWAYS clear the marker afterwards so we never leave a stray attribute
   // on the page. The bar keeps its progress strip through the save (capture.js
   // strips our own UI, so nothing needs to leave the frame).
-  const ELEMENT_MARKER = 'data-od-clip-target';
+  const ELEMENT_MARKER = 'data-sw-clip-target';
   async function commitCapture(el) {
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -913,7 +913,7 @@
     const all = document.body ? document.body.getElementsByTagName('*') : [];
     for (let i = 0; i < all.length && out.length < MAX_PICKER_IMAGES; i += 1) {
       const el = all[i];
-      if (el.id && el.id.startsWith('od-clipper-')) continue;
+      if (el.id && el.id.startsWith('sw-clipper-')) continue;
       const r = el.getBoundingClientRect();
       if (Math.max(r.width, r.height) < 64) continue; // skip sprite/icon chrome
       const bg = getComputedStyle(el).backgroundImage;
@@ -1007,7 +1007,7 @@
       imagePickerHost.style.pointerEvents = 'none';
     }
     const host = document.createElement('div');
-    host.id = 'od-clipper-locate';
+    host.id = 'sw-clipper-locate';
     host.style.cssText =
       'position:fixed;inset:0;z-index:2147483645;pointer-events:none;margin:0;padding:0;border:0;background:transparent;';
     const sh = host.attachShadow({ mode: 'open' });
@@ -1017,9 +1017,9 @@
         .ring {
           position: fixed; box-sizing: border-box; border: 2px solid #c96442; border-radius: 6px;
           box-shadow: 0 0 0 3px rgba(201,100,66,0.4), 0 0 0 100vmax rgba(13,12,10,0.45);
-          animation: od-loc-pulse 1.1s ease-out infinite;
+          animation: sw-loc-pulse 1.1s ease-out infinite;
         }
-        @keyframes od-loc-pulse {
+        @keyframes sw-loc-pulse {
           0%, 100% { box-shadow: 0 0 0 3px rgba(201,100,66,0.55), 0 0 0 100vmax rgba(13,12,10,0.45); }
           50% { box-shadow: 0 0 0 8px rgba(201,100,66,0.12), 0 0 0 100vmax rgba(13,12,10,0.45); }
         }
@@ -1058,7 +1058,7 @@
       return;
     }
     imagePickerHost = document.createElement('div');
-    imagePickerHost.id = 'od-clipper-imagepicker';
+    imagePickerHost.id = 'sw-clipper-imagepicker';
     imagePickerHost.style.cssText = 'position:fixed;inset:0;z-index:2147483646;background:transparent;margin:0;padding:0;border:0;';
     const sh = imagePickerHost.attachShadow({ mode: 'open' });
     setHTML(sh, `
@@ -1121,9 +1121,9 @@
            never get this class — they're drawn synchronously). */
         .thumb.shim {
           background: linear-gradient(100deg, #eef0f3 30%, #f7f8fa 50%, #eef0f3 70%) #eef0f3;
-          background-size: 200% 100%; animation: od-shimmer 1.1s linear infinite;
+          background-size: 200% 100%; animation: sw-shimmer 1.1s linear infinite;
         }
-        @keyframes od-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+        @keyframes sw-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
         .cell input { position: absolute; top: 8px; left: 8px; width: 18px; height: 18px; margin: 0; accent-color: #c96442; z-index: 2; }
         .loc {
           all: unset; position: absolute; top: 6px; right: 6px; z-index: 2;
@@ -1321,7 +1321,7 @@
     regionActive = true;
     regionStart = null;
     regionHost = document.createElement('div');
-    regionHost.id = 'od-clipper-region';
+    regionHost.id = 'sw-clipper-region';
     regionHost.style.cssText = 'position:fixed;inset:0;z-index:2147483646;background:transparent;margin:0;padding:0;border:0;';
     regionShadow = regionHost.attachShadow({ mode: 'open' });
     setHTML(regionShadow, `
@@ -1461,7 +1461,7 @@
   function buildImageBadge() {
     if (imgBadgeHost) return;
     imgBadgeHost = document.createElement('div');
-    imgBadgeHost.id = 'od-clipper-imghover';
+    imgBadgeHost.id = 'sw-clipper-imghover';
     imgBadgeHost.style.cssText = 'position:fixed;left:0;top:0;z-index:2147483645;display:none;background:transparent;margin:0;padding:0;border:0;pointer-events:none;';
     const sh = imgBadgeHost.attachShadow({ mode: 'open' });
     setHTML(sh, `
@@ -1582,8 +1582,8 @@
     if (!imageHoverEnabled || hiddenForCapture) return;
     const t = e.target;
     // Retargeting collapses shadow children to their host, so hovering our own
-    // badge surfaces here as the `od-clipper-imghover` host → keep it alive.
-    if (!t || (typeof t.id === 'string' && t.id.startsWith('od-clipper-'))) return;
+    // badge surfaces here as the `sw-clipper-imghover` host → keep it alive.
+    if (!t || (typeof t.id === 'string' && t.id.startsWith('sw-clipper-'))) return;
     if (t.tagName === 'IMG') {
       positionImageBadge(t);
     } else {

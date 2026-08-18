@@ -318,7 +318,7 @@ async function velaCalls(): Promise<string[]> {
 }
 
 async function ensureScratch(): Promise<string> {
-  scratch ??= await mkdtemp(join(tmpdir(), 'od-presence-transport-off-'));
+  scratch ??= await mkdtemp(join(tmpdir(), 'sw-presence-transport-off-'));
   return scratch;
 }
 

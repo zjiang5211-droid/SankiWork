@@ -36,7 +36,7 @@ afterEach(() => {
 });
 
 function setupProjectFixture(): { db: any; projectsRoot: string } {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-handoff-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-handoff-'));
   const db = openDatabase(tempDir);
   insertProject(db, {
     id: PROJECT_ID,

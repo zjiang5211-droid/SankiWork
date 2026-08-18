@@ -15,7 +15,7 @@ describe('ElevenLabs voice options', () => {
   const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-elevenlabs-voices-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-elevenlabs-voices-'));
     projectRoot = path.join(root, 'project-root');
     delete process.env.SW_MEDIA_CONFIG_DIR;
     delete process.env.SW_DATA_DIR;

@@ -10,7 +10,7 @@ import { runHandoffAtom } from '../src/plugins/atoms/handoff.js';
 let cwd: string;
 
 beforeEach(async () => {
-  cwd = await mkdtemp(path.join(os.tmpdir(), 'od-handoff-pipeline-'));
+  cwd = await mkdtemp(path.join(os.tmpdir(), 'sw-handoff-pipeline-'));
 });
 
 afterEach(async () => {

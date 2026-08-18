@@ -101,7 +101,7 @@ describe('artifact publication guard — placeholder detection', () => {
 
 describe('artifact publication guard — wired into writeProjectFile', () => {
   it('rejects html artifacts that still contain pitch-deck placeholders', async () => {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-publication-guard-html-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-publication-guard-html-'));
     try {
       await expect(
         writeProjectFile(
@@ -122,7 +122,7 @@ describe('artifact publication guard — wired into writeProjectFile', () => {
   });
 
   it('rejects deck artifacts that still contain pitch-deck placeholders', async () => {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-publication-guard-deck-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-publication-guard-deck-'));
     try {
       await expect(
         writeProjectFile(
@@ -148,7 +148,7 @@ describe('artifact publication guard — wired into writeProjectFile', () => {
     // Markdown drafts can legitimately call out unresolved fields with the
     // same words; the guard is HTML/deck only. The body here would have
     // tripped the guard if applied to all kinds.
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-publication-guard-md-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-publication-guard-md-'));
     try {
       const meta = await writeProjectFile(
         projectsRoot,
@@ -164,7 +164,7 @@ describe('artifact publication guard — wired into writeProjectFile', () => {
   });
 
   it('passes a clean deck artifact through writeProjectFile', async () => {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-publication-guard-clean-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-publication-guard-clean-'));
     try {
       const meta = await writeProjectFile(
         projectsRoot,

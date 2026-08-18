@@ -21,7 +21,7 @@ import {
 let tmp: string;
 
 beforeEach(async () => {
-  tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'od-conformance-history-'));
+  tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'sw-conformance-history-'));
 });
 
 afterEach(async () => {

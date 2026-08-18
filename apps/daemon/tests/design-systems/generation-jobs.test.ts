@@ -20,7 +20,7 @@ describe('design system generation jobs', () => {
   let root: string;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-design-system-jobs-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-design-system-jobs-'));
   });
 
   afterEach(async () => {

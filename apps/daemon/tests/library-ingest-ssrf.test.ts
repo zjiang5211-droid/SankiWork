@@ -49,7 +49,7 @@ beforeEach(async () => {
   const cAddr = canary.address() as { port: number };
   canaryUrl = `http://127.0.0.1:${cAddr.port}/latest/meta-data/iam/security-credentials`;
 
-  dataDir = await mkdtemp(path.join(os.tmpdir(), 'od-ssrf-'));
+  dataDir = await mkdtemp(path.join(os.tmpdir(), 'sw-ssrf-'));
   process.env.SW_DATA_DIR = dataDir;
 
   // Dynamic import AFTER SW_DATA_DIR is set: RUNTIME_DATA_DIR is resolved at

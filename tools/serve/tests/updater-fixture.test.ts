@@ -172,7 +172,7 @@ describe("updater fixture server", () => {
   });
 
   it("serves launcher payload bytes from a real archive path", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-tools-serve-payload-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-tools-serve-payload-"));
     const payloadPath = join(root, "SankiWork-release-preview-payload.zip");
     await writeFile(payloadPath, "real payload bytes", "utf8");
     const server = await startUpdaterFixtureServer({

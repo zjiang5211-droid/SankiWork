@@ -651,8 +651,8 @@ describe("wellKnownUserToolchainBins Windows fnm node discovery", () => {
   });
 
   it("surfaces the Windows fnm installation dir under %APPDATA%\\fnm", () => {
-    const home = mkdtempSync(join(tmpdir(), "od-fnm-home-"));
-    const appData = mkdtempSync(join(tmpdir(), "od-fnm-appdata-"));
+    const home = mkdtempSync(join(tmpdir(), "sw-fnm-home-"));
+    const appData = mkdtempSync(join(tmpdir(), "sw-fnm-appdata-"));
     const installDir = join(appData, "fnm", "node-versions", "v22.13.1", "installation");
     mkdirSync(installDir, { recursive: true });
     setPlatform("win32");
@@ -666,8 +666,8 @@ describe("wellKnownUserToolchainBins Windows fnm node discovery", () => {
   });
 
   it("honors FNM_DIR over %APPDATA% for the Windows fnm root", () => {
-    const home = mkdtempSync(join(tmpdir(), "od-fnm-home-"));
-    const fnmDir = mkdtempSync(join(tmpdir(), "od-fnm-dir-"));
+    const home = mkdtempSync(join(tmpdir(), "sw-fnm-home-"));
+    const fnmDir = mkdtempSync(join(tmpdir(), "sw-fnm-dir-"));
     const installDir = join(fnmDir, "node-versions", "v20.11.0", "installation");
     mkdirSync(installDir, { recursive: true });
     setPlatform("win32");
@@ -688,8 +688,8 @@ describe("wellKnownUserToolchainBins Windows fnm node discovery", () => {
     // %APPDATA%\fnm). A globally `npm i -g`'d CLI (e.g. Codex) lands in the
     // node install's `installation` dir, so probing this root makes that CLI
     // discoverable from a GUI launch. See issue #3062.
-    const home = mkdtempSync(join(tmpdir(), "od-fnm-home-"));
-    const localAppData = mkdtempSync(join(tmpdir(), "od-fnm-localappdata-"));
+    const home = mkdtempSync(join(tmpdir(), "sw-fnm-home-"));
+    const localAppData = mkdtempSync(join(tmpdir(), "sw-fnm-localappdata-"));
     const installDir = join(localAppData, "fnm", "node-versions", "v22.13.1", "installation");
     mkdirSync(installDir, { recursive: true });
     setPlatform("win32");

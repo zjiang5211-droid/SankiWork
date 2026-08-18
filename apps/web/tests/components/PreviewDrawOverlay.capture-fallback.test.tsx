@@ -70,7 +70,7 @@ describe('PreviewDrawOverlay capture fallback (issue #4064)', () => {
     try {
       const { container, getByRole, getByText } = render(
         <PreviewDrawOverlay active>
-          <iframe title="srcdoc" data-od-render-mode="srcdoc" />
+          <iframe title="srcdoc" data-sw-render-mode="srcdoc" />
         </PreviewDrawOverlay>,
       );
 
@@ -110,7 +110,7 @@ describe('PreviewDrawOverlay capture fallback (issue #4064)', () => {
     try {
       const { container, getByRole, getByText } = render(
         <PreviewDrawOverlay active>
-          <iframe title="srcdoc" data-od-render-mode="srcdoc" />
+          <iframe title="srcdoc" data-sw-render-mode="srcdoc" />
         </PreviewDrawOverlay>,
       );
 

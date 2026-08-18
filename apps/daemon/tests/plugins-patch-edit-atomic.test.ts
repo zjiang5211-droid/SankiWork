@@ -14,7 +14,7 @@ import { applyPatchForStep } from '../src/plugins/atoms/patch-edit.js';
 let cwd: string;
 
 beforeEach(async () => {
-  cwd = await mkdtemp(path.join(os.tmpdir(), 'od-patch-atomic-'));
+  cwd = await mkdtemp(path.join(os.tmpdir(), 'sw-patch-atomic-'));
   await mkdir(path.join(cwd, 'plan'), { recursive: true });
   await writeFile(
     path.join(cwd, 'plan', 'steps.json'),

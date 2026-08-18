@@ -47,7 +47,7 @@ test('publishes pinned cross-platform DeepSeek Harness installers', () => {
 test('POSIX installer performs a checksum-verified isolated install and is idempotent', () => {
   if (process.platform === 'win32') return;
 
-  const tmp = mkdtempSync(join(tmpdir(), 'od-dsh-installer-'));
+  const tmp = mkdtempSync(join(tmpdir(), 'sw-dsh-installer-'));
   const dist = join(tmp, 'dist');
   const fixtureRoot = join(tmp, 'node-v24.19.0-linux-x64');
   const fixtureBin = join(fixtureRoot, 'bin');
@@ -139,7 +139,7 @@ printf '%s\\n' '10.33.2'
 test('POSIX installer reuses a complete compatible toolchain without downloading Node', () => {
   if (process.platform === 'win32') return;
 
-  const tmp = mkdtempSync(join(tmpdir(), 'od-dsh-existing-'));
+  const tmp = mkdtempSync(join(tmpdir(), 'sw-dsh-existing-'));
   const pathDir = join(tmp, 'path');
   const binDir = join(tmp, 'bin');
   mkdirSync(pathDir, { recursive: true });

@@ -67,7 +67,7 @@ async function startAuthorityServer(options: {
   visibility?: 'personal' | 'team';
   namespacedTeams?: boolean;
 } = {}) {
-  tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-ds-family-authority-'));
+  tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-ds-family-authority-'));
   const db = openDatabase(tempDir, { dataDir: tempDir });
   if (options.namespacedTeams) {
     ensureWorkspaceResource(

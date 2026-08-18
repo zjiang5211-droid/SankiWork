@@ -70,7 +70,7 @@ export async function buildDocumentPreview(file: PreviewFile) {
 
 async function previewPdf(buffer: Buffer): Promise<PreviewSection[]> {
   assertPreviewInputSize(buffer.length);
-  const tmpDir = await mkdtemp(path.join(tmpdir(), 'od-preview-'));
+  const tmpDir = await mkdtemp(path.join(tmpdir(), 'sw-preview-'));
   const tmpFile = path.join(tmpDir, 'input.pdf');
   await writeFile(tmpFile, buffer, { flag: 'wx' });
   try {

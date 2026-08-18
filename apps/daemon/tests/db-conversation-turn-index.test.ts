@@ -16,7 +16,7 @@ describe('conversationTurnIndexForRun', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-conversation-turn-index-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-conversation-turn-index-'));
   });
 
   afterEach(() => {

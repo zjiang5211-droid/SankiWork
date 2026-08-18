@@ -93,7 +93,7 @@ describe('langfuse-bridge non-blocking behavior', () => {
 
     await reportRunCompletedFromDaemon({
       db: {},
-      dataDir: '/tmp/od-test',
+      dataDir: '/tmp/sw-test',
       run: makeRun() as any,
       fetchImpl: vi.fn() as any,
     });
@@ -118,7 +118,7 @@ describe('langfuse-bridge non-blocking behavior', () => {
     await expect(
       reportRunCompletedFromDaemon({
         db: {},
-        dataDir: '/tmp/od-test',
+        dataDir: '/tmp/sw-test',
         run: makeRun() as any,
         fetchImpl: vi.fn() as any,
       }),
@@ -144,7 +144,7 @@ describe('langfuse-bridge non-blocking behavior', () => {
     await expect(
       reportRunCompletedFromDaemon({
         db: {},
-        dataDir: '/tmp/od-test',
+        dataDir: '/tmp/sw-test',
         run: makeRun() as any,
         fetchImpl: vi.fn() as any,
       }),

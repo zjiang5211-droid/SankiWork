@@ -146,7 +146,7 @@ export async function renderDeckSlides(
   const finish = (result: DesktopRenderSlidesResult): DesktopRenderSlidesResult => {
     const end = Date.now();
     // eslint-disable-next-line no-console
-    console.info("[od-export] render", {
+    console.info("[sw-export] render", {
       mode: result.mode,
       slides: (result.slideFiles ?? result.slides ?? []).length,
       out: result.slideFiles ? "file" : "dataurl",
@@ -661,7 +661,7 @@ async function preparePageForCapture(window: BrowserWindow): Promise<void> {
     // the page actually paints, so we keep the CSS and accept that a genuinely
     // fixed bar may appear in more than one viewport.
     await window.webContents.executeJavaScript(
-      `(function(){try{var s=document.createElement('style');s.setAttribute('data-od-capture','1');s.textContent='*,*::before,*::after{animation-duration:0s!important;animation-delay:0s!important;transition-duration:0s!important;transition-delay:0s!important;scroll-behavior:auto!important}';(document.head||document.documentElement).appendChild(s);}catch(e){}})()`,
+      `(function(){try{var s=document.createElement('style');s.setAttribute('data-sw-capture','1');s.textContent='*,*::before,*::after{animation-duration:0s!important;animation-delay:0s!important;transition-duration:0s!important;transition-delay:0s!important;scroll-behavior:auto!important}';(document.head||document.documentElement).appendChild(s);}catch(e){}})()`,
       true,
     );
     await window.webContents.executeJavaScript(
@@ -1058,12 +1058,12 @@ export async function runDomToPptx(slideSelector: string): Promise<{ b64?: strin
 
   function ensureExplicitSlideBackgrounds(slides: HTMLElement[]): void {
     for (const slide of slides) {
-      slide.querySelectorAll(":scope > [data-od-pptx-bg]").forEach((el) => el.remove());
+      slide.querySelectorAll(":scope > [data-sw-pptx-bg]").forEach((el) => el.remove());
       const background = effectiveBackgroundStyle(slide);
       if (!background) continue;
 
       const bg = document.createElement("div");
-      bg.setAttribute("data-od-pptx-bg", "true");
+      bg.setAttribute("data-sw-pptx-bg", "true");
       bg.setAttribute("aria-hidden", "true");
       bg.style.setProperty("position", "absolute", "important");
       bg.style.setProperty("inset", "0", "important");
@@ -1082,7 +1082,7 @@ export async function runDomToPptx(slideSelector: string): Promise<{ b64?: strin
       if (style.overflow === "visible") slide.style.setProperty("overflow", "hidden", "important");
       slide.style.setProperty("background-color", background.color, "important");
       Array.from(slide.children).forEach((child) => {
-        if (child.getAttribute("data-od-pptx-bg") === "true") return;
+        if (child.getAttribute("data-sw-pptx-bg") === "true") return;
         const childStyle = getComputedStyle(child as Element);
         const element = child as HTMLElement;
         if (childStyle.position === "static") {
@@ -1419,13 +1419,13 @@ export function showSlide(slideSelector: string, index: number): Promise<{ x: nu
   const activeClasses = ["active", "visible", "is-active", "current"];
   // The injected <deck-stage> fallback (packages/contracts/src/runtime/
   // deck-stage-fallback.ts) hides slotted slides with an `!important` shadow rule
-  // and reveals ONLY the one carrying `data-od-deck-active`. We toggle exactly that
+  // and reveals ONLY the one carrying `data-sw-deck-active`. We toggle exactly that
   // attribute. We do NOT also set the real deck-stage.js runtime's
   // `data-deck-active`: it is unnecessary for reveal (mechanism 1 below already
   // reveals that runtime's slides), and skipping it keeps the export from depending
   // on the prepareDeckStage() animation freeze to neutralize any authored
   // `[data-deck-active]`-keyed entrance motion.
-  const activeAttributes = ["data-od-deck-active"];
+  const activeAttributes = ["data-sw-deck-active"];
   slides.forEach((node, k) => {
     const el = node as HTMLElement;
     const on = k === index;
@@ -1433,7 +1433,7 @@ export function showSlide(slideSelector: string, index: number): Promise<{ x: nu
     //   1. Inline `!important` styles beat a deck's own NON-important hide rules —
     //      the real <deck-stage> runtime's `::slotted(*){visibility:hidden}` and
     //      class-based `.slide` decks — because importance wins outright there.
-    //   2. The `data-od-deck-active` attribute is the ONLY thing that reveals the
+    //   2. The `data-sw-deck-active` attribute is the ONLY thing that reveals the
     //      fallback, whose hide rule is `::slotted(*){visibility:hidden!important}`
     //      in its shadow root: a shadow-tree `!important` declaration beats an outer
     //      inline `!important` one (for `!important`, the inner context wins), so

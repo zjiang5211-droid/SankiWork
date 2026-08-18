@@ -82,7 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Plugin authoring composer compacted.** (#2492) Thanks @lefarcen.
 - **Reject unsafe plugin manifest names** and symlinked plugin assets. (#2757, #2036) Thanks @lefarcen.
 - **"Add to My plugins" success affordance survives panel remount.** (#2897) Thanks @leno23.
-- **`od-contribute` skill** guides non-coder contributors through issues, docs, i18n, design-system, and skill submissions. (#3172) Thanks @leilei926524-tech.
+- **`sw-contribute` skill** guides non-coder contributors through issues, docs, i18n, design-system, and skill submissions. (#3172) Thanks @leilei926524-tech.
 - **Design system rename, pinning, swatches, GitHub connect, source flow polish, review polish, published badges, and new-conversation action.** (#2812, #2817, #2816, #2820, #3014, #2933, #2848, #2849, #2483) Thanks @portseif, @leno23.
 
 #### 🔌 Automations, MCP & integrations

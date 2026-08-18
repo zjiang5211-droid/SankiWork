@@ -16,7 +16,7 @@ export async function preparePromptFileForAgent(
   if (!def?.promptViaFile) return null;
 
   const safeLabel = label.replace(/[^a-zA-Z0-9_.-]/g, '-').slice(0, 80) || 'prompt';
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), `od-${def.id}-${safeLabel}-`));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), `sw-${def.id}-${safeLabel}-`));
   const filePath = path.join(dir, 'prompt.md');
   await fs.writeFile(filePath, prompt, { encoding: 'utf8', mode: 0o600 });
 

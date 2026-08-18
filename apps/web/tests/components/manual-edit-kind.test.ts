@@ -51,7 +51,7 @@ describe('manualEditKindForElement', () => {
     expect(manualEditKindForElement(makeEl('<div></div>'))).toBe('container');
   });
 
-  it('respects an explicit data-od-edit override', () => {
-    expect(manualEditKindForElement(makeEl('<div data-od-edit="container">Text</div>'))).toBe('container');
+  it('respects an explicit data-sw-edit override', () => {
+    expect(manualEditKindForElement(makeEl('<div data-sw-edit="container">Text</div>'))).toBe('container');
   });
 });

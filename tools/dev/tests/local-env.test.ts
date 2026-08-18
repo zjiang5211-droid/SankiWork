@@ -30,7 +30,7 @@ describe("tools-dev local env loading", () => {
   });
 
   it("loads workspace .env.local over the parent environment and marks telemetry as local dev", async () => {
-    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "od-local-env-"));
+    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "sw-local-env-"));
     await writeFile(path.join(workspaceRoot, ".env.local"), [
       "POSTHOG_KEY=phc_from_file",
       "LANGFUSE_PUBLIC_KEY=pk_from_file",
@@ -48,7 +48,7 @@ describe("tools-dev local env loading", () => {
   });
 
   it("loads workspace env files in precedence order without overriding higher-priority files", async () => {
-    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "od-local-env-"));
+    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "sw-local-env-"));
     await writeFile(path.join(workspaceRoot, ".env"), "FROM_BASE=base\nSHARED=base\n");
     await writeFile(path.join(workspaceRoot, ".env.development"), "FROM_DEV=dev\nSHARED=dev\n");
     await writeFile(path.join(workspaceRoot, ".env.local"), "FROM_LOCAL=local\nSHARED=local\n");
@@ -68,7 +68,7 @@ describe("tools-dev local env loading", () => {
   });
 
   it("uses explicit env files instead of default env files", async () => {
-    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "od-local-env-"));
+    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "sw-local-env-"));
     await writeFile(path.join(workspaceRoot, ".env.local"), "DEFAULT_ONLY=yes\n");
     await writeFile(path.join(workspaceRoot, "custom.env"), "CUSTOM_ONLY=yes\n");
     const env: NodeJS.ProcessEnv = {};
@@ -81,7 +81,7 @@ describe("tools-dev local env loading", () => {
   });
 
   it("can be disabled with --no-env-file", async () => {
-    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "od-local-env-"));
+    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "sw-local-env-"));
     await writeFile(path.join(workspaceRoot, ".env.local"), "SHOULD_NOT_LOAD=yes\n");
     const env: NodeJS.ProcessEnv = {};
 
@@ -92,7 +92,7 @@ describe("tools-dev local env loading", () => {
   });
 
   it("does not load env files for help output and suppresses logs for json output", async () => {
-    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "od-local-env-"));
+    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "sw-local-env-"));
     await writeFile(path.join(workspaceRoot, ".env.local"), "VALUE=yes\n");
     const helpEnv: NodeJS.ProcessEnv = {};
 
@@ -108,7 +108,7 @@ describe("tools-dev local env loading", () => {
   });
 
   it("requires explicitly requested env files to exist", async () => {
-    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "od-local-env-"));
+    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "sw-local-env-"));
 
     assert.throws(
       () => loadWorkspaceLocalEnv({ args: ["--env-file", "missing.env"], workspaceRoot, env: {} }),
@@ -117,7 +117,7 @@ describe("tools-dev local env loading", () => {
   });
 
   it("preserves an explicit telemetry environment from .env.local", async () => {
-    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "od-local-env-"));
+    const workspaceRoot = await mkdtemp(path.join(os.tmpdir(), "sw-local-env-"));
     await writeFile(path.join(workspaceRoot, ".env.local"), `${TELEMETRY_ENV_KEY}=dev_smoke\n`);
     const env: NodeJS.ProcessEnv = {};
 

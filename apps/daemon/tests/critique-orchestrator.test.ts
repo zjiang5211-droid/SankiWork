@@ -141,7 +141,7 @@ let tmpDir: string;
 let db: Database.Database;
 
 beforeEach(() => {
-  tmpDir = mkdtempSync(join(tmpdir(), 'od-orch-test-'));
+  tmpDir = mkdtempSync(join(tmpdir(), 'sw-orch-test-'));
   db = freshDb();
 });
 

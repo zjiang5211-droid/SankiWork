@@ -60,7 +60,7 @@ describe('run failure telemetry smoke', () => {
   });
 
   it('drives representative failed runs through analytics and Langfuse diagnostics', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-failure-smoke-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-failure-smoke-bin-'));
     await writeFakeClaude(binDir, 'claude-auth', [
       'HTTP 401 Unauthorized: invalid API key.',
       'Please run /login.',
@@ -131,7 +131,7 @@ describe('run failure telemetry smoke', () => {
         expectedDetail: 'prompt_too_large',
         expectedDiagnosticSource: 'error_event',
         expectStderr: false,
-        message: `od-failure-smoke-context ${'large-context '.repeat(10_000)}`,
+        message: `sw-failure-smoke-context ${'large-context '.repeat(10_000)}`,
       },
       {
         id: 'hang_timeout',
@@ -150,7 +150,7 @@ describe('run failure telemetry smoke', () => {
       const run = await createAndWaitForRun(started.url, {
         caseId: item.id,
         agentId: item.agentId,
-        message: 'message' in item ? item.message : `od-failure-smoke-${item.id}`,
+        message: 'message' in item ? item.message : `sw-failure-smoke-${item.id}`,
       });
       const events = await readRunEvents(run.eventsLogPath);
       const errorCode = deriveRunErrorCode(run);
@@ -196,7 +196,7 @@ describe('run failure telemetry smoke', () => {
     // not a hand-built input) must land it in the correct category instead of
     // the opaque execution_failed bucket. Generous inactivity timeout so the
     // 100ms exit always wins the race (this test is not about timeouts).
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-amr-reclassify-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-amr-reclassify-bin-'));
     await writeFakeClaude(
       binDir,
       'amr-balance',
@@ -270,7 +270,7 @@ describe('run failure telemetry smoke', () => {
       const run = await createAndWaitForRun(started.url, {
         caseId: item.bin,
         agentId: 'claude',
-        message: `od-amr-reclassify-${item.bin}`,
+        message: `sw-amr-reclassify-${item.bin}`,
       });
       const events = await readRunEvents(run.eventsLogPath);
       const errorCode = deriveRunErrorCode(run);
@@ -290,7 +290,7 @@ describe('run failure telemetry smoke', () => {
   });
 
   it('reports the terminal Langfuse fallback for headerless run requests', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-failure-fallback-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-failure-fallback-bin-'));
     await writeFakeClaude(binDir, 'claude-terminal-failure', 'terminal fallback smoke failure');
 
     ingestion = await startLangfuseIngestion();
@@ -312,7 +312,7 @@ describe('run failure telemetry smoke', () => {
     const run = await createAndWaitForRun(started.url, {
       caseId: 'headerless_terminal_fallback',
       agentId: 'claude',
-      message: 'od-failure-smoke-headerless-terminal-fallback',
+      message: 'sw-failure-smoke-headerless-terminal-fallback',
     });
 
     const trace = await ingestion.waitForTrace(run.id);
@@ -321,7 +321,7 @@ describe('run failure telemetry smoke', () => {
   });
 
   it('reports terminal fallback with buffered content when final telemetry never arrives', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-failure-buffered-fallback-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-failure-buffered-fallback-bin-'));
     await writeFakeClaude(binDir, 'claude-buffered-fallback', 'buffered fallback smoke failure');
 
     ingestion = await startLangfuseIngestion();
@@ -343,7 +343,7 @@ describe('run failure telemetry smoke', () => {
     const run = await createAndWaitForRun(started.url, {
       caseId: 'buffered_unfinalized_failed_message',
       agentId: 'claude',
-      message: 'od-failure-smoke-buffered-unfinalized-message',
+      message: 'sw-failure-smoke-buffered-unfinalized-message',
     });
     const bufferedContent = 'buffered unfinalized failed assistant content';
 

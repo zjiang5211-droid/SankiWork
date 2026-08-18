@@ -42,7 +42,7 @@ describe('brand routes', () => {
   let db: ReturnType<typeof openDatabase>;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-brand-routes-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-brand-routes-'));
     dataDir = path.join(tempDir, '.sankiwork');
     brandsRoot = path.join(dataDir, 'brands');
     projectsRoot = path.join(dataDir, 'projects');

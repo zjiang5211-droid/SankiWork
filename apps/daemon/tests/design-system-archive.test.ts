@@ -27,7 +27,7 @@ describe('buildUserDesignSystemArchive', () => {
   const dirId = 'acme-brand';
 
   beforeEach(async () => {
-    root = mkdtempSync(path.join(tmpdir(), 'od-ds-archive-'));
+    root = mkdtempSync(path.join(tmpdir(), 'sw-ds-archive-'));
     const dir = path.join(root, dirId);
     await mkdir(path.join(dir, 'system'), { recursive: true });
     await writeFile(path.join(dir, 'DESIGN.md'), DESIGN_MD);

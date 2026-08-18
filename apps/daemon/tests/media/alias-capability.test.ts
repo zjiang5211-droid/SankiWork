@@ -35,7 +35,7 @@ describe('media alias preserves catalog-keyed capability branching (#1309 review
   const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-media-alias-cap-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-media-alias-cap-'));
     projectRoot = path.join(root, 'project-root');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });

@@ -435,7 +435,7 @@ function renderManifest(
     importedAt,
   };
   return {
-    schemaVersion: 'od-design-system-project/v1',
+    schemaVersion: 'sw-design-system-project/v1',
     id,
     name,
     category: 'Imported',

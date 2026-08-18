@@ -39,7 +39,7 @@ describe('daemon sidecar startup', () => {
   it('starts through the shared daemon startup path and reports live auth state', async () => {
     const { setDesktopAuthSecret } = await import('../src/desktop-auth.js');
     const { startDaemonSidecar } = await import('../src/sidecar/server.js');
-    const root = await mkdtemp(join(tmpdir(), 'od-daemon-sidecar-'));
+    const root = await mkdtemp(join(tmpdir(), 'sw-daemon-sidecar-'));
     const handle = await startDaemonSidecar({
       app: APP_KEYS.DAEMON,
       base: root,
@@ -72,7 +72,7 @@ describe('daemon sidecar startup', () => {
 
   it('registers the live packaged web URL after daemon startup and replaces it on restart', async () => {
     const { startDaemonSidecar } = await import('../src/sidecar/server.js');
-    const root = await mkdtemp(join(tmpdir(), 'od-daemon-sidecar-web-url-'));
+    const root = await mkdtemp(join(tmpdir(), 'sw-daemon-sidecar-web-url-'));
     const ipc = join(root, 'daemon.sock');
     const handle = await startDaemonSidecar({
       app: APP_KEYS.DAEMON,

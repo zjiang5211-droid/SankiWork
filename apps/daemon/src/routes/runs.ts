@@ -2939,7 +2939,7 @@ export function registerRunRoutes(app: Express, ctx: RegisterRunRoutesDeps) {
         ...(status.errorCode !== undefined ? { errorCode: status.errorCode } : {}),
       },
       workspace: status.workspace ?? {
-        storage: { kind: 'od-owned', baseDir: null },
+        storage: { kind: 'sw-owned', baseDir: null },
         provenance: null,
       },
       events: {

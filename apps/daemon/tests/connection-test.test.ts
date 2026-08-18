@@ -88,7 +88,7 @@ async function withFakeAgent<T>(
   script: string,
   run: () => Promise<T>,
 ): Promise<T> {
-  const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-bin-'));
+  const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-bin-'));
   const oldPath = process.env.PATH;
   try {
     if (process.platform === 'win32') {
@@ -116,7 +116,7 @@ async function withOnlyFakeAgent<T>(
   script: string,
   run: () => Promise<T>,
 ): Promise<T> {
-  const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-bin-'));
+  const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-bin-'));
   const oldPath = process.env.PATH;
   const oldAgentHome = process.env.SW_AGENT_HOME;
   const oldClaudeBin = process.env.CLAUDE_BIN;
@@ -2466,7 +2466,7 @@ describe('POST /api/test/connection agent mode', () => {
   });
 
   it('concretizes explicit AMR default before the strict fake Vela connection smoke prompt', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-amr-default-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-amr-default-'));
     const logPath = path.join(markerDir, 'invocations.jsonl');
     const previousLog = process.env.FAKE_VELA_INVOCATION_LOG;
     const previousLogSetModel = process.env.FAKE_VELA_LOG_SET_MODEL;
@@ -2514,7 +2514,7 @@ describe('POST /api/test/connection agent mode', () => {
   });
 
   it('refreshes AMR connection-test default resolution when file credentials change', async () => {
-    const tempHome = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-amr-home-'));
+    const tempHome = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-amr-home-'));
     const logPath = path.join(tempHome, 'invocations.jsonl');
     const previousHome = process.env.HOME;
     const previousUserProfile = process.env.USERPROFILE;
@@ -2734,7 +2734,7 @@ setImmediate(() => process.exit(0));
     if (!process.env.SW_DATA_DIR) {
       throw new Error('SW_DATA_DIR is required for service tier settings tests');
     }
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-service-tier-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-service-tier-'));
     const argvFile = path.join(markerDir, 'argv.json');
     const previousConfig = await readAppConfig(process.env.SW_DATA_DIR);
     try {
@@ -2793,7 +2793,7 @@ setImmediate(() => process.exit(0));
     if (!process.env.SW_DATA_DIR) {
       throw new Error('SW_DATA_DIR is required for service tier settings tests');
     }
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-service-tier-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-service-tier-'));
     const argvFile = path.join(markerDir, 'argv.json');
     const previousConfig = await readAppConfig(process.env.SW_DATA_DIR);
     try {
@@ -2848,7 +2848,7 @@ setImmediate(() => process.exit(0));
   });
 
   it('spawns agent tests with draft allowlisted CLI env', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-env-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-env-'));
     const envFile = path.join(markerDir, 'env.json');
     const codexHome = path.join(markerDir, 'codex-home');
     try {
@@ -2909,7 +2909,7 @@ setImmediate(() => process.exit(0));
   });
 
   it('preserves inherited Codex API keys during connection tests', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-codex-strip-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-codex-strip-'));
     const envFile = path.join(markerDir, 'env.json');
     const codexHome = path.join(markerDir, 'codex-home');
     const previousOpenAiKey = process.env.OPENAI_API_KEY;
@@ -2969,7 +2969,7 @@ setImmediate(() => process.exit(0));
   });
 
   it('lets configured Codex API credentials override inherited auth during connection tests', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-codex-api-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-codex-api-'));
     const envFile = path.join(markerDir, 'env.json');
     const previousOpenAiKey = process.env.OPENAI_API_KEY;
     const previousCodexKey = process.env.CODEX_API_KEY;
@@ -3027,7 +3027,7 @@ setImmediate(() => process.exit(0));
   });
 
   it('lets configured Claude API credentials override inherited auth during connection tests', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-claude-api-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-claude-api-'));
     const envFile = path.join(markerDir, 'env.json');
     const previousKey = process.env.ANTHROPIC_API_KEY;
     const previousToken = process.env.ANTHROPIC_AUTH_TOKEN;
@@ -3379,7 +3379,7 @@ process.exit(1);
   });
 
   it('preserves ANTHROPIC_API_KEY when Claude adapter launches the OpenClaude fallback', async () => {
-    const envFile = path.join(os.tmpdir(), `od-openclaude-env-${Date.now()}-${Math.random()}.json`);
+    const envFile = path.join(os.tmpdir(), `sw-openclaude-env-${Date.now()}-${Math.random()}.json`);
     const previousKey = process.env.ANTHROPIC_API_KEY;
     try {
       process.env.ANTHROPIC_API_KEY = 'sk-openclaude-test';
@@ -3572,7 +3572,7 @@ process.stdin.on('end', () => {
   });
 
   it('uses CODEX_BIN overrides when testing agent connections', async () => {
-    const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-codex-bin-'));
+    const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-codex-bin-'));
     const oldPath = process.env.PATH;
     try {
       const bin = path.join(dir, 'codex-next');
@@ -3611,7 +3611,7 @@ process.stdin.on('end', () => {
     await withFakeCodex(
       `console.log(JSON.stringify({ type: 'item.completed', item: { type: 'agent_message', text: 'ok' } }));\n`,
       async () => {
-        const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-codex-invalid-'));
+        const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-codex-invalid-'));
         try {
           const invalidBin = path.join(dir, 'codex-missing');
           const result = await testAgentConnection({
@@ -3646,7 +3646,7 @@ process.stdin.on('end', () => {
     await withFakeCodex(
       `console.log(JSON.stringify({ type: 'item.completed', item: { type: 'agent_message', text: 'ok' } }));\n`,
       async () => {
-        const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-codex-fallback-'));
+        const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-codex-fallback-'));
         try {
           const bin = path.join(dir, 'codex-bad');
           await fsp.writeFile(
@@ -3688,7 +3688,7 @@ process.stdin.on('end', () => {
     await withFakeCodex(
       `console.log(JSON.stringify({ type: 'item.completed', item: { type: 'agent_message', text: 'ok' } }));\n`,
       async () => {
-        const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-codex-stale-shim-'));
+        const dir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-codex-stale-shim-'));
         try {
           const bin = path.join(dir, 'codex-stale-shim');
           await fsp.writeFile(
@@ -3819,7 +3819,7 @@ process.exit(1);
   });
 
   it('launches OpenCode connection tests with 1.3-compatible JSON stdin args', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-opencode-argv-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-opencode-argv-'));
     const argvFile = path.join(markerDir, 'argv.json');
     const stdinFile = path.join(markerDir, 'stdin.txt');
     try {
@@ -3953,7 +3953,7 @@ setInterval(() => {}, 1000);
   );
 
   it('launches Kimi connection tests through the ACP transport', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-kimi-argv-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-kimi-argv-'));
     const argvFile = path.join(markerDir, 'argv.json');
     try {
       await withFakeKimi(
@@ -4080,7 +4080,7 @@ process.stdin.on('end', () => {
   });
 
   it('keeps OpenCode smoke tests green when git bootstrap is unavailable', async () => {
-    const gitDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-opencode-git-missing-'));
+    const gitDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-opencode-git-missing-'));
     const oldPath = process.env.PATH;
     try {
       if (process.platform === 'win32') {
@@ -4282,7 +4282,7 @@ process.exit(1);
   });
 
   it('rejects invalid custom model ids before spawning an agent', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-argv-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-argv-'));
     const argvFile = path.join(markerDir, 'argv.json');
     try {
       await withFakeCodex(
@@ -4320,7 +4320,7 @@ console.log(JSON.stringify({ type: 'item.completed', item: { type: 'agent_messag
   });
 
   it('drops invalid agent reasoning options before spawning an agent', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-argv-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-argv-'));
     const argvFile = path.join(markerDir, 'argv.json');
     try {
       await withFakeCodex(
@@ -4374,7 +4374,7 @@ console.log(JSON.stringify({ type: 'item.completed', item: { type: 'agent_messag
   });
 
   it('hard-cancels aborted agent probes before cleaning up', async () => {
-    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-marker-'));
+    const markerDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-marker-'));
     const pidFile = path.join(markerDir, 'pid');
     const termFile = path.join(markerDir, 'term');
     try {
@@ -4531,7 +4531,7 @@ process.stdin.on('end', () => {
     const oldPath = process.env.PATH;
     const oldClaudeBin = process.env.CLAUDE_BIN;
     const oldAgentHome = process.env.SW_AGENT_HOME;
-    const emptyHome = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-missing-claude-home-'));
+    const emptyHome = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-missing-claude-home-'));
     process.env.PATH = '';
     delete process.env.CLAUDE_BIN;
     process.env.SW_AGENT_HOME = emptyHome;

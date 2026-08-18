@@ -197,7 +197,7 @@ describe('run event-buffer truncation vs artifact verdict (HTTP)', () => {
   });
 
   it('a run that wrote an artifact then flooded past the ring buffer, then exited non-zero, is succeeded', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-trunc-artifact-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-trunc-artifact-bin-'));
     // Flood well past maxEvents (2000) so the early tool_use/tool_result pair
     // is spliced out of the in-memory run.events buffer.
     const fakeClaude = await writeArtifactThenFloodClaude(binDir, 'claude-trunc', PROD_DEFAULT_MAX_EVENTS + 500);

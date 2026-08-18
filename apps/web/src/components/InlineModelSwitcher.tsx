@@ -1126,7 +1126,7 @@ export function InlineModelSwitcher({
         ref={chipRef}
         type="button"
         className={
-          'inline-switcher__chip od-tooltip' +
+          'inline-switcher__chip sw-tooltip' +
           (compact ? ' inline-switcher__chip--icon' : '') +
           (showAmrReminder ? ' has-amr-reminder' : '')
         }
@@ -1180,7 +1180,7 @@ export function InlineModelSwitcher({
             {deepSeekCampaignVisibleForCurrentExecution
               && isDeepSeekV4FlashCampaignModel(currentModelId) ? (
               <span
-                className={`inline-switcher__campaign-badge od-tooltip${campaignBadgeStateClass}`}
+                className={`inline-switcher__campaign-badge sw-tooltip${campaignBadgeStateClass}`}
                 data-tooltip={campaignModelTooltip}
                 data-tooltip-placement="top"
                 aria-label={campaignModelTooltip}
@@ -1469,7 +1469,7 @@ export function InlineModelSwitcher({
                           </span>
                           {campaignModel ? (
                             <span
-                              className={`inline-switcher__campaign-badge od-tooltip${campaignBadgeStateClass}`}
+                              className={`inline-switcher__campaign-badge sw-tooltip${campaignBadgeStateClass}`}
                               data-tooltip={campaignModelTooltip}
                               data-tooltip-placement="top"
                               aria-label={campaignModelTooltip}

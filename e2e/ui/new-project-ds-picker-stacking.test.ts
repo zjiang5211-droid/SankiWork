@@ -7,7 +7,7 @@ import { routeAgents } from '../lib/playwright/mock-factory.js';
 // the form sections below it (Target platforms, Companion surfaces, Fidelity,
 // Create) painted through/over the popover — a stacking bug. Every
 // `.newproj-section` carries a residual identity transform from the
-// `od-fade-slide-up` entrance animation (`animation-fill-mode: both`), which
+// `sw-fade-slide-up` entrance animation (`animation-fill-mode: both`), which
 // turns each section into its own stacking context. `.ds-picker` is a
 // `.newproj-section`, so its popover's `z-index` is trapped inside the picker
 // and cannot rise above later sibling sections. The fix lifts the OPEN

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "od-design-system-intents/v1",
+  "schemaVersion": "sw-design-system-intents/v1",
   "mappings": [
     { "intent": "account.settings.section", "component": "Surface", "properties": { "title": "Account settings" }, "states": ["hover"], "priority": 100 },
     { "intent": "account.settings.field", "component": "Field", "states": ["focus"], "minInstances": 3, "priority": 100 },

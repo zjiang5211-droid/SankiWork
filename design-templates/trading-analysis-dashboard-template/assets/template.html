@@ -213,8 +213,8 @@
     // Storage access can throw SecurityError inside sandboxed iframes that allow
     // scripts but not same-origin (SankiWork's preview), so persistence is
     // strictly best-effort and must never abort initialization.
-    const safeGetTheme = () => { try { return localStorage.getItem("od-trading-theme"); } catch { return null; } };
-    const safeSetTheme = (t) => { try { localStorage.setItem("od-trading-theme", t); } catch { /* sandbox: persistence unavailable */ } };
+    const safeGetTheme = () => { try { return localStorage.getItem("sw-trading-theme"); } catch { return null; } };
+    const safeSetTheme = (t) => { try { localStorage.setItem("sw-trading-theme", t); } catch { /* sandbox: persistence unavailable */ } };
     const setTheme = (t) => { document.documentElement.setAttribute("data-theme", t); safeSetTheme(t); $$("#theme button").forEach(b => b.classList.toggle("active", b.dataset.theme === t)); };
     const savedTheme = safeGetTheme(); if (savedTheme) setTheme(savedTheme);
     $$("#theme button").forEach(b => b.onclick = () => setTheme(b.dataset.theme));

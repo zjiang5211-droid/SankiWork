@@ -934,9 +934,9 @@ describe('PreviewDrawOverlay', () => {
     const { getByRole } = render(
       <PreviewDrawOverlay active captureViewport>
         {/* URL-load frame is the visible/active one (e.g. a deck) but has no bridge */}
-        <iframe title="url" data-od-active="true" />
+        <iframe title="url" data-sw-active="true" />
         {/* srcDoc frame is mounted but hidden; it hosts the snapshot bridge */}
-        <iframe title="srcdoc" data-od-render-mode="srcdoc" data-od-active="false" />
+        <iframe title="srcdoc" data-sw-render-mode="srcdoc" data-sw-active="false" />
       </PreviewDrawOverlay>,
     );
 
@@ -944,7 +944,7 @@ describe('PreviewDrawOverlay', () => {
 
     await waitFor(() => expect(snapshot).toHaveBeenCalled());
     const usedIframe = snapshot.mock.calls[0]?.[0] as HTMLIFrameElement;
-    expect(usedIframe.getAttribute('data-od-render-mode')).toBe('srcdoc');
+    expect(usedIframe.getAttribute('data-sw-render-mode')).toBe('srcdoc');
   });
 
   it('portals the draw toolbar out of the scaled/clipped device frame to the preview body', async () => {

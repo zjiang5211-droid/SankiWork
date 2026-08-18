@@ -23,7 +23,7 @@ import {
 let tempDir: string;
 
 beforeEach(() => {
-  tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-skill-team-binding-'));
+  tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-skill-team-binding-'));
 });
 
 afterEach(() => {

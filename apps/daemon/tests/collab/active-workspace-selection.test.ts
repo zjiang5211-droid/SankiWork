@@ -166,7 +166,7 @@ describe('observed active team workspace snapshot', () => {
 
 describe('active workspace selection generation', () => {
   it('notifies subscribers after persisted selection changes', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-workspace-selection-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-workspace-selection-'));
     roots.push(root);
     const store = createActiveWorkspaceSelectionStore(root);
     const selections: Array<string | null> = [];
@@ -184,7 +184,7 @@ describe('active workspace selection generation', () => {
   });
 
   it('detects away-and-back changes even when the final workspace id matches', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-workspace-selection-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-workspace-selection-'));
     roots.push(root);
     const store = createActiveWorkspaceSelectionStore(root);
 
@@ -200,7 +200,7 @@ describe('active workspace selection generation', () => {
   });
 
   it('increments generation when the selection is cleared', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-workspace-selection-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-workspace-selection-'));
     roots.push(root);
     const store = createActiveWorkspaceSelectionStore(root);
     await store.set('workspace-1');

@@ -29,7 +29,7 @@ afterEach(() => {
 });
 
 function createDb(): Database.Database {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-project-status-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-project-status-'));
   tempDirs.push(dir);
   return openDatabase(dir, { dataDir: path.join(dir, '.sankiwork') });
 }

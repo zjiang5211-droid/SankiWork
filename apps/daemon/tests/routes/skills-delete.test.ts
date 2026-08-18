@@ -89,7 +89,7 @@ describe('DELETE /api/skills/:id', () => {
     // Local-path install: `installFromTarget` symlinks the user's source
     // directory into USER_SKILLS_DIR. Deleting must unlink the symlink,
     // not recurse into and wipe the user's own files.
-    const sourceTree = mkdtempSync(path.join(tmpdir(), 'od-skill-source-'));
+    const sourceTree = mkdtempSync(path.join(tmpdir(), 'sw-skill-source-'));
     tempDirs.push(sourceTree);
     writeFileSync(
       path.join(sourceTree, 'SKILL.md'),

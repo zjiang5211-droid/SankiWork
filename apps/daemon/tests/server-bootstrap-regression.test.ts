@@ -349,7 +349,7 @@ describe('bootstrap route regressions', () => {
   });
 
   it('keeps extracted design-system and template example responses stable', async () => {
-    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'od-route-smoke-'));
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-route-smoke-'));
     const designSystemId = 'route-smoke-system';
     const templateId = 'route-smoke-template';
     const designSystemBody = '# Route Smoke System\n\nA seeded design system.';

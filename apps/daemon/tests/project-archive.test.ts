@@ -25,7 +25,7 @@ describe('buildProjectArchive', () => {
   const projectId = 'proj-archive-test';
 
   beforeEach(async () => {
-    projectsRoot = mkdtempSync(path.join(tmpdir(), 'od-archive-'));
+    projectsRoot = mkdtempSync(path.join(tmpdir(), 'sw-archive-'));
     const dir = path.join(projectsRoot, projectId);
     await mkdir(path.join(dir, 'ui-design', 'src'), { recursive: true });
     await mkdir(path.join(dir, 'ui-design', 'frames'), { recursive: true });

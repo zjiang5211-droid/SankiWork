@@ -21,7 +21,7 @@ describe('minimax image generation', () => {
   const originalMediaModelAliases = process.env.SW_MEDIA_MODEL_ALIASES;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-minimax-image-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-minimax-image-'));
     projectRoot = path.join(root, 'project-root');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });

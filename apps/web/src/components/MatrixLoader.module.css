@@ -21,19 +21,19 @@
   animation-iteration-count: infinite;
 }
 .far {
-  animation-name: od-matrix-far;
+  animation-name: sw-matrix-far;
 }
 .edge {
-  animation-name: od-matrix-edge;
+  animation-name: sw-matrix-edge;
 }
 .axis {
-  animation-name: od-matrix-axis;
+  animation-name: sw-matrix-axis;
 }
 .inner {
-  animation-name: od-matrix-inner;
+  animation-name: sw-matrix-inner;
 }
 
-@keyframes od-matrix-far {
+@keyframes sw-matrix-far {
   0% { opacity: 0.103; }
   4.3478% { opacity: 0.161; }
   8.6957% { opacity: 0.224; }
@@ -60,7 +60,7 @@
   100% { opacity: 0.056; }
 }
 
-@keyframes od-matrix-edge {
+@keyframes sw-matrix-edge {
   0% { opacity: 0.009; }
   4.3478% { opacity: 0; }
   8.6957% { opacity: 0.012; }
@@ -87,7 +87,7 @@
   100% { opacity: 0.037; }
 }
 
-@keyframes od-matrix-axis {
+@keyframes sw-matrix-axis {
   0% { opacity: 0.079; }
   4.3478% { opacity: 0.032; }
   8.6957% { opacity: 0.006; }
@@ -114,7 +114,7 @@
   100% { opacity: 0.142; }
 }
 
-@keyframes od-matrix-inner {
+@keyframes sw-matrix-inner {
   0% { opacity: 0.491; }
   4.3478% { opacity: 0.394; }
   8.6957% { opacity: 0.297; }

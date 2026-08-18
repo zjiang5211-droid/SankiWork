@@ -42,7 +42,7 @@ function fakePaths(root: string): PackagedNamespacePaths {
 
 describe("stabilizePackagedWorkingDirectory", () => {
   it("switches to the namespace runtime root without reading the inherited cwd", () => {
-    const runtimeRoot = join(tmpdir(), "od-packaged-runtime");
+    const runtimeRoot = join(tmpdir(), "sw-packaged-runtime");
     const chdir = vi.fn();
     const cwd = vi.spyOn(process, "cwd").mockImplementation(() => {
       throw new Error("uv_cwd");
@@ -61,7 +61,7 @@ describe("stabilizePackagedWorkingDirectory", () => {
 
 describe("verifyPackagedDataRootWritable", () => {
   it("accepts a writable dataRoot", async () => {
-    const root = mkdtempSync(join(tmpdir(), "od-packaged-launch-"));
+    const root = mkdtempSync(join(tmpdir(), "sw-packaged-launch-"));
     try {
       const dataRoot = join(root, "namespaces", "release-beta", "data");
       await expect(verifyPackagedDataRootWritable({ dataRoot })).resolves.toBeUndefined();
@@ -71,7 +71,7 @@ describe("verifyPackagedDataRootWritable", () => {
   });
 
   it("wraps low-level mkdir/access failures with a user-actionable error", async () => {
-    const root = mkdtempSync(join(tmpdir(), "od-packaged-launch-"));
+    const root = mkdtempSync(join(tmpdir(), "sw-packaged-launch-"));
     try {
       const blocker = join(root, "namespaces", "release-beta");
       mkdirSync(blocker, { recursive: true });
@@ -122,7 +122,7 @@ describe("claimPackagedSingleInstanceLock", () => {
   });
 
   it("queues a deeplink from the lock fallback while desktop IPC is unavailable", async () => {
-    const root = mkdtempSync(join(tmpdir(), "od-packaged-lock-deeplink-"));
+    const root = mkdtempSync(join(tmpdir(), "sw-packaged-lock-deeplink-"));
     const listeners = new Map<string, (event: unknown, argv: string[]) => void>();
     const deeplinkUrl = "sankiwork://workspace/invite/continue?nonce=cold-race";
     const handoff = createPackagedSecondInstanceHandoff();

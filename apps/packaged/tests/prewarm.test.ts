@@ -39,7 +39,7 @@ const MOUNTS_FIXTURE = [
 const tempRoots: string[] = [];
 
 function makeTempRoot(): string {
-  const root = mkdtempSync(join(tmpdir(), 'od-prewarm-test-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-prewarm-test-'));
   tempRoots.push(root);
   return root;
 }

@@ -697,7 +697,7 @@ describe('chat run service shutdown', () => {
 
     expect(runs.statusBody(run).workspace).toEqual({
       storage: {
-        kind: 'od-owned',
+        kind: 'sw-owned',
         baseDir: null,
       },
       provenance: null,
@@ -736,7 +736,7 @@ describe('chat run service shutdown', () => {
 
     expect(runs.statusBody(run).workspace).toEqual({
       storage: {
-        kind: 'od-owned',
+        kind: 'sw-owned',
         baseDir: null,
       },
       provenance: null,
@@ -767,7 +767,7 @@ describe('chat run service shutdown', () => {
       conversationId: 'conv-a',
       projectMetadata: {
         importedFrom: 'folder',
-        baseDir: '/tmp/od-scratch',
+        baseDir: '/tmp/sw-scratch',
         orchestratorWorkspace: {
           kind: 'scratch',
           sourceLabel: 'checkout:main',
@@ -781,7 +781,7 @@ describe('chat run service shutdown', () => {
     expect(runs.statusBody(run).workspace).toEqual({
       storage: {
         kind: 'folder-backed',
-        baseDir: '/tmp/od-scratch',
+        baseDir: '/tmp/sw-scratch',
       },
       provenance: {
         kind: 'orchestrator-scratch',
@@ -1063,7 +1063,7 @@ describe('run event log persistence', () => {
   let tmpDir: string;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-runs-log-test-'));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-runs-log-test-'));
   });
   afterEach(() => {
     try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch { /* best-effort */ }

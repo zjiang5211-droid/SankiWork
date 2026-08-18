@@ -43,7 +43,7 @@ import type { InstalledPluginRecord } from '@sankiwork/contracts';
 let tempDir: string;
 
 beforeEach(() => {
-  tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-plugins-workspace-scope-'));
+  tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-plugins-workspace-scope-'));
 });
 
 afterEach(() => {

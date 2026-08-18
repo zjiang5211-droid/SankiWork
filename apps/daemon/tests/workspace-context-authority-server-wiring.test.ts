@@ -64,7 +64,7 @@ afterEach(async () => {
 
 describe('server workspace context authority wiring', () => {
   it('keeps directory Team authority and fences an unread A -> B -> A Settings transition', async () => {
-    scratch = await mkdtemp(join(tmpdir(), 'od-context-authority-wiring-'));
+    scratch = await mkdtemp(join(tmpdir(), 'sw-context-authority-wiring-'));
     let directoryReads = 0;
     let currentReads = 0;
     let allowHubReady = true;

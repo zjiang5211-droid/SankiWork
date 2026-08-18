@@ -66,9 +66,9 @@ async function startRouteServer(options: {
       resolvedPortRef: { current: 0 },
     },
     paths: {
-      PROJECT_ROOT: '/tmp/od-route-project-root',
-      PROJECTS_DIR: '/tmp/od-route-projects',
-      RUNTIME_DATA_DIR: '/tmp/od-route-data',
+      PROJECT_ROOT: '/tmp/sw-route-project-root',
+      PROJECTS_DIR: '/tmp/sw-route-projects',
+      RUNTIME_DATA_DIR: '/tmp/sw-route-data',
     },
     ids: { randomUUID: () => `task-${Math.random()}` },
     auth: functionProxy({

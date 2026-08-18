@@ -138,7 +138,7 @@ export function formatDate(ts?: number): string | null {
 
 /** CSS `font-family` name for an injected `@font-face` of a font asset. */
 export function fontFamilyFor(assetId: string): string {
-  return `od-lib-font-${assetId}`;
+  return `sw-lib-font-${assetId}`;
 }
 
 /** First palette swatch, else a hex parsed out of free text, else null. */

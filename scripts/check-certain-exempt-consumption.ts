@@ -40,7 +40,7 @@ const checkedRoots = ["apps", "packages", "tools", "e2e"] as const;
 const skippedDirectoryNames = new Set([
   ".astro",
   ".next",
-  ".od-data",
+  ".sw-data",
   "dist",
   "node_modules",
   "out",

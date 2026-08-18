@@ -406,7 +406,7 @@ describe('workspace project routes', () => {
   it('does not expose removed-location projects through workspace project routes', async () => {
     const locationId = `workspace-hidden-location-${Date.now()}`;
     const projectId = `workspace-hidden-project-${Date.now()}`;
-    const extDir = await mkdtemp(path.join(tmpdir(), 'od-workspace-hidden-'));
+    const extDir = await mkdtemp(path.join(tmpdir(), 'sw-workspace-hidden-'));
     try {
       const putLocation = await fetch(`${baseUrl}/api/project-locations`, {
         method: 'PUT',

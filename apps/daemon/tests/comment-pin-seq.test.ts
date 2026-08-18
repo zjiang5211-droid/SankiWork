@@ -45,7 +45,7 @@ function target(patch: Record<string, unknown> = {}) {
  *  process by re-opening whichever one it needs next — see the concurrency
  *  test below for why that matters. */
 function newDeviceDb(label: string) {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), `od-pin-seq-${label}-`));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), `sw-pin-seq-${label}-`));
   const db = openDatabase(dir, { dataDir: dir });
   insertProject(db, { id: 'project-1', name: 'Project', createdAt: 1, updatedAt: 1 });
   insertConversation(db, { id: 'conversation-1', projectId: 'project-1', title: 'Chat', createdAt: 1, updatedAt: 1 });
@@ -53,7 +53,7 @@ function newDeviceDb(label: string) {
 }
 
 function seededDb() {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-pin-seq-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-pin-seq-'));
   const db = openDatabase(tempDir, { dataDir: tempDir });
   insertProject(db, { id: 'project-1', name: 'Project', createdAt: 1, updatedAt: 1 });
   insertConversation(db, { id: 'conversation-1', projectId: 'project-1', title: 'Chat', createdAt: 1, updatedAt: 1 });

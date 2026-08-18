@@ -392,7 +392,7 @@ async function installSkillSourceCandidate(
 ): Promise<SkillRemoteInstallResult> {
   const maxBytes = options.maxBytes ?? DEFAULT_MAX_BYTES;
   const fetcher = options.fetcher ?? defaultFetcher;
-  const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'od-skill-archive-'));
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-skill-archive-'));
   const archivePath = path.join(tempRoot, 'archive.tgz');
   const extractRoot = path.join(tempRoot, 'extract');
   let installStageRoot: string | undefined;
@@ -488,7 +488,7 @@ async function installSkillSourceCandidate(
     }
 
     installStageRoot = await mkdtemp(
-      path.join(path.dirname(userSkillsRoot), '.od-skill-install-'),
+      path.join(path.dirname(userSkillsRoot), '.sw-skill-install-'),
     );
     const stagedSkill = path.join(installStageRoot, 'skill');
     await cp(skillRoot, stagedSkill, {

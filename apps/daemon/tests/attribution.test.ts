@@ -20,7 +20,7 @@ function analyticsStub(): AnalyticsService {
 }
 
 async function withTempData<T>(fn: (dataDir: string) => Promise<T>): Promise<T> {
-  const dataDir = await mkdtemp(join(tmpdir(), 'od-attribution-'));
+  const dataDir = await mkdtemp(join(tmpdir(), 'sw-attribution-'));
   try {
     return await fn(dataDir);
   } finally {

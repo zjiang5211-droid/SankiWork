@@ -11,7 +11,7 @@ import {
 } from '../src/brands/prefetch.js';
 
 function tmpBrandDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), 'od-brand-html-'));
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'sw-brand-html-'));
 }
 
 // An ≥80-char header SVG so extractInlineHeaderSvg registers it as a logo,
@@ -54,8 +54,8 @@ describe('brand prefetch artifacts', () => {
     // (first attribute wins on duplicates), covering both external-src and
     // inline scripts regardless of original casing.
     expect(preview).toContain('accounts.google.com/gsi/client');
-    expect(preview).not.toMatch(/<script\s+(?!type="text\/od-defused-script")/i);
-    expect(preview.match(/<script type="text\/od-defused-script"/gi)).toHaveLength(2);
+    expect(preview).not.toMatch(/<script\s+(?!type="text\/sw-defused-script")/i);
+    expect(preview.match(/<script type="text\/sw-defused-script"/gi)).toHaveLength(2);
     expect(preview).toContain('page');
   });
 });

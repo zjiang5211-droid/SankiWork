@@ -282,7 +282,7 @@ Resources:
         Uid: "1001"
         Gid: "1001"
       RootDirectory:
-        Path: "/od-data"
+        Path: "/sw-data"
         CreationInfo:
           OwnerUid: "1001"
           OwnerGid: "1001"

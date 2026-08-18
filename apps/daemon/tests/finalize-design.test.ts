@@ -53,7 +53,7 @@ afterEach(() => {
 });
 
 function setupResolverFixture(): { db: any; projectsRoot: string } {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-finalize-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-finalize-'));
   const db = openDatabase(tempDir);
   insertProject(db, {
     id: PROJECT_ID,
@@ -489,7 +489,7 @@ describe('finalizeDesignPackage (pipeline integration)', () => {
   function setupPipeline(
     opts: { designSystemId?: string | null; designSystemBody?: string | null } = {},
   ): { db: any; projectsRoot: string; designSystemsRoot: string } {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-finalize-pipe-'));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-finalize-pipe-'));
     const designSystemsRoot = path.join(tempDir, 'design-systems');
     fs.mkdirSync(designSystemsRoot, { recursive: true });
     if (opts.designSystemId && opts.designSystemBody !== null) {
@@ -791,7 +791,7 @@ describe('finalizeDesignPackage (pipeline integration)', () => {
   // dir instead of metadata.baseDir; the resolver also missed the user's
   // real artifacts. Post-fix, both call sites use resolveProjectDir.
   it('writes DESIGN.md under metadata.baseDir for imported-folder projects', async () => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-finalize-imported-'));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-finalize-imported-'));
     const designSystemsRoot = path.join(tempDir, 'design-systems');
     fs.mkdirSync(designSystemsRoot, { recursive: true });
     fs.mkdirSync(path.join(designSystemsRoot, 'shadcn'), { recursive: true });

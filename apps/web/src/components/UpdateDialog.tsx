@@ -413,7 +413,7 @@ export function UpdateDialog() {
           {showSafety ? (
             <Icon name="alert-triangle" size={22} />
           ) : (
-            <span className={`${styles.brandGlyph} od-brand-glyph`} />
+            <span className={`${styles.brandGlyph} sw-brand-glyph`} />
           )}
         </div>
         <h2 className={styles.title} id="update-dialog-title">{title}</h2>

@@ -94,10 +94,10 @@ shadows) from the live page and stores it alongside the HTML asset. From the
 Library you can later **Download Figma JSON** for that asset, or use *Download Figma
 (.json)* in the clipper to grab it directly without saving to the Library.
 
-> ### ⚠️ The `.od-figma.json` is opened by a Figma plugin, not by dragging it in
+> ### ⚠️ The `.sw-figma.json` is opened by a Figma plugin, not by dragging it in
 >
 > Figma only imports its own binary `.fig`/`.jam` files, so dragging an
-> `.od-figma.json` into Figma (or **Drafts**) shows **“Unsupported file format”** —
+> `.sw-figma.json` into Figma (or **Drafts**) shows **“Unsupported file format”** —
 > that is expected. Open it in **two steps** instead:
 >
 > 1. **Install the OD Figma Import plugin once** — in the Figma *desktop* app:
@@ -105,7 +105,7 @@ Library you can later **Download Figma JSON** for that asset, or use *Download F
 >    `figma-plugin/manifest.json`. (Same model as web-to-figma / html.to.design,
 >    which are also plugins.)
 > 2. **Run the plugin and open the file** — **Plugins → Development → OD Figma
->    Import**, then drop in the downloaded `.od-figma.json`.
+>    Import**, then drop in the downloaded `.sw-figma.json`.
 >
 > Full instructions: [`../figma-plugin/README.md`](../figma-plugin/README.md).
 

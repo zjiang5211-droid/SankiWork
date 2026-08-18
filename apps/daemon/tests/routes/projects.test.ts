@@ -45,7 +45,7 @@ describe('GET /api/projects/:id resolvedDir', () => {
   });
 
   function makeFolder(): string {
-    const d = mkdtempSync(path.join(tmpdir(), 'od-projects-routes-'));
+    const d = mkdtempSync(path.join(tmpdir(), 'sw-projects-routes-'));
     tempDirs.push(d);
     return d;
   }
@@ -1311,7 +1311,7 @@ describe('project locations routes', () => {
   });
 
   function makeTempDir(): string {
-    const d = mkdtempSync(path.join(tmpdir(), 'od-proj-loc-routes-'));
+    const d = mkdtempSync(path.join(tmpdir(), 'sw-proj-loc-routes-'));
     tempDirs.push(d);
     return d;
   }

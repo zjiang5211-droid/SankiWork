@@ -53,7 +53,7 @@ const residualSkippedDirectories = new Set([
   ".cursor",
   ".git",
   ".sankiwork",
-  ".od-e2e",
+  ".sw-e2e",
   ".opencode",
   // Local agent deepwork/worktree scratch (git-ignored; not product source).
   ".slim",
@@ -147,7 +147,7 @@ const residualAllowedPathPrefixes = [
   "e2e/reports/html/",
   "e2e/reports/playwright-html-report/",
   "e2e/reports/test-results/",
-  "e2e/ui/.od-data/",
+  "e2e/ui/.sw-data/",
   "e2e/ui/reports/playwright-html-report/",
   "e2e/ui/reports/test-results/",
   "e2e/ui/test-results/",
@@ -456,7 +456,7 @@ async function checkPackageDependencySpecs(): Promise<boolean> {
 }
 
 const testLayoutScopedDirectories = ["apps", "packages", "tools"];
-const testLayoutSkippedDirectories = new Set([".next", ".od-data", "dist", "node_modules", "out", "reports", "test-results"]);
+const testLayoutSkippedDirectories = new Set([".next", ".sw-data", "dist", "node_modules", "out", "reports", "test-results"]);
 
 function isTestFile(fileName: string): boolean {
   return /\.test\.tsx?$/.test(fileName);
@@ -548,7 +548,7 @@ async function checkTestLayout(): Promise<boolean> {
 }
 
 const e2ePackageJsonPath = path.join(repoRoot, "e2e", "package.json");
-const e2eSkippedDirectories = new Set([".od-data", "node_modules", "reports", "test-results"]);
+const e2eSkippedDirectories = new Set([".sw-data", "node_modules", "reports", "test-results"]);
 const e2eAllowedScripts = [
   "test",
   "test:p0",
@@ -778,7 +778,7 @@ async function checkE2eLayout(): Promise<boolean> {
   return true;
 }
 
-const webTestSkippedDirectories = new Set([".od-data", "reports", "test-results"]);
+const webTestSkippedDirectories = new Set([".sw-data", "reports", "test-results"]);
 
 async function checkWebTestLayout(): Promise<boolean> {
   const violations: string[] = [];
@@ -1031,7 +1031,7 @@ async function checkToolsLayout(): Promise<boolean> {
 
 const stylePolicySkippedDirectories = new Set([
   ".next",
-  ".od-data",
+  ".sw-data",
   "dist",
   "node_modules",
   "out",

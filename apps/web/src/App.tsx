@@ -908,7 +908,7 @@ function AppInner() {
   useEffect(() => installFontRecovery(), []);
   // Observability marker. `apps/web/src/observability/white-screen.ts`
   // keys its "app actually mounted" success condition on this attribute
-  // because the dynamic-import loading shell (`<div class="od-loading-shell">
+  // because the dynamic-import loading shell (`<div class="sw-loading-shell">
   // Loading SankiWork…</div>`) is itself >MIN_VISIBLE_TEXT and would
   // otherwise be mistaken for a real mount. Survives subsequent render
   // crashes — once App has mounted at least once, it's no longer a white
@@ -916,7 +916,7 @@ function AppInner() {
   useEffect(() => {
     if (typeof document !== 'undefined') {
       document.documentElement.setAttribute('data-sw-app-mounted', '1');
-      document.querySelectorAll('.od-loading-shell').forEach((node) => node.remove());
+      document.querySelectorAll('.sw-loading-shell').forEach((node) => node.remove());
     }
   }, []);
   // Desktop vibrancy focus response: an unfocused window drops the cream

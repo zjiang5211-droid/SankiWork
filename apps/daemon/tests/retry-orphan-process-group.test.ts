@@ -59,7 +59,7 @@ describe('same-run retry orphaned process group', () => {
   });
 
   it('kills the failed attempt’s descendants when the same-run retry tears it down', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-retry-orphan-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-retry-orphan-bin-'));
     const { bin: fakeClaude, grandchildPidPath } = await writeOrphaningClaude(binDir, 'claude-orphan');
 
     delete process.env.POSTHOG_KEY;

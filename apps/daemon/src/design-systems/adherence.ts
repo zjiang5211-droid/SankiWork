@@ -441,7 +441,7 @@ function jsxStaticMarkupRoots(source: string): string[] | undefined {
   if (ast === undefined) return undefined;
 
   return collectJsxRoots(ast.program)
-    .map((root) => `<od-jsx-root>${serializeJsxRoot(root)}</od-jsx-root>`);
+    .map((root) => `<sw-jsx-root>${serializeJsxRoot(root)}</sw-jsx-root>`);
 }
 
 function parseComponentSource(source: string): ReturnType<typeof parse> | undefined {

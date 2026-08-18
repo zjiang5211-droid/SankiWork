@@ -2421,7 +2421,7 @@ async function loadDeckCover(
 
 function deckPreviewSrcDoc(html: string): string {
   const withoutScripts = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/giu, '');
-  const style = `<style id="od-recent-deck-real-preview">
+  const style = `<style id="sw-recent-deck-real-preview">
     html,
     body {
       margin: 0 !important;

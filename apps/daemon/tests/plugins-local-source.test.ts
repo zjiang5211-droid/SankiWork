@@ -49,7 +49,7 @@ describe('resolveLocalPluginBySource', () => {
   });
 
   it('selects the exact local record when Personal and Team share an id', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-local-plugin-source-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-local-plugin-source-'));
     roots.push(root);
     const dataDir = path.join(root, 'data');
     const pluginsRoot = path.join(dataDir, 'plugins');
@@ -121,7 +121,7 @@ describe('resolveLocalPluginBySource', () => {
   });
 
   it('rejects a forged Team source without a local materialization marker', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-local-plugin-source-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-local-plugin-source-'));
     roots.push(root);
     const dataDir = path.join(root, 'data');
     const db = openDatabase(root, { dataDir });
@@ -135,7 +135,7 @@ describe('resolveLocalPluginBySource', () => {
   });
 
   it('rejects a Team source after its local binding is tombstoned', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-local-plugin-source-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-local-plugin-source-'));
     roots.push(root);
     const dataDir = path.join(root, 'data');
     const pluginsRoot = path.join(dataDir, 'plugins');

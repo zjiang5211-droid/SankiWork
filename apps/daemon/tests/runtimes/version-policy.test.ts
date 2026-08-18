@@ -69,7 +69,7 @@ describe('runtime version policy', () => {
     ['0.1.0-rc.6', true, undefined],
     ['0.1.0-rc.7', true, 'untested-version'],
   ] as const)('detects %s with available=%s', async (version, available, reason) => {
-    const dir = mkdtempSync(path.join(tmpdir(), 'od-runtime-version-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'sw-runtime-version-'));
     try {
       const detected = await detectAgent(versionedDef, {
         DSH_BIN: writeVersionBin(dir, version),
@@ -83,7 +83,7 @@ describe('runtime version policy', () => {
   });
 
   it.each(['not-a-version', 'DeepSeek Harness preview'])('rejects unparseable version output %s', async (version) => {
-    const dir = mkdtempSync(path.join(tmpdir(), 'od-runtime-version-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'sw-runtime-version-'));
     try {
       const detected = await detectAgent(versionedDef, {
         DSH_BIN: writeVersionBin(dir, version),
@@ -107,7 +107,7 @@ describe('runtime version policy', () => {
     [true, true, undefined],
     [false, false, 'runtime-profile-incompatible'],
   ] as const)('gates availability on the external profile handshake', async (compatible, available, reason) => {
-    const dir = mkdtempSync(path.join(tmpdir(), 'od-runtime-profile-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'sw-runtime-profile-'));
     try {
       const def: RuntimeAgentDef = {
         ...versionedDef,

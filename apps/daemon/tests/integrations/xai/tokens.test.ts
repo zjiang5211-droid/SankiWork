@@ -26,7 +26,7 @@ describe('xai-tokens persistence', () => {
   let dataDir: string;
 
   beforeEach(async () => {
-    dataDir = await mkdtemp(path.join(tmpdir(), 'od-xai-tokens-'));
+    dataDir = await mkdtemp(path.join(tmpdir(), 'sw-xai-tokens-'));
   });
 
   afterEach(async () => {
@@ -153,7 +153,7 @@ describe('xai-tokens persistence', () => {
 
 describe('readTokensFile', () => {
   it('returns empty when ENOENT', async () => {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-xai-read-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-xai-read-'));
     try {
       expect(await readTokensFile(dir)).toEqual({});
     } finally {
@@ -162,7 +162,7 @@ describe('readTokensFile', () => {
   });
 
   it.skipIf(!isPosix)('rethrows non-ENOENT read errors', async () => {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-xai-perm-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-xai-perm-'));
     const file = path.join(dir, 'xai-tokens.json');
     try {
       await writeFile(file, '{}', 'utf8');

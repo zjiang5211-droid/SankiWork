@@ -23,7 +23,7 @@ describe('design systems registry', () => {
   let root: string;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-design-systems-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-design-systems-'));
   });
 
   afterEach(async () => {
@@ -567,7 +567,7 @@ describe('design systems registry', () => {
 
   it('preserves edits and backfills gaps for legacy systems without a manifest', async () => {
     // Simulate an older generated system: derived files exist on disk but there
-    // is no .od-generated.json fingerprint manifest yet.
+    // is no .sw-generated.json fingerprint manifest yet.
     await mkdir(path.join(root, 'legacy', 'ui_kits', 'app', 'components'), { recursive: true });
     await writeFile(
       path.join(root, 'legacy', 'DESIGN.md'),
@@ -593,12 +593,12 @@ describe('design systems registry', () => {
     });
     const dir = dirOf(created.id);
     // The manifest exists on disk after generation.
-    await expect(readFile(path.join(dir, '.od-generated.json'), 'utf8')).resolves.toContain('README.md');
+    await expect(readFile(path.join(dir, '.sw-generated.json'), 'utf8')).resolves.toContain('README.md');
 
     const files = await listUserDesignSystemFiles(root, created.id);
-    expect(files?.map((file) => file.path)).not.toContain('.od-generated.json');
+    expect(files?.map((file) => file.path)).not.toContain('.sw-generated.json');
     await expect(
-      readDesignSystemStaticFile(root, created.id, '.od-generated.json', { idPrefix: 'user:' }),
+      readDesignSystemStaticFile(root, created.id, '.sw-generated.json', { idPrefix: 'user:' }),
     ).resolves.toBeNull();
   });
 

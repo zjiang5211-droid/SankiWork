@@ -6,7 +6,7 @@ import { __forTestReadProjectPluginManifest } from '../src/plugins/share-helpers
 
 describe('readProjectPluginManifest', () => {
   async function withManifest(name: string, fn: (folder: string) => Promise<void>) {
-    const folder = await mkdtemp(path.join(tmpdir(), 'od-plugin-manifest-'));
+    const folder = await mkdtemp(path.join(tmpdir(), 'sw-plugin-manifest-'));
     try {
       await writeFile(path.join(folder, 'sankiwork.json'), JSON.stringify({ name }), 'utf8');
       await fn(folder);

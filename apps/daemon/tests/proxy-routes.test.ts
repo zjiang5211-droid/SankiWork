@@ -176,7 +176,7 @@ describe('API proxy routes', () => {
   });
 
   it('uses the live proxy dispatcher for ElevenLabs voice discovery', async () => {
-    const configDir = await mkdtemp(path.join(tmpdir(), 'od-elevenlabs-proxy-route-'));
+    const configDir = await mkdtemp(path.join(tmpdir(), 'sw-elevenlabs-proxy-route-'));
     process.env.SW_MEDIA_CONFIG_DIR = configDir;
     await mkdir(configDir, { recursive: true });
     await writeFile(path.join(configDir, 'media-config.json'), JSON.stringify({
@@ -221,7 +221,7 @@ describe('API proxy routes', () => {
   });
 
   it('uses the live proxy dispatcher for Tavily research search', async () => {
-    const configDir = await mkdtemp(path.join(tmpdir(), 'od-tavily-proxy-route-'));
+    const configDir = await mkdtemp(path.join(tmpdir(), 'sw-tavily-proxy-route-'));
     process.env.SW_MEDIA_CONFIG_DIR = configDir;
     await mkdir(configDir, { recursive: true });
     await writeFile(path.join(configDir, 'media-config.json'), JSON.stringify({

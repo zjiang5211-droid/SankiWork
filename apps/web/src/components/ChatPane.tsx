@@ -2485,7 +2485,7 @@ export function ChatPane({
         {collapseControlLifted ? null : onCollapse ? (
           <button
             type="button"
-            className="chat-project-back od-tooltip"
+            className="chat-project-back sw-tooltip"
             onClick={onCollapse}
             title={t('chat.collapsePane')}
             aria-label={t('chat.collapsePane')}
@@ -3019,7 +3019,7 @@ export function ChatPane({
             <button
               type="button"
               ref={jumpBtnGlassRef}
-              className={`chat-jump-btn od-glass-refract${scrolledFromBottom && !showConvList ? ' chat-jump-btn-active' : ''}`}
+              className={`chat-jump-btn sw-glass-refract${scrolledFromBottom && !showConvList ? ' chat-jump-btn-active' : ''}`}
               onClick={jumpToBottom}
               title={t('chat.scrollToLatest')}
               aria-hidden={!scrolledFromBottom || showConvList}
@@ -4215,7 +4215,7 @@ function QueuedSendStrip({
             >
               <button
                 type="button"
-                className="chat-queued-send-drag-handle chat-queued-send-tooltip od-tooltip"
+                className="chat-queued-send-drag-handle chat-queued-send-tooltip sw-tooltip"
                 title={t('chat.queuedReorder')}
                 data-tooltip={t('chat.queuedReorder')}
                 data-tooltip-placement="right"
@@ -4235,7 +4235,7 @@ function QueuedSendStrip({
                 {onEdit ? (
                   <button
                     type="button"
-                    className="chat-queued-send-action chat-queued-send-tooltip od-tooltip"
+                    className="chat-queued-send-action chat-queued-send-tooltip sw-tooltip"
                     title={t('chat.queuedEdit')}
                     data-tooltip={t('chat.queuedEdit')}
                     data-tooltip-placement="top"
@@ -4247,7 +4247,7 @@ function QueuedSendStrip({
                 ) : null}
                 <button
                   type="button"
-                  className="chat-queued-send-action chat-queued-send-tooltip od-tooltip"
+                  className="chat-queued-send-action chat-queued-send-tooltip sw-tooltip"
                   title={t('chat.send')}
                   data-tooltip={t('chat.send')}
                   data-tooltip-placement="top"
@@ -4261,7 +4261,7 @@ function QueuedSendStrip({
                 {onRemove ? (
                   <button
                     type="button"
-                    className="chat-queued-send-action chat-queued-send-tooltip od-tooltip"
+                    className="chat-queued-send-action chat-queued-send-tooltip sw-tooltip"
                     onClick={() => onRemove(item.id)}
                     title={t('chat.comments.remove')}
                     data-tooltip={t('chat.comments.remove')}

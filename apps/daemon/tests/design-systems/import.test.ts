@@ -12,7 +12,7 @@ describe('importLocalDesignSystemProject', () => {
   let userDesignSystemsRoot: string;
 
   beforeEach(() => {
-    tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'od-ds-import-'));
+    tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-ds-import-'));
     sourceRoot = path.join(tempRoot, 'source-app');
     userDesignSystemsRoot = path.join(tempRoot, 'user-design-systems');
     fs.mkdirSync(path.join(sourceRoot, 'src', 'components'), { recursive: true });
@@ -83,7 +83,7 @@ describe('importLocalDesignSystemProject', () => {
 
     const manifest = JSON.parse(fs.readFileSync(path.join(result.dir, 'manifest.json'), 'utf8')) as Record<string, unknown>;
     expect(manifest).toMatchObject({
-      schemaVersion: 'od-design-system-project/v1',
+      schemaVersion: 'sw-design-system-project/v1',
       id: 'kami-app',
       name: 'kami app',
       category: 'Imported',
@@ -141,7 +141,7 @@ describe('importLocalDesignSystemProject', () => {
       tokens: Array<{ name: string; value: string; type: string; confidence: string; sourceName?: string }>;
     };
     expect(designTokens).toMatchObject({
-      format: 'od-design-tokens/v1',
+      format: 'sw-design-tokens/v1',
       contract: 'TOKEN_SCHEMA',
     });
     expect(designTokens.tokens).toEqual(

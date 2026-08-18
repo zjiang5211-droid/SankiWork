@@ -12,7 +12,7 @@ let repo: string;
 let cwd: string;
 
 beforeEach(async () => {
-  const tmp = await mkdtemp(path.join(os.tmpdir(), 'od-rewrite-plan-'));
+  const tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-rewrite-plan-'));
   repo = path.join(tmp, 'repo');
   cwd = path.join(tmp, 'cwd');
   await mkdir(repo, { recursive: true });

@@ -18,7 +18,7 @@ describe('message event persistence', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-db-message-events-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-db-message-events-'));
   });
 
   afterEach(() => {

@@ -302,7 +302,7 @@ describe('packaged child Vite+ environment forwarding', () => {
   });
 
   it('adds custom VP_HOME/bin to the packaged PATH builder', () => {
-    const vpHome = mkdtempSync(join(tmpdir(), 'od-packaged-vp-home-'));
+    const vpHome = mkdtempSync(join(tmpdir(), 'sw-packaged-vp-home-'));
     const originalVpHome = process.env.VP_HOME;
     try {
       process.env.VP_HOME = vpHome;
@@ -320,7 +320,7 @@ describe('packaged child Vite+ environment forwarding', () => {
 
 describe('resolvePackagedElectronNodeCommand', () => {
   it('uses the hidden Electron helper as the macOS Electron-as-Node command when available', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-packaged-electron-helper-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-packaged-electron-helper-'));
     try {
       const appPath = posix.join(root.replaceAll('\\', '/'), 'SankiWork.app');
       const execPath = posix.join(appPath, 'Contents', 'MacOS', 'SankiWork');
@@ -348,7 +348,7 @@ describe('resolvePackagedElectronNodeCommand', () => {
   });
 
   it('falls back to the main executable when the macOS helper is unavailable', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-packaged-no-electron-helper-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-packaged-no-electron-helper-'));
     try {
       const execPath = join(root, 'SankiWork.app', 'Contents', 'MacOS', 'SankiWork');
       mkdirSync(dirname(execPath), { recursive: true });
@@ -405,22 +405,22 @@ describe('buildPackagedDaemonSpawnEnv', () => {
   // regress either side.
   function fakePaths(): PackagedNamespacePaths {
     return {
-      cacheRoot: '/tmp/od-pkg/cache',
-      dataRoot: '/tmp/od-pkg/data',
-      desktopIdentityPath: '/tmp/od-pkg/runtime/desktop-root.json',
-      desktopLogPath: '/tmp/od-pkg/logs/desktop/latest.log',
-      desktopLogsRoot: '/tmp/od-pkg/logs/desktop',
-      electronSessionDataRoot: '/tmp/od-pkg/user-data/session',
-      electronUserDataRoot: '/tmp/od-pkg/user-data',
-      headlessIdentityPath: '/tmp/od-pkg/runtime/headless-root.json',
-      installationRoot: '/tmp/od-pkg/..',
-      installerObservationRoot: '/tmp/od-pkg/data/observations/installer',
-      logsRoot: '/tmp/od-pkg/logs',
-      namespaceRoot: '/tmp/od-pkg',
-      resourceRoot: '/tmp/od-pkg/resources',
-      runtimeRoot: '/tmp/od-pkg/runtime',
-      updateRoot: '/tmp/od-pkg/updates',
-      webIdentityPath: '/tmp/od-pkg/runtime/web-root.json',
+      cacheRoot: '/tmp/sw-pkg/cache',
+      dataRoot: '/tmp/sw-pkg/data',
+      desktopIdentityPath: '/tmp/sw-pkg/runtime/desktop-root.json',
+      desktopLogPath: '/tmp/sw-pkg/logs/desktop/latest.log',
+      desktopLogsRoot: '/tmp/sw-pkg/logs/desktop',
+      electronSessionDataRoot: '/tmp/sw-pkg/user-data/session',
+      electronUserDataRoot: '/tmp/sw-pkg/user-data',
+      headlessIdentityPath: '/tmp/sw-pkg/runtime/headless-root.json',
+      installationRoot: '/tmp/sw-pkg/..',
+      installerObservationRoot: '/tmp/sw-pkg/data/observations/installer',
+      logsRoot: '/tmp/sw-pkg/logs',
+      namespaceRoot: '/tmp/sw-pkg',
+      resourceRoot: '/tmp/sw-pkg/resources',
+      runtimeRoot: '/tmp/sw-pkg/runtime',
+      updateRoot: '/tmp/sw-pkg/updates',
+      webIdentityPath: '/tmp/sw-pkg/runtime/web-root.json',
     };
   }
 
@@ -435,7 +435,7 @@ describe('buildPackagedDaemonSpawnEnv', () => {
         logFd: 42,
         paths: fakePaths(),
       })).toEqual({
-        cwd: '/tmp/od-pkg/runtime',
+        cwd: '/tmp/sw-pkg/runtime',
         env: { NODE_ENV: 'production' },
         stdio: ['ignore', 42, 42],
         windowsHide: true,
@@ -454,8 +454,8 @@ describe('buildPackagedDaemonSpawnEnv', () => {
       requireDesktopAuth: true,
     });
     expect(env.SW_REQUIRE_DESKTOP_AUTH).toBe('1');
-    expect(env.SW_DATA_DIR).toBe('/tmp/od-pkg/data');
-    expect(env.SW_RESOURCE_ROOT).toBe('/tmp/od-pkg/resources');
+    expect(env.SW_DATA_DIR).toBe('/tmp/sw-pkg/data');
+    expect(env.SW_RESOURCE_ROOT).toBe('/tmp/sw-pkg/resources');
     expect(env.SW_APP_VERSION).toBe('1.2.3');
     expect(env.SW_LEGACY_DATA_DIR).toBeUndefined();
   });
@@ -493,7 +493,7 @@ describe('buildPackagedDaemonSpawnEnv', () => {
     // future code change to truthy-check the variable would silently
     // re-arm the gate. Omitted is the intent.
     expect('SW_REQUIRE_DESKTOP_AUTH' in env).toBe(false);
-    expect(env.SW_DATA_DIR).toBe('/tmp/od-pkg/data');
+    expect(env.SW_DATA_DIR).toBe('/tmp/sw-pkg/data');
     expect(env.SW_APP_VERSION).toBeUndefined();
   });
 
@@ -751,8 +751,8 @@ describe('waitForStatus child-exit fast-fail', () => {
 
   it('rejects within milliseconds when the child exits before status is ready', async () => {
     const child = fakeChild();
-    const ipcPath = '/tmp/od-test-no-such-ipc-' + Date.now();
-    const logPath = '/tmp/od-test-daemon.log';
+    const ipcPath = '/tmp/sw-test-no-such-ipc-' + Date.now();
+    const logPath = '/tmp/sw-test-daemon.log';
 
     const startedAt = Date.now();
     const promise = waitForStatus<{ url: string | null }>(
@@ -799,10 +799,10 @@ describe('waitForStatus child-exit fast-fail', () => {
     let captured: unknown;
     try {
       await waitForStatus<{ url: string | null }>(
-        '/tmp/od-test-no-such-ipc-pre-' + Date.now(),
+        '/tmp/sw-test-no-such-ipc-pre-' + Date.now(),
         (status) => status.url != null,
         30 * 60 * 1000,
-        { child, logPath: '/tmp/od-test-daemon.log' },
+        { child, logPath: '/tmp/sw-test-daemon.log' },
       );
     } catch (err) {
       captured = err;
@@ -840,7 +840,7 @@ describe('waitForStatus child-exit fast-fail', () => {
           ipcPath,
           (status) => status.url != null,
           250,
-          { child, logPath: join(tmpdir(), 'od-test-web.log') },
+          { child, logPath: join(tmpdir(), 'sw-test-web.log') },
         );
       } catch (err) {
         captured = err;
@@ -1066,7 +1066,7 @@ describe('createWebSidecarSupervisor', () => {
  */
 describe('packaged sidecar log rotation', () => {
   it('rotates the prior latest.log aside as previous.log before truncating', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-log-rotate-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-log-rotate-'));
     const logDir = join(root, 'logs', 'daemon');
     const logPath = join(logDir, 'latest.log');
     const previousPath = join(logDir, 'previous.log');
@@ -1109,7 +1109,7 @@ describe('packaged sidecar log rotation', () => {
    * platform this ships to.
    */
   it('keeps the prior log instead of truncating it when rotation fails', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-log-rotate-fail-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-log-rotate-fail-'));
     const logDir = join(root, 'logs', 'daemon');
     const logPath = join(logDir, 'latest.log');
     try {

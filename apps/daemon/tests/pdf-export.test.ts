@@ -12,7 +12,7 @@ describe('buildDesktopPdfExportInput', () => {
   const projectId = 'proj-pdf-test';
 
   beforeEach(async () => {
-    projectsRoot = mkdtempSync(path.join(tmpdir(), 'od-pdf-export-'));
+    projectsRoot = mkdtempSync(path.join(tmpdir(), 'sw-pdf-export-'));
     await mkdir(path.join(projectsRoot, projectId, 'deck', 'assets'), { recursive: true });
     await writeFile(
       path.join(projectsRoot, projectId, 'deck', 'index.html'),

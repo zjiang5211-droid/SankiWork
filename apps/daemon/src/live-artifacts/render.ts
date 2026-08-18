@@ -17,8 +17,8 @@ export interface LiveArtifactRenderOutput {
 const TEMPLATE_INTERPOLATION = /{{\s*([^{}]+?)\s*}}/g;
 const RAW_TEMPLATE_INTERPOLATION = /{{{[^{}]*}}}|{{\s*&[^{}]*}}/;
 const TEMPLATE_PATH = /^(?:data|[A-Za-z_][A-Za-z0-9_]*)(?:\.(?:[A-Za-z_][A-Za-z0-9_-]*|\d+))*$/;
-// `data-od-repeat="item in data.items"` — one loop variable over one `data.*` array.
-const REPEAT_DIRECTIVE = /\s*\bdata-od-repeat\s*=\s*"([^"]*)"/i;
+// `data-sw-repeat="item in data.items"` — one loop variable over one `data.*` array.
+const REPEAT_DIRECTIVE = /\s*\bdata-sw-repeat\s*=\s*"([^"]*)"/i;
 const REPEAT_DIRECTIVE_SPEC = /^\s*([A-Za-z_][A-Za-z0-9_]*)\s+in\s+(data(?:\.(?:[A-Za-z_][A-Za-z0-9_-]*|\d+))*)\s*$/;
 const EXECUTABLE_TEMPLATE_PATTERNS: Array<{ pattern: RegExp; message: string }> = [
   { pattern: /<\s*script\b/i, message: 'script elements are not supported in live artifact previews' },
@@ -26,7 +26,7 @@ const EXECUTABLE_TEMPLATE_PATTERNS: Array<{ pattern: RegExp; message: string }> 
   { pattern: /\bsrcdoc\s*=/i, message: 'srcdoc attributes are not supported in live artifact previews' },
   { pattern: /\son[a-z][a-z0-9_-]*\s*=/i, message: 'event handler attributes are not supported in live artifact previews' },
   { pattern: /(?:href|src|action|formaction)\s*=\s*['"]?\s*javascript\s*:/i, message: 'javascript: URLs are not supported in live artifact previews' },
-  { pattern: /\bdata-od-(?:html|raw|bind-html)\b/i, message: 'raw HTML insertion directives are not supported' },
+  { pattern: /\bdata-sw-(?:html|raw|bind-html)\b/i, message: 'raw HTML insertion directives are not supported' },
 ];
 
 export function validateHtmlTemplateV1Security(templateHtml: string): void {
@@ -153,26 +153,26 @@ function findElementEnd(html: string, tagName: string, openTagEnd: number): numb
     }
     re.lastIndex = tagEnd + 1;
   }
-  throw new Error(`unbalanced data-od-repeat element <${tagName}>`);
+  throw new Error(`unbalanced data-sw-repeat element <${tagName}>`);
 }
 
-/** Reads a `data-od-repeat` source path to its array, always from the data root. */
+/** Reads a `data-sw-repeat` source path to its array, always from the data root. */
 type ArrayReader = (arrayPath: string) => unknown[];
 
 /**
  * Render one template fragment against a binding scope, expanding
- * `data-od-repeat` elements left to right. Each repeat element is emitted
+ * `data-sw-repeat` elements left to right. Each repeat element is emitted
  * fully rendered (all its bindings resolved) so substituted data values are
  * never re-scanned by a later interpolation pass — a single-pass invariant
  * that keeps data-supplied `{{...}}`-looking text inert. One level only:
- * a `data-od-repeat` nested inside another is rejected, matching the
+ * a `data-sw-repeat` nested inside another is rejected, matching the
  * documented html_template_v1 contract.
  */
 /**
- * Locate the next REAL `data-od-repeat` directive at or after `from`. A match
+ * Locate the next REAL `data-sw-repeat` directive at or after `from`. A match
  * is a directive only when it sits inside an element's open tag: the nearest
  * `<` to its left starts a named tag that has not closed yet. Literal
- * `data-od-repeat="..."` text — prose, code samples, comments — is content
+ * `data-sw-repeat="..."` text — prose, code samples, comments — is content
  * per the html_template_v1 contract and is skipped, wherever it appears
  * (top level or inside a repeated element's body).
  */
@@ -191,10 +191,10 @@ function findRepeatDirective(
       openTagStart >= 0 ? /^<([A-Za-z][A-Za-z0-9_-]*)/.exec(html.slice(openTagStart)) : null;
     const tagName = nameMatch?.[1];
     // Inside an HTML comment nothing is a directive, even text that looks
-    // like a whole `<div data-od-repeat="...">` tag.
+    // like a whole `<div data-sw-repeat="...">` tag.
     const inComment = insideComment(html, directiveIndex) !== null;
     // Within the open tag, the attribute must start at the top level — a
-    // match inside another attribute's quoted value (title='... data-od-
+    // match inside another attribute's quoted value (title='... data-sw-
     // repeat="x in y"') is authored text, not a directive.
     const inQuotedAttrValue =
       tagName !== undefined &&
@@ -235,7 +235,7 @@ function renderFragment(html: string, resolve: BindingResolver, readArray: Array
     const { openTagStart, tagName } = directive;
 
     const spec = REPEAT_DIRECTIVE_SPEC.exec(directive.spec);
-    if (!spec?.[1] || !spec[2]) throw new Error(`invalid data-od-repeat directive: "${directive.spec}" (expected "item in data.path")`);
+    if (!spec?.[1] || !spec[2]) throw new Error(`invalid data-sw-repeat directive: "${directive.spec}" (expected "item in data.path")`);
     const varName = spec[1];
     const arrayPath = spec[2];
 
@@ -250,7 +250,7 @@ function renderFragment(html: string, resolve: BindingResolver, readArray: Array
     // stay inert — same rule as the top-level scan.
     const itemTemplate = element.replace(REPEAT_DIRECTIVE, '');
     if (findRepeatDirective(itemTemplate)) {
-      throw new Error('nested data-od-repeat is not supported');
+      throw new Error('nested data-sw-repeat is not supported');
     }
 
     out += interpolateScalars(html.slice(cursor, openTagStart), resolve);
@@ -272,7 +272,7 @@ export function renderHtmlTemplateV1(input: LiveArtifactRenderInput): LiveArtifa
   const resolve = rootResolver(input.dataJson);
   const readArray: ArrayReader = (arrayPath) => {
     const value = readTemplatePath(input.dataJson, arrayPath);
-    if (!Array.isArray(value)) throw new Error(`data-od-repeat source is not an array: ${arrayPath}`);
+    if (!Array.isArray(value)) throw new Error(`data-sw-repeat source is not an array: ${arrayPath}`);
     return value;
   };
 

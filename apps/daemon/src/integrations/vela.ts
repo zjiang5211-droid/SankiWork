@@ -1825,7 +1825,7 @@ function buildAmrEntryAnalyticsCommon(
   const anonymousId = context?.deviceId?.trim() || payload.entryId;
   const sessionId = context?.sessionId?.trim() || payload.entryId;
   return {
-    eventId: `od-amr-entry-${payload.entryId}`,
+    eventId: `sw-amr-entry-${payload.entryId}`,
     eventTime: payload.entryOccurredAt,
     registryKey: 'sankiwork_amr_entry',
     eventName: 'amr_entry',
@@ -1857,7 +1857,7 @@ function buildAmrOnboardingProfileAnalyticsCommon(
     context?.deviceId?.trim() || payload.odDeviceId || payload.entryId;
   const sessionId = context?.sessionId?.trim() || payload.entryId;
   return {
-    eventId: `od-onboarding-profile-${payload.entryId}`,
+    eventId: `sw-onboarding-profile-${payload.entryId}`,
     eventTime: payload.profileOccurredAt,
     registryKey: 'sankiwork_onboarding_profile',
     eventName: 'onboarding_profile',

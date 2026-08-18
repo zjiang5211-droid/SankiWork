@@ -61,7 +61,7 @@ describe('desktop-import-token gate', () => {
   });
 
   function makeFolder(): string {
-    const d = mkdtempSync(path.join(tmpdir(), 'od-import-token-'));
+    const d = mkdtempSync(path.join(tmpdir(), 'sw-import-token-'));
     tempDirs.push(d);
     return d;
   }

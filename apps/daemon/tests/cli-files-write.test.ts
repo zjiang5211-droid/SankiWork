@@ -99,7 +99,7 @@ describe('sw files write / upload (ESM require regression)', () => {
 
   beforeAll(async () => {
     stub = await startStubServer();
-    scratchDir = mkdtempSync(join(tmpdir(), 'od-files-cli-'));
+    scratchDir = mkdtempSync(join(tmpdir(), 'sw-files-cli-'));
   });
 
   afterAll(async () => {

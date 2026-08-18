@@ -92,7 +92,7 @@ describe('claude sub-agent assistant error false failure', () => {
   });
 
   it('a sub-agent in-stream error must not fail a run whose main turn recovers', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-sidechain-error-claude-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-sidechain-error-claude-bin-'));
     const controlBin = await writeRecoveringClaude(binDir, 'claude-control', { withSubagentError: false });
     const sidechainBin = await writeRecoveringClaude(binDir, 'claude-sidechain-error', { withSubagentError: true });
 

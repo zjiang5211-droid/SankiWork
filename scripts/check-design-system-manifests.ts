@@ -192,8 +192,8 @@ export async function validateDesignTokensJson(
     violations.push(`${repositoryManifestPath}: ${designTokensPath} must be a JSON object`);
     return;
   }
-  if (parsed.format !== "od-design-tokens/v1") {
-    violations.push(`${repositoryManifestPath}: ${designTokensPath} format must be od-design-tokens/v1`);
+  if (parsed.format !== "sw-design-tokens/v1") {
+    violations.push(`${repositoryManifestPath}: ${designTokensPath} format must be sw-design-tokens/v1`);
   }
   if (parsed.contract !== "TOKEN_SCHEMA") {
     violations.push(`${repositoryManifestPath}: ${designTokensPath} contract must be TOKEN_SCHEMA`);

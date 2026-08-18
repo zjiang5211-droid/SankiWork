@@ -154,7 +154,7 @@ async function openConnectorsSettings(
       window.localStorage.setItem(key, JSON.stringify(value));
       if (pendingAuthorization) {
         window.sessionStorage.setItem(
-          'od-connectors-authorization-pending',
+          'sw-connectors-authorization-pending',
           JSON.stringify(pendingAuthorization),
         );
       }
@@ -261,7 +261,7 @@ test.describe('Settings connectors auth recovery', () => {
     await expect
       .poll(async () =>
         page.evaluate(() => {
-          const raw = window.sessionStorage.getItem('od-connectors-authorization-pending');
+          const raw = window.sessionStorage.getItem('sw-connectors-authorization-pending');
           if (!raw) return false;
           const parsed = JSON.parse(raw) as Record<string, { expiresAt?: string }>;
           return typeof parsed.github?.expiresAt === 'string' && parsed.github.expiresAt.length > 0;
@@ -310,7 +310,7 @@ test.describe('Settings connectors auth recovery', () => {
     await expect(githubCard.getByRole('button', { name: 'Cancel' })).toHaveCount(0);
     await expect
       .poll(async () =>
-        page.evaluate(() => window.sessionStorage.getItem('od-connectors-authorization-pending')),
+        page.evaluate(() => window.sessionStorage.getItem('sw-connectors-authorization-pending')),
       )
       .toBe(null);
   });
@@ -339,7 +339,7 @@ test.describe('Settings connectors auth recovery', () => {
     await expect(githubCard.getByRole('button', { name: 'Cancel' })).toHaveCount(0);
     await expect
       .poll(async () =>
-        page.evaluate(() => window.sessionStorage.getItem('od-connectors-authorization-pending')),
+        page.evaluate(() => window.sessionStorage.getItem('sw-connectors-authorization-pending')),
       )
       .toBe(null);
   });

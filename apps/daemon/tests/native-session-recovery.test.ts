@@ -124,7 +124,7 @@ describe('native session recovery metadata', () => {
       },
       supportsSessionResume: true,
       isResuming: true,
-      resumeSessionId: 'od-harness-session',
+      resumeSessionId: 'sw-harness-session',
       invalidationReason: null,
       updatedAt: 375,
     });
@@ -135,7 +135,7 @@ describe('native session recovery metadata', () => {
       continuation: 'profile-stdio-resume',
       handle: { present: true, kind: 'profile-session-id', redacted: true },
     });
-    expect(JSON.stringify(metadata)).not.toContain('od-harness-session');
+    expect(JSON.stringify(metadata)).not.toContain('sw-harness-session');
   });
 
   it('distinguishes skipped, captured, resumed, and auto-reseeded states', () => {

@@ -25,7 +25,7 @@ import {
   type DesignSystemRuntimePaths,
 } from "./runtime.schema.ts";
 
-export const DESIGN_SYSTEM_PROJECT_SCHEMA_VERSION = "od-design-system-project/v1" as const;
+export const DESIGN_SYSTEM_PROJECT_SCHEMA_VERSION = "sw-design-system-project/v1" as const;
 
 export type DesignSystemProjectSource =
   | {

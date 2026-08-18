@@ -22,7 +22,7 @@ export function GithubStarBadge() {
 
   return (
     <a
-      className="entry-star-badge od-tooltip"
+      className="entry-star-badge sw-tooltip"
       href={GITHUB_REPO_URL}
       target="_blank"
       rel="noreferrer noopener"

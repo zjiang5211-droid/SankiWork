@@ -184,7 +184,7 @@ async function startServer(opts?: {
   loadPluginRegistryView?: () => Promise<any>;
 }) {
   createdRunCount = 0;
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-run-ws-gate-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-run-ws-gate-'));
   const db = openDatabase(tempDir);
   const now = Date.now();
   for (const id of [TEAM_PROJECT, PERSONAL_PROJECT, UNBOUND_PROJECT]) {

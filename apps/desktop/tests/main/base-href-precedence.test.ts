@@ -144,7 +144,7 @@ function expectedResolution(): BaseResolution {
 }
 
 async function probeLoadedDocument(url: string): Promise<BaseResolution> {
-  const probeDir = await mkdtemp(join(tmpdir(), 'od-electron-base-probe-'));
+  const probeDir = await mkdtemp(join(tmpdir(), 'sw-electron-base-probe-'));
   const urlFile = join(probeDir, 'url.txt');
   await writeFile(join(probeDir, 'package.json'), '{"main":"main.cjs"}\n');
   await writeFile(urlFile, url);

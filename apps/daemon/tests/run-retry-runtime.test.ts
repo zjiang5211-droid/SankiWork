@@ -66,7 +66,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('retries a transient first-token failure inside the same run and logs retry events', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-runtime-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-runtime-bin-'));
     const fakeClaude = await writeFlakyClaude(binDir, 'claude-flaky');
 
     delete process.env.POSTHOG_KEY;
@@ -121,7 +121,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('retries a generic OpenCode stream error without an explicit retryability hint', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-stream-error-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-stream-error-bin-'));
     const fakeOpenCode = await writeStreamErrorThenSuccessfulOpenCode(
       binDir,
       'opencode-stream-error-then-success',
@@ -156,7 +156,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('retries an ACP fatal close after persisting its runtime close reason', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-acp-fatal-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-acp-fatal-bin-'));
     const fakeVela = await writeFatalThenSuccessfulVela(binDir, 'vela-fatal-then-success');
 
     delete process.env.POSTHOG_KEY;
@@ -197,7 +197,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('retries AMR when protocol heartbeats arrive forever without first output', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-amr-first-output-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-amr-first-output-bin-'));
     const fakeVela = await writeHeartbeatStallingVela(
       binDir,
       'vela-first-output-then-success',
@@ -250,7 +250,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('retries when title-only ACP text is followed by heartbeat-only stalling', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-amr-title-only-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-amr-title-only-bin-'));
     const fakeVela = await writeTitleOnlyVela(binDir, 'vela-title-only-stall', true);
     configureAmrFirstOutputEnv();
 
@@ -272,7 +272,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('does not retry after a title-only clean ACP result with no usage', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-amr-title-clean-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-amr-title-clean-bin-'));
     const fakeVela = await writeTitleOnlyVela(binDir, 'vela-title-only-clean', false);
     configureAmrFirstOutputEnv();
 
@@ -294,7 +294,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('fails AMR after both first-output attempts remain heartbeat-only', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-amr-first-output-fail-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-amr-first-output-fail-bin-'));
     const fakeVela = await writeHeartbeatStallingVela(
       binDir,
       'vela-first-output-always-stalls',
@@ -340,7 +340,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('retries a silent first-token stall caught by the inactivity watchdog', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-stall-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-stall-bin-'));
     const { bin: fakeClaude, argsLogPath } = await writeStallingClaude(binDir, 'claude-stall');
 
     delete process.env.POSTHOG_KEY;
@@ -410,7 +410,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('continues a stalled post-tool Claude session without replaying the original request', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-post-tool-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-post-tool-bin-'));
     const {
       bin: fakeClaude,
       argsLogPath,
@@ -477,7 +477,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('continues a post-tool stall after a first-token retry used the safe retry budget', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-mixed-stall-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-mixed-stall-bin-'));
     const {
       bin: fakeClaude,
       argsLogPath,
@@ -565,7 +565,7 @@ describe('same-run retry runtime', () => {
   });
 
   it('does not let a stalled attempt’s forced-shutdown timers kill the healthy retry', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-run-retry-crossgen-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-run-retry-crossgen-bin-'));
     const { bin: fakeClaude } = await writeCrossGenKillClaude(binDir, 'claude-crossgen');
 
     delete process.env.POSTHOG_KEY;
@@ -795,12 +795,12 @@ if [ "$1" = "agent" ] && [ "$2" = "run" ]; then
     attempts=$(tr -dc '0-9' < ${JSON.stringify(counterPath)})
   fi
   echo $((attempts + 1)) > ${JSON.stringify(counterPath)}
-  export FAKE_VELA_TEXT='<od-title>Generated title</od-title>'
+  export FAKE_VELA_TEXT='<sw-title>Generated title</sw-title>'
   if [ ${stallFirstAttempt ? '1' : '0'} -eq 1 ] && [ "$attempts" -eq 0 ]; then
     export FAKE_VELA_TEXT_BEFORE_STALL=1
     export FAKE_VELA_STALL_AFTER_PROMPT=1
   elif [ ${stallFirstAttempt ? '1' : '0'} -eq 1 ]; then
-    export FAKE_VELA_TEXT='<od-title>Recovered title</od-title>Recovered answer.'
+    export FAKE_VELA_TEXT='<sw-title>Recovered title</sw-title>Recovered answer.'
   else
     export FAKE_VELA_OMIT_PROMPT_USAGE=1
     export FAKE_VELA_STAY_ALIVE_AFTER_PROMPT_MS=250

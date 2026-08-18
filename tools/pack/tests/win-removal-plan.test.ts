@@ -47,7 +47,7 @@ function createConfig(root: string, removeCache: boolean): ToolPackConfig {
 
 describe("createWinRemovalPlan", () => {
   it("models download/cache directories separately from user data", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-win-removal-plan-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-win-removal-plan-"));
     try {
       const config = createConfig(root, true);
       const runtimeRoot = config.roots.runtime.namespaceRoot;

@@ -127,7 +127,7 @@ describe('GET /api/projects/:projectId/critique/:runId/artifact', () => {
 
   beforeEach(async () => {
     db = freshDb();
-    artifactsRoot = mkdtempSync(join(tmpdir(), 'od-artifact-endpoint-'));
+    artifactsRoot = mkdtempSync(join(tmpdir(), 'sw-artifact-endpoint-'));
     ({ baseUrl, server } = await startMiniServer(db, artifactsRoot));
   });
 
@@ -236,7 +236,7 @@ describe('GET /api/projects/:projectId/critique/:runId/artifact', () => {
   });
 
   it('returns 404 when artifactPath points outside the artifacts root', async () => {
-    const outsideDir = mkdtempSync(join(tmpdir(), 'od-artifact-outside-'));
+    const outsideDir = mkdtempSync(join(tmpdir(), 'sw-artifact-outside-'));
     try {
       const outsidePath = join(outsideDir, 'leaked.html');
       writeFileSync(outsidePath, '<html>leaked</html>', 'utf8');

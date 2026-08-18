@@ -13,7 +13,7 @@ describe('automation routine evolution', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-routine-evolution-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-routine-evolution-'));
   });
 
   afterEach(() => {

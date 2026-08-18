@@ -53,7 +53,7 @@ describe('Phase 2C CLI wrappers', () => {
   });
 
   function makeFolder(): string {
-    const dir = mkdtempSync(path.join(tmpdir(), 'od-cli-phase2c-'));
+    const dir = mkdtempSync(path.join(tmpdir(), 'sw-cli-phase2c-'));
     tempDirs.push(dir);
     return dir;
   }

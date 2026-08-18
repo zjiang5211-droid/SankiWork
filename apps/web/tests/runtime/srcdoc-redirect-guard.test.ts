@@ -24,7 +24,7 @@ import {
   PREVIEW_REDIRECT_LOOP_MESSAGE,
 } from '../../src/runtime/srcdoc';
 
-const GUARD_MARKER = 'data-od-preview-redirect-guard';
+const GUARD_MARKER = 'data-sw-preview-redirect-guard';
 
 function extractGuardBody(doc: string): string {
   const match = doc.match(

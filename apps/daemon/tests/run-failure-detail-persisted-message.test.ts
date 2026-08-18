@@ -65,7 +65,7 @@ describe('run failure classification persisted to assistant message', () => {
   });
 
   it('stamps failureCategory/failureDetail onto the stored error event on a hard-quota failure', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-failure-detail-msg-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-failure-detail-msg-bin-'));
     const fakeClaude = await writeHardQuotaClaude(binDir, 'claude-hard-quota');
 
     delete process.env.POSTHOG_KEY;

@@ -63,7 +63,7 @@ describe('artifact runtime compatibility normalizer', () => {
   });
 
   it('normalizes content before writeProjectFile persists it', async () => {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-runtime-compat-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-runtime-compat-'));
     try {
       await writeProjectFile(projectsRoot, 'project-1', 'landing.html', Buffer.from(brokenReactMotionHtml, 'utf8'));
 

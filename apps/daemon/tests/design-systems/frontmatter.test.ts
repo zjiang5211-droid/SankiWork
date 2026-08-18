@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest';
 import { listDesignSystems } from '../../src/design-systems/index.js';
 
 function fresh(): string {
-  return mkdtempSync(path.join(tmpdir(), 'od-design-systems-frontmatter-'));
+  return mkdtempSync(path.join(tmpdir(), 'sw-design-systems-frontmatter-'));
 }
 
 function brandDir(root: string, id: string): string {

@@ -764,7 +764,7 @@ describe('DesignSystemCreationFlow', () => {
     confirmExtraction();
 
     await waitFor(() => expect(screen.getAllByText('url is required').length).toBeGreaterThan(0));
-    const toast = document.querySelector('.od-toast.placement-top.tone-error');
+    const toast = document.querySelector('.sw-toast.placement-top.tone-error');
     expect(toast?.textContent).toContain('url is required');
     expect(onCreated).not.toHaveBeenCalled();
   });
@@ -1649,7 +1649,7 @@ describe('DesignSystemCreationFlow', () => {
     await waitFor(() => {
       expect(screen.getAllByText(/Could not read one or more dropped files or folders/).length).toBeGreaterThan(0);
     });
-    expect(document.querySelector('.od-toast.placement-top.tone-error')?.textContent).toContain(
+    expect(document.querySelector('.sw-toast.placement-top.tone-error')?.textContent).toContain(
       'Could not read one or more dropped files or folders',
     );
     expect(screen.queryByText(/local code files selected/)).toBeNull();

@@ -158,7 +158,7 @@ export type DesignSystemRevisionFileChange = {
 type ColorToken = { name: string; value: string };
 type SwatchRow = { values: string[]; filledAllSlots: boolean };
 type DesignSystemProjectManifest = {
-  schemaVersion: 'od-design-system-project/v1';
+  schemaVersion: 'sw-design-system-project/v1';
   id: string;
   name: string;
   category: string;
@@ -2374,7 +2374,7 @@ function classifyDesignSystemFile(
 // each derived file. `collectDesignSystemFiles` skips dot-prefixed entries, so it
 // is excluded from file listings and ZIP archives; the pull/static allowlists are
 // default-deny, so it is never served either.
-const GENERATED_MANIFEST_FILENAME = '.od-generated.json';
+const GENERATED_MANIFEST_FILENAME = '.sw-generated.json';
 
 // Manifest keys are posix-relative paths under the design-system root, matching
 // the `collectDesignSystemFiles` relative-path convention.
@@ -2399,7 +2399,12 @@ function serializeGeneratedManifest(manifest: Record<string, string>): string {
 // caller into the conservative legacy path (write-if-missing) instead of ever
 // trusting an untrusted file as a source of overwrite decisions.
 async function readGeneratedManifest(dir: string): Promise<Record<string, string>> {
-  const raw = await readFileOptional(path.join(dir, GENERATED_MANIFEST_FILENAME));
+  let raw = await readFileOptional(path.join(dir, GENERATED_MANIFEST_FILENAME));
+  if (raw === undefined) {
+    // Legacy pre-rebrand manifest name (`.od-generated.json`) may survive the
+    // data-dir migration from the old product.
+    raw = await readFileOptional(path.join(dir, '.od-generated.json'));
+  }
   if (raw === undefined) return {};
   let parsed: unknown;
   try {
@@ -2417,7 +2422,7 @@ async function readGeneratedManifest(dir: string): Promise<Record<string, string
 
 // Regeneration must never discard files a user has customized (issue #323). A
 // generated file is only overwritten when it is still byte-identical to what the
-// generator last wrote (recorded in `.od-generated.json`). Anything the user
+// generator last wrote (recorded in `.sw-generated.json`). Anything the user
 // edited — or any pre-existing file with no recorded fingerprint (legacy systems)
 // — is preserved. Files that are absent are written and fingerprinted. The
 // returned `nextManifest` records fingerprints for every path that will be
@@ -2519,7 +2524,7 @@ export type DesignSystemAssetSyncResult = {
  * must survive the next `writeGeneratedDesignSystemFiles` call rather than
  * being silently regenerated back to a placeholder. Two things make it
  * stick, both applied here:
- *  1. Any `.od-generated.json` fingerprint entry for an overwritten path is
+ *  1. Any `.sw-generated.json` fingerprint entry for an overwritten path is
  *     dropped. `filterGeneratedWritesPreservingUserEdits` treats a path with
  *     no recorded fingerprint exactly like a hand-edited file — preserved,
  *     never refreshed.
@@ -2734,7 +2739,7 @@ function renderUiKitComponent(name: string, title: string, purpose: string): str
   if (name === 'Composer') return renderComposerUiKitComponent(title);
   return `function ${name}({ children, title = '${escapeJsString(title)}' }) {
   return (
-    <section className="od-ui-kit-${name.toLowerCase()}">
+    <section className="sw-ui-kit-${name.toLowerCase()}">
       <small>${escapeTsxText(purpose)}</small>
       <h2>{title}</h2>
       <div>{children}</div>
@@ -2747,7 +2752,7 @@ window.${name} = ${name};
 }
 
 function isReplaceableUiKitScaffold(text: string): boolean {
-  return Buffer.byteLength(text, 'utf8') < 700 && /od-ui-kit-[a-z-]+/u.test(text);
+  return Buffer.byteLength(text, 'utf8') < 700 && /sw-ui-kit-[a-z-]+/u.test(text);
 }
 
 function renderAppUiKitComponent(title: string): string {
@@ -3853,7 +3858,7 @@ function renderCssTokens(input: { title: string; palette: GeneratedPalette }): s
   --space-4: var(--${slug}-space-4);
 }
 
-.od-design-system-preview {
+.sw-design-system-preview {
   color: var(--${slug}-foreground);
   background: var(--${slug}-background);
   font-family: var(--${slug}-font-sans);
@@ -3880,7 +3885,7 @@ function renderLogoSvg(title: string, palette: GeneratedPalette): string {
 function renderReferenceComponent(title: string): string {
   return `export function DesignSystemReference() {
   return (
-    <section className="od-design-system-preview">
+    <section className="sw-design-system-preview">
       <h1>${escapeTsxText(title)}</h1>
       <p>Use DESIGN.md and colors_and_type.css as the source of truth.</p>
     </section>
@@ -4206,7 +4211,7 @@ async function readProjectManifest(
 function isProjectManifest(value: unknown, expectedId: string): value is DesignSystemProjectManifest {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
   const record = value as Record<string, unknown>;
-  if (record.schemaVersion !== 'od-design-system-project/v1') return false;
+  if (record.schemaVersion !== 'sw-design-system-project/v1') return false;
   if (record.id !== expectedId) return false;
   if (typeof record.name !== 'string' || record.name.trim().length === 0) return false;
   if (typeof record.category !== 'string' || record.category.trim().length === 0) return false;

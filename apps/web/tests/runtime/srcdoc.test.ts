@@ -46,7 +46,7 @@ describe('buildSrcdoc', () => {
       previewMeasurementEpoch: 'revision-42',
     });
 
-    expect(doc).toContain('data-od-preview-content-size-bridge');
+    expect(doc).toContain('data-sw-preview-content-size-bridge');
     expect(doc).toContain('lastRequest.measurementId');
     expect(doc).toContain('lastRequest.generation');
     expect(doc).toContain('var documentEpoch = "revision-42"');
@@ -73,7 +73,7 @@ describe('buildSrcdoc', () => {
 
   it('injects the motion-freeze style only when freezeMotion is set', () => {
     const frozen = buildSrcdoc(deckHtml, { deck: true, freezeMotion: true });
-    expect(frozen).toContain('data-od-motion-freeze');
+    expect(frozen).toContain('data-sw-motion-freeze');
     // End-state, not paused-at-t0: entry animations with fill-mode both must
     // land on their final keyframe or thumbnails render as blank frames.
     expect(frozen).toContain('animation-duration: 0.001s !important');
@@ -81,7 +81,7 @@ describe('buildSrcdoc', () => {
     expect(frozen).toContain('transition-duration: 0.001s !important');
 
     const normal = buildSrcdoc(deckHtml, { deck: true });
-    expect(normal).not.toContain('data-od-motion-freeze');
+    expect(normal).not.toContain('data-sw-motion-freeze');
   });
 
   it('injects the snapshot bridge used by draw annotations', () => {
@@ -98,13 +98,13 @@ describe('buildSrcdoc', () => {
     const html = '<!doctype html><html><head><script>throw new Error("boot")</script></head><body></body></html>';
     const srcdoc = buildSrcdoc(html, { previewObservability: true });
 
-    expect(srcdoc).toContain('data-od-preview-observability');
+    expect(srcdoc).toContain('data-sw-preview-observability');
     expect(srcdoc).toContain("send('runtime_error'");
     expect(srcdoc).toContain("send('white_screen'");
-    expect(srcdoc.indexOf('data-od-preview-observability')).toBeLessThan(
+    expect(srcdoc.indexOf('data-sw-preview-observability')).toBeLessThan(
       srcdoc.indexOf('<script>throw new Error("boot")</script>'),
     );
-    expect(buildSrcdoc(html)).not.toContain('data-od-preview-observability');
+    expect(buildSrcdoc(html)).not.toContain('data-sw-preview-observability');
   });
 
   it('echoes the host challenge token from the srcDoc transport readiness probe', () => {
@@ -181,21 +181,21 @@ describe('buildSrcdoc', () => {
   it('injects a deck-stage fallback before the deck bridge for broken runtime decks', () => {
     const srcdoc = buildSrcdoc(brokenDeckStageHtml, { deck: true });
 
-    expect(srcdoc).toContain('data-od-deck-stage-fallback');
+    expect(srcdoc).toContain('data-sw-deck-stage-fallback');
     expect(srcdoc).toContain("window.customElements.define('deck-stage'");
     expect(srcdoc).toContain(
       "document.querySelectorAll('deck-stage > .slide, .deck > .slide, .deck-stage > .slide, .deck-shell > .slide, body > .slide')",
     );
-    expect(srcdoc.indexOf('data-od-deck-stage-fallback')).toBeLessThan(
-      srcdoc.indexOf('data-od-deck-bridge'),
+    expect(srcdoc.indexOf('data-sw-deck-stage-fallback')).toBeLessThan(
+      srcdoc.indexOf('data-sw-deck-bridge'),
     );
   });
 
   it('hides deck-stage shadow navigation when deck chrome is hidden', () => {
     const srcdoc = buildSrcdoc(brokenDeckStageHtml, { deck: true, hideDeckChrome: true });
 
-    expect(srcdoc).toContain('data-od-deck-chrome-hidden');
-    expect(srcdoc).toContain('data-od-deck-stage-shadow-chrome-hidden');
+    expect(srcdoc).toContain('data-sw-deck-chrome-hidden');
+    expect(srcdoc).toContain('data-sw-deck-stage-shadow-chrome-hidden');
     expect(srcdoc).toContain('stage.shadowRoot');
     expect(srcdoc).toContain('.overlay,.tapzones{display:none!important');
   });
@@ -225,9 +225,9 @@ describe('buildSrcdoc', () => {
 
     const slides = dom.window.document.querySelectorAll('deck-stage > .slide');
     expect(slides).toHaveLength(2);
-    expect(slides[0]?.hasAttribute('data-od-deck-active')).toBe(true);
+    expect(slides[0]?.hasAttribute('data-sw-deck-active')).toBe(true);
     expect(slides[0]?.classList.contains('active')).toBe(true);
-    expect(slides[1]?.hasAttribute('data-od-deck-active')).toBe(false);
+    expect(slides[1]?.hasAttribute('data-sw-deck-active')).toBe(false);
 
     dom.window.close();
   });
@@ -235,16 +235,16 @@ describe('buildSrcdoc', () => {
   it('can guard preview iframes against load-time focus stealing', () => {
     // This test would fail if injectPreviewFocusGuard were removed from
     // buildSrcdoc — the guard script would be absent, and the assertions
-    // below would not find the data-od-preview-focus-guard marker.
+    // below would not find the data-sw-preview-focus-guard marker.
     const srcdoc = buildSrcdoc(
       '<!doctype html><html><head><script>window.focus();document.body.focus();</script></head><body>Hero</body></html>',
       { previewFocusGuard: true },
     );
 
-    expect(srcdoc).toContain('data-od-preview-focus-guard');
+    expect(srcdoc).toContain('data-sw-preview-focus-guard');
     expect(srcdoc).toContain("Object.defineProperty(window, 'focus'");
     expect(srcdoc).toContain("Object.defineProperty(HTMLElement.prototype, 'focus'");
-    expect(srcdoc.indexOf('data-od-preview-focus-guard')).toBeLessThan(
+    expect(srcdoc.indexOf('data-sw-preview-focus-guard')).toBeLessThan(
       srcdoc.indexOf('<script>window.focus();document.body.focus();</script>'),
     );
   });
@@ -270,7 +270,7 @@ describe('buildSrcdoc', () => {
       commentBridge: true,
     });
 
-    expect(srcdoc).toContain('data-od-selection-bridge');
+    expect(srcdoc).toContain('data-sw-selection-bridge');
     // The bridge boots with the requested mode already on so a click
     // immediately after srcdoc rebuild is not lost to the listener-install
     // race against the host's `od:*-mode` postMessage.
@@ -282,7 +282,7 @@ describe('buildSrcdoc', () => {
     expect(srcdoc).toContain("type: 'od:comment-targets'");
     expect(srcdoc).toContain("postStroke('od:pod-stroke')");
     expect(srcdoc).toContain("postStroke('od:pod-select')");
-    expect(srcdoc).toContain('data-od-comment-mode-kind');
+    expect(srcdoc).toContain('data-sw-comment-mode-kind');
     expect(srcdoc).toContain("body * { cursor: crosshair !important; }");
     expect(srcdoc).toContain('MutationObserver(schedulePostTargets)');
     expect(srcdoc).toContain('schedulePostPreviewScroll');
@@ -290,9 +290,9 @@ describe('buildSrcdoc', () => {
     expect(srcdoc).toContain("type: 'od:preview-scroll-request'");
     expect(srcdoc).toContain("data.type === 'od:preview-scroll-by'");
     expect(srcdoc).toContain('previewScrollBy(data.left, data.top)');
-    expect(srcdoc).toContain('data-od-selection-bridge-style');
-    expect(srcdoc).toContain('html[data-od-comment-mode] body iframe');
-    expect(srcdoc).toContain('html[data-od-inspect-mode] body iframe');
+    expect(srcdoc).toContain('data-sw-selection-bridge-style');
+    expect(srcdoc).toContain('html[data-sw-comment-mode] body iframe');
+    expect(srcdoc).toContain('html[data-sw-inspect-mode] body iframe');
     expect(srcdoc).toContain('pointer-events: none !important');
   });
 
@@ -316,7 +316,7 @@ describe('buildSrcdoc', () => {
       inspectBridge: true,
     });
 
-    expect(srcdoc).toContain('data-od-selection-bridge');
+    expect(srcdoc).toContain('data-sw-selection-bridge');
     expect(srcdoc).toContain('var commentEnabled = false;');
     expect(srcdoc).toContain('var inspectEnabled = true;');
     expect(srcdoc).toContain("type: 'od:inspect-overrides'");
@@ -324,8 +324,8 @@ describe('buildSrcdoc', () => {
     expect(srcdoc).toContain("data.type === 'od:inspect-set'");
     expect(srcdoc).toContain("data.type === 'od:inspect-reset'");
     expect(srcdoc).toContain("data.type === 'od:inspect-extract'");
-    expect(srcdoc).toContain("data-od-inspect-overrides");
-    expect(srcdoc).toContain('html[data-od-inspect-mode]');
+    expect(srcdoc).toContain("data-sw-inspect-overrides");
+    expect(srcdoc).toContain('html[data-sw-inspect-mode]');
   });
 
   it('hydrates inspect overrides from a persisted style block on bridge boot', () => {
@@ -338,7 +338,7 @@ describe('buildSrcdoc', () => {
     });
     expect(srcdoc).toContain('function hydrateOverridesFromDom()');
     expect(srcdoc).toContain('hydrateOverridesFromDom();');
-    expect(srcdoc).toContain("document.querySelector('style[data-od-inspect-overrides]')");
+    expect(srcdoc).toContain("document.querySelector('style[data-sw-inspect-overrides]')");
     // After hydration, the bridge must seed the host's overrides state so a
     // Save-to-source before the user has touched any control does not splice
     // an empty CSS body that erases the persisted style block.
@@ -349,17 +349,17 @@ describe('buildSrcdoc', () => {
     const commentDoc = buildSrcdoc('<main data-od-id="hero">Hero</main>', {
       commentBridge: true,
     });
-    expect(commentDoc).toContain("document.documentElement.toggleAttribute('data-od-comment-mode', true)");
+    expect(commentDoc).toContain("document.documentElement.toggleAttribute('data-sw-comment-mode', true)");
 
     const inspectDoc = buildSrcdoc('<main data-od-id="hero">Hero</main>', {
       inspectBridge: true,
     });
-    expect(inspectDoc).toContain("document.documentElement.toggleAttribute('data-od-inspect-mode', true)");
+    expect(inspectDoc).toContain("document.documentElement.toggleAttribute('data-sw-inspect-mode', true)");
   });
 
   it('omits the selection bridge entirely when neither comment nor inspect mode is on', () => {
     const srcdoc = buildSrcdoc('<main data-od-id="hero">Hero</main>', {});
-    expect(srcdoc).not.toContain('data-od-selection-bridge');
+    expect(srcdoc).not.toContain('data-sw-selection-bridge');
   });
 
   // Regression for nexu-io/open-design#362: the bridge must accept an
@@ -429,10 +429,10 @@ describe('buildSrcdoc', () => {
     );
     Reflect.deleteProperty(globalThis, 'DOMParser');
 
-    expect(srcdoc).toContain('data-od-source-path="path-0"');
-    expect(srcdoc).toContain('data-od-source-path="path-0-0"');
-    expect(srcdoc).not.toContain('<script data-od-source-path=');
-    expect(srcdoc.indexOf('data-od-source-path="path-0"')).toBeLessThan(srcdoc.indexOf('document.body.prepend'));
+    expect(srcdoc).toContain('data-sw-source-path="path-0"');
+    expect(srcdoc).toContain('data-sw-source-path="path-0-0"');
+    expect(srcdoc).not.toContain('<script data-sw-source-path=');
+    expect(srcdoc.indexOf('data-sw-source-path="path-0"')).toBeLessThan(srcdoc.indexOf('document.body.prepend'));
   });
 
   it('injects only the manual edit bridge when edit mode is enabled without picker bridges', () => {
@@ -443,12 +443,12 @@ describe('buildSrcdoc', () => {
     });
     Reflect.deleteProperty(globalThis, 'DOMParser');
 
-    expect(srcdoc).toContain('data-od-source-path=');
-    expect(srcdoc).toContain('data-od-edit-bridge');
-    expect(srcdoc).not.toContain('data-od-selection-bridge');
+    expect(srcdoc).toContain('data-sw-source-path=');
+    expect(srcdoc).toContain('data-sw-edit-bridge');
+    expect(srcdoc).not.toContain('data-sw-selection-bridge');
     expect(srcdoc).not.toContain("type: 'od:comment-target'");
     expect(srcdoc).not.toContain("type: 'od:inspect-overrides'");
-    expect(srcdoc).not.toContain('html[data-od-comment-mode] body iframe');
+    expect(srcdoc).not.toContain('html[data-sw-comment-mode] body iframe');
   });
 
   // Regression for nexu-io/open-design#892: imported designs (e.g. Claude

@@ -10,7 +10,7 @@
 
 export const PREVIEW_OBSERVABILITY_MESSAGE_TYPE = 'od:preview-observability';
 export const PREVIEW_OBSERVABILITY_PROTOCOL_VERSION = 1;
-export const PREVIEW_OBSERVABILITY_BRIDGE_MARKER = 'data-od-preview-observability';
+export const PREVIEW_OBSERVABILITY_BRIDGE_MARKER = 'data-sw-preview-observability';
 export const PREVIEW_WHITE_SCREEN_TIMEOUT_MS = 5_000;
 
 export type PreviewObservabilityEvent =

@@ -8,7 +8,7 @@ import { describe, expect, it } from "vitest";
 import { DESKTOP_UPDATE_ENV, resolveDesktopUpdaterConfig } from "../../../src/main/updater/config.js";
 
 function makeRoot(): string {
-  return mkdtempSync(join(tmpdir(), "od-updater-config-test-"));
+  return mkdtempSync(join(tmpdir(), "sw-updater-config-test-"));
 }
 
 describe("desktop updater config", () => {

@@ -60,7 +60,7 @@ export function previewIframeKeepAliveKey(projectId: string, fileName: string): 
 function parkIframeElement(frame: HTMLIFrameElement) {
   frame.onload = null;
   frame.removeAttribute('data-testid');
-  frame.setAttribute('data-od-active', 'false');
+  frame.setAttribute('data-sw-active', 'false');
   frame.setAttribute('aria-hidden', 'true');
   frame.setAttribute('tabindex', '-1');
 }

@@ -12,7 +12,7 @@ describe('hyperframes-html media renderer preflight', () => {
   const originalAllowStubs = process.env.SW_MEDIA_ALLOW_STUBS;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-hyperframes-media-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-hyperframes-media-'));
     projectRoot = path.join(root, 'project-root');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(path.join(projectsRoot, 'project-1'), { recursive: true });

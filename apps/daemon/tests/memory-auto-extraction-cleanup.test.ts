@@ -109,7 +109,7 @@ async function seedStore() {
 }
 
 beforeEach(async () => {
-  dataDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-memory-cleanup-'));
+  dataDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-memory-cleanup-'));
   await seedStore();
 });
 

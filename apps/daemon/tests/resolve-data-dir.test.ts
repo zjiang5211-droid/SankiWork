@@ -55,13 +55,13 @@ describe('resolveDataDir', () => {
   });
 
   it('expands a leading ~/ against the user home directory', () => {
-    const out = resolveDataDir('~/od-test', projectRoot);
-    expect(out).toBe(path.join(fakeHome, 'od-test'));
+    const out = resolveDataDir('~/sw-test', projectRoot);
+    expect(out).toBe(path.join(fakeHome, 'sw-test'));
   });
 
   it('expands ~\\ (backslash) against the user home directory', () => {
-    const out = resolveDataDir('~\\od-test', projectRoot);
-    expect(out).toBe(path.join(fakeHome, 'od-test'));
+    const out = resolveDataDir('~\\sw-test', projectRoot);
+    expect(out).toBe(path.join(fakeHome, 'sw-test'));
   });
 
   it('expands a bare ~ to the user home directory', () => {
@@ -69,23 +69,23 @@ describe('resolveDataDir', () => {
   });
 
   it('expands $HOME/ against the user home directory', () => {
-    const out = resolveDataDir('$HOME/od-test', projectRoot);
-    expect(out).toBe(path.join(fakeHome, 'od-test'));
+    const out = resolveDataDir('$HOME/sw-test', projectRoot);
+    expect(out).toBe(path.join(fakeHome, 'sw-test'));
   });
 
   it('expands $HOME\\ (backslash, Windows launcher) against the user home directory', () => {
-    const out = resolveDataDir('$HOME\\od-test', projectRoot);
-    expect(out).toBe(path.join(fakeHome, 'od-test'));
+    const out = resolveDataDir('$HOME\\sw-test', projectRoot);
+    expect(out).toBe(path.join(fakeHome, 'sw-test'));
   });
 
   it('expands ${HOME}/ against the user home directory', () => {
-    const out = resolveDataDir('${HOME}/od-test', projectRoot);
-    expect(out).toBe(path.join(fakeHome, 'od-test'));
+    const out = resolveDataDir('${HOME}/sw-test', projectRoot);
+    expect(out).toBe(path.join(fakeHome, 'sw-test'));
   });
 
   it('expands ${HOME}\\ (backslash) against the user home directory', () => {
-    const out = resolveDataDir('${HOME}\\od-test', projectRoot);
-    expect(out).toBe(path.join(fakeHome, 'od-test'));
+    const out = resolveDataDir('${HOME}\\sw-test', projectRoot);
+    expect(out).toBe(path.join(fakeHome, 'sw-test'));
   });
 
   it('expands a bare $HOME to the user home directory', () => {

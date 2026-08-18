@@ -25,7 +25,7 @@ const baseSource = `<!doctype html>
       <p data-od-id="nested"><strong>Nested</strong> copy</p>
       <p>Generated path text</p>
       <a data-od-id="ambiguous-cta" href="/mixed">Go to <strong>Lab</strong> now</a>
-      <button data-od-id="icon-label-button" data-od-edit="text"><svg viewBox="0 0 1 1"></svg><span>Filed</span></button>
+      <button data-od-id="icon-label-button" data-sw-edit="text"><svg viewBox="0 0 1 1"></svg><span>Filed</span></button>
     </main>
   </body>
 </html>`;
@@ -33,11 +33,11 @@ const baseSource = `<!doctype html>
 const brandKitSource = `<!doctype html>
 <html>
   <head>
-    <script id="od-brand-payload" type="application/json">{"status":"ready","brand":{"name":"Acme","sourceUrl":"https://acme.test","colors":[{"hex":"#111111","name":"Ink","role":"foreground","usage":"body"}],"logo":{"primary":"logo.svg","alternates":["logo-alt.svg"],"notes":"Primary mark"},"voice":{"tone":"Direct","adjectives":["Useful"],"messagingPillars":["Ship fast"],"vocabulary":{"use":["clear"],"avoid":["vague"]}},"imagery":{"style":"Crisp UI","samples":[{"file":"imagery/a.png","caption":"Dashboard","kind":"product"}]}}}</script>
+    <script id="sw-brand-payload" type="application/json">{"status":"ready","brand":{"name":"Acme","sourceUrl":"https://acme.test","colors":[{"hex":"#111111","name":"Ink","role":"foreground","usage":"body"}],"logo":{"primary":"logo.svg","alternates":["logo-alt.svg"],"notes":"Primary mark"},"voice":{"tone":"Direct","adjectives":["Useful"],"messagingPillars":["Ship fast"],"vocabulary":{"use":["clear"],"avoid":["vague"]}},"imagery":{"style":"Crisp UI","samples":[{"file":"imagery/a.png","caption":"Dashboard","kind":"product"}]}}}</script>
   </head>
   <body>
     <div id="root"></div>
-    <script>document.getElementById('root').innerHTML = '<h1 data-od-id="brand-name" data-od-edit="text">Acme</h1>';</script>
+    <script>document.getElementById('root').innerHTML = '<h1 data-od-id="brand-name" data-sw-edit="text">Acme</h1>';</script>
   </body>
 </html>`;
 
@@ -323,8 +323,8 @@ describe('manual edit source patches', () => {
     });
 
     expect(result.ok).toBe(true);
-    expect(result.source).toContain('id="od-manual-edit-runtime-overrides"');
-    expect(result.source).toContain('id="od-manual-edit-runtime-apply"');
+    expect(result.source).toContain('id="sw-manual-edit-runtime-overrides"');
+    expect(result.source).toContain('id="sw-manual-edit-runtime-apply"');
     expect(result.source).toContain('if (el && el.textContent !== value) el.textContent = value');
     expect(readRuntimeOverrides(result.source).text?.['brand-system-title']).toBe('Component library');
   });
@@ -347,12 +347,12 @@ function readBrandPayload(source: string): {
   };
 } {
   const dom = new JSDOM(source);
-  return JSON.parse(dom.window.document.getElementById('od-brand-payload')?.textContent || '{}');
+  return JSON.parse(dom.window.document.getElementById('sw-brand-payload')?.textContent || '{}');
 }
 
 function readRuntimeOverrides(source: string): {
   text?: Record<string, string>;
 } {
   const dom = new JSDOM(source);
-  return JSON.parse(dom.window.document.getElementById('od-manual-edit-runtime-overrides')?.textContent || '{}');
+  return JSON.parse(dom.window.document.getElementById('sw-manual-edit-runtime-overrides')?.textContent || '{}');
 }

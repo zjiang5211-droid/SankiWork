@@ -1632,7 +1632,7 @@ export function EntryNavRail({
           </button>
           <button
             type="button"
-            className="entry-nav-rail__collapse od-tooltip"
+            className="entry-nav-rail__collapse sw-tooltip"
             aria-label={t('entry.navCollapse')}
             title={t('entry.navCollapse')}
             data-tooltip={t('entry.navCollapse')}

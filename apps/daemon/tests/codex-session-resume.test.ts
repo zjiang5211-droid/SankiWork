@@ -78,7 +78,7 @@ describe('codex native session resume', () => {
   });
 
   it('captures the thread id on turn 1 and resumes it (without resending history) on turn 2', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-resume-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-resume-bin-'));
     const { bin, logPath } = await writeCapturingCodex(binDir, 'codex-capture');
 
     clearTelemetryEnv();
@@ -125,7 +125,7 @@ describe('codex native session resume', () => {
   });
 
   it('transparently auto-reseeds within the same turn on `no rollout found`', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-fallback-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-fallback-bin-'));
     const { bin, logPath } = await writeMissingRolloutCodex(binDir, 'codex-fallback');
 
     clearTelemetryEnv();
@@ -173,7 +173,7 @@ describe('codex native session resume', () => {
   });
 
   it('starts fresh on turn 2 when turn 1 succeeds without a captured thread id', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-nohandle-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-nohandle-bin-'));
     const { bin, logPath } = await writeNoHandleCodex(binDir, 'codex-nohandle');
 
     clearTelemetryEnv();
@@ -203,7 +203,7 @@ describe('codex native session resume', () => {
   it.runIf(process.platform !== 'win32')(
     'executes the active DS resolver through the Codex shell environment policy',
     async () => {
-      binDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-ds-shell-bin-'));
+      binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-ds-shell-bin-'));
       const { bin, logPath } = await writeExecutingDesignSystemWrapperCodex(
         binDir,
         'codex-ds-shell-success',
@@ -252,7 +252,7 @@ describe('codex native session resume', () => {
   );
 
   it('fails a zero-artifact structured DS turn when the Codex wrapper shell command failed', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-ds-wrapper-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-ds-wrapper-bin-'));
     const { bin, logPath } = await writeFailedDesignSystemWrapperCodex(
       binDir,
       'codex-ds-wrapper-failure',
@@ -286,7 +286,7 @@ describe('codex native session resume', () => {
   });
 
   it('reseeds (no resume) when another agent ran in the conversation between codex turns', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-intervene-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-intervene-bin-'));
     const { bin, logPath } = await writeCapturingCodex(binDir, 'codex-intervene');
     const claudeBin = await writeMinimalClaude(binDir, 'claude-intervene');
 
@@ -338,7 +338,7 @@ describe('codex native session resume', () => {
   // cached stable block. On origin/main the directive lived in the stable block,
   // so a clean resume dropped it and the turn-2 assertion below goes red.
   it('re-sends the connected-MCP directive in the per-turn slice on resume turns', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-mcp-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-mcp-bin-'));
     const { bin, logPath } = await writeCapturingCodex(binDir, 'codex-mcp');
 
     clearTelemetryEnv();

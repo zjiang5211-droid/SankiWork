@@ -74,7 +74,7 @@ describe('sw export non-loopback run-scoped authority', () => {
   const foreignProjectId = `project_${randomUUID()}`;
 
   beforeAll(async () => {
-    outputDir = await mkdtemp(path.join(os.tmpdir(), 'od-export-tool-token-nonloopback-'));
+    outputDir = await mkdtemp(path.join(os.tmpdir(), 'sw-export-tool-token-nonloopback-'));
     const dataDir = process.env.SW_DATA_DIR;
     if (!dataDir) throw new Error('SW_DATA_DIR is required by the daemon test harness');
     const db = openDatabase(process.cwd(), { dataDir });

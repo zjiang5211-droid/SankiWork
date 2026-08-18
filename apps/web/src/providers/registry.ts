@@ -1357,11 +1357,11 @@ function renderConnectorAuthLoading(authWindow: Window | null, copy: { title: st
     authWindow.document.body.innerHTML = `
       <main style="min-height:100vh;display:grid;place-items:center;margin:0;background:#0f1115;color:#f6f7fb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
         <div style="display:grid;gap:14px;justify-items:center;text-align:center;padding:32px;">
-          <div aria-hidden="true" style="width:28px;height:28px;border-radius:999px;border:3px solid rgba(255,255,255,.22);border-top-color:#fff;animation:od-spin .8s linear infinite;"></div>
+          <div aria-hidden="true" style="width:28px;height:28px;border-radius:999px;border:3px solid rgba(255,255,255,.22);border-top-color:#fff;animation:sw-spin .8s linear infinite;"></div>
           <div style="font-size:15px;font-weight:600;">${escapeHtmlText(copy.title)}</div>
           <div style="max-width:300px;color:rgba(246,247,251,.72);font-size:13px;line-height:1.5;">${escapeHtmlText(copy.body)}</div>
         </div>
-        <style>@keyframes od-spin{to{transform:rotate(360deg)}}</style>
+        <style>@keyframes sw-spin{to{transform:rotate(360deg)}}</style>
       </main>
     `;
   } catch {

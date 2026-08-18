@@ -81,8 +81,8 @@ function renderHtmlPreview(
   );
   const { container } = view;
   const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-  expect(activeFrame.getAttribute('data-od-render-mode')).toBe(expectedRenderMode);
-  const srcDocFrame = container.querySelector<HTMLIFrameElement>('iframe[data-od-render-mode="srcdoc"]');
+  expect(activeFrame.getAttribute('data-sw-render-mode')).toBe(expectedRenderMode);
+  const srcDocFrame = container.querySelector<HTMLIFrameElement>('iframe[data-sw-render-mode="srcdoc"]');
   expect(srcDocFrame).toBeTruthy();
   fireEvent.load(srcDocFrame as HTMLIFrameElement);
   return { ...view, activeFrame, srcDocFrame: srcDocFrame as HTMLIFrameElement };
@@ -230,7 +230,7 @@ describe('FileViewer image export', () => {
     const pngBlob = new Blob(['png'], { type: 'image/png' });
     let srcDocAttempts = 0;
     requestPreviewSnapshotMock.mockImplementation(async (iframe: HTMLIFrameElement) => {
-      if (iframe.getAttribute('data-od-render-mode') === 'url-load') return null;
+      if (iframe.getAttribute('data-sw-render-mode') === 'url-load') return null;
       srcDocAttempts += 1;
       if (srcDocAttempts === 1) return null;
       return {
@@ -255,7 +255,7 @@ describe('FileViewer image export', () => {
   it('captures the visible URL-loaded preview before falling back to the hidden srcDoc transport', async () => {
     const pngBlob = new Blob(['png'], { type: 'image/png' });
     requestPreviewSnapshotMock.mockImplementation(async (iframe: HTMLIFrameElement) => {
-      if (iframe.getAttribute('data-od-render-mode') === 'url-load') {
+      if (iframe.getAttribute('data-sw-render-mode') === 'url-load') {
         return {
           dataUrl: 'data:image/png;base64,visible',
           w: 800,

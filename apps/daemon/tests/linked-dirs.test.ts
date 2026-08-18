@@ -37,7 +37,7 @@ test('rejects non-existent directories', () => {
 });
 
 test('rejects files (non-directories)', () => {
-  const tmp = mkdtempSync(join(tmpdir(), 'od-linked-'));
+  const tmp = mkdtempSync(join(tmpdir(), 'sw-linked-'));
   const file = join(tmp, 'file.txt');
   writeFileSync(file, 'test');
   try {
@@ -62,7 +62,7 @@ test('rejects blocked system directories', () => {
 });
 
 test('rejects symlink pointing to blocked directory', () => {
-  const tmp = mkdtempSync(join(tmpdir(), 'od-linked-'));
+  const tmp = mkdtempSync(join(tmpdir(), 'sw-linked-'));
   const link = join(tmp, 'etc-link');
   try {
     symlinkSync(blockedSystemDir(), link, process.platform === 'win32' ? 'junction' : 'dir');
@@ -75,7 +75,7 @@ test('rejects symlink pointing to blocked directory', () => {
 });
 
 test('accepts valid directories and normalizes paths', () => {
-  const tmp = mkdtempSync(join(tmpdir(), 'od-linked-'));
+  const tmp = mkdtempSync(join(tmpdir(), 'sw-linked-'));
   try {
     const result = validateLinkedDirs([tmp]);
     assert.ok(!result.error);
@@ -86,7 +86,7 @@ test('accepts valid directories and normalizes paths', () => {
 });
 
 test('deduplicates entries', () => {
-  const tmp = mkdtempSync(join(tmpdir(), 'od-linked-'));
+  const tmp = mkdtempSync(join(tmpdir(), 'sw-linked-'));
   try {
     const result = validateLinkedDirs([tmp, tmp]);
     assert.ok(!result.error);
@@ -97,7 +97,7 @@ test('deduplicates entries', () => {
 });
 
 test('resolves and normalizes paths', () => {
-  const tmp = mkdtempSync(join(tmpdir(), 'od-linked-'));
+  const tmp = mkdtempSync(join(tmpdir(), 'sw-linked-'));
   const inner = join(tmp, 'inner');
   mkdirSync(inner);
   try {
@@ -110,7 +110,7 @@ test('resolves and normalizes paths', () => {
 });
 
 test('resolves symlinks to real paths', () => {
-  const tmp = mkdtempSync(join(tmpdir(), 'od-linked-'));
+  const tmp = mkdtempSync(join(tmpdir(), 'sw-linked-'));
   const inner = join(tmp, 'inner');
   const link = join(tmp, 'link');
   mkdirSync(inner);

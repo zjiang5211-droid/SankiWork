@@ -115,7 +115,7 @@ export function recordAmrEntry(
 
   const profile = readOnboardingProfile();
   const attribution: AmrEntryAttribution = {
-    entryId: `od-amr-${randomId()}`,
+    entryId: `sw-amr-${randomId()}`,
     sourceProduct: 'sankiwork',
     sourceDetail,
     occurredAt: now.toISOString(),

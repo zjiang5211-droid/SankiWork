@@ -36,7 +36,7 @@ async function runPrepare(channel: string, env: Record<string, string>): Promise
   outputs: Record<string, string>;
   stdout: string;
 }> {
-  const root = await mkdtemp(join(tmpdir(), `od-tools-release-${channel}-`));
+  const root = await mkdtemp(join(tmpdir(), `sw-tools-release-${channel}-`));
   const outputPath = join(root, "github-output.txt");
 
   try {
@@ -150,7 +150,7 @@ async function writeFakeGhScript(root: string): Promise<string> {
  * test declares.
  */
 async function createHermeticTagRepoEnv(stableTags: string[]): Promise<Record<string, string>> {
-  const gitRoot = await mkdtemp(join(tmpdir(), "od-tools-release-tags-"));
+  const gitRoot = await mkdtemp(join(tmpdir(), "sw-tools-release-tags-"));
   await execFileAsync("git", ["init", "--quiet"], { cwd: gitRoot });
   await execFileAsync(
     "git",
@@ -258,7 +258,7 @@ describe("tools-release local channel prepare validation", () => {
       },
     };
     const server = await startMetadataServer(objects);
-    const ghRoot = await mkdtemp(join(tmpdir(), "od-tools-release-gh-"));
+    const ghRoot = await mkdtemp(join(tmpdir(), "sw-tools-release-gh-"));
 
     try {
       const fakeGh = await writeFakeGhScript(ghRoot);
@@ -429,7 +429,7 @@ describe("tools-release local channel prepare validation", () => {
     const prereleaseVersion = `${packagedVersion}-prerelease.2`;
     const objects: Record<string, unknown> = {};
     const server = await startMetadataServer(objects);
-    const ghRoot = await mkdtemp(join(tmpdir(), "od-tools-release-gh-"));
+    const ghRoot = await mkdtemp(join(tmpdir(), "sw-tools-release-gh-"));
     objects[`prerelease/versions/${prereleaseVersion}/metadata.json`] = stablePrereleaseMetadata(server.origin, packagedVersion);
 
     try {
@@ -464,7 +464,7 @@ describe("tools-release local channel prepare validation", () => {
     const prereleaseVersion = `${packagedVersion}-prerelease.2`;
     const objects: Record<string, unknown> = {};
     const server = await startMetadataServer(objects);
-    const ghRoot = await mkdtemp(join(tmpdir(), "od-tools-release-gh-"));
+    const ghRoot = await mkdtemp(join(tmpdir(), "sw-tools-release-gh-"));
     objects[`prerelease/versions/${prereleaseVersion}/metadata.json`] = stablePrereleaseMetadata(server.origin, packagedVersion);
 
     try {
@@ -496,7 +496,7 @@ describe("tools-release local channel prepare validation", () => {
     const prereleaseVersion = `${packagedVersion}-prerelease.2`;
     const objects: Record<string, unknown> = {};
     const server = await startMetadataServer(objects);
-    const ghRoot = await mkdtemp(join(tmpdir(), "od-tools-release-gh-"));
+    const ghRoot = await mkdtemp(join(tmpdir(), "sw-tools-release-gh-"));
     objects[`prerelease/versions/${prereleaseVersion}/metadata.json`] = stablePrereleaseMetadata(server.origin, packagedVersion);
 
     try {
@@ -527,7 +527,7 @@ describe("tools-release local channel prepare validation", () => {
     const packagedVersion = await readPackagedVersion();
     const objects: Record<string, unknown> = {};
     const server = await startMetadataServer(objects);
-    const ghRoot = await mkdtemp(join(tmpdir(), "od-tools-release-gh-"));
+    const ghRoot = await mkdtemp(join(tmpdir(), "sw-tools-release-gh-"));
 
     try {
       const fakeGh = await writeFakeGhScript(ghRoot);
@@ -551,7 +551,7 @@ describe("tools-release local channel prepare validation", () => {
     const prereleaseVersion = `${packagedVersion}-prerelease.2`;
     const objects: Record<string, unknown> = {};
     const server = await startMetadataServer(objects);
-    const ghRoot = await mkdtemp(join(tmpdir(), "od-tools-release-gh-"));
+    const ghRoot = await mkdtemp(join(tmpdir(), "sw-tools-release-gh-"));
     objects[`prerelease/versions/${prereleaseVersion}/metadata.json`] = stablePrereleaseMetadata(server.origin, packagedVersion);
 
     try {

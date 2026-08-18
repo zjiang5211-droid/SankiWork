@@ -77,8 +77,8 @@ describe('migrateLegacyDataDirSync', () => {
   let dataDir: string;
 
   beforeEach(() => {
-    legacyDir = mkdtempSync(path.join(os.tmpdir(), 'od-legacy-'));
-    dataDir = mkdtempSync(path.join(os.tmpdir(), 'od-data-'));
+    legacyDir = mkdtempSync(path.join(os.tmpdir(), 'sw-legacy-'));
+    dataDir = mkdtempSync(path.join(os.tmpdir(), 'sw-data-'));
   });
 
   afterEach(async () => {
@@ -282,7 +282,7 @@ describe('migrateLegacyDataDirSync', () => {
     // data root via a crafted .sankiwork/ tree.
     seedLegacyDir(legacyDir);
 
-    const escapeTarget = mkdtempSync(path.join(os.tmpdir(), 'od-escape-'));
+    const escapeTarget = mkdtempSync(path.join(os.tmpdir(), 'sw-escape-'));
     writeFile(path.join(escapeTarget, 'secret.txt'), 'should not be reachable');
     const linkPath = path.join(legacyDir, 'projects', 'evil-link');
 
@@ -316,7 +316,7 @@ describe('migrateLegacyDataDirSync', () => {
     // partial copies.
     seedLegacyDir(legacyDir);
 
-    const escapeTarget = mkdtempSync(path.join(os.tmpdir(), 'od-stage-cleanup-'));
+    const escapeTarget = mkdtempSync(path.join(os.tmpdir(), 'sw-stage-cleanup-'));
     const linkPath = path.join(legacyDir, 'projects', 'late-link');
     if (!trySymlink(escapeTarget, linkPath, 'dir')) {
       fs.rmSync(escapeTarget, { recursive: true, force: true });
@@ -441,7 +441,7 @@ describe('migrateLegacyDataDirSync', () => {
 describe('dataDirIsEmptyOrFresh', () => {
   let dataDir: string;
   beforeEach(() => {
-    dataDir = mkdtempSync(path.join(os.tmpdir(), 'od-fresh-'));
+    dataDir = mkdtempSync(path.join(os.tmpdir(), 'sw-fresh-'));
   });
   afterEach(async () => {
     await rm(dataDir, { recursive: true, force: true });
@@ -470,7 +470,7 @@ describe('dataDirIsEmptyOrFresh', () => {
 describe('legacyDirHasPayload', () => {
   let legacyDir: string;
   beforeEach(() => {
-    legacyDir = mkdtempSync(path.join(os.tmpdir(), 'od-legacy-prove-'));
+    legacyDir = mkdtempSync(path.join(os.tmpdir(), 'sw-legacy-prove-'));
   });
   afterEach(async () => {
     await rm(legacyDir, { recursive: true, force: true });
@@ -495,7 +495,7 @@ describe('legacyDirHasPayload', () => {
 describe('dataDirHasExistingPayload', () => {
   let dataDir: string;
   beforeEach(() => {
-    dataDir = mkdtempSync(path.join(os.tmpdir(), 'od-payload-probe-'));
+    dataDir = mkdtempSync(path.join(os.tmpdir(), 'sw-payload-probe-'));
   });
   afterEach(async () => {
     await rm(dataDir, { recursive: true, force: true });

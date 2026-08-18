@@ -14,7 +14,7 @@ const checkedExtensions = new Set([".ts", ".tsx", ".mts", ".cts", ".js", ".jsx",
 const skippedDirectories = new Set([
   ".astro",
   ".next",
-  ".od-data",
+  ".sw-data",
   "dist",
   "node_modules",
   "out",

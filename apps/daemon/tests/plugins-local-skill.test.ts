@@ -164,7 +164,7 @@ describe('loadPluginLocalSkill', () => {
   });
 
   it('reads SKILL.md, strips frontmatter, and returns body/name/dir', async () => {
-    const dir = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-local-skill-'));
+    const dir = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-local-skill-'));
     try {
       const skillPath = path.join(dir, 'SKILL.md');
       await writeFile(
@@ -186,7 +186,7 @@ describe('loadPluginLocalSkill', () => {
   });
 
   it('returns null when the manifest has no local skill ref', async () => {
-    const dir = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-local-skill-'));
+    const dir = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-local-skill-'));
     try {
       const manifest = manifestWithSkills([{ ref: 'sample-skill' }]);
       const local = await loadPluginLocalSkill(pluginRecord(dir, manifest));
@@ -197,7 +197,7 @@ describe('loadPluginLocalSkill', () => {
   });
 
   it('returns null when the referenced file is missing', async () => {
-    const dir = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-local-skill-'));
+    const dir = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-local-skill-'));
     try {
       const manifest = manifestWithSkills([{ path: './SKILL.md' }]);
       const local = await loadPluginLocalSkill(pluginRecord(dir, manifest));
@@ -208,10 +208,10 @@ describe('loadPluginLocalSkill', () => {
   });
 
   it('refuses `..` path traversal in the ref', async () => {
-    const dir = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-local-skill-'));
+    const dir = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-local-skill-'));
     try {
       // Create a SKILL.md outside the plugin folder and try to point at it.
-      const escapeRoot = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-escape-'));
+      const escapeRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-escape-'));
       await writeFile(path.join(escapeRoot, 'SKILL.md'), '# bad', 'utf8');
       const pluginDir = path.join(dir, 'plugin');
       await mkdir(pluginDir, { recursive: true });

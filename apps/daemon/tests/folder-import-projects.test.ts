@@ -97,8 +97,8 @@ describe('resolveProjectDir', () => {
 
   it('uses metadata.baseDir in sandbox mode when it is under an allowed import root', () => {
     withSandboxMode(() => {
-      const baseDir = '/Users/me/scratch/od-clone/job-1';
-      withSandboxImportAllowedRoots(['/Users/me/scratch/od-clone'], () => {
+      const baseDir = '/Users/me/scratch/sw-clone/job-1';
+      withSandboxImportAllowedRoots(['/Users/me/scratch/sw-clone'], () => {
         expect(
           resolveProjectDir(projectsRoot, projectId, { kind: 'prototype', baseDir }),
         ).toBe(path.normalize(baseDir));
@@ -111,7 +111,7 @@ describe('resolveProjectDir', () => {
 
   it('rejects relative sandbox import allowed roots', () => {
     withSandboxMode(() => {
-      const baseDir = path.join(path.parse(process.cwd()).root, 'tmp', 'od-clone', 'job-1');
+      const baseDir = path.join(path.parse(process.cwd()).root, 'tmp', 'sw-clone', 'job-1');
       withSandboxImportAllowedRoots(['tmp'], () => {
         expect(() =>
           assertSandboxProjectRootAvailable({ kind: 'prototype', baseDir }),
@@ -125,7 +125,7 @@ describe('detectEntryFile', () => {
   let dir = '';
 
   beforeEach(() => {
-    dir = mkdtempSync(path.join(tmpdir(), 'od-detect-entry-'));
+    dir = mkdtempSync(path.join(tmpdir(), 'sw-detect-entry-'));
   });
 
   afterEach(() => {
@@ -165,7 +165,7 @@ describe('listFiles with metadata.baseDir', () => {
   let baseDir = '';
 
   beforeEach(async () => {
-    baseDir = mkdtempSync(path.join(tmpdir(), 'od-list-'));
+    baseDir = mkdtempSync(path.join(tmpdir(), 'sw-list-'));
     await writeFile(path.join(baseDir, 'index.html'), '<!doctype html>');
     await writeFile(path.join(baseDir, 'app.css'), 'body{}');
     await mkdir(path.join(baseDir, 'node_modules', 'react'), { recursive: true });
@@ -231,7 +231,7 @@ describe('listFiles with metadata.baseDir', () => {
   });
 
   it('skips dependency dirs for non-baseDir projects too', async () => {
-    const standardDir = mkdtempSync(path.join(tmpdir(), 'od-list-std-'));
+    const standardDir = mkdtempSync(path.join(tmpdir(), 'sw-list-std-'));
     try {
       await mkdir(path.join(standardDir, 'std-project'), { recursive: true });
       await mkdir(path.join(standardDir, 'std-project', 'node_modules'));

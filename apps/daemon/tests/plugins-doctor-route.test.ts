@@ -45,7 +45,7 @@ async function installPlugin(source: string): Promise<void> {
 }
 
 beforeEach(async () => {
-  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'od-doctor-route-'));
+  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-doctor-route-'));
   const started = await startServer({ port: 0, returnServer: true }) as StartedServer;
   server = started.server;
   baseUrl = started.url;

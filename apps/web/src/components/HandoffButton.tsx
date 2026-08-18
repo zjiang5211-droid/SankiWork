@@ -591,7 +591,7 @@ export function HandoffButton({
       <div className="handoff-wrap handoff-wrap--solo" data-testid="handoff-wrap">
         <button
           type="button"
-          className="handoff-trigger handoff-trigger--solo od-tooltip"
+          className="handoff-trigger handoff-trigger--solo sw-tooltip"
           title={t('handoff.fallbackTitle', { target: fallbackLabel })}
           data-tooltip={t('handoff.fallbackTitle', { target: fallbackLabel })}
           data-tooltip-placement="bottom"
@@ -648,7 +648,7 @@ export function HandoffButton({
       <div className="handoff-split">
         <button
           type="button"
-          className="handoff-trigger od-tooltip"
+          className="handoff-trigger sw-tooltip"
           data-testid="handoff-trigger"
           title={primaryTitle}
           data-tooltip={primaryTitle}
@@ -695,7 +695,7 @@ export function HandoffButton({
         </button>
         <button
           type="button"
-          className="handoff-caret od-tooltip"
+          className="handoff-caret sw-tooltip"
           aria-label={t('handoff.chooseTargetAria')}
           title={t('handoff.chooseTargetAria')}
           data-tooltip={t('handoff.chooseTargetAria')}

@@ -29,7 +29,7 @@ function makeConfig(root: string): Pick<ToolPackConfig, "platform" | "roots"> {
 
 describe("tools-pack updater cache lifecycle snapshot", () => {
   it("reads the updater cleanup descriptor offline", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-tools-pack-update-cache-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-tools-pack-update-cache-"));
     try {
       const config = makeConfig(root);
       const updateRoot = join(config.roots.runtime.namespaceRoot, "updates");

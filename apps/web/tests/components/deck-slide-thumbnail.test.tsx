@@ -50,8 +50,8 @@ describe('DeckSlideThumbnail', () => {
     expect(sections).toHaveLength(1);
     expect(sections[0]!.textContent).toContain('Alpha');
     expect(sections[0]!.classList.contains('active')).toBe(true);
-    expect(sections[0]!.hasAttribute('data-od-thumb-slide')).toBe(true);
-    expect(sections[0]!.hasAttribute('data-od-deck-active')).toBe(true);
+    expect(sections[0]!.hasAttribute('data-sw-thumb-slide')).toBe(true);
+    expect(sections[0]!.hasAttribute('data-sw-deck-active')).toBe(true);
 
     // No iframe, no executable script, and the deck's own nav chrome (which
     // lives outside the slide) is never cloned in.
@@ -60,14 +60,14 @@ describe('DeckSlideThumbnail', () => {
     expect(root.querySelector('.deck-counter')).toBeNull();
   });
 
-  it('reconstructs the wrapper chain with data-od-thumb-wrap markers', () => {
+  it('reconstructs the wrapper chain with data-sw-thumb-wrap markers', () => {
     const { container } = render(<DeckSlideThumbnail parsed={parsed()} index={0} />);
     const root = (container.querySelector('.deck-thumbnail-shadow-host') as HTMLElement).shadowRoot!;
-    const wraps = root.querySelectorAll('[data-od-thumb-wrap]');
+    const wraps = root.querySelectorAll('[data-sw-thumb-wrap]');
     expect(wraps).toHaveLength(2);
-    expect(root.querySelector('.deck-shell[data-od-thumb-wrap]')).toBeTruthy();
-    expect(root.querySelector('.deck-stage[data-od-thumb-wrap]')).toBeTruthy();
-    expect(root.querySelector('.od-thumb-canvas')).toBeTruthy();
+    expect(root.querySelector('.deck-shell[data-sw-thumb-wrap]')).toBeTruthy();
+    expect(root.querySelector('.deck-stage[data-sw-thumb-wrap]')).toBeTruthy();
+    expect(root.querySelector('.sw-thumb-canvas')).toBeTruthy();
   });
 
   it('swaps to the requested slide without accumulating stale content', () => {

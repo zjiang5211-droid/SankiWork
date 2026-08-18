@@ -114,8 +114,8 @@ function fakeHub() {
 async function startServer(
   hub: ReturnType<typeof fakeHub>,
 ) {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-project-delete-unshare-'));
-  projectsDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-project-delete-unshare-dir-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-project-delete-unshare-'));
+  projectsDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-project-delete-unshare-dir-'));
   const db = openDatabase(tempDir);
 
   const collab = createCollabRuntime({
@@ -366,7 +366,7 @@ describe('member-side convergence after an owner unshare (spec 04 §11, known ga
     // is created AFTER the owner's hub-side unshare above has already
     // completed, so the hub is provably already in the "unshared" state by
     // the time the member's row is read below.
-    const memberTempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-project-delete-unshare-member-'));
+    const memberTempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-project-delete-unshare-member-'));
     const memberDb = openDatabase(memberTempDir);
     try {
       insertProject(memberDb, { id: projectId, name: 'Team shared', createdAt: now, updatedAt: now });

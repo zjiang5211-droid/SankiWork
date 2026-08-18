@@ -52,7 +52,7 @@ describe('analyseDeckLayout', () => {
     const html = `
       <style>.frame { container-type: inline-size; } .f-fit {}</style>
       <section class="slide"><div class="frame"><div class="f-body"><div class="f-fit">hi</div></div></div></section>
-      <script>/* od-deck-fit */ var x = 1;</script>
+      <script>/* sw-deck-fit */ var x = 1;</script>
     `;
     const report = analyseDeckLayout(html);
     expect(report.issues.map((i) => i.code)).toContain('frame-not-size-container');
@@ -72,7 +72,7 @@ describe('analyseDeckLayout', () => {
     const html = `
       <style>.frame { container-type: size; }</style>
       <section class="slide"><div class="frame"><div class="f-body">unprotected</div></div></section>
-      <script>/* od-deck-fit */</script>
+      <script>/* sw-deck-fit */</script>
     `;
     const report = analyseDeckLayout(html);
     expect(report.issues.map((i) => i.code)).toContain('fit-layer-missing');
@@ -84,7 +84,7 @@ describe('analyseDeckLayout', () => {
       <section class="slide"><div class="frame"><div class="f-body"><div class="f-fit">
         <h2 class="s-title clamp-2">A headline that will be cut</h2>
       </div></div></div></section>
-      <script>/* od-deck-fit */</script>
+      <script>/* sw-deck-fit */</script>
     `;
     const report = analyseDeckLayout(html);
     expect(report.issues.map((i) => i.code)).toContain('headline-truncation');
@@ -97,7 +97,7 @@ describe('analyseDeckLayout', () => {
         <div class="s-bar"><span class="tag">SOM</span>
           <div class="track">$1.4B near-term wedge</div></div>
       </div></div></div></section>
-      <script>/* od-deck-fit */</script>
+      <script>/* sw-deck-fit */</script>
     `;
     const report = analyseDeckLayout(html);
     expect(report.issues.map((i) => i.code)).toContain('funnel-label-clipped');

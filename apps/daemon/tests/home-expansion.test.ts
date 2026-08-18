@@ -52,7 +52,7 @@ describe('expandHomePrefix', () => {
 
 describe('resolveProjectRelativePath', () => {
   const home = os.homedir();
-  const projectRoot = path.resolve('/var/lib/od-daemon');
+  const projectRoot = path.resolve('/var/lib/sw-daemon');
 
   it('anchors a relative path to the supplied project root', () => {
     expect(resolveProjectRelativePath('artifacts/cache', projectRoot)).toBe(

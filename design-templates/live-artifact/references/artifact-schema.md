@@ -57,9 +57,9 @@ MVP documents use `html_template_v1`:
 
 - Use escaped interpolation: `{{data.path.to.value}}`.
 - Paths must start with `data` and use dot-separated keys; numeric array indexes are allowed as path segments.
-- Supported structural directive: `data-od-repeat="item in data.items"` for one-level array repeats.
+- Supported structural directive: `data-sw-repeat="item in data.items"` for one-level array repeats.
 - Nested repeats, conditionals, filters, helper functions, partials, and expression evaluation are not supported.
-- Raw HTML insertion is forbidden: no triple braces, ampersand interpolation, `data-od-html`, `data-od-raw`, or equivalent.
+- Raw HTML insertion is forbidden: no triple braces, ampersand interpolation, `data-sw-html`, `data-sw-raw`, or equivalent.
 - Interpolation in text and ordinary attributes is HTML-escaped by default.
 - Do not interpolate inside tag names, attribute names, comments, `<script>`, `<style>`, `<iframe srcdoc>`, event-handler attributes, or unsupported URL-bearing attributes.
 

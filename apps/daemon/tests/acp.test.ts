@@ -16,14 +16,14 @@ import { countNewArtifacts } from '../src/runtimes/run-artifacts.js';
 const DEFAULT_MODEL_OPTION = { id: 'default', label: 'Default (CLI config)' };
 
 test('ACP session params do not require MCP servers by default', () => {
-  assert.deepEqual(buildAcpSessionNewParams('/tmp/od-project'), {
-    cwd: path.resolve('/tmp/od-project'),
+  assert.deepEqual(buildAcpSessionNewParams('/tmp/sw-project'), {
+    cwd: path.resolve('/tmp/sw-project'),
     mcpServers: [],
   });
 });
 
 test('ACP session params do not request global MCP config mutation', () => {
-  const params = buildAcpSessionNewParams('/tmp/od-project');
+  const params = buildAcpSessionNewParams('/tmp/sw-project');
 
   assert.equal('mcpConfigPath' in params, false);
   assert.equal('writeMcpConfig' in params, false);
@@ -33,8 +33,8 @@ test('ACP session params do not request global MCP config mutation', () => {
 test('ACP session params normalize explicit MCP servers to ACP stdio shape', () => {
   const mcpServers = [{ name: 'sankiwork-live-artifacts', command: 'od', args: ['mcp', 'live-artifacts'] }];
 
-  assert.deepEqual(buildAcpSessionNewParams('/tmp/od-project', { mcpServers }), {
-    cwd: path.resolve('/tmp/od-project'),
+  assert.deepEqual(buildAcpSessionNewParams('/tmp/sw-project', { mcpServers }), {
+    cwd: path.resolve('/tmp/sw-project'),
     mcpServers: [
       {
         type: 'stdio',
@@ -52,7 +52,7 @@ test('ACP session params preserve caller-provided type and env fields', () => {
     { type: 'http', name: 'http-server', url: 'http://localhost:3000', headers: {}, env: [{ key: 'TOKEN', value: 'secret' }] },
   ];
 
-  const result = buildAcpSessionNewParams('/tmp/od-project', { mcpServers });
+  const result = buildAcpSessionNewParams('/tmp/sw-project', { mcpServers });
   const server = result.mcpServers[0];
   assert.ok(server);
   assert.equal(server.type, 'http');
@@ -130,7 +130,7 @@ test('attachAcpSession sets selected models through ACP config options', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: 'claude-opus-4-6-thinking',
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -187,7 +187,7 @@ test('attachAcpSession keeps legacy session/set_model when no model config optio
   attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: 'legacy-model',
     mcpServers: [],
     send: () => {},
@@ -214,14 +214,14 @@ test('attachAcpSession includes image attachments as ACP resource links', () => 
   const child = new FakeAcpChild();
   const writes: string[] = [];
   child.stdin.on('data', (chunk) => writes.push(String(chunk)));
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-acp-image-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-acp-image-'));
   const imagePath = path.join(tmpDir, 'screenshot.png');
   fs.writeFileSync(imagePath, 'png');
 
   attachAcpSession({
     child: child as never,
     prompt: 'describe this image',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     imagePaths: [imagePath],
     mcpServers: [],
@@ -250,7 +250,7 @@ test('attachAcpSession converts cumulative ACP message snapshots into deltas', (
   attachAcpSession({
     child: child as never,
     prompt: 'describe the project',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -286,7 +286,7 @@ test('attachAcpSession keeps incremental ACP message chunks unchanged', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'describe the project',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -318,7 +318,7 @@ test('attachAcpSession forwards ACP status message details', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'describe the project',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -348,7 +348,7 @@ test('attachAcpSession suppresses split duplicate DSML artifact text and preserv
   attachAcpSession({
     child: child as never,
     prompt: 'build landing page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -395,7 +395,7 @@ test('attachAcpSession suppresses split duplicate legacy artifact text', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'build landing page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -435,7 +435,7 @@ test('attachAcpSession suppresses DSML echo after opaque completed write update'
   attachAcpSession({
     child: child as never,
     prompt: 'build landing page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -481,7 +481,7 @@ test('attachAcpSession mirrors artifact-write tool calls into countable tool_use
   attachAcpSession({
     child: child as never,
     prompt: 'build a page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -557,7 +557,7 @@ test('attachAcpSession preserves AMR assistant and model-step lifecycle diagnost
   attachAcpSession({
     child: child as never,
     prompt: 'build a page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -660,7 +660,7 @@ test('a truly PATHLESS ACP write is NOT coerced into an artifact (no false posit
   attachAcpSession({
     child: child as never,
     prompt: 'edit something',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -694,7 +694,7 @@ test('an ACP artifact path arriving only on the completing frame is still counte
   attachAcpSession({
     child: child as never,
     prompt: 'build a page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -740,7 +740,7 @@ test('kind:read + title containing update stays Read, not Write', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'read file',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -777,7 +777,7 @@ test('kind:read + explicit noncanonical name read_file normalizes to Read', () =
   attachAcpSession({
     child: child as never,
     prompt: 'read secrets',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -818,7 +818,7 @@ test('kind:other keeps explicit custom tool name', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'custom tool',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -850,7 +850,7 @@ test('kind:other redacts path-like custom tool names before transcript emit', ()
   attachAcpSession({
     child: child as never,
     prompt: 'custom tool path name',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -902,7 +902,7 @@ test('kind:other cannot claim Bash-like names that unlock partial redaction', ()
   attachAcpSession({
     child: child as never,
     prompt: 'custom bash-named tool',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -957,7 +957,7 @@ test('missing kind cannot claim Bash-like names that unlock partial redaction', 
   attachAcpSession({
     child: child as never,
     prompt: 'no-kind bash-named tool',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -991,7 +991,7 @@ test('sticky thinkOnly: pending Thinking then status-only completed emits no too
   attachAcpSession({
     child: child as never,
     prompt: 'think',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1030,7 +1030,7 @@ test('exactly-once emission: repeated terminal frames for same toolCallId emit o
   attachAcpSession({
     child: child as never,
     prompt: 'write once',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1084,7 +1084,7 @@ test('flush retains tool ids so late terminal cannot emit a second contradictory
   const session = attachAcpSession({
     child: child as never,
     prompt: 'run a long bash',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1155,7 +1155,7 @@ test('sticky kind name: kind:read pending then title-only completed stays Read',
   attachAcpSession({
     child: child as never,
     prompt: 'read file',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1192,7 +1192,7 @@ test('tool_use carries startedAt from firstSeenAt for duration analytics', () =>
   attachAcpSession({
     child: child as never,
     prompt: 'bash',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1236,7 +1236,7 @@ test('rawInput.filePath (camelCase) is recognized as file_path', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'write page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1272,7 +1272,7 @@ test('terminal status-only frame keeps earlier rawOutput content', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'run cmd',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1317,7 +1317,7 @@ test('an ACP write whose title names a NON-artifact file is not counted', () => 
   attachAcpSession({
     child: child as never,
     prompt: 'tweak config',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1347,7 +1347,7 @@ test('attachAcpSession mirrors bash-like ACP tools with command input and rawOut
   attachAcpSession({
     child: child as never,
     prompt: 'list files',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1408,7 +1408,7 @@ test('ACP execute tool_result redacts private stdout (cat .env)', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'cat secrets',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1481,7 +1481,7 @@ test('ACP adapter toolCallId is always hashed before tool_use/tool_result emissi
   attachAcpSession({
     child: child as never,
     prompt: 'read env',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1531,7 +1531,7 @@ test('ACP title Image.open must not become file_path', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'open image',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1564,7 +1564,7 @@ test('ACP tool_result content is forwarded from rawOutput and truncated when hug
   attachAcpSession({
     child: child as never,
     prompt: 'read big file',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1602,7 +1602,7 @@ test('attachAcpSession emits tool_use pairs for write + bash in one turn', () =>
   attachAcpSession({
     child: child as never,
     prompt: 'write and list',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1646,7 +1646,7 @@ test('attachAcpSession suppresses incremental artifact echo after earlier assist
   attachAcpSession({
     child: child as never,
     prompt: 'build landing page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1684,7 +1684,7 @@ test('attachAcpSession clears ACP suppression after plain prose before later lit
   attachAcpSession({
     child: child as never,
     prompt: 'build landing page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1725,7 +1725,7 @@ test('attachAcpSession keeps ACP suppression after plain incremental prose befor
   attachAcpSession({
     child: child as never,
     prompt: 'build landing page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1763,7 +1763,7 @@ test('attachAcpSession suppresses prose-prefixed delayed artifact echo after pla
   attachAcpSession({
     child: child as never,
     prompt: 'build landing page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1801,7 +1801,7 @@ test('attachAcpSession keeps ACP suppression after unrelated failed tool before 
   attachAcpSession({
     child: child as never,
     prompt: 'build landing page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1841,7 +1841,7 @@ test('attachAcpSession keeps ACP suppression across plain cumulative snapshots',
   attachAcpSession({
     child: child as never,
     prompt: 'build landing page',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1879,7 +1879,7 @@ test('attachAcpSession preserves literal artifact prose before any write echo is
   attachAcpSession({
     child: child as never,
     prompt: 'document artifact syntax',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -1910,7 +1910,7 @@ test('attachAcpSession exposes abort and sends session cancel after session crea
   const session = attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: () => {},
@@ -1937,7 +1937,7 @@ test('attachAcpSession.abort closes stdin so the agent shuts down on EOF', () =>
   const session = attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: () => {},
@@ -1961,7 +1961,7 @@ test('attachAcpSession.abort during startup ends stdin without sending session/c
   const session = attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: () => {},
@@ -1989,7 +1989,7 @@ test('attachAcpSession accepts pretty-printed ACP startup responses', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -2014,7 +2014,7 @@ test('attachAcpSession recovers when bracket-prefixed logs precede JSON frames',
   attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -2042,7 +2042,7 @@ test('attachAcpSession emits a waiting status after submitting the prompt', () =
   attachAcpSession({
     child: child as never,
     prompt: 'make a simple deck',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -2066,7 +2066,7 @@ test('attachAcpSession surfaces non-text ACP updates as status progress', () => 
   attachAcpSession({
     child: child as never,
     prompt: 'make a simple deck',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -2127,7 +2127,7 @@ test('attachAcpSession force-terminates the child after a clean prompt completio
     const session = attachAcpSession({
       child: child as never,
       prompt: 'hello',
-      cwd: '/tmp/od-project',
+      cwd: '/tmp/sw-project',
       model: null,
       mcpServers: [],
       send: () => {},
@@ -2165,7 +2165,7 @@ test('attachAcpSession does not double-kill a child that exits cleanly on stdin.
     attachAcpSession({
       child: child as never,
       prompt: 'hello',
-      cwd: '/tmp/od-project',
+      cwd: '/tmp/sw-project',
       model: null,
       mcpServers: [],
       send: () => {},
@@ -2195,7 +2195,7 @@ test('attachAcpSession accepts an opted-in ACP turn_end update as prompt complet
   const session = attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     completePromptOnTurnEnd: true,
@@ -2225,7 +2225,7 @@ test('attachAcpSession.completedSuccessfully reflects abort and fatal-error stat
   const session = attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: () => {},
@@ -2254,7 +2254,7 @@ test('attachAcpSession default stage timeout tolerates >3min of silence between 
     attachAcpSession({
       child: child as never,
       prompt: 'write a large landing page',
-      cwd: '/tmp/od-project',
+      cwd: '/tmp/sw-project',
       model: null,
       mcpServers: [],
       send: (event, payload) => events.push({ event, payload }),
@@ -2285,7 +2285,7 @@ test('attachAcpSession honors caller-supplied stageTimeoutMs override', async ()
     attachAcpSession({
       child: child as never,
       prompt: 'hello',
-      cwd: '/tmp/od-project',
+      cwd: '/tmp/sw-project',
       model: null,
       mcpServers: [],
       send: (event, payload) => events.push({ event, payload }),
@@ -2318,7 +2318,7 @@ test('fail paths flush open ACP tools as errored tool_use/tool_result pairs', as
     attachAcpSession({
       child: child as never,
       prompt: 'run a long bash',
-      cwd: '/tmp/od-project',
+      cwd: '/tmp/sw-project',
       model: null,
       mcpServers: [],
       send: (event, payload) => events.push({ event, payload }),
@@ -2377,7 +2377,7 @@ test('child-exit fail path flushes open ACP tools as errored pairs', () => {
   attachAcpSession({
     child: child as never,
     prompt: 'read a file',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -2432,7 +2432,7 @@ test('abort flushes open ACP tools as errored pairs', () => {
   const session = attachAcpSession({
     child: child as never,
     prompt: 'run a long bash',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -2488,7 +2488,7 @@ test('attachAcpSession treats stageTimeoutMs <= 0 as a watchdog disable, not an 
     attachAcpSession({
       child: child as never,
       prompt: 'hello',
-      cwd: '/tmp/od-project',
+      cwd: '/tmp/sw-project',
       model: null,
       mcpServers: [],
       send: (event, payload) => events.push({ event, payload }),
@@ -2534,7 +2534,7 @@ test('attachAcpSession does not fail a tool-only AMR turn that emits no assistan
   attachAcpSession({
     child: child as never,
     prompt: 'change all card backgrounds to gray',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     modelUnavailableErrorCode: 'AMR_MODEL_UNAVAILABLE',
@@ -2563,7 +2563,7 @@ test('successful session/prompt with open concrete tool flushes clean (not no-ou
   const session = attachAcpSession({
     child: child as never,
     prompt: 'read a file',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     modelUnavailableErrorCode: 'AMR_MODEL_UNAVAILABLE',
@@ -2619,7 +2619,7 @@ test('attachAcpSession still fails an AMR turn that produces no text and no tool
   attachAcpSession({
     child: child as never,
     prompt: 'do something',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     modelUnavailableErrorCode: 'AMR_MODEL_UNAVAILABLE',
@@ -2648,7 +2648,7 @@ test('attachAcpSession reports clean empty completion exactly once without usage
   attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     onPromptComplete,
@@ -2678,7 +2678,7 @@ test('attachAcpSession promotes allowlisted OpenCode role-marker ACP errors', ()
   attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -2725,7 +2725,7 @@ test('attachAcpSession preserves structured OpenCode session error details from 
   attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -2770,7 +2770,7 @@ test('attachAcpSession marks OpenCode upstream idle session errors retryable', (
   attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     model: null,
     mcpServers: [],
     send: (event, payload) => events.push({ event, payload }),
@@ -2811,7 +2811,7 @@ test('attachAcpSession resumes via session/load when resumeSessionId is set', ()
   attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     resumeSessionId: 'oc-prev',
     send: () => {},
   });
@@ -2823,7 +2823,7 @@ test('attachAcpSession resumes via session/load when resumeSessionId is set', ()
   assert.ok(loadReq, 'expected a session/load request on resume');
   assert.deepEqual(loadReq?.params, {
     sessionId: 'oc-prev',
-    cwd: path.resolve('/tmp/od-project'),
+    cwd: path.resolve('/tmp/sw-project'),
   });
   assert.equal(requests.some((entry) => entry.method === 'session/new'), false);
 });
@@ -2833,7 +2833,7 @@ test('attachAcpSession captures the durable session handle from the result', () 
   const session = attachAcpSession({
     child: child as never,
     prompt: 'hello',
-    cwd: '/tmp/od-project',
+    cwd: '/tmp/sw-project',
     send: () => {},
   });
 

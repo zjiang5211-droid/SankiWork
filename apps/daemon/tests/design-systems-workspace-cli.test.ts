@@ -40,7 +40,7 @@ afterEach(async () => {
 });
 
 async function startStub(): Promise<void> {
-  tempRoot = mkdtempSync(join(tmpdir(), 'od-design-systems-cli-'));
+  tempRoot = mkdtempSync(join(tmpdir(), 'sw-design-systems-cli-'));
   requests = [];
   server = http.createServer((req, res) => {
     requests.push({

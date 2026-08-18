@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "od-design-system-components/v1",
+  "schemaVersion": "sw-design-system-components/v1",
   "components": [
     { "id": "Button", "path": "components/Button/component.json" },
     { "id": "Field", "path": "components/Field/component.json" },

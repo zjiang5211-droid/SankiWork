@@ -17,7 +17,7 @@ afterEach(() => {
 });
 
 function executable(name: string, version: string): string {
-  const root = mkdtempSync(join(tmpdir(), 'od-runtime-version-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-runtime-version-'));
   roots.push(root);
   const bin = join(root, name);
   writeFileSync(bin, `#!/bin/sh\nprintf '%s\\n' ${JSON.stringify(version)}\n`, 'utf8');

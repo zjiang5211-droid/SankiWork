@@ -2,7 +2,7 @@
 .ds-picker { position: relative; }
 /* While its popover is open, the picker must paint above its sibling
    sections. Each `.newproj-section` keeps a transform applied after the
-   entrance animation (`od-fade-slide-up ... both` in entrance.css), which
+   entrance animation (`sw-fade-slide-up ... both` in entrance.css), which
    makes every section its own stacking context — the popover's z-index
    alone can't escape its section, so later siblings (Target platforms,
    model picker, toggles, …) would cover the open list. Raising the open
@@ -1394,7 +1394,7 @@ button.connector-action.is-loading {
   pointer-events: none;
   width: max-content;
 }
-.connectors-toast-anchor .od-toast {
+.connectors-toast-anchor .sw-toast {
   position: static;
   transform: none;
   pointer-events: auto;

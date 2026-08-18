@@ -20,7 +20,7 @@ describe('workspace_resources persistence', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-workspace-resources-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-workspace-resources-'));
   });
 
   afterEach(() => {

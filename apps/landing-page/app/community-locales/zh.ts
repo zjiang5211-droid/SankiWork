@@ -74,7 +74,7 @@ const zh: DeepPartial<CommunityCopy> = {
           },
           {
             h4: '唤醒这个 skill',
-            body: '输入 <code>/od-contribute</code>，或者直接让 agent 运行你刚装好的东西。任一句话都能打开这扇门。',
+            body: '输入 <code>/sw-contribute</code>，或者直接让 agent 运行你刚装好的东西。任一句话都能打开这扇门。',
           },
           {
             h4: '半分钟直达画廊',

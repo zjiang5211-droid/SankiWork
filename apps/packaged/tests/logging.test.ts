@@ -159,7 +159,7 @@ describe('createPackagedDesktopLogger log-write failures', () => {
   });
 
   it('does not let desktop log append failures escape through the logger', () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-packaged-log-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-packaged-log-'));
     const previousEcho = process.env.SW_DESKTOP_LOG_ECHO;
     process.env.SW_DESKTOP_LOG_ECHO = '0';
     try {

@@ -333,7 +333,7 @@ describe('project design system route gates', () => {
 
   it('rejects draft design systems when importing a folder as a project', async () => {
     const draft = await createUserDesignSystem('draft');
-    const folder = mkdtempSync(path.join(tmpdir(), 'od-import-draft-ds-'));
+    const folder = mkdtempSync(path.join(tmpdir(), 'sw-import-draft-ds-'));
     tempDirs.push(folder);
     await writeFile(path.join(folder, 'index.html'), '<!doctype html>');
 

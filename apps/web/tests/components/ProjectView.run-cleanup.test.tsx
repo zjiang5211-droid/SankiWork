@@ -1173,7 +1173,7 @@ describe('ProjectView daemon cleanup', () => {
       });
     });
 
-    expect(document.querySelector('.project-actions-toast-anchor .od-toast')).toBeNull();
+    expect(document.querySelector('.project-actions-toast-anchor .sw-toast')).toBeNull();
   });
 
   it('anchors continue-extraction snapshot errors in the chat pane', async () => {
@@ -1253,7 +1253,7 @@ describe('ProjectView daemon cleanup', () => {
       });
 
       const toast = await waitFor(() => {
-        const node = document.querySelector('.od-toast');
+        const node = document.querySelector('.sw-toast');
         expect(node?.textContent).toContain('snapshot save failed');
         return node as HTMLElement;
       });

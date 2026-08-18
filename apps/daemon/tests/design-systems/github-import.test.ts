@@ -40,7 +40,7 @@ describe('importGitHubDesignSystemProject', () => {
   let fakeGit: string;
 
   beforeEach(() => {
-    tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'od-ds-github-import-'));
+    tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-ds-github-import-'));
     fixtureRoot = path.join(tempRoot, 'fixture-repo');
     tmpRoot = path.join(tempRoot, '.tmp');
     userDesignSystemsRoot = path.join(tempRoot, 'user-design-systems');
@@ -107,7 +107,7 @@ exit 1
     expect(result.id).toBe('github-design-kit');
     const manifest = JSON.parse(fs.readFileSync(path.join(result.dir, 'manifest.json'), 'utf8')) as Record<string, unknown>;
     expect(manifest).toMatchObject({
-      schemaVersion: 'od-design-system-project/v1',
+      schemaVersion: 'sw-design-system-project/v1',
       id: 'github-design-kit',
       source: {
         type: 'github',

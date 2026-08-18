@@ -9,7 +9,7 @@ import {
 } from '../prompts/stable-sections.js';
 
 export const MAX_CHAT_IMAGE_BYTES = 1024 * 1024;
-export const UPLOAD_DIR = path.join(os.tmpdir(), 'od-uploads');
+export const UPLOAD_DIR = path.join(os.tmpdir(), 'sw-uploads');
 type InputValue =
   | string
   | number

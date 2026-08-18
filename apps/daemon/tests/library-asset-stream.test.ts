@@ -9,7 +9,7 @@ import { streamAssetFileToResponse } from '../src/routes/library.js';
 // async ENOENT `error` on the Readable. `.pipe()` does not forward that error,
 // so without the guard the unhandled `error` event would crash the whole process
 // (uncaughtException). If these tests run to completion, the guard handled it.
-const MISSING = path.join(tmpdir(), 'od-library-stream-error-does-not-exist-xyz');
+const MISSING = path.join(tmpdir(), 'sw-library-stream-error-does-not-exist-xyz');
 const flush = () => new Promise((resolve) => setTimeout(resolve, 50));
 
 function fakeRes(headersSent: boolean) {

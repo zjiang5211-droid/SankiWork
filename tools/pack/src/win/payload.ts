@@ -311,7 +311,7 @@ export async function validateWinLauncherPayloadArchive(input: {
     throw new Error(`Windows launcher payload archive not found: ${payloadPath}`);
   }
 
-  const extractRoot = await mkdtemp(join(tmpdir(), "od-win-payload-"));
+  const extractRoot = await mkdtemp(join(tmpdir(), "sw-win-payload-"));
   try {
     await execFileAsync(winResources.sevenZipExe, ["x", payloadPath, `-o${extractRoot}`, "-y"], {
       windowsHide: true,

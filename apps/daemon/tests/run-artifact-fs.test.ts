@@ -12,7 +12,7 @@ import {
 } from '../src/run-artifact-fs.js';
 
 function tmpProject(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), 'od-artifact-fs-'));
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'sw-artifact-fs-'));
 }
 
 test('the async snapshot preserves the synchronous snapshot contract', async () => {

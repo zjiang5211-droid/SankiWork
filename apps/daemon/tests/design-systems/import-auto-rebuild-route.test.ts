@@ -130,7 +130,7 @@ describe('design-system import token contract auto-rebuild route', () => {
   }
 
   function makeImportSource(namePrefix: string, tokensCss: string): string {
-    const sourceRoot = mkdtempSync(path.join(tmpdir(), `od-${namePrefix}-`));
+    const sourceRoot = mkdtempSync(path.join(tmpdir(), `sw-${namePrefix}-`));
     tempDirs.push(sourceRoot);
     const name = `${namePrefix}-${randomUUID().slice(0, 8)}`;
     mkdirSync(path.join(sourceRoot, 'src', 'styles'), { recursive: true });

@@ -350,7 +350,7 @@ describe("packaged launcher payload update loop", () => {
   it.each(platformCases)(
     "[P2] bridges a full-package $channel install into $platform payload updates, bootstrap selection, confirmation, and fallback",
     async (testCase) => {
-    const root = await mkdtemp(join(tmpdir(), "od-packaged-launcher-loop-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-packaged-launcher-loop-"));
     const fixture = await createPayloadMetadataFixture(testCase);
 
     try {
@@ -876,7 +876,7 @@ async function checkPackagedUpdate(scenario: FloorScenario): Promise<{
     target,
     ...(scenario.launcherSchema == null ? {} : { launcherSchema: scenario.launcherSchema }),
   });
-  const root = await mkdtemp(join(tmpdir(), "od-reinstall-floor-"));
+  const root = await mkdtemp(join(tmpdir(), "sw-reinstall-floor-"));
   try {
     const config: PackagedConfigLike = {
       amrProfile: null,

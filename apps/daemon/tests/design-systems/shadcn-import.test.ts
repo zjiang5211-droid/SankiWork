@@ -150,7 +150,7 @@ describe('importShadcnDesignSystemProject', () => {
   let userDesignSystemsRoot: string;
 
   beforeEach(() => {
-    tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'od-ds-shadcn-import-'));
+    tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-ds-shadcn-import-'));
     tmpRoot = path.join(tempRoot, '.tmp');
     userDesignSystemsRoot = path.join(tempRoot, 'user-design-systems');
   });
@@ -190,7 +190,7 @@ describe('importShadcnDesignSystemProject', () => {
       fs.readFileSync(path.join(result.dir, 'manifest.json'), 'utf8'),
     ) as Record<string, unknown>;
     expect(manifest).toMatchObject({
-      schemaVersion: 'od-design-system-project/v1',
+      schemaVersion: 'sw-design-system-project/v1',
       id: 'theme-test',
       source: {
         type: 'shadcn',

@@ -75,13 +75,13 @@ async function enterManualEditMode() {
   await waitFor(() => {
     expect(screen.getByTestId('manual-edit-mode-toggle').getAttribute('aria-pressed')).toBe('true');
     const activeFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(activeFrame.getAttribute('data-od-active')).toBe('true');
-    expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+    expect(activeFrame.getAttribute('data-sw-active')).toBe('true');
+    expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
   });
 }
 
 // Pins the inspector to a target. Hover no longer auto-selects, so selection
-// rides the explicit click path (od-edit-select), matching the bridge sending
+// rides the explicit click path (sw-edit-select), matching the bridge sending
 // it when the user clicks the hover affordance or a container/image body.
 async function selectManualEditTarget(target = heroTarget()) {
   const frame = await waitFor(() => {
@@ -91,7 +91,7 @@ async function selectManualEditTarget(target = heroTarget()) {
   });
   act(() => {
     window.dispatchEvent(new MessageEvent('message', {
-      data: { type: 'od-edit-select', target },
+      data: { type: 'sw-edit-select', target },
       source: frame.contentWindow,
     }));
   });
@@ -181,8 +181,8 @@ describe('FileViewer manual edit history regressions', () => {
     await selectManualEditTarget();
 
     const editFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
-    expect(editFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
-    expect(editFrame.srcdoc).toContain('data-od-edit-bridge');
+    expect(editFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
+    expect(editFrame.srcdoc).toContain('data-sw-edit-bridge');
 
     // Exiting edit mode is the toolbar toggle's job — the panel's own close
     // button only collapses the inspector and stays in edit.
@@ -191,9 +191,9 @@ describe('FileViewer manual edit history regressions', () => {
     await waitFor(() => {
       const previewFrame = screen.getByTestId('artifact-preview-frame') as HTMLIFrameElement;
       expect(previewFrame).toBe(editFrame);
-      expect(previewFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(previewFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(previewFrame.srcdoc).toContain('Hero');
-      expect(previewFrame.srcdoc).toContain('data-od-edit-bridge');
+      expect(previewFrame.srcdoc).toContain('data-sw-edit-bridge');
     });
   });
 
@@ -299,8 +299,8 @@ describe('FileViewer manual edit history regressions', () => {
 
     await waitFor(() => {
       const frame = getActivePreviewFrame();
-      expect(frame.getAttribute('data-od-active')).toBe('true');
-      expect(frame.getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(frame.getAttribute('data-sw-active')).toBe('true');
+      expect(frame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(panelState.props?.draft.fullSource).toContain('Hero');
     });
     act(() => {
@@ -416,7 +416,7 @@ describe('FileViewer manual edit history regressions', () => {
     // canvas (no docked/pinned panel) and the iframe selection marker is reset.
     await waitFor(() => expect(screen.queryByTestId('mock-manual-edit-panel')).toBeNull());
     expect(postMessageSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ type: 'od-edit-selected-target', id: null }),
+      expect.objectContaining({ type: 'sw-edit-selected-target', id: null }),
       '*',
     );
     await waitFor(() => {

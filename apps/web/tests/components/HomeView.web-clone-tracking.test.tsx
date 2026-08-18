@@ -180,7 +180,7 @@ describe('web-clone example-card tracking', () => {
     );
 
     fireEvent.error(remoteFallback!);
-    expect(siteCard.querySelector('.home-hero__site-monogram')?.textContent).toBe('O');
+    expect(siteCard.querySelector('.home-hero__site-monogram')?.textContent).toBe('S');
   });
 
   it('fires element=example_prompt with chip_id=web-clone when a text example is picked', async () => {

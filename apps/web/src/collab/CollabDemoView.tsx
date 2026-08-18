@@ -25,7 +25,7 @@ function makeDemoMemberId(): string {
 // Reuse one id per tab (sessionStorage survives reload but not a tab close), so
 // reloading the demo doesn't pile up a fresh "Demo member" each time while two
 // distinct tabs still get distinct identities.
-const DEMO_MEMBER_ID_KEY = 'od-collab-demo-member-id';
+const DEMO_MEMBER_ID_KEY = 'sw-collab-demo-member-id';
 function demoMemberId(): string {
   try {
     const existing = sessionStorage.getItem(DEMO_MEMBER_ID_KEY);

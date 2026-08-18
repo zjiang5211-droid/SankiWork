@@ -22,7 +22,7 @@ const USAGE_LIMIT_LINE =
   '"message":"Monthly usage limit reached. Resets in 6 days. Enable usage at https://opencode.ai/workspace/wrk_x/go"}}';
 
 function fresh(): string {
-  return mkdtempSync(path.join(tmpdir(), 'od-opencode-log-'));
+  return mkdtempSync(path.join(tmpdir(), 'sw-opencode-log-'));
 }
 
 describe('extractOpenCodeServiceFailure', () => {

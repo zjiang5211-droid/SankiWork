@@ -53,7 +53,7 @@ function fakePaths(root: string): PackagedNamespacePaths {
 
 describe("waitForLauncherAfterQuit", () => {
   it("logs and returns when the old pid is already gone", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-after-quit-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-after-quit-"));
     try {
       const paths = fakePaths(root);
 
@@ -69,7 +69,7 @@ describe("waitForLauncherAfterQuit", () => {
   });
 
   it("logs and warns on timeout", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-after-quit-timeout-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-after-quit-timeout-"));
     const logger = { warn: vi.fn() };
     const stop = fakeStop(4242, { survived: true });
     try {
@@ -92,7 +92,7 @@ describe("waitForLauncherAfterQuit", () => {
   });
 
   it("force-stops the lingering pid when the old process never exits", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-after-quit-forcekill-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-after-quit-forcekill-"));
     const stop = fakeStop(4242);
     try {
       const paths = fakePaths(root);
@@ -137,7 +137,7 @@ describe("exitPackagedLauncherForExistingDesktop", () => {
 
 describe("inspectExistingDesktopForLauncher", () => {
   it("restarts a healthy older desktop before a newer installed package continues", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-inspect-superseded-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-inspect-superseded-"));
     const requests: unknown[] = [];
     try {
       const paths = fakePaths(root);
@@ -185,7 +185,7 @@ describe("inspectExistingDesktopForLauncher", () => {
     { existingVersion: "0.16.0-prerelease.2", incomingVersion: "0.16.0-prerelease.1", label: "a newer version" },
     { existingVersion: undefined, incomingVersion: "0.16.0-prerelease.1", label: "an unknown historical version" },
   ])("focuses an existing namespace desktop running $label", async ({ existingVersion, incomingVersion }) => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-inspect-focus-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-inspect-focus-"));
     const requests: Array<{ message: unknown; timeoutMs?: number }> = [];
     try {
       const paths = fakePaths(root);
@@ -229,7 +229,7 @@ describe("inspectExistingDesktopForLauncher", () => {
   });
 
   it("replaces a healthy headless owner before opening the desktop window", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-inspect-headless-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-inspect-headless-"));
     const requests: unknown[] = [];
     try {
       const paths = fakePaths(root);
@@ -277,7 +277,7 @@ describe("inspectExistingDesktopForLauncher", () => {
   });
 
   it("continues when inspect cannot reach desktop", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-inspect-failed-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-inspect-failed-"));
     try {
       const paths = fakePaths(root);
 
@@ -297,7 +297,7 @@ describe("inspectExistingDesktopForLauncher", () => {
   });
 
   it("exits without launching a duplicate when focus fails", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-inspect-focus-failed-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-inspect-focus-failed-"));
     const logger = { warn: vi.fn() };
     try {
       const paths = fakePaths(root);
@@ -324,7 +324,7 @@ describe("inspectExistingDesktopForLauncher", () => {
   });
 
   it("restarts instead of focusing when an existing desktop has a stale web sidecar", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-inspect-stale-web-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-inspect-stale-web-"));
     const requests: unknown[] = [];
     try {
       const paths = fakePaths(root);
@@ -363,7 +363,7 @@ describe("inspectExistingDesktopForLauncher", () => {
   });
 
   it("force-stops a skewed desktop that ignores SHUTDOWN, then restarts", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-inspect-stale-forcekill-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-inspect-stale-forcekill-"));
     const stop = fakeStop(1234, { forced: true });
     try {
       const paths = fakePaths(root);
@@ -397,7 +397,7 @@ describe("inspectExistingDesktopForLauncher", () => {
   });
 
   it("exits without restarting when a skewed desktop cannot be force-stopped", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-launcher-inspect-stale-survives-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-launcher-inspect-stale-survives-"));
     const logger = { warn: vi.fn() };
     const stop = fakeStop(1234, { survived: true });
     try {

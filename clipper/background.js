@@ -306,7 +306,7 @@ async function capturePage(opts) {
   const includeImages = !opts || opts.includeImages !== false;
   const tab = await activeTab();
   // No hideForCapture here: this is a DOM/IR snapshot, not a pixel screenshot,
-  // and capture.js already strips our own on-page UI by id ([id^="od-clipper-"])
+  // and capture.js already strips our own on-page UI by id ([id^="sw-clipper-"])
   // from both the HTML clone and the Figma IR. So the bar stays put and keeps
   // showing its in-progress strip through the whole (often slow) snapshot —
   // hiding it here is what used to make the toolbar vanish mid-capture.
@@ -367,7 +367,7 @@ async function downloadFigma(opts) {
   const dataUrl = `data:application/json;charset=utf-8,${encodeURIComponent(json)}`;
   await chrome.downloads.download({
     url: dataUrl,
-    filename: `${slugify(cap.title)}.od-figma.json`,
+    filename: `${slugify(cap.title)}.sw-figma.json`,
     saveAs: false,
   });
   return { truncated: cap.truncated, partialImages: cap.partialImages || 0 };
@@ -385,7 +385,7 @@ async function captureDesignSystem(opts) {
   const locale = currentLocale();
   // No hideForCapture: brand-capture.js reads the page through the light DOM
   // (our toolbar lives in a shadow root it can't see) and skips any
-  // [id^="od-clipper-"] node, so the bar stays visible with its progress strip
+  // [id^="sw-clipper-"] node, so the bar stays visible with its progress strip
   // through the whole extraction instead of disappearing for several seconds.
   await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['i18n.js', 'brand-capture.js'] });
   const [out] = await chrome.scripting.executeScript({
@@ -460,7 +460,7 @@ async function cropToRect(tabDataUrl, rect, viewportWidth, dpr) {
 }
 
 // Capture the picked element as ONE self-contained HTML asset. The content
-// script marks the element with `data-od-clip-target` on the live DOM, then
+// script marks the element with `data-sw-clip-target` on the live DOM, then
 // capture.js prunes the page to just that element (keeping the page CSS so its
 // cascade resolves) and returns scoped HTML + the resources to inline. No
 // screenshot, no separate `.element.html` markup sidecar — a single HTML file
@@ -475,7 +475,7 @@ async function captureElementHtml(payload) {
   const [out] = await chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: (o) => window.__odCaptureElement(o),
-    args: [{ includeImages, marker: 'data-od-clip-target' }],
+    args: [{ includeImages, marker: 'data-sw-clip-target' }],
   });
   const cap = out && out.result;
   if (!cap || !cap.html) throw new Error('element capture failed');
@@ -647,14 +647,14 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
 // Right-click any image → save straight to the library.
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
-    id: 'od-save-image',
+    id: 'sw-save-image',
     title: t('saveImageToLibrary'),
     contexts: ['image'],
   });
 });
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId !== 'od-save-image' || !info.srcUrl) return;
+  if (info.menuItemId !== 'sw-save-image' || !info.srcUrl) return;
   try {
     await ingest({
       url: info.srcUrl,

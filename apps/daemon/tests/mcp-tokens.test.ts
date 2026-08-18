@@ -18,7 +18,7 @@ describe('mcp-tokens storage', () => {
   let dataDir: string;
 
   beforeEach(async () => {
-    dataDir = await mkdtemp(path.join(tmpdir(), 'od-mcptokens-'));
+    dataDir = await mkdtemp(path.join(tmpdir(), 'sw-mcptokens-'));
   });
 
   afterEach(async () => {

@@ -40,7 +40,7 @@ describe("download attribution token extraction", () => {
 
 describe("packaged download attribution lifecycle", () => {
   it("does not re-submit a terminal installer observation on the next launch", async () => {
-    const installerObservationRoot = await mkdtemp(join(tmpdir(), "od-download-attribution-"));
+    const installerObservationRoot = await mkdtemp(join(tmpdir(), "sw-download-attribution-"));
     const rawUrl = "https://download.sanki-ai.cloud/windows/x64/oddl_terminal_123/SankiWork-setup.exe";
     await writeFile(join(installerObservationRoot, "download-attribution.json"), JSON.stringify({
       token: "oddl_terminal_123", rawUrl,

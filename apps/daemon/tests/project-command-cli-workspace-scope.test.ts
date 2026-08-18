@@ -169,7 +169,7 @@ function successResponse(request: RequestRecord, res: http.ServerResponse): void
 }
 
 beforeAll(async () => {
-  tempDir = await mkdtemp(path.join(os.tmpdir(), 'od-project-command-scope-'));
+  tempDir = await mkdtemp(path.join(os.tmpdir(), 'sw-project-command-scope-'));
   figmaFile = path.join(tempDir, 'fixture.fig');
   await writeFile(figmaFile, Buffer.from('fixture fig bytes'));
 

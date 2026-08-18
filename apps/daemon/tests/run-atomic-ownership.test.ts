@@ -36,7 +36,7 @@ describe('run creation atomic assistant-message ownership (#6418)', () => {
     delete process.env.LANGFUSE_BASE_URL;
     delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
 
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-atomic-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-atomic-bin-'));
     const bin = path.join(binDir, 'claude');
     const invocationPath = path.join(binDir, 'invocations.jsonl');
     await writeFile(

@@ -251,7 +251,7 @@ describe('sw project CLI', () => {
 
   it('creates a design-system project with prompt-file content and JSON output', async () => {
     stub = await startProjectStubServer();
-    tempRoot = mkdtempSync(join(tmpdir(), 'od-project-cli-'));
+    tempRoot = mkdtempSync(join(tmpdir(), 'sw-project-cli-'));
     const promptPath = join(tempRoot, 'prompt.md');
     writeFileSync(promptPath, 'Use this workspace as the brand source.\n', 'utf8');
 

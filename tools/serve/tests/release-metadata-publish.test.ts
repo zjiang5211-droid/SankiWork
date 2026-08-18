@@ -48,7 +48,7 @@ async function writeReleaseNote(
 describe("shared release metadata publisher", () => {
   it("publishes complete beta, prerelease, preview, and stable metadata through the release storage fixture", async () => {
     const repoRoot = resolve(import.meta.dirname, "../../..");
-    const root = await mkdtemp(join(tmpdir(), "od-release-metadata-publish-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-release-metadata-publish-"));
     const server = await startReleaseStorageFixtureServer();
     try {
       for (const [channel, version] of [
@@ -249,7 +249,7 @@ describe("shared release metadata publisher", () => {
     // A floor the published release cannot satisfy would make the updater's
     // same-version reinstall offer nag forever; publication must refuse it.
     const repoRoot = resolve(import.meta.dirname, "../../..");
-    const root = await mkdtemp(join(tmpdir(), "od-release-metadata-floor-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-release-metadata-floor-"));
     await expect(runNode(["--experimental-strip-types", "tools/release/src/storage/publish-metadata.ts"], {
       cwd: repoRoot,
       env: {
@@ -269,7 +269,7 @@ describe("shared release metadata publisher", () => {
 
   it("builds planned release-note and metadata artifacts without storage access in dry-run mode", async () => {
     const repoRoot = resolve(import.meta.dirname, "../../..");
-    const root = await mkdtemp(join(tmpdir(), "od-release-metadata-dry-run-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-release-metadata-dry-run-"));
     const version = "1.2.3";
     const manifestDir = join(root, "manifests");
     const metadataDir = join(root, "metadata");

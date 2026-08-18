@@ -10,7 +10,7 @@ import { resolveDesktopUpdaterConfig } from "../../../src/main/updater/config.js
 import { compareVersions, resolveInstalledOuterVersion } from "../../../src/main/updater/feed.js";
 
 function makeRoot(): string {
-  return mkdtempSync(join(tmpdir(), "od-updater-feed-test-"));
+  return mkdtempSync(join(tmpdir(), "sw-updater-feed-test-"));
 }
 
 describe("desktop updater feed", () => {

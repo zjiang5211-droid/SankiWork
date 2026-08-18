@@ -213,7 +213,7 @@ describe('createCachedWorkspaceDirectoryFetcher', () => {
   );
 
   it('marks the Settings-backed credential revision when the directory rejects its file control key', async () => {
-    const amrHome = mkdtempSync(join(tmpdir(), 'od-vela-directory-auth-'));
+    const amrHome = mkdtempSync(join(tmpdir(), 'sw-vela-directory-auth-'));
     tempDirs.push(amrHome);
     vi.stubEnv('AMR_HOME', amrHome);
     writeFileSync(

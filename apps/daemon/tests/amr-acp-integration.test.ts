@@ -256,7 +256,7 @@ describe('AMR runtime def', () => {
   });
 
   it('enriches Vela models from the AMR OpenCode model-price cache', async () => {
-    const tempDir = mkdtempSync(path.join(tmpdir(), 'od-amr-model-prices-'));
+    const tempDir = mkdtempSync(path.join(tmpdir(), 'sw-amr-model-prices-'));
     try {
       const cacheDir = path.join(tempDir, 'opencode');
       mkdirSync(cacheDir, { recursive: true });
@@ -421,7 +421,7 @@ describe('AMR runtime def', () => {
   });
 
   it('retries transient `vela model list --format json` failures before succeeding', async () => {
-    const tempDir = mkdtempSync(path.join(tmpdir(), 'od-amr-retry-'));
+    const tempDir = mkdtempSync(path.join(tmpdir(), 'sw-amr-retry-'));
     const stateFile = path.join(tempDir, 'retry-state.json');
     const wrapperPath = path.join(tempDir, 'vela-wrapper');
     const wrapperSource = `#!/usr/bin/env node
@@ -476,7 +476,7 @@ child.on('exit', (code) => {
   });
 
   it('does not retry credential failures from `vela model list --format json`', async () => {
-    const tempDir = mkdtempSync(path.join(tmpdir(), 'od-amr-invalid-key-'));
+    const tempDir = mkdtempSync(path.join(tmpdir(), 'sw-amr-invalid-key-'));
     const stateFile = path.join(tempDir, 'invalid-key-state.json');
     const wrapperPath = path.join(tempDir, 'vela-wrapper');
     const wrapperSource = `#!/usr/bin/env node

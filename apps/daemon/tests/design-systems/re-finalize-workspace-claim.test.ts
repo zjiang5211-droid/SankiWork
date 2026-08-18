@@ -73,7 +73,7 @@ afterEach(async () => {
 });
 
 async function createFixture() {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-ds-refinalize-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-ds-refinalize-'));
   roots.push(root);
   const userSkills = path.join(root, 'skills');
   const userDesignSystems = path.join(root, 'design-systems');

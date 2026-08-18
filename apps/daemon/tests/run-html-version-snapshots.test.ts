@@ -57,7 +57,7 @@ describe('AI HTML version snapshots', () => {
   });
 
   async function makeProject(): Promise<{ root: string; projectsRoot: string; projectId: string; projectRoot: string }> {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'od-html-version-snapshots-'));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'sw-html-version-snapshots-'));
     roots.push(root);
     const projectsRoot = path.join(root, 'projects');
     const projectId = 'project-1';

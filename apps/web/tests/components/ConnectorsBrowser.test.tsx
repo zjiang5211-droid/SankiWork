@@ -558,7 +558,7 @@ describe('ConnectorsBrowser', () => {
     expect(within(drawer).getByRole('alert').textContent).toContain("Couldn't cancel authorization. Try again.");
     expect(document.querySelector('.connector-panel-alert')).toBeNull();
     expect(
-      JSON.parse(window.sessionStorage.getItem('od-connectors-authorization-pending') ?? '{}'),
+      JSON.parse(window.sessionStorage.getItem('sw-connectors-authorization-pending') ?? '{}'),
     ).toHaveProperty('github');
   });
 
@@ -776,7 +776,7 @@ describe('ConnectorsBrowser', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: 'Connect' })).toBeTruthy());
     expect(screen.queryByRole('button', { name: 'Cancel' })).toBeNull();
     expect(
-      JSON.parse(window.sessionStorage.getItem('od-connectors-authorization-pending') ?? '{}'),
+      JSON.parse(window.sessionStorage.getItem('sw-connectors-authorization-pending') ?? '{}'),
     ).not.toHaveProperty('github');
   });
 
@@ -814,7 +814,7 @@ describe('ConnectorsBrowser', () => {
     expect(cancelConnectorAuthorization).not.toHaveBeenCalled();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeTruthy();
     expect(
-      JSON.parse(window.sessionStorage.getItem('od-connectors-authorization-pending') ?? '{}'),
+      JSON.parse(window.sessionStorage.getItem('sw-connectors-authorization-pending') ?? '{}'),
     ).toHaveProperty('github');
   });
 
@@ -856,7 +856,7 @@ describe('ConnectorsBrowser', () => {
     await waitFor(() => expect(cancelConnectorAuthorization).toHaveBeenCalledWith('github'));
     await screen.findByRole('button', { name: 'Connect' });
     expect(
-      JSON.parse(window.sessionStorage.getItem('od-connectors-authorization-pending') ?? '{}'),
+      JSON.parse(window.sessionStorage.getItem('sw-connectors-authorization-pending') ?? '{}'),
     ).not.toHaveProperty('github');
 
     vi.useRealTimers();

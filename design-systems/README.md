@@ -29,7 +29,7 @@ The v1 manifest uses fixed canonical file names:
 
 ```json
 {
-  "schemaVersion": "od-design-system-project/v1",
+  "schemaVersion": "sw-design-system-project/v1",
   "id": "acme",
   "name": "Acme",
   "category": "Productivity & SaaS",

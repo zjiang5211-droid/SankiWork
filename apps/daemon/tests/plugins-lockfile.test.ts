@@ -50,7 +50,7 @@ describe('plugin lockfile', () => {
   });
 
   it('writes stable .sankiwork/sw-plugin-lock.json content', async () => {
-    const dir = await mkdtemp(path.join(os.tmpdir(), 'od-lock-'));
+    const dir = await mkdtemp(path.join(os.tmpdir(), 'sw-lock-'));
     try {
       const filePath = path.join(dir, '.sankiwork', 'sw-plugin-lock.json');
       await upsertPluginLockfileEntry(filePath, plugin, 123);
@@ -70,7 +70,7 @@ describe('plugin lockfile', () => {
   });
 
   it('drops no entry when concurrent installs race the same lockfile (#109)', async () => {
-    const dir = await mkdtemp(path.join(os.tmpdir(), 'od-lock-race-'));
+    const dir = await mkdtemp(path.join(os.tmpdir(), 'sw-lock-race-'));
     try {
       const filePath = path.join(dir, '.sankiwork', 'sw-plugin-lock.json');
       const names = Array.from({ length: 12 }, (_, i) => `community/plugin-${i}`);

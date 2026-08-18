@@ -18,7 +18,7 @@ import { ensureProject } from '../src/projects.js';
 
 describe('project file versions', () => {
   async function withProject(fn: (projectsRoot: string, projectId: string) => Promise<void>) {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-file-versions-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-file-versions-'));
     try {
       const projectId = 'versioned-project';
       await ensureProject(projectsRoot, projectId);

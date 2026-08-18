@@ -18,7 +18,7 @@ import { buildSrcdoc } from '../../src/runtime/srcdoc';
 // instead.
 
 function extractDeckBridgeScript(srcdoc: string): string {
-  const match = srcdoc.match(/<script data-od-deck-bridge>([\s\S]*?)<\/script>/);
+  const match = srcdoc.match(/<script data-sw-deck-bridge>([\s\S]*?)<\/script>/);
   if (!match || !match[1]) {
     throw new Error('deck bridge script not found in srcdoc');
   }
@@ -29,7 +29,7 @@ function extractDeckBridgeScript(srcdoc: string): string {
 // also runs against bridge builds that predate the registry hook (used for
 // red/green verification of the regression below).
 function extractDeckKeydownRegistryScript(srcdoc: string): string | null {
-  const match = srcdoc.match(/<script data-od-deck-keydown-registry>([\s\S]*?)<\/script>/);
+  const match = srcdoc.match(/<script data-sw-deck-keydown-registry>([\s\S]*?)<\/script>/);
   return match && match[1] ? match[1] : null;
 }
 
@@ -237,7 +237,7 @@ describe('deck bridge - keyboard paging keeps page counters in sync', () => {
     expect(slideStatesOf(parentPostMessage).at(-1)).toMatchObject({ active: 1, count: 3 });
   });
 
-  it('seeds the keyboard-navigation flag from the artifact source, ignoring od-injected bridge scripts', () => {
+  it('seeds the keyboard-navigation flag from the artifact source, ignoring sw-injected bridge scripts', () => {
     const slideMarkup = '<section class="slide active">One</section>';
     const navScript =
       '<script>document.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") {} });</script>';

@@ -51,7 +51,7 @@ function asMember(memberId: string): { authorization: string } {
 }
 
 async function startServer({ shared = true }: { shared?: boolean } = {}) {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-comment-perms-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-comment-perms-'));
   const db = openDatabase(tempDir);
   insertProject(db, { id: PROJECT, name: 'Project', createdAt: 1, updatedAt: 1 });
   insertConversation(db, { id: CONVERSATION, projectId: PROJECT, title: 'Chat', createdAt: 1, updatedAt: 1 });

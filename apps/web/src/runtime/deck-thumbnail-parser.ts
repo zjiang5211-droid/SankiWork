@@ -384,7 +384,7 @@ function sanitizeThumbnailAncestor(node: Element): DeckThumbnailAncestor {
 // neutral placeholder instead.
 function processSlideHtml(el: Element, baseHref: string | undefined, width: number, height: number): string {
   const clone = sanitizeThumbnailMarkup(el.outerHTML);
-  if (!clone) return '<div data-od-thumb-unsafe=""></div>';
+  if (!clone) return '<div data-sw-thumb-unsafe=""></div>';
   const nodes = [clone, ...Array.from(clone.querySelectorAll('[src], [srcset], [style], [href]'))];
   for (const node of nodes) {
     if (baseHref) {

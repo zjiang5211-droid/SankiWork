@@ -2199,7 +2199,7 @@ async function testAgentConnectionInternal(
     };
   }
 
-  const tempDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-conn-test-'));
+  const tempDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-conn-test-'));
   // Antigravity's print mode is silent on stdout/stderr for both
   // missing-auth and quota-exhausted failures — it exits 0 without
   // echoing the upstream error. The only place that failure shape

@@ -113,7 +113,7 @@ describe('HandoffButton zero-editors fallback', () => {
           projectDir="/tmp/sankiwork/Landing"
           agents={agents}
           metricsConsent
-          installationId="od-install-abc"
+          installationId="sw-install-abc"
         />
       </I18nProvider>,
     );

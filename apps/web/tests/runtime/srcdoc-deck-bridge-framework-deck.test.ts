@@ -72,27 +72,27 @@ describe('injectDeckBridge — framework-deck detection (#deck-stage)', () => {
     // The bridge script itself must still ship — the framework's own
     // fit() handles centering, but the host-side counter / keyboard
     // bridge still needs the slide-state postMessage channel.
-    expect(out).toMatch(/<script[^>]*data-od-deck-bridge/);
+    expect(out).toMatch(/<script[^>]*data-sw-deck-bridge/);
   });
 
   it('keeps a framework deck stage at its authored size when the shell is a flex container', () => {
     const out = buildSrcdoc(frameworkDeckHtml(), { deck: true });
-    expect(out).toMatch(/<style[^>]*data-od-deck-fix/);
+    expect(out).toMatch(/<style[^>]*data-sw-deck-fix/);
     expect(out).toContain('.deck-shell { display: block !important; }');
     expect(out).toContain('.deck-stage { flex-shrink: 0 !important; }');
   });
 
   it('keeps injecting the place-content fix for legacy / non-framework decks', () => {
     const out = buildSrcdoc(legacyDeckHtml(), { deck: true });
-    expect(out).toMatch(/<style[^>]*data-od-deck-fix/);
+    expect(out).toMatch(/<style[^>]*data-sw-deck-fix/);
     expect(out).toContain('.stage, .deck-stage, .deck-shell { place-content: center !important; }');
-    expect(out).toMatch(/<script[^>]*data-od-deck-bridge/);
+    expect(out).toMatch(/<script[^>]*data-sw-deck-bridge/);
   });
 
   it('can hide generated deck chrome so host preview chrome owns navigation', () => {
     const out = buildSrcdoc(frameworkDeckHtml(), { deck: true, hideDeckChrome: true });
 
-    expect(out).toMatch(/<style[^>]*data-od-deck-chrome-hidden/);
+    expect(out).toMatch(/<style[^>]*data-sw-deck-chrome-hidden/);
     expect(out).toContain('.deck-counter,');
     expect(out).toContain('.deck-hint,');
     expect(out).toContain('display: none !important');

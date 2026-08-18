@@ -181,7 +181,7 @@ else
   fail 'curl or wget is required to download Node.js.'
 fi
 
-tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/od-dsh-install.XXXXXX")
+tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/sw-dsh-install.XXXXXX")
 cleanup() { rm -rf "$tmp_dir"; }
 trap cleanup EXIT HUP INT TERM
 

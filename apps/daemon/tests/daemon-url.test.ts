@@ -16,9 +16,9 @@ describe("resolveDaemonUrl", () => {
   let emptyBinDir: string;
 
   beforeAll(() => {
-    ipcBaseDir = fs.mkdtempSync(path.join(os.tmpdir(), "od-mcp-resolve-"));
-    fakeBinDir = fs.mkdtempSync(path.join(os.tmpdir(), "od-tools-dev-resolve-"));
-    emptyBinDir = fs.mkdtempSync(path.join(os.tmpdir(), "od-tools-dev-empty-"));
+    ipcBaseDir = fs.mkdtempSync(path.join(os.tmpdir(), "sw-mcp-resolve-"));
+    fakeBinDir = fs.mkdtempSync(path.join(os.tmpdir(), "sw-tools-dev-resolve-"));
+    emptyBinDir = fs.mkdtempSync(path.join(os.tmpdir(), "sw-tools-dev-empty-"));
   });
 
   afterAll(() => {

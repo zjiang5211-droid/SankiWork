@@ -208,7 +208,7 @@ export function CustomSelect({
       ref={menuRef}
       id={`${idBase}-menu`}
       className={[
-        'od-select-menu',
+        'sw-select-menu',
         portal ? 'portal' : 'inline',
         menuClassName,
       ].filter(Boolean).join(' ')}
@@ -228,8 +228,8 @@ export function CustomSelect({
       {options.map((item) => {
         if (isGroup(item)) {
           return (
-            <div className="od-select-group" key={`group:${item.label}`}>
-              <div className="od-select-group-label">{item.label}</div>
+            <div className="sw-select-group" key={`group:${item.label}`}>
+              <div className="sw-select-group-label">{item.label}</div>
               {item.options.map((option) => (
                 <SelectOptionButton
                   key={option.value}
@@ -260,11 +260,11 @@ export function CustomSelect({
   );
 
   return (
-    <div className={['od-select', className].filter(Boolean).join(' ')}>
+    <div className={['sw-select', className].filter(Boolean).join(' ')}>
       <button
         ref={buttonRef}
         type="button"
-        className={['od-select-trigger', triggerClassName].filter(Boolean).join(' ')}
+        className={['sw-select-trigger', triggerClassName].filter(Boolean).join(' ')}
         role="combobox"
         value={value}
         aria-haspopup="listbox"
@@ -279,7 +279,7 @@ export function CustomSelect({
         onKeyDown={onButtonKeyDown}
         onFocus={onFocus}
       >
-        <span id={`${idBase}-value`} className="od-select-value">
+        <span id={`${idBase}-value`} className="sw-select-value">
           {selectedLabel}
         </span>
         <Icon name="chevron-down" size={14} />
@@ -309,7 +309,7 @@ function SelectOptionButton({
       id={id}
       type="button"
       className={[
-        'od-select-option',
+        'sw-select-option',
         selected ? 'selected' : '',
         active ? 'active' : '',
       ].filter(Boolean).join(' ')}
@@ -320,8 +320,8 @@ function SelectOptionButton({
       onMouseEnter={() => onActive(option.value)}
       onClick={() => onChoose(option.value)}
     >
-      <span className="od-select-option-label">{option.label}</span>
-      <span className="od-select-option-check" aria-hidden>
+      <span className="sw-select-option-label">{option.label}</span>
+      <span className="sw-select-option-check" aria-hidden>
         <Icon name="check" size={14} />
       </span>
     </button>

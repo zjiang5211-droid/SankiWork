@@ -169,7 +169,7 @@ describe('resolveStartupDistinctId', () => {
   });
 
   it('reads installationId from an explicit installationRoot (not the child-only env)', () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-install-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-install-'));
     dirs.push(root);
     writeFileSync(join(root, 'installation.json'), JSON.stringify({ installationId: 'inst-abc' }));
     // env is intentionally unset — proving the parent process resolves via the
@@ -178,7 +178,7 @@ describe('resolveStartupDistinctId', () => {
   });
 
   it('falls back to a synthetic per-namespace id when no installation file exists', () => {
-    const root = mkdtempSync(join(tmpdir(), 'od-install-'));
+    const root = mkdtempSync(join(tmpdir(), 'sw-install-'));
     dirs.push(root);
     expect(resolveStartupDistinctId('release-stable', root)).toBe('packaged-release-stable');
   });

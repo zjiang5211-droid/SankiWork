@@ -94,7 +94,7 @@ From `~/Projects/monet`:
 Monet concept | OD adaptation
 ---|---
 Controller `ToolRegistry` | Daemon service endpoints and optional CLI wrappers
-Chat tools `create_live_artifact`, `update_live_artifact`, `list_live_artifacts` | Skill instructions that call `od-tools live-artifacts ...` or localhost daemon endpoints
+Chat tools `create_live_artifact`, `update_live_artifact`, `list_live_artifacts` | Skill instructions that call `sw-tools live-artifacts ...` or localhost daemon endpoints
 Connector tools dynamically injected into tool registry | Connector catalog exposed through daemon endpoints; skill asks agent to query/use them explicitly
 SQLite-first artifact storage | Project-scoped metadata files first; SQLite optional later if indexing becomes necessary
 Controller-owned agent loop | External CLI agent loop; OD only injects skills and receives output/events
@@ -495,7 +495,7 @@ Rules:
 
 - `template.html` is authored by the agent during create/update.
 - Refreshable values must come from `data.json`, not be hardcoded only in HTML.
-- `html_template_v1` supports **Mustache-style escaped interpolation plus a minimal `data-od-repeat` structural directive**. It does not support arbitrary JavaScript, expression evaluation, helper functions, filters, partials, or raw HTML injection.
+- `html_template_v1` supports **Mustache-style escaped interpolation plus a minimal `data-sw-repeat` structural directive**. It does not support arbitrary JavaScript, expression evaluation, helper functions, filters, partials, or raw HTML injection.
 - Refresh updates `data.json` and snapshots. It does not let connector output rewrite arbitrary HTML.
 - If a presentation redesign is needed, the user should ask the agent to update the artifact; refresh is for data changes.
 - `index.html` may be regenerated after successful refresh, but it is derived output.
@@ -510,12 +510,12 @@ MVP binding syntax is intentionally small and deterministic:
   - Numeric array indexes are allowed only as path segments, e.g. `{{data.metrics.0.value}}`.
   - Keys must match `/^[A-Za-z_][A-Za-z0-9_-]*$/`; bracket notation, computed paths, wildcards, function calls, and expressions are invalid.
   - Values render as strings. `null` and missing values render as an empty string. Objects and arrays are invalid interpolation targets except inside a supported repeat context.
-- **Repeat directive:** `data-od-repeat="item in data.items"` repeats the annotated element once for each object in an array.
+- **Repeat directive:** `data-sw-repeat="item in data.items"` repeats the annotated element once for each object in an array.
   - The left side is a local alias matching `/^[A-Za-z_][A-Za-z0-9_]*$/`.
   - The right side must be a `data.*` path resolving to an array.
   - Inside the repeated element, interpolation may reference the local alias, e.g. `{{item.name}}`, using the same path grammar.
-  - Nested `data-od-repeat` directives are disallowed in MVP.
-  - `data-od-repeat` is removed from the generated output.
+  - Nested `data-sw-repeat` directives are disallowed in MVP.
+  - `data-sw-repeat` is removed from the generated output.
 - **Conditional directives:** none in MVP. Optional sections should be represented by empty strings, zero-length arrays, or separate agent-authored template variants during update.
 - **Attribute bindings:** interpolation may appear in text nodes and ordinary HTML attribute values, but not in attribute names, tag names, comments, `<script>`, `<style>`, `<iframe srcdoc>`, event-handler attributes such as `onclick`, or URL-bearing attributes that fail URL validation.
 
@@ -529,7 +529,7 @@ Raw / unescaped interpolation is explicitly forbidden in MVP:
 
 - No triple braces such as `{{{data.html}}}`.
 - No ampersand form such as `{{& data.html}}`.
-- No `data-od-html`, `data-od-raw`, `data-od-bind-html`, or equivalent raw insertion attributes.
+- No `data-sw-html`, `data-sw-raw`, `data-sw-bind-html`, or equivalent raw insertion attributes.
 - No opt-out flag in artifact metadata or tool input.
 
 The daemon must validate `template.html` before persistence and again before preview rendering. Validation failures must use the shared API error envelope with field/path details in `details`.

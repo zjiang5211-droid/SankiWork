@@ -11,7 +11,7 @@ export interface OrchestratorWorkspace {
   writeback?: OrchestratorWorkspaceWriteback;
 }
 
-export type RunWorkspaceStorageKind = 'od-owned' | 'folder-backed';
+export type RunWorkspaceStorageKind = 'sw-owned' | 'folder-backed';
 
 export interface RunWorkspaceStorage {
   kind: RunWorkspaceStorageKind;

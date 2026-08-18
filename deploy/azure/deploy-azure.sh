@@ -3,8 +3,8 @@ set -euo pipefail
 
 # Deploy SankiWork to Azure from the Bicep templates in this directory.
 #
-#   deploy/azure/deploy-azure.sh --target app-service --resource-group od-rg --location eastus
-#   deploy/azure/deploy-azure.sh --target aci         --resource-group od-rg --location eastus
+#   deploy/azure/deploy-azure.sh --target app-service --resource-group sw-rg --location eastus
+#   deploy/azure/deploy-azure.sh --target aci         --resource-group sw-rg --location eastus
 #
 # Requires the Azure CLI (`az`) and an authenticated session (`az login`).
 # If no --api-token is given, a 32-byte hex token is generated and printed so
@@ -37,8 +37,8 @@ Options:
   -h, --help
 
 Examples:
-  deploy/azure/deploy-azure.sh --target app-service --resource-group od-rg --location westeurope
-  deploy/azure/deploy-azure.sh --target aci --resource-group od-rg --image docker.io/vanjayak/sankiwork@sha256:<digest>
+  deploy/azure/deploy-azure.sh --target app-service --resource-group sw-rg --location westeurope
+  deploy/azure/deploy-azure.sh --target aci --resource-group sw-rg --image docker.io/vanjayak/sankiwork@sha256:<digest>
 EOF
 }
 

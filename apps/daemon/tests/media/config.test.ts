@@ -34,8 +34,8 @@ describe('media-config OpenAI auth-file fallback', () => {
   let homedirSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(async () => {
-    homeDir = await mkdtemp(path.join(tmpdir(), 'od-media-home-'));
-    projectRoot = await mkdtemp(path.join(tmpdir(), 'od-media-project-'));
+    homeDir = await mkdtemp(path.join(tmpdir(), 'sw-media-home-'));
+    projectRoot = await mkdtemp(path.join(tmpdir(), 'sw-media-project-'));
     process.env.HOME = homeDir;
     homedirSpy = vi.spyOn(os, 'homedir').mockReturnValue(homeDir);
     for (const key of OPENAI_ENV_KEYS) {
@@ -268,7 +268,7 @@ describe('media-config OpenAI auth-file fallback', () => {
     let originalDataDir: string | undefined;
 
     beforeEach(async () => {
-      overrideRoot = await mkdtemp(path.join(tmpdir(), 'od-media-override-'));
+      overrideRoot = await mkdtemp(path.join(tmpdir(), 'sw-media-override-'));
       originalMediaConfigDir = process.env.SW_MEDIA_CONFIG_DIR;
       originalDataDir = process.env.SW_DATA_DIR;
       delete process.env.SW_MEDIA_CONFIG_DIR;
@@ -319,7 +319,7 @@ describe('media-config OpenAI auth-file fallback', () => {
     it('expands a leading ~/ against the user home directory', async () => {
       // Per-test HOME points at a tmpdir (set by outer beforeEach), so the
       // expansion lands somewhere safe to write.
-      const subdir = '.od-test';
+      const subdir = '.sw-test';
       process.env.SW_MEDIA_CONFIG_DIR = `~/${subdir}`;
       const expandedDir = path.join(homeDir, subdir);
       await writeProvidersAt(expandedDir, {
@@ -385,7 +385,7 @@ describe('media-config OpenAI auth-file fallback', () => {
     });
 
     it('SW_MEDIA_CONFIG_DIR takes precedence over SW_DATA_DIR', async () => {
-      const dataDir = await mkdtemp(path.join(tmpdir(), 'od-media-data-'));
+      const dataDir = await mkdtemp(path.join(tmpdir(), 'sw-media-data-'));
       try {
         process.env.SW_DATA_DIR = dataDir;
         process.env.SW_MEDIA_CONFIG_DIR = overrideRoot;
@@ -460,7 +460,7 @@ describe('media-config OpenAI auth-file fallback', () => {
     // <projectRoot>/$HOME/.sankiwork and stored provider keys appeared
     // missing on the next read.
     it('expands $HOME/... in SW_DATA_DIR fallback so media-config co-locates with daemon data', async () => {
-      const subdir = '.od-test-home';
+      const subdir = '.sw-test-home';
       process.env.SW_DATA_DIR = `$HOME/${subdir}`;
       const expandedDir = path.join(homeDir, subdir);
       await writeProvidersAt(expandedDir, {
@@ -480,7 +480,7 @@ describe('media-config OpenAI auth-file fallback', () => {
     });
 
     it('expands ${HOME}/... in SW_DATA_DIR fallback', async () => {
-      const subdir = '.od-test-braced';
+      const subdir = '.sw-test-braced';
       process.env.SW_DATA_DIR = `\${HOME}/${subdir}`;
       const expandedDir = path.join(homeDir, subdir);
       await writeProvidersAt(expandedDir, {
@@ -500,7 +500,7 @@ describe('media-config OpenAI auth-file fallback', () => {
     });
 
     it('expands $HOME/... in SW_MEDIA_CONFIG_DIR (explicit override path)', async () => {
-      const subdir = '.od-media-home';
+      const subdir = '.sw-media-home';
       process.env.SW_MEDIA_CONFIG_DIR = `$HOME/${subdir}`;
       const expandedDir = path.join(homeDir, subdir);
       await writeProvidersAt(expandedDir, {
@@ -535,8 +535,8 @@ describe('media-config Grok / xAI OAuth fallback', () => {
   let homedirSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(async () => {
-    homeDir = await mkdtemp(path.join(tmpdir(), 'od-media-grok-home-'));
-    projectRoot = await mkdtemp(path.join(tmpdir(), 'od-media-grok-project-'));
+    homeDir = await mkdtemp(path.join(tmpdir(), 'sw-media-grok-home-'));
+    projectRoot = await mkdtemp(path.join(tmpdir(), 'sw-media-grok-project-'));
     process.env.HOME = homeDir;
     homedirSpy = vi.spyOn(os, 'homedir').mockReturnValue(homeDir);
     for (const key of GROK_ENV_KEYS) {
@@ -616,14 +616,14 @@ describe('media-config Grok / xAI OAuth fallback', () => {
 
   it('uses OD-native xai-tokens.json when one is stored', async () => {
     await writeOdXaiTokens({
-      accessToken: 'od-bearer-1',
+      accessToken: 'sw-bearer-1',
       expiresAt: Date.now() + 3_600_000,
     });
 
     const resolved = await resolveProviderConfig(projectRoot, 'grok');
     const masked = await readMaskedConfig(projectRoot);
 
-    expect(resolved.apiKey).toBe('od-bearer-1');
+    expect(resolved.apiKey).toBe('sw-bearer-1');
     expect(grokProvider(masked)).toMatchObject({
       configured: true,
       source: 'oauth-xai-stored',
@@ -652,7 +652,7 @@ describe('media-config Grok / xAI OAuth fallback', () => {
 
   it('prefers OD-native xai-tokens over Hermes borrowing', async () => {
     await writeOdXaiTokens({
-      accessToken: 'od-bearer-2',
+      accessToken: 'sw-bearer-2',
       expiresAt: Date.now() + 3_600_000,
     });
     await writeHomeJson('.hermes/auth.json', {
@@ -664,13 +664,13 @@ describe('media-config Grok / xAI OAuth fallback', () => {
     });
 
     const resolved = await resolveProviderConfig(projectRoot, 'grok');
-    expect(resolved.apiKey).toBe('od-bearer-2');
+    expect(resolved.apiKey).toBe('sw-bearer-2');
   });
 
   it('keeps env keys ahead of OAuth fallbacks', async () => {
     process.env.XAI_API_KEY = 'env-xai-key';
     await writeOdXaiTokens({
-      accessToken: 'od-bearer-3',
+      accessToken: 'sw-bearer-3',
       expiresAt: Date.now() + 3_600_000,
     });
 
@@ -691,7 +691,7 @@ describe('media-config Grok / xAI OAuth fallback', () => {
       },
     });
     await writeOdXaiTokens({
-      accessToken: 'od-bearer-4',
+      accessToken: 'sw-bearer-4',
       expiresAt: Date.now() + 3_600_000,
     });
 
@@ -715,7 +715,7 @@ describe('media-config Grok / xAI OAuth fallback', () => {
     // resolveXAIBearer. Without a refresh_token it can't recover, so
     // the resolver falls through to other sources (none here).
     await writeOdXaiTokens({
-      accessToken: 'od-bearer-expired',
+      accessToken: 'sw-bearer-expired',
       expiresAt: Date.now() + 30_000,
     });
 
@@ -731,7 +731,7 @@ describe('media-config model alias resolution (issue #1277)', () => {
   const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeEach(async () => {
-    projectRoot = await mkdtemp(path.join(tmpdir(), 'od-media-alias-'));
+    projectRoot = await mkdtemp(path.join(tmpdir(), 'sw-media-alias-'));
     delete process.env.SW_MEDIA_MODEL_ALIASES;
     delete process.env.SW_MEDIA_CONFIG_DIR;
     delete process.env.SW_DATA_DIR;
@@ -928,7 +928,7 @@ describe('seedProviderIfMissing', () => {
   const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeEach(async () => {
-    projectRoot = await mkdtemp(path.join(tmpdir(), 'od-media-seed-'));
+    projectRoot = await mkdtemp(path.join(tmpdir(), 'sw-media-seed-'));
     for (const key of SENSEAUDIO_ENV_KEYS) {
       delete process.env[key];
     }

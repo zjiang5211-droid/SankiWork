@@ -54,7 +54,7 @@ function writeNonExecutableCursorAgent(dir: string): string {
 }
 
 posixTest('detectAgents emits a not-on-path diagnostic with searched dirs + fix intents', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-diag-notpath-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-diag-notpath-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       // Only cursor-agent is on PATH; everything else is unavailable.
@@ -84,7 +84,7 @@ posixTest('detectAgents emits a not-on-path diagnostic with searched dirs + fix 
 });
 
 posixTest('detectAgents finds OpenCode when npm exposes only the opencode binary', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-opencode-npm-bin-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-opencode-npm-bin-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       const bin = writeOpenCode(dir);
@@ -106,7 +106,7 @@ posixTest('detectAgents finds OpenCode when npm exposes only the opencode binary
 });
 
 posixTest('detectAgents emits a not-executable diagnostic for a PATH match without execute permission', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-diag-notexec-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-diag-notexec-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       const bin = writeNonExecutableCursorAgent(dir);
@@ -137,7 +137,7 @@ posixTest('detectAgents emits a not-executable diagnostic for a PATH match witho
 });
 
 posixTest('detectAgents emits an auth-missing diagnostic when the auth probe reports not authenticated', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-diag-auth-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-diag-auth-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       writeCursorAgent(dir, 'Not authenticated');
@@ -176,7 +176,7 @@ test('auth diagnostics do not offer daemon OAuth without an active producer', ()
 });
 
 posixTest('detectAgentsStream yields the same agent set as detectAgents', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-diag-stream-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-diag-stream-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       writeCursorAgent(dir, 'Authenticated');

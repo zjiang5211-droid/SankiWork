@@ -64,7 +64,7 @@ describe('daemon startup route smoke', () => {
   const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeAll(async () => {
-    dataDir = await mkdtemp(join(tmpdir(), 'od-server-startup-smoke-'));
+    dataDir = await mkdtemp(join(tmpdir(), 'sw-server-startup-smoke-'));
     process.env.SW_DATA_DIR = dataDir;
     vi.resetModules();
     const { startServer } = await import('../src/server.js') as ServerModule;
@@ -282,7 +282,7 @@ describe('daemon startup route smoke', () => {
   });
 
   it('[P0] creates a legal run, exposes failed status, and keeps the daemon healthy', async () => {
-    const binDir = await mkdtemp(join(tmpdir(), 'od-startup-run-smoke-bin-'));
+    const binDir = await mkdtemp(join(tmpdir(), 'sw-startup-run-smoke-bin-'));
     try {
       const claudeBin = await writeFailingClaudeBin(
         binDir,
@@ -331,7 +331,7 @@ describe('daemon startup route smoke', () => {
   });
 
   it('[P0] cancels an active run, exposes canceled status, and keeps the daemon healthy', async () => {
-    const binDir = await mkdtemp(join(tmpdir(), 'od-startup-cancel-smoke-bin-'));
+    const binDir = await mkdtemp(join(tmpdir(), 'sw-startup-cancel-smoke-bin-'));
     try {
       const claudeBin = await writeHangingClaudeBin(binDir, 'claude-hang');
       await putAppConfig(started.url, {
@@ -380,7 +380,7 @@ describe('daemon startup route smoke', () => {
   });
 
   it('[P0] keeps a user-canceled Claude run canceled when a late error frame arrives', async () => {
-    const binDir = await mkdtemp(join(tmpdir(), 'od-startup-cancel-error-bin-'));
+    const binDir = await mkdtemp(join(tmpdir(), 'sw-startup-cancel-error-bin-'));
     try {
       const readyFile = join(binDir, 'ready');
       const claudeBin = await writeCancelErrorClaudeBin(
@@ -437,7 +437,7 @@ describe('daemon startup route smoke', () => {
   });
 
   it('[P0] keeps a Claude stream failure failed when cancellation follows the error', async () => {
-    const binDir = await mkdtemp(join(tmpdir(), 'od-startup-error-cancel-bin-'));
+    const binDir = await mkdtemp(join(tmpdir(), 'sw-startup-error-cancel-bin-'));
     try {
       const readyFile = join(binDir, 'ready');
       const claudeBin = await writeCancelErrorClaudeBin(
@@ -494,7 +494,7 @@ describe('daemon startup route smoke', () => {
   });
 
   it('[P1] result packages preserve failed and canceled terminal status without inventing artifacts', async () => {
-    const binDir = await mkdtemp(join(tmpdir(), 'od-startup-result-package-bin-'));
+    const binDir = await mkdtemp(join(tmpdir(), 'sw-startup-result-package-bin-'));
     try {
       const failingClaude = await writeFailingClaudeBin(
         binDir,
@@ -564,7 +564,7 @@ describe('daemon startup route smoke', () => {
   });
 
   it('[P1] filters runs by project, conversation, and lifecycle status together', async () => {
-    const binDir = await mkdtemp(join(tmpdir(), 'od-startup-run-filters-bin-'));
+    const binDir = await mkdtemp(join(tmpdir(), 'sw-startup-run-filters-bin-'));
     const activeRunIds: string[] = [];
     try {
       const failingClaude = await writeFailingClaudeBin(
@@ -675,7 +675,7 @@ describe('daemon startup route smoke', () => {
   });
 
   it('[P0] lists active runs and removes them from the active view after terminal states', async () => {
-    const binDir = await mkdtemp(join(tmpdir(), 'od-startup-active-runs-bin-'));
+    const binDir = await mkdtemp(join(tmpdir(), 'sw-startup-active-runs-bin-'));
     try {
       const claudeBin = await writeHangingClaudeBin(binDir, 'claude-active');
       await putAppConfig(started.url, {
@@ -720,7 +720,7 @@ describe('daemon startup route smoke', () => {
   });
 
   it('[P0] replays run SSE events after Last-Event-ID and still emits the terminal event', async () => {
-    const binDir = await mkdtemp(join(tmpdir(), 'od-startup-sse-replay-bin-'));
+    const binDir = await mkdtemp(join(tmpdir(), 'sw-startup-sse-replay-bin-'));
     try {
       const claudeBin = await writeSuccessfulClaudeBin(binDir, 'claude-sse-replay');
       await putAppConfig(started.url, {

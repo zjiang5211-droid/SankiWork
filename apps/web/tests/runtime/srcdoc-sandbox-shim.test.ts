@@ -104,12 +104,12 @@ describe('buildSrcdoc shim isolates Web Storage from a sandboxed window (#1403 v
     const doc = buildSrcdoc(REACT_ARTIFACT);
     // The shim ships under a stable marker attribute so the host can
     // sanity-check that it landed without a brittle string search.
-    expect(doc).toContain('data-od-sandbox-shim');
+    expect(doc).toContain('data-sw-sandbox-shim');
   });
 
   it('places the shim BEFORE the user script so the polyfill is in place at first read', () => {
     const doc = buildSrcdoc(REACT_ARTIFACT);
-    const shimIdx = doc.indexOf('data-od-sandbox-shim');
+    const shimIdx = doc.indexOf('data-sw-sandbox-shim');
     const userBootIdx = doc.indexOf('var theme = localStorage.getItem');
     expect(shimIdx).toBeGreaterThan(0);
     expect(userBootIdx).toBeGreaterThan(0);
@@ -126,7 +126,7 @@ describe('buildSrcdoc shim isolates Web Storage from a sandboxed window (#1403 v
     // and Babel-standalone is not present in the VM. We only need the
     // shim + the inline boot script to validate the SecurityError
     // suppression model.
-    const shimScript = scripts.find((s) => /data-od-sandbox-shim/.test(s) === false && /makeStore/.test(s));
+    const shimScript = scripts.find((s) => /data-sw-sandbox-shim/.test(s) === false && /makeStore/.test(s));
     const bootScript = scripts.find((s) => /var theme = localStorage\.getItem/.test(s));
     expect(shimScript, 'shim script body must be present').toBeDefined();
     expect(bootScript, 'user boot script body must be present').toBeDefined();

@@ -14,7 +14,7 @@ import type { WhatsNewContent, WhatsNewResponse } from '../types';
 // exemption is retired, because a focus-trapping dialog cannot receive an
 // Escape aimed at other UI.
 
-export const WHATS_NEW_LAST_SEEN_STORAGE_KEY = 'od-whats-new-last-seen-id';
+export const WHATS_NEW_LAST_SEEN_STORAGE_KEY = 'sw-whats-new-last-seen-id';
 
 export type WhatsNewPromptDecision = 'show' | 'none';
 

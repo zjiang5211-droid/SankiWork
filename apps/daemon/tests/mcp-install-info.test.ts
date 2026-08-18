@@ -157,7 +157,7 @@ describe('GET /api/mcp/install-info', () => {
   beforeAll(
     () =>
       new Promise<void>((resolveBoot) => {
-        tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-mcp-info-'));
+        tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-mcp-info-'));
         cliPath = path.join(tmpDir, 'cli.js');
         fs.writeFileSync(cliPath, '// stub\n', 'utf8');
         dataDir = path.join(tmpDir, 'data');

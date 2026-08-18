@@ -12,7 +12,7 @@ afterEach(async () => {
 });
 
 test('stageAmrImagePaths rejects upload symlinks that resolve outside the upload root', async () => {
-  const root = await mkdtemp(path.join(tmpdir(), 'od-amr-stage-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'sw-amr-stage-'));
   tempDirs.push(root);
   const projectDir = path.join(root, 'project');
   const uploadRoot = path.join(root, 'uploads');

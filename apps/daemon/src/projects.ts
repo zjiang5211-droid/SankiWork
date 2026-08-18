@@ -1136,7 +1136,7 @@ async function uniqueRenameTempPath(source) {
   const dir = path.dirname(source);
   const base = path.basename(source);
   for (let i = 0; i < 10; i++) {
-    const temp = path.join(dir, `.od-rename-${process.pid}-${Date.now()}-${i}-${base}.tmp`);
+    const temp = path.join(dir, `.sw-rename-${process.pid}-${Date.now()}-${i}-${base}.tmp`);
     try {
       await stat(temp);
     } catch (err) {

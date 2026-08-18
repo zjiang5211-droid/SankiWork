@@ -32,7 +32,7 @@ afterEach(async () => {
 }, 30_000);
 
 it('[P0] starts on an existing data dir with legacy app config and persisted projects', async () => {
-  dataDir = await mkdtemp(join(tmpdir(), 'od-server-persistence-smoke-'));
+  dataDir = await mkdtemp(join(tmpdir(), 'sw-server-persistence-smoke-'));
   await mkdir(dataDir, { recursive: true });
   await writeFile(join(dataDir, 'app-config.json'), JSON.stringify({
     agentId: 'claude',

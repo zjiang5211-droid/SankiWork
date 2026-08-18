@@ -30,7 +30,7 @@ describe('deploy provider routes', () => {
   afterAll(() => new Promise<void>((resolve) => server.close(() => resolve())));
 
   it('dispatches deploy config reads and writes by providerId', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-config-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-config-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {
@@ -99,7 +99,7 @@ describe('deploy provider routes', () => {
   });
 
   it('lists Cloudflare Pages zones for saved account credentials', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-zones-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-zones-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {
@@ -188,11 +188,11 @@ describe('deploy provider routes', () => {
   });
 
   it('derives Cloudflare Pages project names from the SankiWork project', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-auto-project-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-auto-project-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     const projectId = 'cf-route-123456';
-    const expectedPagesProject = 'od-ai-cf-route-123';
+    const expectedPagesProject = 'sw-ai-cf-route-123';
     try {
       const createProjectResp = await fetch(`${baseUrl}/api/projects`, {
         method: 'POST',
@@ -378,7 +378,7 @@ describe('deploy provider routes', () => {
   it('rejects invalid Cloudflare custom-domain selection before Pages deploy', async () => {
     const dataDir = process.env.SW_DATA_DIR;
     if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-invalid-domain-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-invalid-domain-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     const projectId = `cf-invalid-${Date.now()}`;
@@ -449,7 +449,7 @@ describe('deploy provider routes', () => {
   it('refreshes Cloudflare Pages custom-domain API status during check-link', async () => {
     const dataDir = process.env.SW_DATA_DIR;
     if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-domain-check-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-domain-check-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     const projectId = `cf-domain-check-${Date.now()}`;
@@ -671,7 +671,7 @@ describe('deploy provider routes', () => {
   it('keeps Vercel deploy payload free of Cloudflare custom-domain fields', async () => {
     const dataDir = process.env.SW_DATA_DIR;
     if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-vercel-payload-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-vercel-payload-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     const projectId = `vercel-payload-${Date.now()}`;
@@ -840,7 +840,7 @@ describe('deploy provider routes', () => {
   it('threads target=preview from POST body into the deployment record', async () => {
     const dataDir = process.env.SW_DATA_DIR;
     if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-target-preview-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-target-preview-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     const projectId = `cf-target-preview-${Date.now()}`;
@@ -906,10 +906,10 @@ describe('deploy provider routes', () => {
   it('threads target=production from POST body into the deployment record', async () => {
     const dataDir = process.env.SW_DATA_DIR;
     if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-target-prod-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-target-prod-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
-    const projectId = `cf-target-prod-${Date.now()}`;
+    const projectId = `cf-target-prsw-${Date.now()}`;
     const expectedPagesProject = cloudflarePagesProjectNameForProject(projectId, 'Target prod test');
     const dir = await ensureProject(path.join(dataDir, 'projects'), projectId);
     await writeFile(path.join(dir, 'index.html'), '<!doctype html><h1>Hello</h1>');
@@ -1006,7 +1006,7 @@ describe('deploy provider routes', () => {
   }
 
   it('rejects a misspelled target value with HTTP 400 and does not invoke Cloudflare deploy', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-invalid-target-typo-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-invalid-target-typo-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {
@@ -1055,7 +1055,7 @@ describe('deploy provider routes', () => {
   });
 
   it('rejects an empty-string target value with HTTP 400 and does not invoke Cloudflare deploy', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-invalid-target-empty-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-invalid-target-empty-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {
@@ -1106,7 +1106,7 @@ describe('deploy provider routes', () => {
   it('defaults to target=production and records production in the deployment when no target is sent', async () => {
     const dataDir = process.env.SW_DATA_DIR;
     if (!dataDir) throw new Error('SW_DATA_DIR is required for daemon route tests');
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-target-default-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-target-default-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     const projectId = `cf-target-default-${Date.now()}`;
@@ -1248,7 +1248,7 @@ describe('deploy provider routes', () => {
   }
 
   it('rejects vercel-self target=production with 400 BAD_REQUEST before attempting a deploy', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-vercel-prod-reject-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-vercel-prod-reject-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {
@@ -1298,7 +1298,7 @@ describe('deploy provider routes', () => {
   });
 
   it('still deploys vercel-self successfully when target=preview is explicit (no regression)', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-vercel-preview-ok-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-vercel-preview-ok-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {
@@ -1335,7 +1335,7 @@ describe('deploy provider routes', () => {
   });
 
   it('still deploys vercel-self successfully when target is omitted (no regression)', async () => {
-    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'od-deploy-route-vercel-omitted-ok-'));
+    const stateRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-deploy-route-vercel-omitted-ok-'));
     const priorStateRoot = process.env.SW_USER_STATE_DIR;
     process.env.SW_USER_STATE_DIR = stateRoot;
     try {

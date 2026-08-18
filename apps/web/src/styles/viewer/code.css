@@ -619,12 +619,12 @@
   color: var(--text-muted);
   opacity: 0.9;
 }
-.sketch-excalidraw-wrap .od-sketch-context-popover,
-.od-sketch-context-popover {
+.sketch-excalidraw-wrap .sw-sketch-context-popover,
+.sw-sketch-context-popover {
   z-index: 30;
 }
-.sketch-excalidraw-wrap .od-sketch-context-menu,
-.od-sketch-context-menu {
+.sketch-excalidraw-wrap .sw-sketch-context-menu,
+.sw-sketch-context-menu {
   min-width: 168px;
   /* Widen enough for the longest localized row ("复制为 PNG 到剪贴板" plus its
      Shift+Option shortcut) and never expose a horizontal scrollbar — the old
@@ -640,8 +640,8 @@
   background: color-mix(in srgb, var(--bg-elevated) 94%, black);
   box-shadow: 0 14px 36px rgb(0 0 0 / 30%);
 }
-.sketch-excalidraw-wrap .od-sketch-context-menu .context-menu-item,
-.od-sketch-context-menu .context-menu-item {
+.sketch-excalidraw-wrap .sw-sketch-context-menu .context-menu-item,
+.sw-sketch-context-menu .context-menu-item {
   min-height: 30px;
   padding: 6px 9px;
   border-radius: 6px;
@@ -649,8 +649,8 @@
   line-height: 1.25;
   white-space: nowrap;
 }
-.sketch-excalidraw-wrap .od-sketch-context-menu .context-menu-item__shortcut,
-.od-sketch-context-menu .context-menu-item__shortcut {
+.sketch-excalidraw-wrap .sw-sketch-context-menu .context-menu-item__shortcut,
+.sw-sketch-context-menu .context-menu-item__shortcut {
   margin-left: 18px;
   opacity: 0.58;
   font-size: 11px;
@@ -673,14 +673,14 @@
   }
 }
 
-.od-sketch-modal .Modal__content {
+.sw-sketch-modal .Modal__content {
   position: relative;
   color: var(--text);
 }
-.od-sketch-modal .Modal {
+.sw-sketch-modal .Modal {
   overflow: hidden;
 }
-.od-sketch-modal.od-sketch-help-modal .Modal {
+.sw-sketch-modal.sw-sketch-help-modal .Modal {
   max-height: none;
 }
 /* The card (.Modal__content) is both the rounded surface and the scroll
@@ -688,21 +688,21 @@
    corner and pokes out (see the help dialog). Let the card clip to its corners
    and move the scroll onto the inner Island — the card then rounds off the
    inner scrollbar's ends cleanly at both corners. */
-.od-sketch-modal.od-sketch-help-modal .Modal__content {
+.sw-sketch-modal.sw-sketch-help-modal .Modal__content {
   max-height: min(82vh, calc(100vh - 80px));
   overflow: hidden;
   border-radius: 0.75rem;
 }
-.od-sketch-modal.od-sketch-help-modal .Modal__content .Island {
+.sw-sketch-modal.sw-sketch-help-modal .Modal__content .Island {
   max-height: min(82vh, calc(100vh - 80px));
   overflow-y: auto;
   padding-right: 48px;
   scrollbar-gutter: stable;
 }
-.od-sketch-modal .HelpDialog__header {
+.sw-sketch-modal .HelpDialog__header {
   display: none !important;
 }
-.od-sketch-dialog-close {
+.sw-sketch-dialog-close {
   position: absolute;
   top: 14px;
   right: 14px;
@@ -720,16 +720,16 @@
   cursor: pointer;
   box-shadow: var(--shadow-sm);
 }
-.od-sketch-dialog-close:hover {
+.sw-sketch-dialog-close:hover {
   background: var(--bg-fill-secondary);
   color: var(--text-strong);
 }
-.od-sketch-dialog-close:focus-visible {
+.sw-sketch-dialog-close:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
-.od-sketch-dialog-close::before,
-.od-sketch-dialog-close::after {
+.sw-sketch-dialog-close::before,
+.sw-sketch-dialog-close::after {
   content: '';
   position: absolute;
   width: 14px;
@@ -737,10 +737,10 @@
   border-radius: 1px;
   background: currentColor;
 }
-.od-sketch-dialog-close::before {
+.sw-sketch-dialog-close::before {
   transform: rotate(45deg);
 }
-.od-sketch-dialog-close::after {
+.sw-sketch-dialog-close::after {
   transform: rotate(-45deg);
 }
 

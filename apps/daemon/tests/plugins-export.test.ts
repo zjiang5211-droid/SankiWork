@@ -18,7 +18,7 @@ let db: Database.Database;
 let tmpDir: string;
 
 beforeEach(async () => {
-  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-export-'));
+  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-export-'));
   db = new Database(':memory:');
   db.exec(`
     CREATE TABLE projects (id TEXT PRIMARY KEY, name TEXT);

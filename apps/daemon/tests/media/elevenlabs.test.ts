@@ -16,7 +16,7 @@ describe('elevenlabs media generation', () => {
   const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-elevenlabs-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-elevenlabs-'));
     projectRoot = path.join(root, 'project-root');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });

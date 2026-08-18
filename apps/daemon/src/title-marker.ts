@@ -9,8 +9,8 @@ export interface AgentTitleMarkerStripperOptions {
   maxScanLength?: number;
 }
 
-const TITLE_OPEN_TAG = '<od-title>';
-const TITLE_CLOSE_TAG = '</od-title>';
+const TITLE_OPEN_TAG = '<sw-title>';
+const TITLE_CLOSE_TAG = '</sw-title>';
 const DEFAULT_TITLE_MARKER_SCAN_LIMIT = 512;
 
 export function sanitizeAgentGeneratedTitle(value: unknown): string {

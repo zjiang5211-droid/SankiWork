@@ -15,7 +15,7 @@ afterEach(() => {
 
 describe('project delete staging', () => {
   it('rolls back already staged directories when a later project id fails', async () => {
-    const root = path.join(tmpdir(), `od-delete-staging-${Date.now()}-${Math.random()}`);
+    const root = path.join(tmpdir(), `sw-delete-staging-${Date.now()}-${Math.random()}`);
     roots.push(root);
     const firstProjectDir = path.join(root, 'project-a');
     mkdirSync(firstProjectDir, { recursive: true });

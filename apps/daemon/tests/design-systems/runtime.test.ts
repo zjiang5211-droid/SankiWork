@@ -86,7 +86,7 @@ describe('design-system structured runtime', () => {
   });
 
   it('resolves built-in packages first and user-prefixed packages from the installed root', async () => {
-    const userRoot = await mkdtemp(path.join(os.tmpdir(), 'od-ds-runtime-user-'));
+    const userRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-ds-runtime-user-'));
     temporaryRoots.push(userRoot);
     await cp(
       path.join(fixturesRoot, 'runtime-v3'),
@@ -105,8 +105,8 @@ describe('design-system structured runtime', () => {
   });
 
   it('uses the supplied workspace root for prompt indexes when user ids collide', async () => {
-    const personalRoot = await mkdtemp(path.join(os.tmpdir(), 'od-ds-runtime-personal-'));
-    const teamRoot = await mkdtemp(path.join(os.tmpdir(), 'od-ds-runtime-team-'));
+    const personalRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-ds-runtime-personal-'));
+    const teamRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-ds-runtime-team-'));
     temporaryRoots.push(personalRoot, teamRoot);
     for (const root of [personalRoot, teamRoot]) {
       await cp(path.join(fixturesRoot, 'runtime-v3'), path.join(root, 'shared'), { recursive: true });
@@ -135,7 +135,7 @@ describe('design-system structured runtime', () => {
   });
 
   it('reports dangling intent references instead of silently falling back', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-ds-runtime-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-ds-runtime-'));
     temporaryRoots.push(root);
     const packageRoot = path.join(root, 'runtime-v3');
     await cp(path.join(fixturesRoot, 'runtime-v3'), packageRoot, { recursive: true });
@@ -164,7 +164,7 @@ describe('design-system structured runtime', () => {
   });
 
   it('does not downgrade a declared but malformed runtime to the legacy path', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-ds-runtime-manifest-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-ds-runtime-manifest-'));
     temporaryRoots.push(root);
     const packageRoot = path.join(root, 'runtime-v3');
     await cp(path.join(fixturesRoot, 'runtime-v3'), packageRoot, { recursive: true });
@@ -183,12 +183,12 @@ describe('design-system structured runtime', () => {
   });
 
   it.runIf(process.platform !== 'win32')('rejects runtime files that escape through a symbolic link', async () => {
-    const root = await mkdtemp(path.join(os.tmpdir(), 'od-ds-runtime-symlink-'));
+    const root = await mkdtemp(path.join(os.tmpdir(), 'sw-ds-runtime-symlink-'));
     temporaryRoots.push(root);
     const packageRoot = path.join(root, 'runtime-v3');
     await cp(path.join(fixturesRoot, 'runtime-v3'), packageRoot, { recursive: true });
     const externalPath = path.join(root, 'external-components.json');
-    await writeFile(externalPath, JSON.stringify({ schemaVersion: 'od-design-system-components/v1', components: [] }));
+    await writeFile(externalPath, JSON.stringify({ schemaVersion: 'sw-design-system-components/v1', components: [] }));
     const componentsPath = path.join(packageRoot, 'manifests', 'components.json');
     await rm(componentsPath);
     await symlink(externalPath, componentsPath);

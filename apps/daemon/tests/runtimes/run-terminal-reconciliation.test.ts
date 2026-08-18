@@ -12,7 +12,7 @@ describe('durable run terminal reconciliation', () => {
   let db: Database.Database;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-run-reconcile-test-'));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-run-reconcile-test-'));
     db = new Database(':memory:');
     db.exec(`
       CREATE TABLE messages (

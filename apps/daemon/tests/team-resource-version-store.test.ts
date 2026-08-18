@@ -18,7 +18,7 @@ afterEach(async () => {
 describe('team resource version store', () => {
   it('persists independent workspace and resource cursors', async () => {
     const root = await fs.promises.mkdtemp(
-      path.join(os.tmpdir(), 'od-team-resource-versions-'),
+      path.join(os.tmpdir(), 'sw-team-resource-versions-'),
     );
     roots.push(root);
     const store = createTeamResourceVersionStore(root);
@@ -34,7 +34,7 @@ describe('team resource version store', () => {
 
   it('publishes a cursor in memory only after the atomic rename commits', async () => {
     const root = await fs.promises.mkdtemp(
-      path.join(os.tmpdir(), 'od-team-resource-versions-'),
+      path.join(os.tmpdir(), 'sw-team-resource-versions-'),
     );
     roots.push(root);
     const store = createTeamResourceVersionStore(root);
@@ -66,7 +66,7 @@ describe('team resource version store', () => {
 
   it('commits a burst of independent pull cursors in one durable snapshot', async () => {
     const root = await fs.promises.mkdtemp(
-      path.join(os.tmpdir(), 'od-team-resource-versions-'),
+      path.join(os.tmpdir(), 'sw-team-resource-versions-'),
     );
     roots.push(root);
     const store = createTeamResourceVersionStore(root);
@@ -94,7 +94,7 @@ describe('team resource version store', () => {
 
   it('preserves cursors that arrive while an earlier batch is committing', async () => {
     const root = await fs.promises.mkdtemp(
-      path.join(os.tmpdir(), 'od-team-resource-versions-'),
+      path.join(os.tmpdir(), 'sw-team-resource-versions-'),
     );
     roots.push(root);
     const store = createTeamResourceVersionStore(root);
@@ -138,7 +138,7 @@ describe('team resource version store', () => {
 
   it('commits a later batch after the in-flight batch fails', async () => {
     const root = await fs.promises.mkdtemp(
-      path.join(os.tmpdir(), 'od-team-resource-versions-'),
+      path.join(os.tmpdir(), 'sw-team-resource-versions-'),
     );
     roots.push(root);
     const store = createTeamResourceVersionStore(root);

@@ -138,7 +138,7 @@ export async function writeCloudflarePagesConfig(input: Partial<DeployConfig>) {
     // Legacy installs may already have a saved Cloudflare Pages projectName.
     // New writes intentionally stop treating it as user configuration: the
     // deploy route derives a Pages project name from the current OD project,
-    // mirroring Vercel's automatic `od-${projectId}` deployment name.
+    // mirroring Vercel's automatic `sw-${projectId}` deployment name.
     projectName: '',
   };
   if (Object.keys(cloudflarePages).length > 0) next.cloudflarePages = cloudflarePages;
@@ -397,7 +397,7 @@ export async function deployToVercel({ config, files, projectId }: { config: Dep
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      name: safeVercelProjectName(`od-${projectId}`),
+      name: safeVercelProjectName(`sw-${projectId}`),
       files: files.map((f) => ({
         file: f.file,
         data: Buffer.from(f.data).toString('base64'),
@@ -1838,9 +1838,9 @@ function cloudflareZoneDnsRecordsUrl(zoneId: string) {
 export function cloudflarePagesProjectNameForProject(projectId: string, projectName = '') {
   const idSuffix = safeDnsLabel(projectId).slice(0, 12) || randomUUID().slice(0, 8);
   const nameBase = safeDnsLabel(projectName) || 'project';
-  const fixedLength = 'od--'.length + idSuffix.length;
+  const fixedLength = 'sw--'.length + idSuffix.length;
   const baseLength = Math.max(1, 63 - fixedLength);
-  return safeDnsLabel(`od-${nameBase.slice(0, baseLength)}-${idSuffix}`);
+  return safeDnsLabel(`sw-${nameBase.slice(0, baseLength)}-${idSuffix}`);
 }
 
 function cloudflareHeaders(config: DeployConfig, extra: Record<string, string> = {}) {
@@ -1993,7 +1993,7 @@ function shortCloudflareHash(value: unknown) {
 }
 
 function safeVercelProjectName(raw: unknown) {
-  return safeProjectLabel(raw, 80) || `od-${randomUUID().slice(0, 8)}`;
+  return safeProjectLabel(raw, 80) || `sw-${randomUUID().slice(0, 8)}`;
 }
 
 function safeDnsLabel(raw: unknown) {

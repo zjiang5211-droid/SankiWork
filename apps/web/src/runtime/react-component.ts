@@ -29,7 +29,7 @@ export function buildReactComponentSrcdoc(
         color: #111827;
       }
       #root { min-height: 100vh; }
-      .od-react-error {
+      .sw-react-error {
         margin: 16px;
         padding: 14px 16px;
         border: 1px solid #fecaca;
@@ -52,7 +52,7 @@ export function buildReactComponentSrcdoc(
         function showError(err) {
           root.innerHTML = '';
           var el = document.createElement('pre');
-          el.className = 'od-react-error';
+          el.className = 'sw-react-error';
           el.textContent = err && (err.stack || err.message) ? (err.stack || err.message) : String(err);
           root.appendChild(el);
         }

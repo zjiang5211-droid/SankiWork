@@ -12,7 +12,7 @@ import {
 let folder: string;
 
 beforeEach(async () => {
-  const tmp = await mkdtemp(path.join(os.tmpdir(), 'od-validate-'));
+  const tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-validate-'));
   folder = path.join(tmp, 'my-plugin');
   await mkdir(folder, { recursive: true });
 });

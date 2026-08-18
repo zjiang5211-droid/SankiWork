@@ -11,7 +11,7 @@ import { applyDiffReviewDecisionToCwd } from '../src/plugins/atoms/diff-review-g
 let cwd: string;
 
 beforeEach(async () => {
-  cwd = await mkdtemp(path.join(os.tmpdir(), 'od-handoff-persist-'));
+  cwd = await mkdtemp(path.join(os.tmpdir(), 'sw-handoff-persist-'));
 });
 
 afterEach(async () => {

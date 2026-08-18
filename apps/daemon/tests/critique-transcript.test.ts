@@ -49,7 +49,7 @@ async function collect(iter: AsyncIterable<PanelEvent>): Promise<PanelEvent[]> {
 
 let tmpDir: string;
 beforeEach(() => {
-  tmpDir = mkdtempSync(join(tmpdir(), 'od-transcript-test-'));
+  tmpDir = mkdtempSync(join(tmpdir(), 'sw-transcript-test-'));
 });
 afterEach(async () => {
   await rm(tmpDir, { recursive: true, force: true });

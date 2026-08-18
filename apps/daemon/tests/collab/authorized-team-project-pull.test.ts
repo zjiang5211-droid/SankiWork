@@ -59,7 +59,7 @@ function receipt(
 }
 
 async function fixture() {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-authorized-pull-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-authorized-pull-'));
   roots.push(root);
   const liveDir = path.join(root, 'project-1');
   await mkdir(liveDir);

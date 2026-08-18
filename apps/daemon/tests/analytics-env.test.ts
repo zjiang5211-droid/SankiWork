@@ -43,7 +43,7 @@ describe('analytics telemetry environment', () => {
     // accurate — the service must explicitly opt back in or every
     // daemon-emitted event lands in the null-country bucket.
     posthogCtor.mockClear();
-    const dataDir = await mkdtemp(path.join(tmpdir(), 'od-analytics-geoip-'));
+    const dataDir = await mkdtemp(path.join(tmpdir(), 'sw-analytics-geoip-'));
     const { createAnalyticsService } = await import('../src/analytics.js');
     createAnalyticsService({
       dataDir,
@@ -56,7 +56,7 @@ describe('analytics telemetry environment', () => {
 
   it('stamps daemon PostHog captures with env', async () => {
     posthogCapture.mockReset();
-    const dataDir = await mkdtemp(path.join(tmpdir(), 'od-analytics-env-'));
+    const dataDir = await mkdtemp(path.join(tmpdir(), 'sw-analytics-env-'));
     await writeFile(path.join(dataDir, 'app-config.json'), JSON.stringify({
       installationId: 'install-1',
       telemetry: { metrics: true },
@@ -97,7 +97,7 @@ describe('analytics telemetry environment', () => {
 
   it('updates a workspace group only when analytics consent is enabled', async () => {
     posthogGroupIdentify.mockReset();
-    const dataDir = await mkdtemp(path.join(tmpdir(), 'od-analytics-group-'));
+    const dataDir = await mkdtemp(path.join(tmpdir(), 'sw-analytics-group-'));
     await writeFile(path.join(dataDir, 'app-config.json'), JSON.stringify({
       installationId: 'install-1',
       telemetry: { metrics: true },

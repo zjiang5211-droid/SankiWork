@@ -118,7 +118,7 @@ winTest('applyAgentLaunchEnv injects Node binary dir and wrapper dir into a Wind
 });
 
 fsTest('resolveAgentLaunch selects nvm-installed codex under a minimal PATH and prepends its dirname', () => {
-  const home = mkdtempSync(join(tmpdir(), 'od-launch-nvm-'));
+  const home = mkdtempSync(join(tmpdir(), 'sw-launch-nvm-'));
   try {
     return withEnvSnapshot(['HOME', 'PATH', 'SW_AGENT_HOME'], () => {
       const binDir = join(home, '.nvm', 'versions', 'node', '24.11.0', 'bin');
@@ -144,7 +144,7 @@ fsTest('resolveAgentLaunch selects nvm-installed codex under a minimal PATH and 
 });
 
 fsTest('resolveAgentLaunch uses packaged built-in Vela for AMR and prepends its dirname', () => {
-  const root = mkdtempSync(join(tmpdir(), 'od-launch-amr-built-in-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-launch-amr-built-in-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], () => {
       const resourceRoot = join(root, 'resources', 'sankiwork');
@@ -182,7 +182,7 @@ fsTest('resolveAgentLaunch uses packaged built-in Vela for AMR and prepends its 
 });
 
 fsTest('resolveAgentLaunch resolves a Codex npm wrapper to the native packaged binary', () => {
-  const root = mkdtempSync(join(tmpdir(), 'od-launch-codex-wrapper-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-launch-codex-wrapper-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
       const wrapperPkgDir = join(root, 'node_modules', '@openai', 'codex');
@@ -228,7 +228,7 @@ function codexNativeTargetTriple(): string {
 }
 
 fsTest('resolveAgentLaunch preserves a direct native CODEX_BIN override as the selected launch path', () => {
-  const root = mkdtempSync(join(tmpdir(), 'od-launch-codex-direct-native-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-launch-codex-direct-native-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
       const nativeBin = join(root, 'codex-native');
@@ -256,7 +256,7 @@ fsTest('resolveAgentLaunch preserves a direct native CODEX_BIN override as the s
 });
 
 fsTest('resolveAgentLaunch falls back to the Codex wrapper when the native package is missing', () => {
-  const root = mkdtempSync(join(tmpdir(), 'od-launch-codex-fallback-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-launch-codex-fallback-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
       const wrapperPkgDir = join(root, 'node_modules', '@openai', 'codex');

@@ -129,7 +129,7 @@ describe("publish-dogfood command", () => {
   }
 
   it("fails without touching storage when the build produced nothing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-dogfood-empty-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-dogfood-empty-"));
     const buildJsonPath = join(root, "build.json");
     await writeFile(buildJsonPath, JSON.stringify({ installerPath: null, portableZipPath: null }), "utf8");
 
@@ -152,7 +152,7 @@ describe("publish-dogfood command", () => {
   });
 
   it("reports a dogfood-only summary with no channel or latest path in it", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-dogfood-summary-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-dogfood-summary-"));
     const buildJsonPath = join(root, "build.json");
     const summaryPath = join(root, "summary.md");
     await writeFile(buildJsonPath, JSON.stringify({ installerPath: null, portableZipPath: null }), "utf8");

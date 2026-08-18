@@ -30,7 +30,7 @@ describe('openrouter video generation', () => {
   const originalPollInterval = process.env.SW_OPENROUTER_VIDEO_POLL_INTERVAL_MS;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-openrouter-video-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-openrouter-video-'));
     projectRoot = path.join(root, 'project-root');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });
@@ -536,7 +536,7 @@ describe('openrouter image generation', () => {
   const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-openrouter-image-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-openrouter-image-'));
     projectRoot = path.join(root, 'project-root');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });

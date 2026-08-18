@@ -103,7 +103,7 @@ test('spawnEnvForAgent backfills Windows cache directory env for Trae CLI launch
 });
 
 test('spawnEnvForAgent keeps Windows cache directory env inside sandbox roots', () => {
-  const dataDir = mkdtempSync(join(tmpdir(), 'od-agent-env-sandbox-win-cache-'));
+  const dataDir = mkdtempSync(join(tmpdir(), 'sw-agent-env-sandbox-win-cache-'));
   try {
     const env = withPlatform('win32', () =>
       spawnEnvForAgent(
@@ -137,7 +137,7 @@ test('spawnEnvForAgent keeps Windows cache directory env inside sandbox roots', 
 });
 
 test('spawnEnvForAgent reapplies sandbox state roots after configured env overrides', () => {
-  const dataDir = mkdtempSync(join(tmpdir(), 'od-agent-env-sandbox-'));
+  const dataDir = mkdtempSync(join(tmpdir(), 'sw-agent-env-sandbox-'));
   try {
     const codexEnv = spawnEnvForAgent(
       'codex',
@@ -193,7 +193,7 @@ test('spawnEnvForAgent reapplies sandbox state roots after configured env overri
 });
 
 test('spawnEnvForAgent keeps sandbox roots pinned to the base SW_DATA_DIR', () => {
-  const dataDir = mkdtempSync(join(tmpdir(), 'od-agent-env-sandbox-base-'));
+  const dataDir = mkdtempSync(join(tmpdir(), 'sw-agent-env-sandbox-base-'));
   try {
     const env = spawnEnvForAgent(
       'codex',
@@ -217,7 +217,7 @@ test('spawnEnvForAgent keeps sandbox roots pinned to the base SW_DATA_DIR', () =
 });
 
 test('spawnEnvForAgent resolves relative SW_DATA_DIR before applying sandbox roots', () => {
-  const dataDir = mkdtempSync(join(tmpdir(), 'od-agent-env-sandbox-relative-'));
+  const dataDir = mkdtempSync(join(tmpdir(), 'sw-agent-env-sandbox-relative-'));
   try {
     const relativeDataDir = relative(repoRoot, dataDir);
     const env = spawnEnvForAgent(
@@ -368,7 +368,7 @@ test('spawnEnvForAgent enables OpenCode web search providers for AMR by default'
 });
 
 test('spawnEnvForAgent gives AMR a stable OpenCode home under SW_DATA_DIR', () => {
-  const dataDir = mkdtempSync(join(tmpdir(), 'od-amr-data-'));
+  const dataDir = mkdtempSync(join(tmpdir(), 'sw-amr-data-'));
   try {
     const env = spawnEnvForAgent('amr', {
       SW_DATA_DIR: dataDir,
@@ -385,7 +385,7 @@ test('spawnEnvForAgent gives AMR a stable OpenCode home under SW_DATA_DIR', () =
 });
 
 test('spawnEnvForAgent preserves a configured AMR OpenCode home override', () => {
-  const dataDir = mkdtempSync(join(tmpdir(), 'od-amr-data-'));
+  const dataDir = mkdtempSync(join(tmpdir(), 'sw-amr-data-'));
   try {
     const configuredHome = join(dataDir, 'custom-opencode-home');
     const env = spawnEnvForAgent(
@@ -406,7 +406,7 @@ test('spawnEnvForAgent preserves a configured AMR OpenCode home override', () =>
 });
 
 fsTest('spawnEnvForAgent gives AMR a discovered OpenCode binary under a minimal child PATH', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-amr-opencode-home-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-amr-opencode-home-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
       const opencodeBinDir = join(dir, '.opencode', 'bin');
@@ -428,7 +428,7 @@ fsTest('spawnEnvForAgent gives AMR a discovered OpenCode binary under a minimal 
 });
 
 test('resolveAgentExecutable prefers a configured CODEX_BIN override over PATH resolution', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-codex-bin-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-codex-bin-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
       const configured = join(dir, 'codex-custom');
@@ -450,7 +450,7 @@ test('resolveAgentExecutable prefers a configured CODEX_BIN override over PATH r
 });
 
 test('inspectAgentExecutableResolution reports configured and PATH Codex binaries separately', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-codex-bin-inspect-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-codex-bin-inspect-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
       const configured = join(dir, 'codex-custom');
@@ -490,7 +490,7 @@ test('resolveAgentExecutable supports configured binary overrides for non-Codex 
     ['trae-cli', 'traecli', 'TRAE_CLI_BIN'],
     ['aider', 'aider', 'AIDER_BIN'],
   ];
-  const dir = mkdtempSync(join(tmpdir(), 'od-agent-bin-overrides-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agent-bin-overrides-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
       process.env.PATH = '';
@@ -515,7 +515,7 @@ test('resolveAgentExecutable supports configured binary overrides for non-Codex 
 });
 
 test('resolveAgentExecutable prefers opencode-cli before desktop opencode fallback', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-opencode-cli-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-opencode-cli-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
       const cli = join(dir, 'opencode-cli');
@@ -538,7 +538,7 @@ test('resolveAgentExecutable prefers opencode-cli before desktop opencode fallba
 });
 
 test('detectAgents includes sanitized install and docs metadata from split runtime metadata', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agent-install-meta-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agent-install-meta-'));
   try {
     return await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       process.env.PATH = dir;
@@ -574,7 +574,7 @@ test('detectAgents includes sanitized install and docs metadata from split runti
 });
 
 fsTest('detectAgents keeps Kimi available when ACP model discovery fails', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-detect-kimi-modern-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-detect-kimi-modern-'));
   try {
     return await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       const kimiBin = join(dir, 'kimi');
@@ -618,7 +618,7 @@ fsTest('detectAgents keeps Kimi available when ACP model discovery fails', async
 });
 
 fsTest('detectAgents marks Codex available when nvm exposes a node shim but launch resolution upgrades it to the native binary', async () => {
-  const home = mkdtempSync(join(tmpdir(), 'od-detect-codex-nvm-native-'));
+  const home = mkdtempSync(join(tmpdir(), 'sw-detect-codex-nvm-native-'));
   try {
     return await withEnvSnapshot(['HOME', 'PATH', 'SW_AGENT_HOME'], async () => {
       const wrapperBinDir = join(home, '.nvm', 'versions', 'node', '24.14.1', 'bin');
@@ -668,7 +668,7 @@ fsTest('detectAgents marks Codex available when nvm exposes a node shim but laun
 });
 
 fsTest('detectAgents keeps packaged built-in AMR unavailable when OpenCode cannot be resolved', async () => {
-  const root = mkdtempSync(join(tmpdir(), 'od-detect-amr-built-in-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-detect-amr-built-in-'));
   try {
     return await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], async () => {
       const resourceRoot = join(root, 'resources', 'sankiwork');
@@ -698,7 +698,7 @@ fsTest('detectAgents keeps packaged built-in AMR unavailable when OpenCode canno
 });
 
 fsTest('detectAgents marks AMR available from packaged built-in Vela with the bundled OpenCode companion tree', async () => {
-  const root = mkdtempSync(join(tmpdir(), 'od-detect-amr-built-in-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-detect-amr-built-in-'));
   try {
     return await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], async () => {
       const resourceRoot = join(root, 'resources', 'sankiwork');
@@ -738,7 +738,7 @@ fsTest('detectAgents marks AMR available from packaged built-in Vela with the bu
 
 
 fsTest('detectAgents prefers configured AMR live models over stale fallback defaults', async () => {
-  const root = mkdtempSync(join(tmpdir(), 'od-detect-amr-live-models-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-detect-amr-live-models-'));
   try {
     return await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], async () => {
       const fakeVela = join(root, 'vela');
@@ -787,7 +787,7 @@ exit 0
 });
 
 fsTest('detectAgents preserves the scoped AMR cache when a later probe returns no models', async () => {
-  const root = mkdtempSync(join(tmpdir(), 'od-detect-amr-empty-models-'));
+  const root = mkdtempSync(join(tmpdir(), 'sw-detect-amr-empty-models-'));
   try {
     return await withEnvSnapshot(['PATH', 'SW_AGENT_HOME', 'SW_RESOURCE_ROOT', 'VELA_OPENCODE_BIN'], async () => {
       const fakeVela = join(root, 'vela');
@@ -862,7 +862,7 @@ function codexNativeTargetTriple(): string {
 }
 
 test('resolveAgentExecutable ignores relative CODEX_BIN overrides', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-codex-bin-rel-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-codex-bin-rel-'));
   const oldCwd = process.cwd();
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
@@ -887,7 +887,7 @@ test('resolveAgentExecutable ignores relative CODEX_BIN overrides', () => {
 });
 
 test('resolveAgentExecutable ignores configured binary overrides that are not executable files', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agent-bin-invalid-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agent-bin-invalid-'));
   try {
     return withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], () => {
       const directoryOverride = join(dir, 'as-directory');
@@ -915,7 +915,7 @@ test('resolveAgentExecutable ignores configured binary overrides that are not ex
 });
 
 test('resolveAgentExecutable ignores Windows CODEX_BIN overrides without executable PATHEXT extension', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agent-bin-win-invalid-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agent-bin-win-invalid-'));
   try {
     return withEnvSnapshot(['PATH', 'PATHEXT', 'SW_AGENT_HOME'], () => {
       const invalidOverride = join(dir, 'codex-custom.txt');
@@ -941,7 +941,7 @@ test('resolveAgentExecutable ignores Windows CODEX_BIN overrides without executa
 });
 
 test('resolveAgentExecutable accepts Windows CODEX_BIN overrides with executable PATHEXT extension', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agent-bin-win-valid-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agent-bin-win-valid-'));
   try {
     return withEnvSnapshot(['PATH', 'PATHEXT', 'SW_AGENT_HOME'], () => {
       const configured = join(dir, 'codex-custom.CMD');
@@ -965,7 +965,7 @@ test('resolveAgentExecutable accepts Windows CODEX_BIN overrides with executable
 });
 
 test('detectAgents applies configured env while probing the CLI', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-agent-env-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-agent-env-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       const bin = join(dir, process.platform === 'win32' ? 'claude.cmd' : 'claude');
@@ -998,7 +998,7 @@ test('detectAgents applies configured env while probing the CLI', async () => {
 });
 
 test('detectAgents reuses the opencode configured env for byok-opencode availability', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-byok-opencode-detect-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-byok-opencode-detect-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       const bin = join(dir, process.platform === 'win32' ? 'opencode.cmd' : 'opencode');
@@ -1040,7 +1040,7 @@ test('detectAgents reuses the opencode configured env for byok-opencode availabi
 });
 
 test('detectAgents marks Cursor Agent auth ok when cursor-agent status succeeds', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-cursor-auth-ok-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-cursor-auth-ok-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       const bin = join(dir, process.platform === 'win32' ? 'cursor-agent.cmd' : 'cursor-agent');
@@ -1072,7 +1072,7 @@ test('detectAgents marks Cursor Agent auth ok when cursor-agent status succeeds'
 });
 
 test('detectAgents surfaces Cursor Agent model labels without putting labels in ids', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-cursor-model-labels-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-cursor-model-labels-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       const bin = join(dir, process.platform === 'win32' ? 'cursor-agent.cmd' : 'cursor-agent');
@@ -1108,7 +1108,7 @@ test('detectAgents surfaces Cursor Agent model labels without putting labels in 
 });
 
 test('detectAgents keeps Cursor Agent available when auth is missing', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-cursor-auth-missing-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-cursor-auth-missing-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       const bin = join(dir, process.platform === 'win32' ? 'cursor-agent.cmd' : 'cursor-agent');
@@ -1144,7 +1144,7 @@ test('detectAgents keeps Cursor Agent available when auth is missing', async () 
 });
 
 test('detectAgents treats Cursor Agent Not logged in status as missing auth', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-cursor-not-logged-in-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-cursor-not-logged-in-'));
   try {
     await withEnvSnapshot(['PATH', 'SW_AGENT_HOME'], async () => {
       const bin = join(dir, process.platform === 'win32' ? 'cursor-agent.cmd' : 'cursor-agent');

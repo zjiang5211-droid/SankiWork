@@ -81,7 +81,7 @@ describe('reconcileWorkspaceProjectsWithRemote, verified through the real worksp
   let db: ReturnType<typeof openDatabase>;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(path.join(tmpdir(), 'od-workspace-projects-reconcile-'));
+    tempDir = await mkdtemp(path.join(tmpdir(), 'sw-workspace-projects-reconcile-'));
     projectsRoot = path.join(tempDir, 'projects');
     db = openDatabase(projectsRoot, { dataDir: tempDir });
   });
@@ -286,7 +286,7 @@ describe('reconcileWorkspaceProjectsWithRemote, verified through the real worksp
   it('removes an external project directory when workspace binding fails', async () => {
     const projectId = 'external-create-bind-failure';
     const externalRoot = await mkdtemp(
-      path.join(tmpdir(), 'od-create-bind-external-'),
+      path.join(tmpdir(), 'sw-create-bind-external-'),
     );
     const app = express();
     app.use(express.json());

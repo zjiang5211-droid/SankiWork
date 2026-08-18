@@ -15,7 +15,7 @@ describe('parsedToKit package static assets', () => {
           'components.html',
         ],
         manifest: {
-          schemaVersion: 'od-design-system-project/v1',
+          schemaVersion: 'sw-design-system-project/v1',
           id: 'tom-modern',
           name: 'Tom Modern Design',
           category: 'Starter',
@@ -47,7 +47,7 @@ describe('parsedToKit package static assets', () => {
           'system/artifacts/landing.html',
         ],
         manifest: {
-          schemaVersion: 'od-design-system-project/v1',
+          schemaVersion: 'sw-design-system-project/v1',
           id: 'bento',
           name: 'Bento',
           category: 'Layout',

@@ -16,7 +16,7 @@ import { describe, expect, it } from 'vitest';
 import { SKILLS_CWD_ALIAS, stageActiveSkill } from '../src/cwd-aliases.js';
 
 function fresh(): string {
-  return mkdtempSync(path.join(tmpdir(), 'od-skill-stage-'));
+  return mkdtempSync(path.join(tmpdir(), 'sw-skill-stage-'));
 }
 
 // On Windows, `fs.symlink(target, link, 'dir')` requires

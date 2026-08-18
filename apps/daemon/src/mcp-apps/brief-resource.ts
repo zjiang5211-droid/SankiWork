@@ -154,7 +154,7 @@ export const SANKIWORK_BRIEF_APP_HTML = String.raw`<!doctype html>
         }
 
         function request(method, params) {
-          const id = "od-brief-" + (++requestNumber);
+          const id = "sw-brief-" + (++requestNumber);
           post({ jsonrpc: "2.0", id, method, params });
           return new Promise((resolve, reject) => {
             const timer = window.setTimeout(() => {

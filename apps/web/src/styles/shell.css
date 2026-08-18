@@ -117,7 +117,7 @@
   inset: 0;
   z-index: 1900;
   /* Click-catcher + light tint only. The blur itself lives on the shell
-     content below (html.od-radial-open) so EVERYTHING under the overlay
+     content below (html.sw-radial-open) so EVERYTHING under the overlay
      blurs uniformly — backdrop-filter here sampled composited layers
      unevenly (some elements stayed crisp). */
   background: color-mix(in srgb, var(--bg-app) 14%, transparent);
@@ -125,11 +125,11 @@
 }
 /* Uniform under-blur while the radial menu is open; the fan portals to
    <body> outside the shell, so it stays crisp. */
-html.od-radial-open .workspace-shell {
+html.sw-radial-open .workspace-shell {
   filter: blur(8px);
 }
 @media (prefers-reduced-transparency: reduce) {
-  html.od-radial-open .workspace-shell {
+  html.sw-radial-open .workspace-shell {
     filter: none;
   }
 }
@@ -1082,7 +1082,7 @@ html.od-radial-open .workspace-shell {
   align-items: center;
   gap: 6px;
 }
-/* Trailing "?" — pushed to the end of its label/row; its od-tooltip carries the
+/* Trailing "?" — pushed to the end of its label/row; its sw-tooltip carries the
    explanation. It is a real <button> so keyboard and touch users can reach the
    explanation at all: the tooltip layer opens on `focusin`, which a <span> can
    never receive, and touch has no hover path. That means it must also shed the

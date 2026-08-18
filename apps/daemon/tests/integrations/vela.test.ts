@@ -59,7 +59,7 @@ function writeLegacyVelaConfig(payload: unknown): string {
 beforeEach(() => {
   originalHome = process.env.HOME;
   originalAmrHome = process.env.AMR_HOME;
-  tmpHome = mkdtempSync(path.join(tmpdir(), 'od-vela-test-'));
+  tmpHome = mkdtempSync(path.join(tmpdir(), 'sw-vela-test-'));
   process.env.HOME = tmpHome;
   delete process.env.AMR_HOME;
   delete process.env.SANKIWORK_AMR_PROFILE;

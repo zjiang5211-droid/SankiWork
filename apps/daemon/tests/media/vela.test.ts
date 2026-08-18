@@ -48,7 +48,7 @@ describe('Vela media provider', () => {
 
   beforeEach(async () => {
     runVelaCommandMock.mockReset();
-    root = await mkdtemp(path.join(os.tmpdir(), 'od-vela-media-test-'));
+    root = await mkdtemp(path.join(os.tmpdir(), 'sw-vela-media-test-'));
     projectRoot = path.join(root, 'repo');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     projectDir = path.join(projectsRoot, 'project-1');

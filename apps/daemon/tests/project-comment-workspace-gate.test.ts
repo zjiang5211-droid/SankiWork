@@ -130,7 +130,7 @@ const COMMENT_TARGET = {
 async function startServer(
   routeOverrides: Record<string, unknown> = {},
 ) {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-comment-ws-gate-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-comment-ws-gate-'));
   const db = openDatabase(tempDir);
   database = db;
   const now = Date.now();

@@ -84,7 +84,7 @@ pre,
 
 /* Centered row: the dot-matrix loader leads, the label follows. Was a grid
    with `place-items: center`, which would stack the two children instead. */
-.od-loading-shell {
+.sw-loading-shell {
   min-height: 100vh;
   display: flex;
   align-items: center;

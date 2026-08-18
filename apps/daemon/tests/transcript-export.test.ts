@@ -77,7 +77,7 @@ function line(lines: TranscriptLines, index: number): TranscriptLine {
 }
 
 function setup(opts: { skipMkdir?: boolean } = {}): { db: Database.Database; projectsRoot: string } {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-tx-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-tx-'));
   const db = openDatabase(tempDir);
   insertProject(db, {
     id: PROJECT_ID,

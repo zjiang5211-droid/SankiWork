@@ -57,7 +57,7 @@ function context(
 }
 
 async function fixture() {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'od-skill-navigation-scope-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sw-skill-navigation-scope-'));
   roots.push(root);
   const entries = new Map<string, {
     id: string;

@@ -3,7 +3,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
 const TEAM_RESOURCE_ROOT = '.team-workspaces';
-const MATERIALIZATION_FILE = '.od-team-resource.json';
+const MATERIALIZATION_FILE = '.sw-team-resource.json';
 
 export interface TeamResourceMaterializationIdentity {
   kind: 'design_system' | 'plugin' | 'skill';
@@ -79,7 +79,15 @@ export async function readTeamResourceMaterialization(
     storageName,
   );
   try {
-    const raw = await fs.readFile(path.join(targetDir, MATERIALIZATION_FILE), 'utf8');
+    // Legacy pre-rebrand name fallback: materializations written before the
+    // rename used `.od-team-resource.json` and may still exist after the data
+    // dir migration.
+    let raw: string | undefined;
+    try {
+      raw = await fs.readFile(path.join(targetDir, MATERIALIZATION_FILE), 'utf8');
+    } catch {
+      raw = await fs.readFile(path.join(targetDir, '.od-team-resource.json'), 'utf8');
+    }
     const parsed = JSON.parse(raw) as Partial<TeamResourceMaterializationIdentity>;
     if (
       parsed.workspaceId !== workspaceId ||

@@ -449,7 +449,7 @@ const BROWSER_KEEPALIVE_CAP = 3;
 // it again even when `src` is byte-identical, so tab A -> tab B -> tab A used
 // to refetch both artifacts and briefly return to a blank/loading preview.
 const HTML_VIEWER_KEEPALIVE_CAP = 3;
-const QUICK_SWITCHER_DOCUMENT_CLASS = 'od-quick-switcher-open';
+const QUICK_SWITCHER_DOCUMENT_CLASS = 'sw-quick-switcher-open';
 const SKETCH_AUTOSAVE_DELAY_MS = 800;
 
 // Stable empty folder list so the render-phase project-switch reset is
@@ -2139,7 +2139,7 @@ export function FileWorkspace({
     setBrowserSnapshotToast({
       actionLabel,
       details,
-      className: 'od-toast-browser-snapshot',
+      className: 'sw-toast-browser-snapshot',
       message: event.message,
       onAction,
       role: event.status === 'error' ? 'alert' : 'status',
@@ -3876,7 +3876,7 @@ export function FileWorkspace({
         {onFocusModeChange && focusMode ? (
           <button
             type="button"
-            className="icon-only ws-focus-expand od-tooltip"
+            className="icon-only ws-focus-expand sw-tooltip"
             data-testid="workspace-focus-toggle"
             aria-pressed={focusMode}
             title={t('workspace.showChat')}
@@ -4052,7 +4052,7 @@ export function FileWorkspace({
           <button
             ref={launcherBtnRef}
             type="button"
-            className="icon-only ws-tab-add od-tooltip"
+            className="icon-only ws-tab-add sw-tooltip"
             data-testid="workspace-add-tab"
             aria-haspopup="dialog"
             aria-expanded={launcherOpen}
@@ -4109,7 +4109,7 @@ export function FileWorkspace({
         />
       ) : null}
       {/* Workspace-owned toasts anchor to this pane's bottom-center instead of
-          the viewport's: a bare fixed .od-toast centers across the whole
+          the viewport's: a bare fixed .sw-toast centers across the whole
           window, drifting over the chat pane and covering the composer send
           area in split view. */}
       {browserSnapshotToast ? (
@@ -8051,7 +8051,7 @@ function PageCreatorDialog({
           </div>
           <button
             type="button"
-            className="page-creator-close od-tooltip"
+            className="page-creator-close sw-tooltip"
             onClick={onClose}
             disabled={creating}
             title={t('common.close')}
@@ -8249,7 +8249,7 @@ function PageCreatorDialog({
               </div>
               <button
                 type="button"
-                className="page-creator-close od-tooltip"
+                className="page-creator-close sw-tooltip"
                 onClick={() => setModalPreviewId(null)}
                 title={t('common.close')}
                 data-tooltip={t('common.close')}
@@ -8355,7 +8355,7 @@ const Tab = memo(function Tab({
     <div
       className={[
         'ws-tab',
-        'od-tooltip',
+        'sw-tooltip',
         meta ? 'has-meta' : '',
         kind === 'live-artifact' ? 'live-artifact-tab' : '',
         kind === 'browser' ? 'browser-tab' : '',
@@ -8408,7 +8408,7 @@ const Tab = memo(function Tab({
       {closable && onClose ? (
         <button
           type="button"
-          className="ws-tab-close od-tooltip"
+          className="ws-tab-close sw-tooltip"
           onClick={(e) => {
             e.stopPropagation();
             onClose();

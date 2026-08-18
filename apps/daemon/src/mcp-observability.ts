@@ -190,7 +190,7 @@ export function logicalPluginRequestDigest(requestId: string): {
   return {
     version: 1,
     digest: createHash('sha256')
-      .update(`od-plugin-logical-request:v1:${requestId}`)
+      .update(`sw-plugin-logical-request:v1:${requestId}`)
       .digest('hex'),
   };
 }

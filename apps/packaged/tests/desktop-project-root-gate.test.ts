@@ -29,7 +29,7 @@ import {
 let tempRoot = "";
 
 beforeEach(() => {
-  tempRoot = mkdtempSync(path.join(tmpdir(), "od-desktop-validate-"));
+  tempRoot = mkdtempSync(path.join(tmpdir(), "sw-desktop-validate-"));
 });
 
 afterEach(() => {
@@ -289,7 +289,7 @@ describe("isOpenPathAllowedForProject", () => {
     const result = isOpenPathAllowedForProject({
       fromTrustedPicker: false,
       hasBaseDir: false,
-      resolvedDir: "/tmp/od-projects/abc123",
+      resolvedDir: "/tmp/sw-projects/abc123",
     });
     expect(result.ok).toBe(true);
   });

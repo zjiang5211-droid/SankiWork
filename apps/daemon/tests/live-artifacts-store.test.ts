@@ -42,7 +42,7 @@ import {
 const tempRoots: string[] = [];
 
 async function makeProjectsRoot() {
-  const root = await mkdtemp(path.join(tmpdir(), 'od-live-artifacts-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'sw-live-artifacts-'));
   tempRoots.push(root);
   return path.join(root, 'projects');
 }

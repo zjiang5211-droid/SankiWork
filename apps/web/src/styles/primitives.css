@@ -121,10 +121,10 @@ button:disabled {
   transform: none;
 }
 
-.od-tooltip {
+.sw-tooltip {
   position: relative;
 }
-.od-tooltip-layer {
+.sw-tooltip-layer {
   position: fixed;
   top: 0;
   left: 0;
@@ -210,12 +210,12 @@ select::-ms-expand { display: none; }
 }
 textarea { resize: vertical; font-family: inherit; }
 
-.od-select {
+.sw-select {
   position: relative;
   width: 100%;
   min-width: 0;
 }
-.od-select-trigger {
+.sw-select-trigger {
   width: 100%;
   min-width: 0;
   min-height: 36px;
@@ -233,35 +233,35 @@ textarea { resize: vertical; font-family: inherit; }
   cursor: pointer;
   transition: border-color var(--dur-quick) var(--ease-out), box-shadow var(--dur-quick) var(--ease-out), background var(--dur-quick) var(--ease-out);
 }
-.od-select-trigger:hover:not(:disabled),
-.od-select-trigger[aria-expanded='true'] {
+.sw-select-trigger:hover:not(:disabled),
+.sw-select-trigger[aria-expanded='true'] {
   border-color: var(--border-strong);
   background: var(--bg-subtle);
 }
-.od-select-trigger:focus-visible,
-.od-select-trigger[aria-expanded='true'] {
+.sw-select-trigger:focus-visible,
+.sw-select-trigger[aria-expanded='true'] {
   outline: none;
   border-color: var(--selected);
 }
-.od-select-trigger:disabled {
+.sw-select-trigger:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
-.od-select-trigger svg {
+.sw-select-trigger svg {
   color: var(--text-muted);
   transition: transform var(--dur-quick) var(--ease-out);
 }
-.od-select-trigger[aria-expanded='true'] svg {
+.sw-select-trigger[aria-expanded='true'] svg {
   transform: rotate(180deg);
 }
-.od-select-value,
-.od-select-option-label {
+.sw-select-value,
+.sw-select-option-label {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.od-select-menu {
+.sw-select-menu {
   z-index: 9000;
   padding: 4px;
   overflow-y: auto;
@@ -275,17 +275,17 @@ textarea { resize: vertical; font-family: inherit; }
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-lg);
 }
-.od-select-menu.portal {
+.sw-select-menu.portal {
   position: fixed;
 }
-.od-select-menu.inline {
+.sw-select-menu.inline {
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
   right: 0;
   max-height: min(280px, 48vh);
 }
-.od-select-option {
+.sw-select-option {
   width: 100%;
   min-width: 0;
   min-height: 30px;
@@ -303,38 +303,38 @@ textarea { resize: vertical; font-family: inherit; }
   text-align: left;
   cursor: pointer;
 }
-.od-select-option:hover:not(:disabled),
-.od-select-option.active:not(:disabled) {
+.sw-select-option:hover:not(:disabled),
+.sw-select-option.active:not(:disabled) {
   background: var(--vibrancy-fill-secondary);
 }
-.od-select-option.selected {
+.sw-select-option.selected {
   color: var(--text);
   background: color-mix(in srgb, var(--selected) 9%, var(--bg-subtle));
   font-weight: 600;
 }
-.od-select-option.selected:hover:not(:disabled),
-.od-select-option.selected.active:not(:disabled) {
+.sw-select-option.selected:hover:not(:disabled),
+.sw-select-option.selected.active:not(:disabled) {
   background: color-mix(in srgb, var(--selected) 13%, var(--bg-subtle));
 }
-.od-select-option:disabled {
+.sw-select-option:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
-.od-select-option-check {
+.sw-select-option-check {
   display: inline-flex;
   justify-content: center;
   color: var(--selected);
   opacity: 0;
 }
-.od-select-option.selected .od-select-option-check {
+.sw-select-option.selected .sw-select-option-check {
   opacity: 1;
 }
-.od-select-group + .od-select-group {
+.sw-select-group + .sw-select-group {
   margin-top: 4px;
   padding-top: 4px;
   border-top: 1px solid var(--border-soft);
 }
-.od-select-group-label {
+.sw-select-group-label {
   padding: 6px 8px 4px;
   color: var(--text-faint);
   font-size: 12px;
@@ -354,7 +354,7 @@ code {
 /* Monochrome SankiWork brand mark. The glyph ships as /brand-icon.svg and
    is masked with --text-strong so it reads as ink in light mode and cream in
    dark mode. Consumers set their own size and placement. */
-.od-brand-glyph {
+.sw-brand-glyph {
   display: inline-block;
   background-color: var(--text-strong);
   -webkit-mask: url(/brand-icon.svg) center / contain no-repeat;

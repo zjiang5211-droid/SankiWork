@@ -125,7 +125,7 @@ describe('normal artifact create helper', () => {
   });
 
   it('lists explicit manifests for nested artifact entry files', async () => {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-artifact-create-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-artifact-create-'));
     try {
       await createProjectArtifactFile({
         projectsRoot,
@@ -162,7 +162,7 @@ describe('normal artifact create helper', () => {
   });
 
   it('persists declared PNG supporting files for generated HTML artifacts', async () => {
-    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'od-artifact-create-assets-'));
+    const projectsRoot = await mkdtemp(path.join(tmpdir(), 'sw-artifact-create-assets-'));
     try {
       await writeProjectFile(projectsRoot, 'project-1', 'assets/hero.png', Buffer.from('hero-png'));
       await writeProjectFile(projectsRoot, 'project-1', 'assets/gallery/card.png', Buffer.from('card-png'));

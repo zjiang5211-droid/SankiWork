@@ -164,7 +164,7 @@ describe('bearer middleware', () => {
 describe('browser authentication for non-loopback Docker peers', () => {
   beforeEach(async () => {
     process.env.SW_API_TOKEN = 'secret-test-token';
-    staticDir = mkdtempSync(path.join(os.tmpdir(), 'od-api-token-static-'));
+    staticDir = mkdtempSync(path.join(os.tmpdir(), 'sw-api-token-static-'));
     writeFileSync(path.join(staticDir, 'index.html'), '<!doctype html><div>docker shell</div>');
 
     const started = (await startServer({

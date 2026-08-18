@@ -326,7 +326,7 @@ describe('resolveChatFileLink (issue: chatpane file links opening a home-page wi
           '/Users/mac/sankiwork/sankiwork-preview-0.10.0/projects/File%20Link%20Routing/index.html',
           new Set(['index.html']),
           'file-link-routing-1752480000000-abc123',
-          '/tmp/od-e2e-data/projects/file-link-routing-1752480000000-abc123',
+          '/tmp/sw-e2e-data/projects/file-link-routing-1752480000000-abc123',
         ),
       ).toEqual({ kind: 'workspace-file', filePath: 'index.html' });
     });

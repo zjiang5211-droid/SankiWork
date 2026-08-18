@@ -152,7 +152,7 @@ describe("resolveWinInstallIdentity", () => {
   });
 
   it.skipIf(process.platform !== "win32")("writes cleanup metadata when installer runtime sync supersedes an older runtime", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-pack-launcher-sync-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-pack-launcher-sync-"));
     const runtimePath = join(root, "launcher", "channels", "beta", "namespaces", "cf", "runtime.json");
     const attemptsPath = join(root, "launcher", "channels", "beta", "namespaces", "cf", "state", "attempt.json");
     const cleanupPath = join(root, "launcher", "channels", "beta", "namespaces", "cf", "state", "cleanup.json");

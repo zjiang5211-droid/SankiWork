@@ -211,7 +211,7 @@ describe('DELETE conversation cancels its active runs (#5468)', () => {
   let db: Db;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-5468-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-5468-'));
     db = openDatabase(tempDir, { dataDir: tempDir });
     const now = Date.now();
     insertProject(db, { id: 'p1', name: 'Project', createdAt: now, updatedAt: now });
@@ -336,7 +336,7 @@ describe('DELETE project cancels its active runs (#5468)', () => {
   let db: Db;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-5468-project-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-5468-project-'));
     db = openDatabase(tempDir, { dataDir: tempDir });
     const now = Date.now();
     insertProject(db, { id: 'p1', name: 'Project 1', createdAt: now, updatedAt: now });

@@ -12,7 +12,7 @@ import {
 let tmpDir: string;
 
 beforeEach(async () => {
-  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-scaffold-'));
+  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-scaffold-'));
 });
 
 afterEach(async () => {

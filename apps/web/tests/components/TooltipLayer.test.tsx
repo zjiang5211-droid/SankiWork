@@ -14,7 +14,7 @@ describe('TooltipLayer', () => {
       <>
         <button
           type="button"
-          className="od-tooltip"
+          className="sw-tooltip"
           data-tooltip="Settings"
           title="Settings"
         >
@@ -41,7 +41,7 @@ describe('TooltipLayer', () => {
       return (
         <button
           type="button"
-          className="od-tooltip"
+          className="sw-tooltip"
           data-tooltip="Design Agent mode"
           title="Design Agent mode"
           aria-expanded={open}

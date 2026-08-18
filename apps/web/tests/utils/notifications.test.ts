@@ -45,7 +45,7 @@ describe('showCompletionNotification', () => {
     expect(MockNotification.instances[0]!.title).toBe('Task completed');
     expect(MockNotification.instances[0]!.options).toMatchObject({
       body: 'Done',
-      tag: 'od-task-succeeded',
+      tag: 'sw-task-succeeded',
       renotify: true,
     });
   });
@@ -74,7 +74,7 @@ describe('showCompletionNotification', () => {
       'Task completed',
       expect.objectContaining({
         body: 'Done',
-        tag: 'od-task-succeeded',
+        tag: 'sw-task-succeeded',
         renotify: true,
       }),
     );

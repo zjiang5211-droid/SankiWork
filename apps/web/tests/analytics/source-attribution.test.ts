@@ -256,7 +256,7 @@ describe('source attribution person properties', () => {
         od_source_resolved: 'social',
         od_source_resolution: 'onboarding',
         od_onboarding_at: '2026-07-01T07:00:00.000Z',
-        od_amr_entry_id: expect.stringMatching(/^od-amr-/u),
+        od_amr_entry_id: expect.stringMatching(/^sw-amr-/u),
         od_amr_entry_source: 'inline_model_switcher_amr_row',
         od_amr_entry_at: '2026-07-02T08:15:00.000Z',
       }),

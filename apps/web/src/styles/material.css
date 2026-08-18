@@ -6,7 +6,7 @@
      1. Tokens — light (:root) + dark, mirroring tokens.css's contract that
         the explicit [data-theme='dark'] block and the prefers-color-scheme
         html:not([data-theme]) block stay in sync.
-     2. Utility classes + the SDF-refraction surface (.od-glass-refract).
+     2. Utility classes + the SDF-refraction surface (.sw-glass-refract).
      3. Accessibility fallbacks — redefined at the TOKEN level so every
         consumer (any stylesheet, any CSS module) degrades at once.
 
@@ -109,28 +109,28 @@
 
 /* ── Utility classes (for NEW surfaces; existing surfaces consume the tokens
    in their own stylesheets instead of taking on extra classes) ─────────── */
-.od-material,
-.od-material-regular {
+.sw-material,
+.sw-material-regular {
   background: var(--material-regular);
   -webkit-backdrop-filter: var(--material-regular-backdrop);
   backdrop-filter: var(--material-regular-backdrop);
 }
-.od-material-ultrathin {
+.sw-material-ultrathin {
   background: var(--material-ultrathin);
   -webkit-backdrop-filter: var(--material-ultrathin-backdrop);
   backdrop-filter: var(--material-ultrathin-backdrop);
 }
-.od-material-thin {
+.sw-material-thin {
   background: var(--material-thin);
   -webkit-backdrop-filter: var(--material-thin-backdrop);
   backdrop-filter: var(--material-thin-backdrop);
 }
-.od-material-thick {
+.sw-material-thick {
   background: var(--material-thick);
   -webkit-backdrop-filter: var(--material-thick-backdrop);
   backdrop-filter: var(--material-thick-backdrop);
 }
-.od-glass {
+.sw-glass {
   background: var(--glass-regular);
   -webkit-backdrop-filter: var(--glass-backdrop);
   backdrop-filter: var(--glass-backdrop);
@@ -138,16 +138,16 @@
 
 /* ── SDF refraction surface ──────────────────────────────────────────────
    Base state doubles as the fallback: plain frosted glass. useLiquidGlass()
-   sets data-od-glass-sdf only after the runtime confirms Chromium support and builds the
+   sets data-sw-glass-sdf only after the runtime confirms Chromium support and builds the
    displacement map (JS sets --flt to url(#lg-N)). */
-.od-glass-refract {
+.sw-glass-refract {
   position: relative;
   overflow: hidden;
   background: var(--glass-regular);
   -webkit-backdrop-filter: var(--glass-backdrop);
   backdrop-filter: var(--glass-backdrop);
 }
-.od-glass-refract[data-od-glass-sdf] {
+.sw-glass-refract[data-sw-glass-sdf] {
   background: transparent;
   -webkit-backdrop-filter: var(--flt) blur(0.4px) contrast(1.12) brightness(1.06) saturate(1.12);
   backdrop-filter: var(--flt) blur(0.4px) contrast(1.12) brightness(1.06) saturate(1.12);
@@ -160,7 +160,7 @@
 /* Text-dense refraction surfaces (e.g. the account menu): keep the lens
    bend at the edges but back the center with a solid enough frost that the
    menu's own text wins over whatever bleeds through. */
-.od-glass-refract[data-od-glass-sdf].od-glass-refract--tinted {
+.sw-glass-refract[data-sw-glass-sdf].sw-glass-refract--tinted {
   background: var(--glass-regular);
   -webkit-backdrop-filter: var(--flt) blur(16px) saturate(1.4);
   backdrop-filter: var(--flt) blur(16px) saturate(1.4);
@@ -193,9 +193,9 @@
     --vibrancy-fill-tertiary: var(--bg-fill-tertiary);
     --material-separator: var(--border);
   }
-  .od-glass-refract,
-  .od-glass-refract.od-glass-refract--sdf,
-  .od-glass-refract[data-od-glass-sdf].od-glass-refract--tinted {
+  .sw-glass-refract,
+  .sw-glass-refract.sw-glass-refract--sdf,
+  .sw-glass-refract[data-sw-glass-sdf].sw-glass-refract--tinted {
     background: var(--bg-elevated);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;

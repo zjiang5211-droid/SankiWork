@@ -62,7 +62,7 @@ const PREV_DATA_DIR = process.env.SW_DATA_DIR;
 beforeEach(async () => {
   // Sentinel "home directory". Everything the daemon touches lives under this
   // mkdtemp — no real user file is ever read or deleted by this spec.
-  fakeHome = await mkdtemp(path.join(os.tmpdir(), 'od-fakehome-'));
+  fakeHome = await mkdtemp(path.join(os.tmpdir(), 'sw-fakehome-'));
   await mkdir(path.join(fakeHome, '.ssh'), { recursive: true });
   await mkdir(path.join(fakeHome, '.aws'), { recursive: true });
   await mkdir(path.join(fakeHome, 'docs'), { recursive: true });
@@ -70,7 +70,7 @@ beforeEach(async () => {
   await writeFile(path.join(fakeHome, AWS_CREDS), SENTINEL_CREDS);
   await writeFile(path.join(fakeHome, 'docs', 'keep.txt'), 'precious');
 
-  dataDir = await mkdtemp(path.join(os.tmpdir(), 'od-importsec-'));
+  dataDir = await mkdtemp(path.join(os.tmpdir(), 'sw-importsec-'));
   process.env.SW_DATA_DIR = dataDir;
 
   // Dynamic import AFTER SW_DATA_DIR is set: RUNTIME_DATA_DIR is resolved at

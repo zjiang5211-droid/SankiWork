@@ -2383,7 +2383,7 @@ export function DesignBrowserPanel({
               <span title={activeBrowserPreviewImage.file.name}>{activeBrowserPreviewImage.file.name}</span>
               <button
                 type="button"
-                className="icon-only od-tooltip"
+                className="icon-only sw-tooltip"
                 onClick={() => setBrowserPreviewIndex(null)}
                 aria-label={t('common.close')}
                 title={t('common.close')}
@@ -2749,7 +2749,7 @@ function IconTooltipButton({
 } & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <span
-      className={['db-tooltip-anchor od-tooltip', wrapperClassName].filter(Boolean).join(' ')}
+      className={['db-tooltip-anchor sw-tooltip', wrapperClassName].filter(Boolean).join(' ')}
       data-tooltip={label}
       data-tooltip-placement="bottom"
     >

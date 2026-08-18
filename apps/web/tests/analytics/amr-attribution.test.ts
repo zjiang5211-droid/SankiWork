@@ -72,7 +72,7 @@ describe('AMR attribution helper', () => {
       sourceDetail: 'chat_error_recharge',
       occurredAt: '2026-06-03T12:00:00.000Z',
     });
-    expect(attribution.entryId).toMatch(/^od-amr-/u);
+    expect(attribution.entryId).toMatch(/^sw-amr-/u);
     expect(readAmrAttribution(now)).toEqual(attribution);
     expect(track).toHaveBeenCalledWith(
       'ui_click',
@@ -195,7 +195,7 @@ describe('AMR attribution helper', () => {
       },
       {
         metricsConsent: true,
-        odDeviceId: 'od-install-abc',
+        odDeviceId: 'sw-install-abc',
         now: profileTime,
       },
     );
@@ -203,7 +203,7 @@ describe('AMR attribution helper', () => {
     expect(updated).toMatchObject({
       entryId: attribution.entryId,
       sourceDetail: 'onboarding_amr_card',
-      odDeviceId: 'od-install-abc',
+      odDeviceId: 'sw-install-abc',
       odRole: 'pm',
       odOrgSize: 'startup',
       odUseCase: ['product', 'design-system'],
@@ -230,7 +230,7 @@ describe('AMR attribution helper', () => {
         sourceDetail: 'onboarding_amr_card',
         entryOccurredAt: '2026-06-03T12:00:00.000Z',
         profileOccurredAt: '2026-06-03T12:03:00.000Z',
-        odDeviceId: 'od-install-abc',
+        odDeviceId: 'sw-install-abc',
         odRole: 'pm',
         odOrgSize: 'startup',
         odUseCase: ['product', 'design-system'],
@@ -307,7 +307,7 @@ describe('AMR attribution helper', () => {
         },
         {
           metricsConsent: true,
-          odDeviceId: 'od-install-abc',
+          odDeviceId: 'sw-install-abc',
           now: profileTime,
         },
       );
@@ -375,27 +375,27 @@ describe('AMR attribution helper', () => {
   it('adds SankiWork attribution params to AMR wallet URLs', () => {
     expect(
       attributedAmrUrl('https://sanki-ai.cloud/amr/dashboard?tab=recharge', {
-        entryId: 'od-amr-entry-123',
+        entryId: 'sw-amr-entry-123',
         sourceProduct: 'sankiwork',
         sourceDetail: 'generation_preview_recharge',
         occurredAt: '2026-06-03T12:00:00.000Z',
       }),
     ).toBe(
-      'https://sanki-ai.cloud/amr/dashboard?tab=recharge&od_origin=sankiwork&od_entry_id=od-amr-entry-123&od_entry_source=generation_preview_recharge&od_entry_at=2026-06-03T12%3A00%3A00.000Z',
+      'https://sanki-ai.cloud/amr/dashboard?tab=recharge&od_origin=sankiwork&od_entry_id=sw-amr-entry-123&od_entry_source=generation_preview_recharge&od_entry_at=2026-06-03T12%3A00%3A00.000Z',
     );
   });
 
   it('adds od_device_id only when a device id is provided', () => {
     const attribution = {
-      entryId: 'od-amr-entry-123',
+      entryId: 'sw-amr-entry-123',
       sourceProduct: 'sankiwork' as const,
       sourceDetail: 'generation_preview_recharge' as const,
       occurredAt: '2026-06-03T12:00:00.000Z',
     };
     // With a device id (user opted into metrics): od_device_id is present.
     expect(
-      attributedAmrUrl('https://sanki-ai.cloud/amr/dashboard', attribution, 'od-install-abc'),
-    ).toContain('od_device_id=od-install-abc');
+      attributedAmrUrl('https://sanki-ai.cloud/amr/dashboard', attribution, 'sw-install-abc'),
+    ).toContain('od_device_id=sw-install-abc');
     // Without one (consent off): no od_device_id param leaks into the URL.
     expect(
       attributedAmrUrl('https://sanki-ai.cloud/amr/dashboard', attribution, null),
@@ -438,27 +438,27 @@ describe('AMR attribution helper', () => {
     expect(
       amrHandoffDeviceId({
         metricsConsent: false,
-        resolvedDeviceId: 'od-install-abc',
-        installationId: 'od-install-abc',
+        resolvedDeviceId: 'sw-install-abc',
+        installationId: 'sw-install-abc',
       }),
     ).toBeNull();
     // Consent on, steady state (the two ids agree): forward that id.
     expect(
       amrHandoffDeviceId({
         metricsConsent: true,
-        resolvedDeviceId: 'od-install-abc',
-        installationId: 'od-install-abc',
+        resolvedDeviceId: 'sw-install-abc',
+        installationId: 'sw-install-abc',
       }),
-    ).toBe('od-install-abc');
+    ).toBe('sw-install-abc');
     // Consent on, config.installationId not hydrated yet: fall back to the
     // resolved telemetry device id.
     expect(
       amrHandoffDeviceId({
         metricsConsent: true,
-        resolvedDeviceId: 'od-install-abc',
+        resolvedDeviceId: 'sw-install-abc',
         installationId: null,
       }),
-    ).toBe('od-install-abc');
+    ).toBe('sw-install-abc');
     // Consent on, resolved id not hydrated yet: use installationId.
     expect(
       amrHandoffDeviceId({
@@ -487,9 +487,9 @@ describe('AMR attribution helper', () => {
     expect(
       amrHandoffDeviceId({
         metricsConsent: true,
-        resolvedDeviceId: 'od-install-OLD',
-        installationId: 'od-install-NEW',
+        resolvedDeviceId: 'sw-install-OLD',
+        installationId: 'sw-install-NEW',
       }),
-    ).toBe('od-install-NEW');
+    ).toBe('sw-install-NEW');
   });
 });

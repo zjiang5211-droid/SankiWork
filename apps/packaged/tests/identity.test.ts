@@ -46,7 +46,7 @@ function fakePaths(root: string): PackagedNamespacePaths {
 
 describe("packaged identity markers", () => {
   it("can write and close the desktop identity shape at the headless marker path", async () => {
-    const root = join(tmpdir(), `od-packaged-identity-${process.pid}-${Date.now()}`);
+    const root = join(tmpdir(), `sw-packaged-identity-${process.pid}-${Date.now()}`);
     const paths = fakePaths(root);
     const stamp = {
       app: APP_KEYS.DESKTOP,

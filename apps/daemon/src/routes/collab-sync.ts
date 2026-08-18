@@ -1216,7 +1216,7 @@ export function registerCollabSyncRoutes(
     }
 
     const resourceId = publicFileResourceIdFor(projectId, filePath, principal);
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'od-public-file-'));
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'sw-public-file-'));
     try {
       const targetFile = path.join(tempDir, filePath);
       await mkdir(path.dirname(targetFile), { recursive: true });

@@ -214,7 +214,7 @@ describe("collab-cloud fixture", () => {
   });
 
   it("persists to a store file and reloads it on restart", async () => {
-    const dir = mkdtempSync(join(tmpdir(), "od-collab-store-"));
+    const dir = mkdtempSync(join(tmpdir(), "sw-collab-store-"));
     const storePath = join(dir, "collab-cloud.json");
     try {
       // First run: seed a member + a comment, then shut down.

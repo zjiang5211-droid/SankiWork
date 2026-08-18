@@ -51,7 +51,7 @@ describe('decodeSlideDataUrls', () => {
 describe('readSlideFiles', () => {
   let dir = '';
   beforeAll(async () => {
-    dir = mkdtempSync(path.join(tmpdir(), 'od-slide-files-'));
+    dir = mkdtempSync(path.join(tmpdir(), 'sw-slide-files-'));
     await writeFile(path.join(dir, 'slide-0.png'), Buffer.from(PNG_BASE64, 'base64'));
     await writeFile(
       path.join(dir, 'slide-1.jpeg'),
@@ -86,7 +86,7 @@ describe('readSlideFiles', () => {
 
 describe('buildDeckRenderInput', () => {
   it('injects a deck-stage fallback runtime before desktop rendering', async () => {
-    const projectsRoot = mkdtempSync(path.join(tmpdir(), 'od-deck-render-input-'));
+    const projectsRoot = mkdtempSync(path.join(tmpdir(), 'sw-deck-render-input-'));
     const projectId = 'project-1';
     const projectDir = path.join(projectsRoot, projectId);
     mkdirSync(projectDir, { recursive: true });
@@ -118,7 +118,7 @@ describe('buildDeckRenderInput', () => {
         projectsRoot,
       });
 
-      expect(request.input.html).toContain('data-od-deck-stage-fallback');
+      expect(request.input.html).toContain('data-sw-deck-stage-fallback');
       expect(request.input.html).toContain("window.customElements.define('deck-stage'");
       expect(request.input.html).toContain("type: 'od:slide-state'");
     } finally {
@@ -127,7 +127,7 @@ describe('buildDeckRenderInput', () => {
   });
 
   it('uses supplied sourceHtml for version exports instead of reading the current file', async () => {
-    const projectsRoot = mkdtempSync(path.join(tmpdir(), 'od-deck-render-input-'));
+    const projectsRoot = mkdtempSync(path.join(tmpdir(), 'sw-deck-render-input-'));
     const projectId = 'project-1';
     const projectDir = path.join(projectsRoot, projectId);
     mkdirSync(projectDir, { recursive: true });

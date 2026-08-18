@@ -1574,7 +1574,7 @@ test('[P0] editing a queued prompt from an artifact file route keeps the file ed
     artifactPreviewFrame(page).getByRole('heading', { name: 'Original Hero' }),
   ).toBeVisible();
   await page.getByTestId('manual-edit-mode-toggle').click();
-  await expect(artifactPreviewFrame(page).locator('html[data-od-edit-mode]')).toHaveCount(1);
+  await expect(artifactPreviewFrame(page).locator('html[data-sw-edit-mode]')).toHaveCount(1);
 
   await sendPrompt(page, 'first artifact file edit prompt');
   await runRequests.expectCount(1);
@@ -1604,7 +1604,7 @@ test('[P0] editing a queued prompt from an artifact file route keeps the file ed
   expect(runBodies[1]?.message).toContain('queued artifact file prompt after edit');
   expect(runBodies[1]?.message).not.toContain('queued artifact file prompt before edit');
   await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/(?:conversations/[^/]+/)?files/active-edit\\.html$`));
-  await expect(artifactPreviewFrame(page).locator('html[data-od-edit-mode]')).toHaveCount(1);
+  await expect(artifactPreviewFrame(page).locator('html[data-sw-edit-mode]')).toHaveCount(1);
   await expect(queuedStrip).toHaveCount(0);
 });
 
@@ -2522,10 +2522,10 @@ function manualEditHtml(): string {
   <head><meta charset="utf-8"><title>Manual Edit</title></head>
   <body>
     <main>
-      <section data-od-id="hero" data-od-label="Hero section">
-        <h1 data-od-id="hero-title" data-od-label="Hero title">Original Hero</h1>
-        <a data-od-id="cta" data-od-label="Primary CTA" href="/start">Start now</a>
-        <img data-od-id="hero-image" data-od-label="Hero image" src="/hero.png" alt="Hero" style="width:64px;height:64px;">
+      <section data-od-id="hero" data-sw-label="Hero section">
+        <h1 data-od-id="hero-title" data-sw-label="Hero title">Original Hero</h1>
+        <a data-od-id="cta" data-sw-label="Primary CTA" href="/start">Start now</a>
+        <img data-od-id="hero-image" data-sw-label="Hero image" src="/hero.png" alt="Hero" style="width:64px;height:64px;">
       </section>
     </main>
   </body>

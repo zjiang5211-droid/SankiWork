@@ -165,7 +165,7 @@ describe('createValidatingLookup (DNS-rebinding / TOCTOU guard)', () => {
 describe('createPluginAssetCache', () => {
   let dir: string;
   beforeEach(async () => {
-    dir = await mkdtemp(path.join(os.tmpdir(), 'od-asset-cache-'));
+    dir = await mkdtemp(path.join(os.tmpdir(), 'sw-asset-cache-'));
   });
   afterEach(async () => {
     await rm(dir, { recursive: true, force: true });

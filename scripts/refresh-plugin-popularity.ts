@@ -36,7 +36,7 @@ function getArg(name: string, dflt: string | number | boolean): string | number 
 
 const WRITE = Boolean(getArg('write', false));
 const WINDOW_DAYS = Number(getArg('window', 28));
-const SW_REPO = String(getArg('od-repo', process.env.SW_REPO || REPO_ROOT));
+const SW_REPO = String(getArg('sw-repo', process.env.SW_REPO || REPO_ROOT));
 const WEIGHT_USERS = Number(getArg('w-users', 0.6));
 const WEIGHT_RUNS = Number(getArg('w-runs', 0.4));
 const MIN_USERS = Number(getArg('min-users', 20));

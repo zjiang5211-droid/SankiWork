@@ -3931,7 +3931,7 @@ Lifecycle vocabulary:
 
 // Plan §3.FF1 — `sw plugin verify <pluginId>` CI meta-command.
 //
-// Reads an optional .od-verify.json config from the plugin folder
+// Reads an optional .sw-verify.json config from the plugin folder
 // or --config <path> and runs the enabled subset of:
 //
 //   doctor   — calls /api/plugins/<id>/doctor
@@ -3953,7 +3953,7 @@ async function runPluginVerify(rest) {
   sw plugin verify <pluginId> [--config <path>] [--json]
 
 CI meta-command. Reads an optional config from
-'<plugin-folder>/.od-verify.json' (or --config <path>) and runs:
+'<plugin-folder>/.sw-verify.json' (or --config <path>) and runs:
 
   doctor    — manifest + atom + ref lint
   simulate  — convergence dry-run for every until expression,
@@ -3962,7 +3962,7 @@ CI meta-command. Reads an optional config from
               config.canon.fixturePath using the snapshot at
               config.canon.snapshotId
 
-Sample .od-verify.json:
+Sample .sw-verify.json:
 
   {
     "enabled": ["doctor", "simulate"],
@@ -3996,12 +3996,14 @@ Exit codes:
   }
   const plugin = await pluginResp.json();
 
-  // 2. Load .od-verify.json from --config or <fsPath>/.od-verify.json.
+  // 2. Load .sw-verify.json from --config or <fsPath>/.sw-verify.json.
+  //    Legacy `.od-verify.json` is honored for configs written pre-rebrand.
   const fs = await import('node:fs/promises');
   const path = await import('node:path');
+  const legacyConfigPath = (typeof plugin?.fsPath === 'string' ? path.join(plugin.fsPath, '.od-verify.json') : null);
   const configPath = typeof flags.config === 'string'
     ? path.resolve(flags.config)
-    : (typeof plugin?.fsPath === 'string' ? path.join(plugin.fsPath, '.od-verify.json') : null);
+    : (typeof plugin?.fsPath === 'string' ? path.join(plugin.fsPath, '.sw-verify.json') : null);
   let config = { enabled: ['doctor', 'simulate', 'canon'] };
   if (configPath) {
     try {
@@ -4013,8 +4015,21 @@ Exit codes:
         console.error(`[verify] cannot read config ${configPath}: ${e?.message ?? e}`);
         process.exit(2);
       }
-      // ENOENT → run with defaults. canon will skip cleanly because no
-      // config.canon entry was supplied.
+      // ENOENT → legacy pre-rebrand config name fallback.
+      if (legacyConfigPath) {
+        try {
+          const raw = await fs.readFile(legacyConfigPath, 'utf8');
+          config = JSON.parse(raw);
+        } catch (legacyErr) {
+          const le = legacyErr as NodeJS.ErrnoException;
+          if (le?.code !== 'ENOENT') {
+            console.error(`[verify] cannot read config ${legacyConfigPath}: ${le?.message ?? le}`);
+            process.exit(2);
+          }
+          // Both ENOENT → run with defaults. canon will skip cleanly because no
+          // config.canon entry was supplied.
+        }
+      }
     }
   }
 
@@ -4881,7 +4896,7 @@ GitHub API as a last resort. It never publishes to placeholder owners.`);
   let workdir = absFolder;
   let cleanupDir = null;
   if (exists && !flags['dry-run']) {
-    cleanupDir = await mkdtemp(join(os.tmpdir(), 'od-plugin-publish-sync-'));
+    cleanupDir = await mkdtemp(join(os.tmpdir(), 'sw-plugin-publish-sync-'));
     workdir = join(cleanupDir, repo.name);
     await run('clone repo', 'gh', ['repo', 'clone', repo.fullName, workdir], { cwd: cleanupDir, timeout: 240_000 });
     for (const entry of await readdir(workdir)) {
@@ -4981,7 +4996,7 @@ fork of nexu-io/open-design, pushes a branch, and opens the PR form with --web.`
   }
   const title = String(manifest.title ?? name).trim();
   const branch = `plugin/${name}-${Math.floor(Date.now() / 1000)}`;
-  const tmpRoot = await fsp.mkdtemp(join(os.tmpdir(), 'od-sankiwork-pr-'));
+  const tmpRoot = await fsp.mkdtemp(join(os.tmpdir(), 'sw-sankiwork-pr-'));
   const checkout = join(tmpRoot, 'sankiwork');
   const steps = [];
   const run = async (label, command, args, opts = {}) => {
@@ -5803,7 +5818,7 @@ function printPluginHelp() {
                                           signals; report stage convergence + iterations
                                           (no LLM in the loop).
   sw plugin verify <pluginId>             CI meta-command: doctor + simulate + canon --check
-                                          driven by an .od-verify.json config in the plugin folder.
+                                          driven by an .sw-verify.json config in the plugin folder.
   sw plugin events tail [-f] [--kind k]   Tail the in-memory plugin event ring buffer.
   sw plugin events snapshot               One-shot read (filterable, no SSE).
   sw plugin events stats                  Roll-up: counts by kind / pluginId / time range.

@@ -45,7 +45,7 @@ describe('CLI startup boundaries', () => {
   });
 
   it('keeps sw daemon start alive until SIGTERM and reports the actual listening port', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'od-cli-daemon-start-'));
+    const root = await mkdtemp(join(tmpdir(), 'sw-cli-daemon-start-'));
     const dataDir = join(root, 'data');
     await mkdir(dataDir);
     const child = spawn(
@@ -94,7 +94,7 @@ describe('CLI startup boundaries', () => {
   });
 
   it('reconciles a durable running message after a real daemon process restart', { timeout: 60_000 }, async () => {
-    const root = await mkdtemp(join(tmpdir(), 'od-cli-daemon-restart-'));
+    const root = await mkdtemp(join(tmpdir(), 'sw-cli-daemon-restart-'));
     const dataDir = join(root, 'data');
     await mkdir(dataDir);
     const port = await findFreePort();
@@ -245,7 +245,7 @@ describe('CLI startup boundaries', () => {
   });
 
   it('does not import daemon startup code for media client commands', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'od-cli-media-'));
+    const root = await mkdtemp(join(tmpdir(), 'sw-cli-media-'));
     const dataDir = join(root, 'data');
     await mkdir(dataDir);
     await chmod(dataDir, 0o500);

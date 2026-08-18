@@ -245,7 +245,7 @@ describe('FileViewer version download actions', () => {
     fireEvent.click(within(versionDialog).getByRole('menuitem', { name: 'Export as PDF' }));
 
     const toastMessage = await screen.findByText(/Exporting/);
-    const toast = toastMessage.closest('.od-toast');
+    const toast = toastMessage.closest('.sw-toast');
     expect(toast).toBeTruthy();
     expect(within(toast as HTMLElement).queryByRole('button', { name: 'Dismiss' })).toBeNull();
   });
@@ -266,7 +266,7 @@ describe('FileViewer version download actions', () => {
       expect(exporter).toHaveBeenCalled();
     });
     const toastMessage = await screen.findByText(/Exporting/);
-    const toast = toastMessage.closest('.od-toast');
+    const toast = toastMessage.closest('.sw-toast');
     expect(toast).toBeTruthy();
     expect(within(toast as HTMLElement).queryByRole('button', { name: 'Dismiss' })).toBeNull();
   });
@@ -397,6 +397,6 @@ describe('FileViewer version download actions', () => {
     // The image-export dialog and its toast are full-window layers, so they must
     // sit above the panel itself.
     expect(Number(cssValue(cssRule(css, '.viewer-modal-backdrop.file-version-export-backdrop.modal-backdrop'), 'z-index'))).toBeGreaterThan(panelZ);
-    expect(Number(cssValue(cssRule(css, '.od-toast.file-version-export-toast.placement-top'), 'z-index'))).toBeGreaterThan(panelZ);
+    expect(Number(cssValue(cssRule(css, '.sw-toast.file-version-export-toast.placement-top'), 'z-index'))).toBeGreaterThan(panelZ);
   });
 });

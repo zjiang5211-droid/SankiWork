@@ -22,7 +22,7 @@ async function writeAsset(root: string, group: string, name: string): Promise<vo
 
 describe("stable GitHub Release asset plan", () => {
   it("selects only installers/packages and sha files from the full release bundle", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-tools-release-github-assets-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-tools-release-github-assets-"));
     const source = join(root, "source");
     const output = join(root, "github-assets");
     const outputsPath = join(root, "outputs.json");

@@ -134,7 +134,7 @@ describe('probeAgentAuthStatus (#4456)', () => {
     let codexHome: string;
 
     beforeEach(async () => {
-      codexHome = await mkdtemp(path.join(os.tmpdir(), 'od-codex-4456-'));
+      codexHome = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-4456-'));
       await writeFile(
         path.join(codexHome, 'config.toml'),
         [

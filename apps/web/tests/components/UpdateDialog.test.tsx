@@ -103,7 +103,7 @@ describe('UpdateDialog', () => {
       await Promise.resolve();
     });
     const dialog = await screen.findByRole('dialog', { name: 'Check for updates' });
-    expect(dialog.querySelector('.od-brand-glyph')).toBeTruthy();
+    expect(dialog.querySelector('.sw-brand-glyph')).toBeTruthy();
     expect(screen.getByText('v1.2.4 is ready. Better experiences and smarter design await.')).toBeTruthy();
     expect(screen.queryByText('Version 1.2.3')).toBeNull();
     expect(screen.getByRole('button', { name: 'Explore new features' })).toBeTruthy();

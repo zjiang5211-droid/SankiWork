@@ -154,7 +154,7 @@ describe('connector status service', () => {
   });
 
   it('stores OAuth credential material in the daemon global store without exposing it in connector details', async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), 'od-connector-credentials-'));
+    const dataDir = await mkdtemp(path.join(tmpdir(), 'sw-connector-credentials-'));
     const credentialStore = new FileConnectorCredentialStore(dataDir);
     const statusService = new ConnectorStatusService({ credentialStore });
     const definition = externalConnector();

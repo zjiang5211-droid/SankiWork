@@ -223,7 +223,7 @@ afterAll(() => new Promise<void>((resolve) => server.close(() => resolve())));
 
 beforeEach(() => {
   originalHome = process.env.HOME;
-  tmpHome = mkdtempSync(path.join(tmpdir(), 'od-vela-routes-'));
+  tmpHome = mkdtempSync(path.join(tmpdir(), 'sw-vela-routes-'));
   process.env.HOME = tmpHome;
   process.env.SANKIWORK_AMR_PROFILE = 'local';
   process.env.VELA_PROFILE = 'prod';
@@ -1520,24 +1520,24 @@ describe('POST /api/integrations/vela/login', () => {
     try {
       const { status } = await postJson(`${baseUrl}/api/integrations/vela/login`, {
         attribution: {
-          entryId: 'od-amr-entry-onboarding',
+          entryId: 'sw-amr-entry-onboarding',
           sourceProduct: 'sankiwork',
           sourceDetail: 'onboarding_amr_sign_in_continue',
           occurredAt: '2026-06-16T08:00:00.000Z',
           odDeviceId: 'body-should-not-win',
         },
-      }, { 'x-od-analytics-device-id': 'od-install-abc' });
+      }, { 'x-od-analytics-device-id': 'sw-install-abc' });
       expect(status).toBe(202);
 
       await waitForFile(dumpPath);
       const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
       expect(env.SANKIWORK_AMR_ORIGIN).toBe('sankiwork');
-      expect(env.SANKIWORK_AMR_ENTRY_ID).toBe('od-amr-entry-onboarding');
+      expect(env.SANKIWORK_AMR_ENTRY_ID).toBe('sw-amr-entry-onboarding');
       expect(env.SANKIWORK_AMR_ENTRY_SOURCE).toBe(
         'onboarding_amr_sign_in_continue',
       );
       expect(env.SANKIWORK_AMR_ENTRY_AT).toBe('2026-06-16T08:00:00.000Z');
-      expect(env.SANKIWORK_AMR_DEVICE_ID).toBe('od-install-abc');
+      expect(env.SANKIWORK_AMR_DEVICE_ID).toBe('sw-install-abc');
     } finally {
       await writeAppConfig(dataDir, previous as unknown as Record<string, unknown>);
     }
@@ -1597,7 +1597,7 @@ describe('POST /api/integrations/vela/login', () => {
           pluginWorkflowId: '019f9414-85e8-7f20-8d8f-7f868b2d4b5f',
         },
         {
-          'x-od-analytics-device-id': 'od-install-plugin',
+          'x-od-analytics-device-id': 'sw-install-plugin',
           'x-od-analytics-client-type': 'external_mcp',
           'x-od-analytics-entry-surface': 'external_mcp',
           'x-od-analytics-external-plugin-id': 'sankiwork',
@@ -1610,7 +1610,7 @@ describe('POST /api/integrations/vela/login', () => {
 
       await waitForFile(dumpPath);
       const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
-      expect(env.SW_INSTALLATION_ID).toBe('od-install-plugin');
+      expect(env.SW_INSTALLATION_ID).toBe('sw-install-plugin');
       expect(env.SANKIWORK_PLUGIN_WORKFLOW_ID).toBe(
         '019f9414-85e8-7f20-8d8f-7f868b2d4b5f',
       );
@@ -1640,7 +1640,7 @@ describe('POST /api/integrations/vela/login', () => {
           pluginWorkflowId: '019f9414-85e8-7f20-8d8f-7f868b2d4b5f',
         },
         {
-          'x-od-analytics-device-id': 'od-install-plugin',
+          'x-od-analytics-device-id': 'sw-install-plugin',
           'x-od-analytics-client-type': 'external_mcp',
           'x-od-analytics-entry-surface': 'external_mcp',
           'x-od-analytics-external-plugin-id': 'sankiwork',
@@ -1674,7 +1674,7 @@ describe('POST /api/integrations/vela/login', () => {
     try {
       const { status } = await postJson(`${baseUrl}/api/integrations/vela/login`, {
         attribution: {
-          entryId: 'od-amr-entry-onboarding',
+          entryId: 'sw-amr-entry-onboarding',
           sourceProduct: 'sankiwork',
           sourceDetail: 'onboarding_amr_sign_in_continue',
           occurredAt: '2026-06-16T08:00:00.000Z',
@@ -1685,7 +1685,7 @@ describe('POST /api/integrations/vela/login', () => {
 
       await waitForFile(dumpPath);
       const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
-      expect(env.SANKIWORK_AMR_ENTRY_ID).toBe('od-amr-entry-onboarding');
+      expect(env.SANKIWORK_AMR_ENTRY_ID).toBe('sw-amr-entry-onboarding');
       expect(env.SANKIWORK_AMR_DEVICE_ID).toBeUndefined();
     } finally {
       await writeAppConfig(dataDir, previous as unknown as Record<string, unknown>);
@@ -1705,18 +1705,18 @@ describe('POST /api/integrations/vela/login', () => {
     try {
       const { status } = await postJson(`${baseUrl}/api/integrations/vela/login`, {
         attribution: {
-          entryId: 'od-amr-entry-onboarding',
+          entryId: 'sw-amr-entry-onboarding',
           sourceProduct: 'sankiwork',
           sourceDetail: 'onboarding_amr_sign_in_continue',
           occurredAt: '2026-06-16T08:00:00.000Z',
           odDeviceId: 'body-should-be-dropped',
         },
-      }, { 'x-od-analytics-device-id': 'od-install-abc' });
+      }, { 'x-od-analytics-device-id': 'sw-install-abc' });
       expect(status).toBe(202);
 
       await waitForFile(dumpPath);
       const env = JSON.parse(readFileSync(dumpPath, 'utf8'));
-      expect(env.SANKIWORK_AMR_ENTRY_ID).toBe('od-amr-entry-onboarding');
+      expect(env.SANKIWORK_AMR_ENTRY_ID).toBe('sw-amr-entry-onboarding');
       expect(env.SANKIWORK_AMR_DEVICE_ID).toBeUndefined();
     } finally {
       await writeAppConfig(dataDir, previous as unknown as Record<string, unknown>);
@@ -2542,7 +2542,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
-      entryId: 'od-amr-entry-123',
+      entryId: 'sw-amr-entry-123',
       sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
@@ -2553,8 +2553,8 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         `${baseUrl}/api/integrations/vela/analytics-entry`,
         { payload },
         {
-          'x-od-analytics-device-id': 'od-device-1',
-          'x-od-analytics-session-id': 'od-session-1',
+          'x-od-analytics-device-id': 'sw-device-1',
+          'x-od-analytics-session-id': 'sw-session-1',
           'x-od-analytics-locale': 'zh-CN',
         },
       );
@@ -2566,7 +2566,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         events: [
           {
             common: {
-              eventId: 'od-amr-entry-od-amr-entry-123',
+              eventId: 'sw-amr-entry-sw-amr-entry-123',
               eventTime: '2026-06-03T12:00:00.000Z',
               registryKey: 'sankiwork_amr_entry',
               eventName: 'amr_entry',
@@ -2574,11 +2574,11 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
               platform: 'web',
               env: 'test',
               userId: null,
-              anonymousId: 'od-device-1',
-              sessionId: 'od-session-1',
+              anonymousId: 'sw-device-1',
+              sessionId: 'sw-session-1',
               appVersion: null,
               locale: 'zh-CN',
-              traceId: 'od-amr-entry-123',
+              traceId: 'sw-amr-entry-123',
             },
             payload,
           },
@@ -2619,7 +2619,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       area: 'amr_entry',
       element: 'deepseek_workbench_badge',
       action: 'click_amr_entry',
-      entryId: 'od-amr-entry-campaign',
+      entryId: 'sw-amr-entry-campaign',
       sourceProduct: 'sankiwork',
       sourceDetail: 'deepseek_workbench_badge',
       entryOccurredAt: '2026-08-06T12:00:00.000Z',
@@ -2632,8 +2632,8 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         `${baseUrl}/api/integrations/vela/analytics-entry`,
         { payload },
         {
-          'x-od-analytics-device-id': 'od-device-campaign',
-          'x-od-analytics-session-id': 'od-session-campaign',
+          'x-od-analytics-device-id': 'sw-device-campaign',
+          'x-od-analytics-session-id': 'sw-session-campaign',
         },
       );
 
@@ -2679,7 +2679,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
-      entryId: 'od-amr-entry-456',
+      entryId: 'sw-amr-entry-456',
       sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
@@ -2693,7 +2693,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       const { status } = await postJson<{ mirrored: boolean }>(
         `${baseUrl}/api/integrations/vela/analytics-entry`,
         { payload },
-        { 'x-od-analytics-device-id': 'od-device-2' },
+        { 'x-od-analytics-device-id': 'sw-device-2' },
       );
 
       expect(status).toBe(202);
@@ -2739,7 +2739,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       area: 'onboarding',
       element: 'about_you_submit',
       action: 'submit_profile',
-      entryId: 'od-amr-entry-profile',
+      entryId: 'sw-amr-entry-profile',
       sourceProduct: 'sankiwork',
       sourceDetail: 'onboarding_amr_sign_in_continue',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
@@ -2756,8 +2756,8 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         `${baseUrl}/api/integrations/vela/analytics-profile`,
         { payload },
         {
-          'x-od-analytics-device-id': 'od-device-1',
-          'x-od-analytics-session-id': 'od-session-1',
+          'x-od-analytics-device-id': 'sw-device-1',
+          'x-od-analytics-session-id': 'sw-session-1',
           'x-od-analytics-locale': 'zh-CN',
         },
       );
@@ -2769,19 +2769,19 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         events: [
           {
             common: {
-              eventId: 'od-onboarding-profile-od-amr-entry-profile',
+              eventId: 'sw-onboarding-profile-sw-amr-entry-profile',
               eventTime: '2026-06-03T12:03:00.000Z',
               registryKey: 'sankiwork_onboarding_profile',
               eventName: 'onboarding_profile',
               eventType: 'result',
               platform: 'web',
               env: 'test',
-              anonymousId: 'od-device-1',
-              sessionId: 'od-session-1',
+              anonymousId: 'sw-device-1',
+              sessionId: 'sw-session-1',
               locale: 'zh-CN',
-              traceId: 'od-amr-entry-profile',
+              traceId: 'sw-amr-entry-profile',
             },
-            payload: { ...payload, odDeviceId: 'od-device-1' },
+            payload: { ...payload, odDeviceId: 'sw-device-1' },
           },
         ],
       });
@@ -2799,7 +2799,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
-      entryId: 'od-amr-entry-789',
+      entryId: 'sw-amr-entry-789',
       sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
@@ -2837,7 +2837,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       area: 'onboarding',
       element: 'about_you_submit',
       action: 'submit_profile',
-      entryId: 'od-amr-entry-profile',
+      entryId: 'sw-amr-entry-profile',
       sourceProduct: 'sankiwork',
       sourceDetail: 'onboarding_amr_sign_in_continue',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
@@ -2846,9 +2846,9 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
 
     expect(
       parseAmrOnboardingProfileAnalyticsPayload({
-        payload: { ...base, odRole: 'pm', odDeviceId: 'od-install-abc' },
+        payload: { ...base, odRole: 'pm', odDeviceId: 'sw-install-abc' },
       }),
-    ).toMatchObject({ odRole: 'pm', odDeviceId: 'od-install-abc' });
+    ).toMatchObject({ odRole: 'pm', odDeviceId: 'sw-install-abc' });
     expect(parseAmrOnboardingProfileAnalyticsPayload({ payload: base }))
       .toBeNull();
     expect(
@@ -2873,7 +2873,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       area: 'onboarding',
       element: 'about_you_submit',
       action: 'submit_profile',
-      entryId: 'od-amr-entry-profile',
+      entryId: 'sw-amr-entry-profile',
       sourceProduct: 'sankiwork',
       sourceDetail: 'settings_amr_console',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
@@ -2930,7 +2930,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
-      entryId: 'od-amr-entry-no-consent',
+      entryId: 'sw-amr-entry-no-consent',
       sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
@@ -2989,7 +2989,7 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
       area: 'amr_entry',
       element: 'chat_error_recharge',
       action: 'click_amr_entry',
-      entryId: 'od-amr-entry-metrics-off',
+      entryId: 'sw-amr-entry-metrics-off',
       sourceProduct: 'sankiwork',
       sourceDetail: 'chat_error_recharge',
       entryOccurredAt: '2026-06-03T12:00:00.000Z',
@@ -3002,8 +3002,8 @@ describe('POST /api/integrations/vela/analytics-entry', () => {
         `${baseUrl}/api/integrations/vela/analytics-entry`,
         { payload },
         {
-          'x-od-analytics-device-id': 'od-device-1',
-          'x-od-analytics-session-id': 'od-session-1',
+          'x-od-analytics-device-id': 'sw-device-1',
+          'x-od-analytics-session-id': 'sw-session-1',
           'x-od-analytics-locale': 'zh-CN',
         },
       );
@@ -3305,7 +3305,7 @@ describe('parseAmrEntryAnalyticsPayload — entry sources added in this PR', () 
     area: 'amr_entry',
     element: source,
     action: 'click_amr_entry',
-    entryId: 'od-amr-entry-x',
+    entryId: 'sw-amr-entry-x',
     sourceProduct: 'sankiwork',
     sourceDetail: source,
     entryOccurredAt: '2026-06-03T12:00:00.000Z',

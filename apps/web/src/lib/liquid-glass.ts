@@ -6,7 +6,7 @@
 // glass stays see-through, edges pull toward the center like a lens); the
 // dx/dy pair is encoded into a canvas's R/G channels and fed to an SVG
 // feDisplacementMap that the element references through the `--flt` custom
-// property (see `.od-glass-refract--sdf` in styles/material.css).
+// property (see `.sw-glass-refract--sdf` in styles/material.css).
 //
 // Refraction requires `backdrop-filter: url(#…)`, which only Chromium
 // implements. Detection is UA-based on purpose: Safari parses the url()

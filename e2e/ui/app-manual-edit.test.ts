@@ -36,11 +36,11 @@ test('[P0] manual edit inspector previews and persists page and selected element
   await expect.poll(() => previewCss(page, '[data-od-id="responsive-pair"]', 'flexDirection')).toBe('row');
 
   await page.getByTestId('manual-edit-mode-toggle').click();
-  await expect(frame.locator('html[data-od-edit-mode]')).toHaveCount(1);
+  await expect(frame.locator('html[data-sw-edit-mode]')).toHaveCount(1);
   await expect.poll(() => previewCss(page, '[data-od-id="responsive-pair"]', 'flexDirection')).toBe('row');
 
   await frame.locator('body').evaluate(() => {
-    window.parent.postMessage({ type: 'od-edit-background' }, '*');
+    window.parent.postMessage({ type: 'sw-edit-background' }, '*');
   });
   await expect(page.locator('.manual-edit-modal')).toContainText('PAGE');
   await expect(page.locator('.manual-edit-tabs')).toHaveCount(0);
@@ -54,7 +54,7 @@ test('[P0] manual edit inspector previews and persists page and selected element
   await expect(inspectorRow(page, 'Base size').locator('input')).toHaveValue('18');
 
   await selectPreviewElementThroughBridge(page, frame, '[data-od-id="hero-title"]', 'Parameters');
-  const selectedTitleMarker = frame.locator('[data-od-id="hero-title"][data-od-edit-selected="true"]');
+  const selectedTitleMarker = frame.locator('[data-od-id="hero-title"][data-sw-edit-selected="true"]');
   await expect(selectedTitleMarker).toHaveCount(1);
   const parameters = inspectorSection(page, 'Parameters');
   const fontSizeInput = parameters.locator('.cc-row').filter({ hasText: 'Font size' }).locator('input');
@@ -68,7 +68,7 @@ test('[P0] manual edit inspector previews and persists page and selected element
   await lineInput.blur();
   await expect(page.locator('.manual-edit-error')).toHaveCount(0);
   await frame.locator('body').evaluate(() => {
-    window.parent.postMessage({ type: 'od-edit-targets', targets: [] }, '*');
+    window.parent.postMessage({ type: 'sw-edit-targets', targets: [] }, '*');
   });
   await expect(page.locator('.manual-edit-modal')).toContainText('Parameters');
   await expect(page.locator('.manual-edit-modal')).not.toContainText('PAGE');
@@ -88,7 +88,7 @@ test('[P0] manual edit inspector previews and persists page and selected element
     'font-size: 48px',
     'color:',
   ]);
-  await expectFileSourceExcludes(page, projectId, 'manual-edit.html', ['data-od-edit-selected']);
+  await expectFileSourceExcludes(page, projectId, 'manual-edit.html', ['data-sw-edit-selected']);
   await expect(page.locator('.manual-edit-error')).toHaveCount(0);
 
   await page.getByTestId('manual-edit-mode-toggle').click();
@@ -136,7 +136,7 @@ test('[P0] manual edit mode preserves the current page in a multi-page mobile ap
 
   await page.getByTestId('manual-edit-mode-toggle').click();
   await expect(page.getByTestId('manual-edit-mode-toggle')).toHaveAttribute('aria-pressed', 'false');
-  await expect(preview.locator('html[data-od-edit-mode]')).toHaveCount(0);
+  await expect(preview.locator('html[data-sw-edit-mode]')).toHaveCount(0);
   await expect(preview.getByTestId('mobile-page-profile')).toBeVisible();
   await preview.getByRole('button', { name: 'Home' }).click();
   await expect(preview.getByTestId('mobile-page-home')).toBeVisible();
@@ -201,8 +201,8 @@ test('[P0] manual edit mode preserves a runtime-rendered mobile app page', async
   await expect(preview.getByRole('heading', { name: 'Today page' })).toHaveCount(0);
   await expect(preview.getByTestId('mobile-page-today')).toHaveCount(0);
   await preview.locator('[data-od-id="profile-screen"]').hover();
-  await expect(preview.locator('[data-od-edit-guides-layer]')).toHaveCount(1);
-  await expect(preview.locator('[data-od-edit-guides-layer] > *')).not.toHaveCount(0);
+  await expect(preview.locator('[data-sw-edit-guides-layer]')).toHaveCount(1);
+  await expect(preview.locator('[data-sw-edit-guides-layer] > *')).not.toHaveCount(0);
   await selectPreviewElementThroughBridge(
     page,
     preview,
@@ -212,7 +212,7 @@ test('[P0] manual edit mode preserves a runtime-rendered mobile app page', async
 
   await page.getByTestId('manual-edit-mode-toggle').click();
   await expect(page.getByTestId('manual-edit-mode-toggle')).toHaveAttribute('aria-pressed', 'false');
-  await expect(preview.locator('html[data-od-edit-mode]')).toHaveCount(0);
+  await expect(preview.locator('html[data-sw-edit-mode]')).toHaveCount(0);
   await preview.getByRole('button', { name: 'Today' }).click();
   await expect(preview.getByTestId('mobile-page-today')).toBeVisible();
   await expect(preview.getByTestId('mobile-page-profile')).toHaveCount(0);
@@ -222,7 +222,7 @@ test('[P0] manual edit mode preserves a runtime-rendered mobile app page', async
   await expect(preview.getByTestId('mobile-page-today')).toBeVisible();
   await expect(preview.getByTestId('mobile-page-profile')).toHaveCount(0);
   await preview.locator('[data-od-id="today-screen"]').hover();
-  await expect(preview.locator('[data-od-edit-guides-layer] > *')).not.toHaveCount(0);
+  await expect(preview.locator('[data-sw-edit-guides-layer] > *')).not.toHaveCount(0);
 });
 
 test('[P0] srcDoc page navigation keeps manual edit hover guides across files and re-entry', async ({ page }) => {
@@ -248,11 +248,11 @@ test('[P0] srcDoc page navigation keeps manual edit hover guides across files an
   await page.getByTestId('manual-edit-mode-toggle').click();
   await expect(page.getByTestId('manual-edit-mode-toggle')).toHaveAttribute('aria-pressed', 'true');
   await preview.locator('[data-od-id="today-screen"]').hover();
-  await expect(preview.locator('[data-od-edit-guides-layer] > *')).not.toHaveCount(0);
+  await expect(preview.locator('[data-sw-edit-guides-layer] > *')).not.toHaveCount(0);
 
   await page.getByTestId('manual-edit-mode-toggle').click();
   await expect(page.getByTestId('manual-edit-mode-toggle')).toHaveAttribute('aria-pressed', 'false');
-  await expect(preview.locator('html[data-od-edit-mode]')).toHaveCount(0);
+  await expect(preview.locator('html[data-sw-edit-mode]')).toHaveCount(0);
   await preview.getByRole('link', { name: 'Profile' }).click();
 
   await expect(tabBySuffix(page, 'profile.html')).toHaveAttribute('aria-selected', 'true');
@@ -260,24 +260,24 @@ test('[P0] srcDoc page navigation keeps manual edit hover guides across files an
   await page.getByTestId('manual-edit-mode-toggle').click();
   await expect(page.getByTestId('manual-edit-mode-toggle')).toHaveAttribute('aria-pressed', 'true');
   await preview.locator('[data-od-id="profile-screen"]').hover();
-  await expect(preview.locator('[data-od-edit-guides-layer] > *')).not.toHaveCount(0);
+  await expect(preview.locator('[data-sw-edit-guides-layer] > *')).not.toHaveCount(0);
 
   await page.getByTestId('manual-edit-mode-toggle').click();
-  await expect(preview.locator('html[data-od-edit-mode]')).toHaveCount(0);
+  await expect(preview.locator('html[data-sw-edit-mode]')).toHaveCount(0);
   await page.getByTestId('manual-edit-mode-toggle').click();
-  await expect(preview.locator('html[data-od-edit-mode]')).toHaveCount(1);
+  await expect(preview.locator('html[data-sw-edit-mode]')).toHaveCount(1);
   await preview.locator('[data-od-id="profile-screen"]').hover();
-  await expect(preview.locator('[data-od-edit-guides-layer] > *')).not.toHaveCount(0);
+  await expect(preview.locator('[data-sw-edit-guides-layer] > *')).not.toHaveCount(0);
 });
 
 async function waitForUrlPreviewRefreshToSettle(page: Page) {
   const frame = page.locator(
-    'iframe[data-od-render-mode="url-load"][data-od-active="true"]',
+    'iframe[data-sw-render-mode="url-load"][data-sw-active="true"]',
   );
   let observedSrc: string | null = null;
   let unchangedSince = Date.now();
   await expect.poll(async () => {
-    const currentSrc = await frame.getAttribute('data-od-loaded-src');
+    const currentSrc = await frame.getAttribute('data-sw-loaded-src');
     if (!currentSrc || currentSrc === 'about:blank') return 0;
     if (currentSrc !== observedSrc) {
       observedSrc = currentSrc;
@@ -296,7 +296,7 @@ async function selectPreviewElementThroughBridge(
   selector: string,
   section: string,
 ) {
-  await expect(frame.locator('html[data-od-edit-mode]')).toHaveCount(1);
+  await expect(frame.locator('html[data-sw-edit-mode]')).toHaveCount(1);
   // Entering manual-edit mode re-injects the edit bridge and re-emits its targets
   // for a beat (`setTimeout(postTargets, 0)` in edit-mode/bridge.ts), and the
   // preview iframe can still settle (srcDoc swap / target re-emit) at the moment we
@@ -307,7 +307,7 @@ async function selectPreviewElementThroughBridge(
   // failing the whole run.
   await expect(async () => {
     await frame.locator(selector).click({ timeout: 5_000 });
-    await expect(frame.locator(`${selector}[data-od-edit-selected="true"]`)).toHaveCount(1, { timeout: 2_000 });
+    await expect(frame.locator(`${selector}[data-sw-edit-selected="true"]`)).toHaveCount(1, { timeout: 2_000 });
   }).toPass({ timeout: 30_000 });
   await expect(page.locator('.manual-edit-modal')).toContainText(section);
 }
@@ -513,8 +513,8 @@ test('[P1] powered WebGL HTML artifacts open through the isolated preview route'
 
   const preview = artifactPreview(page);
   await expect(preview).toBeVisible();
-  await expect(preview).toHaveAttribute('data-od-powered', 'true');
-  await expect(preview).toHaveAttribute('data-od-render-mode', 'url-load');
+  await expect(preview).toHaveAttribute('data-sw-powered', 'true');
+  await expect(preview).toHaveAttribute('data-sw-render-mode', 'url-load');
   await expect(preview).toHaveAttribute('src', new RegExp(`/api/projects/${projectId}/powered/powered-webgl\\.html`));
 
   const frame = artifactPreviewFrame(page);
@@ -1272,14 +1272,14 @@ function manualEditHtml(): string {
   </head>
   <body style="font-family: Inter, system-ui, sans-serif; font-size: 16px; letter-spacing: 0.01em;">
     <main>
-      <section data-od-id="responsive-pair" data-od-label="Responsive pair" class="responsive-pair">
+      <section data-od-id="responsive-pair" data-sw-label="Responsive pair" class="responsive-pair">
         <div data-od-id="pair-a">Left panel</div>
         <div data-od-id="pair-b">Right panel</div>
       </section>
-      <section data-od-id="hero" data-od-label="Hero section" style="display:flex;gap:8px;align-items:center;">
-        <h1 data-od-id="hero-title" data-od-label="Hero title">Original Hero</h1>
-        <a data-od-id="cta" data-od-label="Primary CTA" href="/start">Start now</a>
-        <img data-od-id="hero-image" data-od-label="Hero image" src="/hero.png" alt="Hero" style="width:64px;height:64px;">
+      <section data-od-id="hero" data-sw-label="Hero section" style="display:flex;gap:8px;align-items:center;">
+        <h1 data-od-id="hero-title" data-sw-label="Hero title">Original Hero</h1>
+        <a data-od-id="cta" data-sw-label="Primary CTA" href="/start">Start now</a>
+        <img data-od-id="hero-image" data-sw-label="Hero image" src="/hero.png" alt="Hero" style="width:64px;height:64px;">
       </section>
     </main>
   </body>

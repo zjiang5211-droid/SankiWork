@@ -18,7 +18,7 @@ describe('mcp-config storage', () => {
   let dataDir: string;
 
   beforeEach(async () => {
-    dataDir = await mkdtemp(path.join(tmpdir(), 'od-mcpconfig-'));
+    dataDir = await mkdtemp(path.join(tmpdir(), 'sw-mcpconfig-'));
   });
 
   afterEach(async () => {
@@ -412,11 +412,11 @@ describe('buildOpenCodeMcpConfigContent', () => {
       {},
       {
         allowedDirectories: [
-          '/tmp/od-project',
+          '/tmp/sw-project',
           '',
           'relative/path',
-          '/tmp/od-skills',
-          '/tmp/od-project',
+          '/tmp/sw-skills',
+          '/tmp/sw-project',
         ],
       },
     );
@@ -431,12 +431,12 @@ describe('buildOpenCodeMcpConfigContent', () => {
 
     expect(parsed.mcp).toBeUndefined();
     expect(parsed.permission?.external_directory).toEqual({
-      '/tmp/od-project': 'allow',
-      '/tmp/od-project/*': 'allow',
-      '/tmp/od-project/**': 'allow',
-      '/tmp/od-skills': 'allow',
-      '/tmp/od-skills/*': 'allow',
-      '/tmp/od-skills/**': 'allow',
+      '/tmp/sw-project': 'allow',
+      '/tmp/sw-project/*': 'allow',
+      '/tmp/sw-project/**': 'allow',
+      '/tmp/sw-skills': 'allow',
+      '/tmp/sw-skills/*': 'allow',
+      '/tmp/sw-skills/**': 'allow',
     });
   });
 
@@ -452,7 +452,7 @@ describe('buildOpenCodeMcpConfigContent', () => {
         },
       ],
       {},
-      { allowedDirectories: ['/tmp/od-project'] },
+      { allowedDirectories: ['/tmp/sw-project'] },
     );
 
     expect(raw).not.toBeNull();
@@ -469,9 +469,9 @@ describe('buildOpenCodeMcpConfigContent', () => {
       enabled: true,
     });
     expect(parsed.permission?.external_directory).toMatchObject({
-      '/tmp/od-project': 'allow',
-      '/tmp/od-project/*': 'allow',
-      '/tmp/od-project/**': 'allow',
+      '/tmp/sw-project': 'allow',
+      '/tmp/sw-project/*': 'allow',
+      '/tmp/sw-project/**': 'allow',
     });
   });
 
@@ -488,7 +488,7 @@ describe('buildOpenCodeMcpConfigContent', () => {
       ],
       {},
       {
-        allowedDirectories: ['/tmp/od-project'],
+        allowedDirectories: ['/tmp/sw-project'],
         extraConfig: {
           provider: {
             'sankiwork-byok': {
@@ -514,7 +514,7 @@ describe('buildOpenCodeMcpConfigContent', () => {
       npm: '@ai-sdk/openai-compatible',
     });
     expect(parsed.mcp?.['basic-memory']).toBeTruthy();
-    expect(parsed.permission?.external_directory?.['/tmp/od-project']).toBe('allow');
+    expect(parsed.permission?.external_directory?.['/tmp/sw-project']).toBe('allow');
   });
 
   it('serialises a stdio server to OpenCode local schema (type=local, command=[cmd,...args])', () => {

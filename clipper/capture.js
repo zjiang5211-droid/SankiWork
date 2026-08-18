@@ -99,7 +99,7 @@
     // mutates the DOM after load and would never run there anyway).
     clone.querySelectorAll('script, noscript').forEach((n) => n.remove());
     // Never serialize our own injected on-page UI (toolbar / toast / pickers).
-    clone.querySelectorAll('[id^="od-clipper-"]').forEach((n) => n.remove());
+    clone.querySelectorAll('[id^="sw-clipper-"]').forEach((n) => n.remove());
     // Drop any existing <base>; we inject our own from the live baseURI.
     clone.querySelectorAll('base').forEach((n) => n.remove());
     return clone;
@@ -129,7 +129,7 @@
       }
       if (cssText != null) {
         const style = document.createElement('style');
-        style.setAttribute('data-od-inlined', '');
+        style.setAttribute('data-sw-inlined', '');
         const css = absolutizeCss(cssText, base);
         if (collectImageUrls) collectCssUrls(css, resources);
         style.textContent = css;
@@ -141,7 +141,7 @@
 
     // Inline <style> elements that the CSSOM exposes but that contain relative
     // url()s — absolutize them and (optionally) harvest their resources.
-    clone.querySelectorAll('style:not([data-od-inlined])').forEach((style) => {
+    clone.querySelectorAll('style:not([data-sw-inlined])').forEach((style) => {
       if (!style.textContent) return;
       const css = absolutizeCss(style.textContent, document.baseURI);
       if (collectImageUrls) collectCssUrls(css, resources);
@@ -356,7 +356,7 @@
         truncated = true;
         return null;
       }
-      if (el.id && el.id.startsWith('od-clipper-')) return null; // skip our own UI
+      if (el.id && el.id.startsWith('sw-clipper-')) return null; // skip our own UI
       const s = getComputedStyle(el);
       if (!isVisible(el, s)) return null;
       const rect = el.getBoundingClientRect();
@@ -543,7 +543,7 @@
   window.__odCaptureElement = function (opts) {
     const options = opts || {};
     const includeImages = options.includeImages !== false;
-    const marker = typeof options.marker === 'string' && options.marker ? options.marker : 'data-od-clip-target';
+    const marker = typeof options.marker === 'string' && options.marker ? options.marker : 'data-sw-clip-target';
     const resources = new Set();
     let html = '';
     try {

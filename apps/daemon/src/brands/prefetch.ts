@@ -225,7 +225,7 @@ export function isChallengePage(html: string): boolean {
  * keeps the first, so an original type="module" further right is inert).
  */
 function defuseScripts(html: string): string {
-  return html.replace(/<script\b/gi, '<script type="text/od-defused-script"');
+  return html.replace(/<script\b/gi, '<script type="text/sw-defused-script"');
 }
 
 export function previewablePrefetchHtml(html: string, cap = HTML_CAP): string {

@@ -46,7 +46,7 @@ type SkillCatalogEntry = {
 };
 
 function fresh(): string {
-  return mkdtempSync(path.join(tmpdir(), 'od-skills-'));
+  return mkdtempSync(path.join(tmpdir(), 'sw-skills-'));
 }
 
 function writeFakePlaywrightCli(file: string) {

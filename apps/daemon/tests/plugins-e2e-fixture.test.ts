@@ -37,7 +37,7 @@ let pluginsRoot: string;
 let db: Database.Database;
 
 beforeEach(async () => {
-  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-e2e-'));
+  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-e2e-'));
   pluginsRoot = path.join(tmpRoot, 'plugins');
   db = new Database(':memory:');
   db.exec(`

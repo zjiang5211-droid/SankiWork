@@ -45,7 +45,7 @@ async function withFakeAgent<T>(
   script: string,
   run: () => Promise<T>,
 ): Promise<T> {
-  const dir = await fsp.mkdtemp(join(tmpdir(), 'od-chat-route-bin-'));
+  const dir = await fsp.mkdtemp(join(tmpdir(), 'sw-chat-route-bin-'));
   const oldPath = process.env.PATH;
   try {
     if (process.platform === 'win32') {
@@ -138,7 +138,7 @@ describe('/api/chat', () => {
     dirName: string;
     localSkillPath?: string;
   }): Promise<string> {
-    const root = await fsp.mkdtemp(join(tmpdir(), 'od-plugin-fixture-'));
+    const root = await fsp.mkdtemp(join(tmpdir(), 'sw-plugin-fixture-'));
     tempDirs.push(root);
     const fixtureDir = resolve(root, args.dirName);
     const baseFixtureDir = resolve(
@@ -215,7 +215,7 @@ describe('/api/chat', () => {
 
   it('does not reference an out-of-scope response while starting a run', async () => {
     process.env.PATH = '';
-    const emptyAgentHome = mkdtempSync(join(tmpdir(), 'od-empty-agent-home-'));
+    const emptyAgentHome = mkdtempSync(join(tmpdir(), 'sw-empty-agent-home-'));
     tempDirs.push(emptyAgentHome);
     process.env.SW_AGENT_HOME = emptyAgentHome;
 
@@ -383,7 +383,7 @@ process.exit(0);
     }
 
     const projectId = `proj-${randomUUID()}`;
-    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'od-opencode-config-'));
+    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'sw-opencode-config-'));
     tempDirs.push(markerDir);
     const envFile = join(markerDir, 'opencode-config-content.json');
     const cwdFile = join(markerDir, 'cwd.txt');
@@ -454,7 +454,7 @@ process.stdin.on('end', () => {
     }
 
     const projectId = `proj-${randomUUID()}`;
-    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'od-byok-opencode-config-'));
+    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'sw-byok-opencode-config-'));
     tempDirs.push(markerDir);
     const envFile = join(markerDir, 'opencode-config-content.json');
     const keyFile = join(markerDir, 'byok-key.txt');
@@ -547,7 +547,7 @@ process.stdin.on('end', () => {
     }
 
     const projectId = `proj-${randomUUID()}`;
-    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'od-byok-opencode-keyless-'));
+    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'sw-byok-opencode-keyless-'));
     tempDirs.push(markerDir);
     const envFile = join(markerDir, 'opencode-config-content.json');
     const keyFile = join(markerDir, 'byok-key.txt');
@@ -635,7 +635,7 @@ process.stdin.on('end', () => {
     }
 
     const projectId = `proj-${randomUUID()}`;
-    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'od-byok-opencode-isolation-'));
+    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'sw-byok-opencode-isolation-'));
     tempDirs.push(markerDir);
     const envFile = join(markerDir, 'opencode-config-content.json');
     const keyFile = join(markerDir, 'byok-key.txt');
@@ -693,7 +693,7 @@ process.stdin.on('end', () => {
     const inheritedPassword = process.env.OPENCODE_SERVER_PASSWORD;
     process.env.OPENCODE_SERVER_PASSWORD = 'test-parent-server-password';
 
-    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'od-opencode-env-'));
+    const markerDir = await fsp.mkdtemp(join(tmpdir(), 'sw-opencode-env-'));
     tempDirs.push(markerDir);
     const envFile = join(markerDir, 'opencode-server-password.txt');
 
@@ -912,7 +912,7 @@ process.exit(1);
     // longer blocks on a synchronous `model list` retry loop.
     const previousRuntimeKey = process.env.VELA_RUNTIME_KEY;
     const previousLinkUrl = process.env.VELA_LINK_URL;
-    const stateFile = join(tmpdir(), `od-amr-model-retry-${randomUUID()}.json`);
+    const stateFile = join(tmpdir(), `sw-amr-model-retry-${randomUUID()}.json`);
     try {
       // Unique key so the shared model cache key is unique per test run.
       process.env.VELA_RUNTIME_KEY = `fake-runtime-key-${randomUUID()}`;
@@ -1075,7 +1075,7 @@ child.on('exit', (code, signal) => {
     if (!process.env.SW_DATA_DIR) {
       throw new Error('SW_DATA_DIR is required for service tier settings tests');
     }
-    const argsPath = join(tmpdir(), `od-codex-args-${randomUUID()}.json`);
+    const argsPath = join(tmpdir(), `sw-codex-args-${randomUUID()}.json`);
     const previousConfig = await readAppConfig(process.env.SW_DATA_DIR);
     try {
       await writeAppConfig(process.env.SW_DATA_DIR, {
@@ -1130,7 +1130,7 @@ process.exit(0);
     if (!process.env.SW_DATA_DIR) {
       throw new Error('SW_DATA_DIR is required for service tier settings tests');
     }
-    const argsPath = join(tmpdir(), `od-codex-args-${randomUUID()}.json`);
+    const argsPath = join(tmpdir(), `sw-codex-args-${randomUUID()}.json`);
     const previousConfig = await readAppConfig(process.env.SW_DATA_DIR);
     try {
       await writeAppConfig(process.env.SW_DATA_DIR, { agentModels: null });
@@ -3122,7 +3122,7 @@ setInterval(() => {}, 1000);
   });
 
   it('marks submitted discovery form answers as the active turn before the transcript', async () => {
-    const captureDir = mkdtempSync(join(tmpdir(), 'od-form-answer-prompt-'));
+    const captureDir = mkdtempSync(join(tmpdir(), 'sw-form-answer-prompt-'));
     tempDirs.push(captureDir);
     const capturePath = join(captureDir, 'prompt.txt');
     const previousCapturePath = process.env.SW_CAPTURE_PROMPT_PATH;
@@ -3232,7 +3232,7 @@ process.stdin.on('end', () => {
     };
     const conversationId = conversation.id;
 
-    const captureDir = mkdtempSync(join(tmpdir(), 'od-intent-latch-'));
+    const captureDir = mkdtempSync(join(tmpdir(), 'sw-intent-latch-'));
     tempDirs.push(captureDir);
     const previousCapturePath = process.env.SW_CAPTURE_PROMPT_PATH;
     try {

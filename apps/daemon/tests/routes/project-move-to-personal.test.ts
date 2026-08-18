@@ -153,7 +153,7 @@ describe('project move to personal on an unbound (never-locally-shared) project'
   let db: ReturnType<typeof openDatabase>;
 
   beforeEach(async () => {
-    tempDir = await mkdtemp(path.join(tmpdir(), 'od-move-to-personal-'));
+    tempDir = await mkdtemp(path.join(tmpdir(), 'sw-move-to-personal-'));
     projectsRoot = path.join(tempDir, 'projects');
     brandsRoot = path.join(tempDir, 'brands');
     userDesignSystemsRoot = path.join(tempDir, 'user-design-systems');

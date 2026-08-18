@@ -146,7 +146,7 @@ describe('speaker notes HTML helpers', () => {
       },
     });
 
-    expect(html).toContain('id="od-presenter-data"');
+    expect(html).toContain('id="sw-presenter-data"');
     expect(html).not.toContain('Do not close </script>');
     expect(html).toContain('\\u003c/script>');
   });
@@ -174,7 +174,7 @@ describe('speaker notes HTML helpers', () => {
       },
     });
 
-    const match = /<script type="application\/json" id="od-presenter-data">([\s\S]*?)<\/script>/.exec(html);
+    const match = /<script type="application\/json" id="sw-presenter-data">([\s\S]*?)<\/script>/.exec(html);
     expect(match).not.toBeNull();
     const data = JSON.parse(match![1] ?? '{}') as { previewHtml?: string };
     expect(data.previewHtml).toContain('data-sw-presenter-frame-chrome');
@@ -211,7 +211,7 @@ describe('speaker notes HTML helpers', () => {
       },
     });
 
-    const match = /<script type="application\/json" id="od-presenter-data">([\s\S]*?)<\/script>/.exec(html);
+    const match = /<script type="application\/json" id="sw-presenter-data">([\s\S]*?)<\/script>/.exec(html);
     expect(match).not.toBeNull();
     const data = JSON.parse(match![1] ?? '{}') as { previewHtmlBySlide?: string[] };
     expect(data.previewHtmlBySlide).toHaveLength(2);

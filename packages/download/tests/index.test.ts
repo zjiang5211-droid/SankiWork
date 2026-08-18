@@ -37,7 +37,7 @@ afterEach(() => {
 });
 
 function tmpRoot(label: string): string {
-  const root = mkdtempSync(join(tmpdir(), `od-download-${label}-`));
+  const root = mkdtempSync(join(tmpdir(), `sw-download-${label}-`));
   roots.push(root);
   return root;
 }

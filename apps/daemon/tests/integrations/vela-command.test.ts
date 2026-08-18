@@ -184,7 +184,7 @@ describe('runVelaCommand', () => {
   });
 
   it('keeps the Settings-backed AMR binary authoritative over inherited VELA_BIN', async () => {
-    const dataDir = mkdtempSync(path.join(tmpdir(), 'od-vela-command-'));
+    const dataDir = mkdtempSync(path.join(tmpdir(), 'sw-vela-command-'));
     try {
       writeFileSync(
         path.join(dataDir, 'app-config.json'),

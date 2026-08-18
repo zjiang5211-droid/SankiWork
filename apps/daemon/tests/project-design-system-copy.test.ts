@@ -33,7 +33,7 @@ describe('project design-system copy route', () => {
   }, 30_000);
 
   it('duplicates a regular project into a design-system workspace with source context', async () => {
-    dataDir = await mkdtemp(join(tmpdir(), 'od-project-ds-copy-'));
+    dataDir = await mkdtemp(join(tmpdir(), 'sw-project-ds-copy-'));
     started = await startIsolatedServer(dataDir);
 
     const sourceId = `source-${Date.now()}`;
@@ -108,7 +108,7 @@ describe('project design-system copy route', () => {
   }, 60_000);
 
   it('fails design-system workspace creation when a source file cannot be copied', async () => {
-    dataDir = await mkdtemp(join(tmpdir(), 'od-project-ds-copy-fail-'));
+    dataDir = await mkdtemp(join(tmpdir(), 'sw-project-ds-copy-fail-'));
     started = await startIsolatedServer(dataDir);
 
     const sourceId = `source-fail-${Date.now()}`;
@@ -155,7 +155,7 @@ describe('project design-system copy route', () => {
   }, 60_000);
 
   it('duplicates a project without replaying the source pending prompt', async () => {
-    dataDir = await mkdtemp(join(tmpdir(), 'od-project-copy-'));
+    dataDir = await mkdtemp(join(tmpdir(), 'sw-project-copy-'));
     started = await startIsolatedServer(dataDir);
 
     const sourceId = `source-copy-${Date.now()}`;
@@ -214,7 +214,7 @@ describe('project design-system copy route', () => {
   }, 60_000);
 
   it('rejects generic duplication for design-system-like projects', async () => {
-    dataDir = await mkdtemp(join(tmpdir(), 'od-project-copy-brand-'));
+    dataDir = await mkdtemp(join(tmpdir(), 'sw-project-copy-brand-'));
     started = await startIsolatedServer(dataDir);
 
     const sourceId = `source-brand-${Date.now()}`;

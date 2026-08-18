@@ -20,7 +20,7 @@ import {
 let skillsRoot: string;
 
 beforeAll(async () => {
-  skillsRoot = await mkdtemp(path.join(tmpdir(), 'od-skills-aliases-'));
+  skillsRoot = await mkdtemp(path.join(tmpdir(), 'sw-skills-aliases-'));
   // Mimic the on-disk shape the production registry expects: one
   // directory per skill, each with a SKILL.md whose frontmatter `name`
   // becomes the canonical id returned by listSkills().

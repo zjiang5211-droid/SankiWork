@@ -76,7 +76,7 @@ describe('plain-stream artifact persistence vs run.events ring-buffer truncation
   });
 
   it('persists an artifact the agent streamed early, even after >2000 later stdout events truncate the ring buffer', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-plain-trunc-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-plain-trunc-bin-'));
     // 2x maxEvents with a full event-loop turn per chunk (setTimeout) so the
     // daemon reads each chunk as its own pipe 'data' event => one run event
     // per chunk, truncating the early artifact tag out of the ring buffer.
@@ -153,7 +153,7 @@ describe('plain-stream artifact persistence vs run.events ring-buffer truncation
   // prefix is written as a few large chunks, so the event count stays tiny and
   // the artifact tag survives in the ring — the fallback must find it.
   it('persists an artifact that first appears after a >8 MiB prefix (accumulator cap must fall back to the ring)', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-plain-cap-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-plain-cap-bin-'));
     const fakeDeepseek = await writeBigPrefixThenArtifactDeepseek(binDir, 'deepseek-cap');
 
     delete process.env.POSTHOG_KEY;
@@ -210,7 +210,7 @@ describe('plain-stream artifact persistence vs run.events ring-buffer truncation
   // A and silently drop B. Both must land: when capped, the finalizer unions the
   // head and tail artifact sets.
   it('persists BOTH artifacts when they straddle the cap boundary (A -> >8 MiB -> B)', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-plain-split-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-plain-split-bin-'));
     const fakeDeepseek = await writeArtifactBigPrefixArtifactDeepseek(binDir, 'deepseek-split');
 
     delete process.env.POSTHOG_KEY;
@@ -258,7 +258,7 @@ describe('plain-stream artifact persistence vs run.events ring-buffer truncation
   // (identifier+content) would collapse them to one; the stream-offset stitch
   // treats them as two separate occurrences and keeps both.
   it('keeps both artifacts when a distinct pair shares the same identifier and body across the cap boundary', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-plain-dup-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-plain-dup-bin-'));
     const fakeDeepseek = await writeSameBodyArtifactsAcrossCapDeepseek(binDir, 'deepseek-dup');
 
     delete process.env.POSTHOG_KEY;
@@ -305,7 +305,7 @@ describe('plain-stream artifact persistence vs run.events ring-buffer truncation
   // isolates the >2000-event truncation as the only variable that flips the
   // behavioral assertion above red.
   it('control: persists the same artifact when the run stays under the ring-buffer cap', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-plain-trunc-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-plain-trunc-bin-'));
     const fakeDeepseek = await writeArtifactThenFloodDeepseek(
       binDir,
       'deepseek-control',

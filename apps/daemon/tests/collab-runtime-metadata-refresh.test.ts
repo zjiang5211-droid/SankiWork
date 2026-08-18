@@ -220,7 +220,7 @@ describe('shared-project metadata refresh', () => {
   });
 
   it('persists metadata repair separately from content sync state across restart', () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'od-metadata-refresh-'));
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-metadata-refresh-'));
     const dataDir = path.join(root, 'data');
     try {
       const now = Date.now();

@@ -19,7 +19,7 @@ export function renderDesignTokensJson(input: {
 }): string {
   return `${JSON.stringify({
     schemaVersion: 1,
-    format: 'od-design-tokens/v1',
+    format: 'sw-design-tokens/v1',
     contract: 'TOKEN_SCHEMA',
     generatedAt: input.report.generatedAt,
     source: {

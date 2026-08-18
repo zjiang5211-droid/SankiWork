@@ -76,7 +76,7 @@ const REGISTRY_VIEW = {
 };
 
 beforeEach(async () => {
-  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'od-dod-'));
+  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-dod-'));
   pluginsRoot = path.join(tmpRoot, 'plugins');
   projectCwd = path.join(tmpRoot, 'project-cwd');
   await mkdir(projectCwd, { recursive: true });

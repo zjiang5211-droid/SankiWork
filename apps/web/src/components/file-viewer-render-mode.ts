@@ -126,7 +126,7 @@ export function shouldUrlLoadHtmlPreview(d: UrlLoadDecision): boolean {
 
 export function hasUrlModeBridge(source: string | null | undefined): boolean {
   if (!source) return false;
-  return /<script\b[^>]*\bsrc\s*=\s*["'][^"']*\bod-direct-edit\.js\b[^"']*["'][^>]*>/i.test(source);
+  return /<script\b[^>]*\bsrc\s*=\s*["'][^"']*\bsw-direct-edit\.js\b[^"']*["'][^>]*>/i.test(source);
 }
 
 /**

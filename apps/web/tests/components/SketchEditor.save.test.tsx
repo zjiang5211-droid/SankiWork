@@ -180,20 +180,20 @@ describe('SketchEditor save', () => {
 
     const mainMenu = screen.getByTestId('main-menu-trigger');
     await waitFor(() => expect(mainMenu.getAttribute('data-tooltip')).toBe('sketch.tooltipMainMenu'));
-    expect(mainMenu.classList.contains('od-tooltip')).toBe(true);
+    expect(mainMenu.classList.contains('sw-tooltip')).toBe(true);
     expect(mainMenu.getAttribute('data-tooltip-placement')).toBe('bottom');
     expect(mainMenu.getAttribute('aria-label')).toBe('sketch.tooltipMainMenu');
     // Only the shared TooltipLayer drives the bubble now: no second
     // sketch-specific ::after tooltip and no redundant native `title` — that
     // pairing is exactly what rendered the duplicate white + black popups.
-    expect(mainMenu.getAttribute('data-od-sketch-tooltip')).toBeNull();
+    expect(mainMenu.getAttribute('data-sw-sketch-tooltip')).toBeNull();
     expect(mainMenu.getAttribute('title')).toBeNull();
 
     const selection = screen.getByTestId('toolbar-selection');
     const selectionLabel = selection.closest('label');
     expect(selectionLabel?.getAttribute('data-tooltip')).toBe('sketch.tooltipSelection');
-    expect(selectionLabel?.classList.contains('od-tooltip')).toBe(true);
-    expect(selectionLabel?.getAttribute('data-od-sketch-tooltip')).toBeNull();
+    expect(selectionLabel?.classList.contains('sw-tooltip')).toBe(true);
+    expect(selectionLabel?.getAttribute('data-sw-sketch-tooltip')).toBeNull();
     // The element's native Excalidraw title is left untouched so the shared
     // TooltipLayer can suppress it on hover; we no longer overwrite it.
     expect(selectionLabel?.getAttribute('title')).toBe('Selection — V or 1');
@@ -207,7 +207,7 @@ describe('SketchEditor save', () => {
     // part of the tooltip set.
     const library = screen.getByTestId('default-sidebar-trigger');
     expect(library.getAttribute('data-tooltip')).toBeNull();
-    expect(library.classList.contains('od-tooltip')).toBe(false);
+    expect(library.classList.contains('sw-tooltip')).toBe(false);
   });
 
   it('adds close controls and localizes Excalidraw portal dialogs', async () => {
@@ -228,7 +228,7 @@ describe('SketchEditor save', () => {
     document.body.appendChild(portal);
 
     const close = await waitFor(() => {
-      const button = portal.querySelector<HTMLButtonElement>('.od-sketch-dialog-close');
+      const button = portal.querySelector<HTMLButtonElement>('.sw-sketch-dialog-close');
       expect(button).toBeTruthy();
       return button!;
     });
@@ -239,7 +239,7 @@ describe('SketchEditor save', () => {
     expect(portal.querySelector('button[aria-label="生成"]')).toBeTruthy();
     expect(portal.querySelector('textarea')?.getAttribute('placeholder')).toBe('在这里输入 Mermaid 图表定义...');
     expect(close.getAttribute('aria-label')).toBe('关闭');
-    expect(portal.classList.contains('od-sketch-help-modal')).toBe(true);
+    expect(portal.classList.contains('sw-sketch-help-modal')).toBe(true);
 
     fireEvent.click(close);
     expect(mockData.updateScene).toHaveBeenCalledWith({ appState: { openDialog: null } });
@@ -275,7 +275,7 @@ describe('SketchEditor save', () => {
     insert.addEventListener('click', onInsert);
     document.body.appendChild(portal);
 
-    await waitFor(() => expect(portal.classList.contains('od-sketch-modal')).toBe(true));
+    await waitFor(() => expect(portal.classList.contains('sw-sketch-modal')).toBe(true));
     expect(insert.querySelector('kbd')).toBeNull();
     expect(portal.querySelector('.ttd-dialog-submit-shortcut')).toBeNull();
     expect(portal.querySelector('.ttd-dialog-submit-shortcut__key')).toBeNull();
@@ -375,8 +375,8 @@ describe('SketchEditor save', () => {
     ]);
     expect(menu.querySelector('[data-testid="addToLibrary"]')).toBeNull();
     expect(menu.querySelector('hr')).toBeNull();
-    expect(menu.classList.contains('od-sketch-context-menu')).toBe(true);
-    expect(popover.classList.contains('od-sketch-context-popover')).toBe(true);
+    expect(menu.classList.contains('sw-sketch-context-menu')).toBe(true);
+    expect(popover.classList.contains('sw-sketch-context-popover')).toBe(true);
     expect(popover.style.left).toBe('92px');
   });
 
@@ -447,7 +447,7 @@ describe('SketchEditor save', () => {
 
     await waitFor(() => expect(screen.getByText('sketch.tooltipEmbeddable')).toBeTruthy());
     expect(screen.queryByText(/GitHub|白名单/)).toBeNull();
-    expect(document.querySelector('.Toast')?.getAttribute('data-od-embed-toast-rewritten')).toBe('true');
+    expect(document.querySelector('.Toast')?.getAttribute('data-sw-embed-toast-rewritten')).toBe('true');
   });
 
   it('strips Excalidraw runtime app state before passing initial data back to Excalidraw', () => {
@@ -615,7 +615,7 @@ describe('SketchEditor save', () => {
     await act(async () => {
       fireEvent.click(saveButton());
     });
-    expect(document.querySelector('.od-toast')?.textContent).toContain('sketch.saved');
+    expect(document.querySelector('.sw-toast')?.textContent).toContain('sketch.saved');
   });
 
   it('shows a clickable toast after exporting an image', async () => {
@@ -633,8 +633,8 @@ describe('SketchEditor save', () => {
 
     await waitFor(() => expect(onExportImage).toHaveBeenCalledTimes(1));
     expect(onExportImage.mock.calls[0]?.[1]).toBe('test.png');
-    expect(document.querySelector('.od-toast')?.textContent).toContain('fileViewer.exportImageSaved');
-    expect(document.querySelector('.od-toast')?.textContent).toContain('exports/test.png');
+    expect(document.querySelector('.sw-toast')?.textContent).toContain('fileViewer.exportImageSaved');
+    expect(document.querySelector('.sw-toast')?.textContent).toContain('exports/test.png');
 
     fireEvent.click(screen.getByRole('button', { name: 'workspace.openFile' }));
     expect(onOpenExportedImage).toHaveBeenCalledWith('exports/test.png');

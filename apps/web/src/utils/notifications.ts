@@ -189,7 +189,7 @@ export type CompletionNotificationResult =
 function notificationOptionsFor(
   opts: CompletionNotificationOpts,
 ): NotificationOptionsWithBrowserExtensions {
-  const tag = `od-task-${opts.status}`;
+  const tag = `sw-task-${opts.status}`;
   return {
     body: opts.body,
     tag,

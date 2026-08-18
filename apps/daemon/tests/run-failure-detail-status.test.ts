@@ -52,7 +52,7 @@ describe('run-status failure classification', () => {
   });
 
   it('surfaces failureCategory/failureDetail on a hard-quota failure', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-failure-detail-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-failure-detail-bin-'));
     const fakeClaude = await writeHardQuotaClaude(binDir, 'claude-hard-quota');
 
     delete process.env.POSTHOG_KEY;

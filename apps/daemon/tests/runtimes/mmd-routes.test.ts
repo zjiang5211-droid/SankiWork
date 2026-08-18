@@ -43,7 +43,7 @@ test('mmd route parser reads route keys without exposing provider secrets', () =
 });
 
 test('mmd launch env resolves only the selected route secret', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-mmd-routes-env-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-mmd-routes-env-'));
   try {
     const routesFile = join(dir, 'model-routes.json');
     writeFileSync(
@@ -111,7 +111,7 @@ test('mmd launch env ignores unsafe model ids and incomplete routes', () => {
 });
 
 test('mmd route loader uses HOME default path and keeps Claude fallback models', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-mmd-routes-home-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-mmd-routes-home-'));
   try {
     const routesDir = join(dir, '.config', 'mms');
     const routesFile = join(routesDir, 'model-routes.json');
@@ -160,7 +160,7 @@ test('mmd route loader uses HOME default path and keeps Claude fallback models',
 });
 
 test('mmd route loader supports explicit file override and safe fallback on bad files', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-mmd-routes-override-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-mmd-routes-override-'));
   try {
     const routesFile = join(dir, 'model-routes.json');
     writeFileSync(
@@ -210,7 +210,7 @@ test('mmd route loader supports explicit file override and safe fallback on bad 
 });
 
 test('mmd launch env expands tilde in explicit file overrides', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-mmd-routes-tilde-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-mmd-routes-tilde-'));
   try {
     const routesDir = join(dir, '.config', 'mms');
     const routesFile = join(routesDir, 'model-routes.json');
@@ -245,7 +245,7 @@ test('mmd launch env expands tilde in explicit file overrides', async () => {
 });
 
 test('claude runtime fetchModels surfaces mmd route models to the picker', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'od-claude-mmd-models-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-claude-mmd-models-'));
   try {
     const routesFile = join(dir, 'model-routes.json');
     writeFileSync(

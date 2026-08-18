@@ -40,7 +40,7 @@ function fakeConfig(root: string, appVersion = "1.2.3-beta.4"): PackagedConfig {
 
 describe("resolvePackagedLauncherRuntime", () => {
   it("initializes launcher runtime state without replacing the current installed package", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-packaged-launcher-runtime-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-packaged-launcher-runtime-"));
     try {
       const config = fakeConfig(root);
       const paths = resolvePackagedNamespacePaths(config);
@@ -73,7 +73,7 @@ describe("resolvePackagedLauncherRuntime", () => {
   });
 
   it("uses the active launcher payload when runtime state and payload manifest are valid", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-packaged-launcher-payload-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-packaged-launcher-payload-"));
     try {
       const config = fakeConfig(root, "1.2.3-beta.4");
       const paths = resolvePackagedNamespacePaths(config);
@@ -225,7 +225,7 @@ describe("resolvePackagedLauncherRuntime", () => {
     // refreshed it, so after an update that moved the launcher executable
     // (0.17.0 Local\Programs\... → 0.18.0 launcher payload), the stale path
     // kept flowing into SW_MCP_BOOTSTRAP_COMMAND and /api/mcp/install-info.
-    const root = await mkdtemp(join(tmpdir(), "od-packaged-launcher-install-refresh-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-packaged-launcher-install-refresh-"));
     try {
       const config = fakeConfig(root, "1.2.3-beta.4");
       const paths = resolvePackagedNamespacePaths(config);
@@ -320,7 +320,7 @@ describe("resolvePackagedLauncherRuntime", () => {
   });
 
   it("refreshes a confirmed handoff with the current last-successful payload before advancing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-packaged-launcher-handoff-refresh-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-packaged-launcher-handoff-refresh-"));
     try {
       const config = fakeConfig(root);
       const paths = resolvePackagedNamespacePaths(config);
@@ -413,7 +413,7 @@ describe("resolvePackagedLauncherRuntime", () => {
   });
 
   it("uses the Windows payload executable as the Electron-as-Node command when payload Node is absent", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-packaged-launcher-win-payload-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-packaged-launcher-win-payload-"));
     try {
       const config = fakeConfig(root, "1.2.3-beta.4");
       const paths = resolvePackagedNamespacePaths(config);
@@ -491,7 +491,7 @@ describe("resolvePackagedLauncherRuntime", () => {
   });
 
   it("falls back to lastSuccessful when the active payload attempt was not confirmed", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-packaged-launcher-fallback-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-packaged-launcher-fallback-"));
     try {
       const config = fakeConfig(root, "1.2.3-beta.4");
       const paths = resolvePackagedNamespacePaths(config);
@@ -533,7 +533,7 @@ describe("resolvePackagedLauncherRuntime", () => {
   });
 
   it("lets a newer installed package supersede stale persisted payload runtime state before target selection", async () => {
-    const root = await mkdtemp(join(tmpdir(), "od-packaged-launcher-installed-newer-"));
+    const root = await mkdtemp(join(tmpdir(), "sw-packaged-launcher-installed-newer-"));
     try {
       const config = fakeConfig(root, "1.2.3-beta.6");
       const paths = resolvePackagedNamespacePaths(config);

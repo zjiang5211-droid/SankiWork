@@ -101,16 +101,16 @@
 
 /* ----- Toast (#451) ---------------------------------------------------- */
 /* Single transient bottom-center toast for project-scoped actions. */
-.od-toast {
+.sw-toast {
   position: fixed;
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
   max-width: 480px;
-  /* Right padding must clear the absolutely-positioned .od-toast-close
+  /* Right padding must clear the absolutely-positioned .sw-toast-close
      footprint (right: 8px, width: 26px → 34px inset from the edge), plus a
      breathing buffer equal to the toast's own left padding — the same ratio
-     the .od-toast-browser-snapshot variant below already uses (52px right
+     the .sw-toast-browser-snapshot variant below already uses (52px right
      padding = 34px close-button footprint + 18px left padding). Without
      this, the toast's shrink-to-fit width sizes to content + 14px padding
      on every side, so the message text's right edge always lands inside the
@@ -140,10 +140,10 @@
   overflow: hidden;
   pointer-events: none;
 }
-.workspace-toast-anchor .od-toast {
+.workspace-toast-anchor .sw-toast {
   position: absolute;
 }
-.od-toast.od-toast-browser-snapshot {
+.sw-toast.sw-toast-browser-snapshot {
   bottom: 34px;
   width: min(460px, calc(100vw - 48px));
   max-width: calc(100vw - 48px);
@@ -155,20 +155,20 @@
     0 18px 52px rgba(15, 23, 42, 0.18),
     0 0 0 1px rgba(255, 255, 255, 0.58);
 }
-.workspace-toast-anchor .od-toast.od-toast-browser-snapshot {
+.workspace-toast-anchor .sw-toast.sw-toast-browser-snapshot {
   width: min(460px, calc(100% - 48px));
   max-width: calc(100% - 48px);
 }
-.od-toast.placement-top {
+.sw-toast.placement-top {
   top: 64px;
   bottom: auto;
   z-index: 1800;
 }
 /* Toasts that stack extra blocks (details / code / browser snapshot) can't
    wear the capsule radius — their tall rectangular content would clip. */
-.od-toast:has(.od-toast-details),
-.od-toast:has(.od-toast-code),
-.od-toast:has(.od-toast-browser-snapshot) {
+.sw-toast:has(.sw-toast-details),
+.sw-toast:has(.sw-toast-code),
+.sw-toast:has(.sw-toast-browser-snapshot) {
   border-radius: var(--radius, 12px);
 }
 .project-actions-toast-anchor {
@@ -183,7 +183,7 @@
 .chat-log-wrap.has-chat-log-tray {
   flex-direction: column;
 }
-.project-actions-toast-anchor .od-toast {
+.project-actions-toast-anchor .sw-toast {
   position: static;
   inset: auto;
   width: 100%;
@@ -192,12 +192,12 @@
   animation: none;
   pointer-events: auto;
 }
-.project-actions-toast-anchor .od-toast.placement-top {
+.project-actions-toast-anchor .sw-toast.placement-top {
   top: auto;
   bottom: auto;
   z-index: 1000;
 }
-.project-actions-toast-anchor .od-toast.leaving {
+.project-actions-toast-anchor .sw-toast.leaving {
   animation: none;
 }
 /* Workspace-owned toasts (Download Page snapshot progress/result, tab
@@ -213,7 +213,7 @@
   z-index: 60;
   pointer-events: none;
 }
-.workspace-toast-anchor .od-toast {
+.workspace-toast-anchor .sw-toast {
   /* Relative (not static) so the absolutely-positioned close/action controls
      keep the toast itself as their containing block. */
   position: relative;
@@ -226,26 +226,26 @@
    near the pane's TOP edge as a pill, success wearing the light-green /
    medium-green palette. Browser-snapshot toasts keep the bottom anchor —
    their card carries actions and previews sized for the bottom edge. */
-.workspace-toast-anchor:not(:has(.od-toast-browser-snapshot)) {
+.workspace-toast-anchor:not(:has(.sw-toast-browser-snapshot)) {
   inset: 24px 24px auto;
 }
-.workspace-toast-anchor:not(:has(.od-toast-browser-snapshot)) .od-toast {
+.workspace-toast-anchor:not(:has(.sw-toast-browser-snapshot)) .sw-toast {
   border-radius: var(--radius-pill, 999px);
 }
-.workspace-toast-anchor:not(:has(.od-toast-browser-snapshot)) .od-toast.tone-success {
+.workspace-toast-anchor:not(:has(.sw-toast-browser-snapshot)) .sw-toast.tone-success {
   border: 1px solid color-mix(in srgb, var(--success, #2da44e) 30%, transparent);
   background: color-mix(in srgb, var(--success, #2da44e) 15%, var(--bg, #fff));
   color: var(--success, #2da44e);
 }
-.workspace-toast-anchor .od-toast.od-toast-browser-snapshot {
+.workspace-toast-anchor .sw-toast.sw-toast-browser-snapshot {
   width: min(460px, 100%);
   max-width: 100%;
 }
-.workspace-toast-anchor .od-toast.leaving {
+.workspace-toast-anchor .sw-toast.leaving {
   animation: none;
 }
 /* Design systems tab (home/entry surface, not the project viewer) reuses the
-   same fix: a bare `.od-toast` centers on the full 100vw, so once the nav
+   same fix: a bare `.sw-toast` centers on the full 100vw, so once the nav
    rail's width shifts the entry content column right, the toast drifts onto
    the design-system preview's first card instead of floating over the
    content area (recvqaZAbIdfz1). `.entry-main--scroll` (entry-layout.css) is
@@ -262,7 +262,7 @@
   z-index: 60;
   pointer-events: none;
 }
-.design-systems-toast-anchor .od-toast {
+.design-systems-toast-anchor .sw-toast {
   position: relative;
   inset: auto;
   transform: none;
@@ -271,26 +271,26 @@
   border-radius: var(--radius-pill, 999px);
   /* Light-green status pill with medium-green text (product ask): this
      page's share/sync feedback wears the success palette even while
-     loading, instead of the base .od-toast dark scrim + white text. */
+     loading, instead of the base .sw-toast dark scrim + white text. */
   border: 1px solid color-mix(in srgb, var(--success, #2da44e) 30%, transparent);
   background: color-mix(in srgb, var(--success, #2da44e) 15%, var(--bg, #fff));
   color: var(--success, #2da44e);
 }
 /* Keep every glyph on the green pill green: out-specify the dark-toast close
-   disc (.od-toast:not(...):not(...) .od-toast-close) and the tone-loading
+   disc (.sw-toast:not(...):not(...) .sw-toast-close) and the tone-loading
    muted spinner, both of which assume the base dark scrim. */
-.design-systems-toast-anchor .od-toast.tone-loading .od-toast-icon {
+.design-systems-toast-anchor .sw-toast.tone-loading .sw-toast-icon {
   color: inherit;
 }
-.design-systems-toast-anchor .od-toast:not(.tone-success):not(.tone-error) .od-toast-close {
+.design-systems-toast-anchor .sw-toast:not(.tone-success):not(.tone-error) .sw-toast-close {
   border-color: color-mix(in srgb, var(--success, #2da44e) 26%, transparent);
   background: color-mix(in srgb, var(--success, #2da44e) 10%, transparent);
   color: inherit;
 }
-.design-systems-toast-anchor .od-toast.leaving {
+.design-systems-toast-anchor .sw-toast.leaving {
   animation: none;
 }
-.od-toast.tone-success {
+.sw-toast.tone-success {
   border: 1px solid color-mix(in srgb, var(--success, #2da44e) 42%, var(--border));
   background: color-mix(in srgb, var(--success, #2da44e) 14%, var(--bg));
   color: var(--text);
@@ -298,7 +298,7 @@
     0 4px 14px rgba(0, 0, 0, 0.14),
     0 0 0 1px color-mix(in srgb, var(--success, #2da44e) 12%, transparent);
 }
-.od-toast.tone-error {
+.sw-toast.tone-error {
   border: 1px solid color-mix(in srgb, var(--danger, #cf222e) 42%, var(--border));
   background: color-mix(in srgb, var(--danger, #cf222e) 13%, var(--bg));
   color: var(--text);
@@ -306,36 +306,36 @@
     0 4px 14px rgba(0, 0, 0, 0.14),
     0 0 0 1px color-mix(in srgb, var(--danger, #cf222e) 12%, transparent);
 }
-.od-toast-body {
+.sw-toast-body {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.od-toast-icon {
+.sw-toast-icon {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
 }
-.od-toast.tone-success .od-toast-icon {
+.sw-toast.tone-success .sw-toast-icon {
   color: var(--success, #2da44e);
 }
-.od-toast.tone-error .od-toast-icon {
+.sw-toast.tone-error .sw-toast-icon {
   color: var(--danger, #cf222e);
 }
-.od-toast.tone-loading .od-toast-icon {
+.sw-toast.tone-loading .sw-toast-icon {
   color: var(--text-muted, #6e7781);
 }
 /* Entrance: gentle rise + fade (ease-out per the UI animation philosophy).
    Exit: the .leaving class plays a faster fade-out before onDismiss unmounts
    the toast, so confirmations like "copied to clipboard" don't blink away. */
-.od-toast {
-  animation: od-toast-in 200ms cubic-bezier(0.23, 1, 0.32, 1);
+.sw-toast {
+  animation: sw-toast-in 200ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.od-toast.leaving {
-  animation: od-toast-out 140ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+.sw-toast.leaving {
+  animation: sw-toast-out 140ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
-@keyframes od-toast-in {
+@keyframes sw-toast-in {
   from {
     opacity: 0;
     transform: translateX(-50%) translateY(8px);
@@ -345,7 +345,7 @@
     transform: translateX(-50%) translateY(0);
   }
 }
-@keyframes od-toast-out {
+@keyframes sw-toast-out {
   from {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -356,28 +356,28 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .od-toast,
-  .od-toast.leaving {
+  .sw-toast,
+  .sw-toast.leaving {
     animation: none;
   }
 }
-.od-toast-message {
+.sw-toast-message {
   font-weight: 500;
 }
-.od-toast.od-toast-browser-snapshot .od-toast-message {
+.sw-toast.sw-toast-browser-snapshot .sw-toast-message {
   font-size: 13.5px;
   font-weight: 650;
 }
-.od-toast.od-toast-browser-snapshot.tone-success .od-toast-icon {
+.sw-toast.sw-toast-browser-snapshot.tone-success .sw-toast-icon {
   display: none;
 }
-.od-toast-details {
+.sw-toast-details {
   margin-top: 4px;
   font-size: 12px;
   opacity: 0.85;
   font-weight: 500;
 }
-.od-toast-code {
+.sw-toast-code {
   margin: 8px 0 0;
   padding: 8px 10px;
   border-radius: var(--radius-sm, 4px);
@@ -391,7 +391,7 @@
   overflow: auto;
   user-select: text;
 }
-.od-toast-close {
+.sw-toast-close {
   position: absolute;
   top: 50%;
   right: 8px;
@@ -420,16 +420,16 @@
     border-color 140ms cubic-bezier(0.23, 1, 0.32, 1),
     opacity 140ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.od-toast:not(.tone-success):not(.tone-error) .od-toast-close {
+.sw-toast:not(.tone-success):not(.tone-error) .sw-toast-close {
   border-color: rgba(255, 255, 255, 0.24);
   background: rgba(255, 255, 255, 0.16);
   color: var(--bg, #fff);
 }
-.od-toast.od-toast-browser-snapshot .od-toast-close {
+.sw-toast.sw-toast-browser-snapshot .sw-toast-close {
   top: 8px;
   transform: none;
 }
-.od-toast-close svg {
+.sw-toast-close svg {
   /* flex-shrink:0 so the glyph can never be crushed to 0 width by the
      flex button even if the content box gets tight again. */
   flex: 0 0 auto;
@@ -437,16 +437,16 @@
   height: 13px;
   stroke-width: 2.4;
 }
-.od-toast-close:hover {
+.sw-toast-close:hover {
   border-color: transparent;
   background: color-mix(in srgb, currentColor 8%, transparent);
   opacity: 1;
 }
-.od-toast:not(.tone-success):not(.tone-error) .od-toast-close:hover {
+.sw-toast:not(.tone-success):not(.tone-error) .sw-toast-close:hover {
   border-color: rgba(255, 255, 255, 0.34);
   background: rgba(255, 255, 255, 0.24);
 }
-.od-toast-dismiss {
+.sw-toast-dismiss {
   margin-top: 8px;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -456,7 +456,7 @@
   border-radius: var(--radius-sm, 4px);
   cursor: pointer;
 }
-.od-toast-dismiss:hover {
+.sw-toast-dismiss:hover {
   background: rgba(255, 255, 255, 0.18);
 }
 
@@ -1391,8 +1391,8 @@
 /* Chromium SDF state: keep the tint for label legibility, add the refraction
    ring, and replace material.css's heavy 0 6px 18px shadow — wrong scale for
    a 32px pill. (routines.css imports after material.css; the attribute
-   selector also out-specifies the base .od-glass-refract rule.) */
-.workspace-shell .workspace-tabs-glide__pill[data-od-glass-sdf] {
+   selector also out-specifies the base .sw-glass-refract rule.) */
+.workspace-shell .workspace-tabs-glide__pill[data-sw-glass-sdf] {
   background: var(--workspace-glide-frost);
   -webkit-backdrop-filter: var(--flt) blur(12px) saturate(1.35);
   backdrop-filter: var(--flt) blur(12px) saturate(1.35);
@@ -1411,9 +1411,9 @@
   transform-origin: right center;
 }
 .workspace-shell .workspace-tabs-glide[data-dir] .workspace-tabs-glide__pill {
-  animation: od-glide-stretch 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  animation: sw-glide-stretch 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-@keyframes od-glide-stretch {
+@keyframes sw-glide-stretch {
   0% {
     transform: scale(1, 1);
   }
@@ -2590,7 +2590,7 @@
   color: #2f781d;
   box-shadow: none;
 }
-.composer-send:not(.stop) .od-icon {
+.composer-send:not(.stop) .sw-icon {
   position: relative;
   z-index: 1;
   color: currentColor;
@@ -4066,107 +4066,107 @@
 /* quick-switcher composer isolation — restored from feat/workspace-team (functional rules the demo redesign dropped) */
 /* QuickSwitcher owns the modal input while open. The fixed composer normally
    restores pointer-events on its child .composer, so suspend that child too. */
-body.od-quick-switcher-open .chat-composer-fixed-layer {
+body.sw-quick-switcher-open .chat-composer-fixed-layer {
   pointer-events: none;
   opacity: 0.58;
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer {
   pointer-events: none;
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell:hover,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell:focus-within,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer.drag-active .composer-shell {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell:hover,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell:focus-within,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer.drag-active .composer-shell {
   border-color: transparent;
   box-shadow: none;
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap:focus-within {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-wrap:focus-within {
   background: var(--bg-fill-tertiary);
   border-color: transparent;
   box-shadow: none;
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-editor [contenteditable='true'],
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-editor .composer-editable,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer textarea,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer input {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-editor [contenteditable='true'],
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-editor .composer-editable,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer textarea,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer input {
   color: var(--text-muted);
   caret-color: transparent;
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-input-placeholder {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-input-placeholder {
   color: color-mix(in srgb, var(--text-muted) 72%, transparent);
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-design-system-row,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-row {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-design-system-row,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-row {
   border-color: transparent;
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger:hover,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger.picked,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip:hover,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context--plugin,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context--workspace,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-order,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-preview-trigger,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-preview-trigger:hover,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-open,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-comment button,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-comment button:hover,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-active-file,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell .context-chip-strip__chip {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger:hover,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-picker--design-system .project-ds-picker-trigger.picked,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip:hover,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context--plugin,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context--workspace,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-order,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-preview-trigger,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-preview-trigger:hover,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-open,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-comment button,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-comment button:hover,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-active-file,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell .context-chip-strip__chip {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
   color: var(--text-muted);
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-name,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context-kind,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-comment .staged-name strong,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-comment .staged-name span {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-name,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context-kind,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-comment .staged-name strong,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-comment .staged-name span {
   color: var(--text-muted);
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context .staged-icon,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-context .staged-remove,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-icon,
-body.od-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-remove,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell .context-chip-strip__icon,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-shell .context-chip-strip__remove {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context .staged-icon,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-context .staged-remove,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-icon,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .staged-chip .staged-remove,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell .context-chip-strip__icon,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-shell .context-chip-strip__remove {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
   color: var(--text-muted);
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .icon-btn,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .icon-btn:hover,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-import,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-research,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger:hover,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger.is-open,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-agent-trigger,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-btn,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-send,
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-send:disabled,
-body.od-quick-switcher-open .chat-composer-fixed-layer .working-dir-pill-trigger {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .icon-btn,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .icon-btn:hover,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-import,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-research,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger:hover,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .session-mode-toggle__trigger.is-open,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-agent-trigger,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-row .avatar-btn,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-send,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-send:disabled,
+body.sw-quick-switcher-open .chat-composer-fixed-layer .working-dir-pill-trigger {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
   color: var(--text-muted);
 }
 
-body.od-quick-switcher-open .chat-composer-fixed-layer .composer-send:disabled {
+body.sw-quick-switcher-open .chat-composer-fixed-layer .composer-send:disabled {
   color: var(--text-faint);
 }
 

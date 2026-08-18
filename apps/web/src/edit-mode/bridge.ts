@@ -1,14 +1,14 @@
 export const MANUAL_EDIT_DISCOVERY_SELECTOR =
   'main, nav, section, article, aside, header, footer, div, h1, h2, h3, h4, h5, h6, p, a, button, img, ul, ol, li, dl, dt, dd, table, thead, tbody, tfoot, tr, td, th, caption, blockquote, figure, figcaption, label, summary, pre, code, strong, em, b, i, small, mark, span';
-export const MANUAL_EDIT_SOURCE_PATH_ATTR = 'data-od-source-path';
+export const MANUAL_EDIT_SOURCE_PATH_ATTR = 'data-sw-source-path';
 export const MANUAL_EDIT_HOST_NODE_SELECTOR = [
-  '[data-od-sandbox-shim]',
-  '[data-od-deck-bridge]',
-  '[data-od-comment-bridge]',
-  '[data-od-edit-bridge]',
-  '[data-od-comment-bridge-style]',
-  '[data-od-edit-bridge-style]',
-  '[data-od-deck-fix]',
+  '[data-sw-sandbox-shim]',
+  '[data-sw-deck-bridge]',
+  '[data-sw-comment-bridge]',
+  '[data-sw-edit-bridge]',
+  '[data-sw-comment-bridge-style]',
+  '[data-sw-edit-bridge-style]',
+  '[data-sw-deck-fix]',
 ].join(',');
 
 export type ManualEditKind = 'text' | 'link' | 'image' | 'container';
@@ -33,8 +33,8 @@ export function isManualEditHostNode(el: Element): boolean {
 export function manualEditStableIdForElement(el: Element): string {
   const explicit = el.getAttribute('data-od-id');
   if (explicit) return explicit;
-  const generated = el.getAttribute(MANUAL_EDIT_SOURCE_PATH_ATTR) || el.getAttribute('data-od-runtime-id') || manualEditDomPathForElement(el);
-  if (generated) el.setAttribute('data-od-runtime-id', generated);
+  const generated = el.getAttribute(MANUAL_EDIT_SOURCE_PATH_ATTR) || el.getAttribute('data-sw-runtime-id') || manualEditDomPathForElement(el);
+  if (generated) el.setAttribute('data-sw-runtime-id', generated);
   return generated || 'unknown';
 }
 
@@ -72,11 +72,11 @@ export function manualEditElementIsTextLeaf(el: Element): boolean {
 /**
  * Classify what a click on an element should do in manual edit mode. `text`
  * and `link` drop a text caret (and still expose styles); `container` and
- * `image` only select for styling. An explicit `data-od-edit` attribute always
+ * `image` only select for styling. An explicit `data-sw-edit` attribute always
  * wins so authored markup can opt a node in or out.
  */
 export function manualEditKindForElement(el: Element): ManualEditKind {
-  const explicit = el.getAttribute('data-od-edit');
+  const explicit = el.getAttribute('data-sw-edit');
   if (explicit) return explicit as ManualEditKind;
   const tag = el.tagName ? el.tagName.toLowerCase() : '';
   if (tag === 'a') return 'link';
@@ -86,7 +86,7 @@ export function manualEditKindForElement(el: Element): ManualEditKind {
 }
 
 export function buildManualEditKeyboardGuard(): string {
-  return `<script data-od-edit-keyboard-guard>(function(){
+  return `<script data-sw-edit-keyboard-guard>(function(){
   window.__odEditGuard = window.__odEditGuard || { editingEl: null };
   function shouldBlock(){
     var el = window.__odEditGuard && window.__odEditGuard.editingEl;
@@ -169,7 +169,7 @@ export function buildManualEditKeyboardGuard(): string {
 }
 
 export function buildManualEditBridge(enabled: boolean): string {
-  return `<script data-od-edit-bridge>(function(){
+  return `<script data-sw-edit-bridge>(function(){
   var enabled = ${JSON.stringify(enabled)};
   var discoverySelector = ${JSON.stringify(MANUAL_EDIT_DISCOVERY_SELECTOR)};
   var hostNodeSelector = ${JSON.stringify(MANUAL_EDIT_HOST_NODE_SELECTOR)};
@@ -193,8 +193,8 @@ export function buildManualEditBridge(enabled: boolean): string {
   function stableId(el){
     var explicit = el.getAttribute('data-od-id');
     if (explicit) return explicit;
-    var generated = el.getAttribute(sourcePathAttr) || el.getAttribute('data-od-runtime-id') || domPath(el);
-    if (generated) el.setAttribute('data-od-runtime-id', generated);
+    var generated = el.getAttribute(sourcePathAttr) || el.getAttribute('data-sw-runtime-id') || domPath(el);
+    if (generated) el.setAttribute('data-sw-runtime-id', generated);
     return generated || 'unknown';
   }
   function isSourceMappable(el){
@@ -204,14 +204,14 @@ export function buildManualEditBridge(enabled: boolean): string {
   function markBrandKitTarget(el, id, kind, label){
     if (!el || !el.setAttribute || isHostNode(el)) return;
     if (!el.hasAttribute('data-od-id')) el.setAttribute('data-od-id', id);
-    if (kind && !el.hasAttribute('data-od-edit')) el.setAttribute('data-od-edit', kind);
-    if (label && !el.hasAttribute('data-od-label')) el.setAttribute('data-od-label', label);
+    if (kind && !el.hasAttribute('data-sw-edit')) el.setAttribute('data-sw-edit', kind);
+    if (label && !el.hasAttribute('data-sw-label')) el.setAttribute('data-sw-label', label);
   }
   function markBrandKitOne(selector, id, kind, label){
     markBrandKitTarget(document.querySelector(selector), id, kind, label);
   }
   function annotateBrandKitRuntimeTargets(){
-    if (!document.getElementById('od-brand-payload')) return;
+    if (!document.getElementById('sw-brand-payload')) return;
     markBrandKitOne('.kit-head', 'brand-header', 'container', 'Brand header');
     markBrandKitOne('.kit-title', 'brand-name', 'text');
     markBrandKitOne('.kit-tagline', 'brand-tagline', 'text');
@@ -276,7 +276,7 @@ export function buildManualEditBridge(enabled: boolean): string {
     return el.children.length === 0;
   }
   function inferKind(el){
-    var explicit = el.getAttribute('data-od-edit');
+    var explicit = el.getAttribute('data-sw-edit');
     if (explicit) return explicit;
     var tag = el.tagName ? el.tagName.toLowerCase() : '';
     if (tag === 'a') return 'link';
@@ -285,7 +285,7 @@ export function buildManualEditBridge(enabled: boolean): string {
     return 'container';
   }
   function labelFor(el, id, kind){
-    var explicit = el.getAttribute('data-od-label');
+    var explicit = el.getAttribute('data-sw-label');
     if (explicit) return explicit;
     var tag = el.tagName ? el.tagName.toLowerCase() : 'element';
     var text = (el.textContent || '').replace(/\\s+/g, ' ').trim();
@@ -297,7 +297,7 @@ export function buildManualEditBridge(enabled: boolean): string {
     var attrs = {};
     for (var i = 0; i < el.attributes.length; i++) {
       var attr = el.attributes[i];
-      if (!attr || attr.name.indexOf('data-od-runtime') === 0 || attr.name === 'data-od-edit-selected') continue;
+      if (!attr || attr.name.indexOf('data-sw-runtime') === 0 || attr.name === 'data-sw-edit-selected') continue;
       attrs[attr.name] = attr.value;
     }
     return attrs;
@@ -477,7 +477,7 @@ export function buildManualEditBridge(enabled: boolean): string {
       alignmentGuides: alignmentGuidesFor(ownRect, parentRect),
       isLayoutContainer: isLayoutContainer(el),
       isHidden: hidden,
-      outerHtml: includeOuterHtml ? (el.outerHTML || '').replace(/\\sdata-od-runtime-id="[^"]*"/g, '').replace(/\\sdata-od-source-path="[^"]*"/g, '').replace(/\\sdata-od-id="path-[^"]*"/g, '').replace(/\\sdata-od-edit-selected="[^"]*"/g, '') : ''
+      outerHtml: includeOuterHtml ? (el.outerHTML || '').replace(/\\sdata-sw-runtime-id="[^"]*"/g, '').replace(/\\sdata-sw-source-path="[^"]*"/g, '').replace(/\\sdata-od-id="path-[^"]*"/g, '').replace(/\\sdata-sw-edit-selected="[^"]*"/g, '') : ''
     };
   }
   function allTargets(){
@@ -494,13 +494,13 @@ export function buildManualEditBridge(enabled: boolean): string {
   }
   function postTargets(){
     if (!enabled) return;
-    window.parent.postMessage({ type: 'od-edit-targets', targets: allTargets() }, '*');
+    window.parent.postMessage({ type: 'sw-edit-targets', targets: allTargets() }, '*');
   }
   var lastHoverId = null;
   var lastHoverEl = null;
   // Hover-guides memory: which element's guides were rendered last and when
-  // the hover was cleared. Survives od-edit-hover-reset so the host can ask
-  // for the guides back (od-edit-guides-restore) right before a capture —
+  // the hover was cleared. Survives sw-edit-hover-reset so the host can ask
+  // for the guides back (sw-edit-guides-restore) right before a capture —
   // reaching a toolbar button always clears the live hover first.
   var guidesMemoryEl = null;
   var guidesMemoryId = null;
@@ -540,16 +540,16 @@ export function buildManualEditBridge(enabled: boolean): string {
     lastHoverEl = null;
   }
   function ensureGuidesLayer(){
-    var layer = document.querySelector('[data-od-edit-guides-layer]');
+    var layer = document.querySelector('[data-sw-edit-guides-layer]');
     if (layer) return layer;
     layer = document.createElement('div');
-    layer.setAttribute('data-od-edit-guides-layer', 'true');
+    layer.setAttribute('data-sw-edit-guides-layer', 'true');
     layer.setAttribute('aria-hidden', 'true');
     document.body.appendChild(layer);
     return layer;
   }
   function clearGuidesLayer(){
-    var layer = document.querySelector('[data-od-edit-guides-layer]');
+    var layer = document.querySelector('[data-sw-edit-guides-layer]');
     if (layer) layer.replaceChildren();
   }
   function addGuideNode(layer, className, style, text){
@@ -562,7 +562,7 @@ export function buildManualEditBridge(enabled: boolean): string {
   function renderBox(layer, target, mode){
     if (!target || !target.rect) return;
     var rect = target.rect;
-    addGuideNode(layer, 'od-edit-guide-box od-edit-guide-box-' + mode, {
+    addGuideNode(layer, 'sw-edit-guide-box sw-edit-guide-box-' + mode, {
       left: rect.x + 'px',
       top: rect.y + 'px',
       width: rect.width + 'px',
@@ -584,7 +584,7 @@ export function buildManualEditBridge(enabled: boolean): string {
       [rect.x + rect.width, rect.y + rect.height]
     ];
     for (var i = 0; i < points.length; i++) {
-      addGuideNode(layer, 'od-edit-guide-handle', {
+      addGuideNode(layer, 'sw-edit-guide-handle', {
         left: Math.round(points[i][0]) + 'px',
         top: Math.round(points[i][1]) + 'px'
       });
@@ -655,23 +655,23 @@ export function buildManualEditBridge(enabled: boolean): string {
     }
     if (chosen.orientation === 'horizontal') {
       var hg = chosen.gap;
-      addGuideNode(layer, 'od-edit-guide-line od-edit-guide-line-h od-edit-guide-line-distance', {
+      addGuideNode(layer, 'sw-edit-guide-line sw-edit-guide-line-h sw-edit-guide-line-distance', {
         left: Math.min(hg.x1, hg.x2) + 'px',
         top: hg.y + 'px',
         width: Math.abs(hg.x2 - hg.x1) + 'px'
       });
-      addGuideNode(layer, 'od-edit-guide-measure', {
+      addGuideNode(layer, 'sw-edit-guide-measure', {
         left: Math.max(6, Math.min(window.innerWidth - 72, Math.min(hg.x1, hg.x2) + Math.abs(hg.x2 - hg.x1) / 2 - 18)) + 'px',
         top: Math.max(6, Math.min(window.innerHeight - 24, hg.y + 8)) + 'px'
       }, hg.value + 'px');
     } else {
       var vg = chosen.gap;
-      addGuideNode(layer, 'od-edit-guide-line od-edit-guide-line-v od-edit-guide-line-distance', {
+      addGuideNode(layer, 'sw-edit-guide-line sw-edit-guide-line-v sw-edit-guide-line-distance', {
         left: vg.x + 'px',
         top: Math.min(vg.y1, vg.y2) + 'px',
         height: Math.abs(vg.y2 - vg.y1) + 'px'
       });
-      addGuideNode(layer, 'od-edit-guide-measure', {
+      addGuideNode(layer, 'sw-edit-guide-measure', {
         left: Math.max(6, Math.min(window.innerWidth - 72, vg.x + 8)) + 'px',
         top: Math.max(6, Math.min(window.innerHeight - 24, Math.min(vg.y1, vg.y2) + Math.abs(vg.y2 - vg.y1) / 2 - 10)) + 'px'
       }, vg.value + 'px');
@@ -679,14 +679,14 @@ export function buildManualEditBridge(enabled: boolean): string {
   }
   function renderReferenceGuides(layer, rect){
     [rect.x, rect.x + rect.width].forEach(function(x){
-      addGuideNode(layer, 'od-edit-guide-line od-edit-guide-line-v od-edit-guide-line-reference', {
+      addGuideNode(layer, 'sw-edit-guide-line sw-edit-guide-line-v sw-edit-guide-line-reference', {
         left: x + 'px',
         top: '0px',
         height: window.innerHeight + 'px'
       });
     });
     [rect.y, rect.y + rect.height].forEach(function(y){
-      addGuideNode(layer, 'od-edit-guide-line od-edit-guide-line-h od-edit-guide-line-reference', {
+      addGuideNode(layer, 'sw-edit-guide-line sw-edit-guide-line-h sw-edit-guide-line-reference', {
         left: '0px',
         top: y + 'px',
         width: window.innerWidth + 'px'
@@ -726,8 +726,8 @@ export function buildManualEditBridge(enabled: boolean): string {
     guidesMemoryId = id;
     var target = targetFrom(el, true);
     renderHoverRelation(target);
-    window.parent.postMessage({ type: 'od-edit-hover', target: target }, '*');
-    window.parent.postMessage({ type: 'od-edit-inspect-hover', target: target }, '*');
+    window.parent.postMessage({ type: 'sw-edit-hover', target: target }, '*');
+    window.parent.postMessage({ type: 'sw-edit-inspect-hover', target: target }, '*');
   }
   function renderHoverRelationOnly(el){
     if (!enabled || !el) return;
@@ -740,15 +740,15 @@ export function buildManualEditBridge(enabled: boolean): string {
     renderHoverRelation(targetFrom(el, false));
   }
   function clearSelectedTarget(){
-    var selected = document.querySelectorAll('[data-od-edit-selected]');
-    for (var i = 0; i < selected.length; i++) selected[i].removeAttribute('data-od-edit-selected');
+    var selected = document.querySelectorAll('[data-sw-edit-selected]');
+    for (var i = 0; i < selected.length; i++) selected[i].removeAttribute('data-sw-edit-selected');
   }
   function setSelectedTarget(id){
     clearSelectedTarget();
     selectedTargetId = id || null;
     if (!id) return;
     var el = findById(id);
-    if (el) el.setAttribute('data-od-edit-selected', 'true');
+    if (el) el.setAttribute('data-sw-edit-selected', 'true');
     renderSelectedChromeForCurrent();
   }
   function closestTarget(event){
@@ -798,12 +798,12 @@ export function buildManualEditBridge(enabled: boolean): string {
   // the iframe, and committing/ending on blur is exactly the #3646 focus-loss
   // bug. The session ends only on an explicit action — Enter, Escape, picking
   // another target, clicking empty background, leaving edit mode, or an
-  // od-edit-text-finish message from the host.
+  // sw-edit-text-finish message from the host.
   var activeTextEdit = null;
   function postTextSession(el, active, extra){
     if (!el) return;
     window.parent.postMessage(Object.assign({
-      type: 'od-edit-text-session',
+      type: 'sw-edit-text-session',
       id: stableId(el),
       active: !!active
     }, extra || {}), '*');
@@ -814,14 +814,14 @@ export function buildManualEditBridge(enabled: boolean): string {
     activeTextEdit = null;
     var el = session.el;
     el.removeAttribute('contenteditable');
-    el.removeAttribute('data-od-editing');
+    el.removeAttribute('data-sw-editing');
     el.removeEventListener('keydown', session.onKey);
     if (guard) guard.editingEl = null;
     var value = (el.textContent || '').trim();
     var changed = value !== session.originalText.trim();
     if (commit && changed) {
       window.parent.postMessage({
-        type: 'od-edit-text-commit',
+        type: 'sw-edit-text-commit',
         id: stableId(el),
         value: value
       }, '*');
@@ -842,7 +842,7 @@ export function buildManualEditBridge(enabled: boolean): string {
     var originalText = el.textContent || '';
     clearSelectedTarget();
     el.setAttribute('contenteditable', 'plaintext-only');
-    el.setAttribute('data-od-editing', 'true');
+    el.setAttribute('data-sw-editing', 'true');
     if (guard) guard.editingEl = el;
     try { el.focus(); } catch (e) {}
     placeCaretFromClick(clickEvent, el);
@@ -866,7 +866,7 @@ export function buildManualEditBridge(enabled: boolean): string {
     if (!id) return null;
     if (id === '__body__') return document.body;
     var el = document.querySelector('[data-od-id="' + cssEscapeId(id) + '"]')
-          || document.querySelector('[data-od-runtime-id="' + cssEscapeId(id) + '"]')
+          || document.querySelector('[data-sw-runtime-id="' + cssEscapeId(id) + '"]')
           || document.querySelector('[' + sourcePathAttr + '="' + cssEscapeId(id) + '"]');
     if (el) return el;
     if (typeof id === 'string' && id.indexOf('path-') === 0) {
@@ -886,7 +886,7 @@ export function buildManualEditBridge(enabled: boolean): string {
   function applyPreviewStyles(id, styles, version){
     var el = findById(id);
     if (!el) {
-      window.parent.postMessage({ type: 'od-edit-preview-style-applied', id: id || '', version: Number(version) || 0, ok: false, error: 'Target not found' }, '*');
+      window.parent.postMessage({ type: 'sw-edit-preview-style-applied', id: id || '', version: Number(version) || 0, ok: false, error: 'Target not found' }, '*');
       return;
     }
     var keys = Object.keys(styles || {});
@@ -898,16 +898,16 @@ export function buildManualEditBridge(enabled: boolean): string {
         if (typeof value !== 'string' || value.trim() === '') el.style.removeProperty(cssName);
         else el.style.setProperty(cssName, value.trim());
       }
-      window.parent.postMessage({ type: 'od-edit-preview-style-applied', id: id, version: Number(version) || 0, ok: true }, '*');
+      window.parent.postMessage({ type: 'sw-edit-preview-style-applied', id: id, version: Number(version) || 0, ok: true }, '*');
     } catch (e) {
-      window.parent.postMessage({ type: 'od-edit-preview-style-applied', id: id, version: Number(version) || 0, ok: false, error: e && e.message ? String(e.message) : 'Could not apply preview styles' }, '*');
+      window.parent.postMessage({ type: 'sw-edit-preview-style-applied', id: id, version: Number(version) || 0, ok: false, error: e && e.message ? String(e.message) : 'Could not apply preview styles' }, '*');
     }
   }
   window.addEventListener('message', function(ev){
     if (!ev.data) return;
-    if (ev.data.type === 'od-edit-mode') {
+    if (ev.data.type === 'sw-edit-mode') {
       enabled = !!ev.data.enabled;
-      document.documentElement.toggleAttribute('data-od-edit-mode', enabled);
+      document.documentElement.toggleAttribute('data-sw-edit-mode', enabled);
       if (!enabled) {
         // Leaving edit mode commits the pending inline edit rather than
         // dropping it (the #3647 exit-path regression).
@@ -925,7 +925,7 @@ export function buildManualEditBridge(enabled: boolean): string {
       if (enabled) setTimeout(postTargets, 0);
       return;
     }
-    if (ev.data.type === 'od-edit-selected-target') {
+    if (ev.data.type === 'sw-edit-selected-target') {
       setSelectedTarget(ev.data.id || null);
       if (!ev.data.id) clearGuidesLayer();
       else {
@@ -933,16 +933,16 @@ export function buildManualEditBridge(enabled: boolean): string {
       }
       return;
     }
-    if (ev.data.type === 'od-edit-guides-mode') {
+    if (ev.data.type === 'sw-edit-guides-mode') {
       guidesEnabled = ev.data.enabled !== false;
       if (!guidesEnabled) clearGuidesLayer();
       return;
     }
-    if (ev.data.type === 'od-edit-capture-chrome') {
-      document.documentElement.toggleAttribute('data-od-hide-edit-chrome', !!ev.data.hidden);
+    if (ev.data.type === 'sw-edit-capture-chrome') {
+      document.documentElement.toggleAttribute('data-sw-hide-edit-chrome', !!ev.data.hidden);
       return;
     }
-    if (ev.data.type === 'od-edit-hover-reset') {
+    if (ev.data.type === 'sw-edit-hover-reset') {
       // Host signals the cursor truly left the canvas, so the next pointerover
       // re-announces the hovered element (defeats the per-element dedupe) and
       // any hover guides stop lingering over the preview.
@@ -950,12 +950,12 @@ export function buildManualEditBridge(enabled: boolean): string {
       renderSelectedChromeForCurrent();
       return;
     }
-    if (ev.data.type === 'od-edit-guides-restore') {
+    if (ev.data.type === 'sw-edit-guides-restore') {
       // Re-renders the hover guides the user was looking at before the cursor
       // left the canvas (e.g. to reach a toolbar button) so a capture can
       // include them. Deliberately does NOT touch lastHoverEl and does NOT
-      // post od-edit-hover: the host hover affordance stays dismissed and the
-      // next od-edit-hover-reset cleanly clears the restored guides.
+      // post sw-edit-hover: the host hover affordance stays dismissed and the
+      // next sw-edit-hover-reset cleanly clears the restored guides.
       var maxAge = Number(ev.data.maxAgeMs) || 0;
       var restored = false;
       var liveHoverEl = null;
@@ -977,20 +977,20 @@ export function buildManualEditBridge(enabled: boolean): string {
       // a keyboard-triggered capture): clearing them afterwards would blank
       // the guides under the user's cursor, so the host must skip the clear.
       window.parent.postMessage({
-        type: 'od-edit-guides-restore:result',
+        type: 'sw-edit-guides-restore:result',
         id: ev.data.id || null,
         restored: restored,
         live: !!(restored && liveHoverEl)
       }, '*');
       return;
     }
-    if (ev.data.type === 'od-edit-preview-style') {
+    if (ev.data.type === 'sw-edit-preview-style') {
       applyPreviewStyles(ev.data.id, ev.data.styles || {}, ev.data.version);
       return;
     }
-    if (ev.data.type === 'od-edit-preview-text') {
+    if (ev.data.type === 'sw-edit-preview-text') {
       // Live text preview from the host panel's 文本 textarea — the counterpart
-      // to od-edit-preview-style. Setting textContent on the (blurred, the host
+      // to sw-edit-preview-style. Setting textContent on the (blurred, the host
       // textarea holds focus) element mirrors exactly what the set-text patch
       // will persist, so a newline typed in the panel shows immediately instead
       // of only after Save. Guarded to text leaves (no element children) so it
@@ -1004,7 +1004,7 @@ export function buildManualEditBridge(enabled: boolean): string {
       }
       return;
     }
-    if (ev.data.type === 'od-edit-text-finish') {
+    if (ev.data.type === 'sw-edit-text-finish') {
       finishActiveTextEdit(ev.data.commit !== false);
       return;
     }
@@ -1015,7 +1015,7 @@ export function buildManualEditBridge(enabled: boolean): string {
   document.addEventListener('pointerdown', function(ev){
     if (!enabled || activeTextEdit) return;
     if (ev.button !== undefined && ev.button !== 0) return;
-    if (ev.target && ev.target.closest && ev.target.closest('[data-od-editing="true"]')) return;
+    if (ev.target && ev.target.closest && ev.target.closest('[data-sw-editing="true"]')) return;
     var el = closestTarget(ev);
     if (!el) { dragPending = null; return; }
     var base = readTranslateBase(el);
@@ -1039,14 +1039,14 @@ export function buildManualEditBridge(enabled: boolean): string {
     ev.preventDefault();
     ev.stopPropagation();
     var transform = drag.el.style.transform || '';
-    var msg = { type: 'od-edit-drag-commit', id: drag.id, transform: transform };
+    var msg = { type: 'sw-edit-drag-commit', id: drag.id, transform: transform };
     if (drag.bumpedDisplay) msg.display = 'inline-block';
     window.parent.postMessage(msg, '*');
   }, true);
   document.addEventListener('click', function(ev){
     if (!enabled) return;
     if (justDragged) { justDragged = false; ev.preventDefault(); ev.stopPropagation(); return; }
-    if (ev.target && ev.target.closest && ev.target.closest('[data-od-editing="true"]')) return;
+    if (ev.target && ev.target.closest && ev.target.closest('[data-sw-editing="true"]')) return;
     ev.preventDefault();
     ev.stopPropagation();
     var el = closestTarget(ev);
@@ -1056,7 +1056,7 @@ export function buildManualEditBridge(enabled: boolean): string {
       // iframe stay in sync, then let the host decide whether to surface the
       // page-styles card.
       if (activeTextEdit) finishActiveTextEdit(true);
-      window.parent.postMessage({ type: 'od-edit-background' }, '*');
+      window.parent.postMessage({ type: 'sw-edit-background' }, '*');
       return;
     }
     // Switching to a different target commits the in-flight edit first, so the
@@ -1066,8 +1066,8 @@ export function buildManualEditBridge(enabled: boolean): string {
     var selectedTarget = targetFrom(el, true);
     setSelectedTarget(selectedTarget.id);
     renderSelectedChromeForCurrent();
-    window.parent.postMessage({ type: 'od-edit-select', target: selectedTarget }, '*');
-    window.parent.postMessage({ type: 'od-edit-inspect-select', target: selectedTarget }, '*');
+    window.parent.postMessage({ type: 'sw-edit-select', target: selectedTarget }, '*');
+    window.parent.postMessage({ type: 'sw-edit-inspect-select', target: selectedTarget }, '*');
     if (kind === 'text' || kind === 'link') {
       makeEditable(el, ev);
       return;
@@ -1135,7 +1135,7 @@ export function buildManualEditBridge(enabled: boolean): string {
       renderHoverRelationOnly(hoverEditEl);
       return;
     }
-    if (ev.target && ev.target.closest && ev.target.closest('[data-od-editing="true"]')) return;
+    if (ev.target && ev.target.closest && ev.target.closest('[data-sw-editing="true"]')) return;
     var el = closestTarget(ev);
     if (!el) return;
     postHoverTarget(el);
@@ -1163,7 +1163,7 @@ export function buildManualEditBridge(enabled: boolean): string {
         // selection chrome follow the element being moved.
         if (selectedTargetId !== dragPending.id) {
           setSelectedTarget(dragPending.id);
-          window.parent.postMessage({ type: 'od-edit-select', target: targetFrom(dragPending.el, true) }, '*');
+          window.parent.postMessage({ type: 'sw-edit-select', target: targetFrom(dragPending.el, true) }, '*');
         }
       }
       if (dragPending.started) {
@@ -1250,7 +1250,7 @@ export function buildManualEditBridge(enabled: boolean): string {
     var now = Date.now();
     if (screenshotTap.at && now - screenshotTap.at <= 600) {
       screenshotTap.at = 0;
-      window.parent.postMessage({ type: 'od-edit-screenshot-hotkey' }, '*');
+      window.parent.postMessage({ type: 'sw-edit-screenshot-hotkey' }, '*');
     } else {
       screenshotTap.at = now;
     }
@@ -1268,46 +1268,46 @@ export function buildManualEditBridge(enabled: boolean): string {
     annotateBrandKitRuntimeTargets();
     postTargets();
     var brandRoot = document.getElementById('root') || document.body;
-    if (window.MutationObserver && brandRoot && document.getElementById('od-brand-payload')) {
+    if (window.MutationObserver && brandRoot && document.getElementById('sw-brand-payload')) {
       new MutationObserver(function(){ annotateBrandKitRuntimeTargets(); postTargets(); })
         .observe(brandRoot, { childList: true, subtree: true });
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootEditBridge);
   else setTimeout(bootEditBridge, 0);
-  document.documentElement.toggleAttribute('data-od-edit-mode', enabled);
+  document.documentElement.toggleAttribute('data-sw-edit-mode', enabled);
 })();</script>`;
 }
 
 export function buildManualEditBridgeStyle(): string {
-  return `<style data-od-edit-bridge-style>
-html[data-od-edit-mode] body * { cursor: pointer !important; }
-html[data-od-edit-mode] [data-od-edit-selected] {
+  return `<style data-sw-edit-bridge-style>
+html[data-sw-edit-mode] body * { cursor: pointer !important; }
+html[data-sw-edit-mode] [data-sw-edit-selected] {
   outline: none !important;
 }
-html[data-od-edit-mode] [data-od-editing="true"] {
+html[data-sw-edit-mode] [data-sw-editing="true"] {
   outline: none !important;
   cursor: text !important;
 }
-[data-od-edit-guides-layer] {
+[data-sw-edit-guides-layer] {
   position: fixed;
   inset: 0;
   z-index: 2147483646;
   pointer-events: none;
   font: 11px/1.2 Inter, system-ui, sans-serif;
 }
-[data-od-edit-guides-layer] .od-edit-guide-box {
+[data-sw-edit-guides-layer] .sw-edit-guide-box {
   position: fixed;
   border: 1px solid var(--selected, var(--accent, CanvasText));
   box-sizing: border-box;
 }
-[data-od-edit-guides-layer] .od-edit-guide-box-hover {
+[data-sw-edit-guides-layer] .sw-edit-guide-box-hover {
   border-style: dashed;
 }
-[data-od-edit-guides-layer] .od-edit-guide-box-selected {
+[data-sw-edit-guides-layer] .sw-edit-guide-box-selected {
   border-style: solid;
 }
-[data-od-edit-guides-layer] .od-edit-guide-handle {
+[data-sw-edit-guides-layer] .sw-edit-guide-handle {
   position: fixed;
   width: 10px;
   height: 10px;
@@ -1318,23 +1318,23 @@ html[data-od-edit-mode] [data-od-editing="true"] {
   background: Canvas;
   box-sizing: border-box;
 }
-[data-od-edit-guides-layer] .od-edit-guide-line {
+[data-sw-edit-guides-layer] .sw-edit-guide-line {
   position: fixed;
   background: color-mix(in srgb, var(--amber, var(--selected, var(--accent, CanvasText))) 70%, transparent);
 }
-[data-od-edit-guides-layer] .od-edit-guide-line-v {
+[data-sw-edit-guides-layer] .sw-edit-guide-line-v {
   width: 1px;
 }
-[data-od-edit-guides-layer] .od-edit-guide-line-h {
+[data-sw-edit-guides-layer] .sw-edit-guide-line-h {
   height: 1px;
 }
-[data-od-edit-guides-layer] .od-edit-guide-line-distance {
+[data-sw-edit-guides-layer] .sw-edit-guide-line-distance {
   background: var(--amber, var(--selected, var(--accent, CanvasText)));
 }
-[data-od-edit-guides-layer] .od-edit-guide-line-reference {
+[data-sw-edit-guides-layer] .sw-edit-guide-line-reference {
   background: color-mix(in srgb, var(--amber, var(--selected, var(--accent, CanvasText))) 36%, transparent);
 }
-[data-od-edit-guides-layer] .od-edit-guide-measure {
+[data-sw-edit-guides-layer] .sw-edit-guide-measure {
   position: fixed;
   padding: 3px 6px;
   border-radius: 4px;
@@ -1342,9 +1342,9 @@ html[data-od-edit-mode] [data-od-editing="true"] {
   color: var(--accent-contrast, Canvas);
   box-shadow: 0 5px 16px color-mix(in srgb, var(--selected, var(--accent, CanvasText)) 18%, transparent);
 }
-html[data-od-hide-edit-chrome] [data-od-edit-guides-layer],
-html[data-od-hide-edit-chrome] [data-od-edit-selected],
-html[data-od-hide-edit-chrome] [data-od-editing="true"] {
+html[data-sw-hide-edit-chrome] [data-sw-edit-guides-layer],
+html[data-sw-hide-edit-chrome] [data-sw-edit-selected],
+html[data-sw-hide-edit-chrome] [data-sw-editing="true"] {
   opacity: 0 !important;
   box-shadow: none !important;
   outline-color: transparent !important;

@@ -14,6 +14,7 @@
 
 import type Database from 'better-sqlite3';
 import { createHash, randomUUID } from 'node:crypto';
+import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type {
@@ -73,7 +74,7 @@ async function writeAssetSidecar(
   }
 }
 
-const FIGMA_SIDECAR_EXT = '.od-figma.json';
+const FIGMA_SIDECAR_EXT = '.sw-figma.json';
 const ELEMENT_SIDECAR_EXT = '.element.html';
 
 /**
@@ -86,7 +87,14 @@ export function resolveAssetFigmaSidecarPath(
   asset: LibraryAssetRecord,
   libraryDir: string,
 ): string | null {
-  return resolveAssetSidecarPath(asset, libraryDir, FIGMA_SIDECAR_EXT);
+  const primary = resolveAssetSidecarPath(asset, libraryDir, FIGMA_SIDECAR_EXT);
+  if (!primary) return null;
+  if (existsSync(primary)) return primary;
+  // Legacy pre-rebrand sidecar name: sidecars written before the rename used
+  // `.od-figma.json` and may still sit next to older owned objects.
+  const legacy = resolveAssetSidecarPath(asset, libraryDir, '.od-figma.json');
+  if (legacy && existsSync(legacy)) return legacy;
+  return primary;
 }
 
 /** Write a Figma IR sidecar next to an owned object. Best-effort, never throws. */

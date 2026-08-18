@@ -99,7 +99,7 @@ describe('containsSymlink', () => {
   let root: string;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-contains-symlink-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-contains-symlink-'));
   });
 
   afterEach(async () => {
@@ -128,7 +128,7 @@ describe('containsSymlink', () => {
   it('detects a symlink that points at a directory without following it', async () => {
     // A symlinked dir must be flagged, not descended into (following it could
     // recurse outside the tree).
-    const outside = await mkdtemp(path.join(tmpdir(), 'od-symlink-outside-'));
+    const outside = await mkdtemp(path.join(tmpdir(), 'sw-symlink-outside-'));
     try {
       await symlink(outside, path.join(root, 'linked-dir'));
       expect(await containsSymlink(root)).toBe(true);

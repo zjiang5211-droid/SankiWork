@@ -172,7 +172,7 @@ describe('deck preview mounted while the browser tab is hidden (#6583)', () => {
 
     // The deck parses into the srcdoc iframe while the tab is hidden…
     await waitFor(() => {
-      expect(activeSrcDocFrame().getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(activeSrcDocFrame().getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(activeSrcDocFrame().getAttribute('srcdoc') ?? '').toContain('slide-one');
     });
 
@@ -206,7 +206,7 @@ describe('deck preview mounted while the browser tab is hidden (#6583)', () => {
     );
 
     await waitFor(() => {
-      expect(activeSrcDocFrame().getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect(activeSrcDocFrame().getAttribute('data-sw-render-mode')).toBe('srcdoc');
       expect(activeSrcDocFrame().getAttribute('srcdoc') ?? '').toContain('slide-one');
     });
 

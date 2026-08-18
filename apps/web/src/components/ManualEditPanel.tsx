@@ -431,7 +431,7 @@ function ContentInspector({
 
 function readableManualEditTargetName(target: ManualEditTarget): string {
   const explicit = firstReadableText(
-    target.attributes['data-od-label'],
+    target.attributes['data-sw-label'],
     target.attributes['aria-label'],
     target.attributes.title,
   );

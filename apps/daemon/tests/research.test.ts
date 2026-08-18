@@ -27,7 +27,7 @@ describe('research search', () => {
   });
 
   async function tempProjectRoot() {
-    projectRoot = await mkdtemp(path.join(tmpdir(), 'od-research-project-'));
+    projectRoot = await mkdtemp(path.join(tmpdir(), 'sw-research-project-'));
     return projectRoot;
   }
 

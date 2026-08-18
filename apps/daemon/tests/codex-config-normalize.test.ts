@@ -280,7 +280,7 @@ describe('normalizeCodexConfigFile', () => {
   let tmpDir: string;
 
   beforeEach(() => {
-    tmpDir = mkdtempSync(join(tmpdir(), 'od-codex-config-normalize-'));
+    tmpDir = mkdtempSync(join(tmpdir(), 'sw-codex-config-normalize-'));
   });
 
   afterEach(() => {
@@ -501,7 +501,7 @@ describe('normalizeCodexConfigFile', () => {
 
   it('FIX 3 tilde regression: patches config.toml at the EXPANDED location when CODEX_HOME contains a tilde prefix', async () => {
     const home = homedir();
-    const tildeTmpDir = mkdtempSync(join(home, '.od-codex-config-test-'));
+    const tildeTmpDir = mkdtempSync(join(home, '.sw-codex-config-test-'));
     const configPath = join(tildeTmpDir, 'config.toml');
     try {
       writeFileSync(

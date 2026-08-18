@@ -473,7 +473,7 @@ export function DesignSystemPicker({
         <button
           ref={triggerRef}
           type="button"
-          className={`icon-btn composer-ds-icon-trigger od-tooltip${open ? ' is-active' : ''}${selected ? ' is-picked' : ''}`}
+          className={`icon-btn composer-ds-icon-trigger sw-tooltip${open ? ' is-active' : ''}${selected ? ' is-picked' : ''}`}
           data-testid="composer-design-system-trigger"
           aria-haspopup="listbox"
           aria-expanded={open}

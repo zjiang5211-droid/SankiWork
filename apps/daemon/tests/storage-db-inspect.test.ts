@@ -12,7 +12,7 @@ let dbFile: string;
 let db: Database.Database;
 
 beforeEach(async () => {
-  tmp = await mkdtemp(path.join(os.tmpdir(), 'od-db-inspect-'));
+  tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-db-inspect-'));
   dbFile = path.join(tmp, 'app.sqlite');
   db = new Database(dbFile);
 });

@@ -1275,7 +1275,7 @@ describe('collab sync routes', () => {
         });
       },
     );
-    const pullDir = await mkdtemp(path.join(tmpdir(), 'od-status-fresh-pull-'));
+    const pullDir = await mkdtemp(path.join(tmpdir(), 'sw-status-fresh-pull-'));
     tempDirs.push(pullDir);
     let resolveFresh:
       | ((value: { ok: true; context: WorkspaceCollabContext }) => void)
@@ -1368,7 +1368,7 @@ describe('collab sync routes', () => {
         projectStore.projects.set(projectId, { ...rec, metadata: metadata as never });
       },
     );
-    const pullDir = await mkdtemp(path.join(tmpdir(), 'od-owner-selfpull-'));
+    const pullDir = await mkdtemp(path.join(tmpdir(), 'sw-owner-selfpull-'));
     tempDirs.push(pullDir);
     let pullCalls = 0;
     const api = await startSyncServer(
@@ -1457,7 +1457,7 @@ describe('collab sync routes', () => {
       projectStore.projects.delete(projectId);
     });
     const invalidateTeamProjectCatalog = vi.fn();
-    const pullDir = await mkdtemp(path.join(tmpdir(), 'od-owner-ghost-heal-'));
+    const pullDir = await mkdtemp(path.join(tmpdir(), 'sw-owner-ghost-heal-'));
     tempDirs.push(pullDir);
     const unpublish = vi.fn(async () => undefined);
     const catalogRemove = vi.fn(async (_projectId: string, _principal?: unknown) => ({}));
@@ -1797,7 +1797,7 @@ describe('collab sync routes', () => {
     // principal whose teamId IS the workspace id, and its access check only
     // compares that id against the resource's own — a partition of one. So a
     // personal workspace must get through, and must be scoped by its OWN id.
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-public-file-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-public-file-'));
     tempDirs.push(dir);
     await writeFile(path.join(dir, 'index.html'), '<h1>Published</h1>');
     vi.mocked(readVelaControlApiContext).mockReturnValue({
@@ -1853,7 +1853,7 @@ describe('collab sync routes', () => {
 
   it('keeps public file ownership reads on request workspace A while ambient workspace B is active', async () => {
     const workspaceA = teamContext('workspace-a', 'member-a');
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-public-file-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-public-file-'));
     tempDirs.push(dir);
     await writeFile(path.join(dir, 'index.html'), '<h1>Published in A</h1>');
     vi.mocked(readVelaControlApiContext).mockReturnValue({
@@ -2054,7 +2054,7 @@ describe('collab sync routes', () => {
   });
 
   it('hydrates and clears public file publication state', async () => {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-public-file-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-public-file-'));
     tempDirs.push(dir);
     await writeFile(path.join(dir, 'index.html'), '<h1>Published</h1>');
     vi.mocked(readVelaControlApiContext).mockReturnValue({
@@ -2102,7 +2102,7 @@ describe('collab sync routes', () => {
   });
 
   it('publishes a public file when the project-dir resolver is async (production wiring)', async () => {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-public-file-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-public-file-'));
     tempDirs.push(dir);
     await writeFile(path.join(dir, 'index.html'), '<h1>Published</h1>');
     vi.mocked(readVelaControlApiContext).mockReturnValue({
@@ -2144,8 +2144,8 @@ describe('collab sync routes', () => {
   });
 
   it('rejects escaped and symlinked public file paths before publishing', async () => {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-public-file-'));
-    const outsideDir = await mkdtemp(path.join(tmpdir(), 'od-public-outside-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-public-file-'));
+    const outsideDir = await mkdtemp(path.join(tmpdir(), 'sw-public-outside-'));
     tempDirs.push(dir, outsideDir);
     await writeFile(path.join(outsideDir, 'secret.html'), '<h1>Secret</h1>');
     await symlink(path.join(outsideDir, 'secret.html'), path.join(dir, 'secret-link.html'));
@@ -3235,7 +3235,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('uses the authorized staged transport only for a branded proactive invocation', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-route-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-authorized-route-'));
     tempDirs.push(root);
     const liveDir = path.join(root, 'project');
     const stageDir = path.join(root, '.project.sw-pull-stage-test');
@@ -3316,7 +3316,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('re-acquires one fresh authorized stage when promotion outlives the receipt', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-retry-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-authorized-retry-'));
     tempDirs.push(root);
     const projectId = 'authorized-retry';
     const stageDirs = [
@@ -3384,7 +3384,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('bounds stale authorized-stage recovery to one retry', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-retry-bound-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-authorized-retry-bound-'));
     tempDirs.push(root);
     const projectId = 'authorized-retry-bound';
     const stageDirs = [
@@ -3451,7 +3451,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('does not reacquire a receipt when the expired stage cannot be cleaned', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-retry-cleanup-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-authorized-retry-cleanup-'));
     tempDirs.push(root);
     const projectId = 'authorized-retry-cleanup';
     const stageDir = path.join(root, `.${projectId}.sw-pull-stage-first`);
@@ -3511,7 +3511,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('coalesces direct, targeted, and broad recovery onto one stable authorized promotion', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-overlap-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-authorized-overlap-'));
     tempDirs.push(root);
     const projectId = 'authorized-overlap';
     const liveDir = path.join(root, projectId);
@@ -3641,7 +3641,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('coalesces an authorized stage and legacy POST for the same scope and version', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-cross-lane-pull-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-cross-lane-pull-'));
     tempDirs.push(root);
     const projectId = 'cross-lane-pull';
     const liveDir = path.join(root, projectId);
@@ -3746,7 +3746,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('fails a joined authorized waiter closed when it becomes stale before legacy completion', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-cross-lane-stale-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-cross-lane-stale-'));
     tempDirs.push(root);
     const projectId = 'cross-lane-stale';
     const liveDir = path.join(root, projectId);
@@ -3841,7 +3841,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('adopts a durable legacy success before a queued authorized retry', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-cross-lane-retry-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-cross-lane-retry-'));
     tempDirs.push(root);
     const projectId = 'cross-lane-retry';
     const liveDir = path.join(root, projectId);
@@ -3968,7 +3968,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('commits an exact-scope stage through a context gap and global Workspace switch', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-transient-route-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-authorized-transient-route-'));
     tempDirs.push(root);
     const projectId = 'authorized-transient-route';
     const liveDir = path.join(root, projectId);
@@ -4072,7 +4072,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('logs the project, version, redacted message/cause, and snapshot reason when promotion fails', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-log-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-authorized-log-'));
     tempDirs.push(root);
     const liveDir = path.join(root, 'project');
     const stageDir = path.join(root, '.project.sw-pull-stage-test');
@@ -4463,7 +4463,7 @@ describe('collab sync pull handle (daemon-internal proactive pull)', () => {
   });
 
   it('preempts an old authorized stage and commits only the newer receipt', async () => {
-    const root = await mkdtemp(path.join(tmpdir(), 'od-authorized-preempt-'));
+    const root = await mkdtemp(path.join(tmpdir(), 'sw-authorized-preempt-'));
     tempDirs.push(root);
     const liveDir = path.join(root, 'preempt');
     const stage4 = path.join(root, '.preempt.sw-pull-stage-v4');

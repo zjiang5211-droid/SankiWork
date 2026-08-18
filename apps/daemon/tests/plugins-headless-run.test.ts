@@ -65,7 +65,7 @@ async function withFakeAgent<T>(
   script: string,
   run: () => Promise<T>,
 ): Promise<T> {
-  const dir = await mkdtemp(path.join(tmpdir(), 'od-headless-agent-bin-'));
+  const dir = await mkdtemp(path.join(tmpdir(), 'sw-headless-agent-bin-'));
   const oldPath = process.env.PATH;
   try {
     if (process.platform === 'win32') {
@@ -651,7 +651,7 @@ process.exit(result.status ?? 0);
   }, 120_000);
 
   it('runs the CLI install → project create → plugin run path with query and local SKILL.md in the agent prompt', async () => {
-    const pluginRoot = await mkdtemp(path.join(tmpdir(), 'od-headless-cli-plugin-'));
+    const pluginRoot = await mkdtemp(path.join(tmpdir(), 'sw-headless-cli-plugin-'));
     const pluginId = `headless-cli-plugin-${randomUUID().slice(0, 8)}`;
     const fixture = path.join(pluginRoot, pluginId);
     await mkdir(fixture, { recursive: true });
@@ -715,7 +715,7 @@ process.exit(result.status ?? 0);
       };
       expect(createBody.appliedPluginSnapshotId).toBeTruthy();
 
-      const captureRoot = await mkdtemp(path.join(tmpdir(), 'od-headless-cli-capture-'));
+      const captureRoot = await mkdtemp(path.join(tmpdir(), 'sw-headless-cli-capture-'));
       const capturePath = path.join(captureRoot, 'prompt.txt');
       const previousCapture = process.env.SW_PROMPT_CAPTURE;
       process.env.SW_PROMPT_CAPTURE = capturePath;
@@ -789,7 +789,7 @@ process.stdin.on('end', () => {
     // pipeline shape is locked here.
     const fs = await import('node:fs/promises');
     const os = await import('node:os');
-    const tmpRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'od-headless-pipeline-'));
+    const tmpRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'sw-headless-pipeline-'));
     const fixture = path.join(tmpRoot, 'pipeline-plugin');
     await fs.mkdir(fixture, { recursive: true });
     await fs.writeFile(

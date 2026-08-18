@@ -449,7 +449,7 @@ const EN: CommunityCopy = {
           },
           {
             h4: 'Wake the skill',
-            body: 'Type <code>/od-contribute</code>, or simply tell the agent to run what you just installed. Either phrase opens the door.',
+            body: 'Type <code>/sw-contribute</code>, or simply tell the agent to run what you just installed. Either phrase opens the door.',
           },
           {
             h4: 'Half a minute to the gallery',

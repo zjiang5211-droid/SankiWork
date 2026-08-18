@@ -31,19 +31,19 @@ function ruleValue(block: string, property: string): string {
 describe('HomeHero deck preset previews', () => {
   it('center-crops baked 1.31 posters through a 16:9 media frame', () => {
     const frame = cssDeclarations(
-      '.home-hero__plugin-preset[data-od-mode="deck"] .home-hero__plugin-preset-preview',
+      '.home-hero__plugin-preset[data-sw-mode="deck"] .home-hero__plugin-preset-preview',
     );
     const preview = cssDeclarations(
-      '.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__preview--media',
+      '.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__preview--media',
     );
     const media = cssDeclarations(
-      '.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__media',
+      '.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__media',
     );
     const image = cssDeclarations(
-      '.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__media-img',
+      '.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__media-img',
     );
     const video = cssDeclarations(
-      '.home-hero__plugin-preset[data-od-mode="deck"] .plugins-home__media-video',
+      '.home-hero__plugin-preset[data-sw-mode="deck"] .plugins-home__media-video',
     );
 
     expect(ruleValue(frame, 'background')).toBe('var(--bg-panel)');

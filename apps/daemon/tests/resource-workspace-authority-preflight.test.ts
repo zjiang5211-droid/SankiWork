@@ -15,7 +15,7 @@ let sourceRoot: string;
 let shutdown: (() => Promise<void> | void) | undefined;
 
 beforeAll(async () => {
-  sourceRoot = await mkdtemp(path.join(os.tmpdir(), 'od-workspace-authority-preflight-'));
+  sourceRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-workspace-authority-preflight-'));
   const started = (await startServer({ port: 0, returnServer: true })) as {
     url: string;
     server: http.Server;

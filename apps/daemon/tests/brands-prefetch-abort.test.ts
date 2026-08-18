@@ -12,7 +12,7 @@ describe('brand prefetch abort handling', () => {
   });
 
   it('rejects instead of continuing when the main fetch is aborted', async () => {
-    const tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-brand-prefetch-abort-'));
+    const tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-brand-prefetch-abort-'));
     const controller = new AbortController();
     const fetchMock = vi.fn(async () => {
       controller.abort();

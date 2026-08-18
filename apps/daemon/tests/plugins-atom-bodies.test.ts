@@ -35,7 +35,7 @@ let db: Database.Database;
 let tmpRoot: string;
 
 beforeEach(async () => {
-  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'od-atom-bodies-'));
+  tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-atom-bodies-'));
   db = new Database(':memory:');
   db.exec(`
     CREATE TABLE projects (id TEXT PRIMARY KEY, name TEXT);

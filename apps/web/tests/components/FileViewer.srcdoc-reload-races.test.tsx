@@ -110,7 +110,7 @@ function manualEditFile(): ProjectFile {
   };
 }
 
-// Minimal target shape that the component accepts via od-edit-select.
+// Minimal target shape that the component accepts via sw-edit-select.
 function heroTarget(): ManualEditTarget {
   return {
     id: 'hero',
@@ -128,7 +128,7 @@ function heroTarget(): ManualEditTarget {
   };
 }
 
-// Pins the inspector to a target by dispatching the od-edit-select message
+// Pins the inspector to a target by dispatching the sw-edit-select message
 // that the edit-mode iframe bridge would normally send.  Returns the iframe
 // element so callers can inspect it or use it for further messages.
 async function selectManualEditTarget(target = heroTarget()): Promise<HTMLIFrameElement> {
@@ -140,7 +140,7 @@ async function selectManualEditTarget(target = heroTarget()): Promise<HTMLIFrame
   act(() => {
     window.dispatchEvent(
       new MessageEvent('message', {
-        data: { type: 'od-edit-select', target },
+        data: { type: 'sw-edit-select', target },
         source: frame.contentWindow,
       }),
     );
@@ -633,7 +633,7 @@ describe('FileViewer srcDoc reload — prevSourceBeforeReloadRef race conditions
       // (not 'artifact-preview-frame-srcdoc') when useUrlLoadPreview=false.
       const frame = screen.queryByTestId('artifact-preview-frame');
       expect(frame).not.toBeNull();
-      expect((frame as HTMLIFrameElement).getAttribute('data-od-render-mode')).toBe('srcdoc');
+      expect((frame as HTMLIFrameElement).getAttribute('data-sw-render-mode')).toBe('srcdoc');
     });
 
     // Step 2: click Reload — source goes null synchronously.  Without the fix,
@@ -651,18 +651,18 @@ describe('FileViewer srcDoc reload — prevSourceBeforeReloadRef race conditions
     // where the source=null race can expose the bug.
     //
     // The srcDoc iframe must remain the active iframe: its testid stays
-    // 'artifact-preview-frame' and its data-od-render-mode is 'srcdoc'.
+    // 'artifact-preview-frame' and its data-sw-render-mode is 'srcdoc'.
     // If the routing flipped, a URL-load iframe would have taken the
-    // 'artifact-preview-frame' testid and data-od-active='true' instead.
+    // 'artifact-preview-frame' testid and data-sw-active='true' instead.
     const activeFrame = screen.getByTestId('artifact-preview-frame');
-    expect(activeFrame.getAttribute('data-od-render-mode')).toBe('srcdoc');
-    expect(activeFrame.getAttribute('data-od-active')).toBe('true');
+    expect(activeFrame.getAttribute('data-sw-render-mode')).toBe('srcdoc');
+    expect(activeFrame.getAttribute('data-sw-active')).toBe('true');
 
     // Confirm the URL-load iframe is NOT the active one (it would carry
-    // data-od-render-mode='url-load' and data-od-active='true' on a buggy build).
+    // data-sw-render-mode='url-load' and data-sw-active='true' on a buggy build).
     const urlLoadFrame = screen.queryByTestId('artifact-preview-frame-url-load');
     if (urlLoadFrame) {
-      expect(urlLoadFrame.getAttribute('data-od-active')).toBe('false');
+      expect(urlLoadFrame.getAttribute('data-sw-active')).toBe('false');
     }
 
     // Drain the deferred fetch so it doesn't leak into subsequent tests.
@@ -1080,7 +1080,7 @@ describe('FileViewer srcDoc reload — prevSourceBeforeReloadRef race conditions
   //   1. Mount preview.html, wait for source V1 to load into the iframe.
   //   2. Enter Manual Edit mode — manualEditFrozenSource captures V1,
   //      sourceRef.current = V1.
-  //   3. Select a target via od-edit-select postMessage (opens the panel so
+  //   3. Select a target via sw-edit-select postMessage (opens the panel so
   //      onApplyPatch is reachable).
   //   4. Click Reload — setSource(null) fires.  The [source] effect then sets
   //      sourceRef.current = null.  The reload fetch is deferred (in flight).

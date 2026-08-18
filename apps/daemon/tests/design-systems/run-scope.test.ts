@@ -35,7 +35,7 @@ afterEach(() => {
 });
 
 function setup() {
-  root = mkdtempSync(path.join(os.tmpdir(), 'od-ds-run-scope-'));
+  root = mkdtempSync(path.join(os.tmpdir(), 'sw-ds-run-scope-'));
   const db = openDatabase(root, { dataDir: path.join(root, 'data') });
   const now = Date.now();
   insertProject(db, { id: projectId, name: projectId, createdAt: now, updatedAt: now });

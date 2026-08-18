@@ -26,9 +26,9 @@ import { buildSrcdoc } from '../../src/runtime/srcdoc';
 // signal it depends on.
 
 function extractBridgeScript(srcdoc: string): string {
-  // The bridge is wrapped in `<script data-od-selection-bridge>(function(){…})()</script>`.
+  // The bridge is wrapped in `<script data-sw-selection-bridge>(function(){…})()</script>`.
   const match = srcdoc.match(
-    /<script data-od-selection-bridge>([\s\S]*?)<\/script>/,
+    /<script data-sw-selection-bridge>([\s\S]*?)<\/script>/,
   );
   if (!match || !match[1]) {
     throw new Error('selection bridge script not found in srcdoc');
@@ -38,7 +38,7 @@ function extractBridgeScript(srcdoc: string): string {
 
 function extractSelectionBridgeStyle(srcdoc: string): string {
   const match = srcdoc.match(
-    /<style data-od-selection-bridge-style>[\s\S]*?<\/style>/,
+    /<style data-sw-selection-bridge-style>[\s\S]*?<\/style>/,
   );
   return match?.[0] ?? '';
 }
@@ -521,7 +521,7 @@ describe('selection bridge — empty annotation surface (#890)', () => {
 
   it('restores the current page content before manual edit activates', async () => {
     const { win } = setupBridgeDom(
-      '<main id="app" data-page="today"><h1 data-od-source-path="path-0-0">Today page</h1></main>',
+      '<main id="app" data-page="today"><h1 data-sw-source-path="path-0-0">Today page</h1></main>',
       'inspect',
     );
 

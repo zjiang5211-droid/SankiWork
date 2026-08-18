@@ -6,7 +6,7 @@ import { test, vi } from 'vitest';
 import { detectAcpModels } from '../src/agent-protocol/index.js';
 
 function writeStallingProbe(): { dir: string; bin: string } {
-  const dir = mkdtempSync(join(tmpdir(), 'od-acp-timeout-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-acp-timeout-'));
   const bin = join(dir, 'stall-acp-probe.mjs');
   writeFileSync(
     bin,
@@ -18,7 +18,7 @@ function writeStallingProbe(): { dir: string; bin: string } {
 }
 
 function writeDelayedSuccessProbe(delayMs: number): { dir: string; bin: string } {
-  const dir = mkdtempSync(join(tmpdir(), 'od-acp-timeout-'));
+  const dir = mkdtempSync(join(tmpdir(), 'sw-acp-timeout-'));
   const bin = join(dir, 'delayed-acp-probe.mjs');
   writeFileSync(
     bin,

@@ -113,7 +113,7 @@ async function startListRoute(input: {
   listAllDesignSystems: any;
   exactMemberCatalog?: boolean;
 }) {
-  tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-ds-explicit-list-'));
+  tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-ds-explicit-list-'));
   const db = input.exactMemberCatalog
     ? openDatabase(tempDir, { dataDir: tempDir })
     : ({} as never);
@@ -185,7 +185,7 @@ function registerCreateRoute(
     req?: express.Request,
   ) => Promise<DesignSystemSummary>,
 ) {
-  tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-ds-explicit-create-'));
+  tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-ds-explicit-create-'));
   const db = openDatabase(tempDir, { dataDir: tempDir });
   registerDesignSystemRoutes(app, {
     db,
@@ -232,7 +232,7 @@ function registerCreateRoute(
 
 describe('design-system explicit Workspace request scope', () => {
   it('lists a scoped brand draft immediately only for its exact Workspace member', async () => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-brand-draft-catalog-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-brand-draft-catalog-'));
     const routePaths = commonPaths(tempDir);
     mkdirSync(routePaths.BRANDS_DIR, { recursive: true });
     mkdirSync(routePaths.PROJECTS_DIR, { recursive: true });
@@ -349,7 +349,7 @@ describe('design-system explicit Workspace request scope', () => {
   });
 
   it('rejects an install id already bound to another member before writing any directory entry', async () => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'od-ds-install-conflict-'));
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'sw-ds-install-conflict-'));
     const routePaths = commonPaths(tempDir);
     const source = path.join(tempDir, 'source', 'owned-system');
     mkdirSync(source, { recursive: true });

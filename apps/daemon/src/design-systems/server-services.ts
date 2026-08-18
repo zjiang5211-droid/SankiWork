@@ -813,7 +813,7 @@ export function createDesignSystemServerServices({
     if (!Buffer.isBuffer(buffer)) return false;
     const text = buffer.toString('utf8');
     if (/^ui_kits\/app\/components\/.+\.(jsx|tsx|js|ts|css|html)$/u.test(filePath)) {
-      return buffer.length < 700 && /od-ui-kit-[a-z-]+/u.test(text);
+      return buffer.length < 700 && /sw-ui-kit-[a-z-]+/u.test(text);
     }
     if (!/^(DESIGN\.md|README\.md|SKILL\.md|ui_kits\/app\/README\.md)$/u.test(filePath)) {
       return false;

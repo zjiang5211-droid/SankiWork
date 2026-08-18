@@ -27,9 +27,9 @@ async function archiveFrom(
   setup: (root: string) => Promise<void>,
   entries: string[],
 ): Promise<Buffer> {
-  const root = await tempRoot('od-skill-archive-source-');
+  const root = await tempRoot('sw-skill-archive-source-');
   await setup(root);
-  const archiveRoot = await tempRoot('od-skill-archive-file-');
+  const archiveRoot = await tempRoot('sw-skill-archive-file-');
   const archivePath = path.join(archiveRoot, 'skill.tgz');
   await createTar({ cwd: root, file: archivePath, gzip: true }, entries);
   return readFile(archivePath);
@@ -64,7 +64,7 @@ async function skillArchive(wrapper = 'repo-main'): Promise<Buffer> {
 
 describe('installSkillFromRemoteSource', () => {
   it('installs github:owner/repo through the codeload archive path', async () => {
-    const userSkillsRoot = await tempRoot('od-user-skills-');
+    const userSkillsRoot = await tempRoot('sw-user-skills-');
     const urls: string[] = [];
     const result = await installSkillFromRemoteSource(
       userSkillsRoot,
@@ -96,7 +96,7 @@ describe('installSkillFromRemoteSource', () => {
         '---\nname: other-skill\ndescription: Sibling fixture\n---\n\n# Other workflow\n',
       );
     }, ['taste-skill-main']);
-    const userSkillsRoot = await tempRoot('od-user-skills-');
+    const userSkillsRoot = await tempRoot('sw-user-skills-');
     const urls: string[] = [];
 
     const result = await installSkillFromRemoteSource(
@@ -132,7 +132,7 @@ describe('installSkillFromRemoteSource', () => {
     const urls: string[] = [];
 
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://github.com/owner/collection/tree/release/skills/beta-skill',
       { fetcher: archiveFetcher(archive, urls) },
     );
@@ -155,7 +155,7 @@ describe('installSkillFromRemoteSource', () => {
     const urls: string[] = [];
 
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://github.com/owner/collection/tree/feature/foo/skills/beta-skill',
       {
         fetcher: async (url) => {
@@ -202,7 +202,7 @@ describe('installSkillFromRemoteSource', () => {
     const urls: string[] = [];
 
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://github.com/owner/collection/tree/feature/foo/skills/beta-skill',
       {
         fetcher: async (url) => {
@@ -242,7 +242,7 @@ describe('installSkillFromRemoteSource', () => {
     }, ['collection-main']);
 
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://github.com/owner/collection/tree/main/skills/beta-skill',
       { fetcher: archiveFetcher(archive) },
     );
@@ -264,7 +264,7 @@ describe('installSkillFromRemoteSource', () => {
     }, ['collection-main']);
 
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://github.com/owner/collection/tree/main/skills/beta-skill',
       { fetcher: archiveFetcher(archive) },
     );
@@ -289,7 +289,7 @@ describe('installSkillFromRemoteSource', () => {
     }, ['collection-main']);
 
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://github.com/owner/collection',
       { fetcher: archiveFetcher(archive) },
     );
@@ -302,7 +302,7 @@ describe('installSkillFromRemoteSource', () => {
   });
 
   it('installs an HTTPS .tar.gz archive with SKILL.md at its root', async () => {
-    const userSkillsRoot = await tempRoot('od-user-skills-');
+    const userSkillsRoot = await tempRoot('sw-user-skills-');
     const result = await installSkillFromRemoteSource(
       userSkillsRoot,
       'https://downloads.example/remote-skill.tar.gz',
@@ -324,7 +324,7 @@ describe('installSkillFromRemoteSource', () => {
     'https://github.com.evil/owner/repo',
   ])('rejects an unsafe or unsupported source: %s', async (source) => {
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       source,
       { fetcher: archiveFetcher(await skillArchive()) },
     );
@@ -334,7 +334,7 @@ describe('installSkillFromRemoteSource', () => {
 
   it('surfaces an understandable network failure', async () => {
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://downloads.example/missing.tgz',
       {
         fetcher: async () => ({
@@ -355,7 +355,7 @@ describe('installSkillFromRemoteSource', () => {
 
   it('reuses the plugin downloader SSRF guard for private archive addresses', async () => {
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://127.0.0.1/internal-skill.tgz',
     );
 
@@ -372,7 +372,7 @@ describe('installSkillFromRemoteSource', () => {
       await writeFile(path.join(root, 'repo-main', 'README.md'), '# no manifest');
     }, ['repo-main']);
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://downloads.example/no-manifest.tgz',
       { fetcher: archiveFetcher(archive) },
     );
@@ -385,7 +385,7 @@ describe('installSkillFromRemoteSource', () => {
   });
 
   it('refuses a duplicate skill id instead of overwriting it', async () => {
-    const userSkillsRoot = await tempRoot('od-user-skills-');
+    const userSkillsRoot = await tempRoot('sw-user-skills-');
     const archive = await skillArchive();
     const first = await installSkillFromRemoteSource(
       userSkillsRoot,
@@ -407,7 +407,7 @@ describe('installSkillFromRemoteSource', () => {
   });
 
   it('detects a duplicate id even when a legacy install uses a different folder name', async () => {
-    const userSkillsRoot = await tempRoot('od-user-skills-');
+    const userSkillsRoot = await tempRoot('sw-user-skills-');
     const legacyRoot = path.join(userSkillsRoot, 'legacy-repository-name');
     await mkdir(legacyRoot, { recursive: true });
     await writeFile(
@@ -439,7 +439,7 @@ describe('installSkillFromRemoteSource', () => {
       await symlink('/etc/hosts', path.join(skillRoot, 'escape'));
     }, ['repo-main']);
     const result = await installSkillFromRemoteSource(
-      await tempRoot('od-user-skills-'),
+      await tempRoot('sw-user-skills-'),
       'https://downloads.example/linked-skill.tgz',
       { fetcher: archiveFetcher(archive) },
     );

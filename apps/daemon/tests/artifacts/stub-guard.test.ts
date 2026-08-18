@@ -131,7 +131,7 @@ describe('findPriorArtifactSiblings', () => {
   });
 
   async function makeDir() {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-stub-guard-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-stub-guard-'));
     tempDirs.push(dir);
     return dir;
   }
@@ -335,7 +335,7 @@ describe('evaluateArtifactStubGuard (integration with disk scan)', () => {
   });
 
   async function makeDir() {
-    const dir = await mkdtemp(path.join(tmpdir(), 'od-stub-guard-eval-'));
+    const dir = await mkdtemp(path.join(tmpdir(), 'sw-stub-guard-eval-'));
     tempDirs.push(dir);
     return dir;
   }

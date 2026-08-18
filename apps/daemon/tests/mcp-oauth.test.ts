@@ -196,7 +196,7 @@ describe('client registration cache', () => {
   let dataDir: string;
 
   beforeEach(async () => {
-    dataDir = await mkdtemp(path.join(tmpdir(), 'od-mcp-oauth-'));
+    dataDir = await mkdtemp(path.join(tmpdir(), 'sw-mcp-oauth-'));
   });
 
   afterEach(async () => {
@@ -415,7 +415,7 @@ describe('PendingAuthCache', () => {
 describe('beginAuth (end-to-end with mocked discovery + DCR)', () => {
   let dataDir: string;
   beforeEach(async () => {
-    dataDir = await mkdtemp(path.join(tmpdir(), 'od-mcp-begin-'));
+    dataDir = await mkdtemp(path.join(tmpdir(), 'sw-mcp-begin-'));
   });
   afterEach(async () => {
     await rm(dataDir, { recursive: true, force: true });

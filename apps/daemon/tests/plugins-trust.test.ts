@@ -26,7 +26,7 @@ let tmpDir: string;
 const PLUGIN_ID = 'sample-plugin';
 
 beforeEach(async () => {
-  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'od-trust-'));
+  tmpDir = await mkdtemp(path.join(os.tmpdir(), 'sw-trust-'));
   db = new Database(path.join(tmpDir, 'test.sqlite'));
   db.exec(`
     CREATE TABLE projects (id TEXT PRIMARY KEY, name TEXT);

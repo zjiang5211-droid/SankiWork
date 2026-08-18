@@ -41,8 +41,8 @@ let dataDir: string;
 let db: ReturnType<typeof openDatabase>;
 
 beforeEach(() => {
-  root = mkdtempSync(path.join(tmpdir(), 'od-ds-backfill-root-'));
-  dataDir = mkdtempSync(path.join(tmpdir(), 'od-ds-backfill-db-'));
+  root = mkdtempSync(path.join(tmpdir(), 'sw-ds-backfill-root-'));
+  dataDir = mkdtempSync(path.join(tmpdir(), 'sw-ds-backfill-db-'));
   db = openDatabase(dataDir, { dataDir });
 });
 

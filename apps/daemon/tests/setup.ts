@@ -33,7 +33,7 @@ const globalState = globalThis as typeof globalThis & {
 };
 
 if (!globalState[TEST_DATA_DIR_SYMBOL]) {
-  globalState[TEST_DATA_DIR_SYMBOL] = mkdtempSync(path.join(tmpdir(), 'od-daemon-vitest-'));
+  globalState[TEST_DATA_DIR_SYMBOL] = mkdtempSync(path.join(tmpdir(), 'sw-daemon-vitest-'));
 
   process.once('exit', () => {
     rmSync(globalState[TEST_DATA_DIR_SYMBOL]!, { force: true, recursive: true });

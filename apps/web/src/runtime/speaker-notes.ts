@@ -307,10 +307,10 @@ export function buildSpeakerNotesPresenterHtml(options: {
     </div>
     <div class="notes-body" id="notes-body"></div>
   </aside>
-  <script type="application/json" id="od-presenter-data">${jsonForHtmlScript(data)}</script>
+  <script type="application/json" id="sw-presenter-data">${jsonForHtmlScript(data)}</script>
   <script>
     (function(){
-      var data = JSON.parse(document.getElementById('od-presenter-data').textContent || '{}');
+      var data = JSON.parse(document.getElementById('sw-presenter-data').textContent || '{}');
       var labels = data.labels || {};
       var notes = Array.isArray(data.notes) ? data.notes.slice() : [];
       var count = Math.max(Number(data.slideCount) || 1, notes.length, 1);

@@ -296,7 +296,7 @@ git clone git@github.com:nexu-io/open-design.git
 cd sankiwork
 git fetch origin pull/2604/head:agent-pr-explore-sandbox
 git checkout agent-pr-explore-sandbox
-RUNNER_TEMP=/tmp/od-agent-pr-explore-local \
+RUNNER_TEMP=/tmp/sw-agent-pr-explore-local \
   SW_EXPECT_TIMEOUT_SECONDS=1200 \
   .github/scripts/agent-pr-explore-local.sh <open-pr-number>
 ```

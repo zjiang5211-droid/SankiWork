@@ -117,7 +117,7 @@ describe('design-system tool CLI', () => {
       designSystemId: 'runtime-v3',
       runtime: 'structured',
       report: {
-        schemaVersion: 'od-design-system-adherence/v1',
+        schemaVersion: 'sw-design-system-adherence/v1',
         status: 'passed',
         nextAction: 'complete',
       },
@@ -157,7 +157,7 @@ describe('design-system tool CLI', () => {
   it('returns exit code 2 for findings so the agent must fix or confirm them', async () => {
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({
       report: {
-        schemaVersion: 'od-design-system-adherence/v1',
+        schemaVersion: 'sw-design-system-adherence/v1',
         status: 'failed',
         nextAction: 'fix-and-rerun',
       },

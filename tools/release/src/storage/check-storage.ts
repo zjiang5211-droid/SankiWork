@@ -12,7 +12,7 @@ const publicOrigin = required("RELEASE_PUBLIC_ORIGIN").replace(/\/+$/, "");
 const runId = required("GITHUB_RUN_ID");
 const commit = required("GITHUB_SHA");
 
-const probeDir = mkdtempSync(join(tmpdir(), "od-r2-access-"));
+const probeDir = mkdtempSync(join(tmpdir(), "sw-r2-access-"));
 const probePath = join(probeDir, "r2-release-access.txt");
 const probeKey = `${releaseChannel}/.ci-access-check/${probeName}.txt`;
 

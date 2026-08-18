@@ -5,7 +5,7 @@
 // `od.kind: 'scenario'` plugin under `plugins/_official/scenarios/`.
 // The daemon's bundled boot walker registers all sibling scenarios; the
 // canonical winner per taskKind is selected by `collectBundledScenarios`
-// using the `od-<taskKind>` id rule, so additional scenarios (e.g.
+// using the `sw-<taskKind>` id rule, so additional scenarios (e.g.
 // `sw-media-generation`) can ride along without hijacking the
 // pipeline-fallback.
 
@@ -86,9 +86,9 @@ describe('plugins/_official/scenarios roster', () => {
       expect(Array.isArray(manifest.od.pipeline?.stages)).toBe(true);
       expect(manifest.od.pipeline.stages.length).toBeGreaterThan(0);
       // Sibling scenarios MUST NOT use the canonical id, otherwise the
-      // pipeline-fallback dedupe rule (`id === od-<taskKind>`) would
+      // pipeline-fallback dedupe rule (`id === sw-<taskKind>`) would
       // mis-select the sibling as the canonical winner.
-      expect(folder).not.toBe(`od-${expected.taskKind}`);
+      expect(folder).not.toBe(`sw-${expected.taskKind}`);
     });
   }
 

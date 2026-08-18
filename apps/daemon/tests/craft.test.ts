@@ -8,7 +8,7 @@ import { loadCraftSections, resolveCraftRequirements } from '../src/craft.js';
 let craftDir: string;
 
 beforeAll(async () => {
-  craftDir = await mkdtemp(path.join(tmpdir(), 'od-craft-test-'));
+  craftDir = await mkdtemp(path.join(tmpdir(), 'sw-craft-test-'));
   await writeFile(
     path.join(craftDir, 'typography.md'),
     '# typography\n\nALL CAPS ≥ 0.06em.\n',

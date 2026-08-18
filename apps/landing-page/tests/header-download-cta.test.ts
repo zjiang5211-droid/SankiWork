@@ -121,7 +121,7 @@ describe('landing header account and download entry', () => {
     for (const source of [enhancer, homePage]) {
       assert.match(source, /fetchSession\(\)\.then\(\(user\) =>/);
       assert.match(source, /if \(user\) showSignedIn\(user\)/);
-      assert.doesNotMatch(source, /sign_in_click|data-amr-signin|od-cloud-login|window\.open\(/);
+      assert.doesNotMatch(source, /sign_in_click|data-amr-signin|sw-cloud-login|window\.open\(/);
     }
   });
 });

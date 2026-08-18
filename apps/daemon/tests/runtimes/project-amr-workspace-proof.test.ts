@@ -30,7 +30,7 @@ function seedProject(input: {
   workspaceId?: string;
   memberId?: string;
 }) {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'od-amr-persisted-scope-'));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-amr-persisted-scope-'));
   const db = openDatabase(tempDir);
   const now = Date.now();
   insertProject(db, {

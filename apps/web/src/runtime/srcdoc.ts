@@ -770,7 +770,7 @@ function injectSnapshotBridge(doc: string): string {
 
 function injectPreviewContentSizeBridge(doc: string, documentEpoch: string): string {
   const serializedDocumentEpoch = JSON.stringify(documentEpoch).replace(/</g, '\\u003c');
-  const script = `<script data-od-preview-content-size-bridge>(function(){
+  const script = `<script data-sw-preview-content-size-bridge>(function(){
   if (window.__odPreviewContentSizeBridge) return;
   window.__odPreviewContentSizeBridge = true;
   var pending = false;
@@ -879,7 +879,7 @@ function injectPreviewContentSizeBridge(doc: string, documentEpoch: string): str
 // shared SVG-foreignObject renderer (window.__odCaptureSnapshot from the
 // snapshot bridge) — fast and free of any external script load or network wait.
 function injectExportCaptureBridge(doc: string): string {
-  const script = `<script data-od-export-capture-bridge>(function(){
+  const script = `<script data-sw-export-capture-bridge>(function(){
   function raf(){ return new Promise(function(r){ requestAnimationFrame(function(){ r(); }); }); }
   function settle(){
     var fonts = (document.fonts && document.fonts.ready) ? document.fonts.ready.catch(function(){}) : Promise.resolve();
@@ -984,7 +984,7 @@ function injectPaletteBridge(
   const initial = options.initialPalette
     ? JSON.stringify(String(options.initialPalette))
     : 'null';
-  const script = `<script data-od-palette-bridge>(function(){
+  const script = `<script data-sw-palette-bridge>(function(){
   var PALETTES = {
     'coral':       { hue: 10,  satFloor: 0.55, mono: false },
     'electric':    { hue: 262, satFloor: 0.55, mono: false },
@@ -993,7 +993,7 @@ function injectPaletteBridge(
     'mono-noir':   { hue: 0,   satFloor: 0,    mono: true  }
   };
   var current = ${initial};
-  var ATTR = 'data-od-palette-fix';
+  var ATTR = 'data-sw-palette-fix';
   var SAVED = '__odPaletteSaved__';
   var MIN_SAT = 0.08;
   var WALK_LIMIT = 12000;
@@ -1339,7 +1339,7 @@ function escapeAttr(value: string): string {
 // Empty hrefs and hash only hrefs will be intercepted and ignored.
 // hrefs leading to an id on the page will be scrolled into view.
 function injectSandboxShim(doc: string): string {
-  const shim = `<script data-od-sandbox-shim>(function(){
+  const shim = `<script data-sw-sandbox-shim>(function(){
   function makeStore(){
     var data = {};
     var api = {
@@ -1437,7 +1437,7 @@ function injectSandboxShim(doc: string): string {
 }
 
 function injectPreviewFocusGuard(doc: string): string {
-  const script = `<script data-od-preview-focus-guard>(function(){
+  const script = `<script data-sw-preview-focus-guard>(function(){
   var lastTrustedInputAt = 0;
   function userActivated(){
     return Date.now() - lastTrustedInputAt < 1000;
@@ -1497,7 +1497,7 @@ function injectPreviewRedirectGuard(
   doc: string,
   opts: { blockLoadTimeScriptRedirect?: boolean } = {},
 ): string {
-  const script = `<script data-od-preview-redirect-guard>(function(){
+  const script = `<script data-sw-preview-redirect-guard>(function(){
   var NAME_PREFIX = '__odRedirectGuard=';
   var MAX_HOPS = ${PREVIEW_REDIRECT_GUARD_MAX_HOPS};
   var WINDOW_MS = ${PREVIEW_REDIRECT_GUARD_WINDOW_MS};
@@ -1666,7 +1666,7 @@ function injectPreviewRedirectGuard(
 //        NOT included in this message because artifact JS can forge a
 //        same-source od:inspect-overrides containing a hostile `css`.
 //
-// Overrides are written into a single <style data-od-inspect-overrides>
+// Overrides are written into a single <style data-sw-inspect-overrides>
 // block in <head>, with `!important` on every property so the bridge
 // can defeat author inline styles (common in agent-generated HTML).
 //
@@ -1683,7 +1683,7 @@ function injectSelectionBridge(
 ): string {
   const initialComment = options.initialCommentMode ? 'true' : 'false';
   const initialInspect = options.initialInspectMode ? 'true' : 'false';
-  const script = `<script data-od-selection-bridge>(function(){
+  const script = `<script data-sw-selection-bridge>(function(){
   var commentEnabled = ${initialComment};
   var inspectEnabled = ${initialInspect};
   // Comment mode has two sub-tools (kept on the host side as boardTool):
@@ -1770,25 +1770,25 @@ function injectSelectionBridge(
   }
   function ensureStyleEl(){
     if (styleEl && styleEl.isConnected) return styleEl;
-    styleEl = document.querySelector('style[data-od-inspect-overrides]');
+    styleEl = document.querySelector('style[data-sw-inspect-overrides]');
     if (!styleEl) {
       styleEl = document.createElement('style');
-      styleEl.setAttribute('data-od-inspect-overrides', '');
+      styleEl.setAttribute('data-sw-inspect-overrides', '');
       (document.head || document.documentElement).appendChild(styleEl);
     }
     return styleEl;
   }
   // Hydrate the in-memory override map from any persisted
-  // <style data-od-inspect-overrides> block already in the document.
+  // <style data-sw-inspect-overrides> block already in the document.
   // Without this, the first od:inspect-set rebuilds the sheet from an
   // empty map and silently drops every previously saved rule for other
   // elements — a subsequent Save-to-source would then erase them from
   // the artifact too.
   function hydrateOverridesFromDom(){
-    var existing = document.querySelector('style[data-od-inspect-overrides]');
+    var existing = document.querySelector('style[data-sw-inspect-overrides]');
     if (!existing) return;
     var text = existing.textContent || '';
-    var ruleRe = /(\\[data-(?:od-id|screen-label)="[^"]*"\\])\\s*\\{\\s*([^}]*)\\}/g;
+    var ruleRe = /(\\[data-(?:sw-id|screen-label)="[^"]*"\\])\\s*\\{\\s*([^}]*)\\}/g;
     var match;
     while ((match = ruleRe.exec(text)) !== null) {
       var selector = match[1];
@@ -2218,14 +2218,14 @@ function meaningfulDomFallbackTarget(el) {
     postOverrides();
   }
   // Reapply the bounded UI state captured from the URL-loaded twin before
-  // Manual Edit became active. data-od-* stays owned by this srcDoc's bridges.
+  // Manual Edit became active. data-sw-* stays owned by this srcDoc's bridges.
   function runtimeStateAttributeAllowed(name){
     return name === 'class' ||
       name === 'style' ||
       name === 'hidden' ||
       name === 'open' ||
       name.indexOf('aria-') === 0 ||
-      (name.indexOf('data-') === 0 && name.indexOf('data-od-') !== 0);
+      (name.indexOf('data-') === 0 && name.indexOf('data-sw-') !== 0);
   }
   function applyRuntimeStateAttributes(el, attrs){
     if (!el || !attrs || typeof attrs !== 'object') return;
@@ -2361,8 +2361,8 @@ function meaningfulDomFallbackTarget(el) {
     if (data.type === 'od:comment-mode') {
       commentEnabled = !!data.enabled;
       mode = data.mode === 'pod' ? 'pod' : 'picker';
-      document.documentElement.toggleAttribute('data-od-comment-mode', commentEnabled);
-      document.documentElement.setAttribute('data-od-comment-mode-kind', mode);
+      document.documentElement.toggleAttribute('data-sw-comment-mode', commentEnabled);
+      document.documentElement.setAttribute('data-sw-comment-mode-kind', mode);
       if (active()) setTimeout(postTargets, 0);
       else {
         hoveredId = null;
@@ -2397,7 +2397,7 @@ function meaningfulDomFallbackTarget(el) {
 
     if (data.type === 'od:inspect-mode') {
       inspectEnabled = !!data.enabled;
-      document.documentElement.toggleAttribute('data-od-inspect-mode', inspectEnabled);
+      document.documentElement.toggleAttribute('data-sw-inspect-mode', inspectEnabled);
       if (active()) setTimeout(postTargets, 0);
       else hoveredId = null;
       return;
@@ -2515,7 +2515,7 @@ function meaningfulDomFallbackTarget(el) {
       type: 'od:comment-target',
       // Synthetic selector / label so daemon upsert validation (which
       // requires both to be non-empty) accepts the saved free-pin.
-      selector: '[data-od-pin="' + pinId + '"]',
+      selector: '[data-sw-pin="' + pinId + '"]',
       label: 'pin',
       text: '',
       position: { x: pinX - 12, y: pinY - 12, width: 24, height: 24 },
@@ -2581,9 +2581,9 @@ function meaningfulDomFallbackTarget(el) {
   textMo.observe(document.documentElement, { subtree: true, characterData: true, attributes: true });
   // Reflect the host-requested initial modes on the documentElement so
   // the cursor/hover styles match what the bridge picks up on click.
-  if (commentEnabled) document.documentElement.toggleAttribute('data-od-comment-mode', true);
-  if (inspectEnabled) document.documentElement.toggleAttribute('data-od-inspect-mode', true);
-  document.documentElement.setAttribute('data-od-comment-mode-kind', mode);
+  if (commentEnabled) document.documentElement.toggleAttribute('data-sw-comment-mode', true);
+  if (inspectEnabled) document.documentElement.toggleAttribute('data-sw-inspect-mode', true);
+  document.documentElement.setAttribute('data-sw-comment-mode-kind', mode);
   hydrateOverridesFromDom();
   // Acknowledge the hydrated overrides to the host as a preview signal so
   // diagnostic listeners (and tests) can observe that the bridge is in sync
@@ -2600,15 +2600,15 @@ function meaningfulDomFallbackTarget(el) {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', postPreviewScroll);
   else setTimeout(postPreviewScroll, 0);
 })();</script>`;
-  const style = `<style data-od-selection-bridge-style>
-html[data-od-comment-mode] body * { cursor: crosshair !important; }
-html[data-od-inspect-mode] body * { cursor: crosshair !important; }
-html[data-od-comment-mode][data-od-comment-mode-kind="pod"] body * { cursor: cell !important; }
+  const style = `<style data-sw-selection-bridge-style>
+html[data-sw-comment-mode] body * { cursor: crosshair !important; }
+html[data-sw-inspect-mode] body * { cursor: crosshair !important; }
+html[data-sw-comment-mode][data-sw-comment-mode-kind="pod"] body * { cursor: cell !important; }
 /* Nested iframes (e.g. shared device frames) consume clicks in their own browsing context.
    While picker modes are on, disable pointer events on outer-document iframes so the
    hit target resolves to an annotated ancestor (card, shell) in this document. */
-html[data-od-comment-mode] body iframe,
-html[data-od-inspect-mode] body iframe { pointer-events: none !important; }
+html[data-sw-comment-mode] body iframe,
+html[data-sw-inspect-mode] body iframe { pointer-events: none !important; }
 </style>`;
   return injectBeforeBodyEnd(injectBeforeHeadEnd(doc, style), script);
 }
@@ -2687,20 +2687,20 @@ export const DECK_CHROME_HIDE_CSS = `.deck-counter,
 }`;
 
 function injectMotionFreeze(doc: string): string {
-  return injectBeforeHeadEnd(doc, `<style data-od-motion-freeze>
+  return injectBeforeHeadEnd(doc, `<style data-sw-motion-freeze>
 ${DECK_MOTION_FREEZE_CSS}
 </style>`);
 }
 
 function injectDeckChromeHiding(doc: string): string {
-  return injectBeforeHeadEnd(doc, `<style data-od-deck-chrome-hidden>
+  return injectBeforeHeadEnd(doc, `<style data-sw-deck-chrome-hidden>
 ${DECK_CHROME_HIDE_CSS}
 </style>`);
 }
 
 function injectDeckStageShadowChromeHiding(doc: string): string {
-  return injectBeforeBodyEnd(doc, `<script data-od-deck-stage-shadow-chrome-hidden>(function(){
-  var HIDE_ID = 'od-deck-stage-shadow-chrome-hidden';
+  return injectBeforeBodyEnd(doc, `<script data-sw-deck-stage-shadow-chrome-hidden>(function(){
+  var HIDE_ID = 'sw-deck-stage-shadow-chrome-hidden';
   var CSS = '.overlay,.tapzones{display:none!important;visibility:hidden!important;pointer-events:none!important;}';
   function hideStage(stage){
     try {
@@ -2765,7 +2765,7 @@ const NAV_KEYDOWN_LISTENER_PROBE = `function odLooksLikeNavKeydownListener(liste
 // keydown listeners via __odDeckBridgeOwnListenerInstall so they are not
 // mistaken for artifact navigation.
 function injectDeckKeydownRegistryHook(doc: string): string {
-  const hook = `<script data-od-deck-keydown-registry>(function(){
+  const hook = `<script data-sw-deck-keydown-registry>(function(){
   ${NAV_KEYDOWN_LISTENER_PROBE}
   function wrap(target){
     try {
@@ -2838,14 +2838,14 @@ function injectDeckBridge(
   // stage back where `fit()` already assumes it is. Both declarations are
   // no-ops on a deck that copied the skeleton verbatim.
   const styleFix = isFrameworkDeck
-    ? `<style data-od-deck-fix>
+    ? `<style data-sw-deck-fix>
 .deck-shell { display: block !important; }
 .deck-stage { flex-shrink: 0 !important; }
 </style>`
-    : `<style data-od-deck-fix>
+    : `<style data-sw-deck-fix>
 .stage, .deck-stage, .deck-shell { place-content: center !important; }
 </style>`;
-  const script = `<script data-od-deck-bridge>(function(){
+  const script = `<script data-sw-deck-bridge>(function(){
   var initialSlideIndex = ${safeInitialSlideIndex};
   var didRestoreInitialSlide = initialSlideIndex <= 0;
   // The framework branch's own listener source mentions navigation keys, so
@@ -3580,19 +3580,19 @@ function injectTweaksBridge(doc: string): string {
   // Hide-state styling mirrors the artifact's own `.tw-hidden` (transform +
   // opacity) so the CSS transition plays in both directions. `.tw-restore` is
   // kept permanently hidden — the host toolbar is the only entry point.
-  const style = `<style data-od-tweaks-bridge-style>
-[data-od-tweaks-hidden] .tw-panel {
+  const style = `<style data-sw-tweaks-bridge-style>
+[data-sw-tweaks-hidden] .tw-panel {
   transform: translateX(calc(100% + 32px)) !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
 .tw-restore { display: none !important; }
 </style>`;
-  const script = `<script data-od-tweaks-bridge>(function(){
+  const script = `<script data-sw-tweaks-bridge>(function(){
   // Synchronously hide BEFORE the artifact body parses so the panel never
   // flashes on initial paint. The host removes the attribute via postMessage
   // once it knows the desired state.
-  document.documentElement.setAttribute('data-od-tweaks-hidden', '');
+  document.documentElement.setAttribute('data-sw-tweaks-hidden', '');
 
   var suppressEcho = false;
   var observer = null;
@@ -3606,7 +3606,7 @@ function injectTweaksBridge(doc: string): string {
 
   function setPanelVisible(visible){
     suppressEcho = true;
-    document.documentElement.toggleAttribute('data-od-tweaks-hidden', !visible);
+    document.documentElement.toggleAttribute('data-sw-tweaks-hidden', !visible);
     applyClassesToPanel(visible);
     // Clear flag after the MutationObserver has had a chance to fire for this
     // change so we don't echo our own host-driven toggles back to the host.
@@ -3645,7 +3645,7 @@ function injectTweaksBridge(doc: string): string {
 
   function onReady(){
     // Capture the panel authored visibility BEFORE we apply the host hidden
-    // attribute. The bridge sets data-od-tweaks-hidden synchronously in head
+    // attribute. The bridge sets data-sw-tweaks-hidden synchronously in head
     // (before the body parses), so on entry to onReady the attribute is
     // always present even though the artifact may have authored the panel
     // as default-visible. Reading the panel class first is the only place
@@ -3655,7 +3655,7 @@ function injectTweaksBridge(doc: string): string {
     // ON. Issue surfaced in PR #1643 review.
     var panel = panelEl();
     var initialVisible = !!panel && !panel.classList.contains('tw-hidden');
-    document.documentElement.toggleAttribute('data-od-tweaks-hidden', !initialVisible);
+    document.documentElement.toggleAttribute('data-sw-tweaks-hidden', !initialVisible);
     applyClassesToPanel(initialVisible);
     attachObserver();
     postAvailability();

@@ -105,7 +105,7 @@ describe('reflowBrandToMemory', () => {
   let dataDir: string;
 
   beforeEach(() => {
-    dataDir = mkdtempSync(path.join(os.tmpdir(), 'od-brand-memory-'));
+    dataDir = mkdtempSync(path.join(os.tmpdir(), 'sw-brand-memory-'));
   });
 
   afterEach(() => {

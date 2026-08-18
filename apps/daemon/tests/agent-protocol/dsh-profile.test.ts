@@ -189,7 +189,7 @@ describe('strict DeepSeek Harness profile JSONL stream', () => {
 
 describe('fake DeepSeek Harness profile runtime', () => {
   test('probes, creates, then resumes the same persisted session in another process', async () => {
-    const sessionRoot = mkdtempSync(path.join(tmpdir(), 'od-dsh-profile-'));
+    const sessionRoot = mkdtempSync(path.join(tmpdir(), 'sw-dsh-profile-'));
     try {
       const probe = await runFake(['--profile', 'sankiwork', '--probe'], sessionRoot);
       assert.equal(probe.code, 0);
@@ -224,7 +224,7 @@ describe('fake DeepSeek Harness profile runtime', () => {
   });
 
   test('returns explicit resume rejection instead of creating a session', async () => {
-    const sessionRoot = mkdtempSync(path.join(tmpdir(), 'od-dsh-profile-'));
+    const sessionRoot = mkdtempSync(path.join(tmpdir(), 'sw-dsh-profile-'));
     try {
       const result = await runFake(
         ['--profile', 'sankiwork', '--stdio'],
@@ -241,7 +241,7 @@ describe('fake DeepSeek Harness profile runtime', () => {
   });
 
   test('accepts protocol cancellation and emits one cancelled terminal result', async () => {
-    const sessionRoot = mkdtempSync(path.join(tmpdir(), 'od-dsh-profile-'));
+    const sessionRoot = mkdtempSync(path.join(tmpdir(), 'sw-dsh-profile-'));
     try {
       const result = await runFake(
         ['--profile', 'sankiwork', '--stdio'],

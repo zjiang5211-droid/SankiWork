@@ -62,7 +62,7 @@ test("collectRelativeSpecifiers ignores external specifiers and string literals 
 });
 
 test("resolvesRelativeSpecifier maps .js specifiers to their real sibling and follows directory barrels", async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), "od-tsnocheck-"));
+  const root = await mkdtemp(path.join(os.tmpdir(), "sw-tsnocheck-"));
   await writeFile(path.join(root, "sibling.ts"), "export const a = 1;", "utf8");
   await mkdir(path.join(root, "domain"), { recursive: true });
   await writeFile(path.join(root, "domain", "index.ts"), "export const b = 2;", "utf8");
@@ -84,7 +84,7 @@ test("resolvesRelativeSpecifier maps .js specifiers to their real sibling and fo
 });
 
 test("resolvesRelativeSpecifier keeps .mjs/.cjs resolution extension-specific", async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), "od-tsnocheck-"));
+  const root = await mkdtemp(path.join(os.tmpdir(), "sw-tsnocheck-"));
   // NodeNext: .mts emits .mjs, .cts emits .cjs, a same-basename .ts emits .js.
   await writeFile(path.join(root, "esm.mts"), "export const a = 1;", "utf8");
   await writeFile(path.join(root, "cjs.cts"), "export const a = 1;", "utf8");
@@ -109,7 +109,7 @@ test("resolvesRelativeSpecifier keeps .mjs/.cjs resolution extension-specific", 
 });
 
 test("collectTsNocheckImportViolationsFromSource flags only the unresolved import in a @ts-nocheck file", async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), "od-tsnocheck-"));
+  const root = await mkdtemp(path.join(os.tmpdir(), "sw-tsnocheck-"));
   await writeFile(path.join(root, "present.ts"), "export const a = 1;", "utf8");
 
   const violations = collectTsNocheckImportViolationsFromSource(

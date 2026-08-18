@@ -50,7 +50,7 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const VENDORED = path.join(REPO_ROOT, 'skills', 'hyperframes');
 
 async function main() {
-  const tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'od-hf-sync-'));
+  const tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-hf-sync-'));
   try {
     console.log(`[sync] installing upstream into ${tmpRoot}`);
     // `-y` auto-accepts the install confirmation prompt; we install just

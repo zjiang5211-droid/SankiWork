@@ -919,7 +919,7 @@ export function NewProjectPanel({
         <div className="newproj-working-dir-row">
           <button
             type="button"
-            className={`ghost newproj-working-dir od-tooltip${workingDir ? ' picked' : ''}`}
+            className={`ghost newproj-working-dir sw-tooltip${workingDir ? ' picked' : ''}`}
             onClick={() => void handlePickWorkingDir()}
             disabled={workingDirPicking}
             title={workingDir ?? t('workingDirPicker.homeTitle')}

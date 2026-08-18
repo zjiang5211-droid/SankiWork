@@ -421,7 +421,7 @@ describe('Codex model capability preflight', () => {
     projectRoot: string;
     versionProbeCount: string;
   }> {
-    const dir = await mkdtemp(path.join(os.tmpdir(), 'od-codex-preflight-unit-'));
+    const dir = await mkdtemp(path.join(os.tmpdir(), 'sw-codex-preflight-unit-'));
     tempDirs.push(dir);
     const codexHome = path.join(dir, 'codex-home');
     const projectRoot = path.join(dir, 'project');

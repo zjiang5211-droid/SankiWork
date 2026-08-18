@@ -20,14 +20,14 @@ import type { ParsedDeckThumbnails } from '../runtime/deck-thumbnail-parser';
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 // Thumbnail-only overrides layered on top of the deck's own CSS:
-// - `[data-od-thumb-wrap]`: make every reconstructed wrapper fill the canvas and
+// - `[data-sw-thumb-wrap]`: make every reconstructed wrapper fill the canvas and
 //   drop the runtime transform / drop-shadow the deck's own JS would set.
-// - `[data-od-thumb-slide]`: pin the single slide to the full canvas and force
+// - `[data-sw-thumb-slide]`: pin the single slide to the full canvas and force
 //   it visible regardless of the deck's active-slide toggle.
 // - `.overlay/.tapzones`: template decks (`deck-stage.js`) name their nav this
 //   way — belt-and-suspenders on top of DECK_CHROME_HIDE_CSS.
-const THUMB_OVERRIDE_CSS = `[data-od-thumb-wrap]{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;padding:0!important;transform:none!important;box-shadow:none!important;visibility:visible!important;opacity:1!important;}
-[data-od-thumb-slide]{display:block!important;position:absolute!important;inset:0!important;margin:0!important;visibility:visible!important;opacity:1!important;pointer-events:none!important;}
+const THUMB_OVERRIDE_CSS = `[data-sw-thumb-wrap]{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;padding:0!important;transform:none!important;box-shadow:none!important;visibility:visible!important;opacity:1!important;}
+[data-sw-thumb-slide]{display:block!important;position:absolute!important;inset:0!important;margin:0!important;visibility:visible!important;opacity:1!important;pointer-events:none!important;}
 .overlay,.tapzones{display:none!important;visibility:hidden!important;pointer-events:none!important;}`;
 
 interface DeckCssEntry {
@@ -73,18 +73,18 @@ function ensureDeckFonts(parsed: ParsedDeckThumbnails): void {
   if (!head) return;
   if (parsed.fontFaces.trim()) {
     const style = document.createElement('style');
-    style.setAttribute('data-od-deck-fonts', '');
+    style.setAttribute('data-sw-deck-fonts', '');
     style.textContent = parsed.fontFaces;
     head.appendChild(style);
   }
   for (const href of parsed.fontLinks) {
     const escaped = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(href) : href;
-    const selector = `link[data-od-deck-font][href="${escaped}"]`;
+    const selector = `link[data-sw-deck-font][href="${escaped}"]`;
     if (head.querySelector(selector)) continue;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = href;
-    link.setAttribute('data-od-deck-font', '');
+    link.setAttribute('data-sw-deck-font', '');
     head.appendChild(link);
   }
 }
@@ -138,7 +138,7 @@ export const DeckSlideThumbnail = memo(function DeckSlideThumbnail({
       }
 
       const canvas = document.createElement('div');
-      canvas.className = 'od-thumb-canvas';
+      canvas.className = 'sw-thumb-canvas';
       canvas.style.cssText =
         `position:absolute;top:0;left:0;transform-origin:top left;overflow:hidden;` +
         `width:${parsed.designWidth}px;height:${parsed.designHeight}px;`;
@@ -153,7 +153,7 @@ export const DeckSlideThumbnail = memo(function DeckSlideThumbnail({
             // Ignore invalid attribute names carried over from the source.
           }
         }
-        el.setAttribute('data-od-thumb-wrap', '');
+        el.setAttribute('data-sw-thumb-wrap', '');
         mountPoint.appendChild(el);
         mountPoint = el;
       }
@@ -165,8 +165,8 @@ export const DeckSlideThumbnail = memo(function DeckSlideThumbnail({
       // Inert already (parsed via <template>), but drop scripts defensively.
       slide.querySelectorAll('script').forEach((s) => s.remove());
       slide.classList.add('active', 'is-active', 'current', 'visible');
-      slide.setAttribute('data-od-deck-active', '');
-      slide.setAttribute('data-od-thumb-slide', '');
+      slide.setAttribute('data-sw-deck-active', '');
+      slide.setAttribute('data-sw-thumb-slide', '');
       slide.removeAttribute('hidden');
       slide.setAttribute('aria-hidden', 'false');
       mountPoint.appendChild(slide);

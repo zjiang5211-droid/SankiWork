@@ -75,7 +75,7 @@ describe('propagateWorkspaceProjectRename', () => {
   };
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-ds-rename-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-ds-rename-'));
     const dir = path.join(root, DIR_ID);
     await mkdir(dir, { recursive: true });
     await writeFile(

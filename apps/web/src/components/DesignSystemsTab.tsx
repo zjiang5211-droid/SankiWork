@@ -977,7 +977,7 @@ export function DesignSystemsTab({
       {actionToast ? (
         // Anchored to the entry shell's scroll pane (see
         // .design-systems-toast-anchor in styles/viewer/routines.css) instead
-        // of the bare `.od-toast` viewport-fixed centering — otherwise the
+        // of the bare `.sw-toast` viewport-fixed centering — otherwise the
         // toast centers on the full 100vw and drifts onto the design-system
         // preview's first card whenever the nav rail's width shifts the
         // content column right (recvqaZAbIdfz1).

@@ -160,7 +160,7 @@ describe('local MCP plugin observability contract', () => {
   it('derives a versioned lower-case SHA-256 logical request digest', () => {
     const requestId = '018f6f2e-1111-7111-8111-111111111111';
     const expected = createHash('sha256')
-      .update(`od-plugin-logical-request:v1:${requestId}`)
+      .update(`sw-plugin-logical-request:v1:${requestId}`)
       .digest('hex');
 
     expect(logicalPluginRequestDigest(requestId)).toEqual({
@@ -453,7 +453,7 @@ describe('local MCP plugin observability contract', () => {
       {
         project: 'Demo',
         prompt: 'Create a launch page',
-        requestId: 'od-mscwn4y2-tlnx02dig7',
+        requestId: 'sw-mscwn4y2-tlnx02dig7',
         pluginWorkflowId: '018f6f2e-4444-7444-8444-444444444444',
       },
       {

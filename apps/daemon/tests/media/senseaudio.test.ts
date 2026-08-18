@@ -38,7 +38,7 @@ describe('senseaudio media generation', () => {
   const originalDataDir = process.env.SW_DATA_DIR;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-senseaudio-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-senseaudio-'));
     projectRoot = path.join(root, 'project-root');
     projectsRoot = path.join(projectRoot, '.sankiwork', 'projects');
     await mkdir(projectsRoot, { recursive: true });

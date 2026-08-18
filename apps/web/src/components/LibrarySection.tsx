@@ -1181,7 +1181,7 @@ export function LibrarySection({ active, onOpenProject }: Props) {
         <div className={styles.viewToggle} role="group" aria-label={t('library.viewMode')}>
           <button
             type="button"
-            className={`${styles.viewToggleBtn} od-tooltip`}
+            className={`${styles.viewToggleBtn} sw-tooltip`}
             data-active={viewMode === 'grid' ? 'true' : 'false'}
             aria-pressed={viewMode === 'grid'}
             onClick={() => setViewMode('grid')}
@@ -1192,7 +1192,7 @@ export function LibrarySection({ active, onOpenProject }: Props) {
           </button>
           <button
             type="button"
-            className={`${styles.viewToggleBtn} od-tooltip`}
+            className={`${styles.viewToggleBtn} sw-tooltip`}
             data-active={viewMode === 'timeline' ? 'true' : 'false'}
             aria-pressed={viewMode === 'timeline'}
             onClick={() => setViewMode('timeline')}
@@ -1204,7 +1204,7 @@ export function LibrarySection({ active, onOpenProject }: Props) {
         </div>
         <Button
           variant="ghost"
-          className={`${styles.refreshBtn} od-tooltip`}
+          className={`${styles.refreshBtn} sw-tooltip`}
           onClick={() => void load()}
           aria-busy={loading}
           data-tooltip={t('library.refreshTooltip')}
@@ -1215,7 +1215,7 @@ export function LibrarySection({ active, onOpenProject }: Props) {
         </Button>
         <Button
           variant="ghost"
-          className={`${styles.refreshBtn} od-tooltip`}
+          className={`${styles.refreshBtn} sw-tooltip`}
           onClick={() => void runSync()}
           aria-busy={syncing}
           disabled={syncing}
@@ -1226,7 +1226,7 @@ export function LibrarySection({ active, onOpenProject }: Props) {
           {syncing ? t('library.syncing') : t('library.sync')}
         </Button>
         <Button
-          className={`${styles.uploadBtn} od-tooltip`}
+          className={`${styles.uploadBtn} sw-tooltip`}
           onClick={() => openUpload()}
           data-tooltip={t('library.uploadTooltip')}
           data-tooltip-placement="bottom"

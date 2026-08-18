@@ -7098,7 +7098,7 @@
       "name": "sankiwork/example-sankiwork-landing",
       "title": "SankiWork Landing",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/examples/sankiwork-landing",
+      "source": "github:nexu-io/open-design@main/plugins/_official/examples/open-design-landing",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -7131,7 +7131,7 @@
       "name": "sankiwork/example-sankiwork-landing-deck",
       "title": "SankiWork Landing Deck",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/examples/sankiwork-landing-deck",
+      "source": "github:nexu-io/open-design@main/plugins/_official/examples/open-design-landing-deck",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9658,7 +9658,7 @@
       "name": "sankiwork/sw-code-migration",
       "title": "Code migration (default scenario)",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-code-migration",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-code-migration",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9685,7 +9685,7 @@
       "name": "sankiwork/sw-default",
       "title": "Default design router",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-default",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-default",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9715,7 +9715,7 @@
       "name": "sankiwork/sw-design-refine",
       "title": "Design refine",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-design-refine",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-design-refine",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9744,7 +9744,7 @@
       "name": "sankiwork/sw-figma-migration",
       "title": "Figma migration (default scenario)",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-figma-migration",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-figma-migration",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9770,7 +9770,7 @@
       "name": "sankiwork/sw-media-generation",
       "title": "Media generation (default scenario)",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-media-generation",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-media-generation",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9800,7 +9800,7 @@
       "name": "sankiwork/sw-new-generation",
       "title": "New generation (default scenario)",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-new-generation",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-new-generation",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9823,7 +9823,7 @@
       "name": "sankiwork/sw-nextjs-export",
       "title": "Export to Next.js",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-nextjs-export",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-nextjs-export",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9853,7 +9853,7 @@
       "name": "sankiwork/sw-plugin-authoring",
       "title": "Plugin authoring",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-plugin-authoring",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-plugin-authoring",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9877,7 +9877,7 @@
       "name": "sankiwork/sw-plugin-contribute-sankiwork",
       "title": "Contribute Plugin to SankiWork",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/examples/sw-plugin-contribute-sankiwork",
+      "source": "github:nexu-io/open-design@main/plugins/_official/examples/od-plugin-contribute-open-design",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9909,7 +9909,7 @@
       "name": "sankiwork/sw-plugin-publish-github",
       "title": "Publish Plugin to GitHub",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/examples/sw-plugin-publish-github",
+      "source": "github:nexu-io/open-design@main/plugins/_official/examples/od-plugin-publish-github",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9941,7 +9941,7 @@
       "name": "sankiwork/sw-react-export",
       "title": "Export to React",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-react-export",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-react-export",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9970,7 +9970,7 @@
       "name": "sankiwork/sw-tune-collab",
       "title": "Tune & collaborate (default scenario)",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-tune-collab",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-tune-collab",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -9995,7 +9995,7 @@
       "name": "sankiwork/sw-vue-export",
       "title": "Export to Vue",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-vue-export",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-vue-export",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"
@@ -10024,7 +10024,7 @@
       "name": "sankiwork/sw-web-effect-extractor",
       "title": "Web effect extractor",
       "version": "0.1.0",
-      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/sw-web-effect-extractor",
+      "source": "github:nexu-io/open-design@main/plugins/_official/scenarios/od-web-effect-extractor",
       "publisher": {
         "id": "sankiwork",
         "url": "https://sanki-ai.cloud"

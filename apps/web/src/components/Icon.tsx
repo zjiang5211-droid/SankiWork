@@ -243,7 +243,7 @@ export function Icon({ name, size = 14, strokeWidth = 1.6, ...rest }: Props) {
         fill="currentColor"
         aria-hidden
         focusable="false"
-        className={`od-icon${name === 'spinner' ? ' icon-spin' : ''}${className ? ` ${className}` : ''}`}
+        className={`sw-icon${name === 'spinner' ? ' icon-spin' : ''}${className ? ` ${className}` : ''}`}
         {...restProps}
       >
         <path d={remixPath} />
@@ -262,12 +262,12 @@ export function Icon({ name, size = 14, strokeWidth = 1.6, ...rest }: Props) {
     strokeLinejoin: 'round' as const,
     'aria-hidden': true,
     focusable: 'false' as const,
-    // Every glyph carries `od-icon`, the hook ~35 selectors across
+    // Every glyph carries `sw-icon`, the hook ~35 selectors across
     // entry-layout / design-files / plus-menu / recent-projects style against.
     // Moving off the icon FONT to inline SVG (packaged `sankiwork://` can't load
     // url() fonts) dropped this class, which silently killed all of them —
     // several stylesheets already carry `> svg` workarounds noting as much.
-    className: `od-icon${strokeClassName ? ` ${strokeClassName}` : ''}`,
+    className: `sw-icon${strokeClassName ? ` ${strokeClassName}` : ''}`,
     ...strokeRest,
   };
   switch (name) {
@@ -888,7 +888,7 @@ export function Icon({ name, size = 14, strokeWidth = 1.6, ...rest }: Props) {
       );
     case 'spinner':
       return (
-        <svg {...common} className={`od-icon icon-spin${strokeClassName ? ` ${strokeClassName}` : ''}`}>
+        <svg {...common} className={`sw-icon icon-spin${strokeClassName ? ` ${strokeClassName}` : ''}`}>
           <path d="M21 12a9 9 0 1 1-6.22-8.56" />
         </svg>
       );

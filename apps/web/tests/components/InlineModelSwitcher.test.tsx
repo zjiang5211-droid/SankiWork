@@ -212,7 +212,7 @@ function expectVelaLoginWithAttribution(
     };
   };
   expect(body.attribution).toEqual(expect.objectContaining({
-    entryId: expect.stringMatching(/^od-amr-/u),
+    entryId: expect.stringMatching(/^sw-amr-/u),
     sourceProduct: 'sankiwork',
     sourceDetail,
   }));
@@ -651,7 +651,7 @@ describe('InlineModelSwitcher AMR row', () => {
 
     renderSwitcher({
       telemetry: { metrics: true },
-      installationId: 'od-install-abc',
+      installationId: 'sw-install-abc',
     });
 
     fireEvent.click(screen.getByTestId('inline-model-switcher-chip'));
@@ -667,7 +667,7 @@ describe('InlineModelSwitcher AMR row', () => {
     // page's fixed `view=plans` pricing modal.
     expect(parsed.searchParams.get('billing')).toBe('plan');
     expect(parsed.searchParams.get('od_entry_source')).toBe('inline_amr_upgrade');
-    expect(parsed.searchParams.get('od_device_id')).toBe('od-install-abc');
+    expect(parsed.searchParams.get('od_device_id')).toBe('sw-install-abc');
     expect(target).toBe('_blank');
     expect(features).toBe('noopener,noreferrer');
   });
@@ -720,7 +720,7 @@ describe('InlineModelSwitcher AMR row', () => {
 
     renderSwitcher({
       telemetry: { metrics: true },
-      installationId: 'od-install-abc',
+      installationId: 'sw-install-abc',
     });
 
     fireEvent.click(screen.getByTestId('inline-model-switcher-chip'));

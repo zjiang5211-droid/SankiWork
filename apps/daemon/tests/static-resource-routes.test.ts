@@ -20,7 +20,7 @@ describe('static resource mutation routes', () => {
   beforeAll(
     () =>
       new Promise<void>((resolve) => {
-        tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'od-static-routes-'));
+        tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-static-routes-'));
         const app = express();
         app.use(express.json({ limit: '4mb' }));
         registerStaticResourceRoutes(app, {
@@ -175,7 +175,7 @@ describe('design system import catalog lookup', () => {
   beforeAll(
     () =>
       new Promise<void>((resolve) => {
-        tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'od-static-import-'));
+        tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-static-import-'));
         sourceRoot = path.join(tempRoot, 'source-app');
         userDesignSystemsDir = path.join(tempRoot, 'user-design-systems');
         db = openDatabase(path.join(tempRoot, 'projects'), { dataDir: path.join(tempRoot, 'data') });

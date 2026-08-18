@@ -117,7 +117,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     objectRelayUrl = process.env.SANKIWORK_OBJECT_RELAY_URL;
     delete process.env.SANKIWORK_TELEMETRY_RELAY_URL;
     delete process.env.SANKIWORK_OBJECT_RELAY_URL;
-    dataDir = await mkdtemp(path.join(tmpdir(), 'od-bridge-'));
+    dataDir = await mkdtemp(path.join(tmpdir(), 'sw-bridge-'));
   });
 
   afterEach(async () => {

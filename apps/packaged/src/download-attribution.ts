@@ -191,7 +191,7 @@ async function readWhereFroms(path: string): Promise<string[]> {
     maxBuffer: 1024 * 1024,
   });
   const bytes = Buffer.from(String(stdout).replace(/\s+/g, ""), "hex");
-  const scratch = join(tmpdir(), `od-wherefroms-${process.pid}-${Date.now()}-${basename(path)}.plist`);
+  const scratch = join(tmpdir(), `sw-wherefroms-${process.pid}-${Date.now()}-${basename(path)}.plist`);
   await mkdir(dirname(scratch), { recursive: true });
   try {
     await writeFile(scratch, bytes);

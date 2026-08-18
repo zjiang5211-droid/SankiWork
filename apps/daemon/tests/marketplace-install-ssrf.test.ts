@@ -59,7 +59,7 @@ beforeEach(async () => {
   await new Promise<void>((resolve) => canary!.listen(0, '127.0.0.1', () => resolve()));
   canaryPort = (canary.address() as { port: number }).port;
 
-  dataDir = await mkdtemp(path.join(os.tmpdir(), 'od-mkt-ssrf-'));
+  dataDir = await mkdtemp(path.join(os.tmpdir(), 'sw-mkt-ssrf-'));
   process.env.SW_DATA_DIR = dataDir;
 
   const { startServer } = await import('../src/server.js');

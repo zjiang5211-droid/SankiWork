@@ -7,7 +7,7 @@
 //
 // Gating: on browsers without `backdrop-filter: url()` (Safari/Firefox) or
 // when the user prefers reduced transparency, the filter is never applied —
-// the element simply stays in its `.od-glass-refract` base state, which is
+// the element simply stays in its `.sw-glass-refract` base state, which is
 // the plain frosted fallback defined in styles/material.css.
 
 import { useCallback, useEffect, useRef } from 'react';
@@ -22,7 +22,7 @@ import {
 // often render dynamic className templates, and a React re-render rewrites
 // className wholesale — wiping any class added imperatively. Attributes not
 // present in JSX survive re-renders.
-const SDF_ATTR = 'data-od-glass-sdf';
+const SDF_ATTR = 'data-sw-glass-sdf';
 const REDUCED_TRANSPARENCY_QUERY = '(prefers-reduced-transparency: reduce)';
 
 export interface UseLiquidGlassOptions extends LiquidGlassOptions {

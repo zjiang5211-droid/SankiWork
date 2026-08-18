@@ -1,11 +1,11 @@
 import { emptyManualEditStyles, MANUAL_EDIT_STYLE_PROPS, type ManualEditFields, type ManualEditPatch, type ManualEditStyles } from './types';
 
-const MANUAL_EDIT_RUNTIME_OVERRIDES_ID = 'od-manual-edit-runtime-overrides';
-const MANUAL_EDIT_RUNTIME_APPLY_ID = 'od-manual-edit-runtime-apply';
+const MANUAL_EDIT_RUNTIME_OVERRIDES_ID = 'sw-manual-edit-runtime-overrides';
+const MANUAL_EDIT_RUNTIME_APPLY_ID = 'sw-manual-edit-runtime-apply';
 const RUNTIME_OVERRIDE_APPLIER_SOURCE = `
 (function () {
   function readOverrides() {
-    var node = document.getElementById('od-manual-edit-runtime-overrides');
+    var node = document.getElementById('sw-manual-edit-runtime-overrides');
     if (!node) return {};
     try {
       var parsed = JSON.parse(node.textContent || '{}');
@@ -55,7 +55,7 @@ const RUNTIME_OVERRIDE_APPLIER_SOURCE = `
       if (!el) return;
       Object.keys(attrs).forEach(function (name) {
         if (!/^[a-zA-Z_:][a-zA-Z0-9_:.-]*$/.test(name)) return;
-        if (/^data-od-/.test(name)) return;
+        if (/^data-sw-/.test(name)) return;
         var value = textValue(attrs[name]);
         if (value.trim() === '') {
           if (el.hasAttribute(name)) el.removeAttribute(name);
@@ -221,7 +221,7 @@ export function readManualEditAttributes(source: string, id: string): Record<str
   if (!el) return {};
   const attrs: Record<string, string> = {};
   Array.from(el.attributes).forEach((attr) => {
-    if (attr.name === 'data-od-runtime-id') return;
+    if (attr.name === 'data-sw-runtime-id') return;
     attrs[attr.name] = attr.value;
   });
   return attrs;
@@ -266,7 +266,7 @@ function firstSourceToken(source: string): string {
 }
 
 function inferKind(el: Element): 'text' | 'link' | 'image' | 'container' {
-  const explicit = el.getAttribute('data-od-edit');
+  const explicit = el.getAttribute('data-sw-edit');
   if (explicit === 'text' || explicit === 'link' || explicit === 'image' || explicit === 'container') return explicit;
   const tag = el.tagName.toLowerCase();
   if (tag === 'a') return 'link';
@@ -279,14 +279,14 @@ function findEditableElement(doc: Document, id: string): Element | null {
   if (id === '__body__') return doc.body;
   return (
     doc.querySelector(`[data-od-id="${cssEscape(id)}"]`) ??
-    doc.querySelector(`[data-od-runtime-id="${cssEscape(id)}"]`) ??
-    doc.querySelector(`[data-od-source-path="${cssEscape(id)}"]`) ??
+    doc.querySelector(`[data-sw-runtime-id="${cssEscape(id)}"]`) ??
+    doc.querySelector(`[data-sw-source-path="${cssEscape(id)}"]`) ??
     findElementByPath(doc, id)
   );
 }
 
 function applyDynamicBrandKitPatch(doc: Document, patch: ManualEditPatch): { ok: boolean } {
-  if (!doc.getElementById('od-brand-payload')) return { ok: false };
+  if (!doc.getElementById('sw-brand-payload')) return { ok: false };
   if (patch.kind === 'set-style') {
     setRuntimeStyleOverride(doc, patch.id, patch.styles);
     return { ok: true };
@@ -300,7 +300,7 @@ function applyDynamicBrandKitPatch(doc: Document, patch: ManualEditPatch): { ok:
 }
 
 function updateBrandKitPayload(doc: Document, patch: ManualEditElementPatch): { ok: boolean } {
-  const script = doc.getElementById('od-brand-payload');
+  const script = doc.getElementById('sw-brand-payload');
   if (!script) return { ok: false };
   let payload: Record<string, unknown>;
   try {
@@ -515,7 +515,7 @@ function runtimeOverridesElement(doc: Document): HTMLScriptElement {
   const script = doc.createElement('script');
   script.id = MANUAL_EDIT_RUNTIME_OVERRIDES_ID;
   script.type = 'application/json';
-  const payload = doc.getElementById('od-brand-payload');
+  const payload = doc.getElementById('sw-brand-payload');
   if (payload?.parentNode) payload.parentNode.insertBefore(script, payload.nextSibling);
   else (doc.head || doc.documentElement).appendChild(script);
   return script;
@@ -576,10 +576,10 @@ function setRuntimeStyleOverride(doc: Document, id: string, styles: Partial<Manu
 }
 
 function runtimeStyleElement(doc: Document): HTMLStyleElement {
-  const existing = doc.querySelector<HTMLStyleElement>('style[data-od-manual-edit-runtime-overrides]');
+  const existing = doc.querySelector<HTMLStyleElement>('style[data-sw-manual-edit-runtime-overrides]');
   if (existing) return existing;
   const style = doc.createElement('style');
-  style.setAttribute('data-od-manual-edit-runtime-overrides', '');
+  style.setAttribute('data-sw-manual-edit-runtime-overrides', '');
   (doc.head || doc.documentElement).appendChild(style);
   return style;
 }
@@ -663,7 +663,7 @@ function setInlineStyles(el: HTMLElement, styles: Partial<ManualEditStyles>): vo
 }
 
 function setAttributes(el: Element, attributes: Record<string, string>): void {
-  const protectedAttrs = new Set(['data-od-id', 'data-od-edit', 'data-od-label', 'data-od-runtime-id']);
+  const protectedAttrs = new Set(['data-od-id', 'data-sw-edit', 'data-sw-label', 'data-sw-runtime-id']);
   for (const [name, value] of Object.entries(attributes)) {
     if (!isSafeAttributeName(name) || protectedAttrs.has(name)) continue;
     if (value.trim() === '') el.removeAttribute(name);
@@ -680,8 +680,8 @@ function replaceOuterHtml(doc: Document, el: Element, html: string): { ok: true 
   if (el.getAttribute('data-od-id') && !next.getAttribute('data-od-id')) {
     next.setAttribute('data-od-id', el.getAttribute('data-od-id') ?? '');
   }
-  if (el.getAttribute('data-od-edit') && !next.getAttribute('data-od-edit')) {
-    next.setAttribute('data-od-edit', el.getAttribute('data-od-edit') ?? '');
+  if (el.getAttribute('data-sw-edit') && !next.getAttribute('data-sw-edit')) {
+    next.setAttribute('data-sw-edit', el.getAttribute('data-sw-edit') ?? '');
   }
   el.replaceWith(next);
   return { ok: true };

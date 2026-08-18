@@ -74,7 +74,7 @@ const ko: DeepPartial<CommunityCopy> = {
           },
           {
             h4: 'skill을 깨우세요',
-            body: '<code>/od-contribute</code>를 입력하거나, 방금 설치한 것을 실행하라고 에이전트에게 말하기만 하면 됩니다. 어느 쪽이든 문이 열립니다.',
+            body: '<code>/sw-contribute</code>를 입력하거나, 방금 설치한 것을 실행하라고 에이전트에게 말하기만 하면 됩니다. 어느 쪽이든 문이 열립니다.',
           },
           {
             h4: '갤러리까지 30초',

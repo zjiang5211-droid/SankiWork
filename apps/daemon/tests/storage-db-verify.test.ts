@@ -11,7 +11,7 @@ let tmp: string;
 let db: Database.Database;
 
 beforeEach(async () => {
-  tmp = await mkdtemp(path.join(os.tmpdir(), 'od-db-verify-'));
+  tmp = await mkdtemp(path.join(os.tmpdir(), 'sw-db-verify-'));
   db = new Database(path.join(tmp, 'app.sqlite'));
 });
 

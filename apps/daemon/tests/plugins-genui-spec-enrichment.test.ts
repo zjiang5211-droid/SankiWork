@@ -95,7 +95,7 @@ async function listen(app: express.Express): Promise<StartedServer> {
 }
 
 beforeEach(async () => {
-  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'od-genui-spec-'));
+  pluginRoot = await mkdtemp(path.join(os.tmpdir(), 'sw-genui-spec-'));
   // We have to materialise the plugin under a folder whose basename
   // becomes the plugin id (the local installer derives the id from
   // the folder name). Build the fixture nested inside pluginRoot.

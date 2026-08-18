@@ -28,7 +28,7 @@ describe('run request idempotency', () => {
   });
 
   it('returns the same logical run when a lost POST /api/runs response is retried', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-idempotency-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-idempotency-bin-'));
     const { bin, invocationPath } = await writeSuccessfulClaude(binDir);
     started = await startWithFakeClaude(bin);
     const request = await createRunRequest(started.url);
@@ -62,7 +62,7 @@ describe('run request idempotency', () => {
   });
 
   it('rejects reusing one clientRequestId for a different logical request', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-idempotency-conflict-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-idempotency-conflict-bin-'));
     const { bin } = await writeSuccessfulClaude(binDir);
     started = await startWithFakeClaude(bin);
     const request = await createRunRequest(started.url);
@@ -86,7 +86,7 @@ describe('run request idempotency', () => {
   });
 
   it('treats execution-shaping fields omitted by the legacy fingerprint as idempotency conflicts', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-idempotency-shape-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-idempotency-shape-bin-'));
     const { bin } = await writeSuccessfulClaude(binDir);
     started = await startWithFakeClaude(bin);
     const request = {
@@ -119,7 +119,7 @@ describe('run request idempotency', () => {
   });
 
   it('keeps the request-to-run mapping across a daemon restart', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-idempotency-restart-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-idempotency-restart-bin-'));
     const { bin, invocationPath } = await writeSuccessfulClaude(binDir);
     started = await startWithFakeClaude(bin);
     const request = await createRunRequest(started.url);
@@ -154,7 +154,7 @@ describe('run request idempotency', () => {
   });
 
   it('persists one immutable workflow-to-run binding across daemon restarts', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-workflow-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-workflow-bin-'));
     const { bin } = await writeSuccessfulClaude(binDir);
     started = await startWithFakeClaude(bin);
     const base = await createRunRequest(started.url);
@@ -249,7 +249,7 @@ describe('run request idempotency', () => {
   });
 
   it('persists the terminal Plugin HTML version origin on the Run', async () => {
-    binDir = await mkdtemp(path.join(os.tmpdir(), 'od-plugin-artifact-origin-bin-'));
+    binDir = await mkdtemp(path.join(os.tmpdir(), 'sw-plugin-artifact-origin-bin-'));
     const { bin } = await writeSuccessfulClaude(binDir, { writeHtml: true });
     started = await startWithFakeClaude(bin);
     const base = await createRunRequest(started.url);

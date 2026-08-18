@@ -197,7 +197,7 @@ const DECK_CSS = `
 
 const DECK_SCRIPT = `
 (function () {
-  /* od-deck-fit: shrink-to-fit guarantee — keep every slide's content inside
+  /* sw-deck-fit: shrink-to-fit guarantee — keep every slide's content inside
      the fixed 16:9 frame so brand copy of any length never clips. */
   function fitFrame(body) {
     var fit = body.querySelector('.f-fit');

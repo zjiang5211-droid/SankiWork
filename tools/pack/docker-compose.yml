@@ -52,8 +52,8 @@ services:
     # separately lets the operator rotate provider credentials on a
     # different lifecycle than the project data.
     volumes:
-      - od-data:/data/od
-      - od-config:/data/config
+      - sw-data:/data/od
+      - sw-config:/data/config
 
     ports:
       - "${SW_PORT:-7456}:${SW_PORT:-7456}"
@@ -68,5 +68,5 @@ services:
       retries: 3
 
 volumes:
-  od-data: {}
-  od-config: {}
+  sw-data: {}
+  sw-config: {}

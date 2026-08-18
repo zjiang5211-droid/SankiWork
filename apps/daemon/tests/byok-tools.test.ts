@@ -46,7 +46,7 @@ describe('executeGenerateImage', () => {
   const realFetch = globalThis.fetch;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-byok-tools-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-byok-tools-'));
     projectsRoot = path.join(root, 'projects');
   });
 
@@ -397,7 +397,7 @@ describe('executeGenerateSpeech', () => {
   const realFetch = globalThis.fetch;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-byok-speech-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-byok-speech-'));
     projectsRoot = path.join(root, 'projects');
   });
 
@@ -606,7 +606,7 @@ describe('executeGenerateVideo', () => {
   const realFetch = globalThis.fetch;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-byok-video-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-byok-video-'));
     projectsRoot = path.join(root, 'projects');
   });
 
@@ -936,7 +936,7 @@ describe('executeAIHubMixGenerateVideo', () => {
   const realFetch = globalThis.fetch;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-aihubmix-video-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-aihubmix-video-'));
     projectsRoot = path.join(root, 'projects');
   });
 
@@ -1599,7 +1599,7 @@ describe('executeAIHubMixGenerateImage', () => {
   const realFetch = globalThis.fetch;
 
   beforeEach(async () => {
-    root = await mkdtemp(path.join(tmpdir(), 'od-aihubmix-image-'));
+    root = await mkdtemp(path.join(tmpdir(), 'sw-aihubmix-image-'));
     projectsRoot = path.join(root, 'projects');
   });
   afterEach(async () => {

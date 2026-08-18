@@ -171,7 +171,7 @@ For any change to `packages/contracts`, `packages/sidecar-proto`, persisted SQLi
 
 **Accept when:**
 
-- The entry is a package with `manifest.json`, `DESIGN.md`, and `tokens.css`; the manifest uses `od-design-system-project/v1`, its id matches the normalized ASCII folder slug, and its declared files exist.
+- The entry is a package with `manifest.json`, `DESIGN.md`, and `tokens.css`; the manifest uses `sw-design-system-project/v1`, its id matches the normalized ASCII folder slug, and its declared files exist.
 - Picker name, category, description, source, and canonical file paths come from the manifest. Markdown H1 and `> Category:` metadata are readable legacy fallbacks, not the primary package contract.
 - `DESIGN.md` is substantive and, for a migrated rich package, has at least seven H2 sections. It is not forced into a fixed nine-section or numbered-heading template.
 - `tokens.css` satisfies the shared token contract and agrees with the prose. Brand extensions are explicitly allowed by the schema instead of silently introducing shared token names.

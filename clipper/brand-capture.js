@@ -47,7 +47,7 @@
     brandNextImage: 'Next image',
     brandImageLabel: 'Image {index}',
     brandKeywordFallback: 'captured',
-    brandDataNote: 'A structured JSON payload is embedded at <code>#od-design-system-data</code> for downstream automation.',
+    brandDataNote: 'A structured JSON payload is embedded at <code>#sw-design-system-data</code> for downstream automation.',
     swatchBackground: 'Background',
     swatchSurface: 'Surface',
     swatchForeground: 'Foreground',
@@ -294,7 +294,7 @@
     const all = document.body ? document.body.getElementsByTagName('*') : [];
     for (let i = 0; i < all.length && out.length < MAX_ELEMENTS; i += 1) {
       const el = all[i];
-      if (!el || el.id?.startsWith('od-clipper-')) continue;
+      if (!el || el.id?.startsWith('sw-clipper-')) continue;
       let s;
       let r;
       try {
@@ -1098,7 +1098,7 @@
             .join('')}</div>`
         : '';
     const logoBlock = logo
-      ? `<div class="logo-stage" style="background:${escapeHtml(logoSurface)}"><img id="od-logo-img" src="${escapeHtml(logo.src)}" alt="${escapeHtml(logo.label || content.title)}" /></div>${logoThumbs}`
+      ? `<div class="logo-stage" style="background:${escapeHtml(logoSurface)}"><img id="sw-logo-img" src="${escapeHtml(logo.src)}" alt="${escapeHtml(logo.label || content.title)}" /></div>${logoThumbs}`
       : `<div class="logo-stage empty"><span class="logo-initial">${initial}</span><span class="logo-empty-note">${escapeHtml(tr('brandNoLogoFound'))}</span></div>`;
 
     // --- Typography ---
@@ -1156,7 +1156,7 @@
 
     // --- Images gallery (compact, click to preview) ---
     const gallery = images.length
-      ? `<section class="sec"><div class="sec-head"><h2 class="sec-title">${escapeHtml(tr('brandImages'))}</h2>${images.length > 8 ? `<button type="button" class="view-all" id="od-view-all">${escapeHtml(tr('brandViewAll', { count: images.length }))}</button>` : ''}</div><div class="gallery">${images
+      ? `<section class="sec"><div class="sec-head"><h2 class="sec-title">${escapeHtml(tr('brandImages'))}</h2>${images.length > 8 ? `<button type="button" class="view-all" id="sw-view-all">${escapeHtml(tr('brandViewAll', { count: images.length }))}</button>` : ''}</div><div class="gallery">${images
           .map((s, i) => {
             const cap = s.label || '';
             return `<button type="button" class="shot" data-idx="${i}" aria-label="${escapeHtml(cap || tr('brandImageLabel', { index: i + 1 }))}"><span class="shot-frame"><img src="${escapeHtml(s.src)}" alt="${escapeHtml(cap)}" loading="lazy" /></span>${cap ? `<span class="shot-cap">${escapeHtml(cap)}</span>` : ''}</button>`;
@@ -1198,8 +1198,8 @@
         <div class="kit-label">${escapeHtml(tr('kitSelection'))}</div>
         <div class="kit-row toggles">
           <label class="check"><input type="checkbox" checked /> ${escapeHtml(tr('kitCheckbox'))}</label>
-          <label class="check"><input type="radio" name="od-kit-r" checked /> ${escapeHtml(tr('kitRadioA'))}</label>
-          <label class="check"><input type="radio" name="od-kit-r" /> ${escapeHtml(tr('kitRadioB'))}</label>
+          <label class="check"><input type="radio" name="sw-kit-r" checked /> ${escapeHtml(tr('kitRadioA'))}</label>
+          <label class="check"><input type="radio" name="sw-kit-r" /> ${escapeHtml(tr('kitRadioB'))}</label>
           <span class="switch on"><span class="knob"></span></span><span class="switch-label">${escapeHtml(tr('kitSwitch'))}</span>
           <span class="seg"><button type="button" class="seg-opt active">${escapeHtml(tr('kitRadioA'))}</button><button type="button" class="seg-opt">${escapeHtml(tr('kitRadioB'))}</button></span>
         </div>
@@ -1296,7 +1296,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>${escapeHtml(content.title)} — ${escapeHtml(tr('brandPageTitleSuffix'))}</title>
-<meta name="od-library-kind" content="design-system" />
+<meta name="sw-library-kind" content="design-system" />
 <style data-brand-fonts>${safeCss(fontCss)}</style>
 <style>
   :root {
@@ -1467,9 +1467,9 @@
   .btn.icon { padding: 0; width: 38px; height: 38px; background: var(--surface); color: var(--ink); border: var(--btn-bw) solid var(--line); }
   .btn[disabled] { opacity: .45; cursor: not-allowed; }
   .btn .ic { font-size: 13px; }
-  .spin { width: 13px; height: 13px; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--btn-fg) 40%, transparent); border-top-color: var(--btn-fg); animation: od-spin .7s linear infinite; display: inline-block; }
+  .spin { width: 13px; height: 13px; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--btn-fg) 40%, transparent); border-top-color: var(--btn-fg); animation: sw-spin .7s linear infinite; display: inline-block; }
   .spin.dark { border-color: var(--line); border-top-color: var(--accent); width: 18px; height: 18px; }
-  @keyframes od-spin { to { transform: rotate(360deg); } }
+  @keyframes sw-spin { to { transform: rotate(360deg); } }
   /* Inputs (captured look) */
   .field-label { display: grid; gap: 5px; font-size: 12px; font-weight: 600; color: var(--ink-mute); }
   .input { width: 100%; padding: var(--inp-py) var(--inp-px); border: var(--inp-bw) solid var(--inp-bd); border-radius: var(--inp-radius); background: var(--inp-bg); color: var(--inp-fg); box-shadow: var(--inp-shadow); font: 400 14px/1.4 var(--font-body); }
@@ -1650,16 +1650,16 @@
   ${assetsSection}
   <p class="data-note">${tr('brandDataNote')}</p>
 </div>
-<script type="application/json" id="od-design-system-data">${json}</script>
+<script type="application/json" id="sw-design-system-data">${json}</script>
 <script>
 (function () {
-  var dataEl = document.getElementById('od-design-system-data');
+  var dataEl = document.getElementById('sw-design-system-data');
   var DATA = {};
   try { DATA = JSON.parse(dataEl && dataEl.textContent ? dataEl.textContent : '{}'); } catch (e) {}
   var LBL = ${lbl};
   var SAMPLES = ((DATA.assets && DATA.assets.images) || []).map(function (s) { return { file: s.src, caption: s.label || '' }; });
 
-  var logoImg = document.getElementById('od-logo-img');
+  var logoImg = document.getElementById('sw-logo-img');
   Array.prototype.forEach.call(document.querySelectorAll('.logo-thumb'), function (b) {
     b.addEventListener('click', function () {
       if (logoImg) logoImg.src = b.getAttribute('data-src');
@@ -1723,7 +1723,7 @@
     var i = Number(el.getAttribute('data-idx')) || 0;
     el.addEventListener('click', function () { showL(i); });
   });
-  var va = document.getElementById('od-view-all');
+  var va = document.getElementById('sw-view-all');
   if (va) va.addEventListener('click', openG);
 
   // Brand-asset tiles → full-page preview modal (re-uses the tile's own srcdoc).

@@ -70,7 +70,7 @@ const stubFetch = (response: { ok?: boolean; body?: unknown }) =>
   } as unknown as Response));
 
 beforeEach(async () => {
-  cwd = await mkdtemp(path.join(os.tmpdir(), 'od-figma-pipeline-e2e-'));
+  cwd = await mkdtemp(path.join(os.tmpdir(), 'sw-figma-pipeline-e2e-'));
 });
 
 afterEach(async () => {

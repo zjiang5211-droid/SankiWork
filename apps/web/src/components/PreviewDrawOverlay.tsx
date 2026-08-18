@@ -346,19 +346,19 @@ export function PreviewDrawOverlay({
 
   function activePreviewIframe(): HTMLIFrameElement | null {
     return (
-      wrapRef.current?.querySelector<HTMLIFrameElement>('iframe[data-od-active="true"]') ??
+      wrapRef.current?.querySelector<HTMLIFrameElement>('iframe[data-sw-active="true"]') ??
       wrapRef.current?.querySelector<HTMLIFrameElement>('iframe')
     ) ?? null;
   }
 
   // The snapshot bridge only lives in the srcDoc transport iframe. For URL-load
-  // previews (e.g. decks) that iframe is mounted but hidden (data-od-active is on
+  // previews (e.g. decks) that iframe is mounted but hidden (data-sw-active is on
   // the bridgeless URL iframe), so snapshotting the *active* frame times out and
   // capture fails. Prefer the srcDoc-render-mode frame; capture mode keeps it on
   // full content, so it carries the bridge.
   function snapshotHostIframe(): HTMLIFrameElement | null {
     return (
-      wrapRef.current?.querySelector<HTMLIFrameElement>('iframe[data-od-render-mode="srcdoc"]') ??
+      wrapRef.current?.querySelector<HTMLIFrameElement>('iframe[data-sw-render-mode="srcdoc"]') ??
       activePreviewIframe()
     );
   }

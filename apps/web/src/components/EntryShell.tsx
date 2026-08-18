@@ -3607,7 +3607,7 @@ function OnboardingView({
             ) : null}
             <button
               type="button"
-              className={`onboarding-view__primary${connectGateTooltip ? ' od-tooltip' : ''}`}
+              className={`onboarding-view__primary${connectGateTooltip ? ' sw-tooltip' : ''}`}
               onClick={handlePrimaryAction}
               disabled={amrLoginPending || amrLoginCancelPending}
               aria-disabled={connectStepBlocked || undefined}

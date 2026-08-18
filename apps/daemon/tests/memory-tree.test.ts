@@ -14,7 +14,7 @@ import {
 let dataDir = '';
 
 beforeEach(async () => {
-  dataDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'od-memory-tree-'));
+  dataDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'sw-memory-tree-'));
 });
 
 afterEach(async () => {
